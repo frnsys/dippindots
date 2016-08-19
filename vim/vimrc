@@ -1,0 +1,276 @@
+" ----------------------------------------------------------------------------
+"  vimrc
+" ----------------------------------------------------------------------------
+
+" wild
+set wildmenu " enhance command-line completion
+set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem,*.meta
+set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
+set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*,*/vendor/*,*/node_modules/*
+set wildignore+=*.swp,*~,._*
+set wildignore+=*.pyc,*.egg-info,__pycache__
+
+" auto-install vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
+endif
+
+call plug#begin('~/.vim/bundle')
+Plug 'ehamberg/vim-cute-python'
+Plug 'tpope/vim-surround'
+Plug 'jeetsukumaran/vim-filebeagle'
+Plug 'scrooloose/syntastic'
+Plug 'scrooloose/nerdcommenter'
+Plug 'lepture/vim-jinja'
+Plug 'airblade/vim-gitgutter'
+Plug 'digitaltoad/vim-jade'
+Plug 'junegunn/goyo.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'Shougo/neocomplete.vim'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimproc.vim', {'dir': '~/.vim/bundle/vimproc', 'do': 'make -s'}
+Plug 'klen/python-mode'
+Plug 'frnsys/python-syntax'
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'kshenoy/vim-signature'
+Plug 'tpope/vim-fugitive'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'janko-m/vim-test'
+Plug 'konfekt/fastfold'
+Plug 'rust-lang/rust.vim'
+call plug#end()
+
+colorscheme dark
+
+set nocompatible      			" Use vim, no vi defaults
+syntax enable         			" Turn on syntax highlighting
+set encoding=utf-8 nobomb       " Set default encoding to UTF-8
+set noerrorbells 				" Disable error bells
+set novisualbell                " Disable visual bells
+set title 						" Show filename in window titlebar
+set showmode 					" Show the current mode
+set timeoutlen=100 				" Set timeoutlen to be sort, avoiding a lag
+set showcmd 					" Show the command as it's typed
+set shortmess=atI 				" Hide Vim intro message
+let mapleader=";" 		        " Change mapleader
+set wrap
+set textwidth=0 wrapmargin=0 formatoptions=cq
+set hidden
+set clipboard^=unnamed,unnamedplus " Use OS clipboard (on +clipboard compiled Vim)
+set tags=./tags,./TAGS,tags,TAGS,~/.vimtags
+
+" webbrowser for `gx`
+let g:netrw_browsex_viewer='firefox'
+
+" don’t add empty newlines at the end of files
+set binary
+set noeol
+
+" disable bells in GUI vim.
+autocmd! GUIEnter * set vb t_vb=
+
+" automatically trim trailing whitespace on save.
+autocmd BufWritePre * :%s/\s\+$//e
+
+" navigation
+set number            			" Show line numbers
+set ruler             			" Show line and column number of cursor
+set nostartofline 				" Don't reset cursor to start of line when moving
+"set cursorcolumn 				" Highlight current column
+set cursorline 				    " Highlight current line
+set scrolloff=3 				" Start scrolling three lines before border
+set showmatch 					" Show matching brackets
+let &showbreak='↪ '             " Show this at the start of wrapped lines
+if exists("&relativenumber")
+	set relativenumber 			" Use relative line numbering
+	au BufReadPost * set relativenumber
+endif
+
+" status bar
+set laststatus=0                " Never show the status bar
+set statusline=%f               " Filename
+set statusline+=\               " Separator
+set statusline+=%y              " Filetype
+set statusline+=%m              " Modified
+set statusline+=%r              " Readonly
+set statusline+=%<              " Truncation point (for smaller windows)
+set statusline+=%=              " Right-align
+set statusline+=%{fugitive#statusline()} " Git branch (requires vim-fugitive)
+set statusline+=\               " Separator
+set statusline+=L:%l/%L[%p%%]   " Lines
+set statusline+=\               " Separator
+set statusline+=C:%v            " Column
+set statusline+=\               " Separator
+set statusline+=Buf:#%n         " Buffer
+
+" search
+set incsearch   " Search as pattern is typed
+set ignorecase  " Case insensitive searches...
+set smartcase   " Unless they contain 1+ capital letters
+set hlsearch    " Highlight search matches
+set gdefault 	" Global search/replace by default
+
+" bind return to clear last search highlight.
+nnoremap <CR> :noh<CR><CR>
+
+" indentation
+set cindent
+set smartindent
+set autoindent
+
+" conceal
+set conceallevel=1
+
+" folding
+set foldlevel=1
+set foldmethod=indent 	" Set fold based on indent
+set foldnestmax=6 		" Max 6 levels
+set nofoldenable 		" No fold by default
+
+" whitespace
+set wrap                          " Wrap lines
+set tabstop=4                     " Set tab spaces
+set shiftwidth=4                  " Set autoindent (with <<) spaces
+set expandtab                     " Use spaces, not tabs
+set list                          " Show invisible characters
+set backspace=indent,eol,start    " Backspace through everything in insert mode
+
+" list chars (i.e. hidden characters)
+set listchars=""                  " Reset the listchars
+set listchars=tab:\ \             " A tab should display as "  ", trailing whitespace as "."
+set listchars+=trail:.            " Show trailing spaces as dots
+set listchars+=extends:>          " The character to show in the last column when wrap is
+                                  " off and the line continues beyond the right of the screen
+set listchars+=precedes:<         " The character to show in the last column when wrap is
+                                  " off and the line continues beyond the right of the screen
+
+" centralize backup, swap, & undo files
+set backupdir^=~/.vim/.backup// 	" Backup files
+set directory^=~/.vim/.temp// 		" Swap files
+if exists("&undodir")
+	set undodir=~/.vim/.undo 				" Undo files
+    set undofile
+    set undolevels=500
+    set undoreload=500
+endif
+
+
+" filetypes
+filetype plugin indent on " Turn on filetype plugins (:help filetype-plugin)
+if has("autocmd")
+  " In Makefiles, use real tabs, not tabs expanded to spaces
+  au FileType make setlocal noexpandtab
+
+  " Make sure all markdown files have the correct filetype set
+  au BufRead,BufNewFile,BufReadPost *.{md,markdown,mdown,mkd,mkdn,txt} set filetype=markdown
+
+  " Treat JSON files like JavaScript
+  au BufNewFile,BufRead *.json set ft=javascript
+
+  " make Python follow PEP8 for whitespace ( http://www.python.org/dev/peps/pep-0008/ )
+  au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4
+
+  " Remember last location in file, but not for commit messages.
+  au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g`\"" | endif
+
+  au filetype mail :setlocal fo-=t
+endif
+
+
+" ----------------------------------------------------------------------------
+"  Mappings
+" ----------------------------------------------------------------------------
+
+" map the arrow keys to be based on display lines, not physical lines
+map <Down> gj
+map <Up> gk
+
+" map Leader-# to switch tabs
+map  <leader>0 0gt
+imap <leader>0 <Esc>0gt
+map  <leader>1 1gt
+imap <leader>1 <Esc>1gt
+map  <leader>2 2gt
+imap <leader>2 <Esc>2gt
+map  <leader>3 3gt
+imap <leader>3 <Esc>3gt
+map  <leader>4 4gt
+imap <leader>4 <Esc>4gt
+map  <leader>5 5gt
+imap <leader>5 <Esc>5gt
+map  <leader>6 6gt
+imap <leader>6 <Esc>6gt
+map  <leader>7 7gt
+imap <leader>7 <Esc>7gt
+map  <leader>8 8gt
+imap <leader>8 <Esc>8gt
+map  <leader>9 9gt
+imap <leader>9 <Esc>9gt
+map gr gT
+nnoremap [t :tabprevious<cr>
+nnoremap ]t :tabnext<cr>
+
+" bind jk to escape
+imap jk <Esc>
+xnoremap jk <Esc>
+
+" easier access to \ for latex
+inoremap <leader>l \
+
+" open new line from insert mode
+imap <C-o> <esc>o
+
+" easily paste in current datetime
+nnoremap <leader>t "=strftime("%m.%d.%Y %H:%M")<CR>P
+
+" quick buffer nav
+nnoremap [b :bprevious<cr>
+nnoremap ]b :bnext<cr>
+nmap <C-b> :buffers<cr>
+
+" quickfix nav
+" also used for navigating through git log for a file (requires vim-fugitive)
+" first run :Glog
+" you can also use :copen to navigate commits
+" use :Glog -- to just show commit messages
+" use :Glog -- % to just show commit messages that affect the current file
+" use :Ggrep to search for a word in past commits, use :copen to navigate
+nnoremap [c :cprev<cr>
+nnoremap ]c :cnext<cr>
+
+" quickly fix the closest previous spelling error.
+imap <c-f> <c-g>u<Esc>[s1z=`]a<c-g>u
+nmap <c-f> [s1z=<c-o>
+
+" bind | and _ to vertical and horizontal splits
+nnoremap <expr><silent> \| !v:count ? "<C-W>v<C-W><Right>" : '\|'
+nnoremap <expr><silent> _  !v:count ? "<C-W>s<C-W><Down>"  : '_'
+
+" new tab
+nmap <S-t> :tabnew<cr>
+
+" go to definition
+" <C-o> jumps back after going to defintion
+nnoremap <C-g> <C-]>
+
+" command flubs
+command WQ wq
+command Wq wq
+command W w
+command Q q
+
+" strip trailing whitespace
+function! CleanWhitespace()
+	let save_cursor = getpos(".")
+	let old_query = getreg('/')
+	:%s/\s\+$//e
+	call setpos('.', save_cursor)
+	call setreg('/', old_query)
+endfunction
+
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>

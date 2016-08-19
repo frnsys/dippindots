@@ -1,0 +1,20 @@
+# Add `~/.bin` to the `$PATH`
+export PATH="$HOME/.bin:$PATH"
+
+# Add NPM
+export PATH="/usr/local/share/npm/bin:$PATH"
+
+# Add /usr/local/sbin to path.
+export PATH="/usr/local/sbin:$PATH"
+export PATH="$PATH:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# CUDA (only available on boxes w/ nvidia gfx)
+export PATH=/usr/local/cuda/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64
+
+# texlive (for linux)
+export PATH=/usr/local/texlive/2015/bin/x86_64-linux:$PATH
+
+# Keep this last so that /usr/local/bin is
+# at the beginning of your path.
+export PATH="/usr/local/bin:$PATH"

@@ -1,0 +1,36 @@
+#! /bin/sh
+
+. ~/.config/bspwm/colors
+
+bspc config border_width        0
+bspc config window_gap          12
+
+bspc config split_ratio         0.50
+bspc config borderless_monocle  true
+bspc config gapless_monocle     true
+bspc config click_to_focus      true
+bspc config focus_follows_pointer false
+bspc config normal_border_color "${NORMAL_BORDER_COLOR}"
+bspc config active_border_color "${ACTIVE_BORDER_COLOR}"
+bspc config focused_border_color "${FOCUSED_BORDER_COLOR}"
+bspc config presel_border_color "${PRESEL_BORDER_COLOR}"
+bspc config urgent_border_color "${URGENT_BORDER_COLOR}"
+bspc config focused_locked_border_color "${FOCUSED_LOCKED_BORDER_COLOR}"
+
+# Get a window name by running
+# xprop | grep WM_CLASS
+# and click on the window in question
+bspc rule -a feh floating=on
+bspc rule -a gifview floating=on
+
+for monitor in $(bspc query -M); do
+    bspc monitor $monitor -n "$monitor" -d   
+done
+
+# This must go after the rest of the config!
+if [ -e "$BSPWM_TREE" ] ; then
+	bspc restore -T "$BSPWM_TREE" -H "$BSPWM_HISTORY" -S "$BSPWM_STACK"
+	rm "$BSPWM_TREE" "$BSPWM_HISTORY" "$BSPWM_STACK"
+fi
+
+panel &

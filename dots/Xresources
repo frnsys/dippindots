@@ -1,0 +1,92 @@
+! https://wiki.archlinux.org/index.php/Rxvt-unicode
+URxvt.scrollBar: false
+URxvt.font: xft:ttyp0:style=regular:pixelsize=16:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false
+URxvt.boldFont:
+URxvt.perl-ext-common: default,keyboard-select,clipboard,font-size
+URxvt.saveLines: 1000000
+URxvt.iso14755: false
+URxvt.internalBorder: 12
+URxvt.lineSpace: 4
+!URxvt*.transparent: true
+!URxvt*.shading: 12
+!URxvt.letterSpace: -1
+
+! Meta key is "alt" by default, so "alt+esc" to activate keyboard selection.
+! Use hjkl to navigate (other vim movement commands supported too)
+! v to select, y or enter to copy selection, q or esc to cancel.
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+
+! alt+c to copy selected text (using the keyboard-select method from above)
+! alt-p to paste.
+! Note: the keyboard-select method pastes into the PRIMARY buffer,
+! the clipboard copy/paste works off of the CLIPBOARD buffer. The
+! CLIPBOARD buffer is what the desktop ctrl+c/ctrl+v works off of.
+! Also note that this uses xsel, so install that first, and set it to be
+! your system clipboard manager.
+URxvt.keysym.M-c: perl:clipboard:copy
+URxvt.keysym.M-p: perl:clipboard:paste
+
+! Easily scale fonts up/down
+URxvt.keysym.C-Up:     perl:font-size:increase
+URxvt.keysym.C-Down:   perl:font-size:decrease
+
+! DARK
+*.background: #111111
+*.foreground: #c5c8c6
+*.cursorColor: #c9c9c9
+*color0: #757575
+*color8: #B8B8B8
+*color1: #FF5F5F
+*color9: #F53333
+*color2:  #00af87
+*color10: #19D448
+*color3: #FEDE3E
+*color11: #FF5F5F
+*color4: #AF5FD7
+*color12: #DEA3E5
+*color5: #FF87D7
+*color13: #D7AFAF
+*color6: #DEA3E5
+*color14: #3283ED
+*color7: #9a9a9a
+*color15: #ffffff
+
+! LIGHT
+!*.background: #f3f3f3
+!*.foreground: #202020
+!*.cursorColor: #ff5f5f
+!*color0: #757575
+!*color8: #B8B8B8
+!*color1: #FF5F5F
+!*color9: #D78787
+!*color2:  #00af87
+!*color10: #FF9F6F
+!*color3: #D78787
+!*color11: #FF5F5F
+!*color4: #AF5FD7
+!*color12: #DEA3E5
+!*color5: #FF87D7
+!*color13: #D7AFAF
+!*color6: #DEA3E5
+!*color14: #AF5FD7
+!*color7: #9a9a9a
+!*color15: #ffffff
+
+! background, border, separator
+rofi.color-window: #444444, #444444, argb:17000000
+
+! background, foreground, alt bg, highlight bg, highlight fg
+rofi.color-normal: #444444, #ffffff, #444444, #4C97E0, #ffffff
+rofi.color-active: #444444, #00D24C, #444444, #00C448, #ffffff
+rofi.color-urgent: #444444, #FC5155, #444444, #F73035, #ffffff
+
+rofi.bw: 0
+rofi.opacity: 85
+rofi.line-margin: 3
+rofi.fullscreen: true
+rofi.location: 0
+rofi.padding: 250
+rofi.color-enabled: true
+rofi.font: ttyp0 18
+rofi.lines: 8
+rofi.separator-style: none

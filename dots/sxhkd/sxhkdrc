@@ -1,0 +1,153 @@
+#
+# bspwm hotkeys
+#
+
+# switch focus to left/right monitor
+super + alt + {h,l}
+    bspc monitor -f {L,R}
+
+# move window/desktop to left/right monitor
+super + {shift,ctrl} + alt + {h,l}
+    bspc {window,desktop} -m {L,R}
+
+# force close current window
+super + shift + alt + q
+    bspc window -c
+
+# adjust windows so they each occupy the same area
+super + b
+    bspc desktop -B
+
+# toggle floating/fullscreen
+super + {s,f}
+    bspc window -t {floating,fullscreen}
+
+# focus on previous window/desktop
+super + {grave,Tab}
+    bspc {window,desktop} -f last
+
+# swap current window with previous window
+super + apostrophe
+    bspc window -s last
+
+# focus backwards/forwards through history
+super + {o,i}
+    bspc control --record-history off; \
+    bspc window {older,newer} -f; \
+    bspc control --record-history on
+
+# move focused window to biggest window
+super + m
+    bspc window -s biggest
+
+# move focus across windows
+super + {h,j,k,l}
+    bspc window -f {left,down,up,right}
+
+# swap windows
+super + shift + {h,j,k,l}
+    bspc window -s {left,down,up,right}
+
+# cycle windows forward/backwards
+super + {comma,period}
+    bspc desktop -C {backward,forward}
+
+# move focus across desktops
+super + bracket{left,right}
+    bspc desktop -f {prev,next}
+
+# preselect new window location
+super + ctrl + {h,j,k,l}
+    bspc window -p {left,down,up,right}
+
+# resize window
+super + shift + ctrl + {h,j,k,l}
+    bspc window -e {left -10,down +10,up -10,right +10}
+
+# move window to desktop
+super + shift + {1-9,0}
+    bspc window -d ^{1-9,10}
+
+# focus desktop
+super + {1-9,0}
+    bspc desktop -f ^{1-9,10}
+
+# pointer focus
+~button1
+    bspc pointer -g focus
+
+# start move/resize
+super + button{1-3}
+    ; bspc pointer -g {move,resize_side,resize_corner}
+
+# end move/resize
+super + @button{1-3}
+    bspc pointer -u
+
+#
+# wm independent hotkeys
+#
+
+super + Return
+    urxvt
+
+super + n
+    urxvt -e wicd-curses
+
+super + space
+    rofi -terminal urxvt -show run
+
+super + w
+    rofi -show window
+
+@super + alt + s
+    scrot --select -e 'mogrify -shave 1x1 $f; mv $f ~/stuff/etc/scrots/'
+
+@super + shift + s
+    scrot --select -e 'mogrify -shave 1x1 $f; mv $f /tmp/scrot.png; imgclip /tmp/scrot.png'
+
+super + alt + k
+    lock
+
+#
+# media buttons
+# these are prefixed with `super`
+# so they also can work as regular function keys
+#
+
+super + {F10, XF86AudioRaiseVolume}
+    amixer -D pulse set -M Master 5%+
+
+super + {F9, XF86AudioLowerVolume}
+    amixer -D pulse set -M Master 5%-
+
+super + {F8, XF86AudioMute}
+    amixer -D pulse set -M Master toggle
+
+super + {F7, XF86MonBrightnessUp}
+    /usr/bin/xbacklight -inc 2
+
+super + {F6, XF86MonBrightnessDown}
+    /usr/bin/xbacklight -dec 2
+
+super + {F5, XF86AudioPlay}
+    mpc toggle
+
+super + {F4, XF86AudioStop}
+    mpc stop
+
+super + {F2, XF86AudioNext}
+    mpc next
+
+super + {F1, XF86AudioPrev}
+    mpc prev
+
+XF86PowerOff
+    bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/pwr
+
+super + p
+    bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/keepass
+
+# make sxhkd reload its configuration files:
+super + Escape
+    pkill -USR1 -x sxhkd; notify-send "sxhkd config reloaded"

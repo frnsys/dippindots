@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Records a region of the screen or a window to a gif
+# Adapted from <http://askubuntu.com/a/201018>
+# also see `man recordmydesktop` for more options
+# hit CTRL+C to stop recording
+
+if [[ $1 == 'region' ]]; then
+    GEO=$(xrectsel "-x=%x -y=%y --width=%w --height=%h")
+elif [[ $1 == 'window' ]]; then
+    # Window geometry
+    XWININFO=$(xwininfo)
+    read x < <(awk -F: '/Absolute upper-left X/{print $2}' <<< "$XWININFO")
+    read y < <(awk -F: '/Absolute upper-left Y/{print $2}' <<< "$XWININFO")
+    read w < <(awk -F: '/Width/{print $2}' <<< "$XWININFO")
+    read h < <(awk -F: '/Height/{print $2}' <<< "$XWININFO")
+    GEO="-x=$X -y=$y --width=$w --height=$h"
+else
+    echo "Please specify 'region' or 'window'."
+    exit 0
+fi
+
+# https://github.com/lolilolicon/xrectsel
+TIME=$(date +"%Y-%m-%d_%H%M%S")
+VID=/tmp/recording_${TIME}.ogv
+PNG=/tmp/recording_${TIME}
+GIF=/tmp/recording_${TIME}.gif
+OUT=output_${TIME}.gif
+recordmydesktop $GEO -o $VID --overwrite --fps 30
+mkdir $PNG
+ffmpeg -i $VID -f image2 $PNG/%04d.png
+
+echo "Creating and optimizing GIF..."
+convert -delay 1x30 $PNG/*.png -layers Optimize $GIF
+gifsicle -O3 $GIF > $OUT
+echo "Preview the gif with 'gifview -a ${OUT}'"

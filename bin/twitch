@@ -1,0 +1,53 @@
+#!/bin/bash
+# reference: <https://wiki.archlinux.org/index.php/Streaming_using_twitch.tv>
+# reference: <https://trac.ffmpeg.org/wiki/EncodingForStreamingSites>
+
+# NOTE if you want to record one of microphone audio or computer audio
+# install `pavucontrol`, run it, go to the `Recording` tab, and when
+# this is running you should see something there.
+# - the computer audio is "Monitor of Built-In Audio Analog Stereo"
+# - the mic audio is "Built-In Audio Analog Stereo"
+# reference: <http://askubuntu.com/questions/516899/how-do-i-stream-computer-audio-only-with-ffmpeg>
+# if you want to do both simultaneously add another `-f pulse` to get a second channel and also add `-filter_complex amix=inputs=2`
+# I haven't tested it though
+
+if [ -z $1 ]
+then
+    echo "usage: twitch <MONITOR NAME>"
+    echo "use xrandr to see monitor names"
+    exit
+fi
+
+MONITOR=$1
+MONINFO=$(xrandr | grep ${MONITOR} | sed 's/primary//' | awk '{print $3}')
+if [ -z "$MONINFO" ]; then
+    echo "Couldn't find info for monitor ${MONITOR}"
+    exit
+fi
+
+STREAM_KEY=$(cat ~/.stream_key 2>/dev/null) || { echo "Couldn't find Twitch stream key at ~/.stream_key"; exit 1; }
+
+INPUTRES=$(echo "$MONINFO" | sed 's/+[0-9]\++[0-9]\+//')
+OFFSET=$(echo "$MONINFO" | sed 's/[0-9]\+x[0-9]\++//' | sed 's/+/,/')
+echo "Input Res: ${INPUTRES}"
+echo "Offset: ${OFFSET}"
+
+FPS=15
+GOP=30 # should be double FPS
+OUTPUT_WIDTH=1280
+QUALITY=ultrafast
+THREADS=0 # 0 to auto set according to cpus
+AUDIO_ERATE=96k
+AUDIO_SRATE=44100
+CBR="1000k" # constant bitrate (should be between 1000k - 3000k)
+
+# list: http://bashtech.net/twitch/ingest.php
+SERVER=live-jfk
+
+ffmpeg -f x11grab -s $INPUTRES -framerate $FPS -i :0.0+$OFFSET \
+    -f pulse -ac 2 -i default \
+    -c:v libx264 -preset $QUALITY -pix_fmt yuv420p -vf scale=$OUTPUT_WIDTH:-1 \
+    -g $GOP -keyint_min $FPS \
+    -b:v $CBR -minrate $CBR -maxrate $CBR -bufsize $CBR \
+    -c:a aac -b:a $AUDIO_ERATE -ar $AUDIO_SRATE \
+    -threads $THREADS -strict normal -f flv "rtmp://${SERVER}.twitch.tv/app/${STREAM_KEY}"

@@ -1,0 +1,160 @@
+#!/usr/bin/python2
+
+"""
+pip2 install gtk
+git clone git@github.com:brettviren/python-keepass.git
+python2 setup.py install
+"""
+
+import string
+import random
+import getpass
+from keepass import kpdb
+
+chars = string.ascii_letters + string.digits + string.punctuation
+
+
+def generate_password(length=32):
+    rng = random.SystemRandom()
+    return ''.join([rng.choice(chars) for i in range(length)])
+
+
+def get_entries(db):
+    return [entry for entry in db.entries if entry.title != 'Meta-Info']
+
+
+def search_entries(db, query):
+    results = []
+    query = query.lower()
+    for entry in get_entries(db):
+        content = ' '.join([entry.title,
+                           entry.url,
+                           entry.notes])
+        if query in content.lower():
+            results.append(entry)
+    return results
+
+
+def add_entry(db, group_name, title, username, url='', notes='', password='', password_length=32, overwrite=False):
+    group_names = [group.name() for group in db.groups]
+    if group_name not in group_names:
+        raise KeyError('"{}" is not an existing group'.format(group_name))
+    if not password:
+        password = generate_password(length=password_length)
+    db.add_entry(
+        path=group_name,
+        title=title,
+        username=username,
+        password=password,
+        url=url,
+        notes=notes,
+        append=not overwrite)
+    return password
+
+def new_entry(db):
+    print('Groups:')
+    data = {}
+    for i, group in enumerate(db.groups):
+        print('[{}] {}'.format(i, group.name()))
+    data['group_name'] = None
+    while data['group_name'] is None:
+        inp = raw_input('Select #: ')
+        try:
+            data['group_name'] = db.groups[int(inp)].name()
+        except (ValueError, IndexError):
+            pass
+
+    required = ['title', 'username']
+    optional = ['url', 'notes', 'password']
+
+    for key in required + optional:
+        data[key] = None
+        while data[key] is None or (not data[key] and key in required):
+            note = 'required' if key in required else 'optional'
+            data[key] = raw_input('{} ({}): '.format(key.title(), note))
+
+    while True:
+        print('Data:')
+        print(data)
+        ok = raw_input('Ok? [y/n] ')
+        if ok.lower() == 'y':
+            break
+        else:
+            key = None
+            while key not in data:
+                key = raw_input('Change key: ')
+            data[key] = None
+            while data[key] is None or (not data[key] and key in required):
+                note = 'required' if key in required else 'optional'
+                data[key] = raw_input('{} ({}): '.format(key.title(), note))
+    return add_entry(db, **data)
+
+
+def search(db):
+    query = raw_input('Search: ')
+    selected = None
+    while selected is None:
+        entries = search_entries(db, query)
+        if entries:
+            print('\nResults\n--------')
+            for i, entry in enumerate(entries):
+                print('[{}] {}'.format(i, entry.title))
+            while selected is None:
+                inp = raw_input('Select #: ')
+                try:
+                    selected = entries[int(inp)]
+                except ValueError:
+                    query = inp
+                    break
+                except IndexError:
+                    pass
+        else:
+            print('No results')
+            query = raw_input('Search: ')
+    return selected
+
+
+def load_db(filename):
+    db = None
+    while db is None:
+        try:
+            masterkey = getpass.getpass()
+            db = kpdb.Database(filename, masterkey)
+        except ValueError:
+            print('Incorrect password')
+    return db
+
+
+if __name__ == '__main__':
+    import os
+    import gtk
+    print('Keepass')
+    filename = os.path.expanduser('~/docs/pass.kdb')
+    try:
+        db = load_db(filename)
+        clipboard = gtk.Clipboard()
+        print('Commands: new, get, list, quit')
+
+        while True:
+            cmd = raw_input('> ')
+            if cmd == 'new':
+                password = new_entry(db)
+                clipboard.set_text(password)
+                print('Copied password to clipboard\n')
+                db.write(filename)
+            elif cmd == 'get':
+                selected = search(db)
+                print('Username: {}'.format(selected.username))
+                clipboard.set_text(selected.password)
+                print('Copied password to clipboard\n')
+            elif cmd == 'list':
+                for entry in get_entries(db):
+                    print(entry.title)
+            elif cmd == 'quit':
+                print('')
+                exit(0)
+            else:
+                print('Unrecognized command')
+    except (KeyboardInterrupt, EOFError):
+        print('')
+        exit(0)

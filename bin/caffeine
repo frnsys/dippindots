@@ -1,0 +1,18 @@
+#!/bin/bash
+
+function finish {
+    echo "Goodbye!"
+    xset +dpms
+    xset s on
+    exit 0
+}
+
+trap finish INT TERM QUIT
+
+xset -dpms
+xset s off
+echo "Staying awake..."
+
+while true; do
+    sleep 1
+done

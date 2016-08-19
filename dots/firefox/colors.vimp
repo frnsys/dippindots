@@ -1,0 +1,47 @@
+" see :help:highlight for a list of highlight keywords
+" see :highlight to see the current highlight config
+
+hi Normal background:#202020; color:#afafaf; font-size:10pt; font-family:"ttyp0",monospace;
+hi CmdLine background:#202020; color:#afafaf; font-size:10pt; font-family:"ttyp0",monospace; font-weight:normal;
+hi CmdLine>* font-family:"ttyp0",monospace;
+hi StatusLine font-family:"ttyp0",monospace; font-size:10pt; font-weight:normal; color: #afafaf; background:#202020;
+
+" completion list stuff
+hi CompTitle>* color:#4ee77d; background:#202020; font-weight:normal;
+hi CompItem color:#afafaf;
+hi CompItem[selected] background:#7864f2; color:#ffffff;
+hi CompDesc color:#eaeaea;
+hi CompDesc[selected] background:#7864f2; color:#ffffff;
+hi CompMsg color:#eaeaea;
+
+" matching text in completion list
+hi Filter color:#fede3e;
+
+" e.g. 'No completions'
+hi Title color:#fede3e;
+
+" some urls, such as those when pressing `b`
+hi URL color:#00d787;
+
+" indicators such as `%` and `#` when pressing `b`
+hi Indicator color:#fede3e;
+
+" current mode indicator
+hi ModeMsg background:#7864f2; color:#ffffff;
+
+" misc messages
+hi InfoMsg background:#202020;
+hi MoreMsg color:#afafaf; font-family: "ttyp0",monospace;
+hi ErrorMsg color:#ff0000; font-family: "ttyp0",monospace;
+
+" e.g. 'Search hit BOTTOM, continuing at TOP'
+hi WarningMsg background:#202020;
+
+" e.g. "Follow hint" when hitting `f`
+hi PromptText color:#4ee77d; padding-top: 4px;
+
+" things like `~`
+hi NonText color:#555555;
+
+" jump to hints when hitting `f` or `F`
+hi Hint font-family:"ttyp0", monospace; font-size:14pt; color:#ffffff; background:#7864f2; padding: 2px 4px;

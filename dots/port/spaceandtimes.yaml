@@ -1,0 +1,12 @@
+PER_PAGE: 5
+SITE_DESC: francis tseng's blog
+SITE_DIR: ~/spaceandtimes
+SITE_NAME: space and times
+SITE_URL: http://spaceandtim.es
+THEME: publicscience
+github: frnsys
+twitter: frnsys
+links:
+    - <a href='http://frnsys.com'>portfolio</a>
+header_code: <a href='/' class='logo'><img src='/assets/logo.png'>space & times</a>
+disqus_shortname: publicscience

@@ -1,0 +1,9 @@
+while true; do
+    battery_level=`acpi -b | grep -P -o '[0-9]+(?=%)'`
+    charging=`acpi -b | grep Charging`
+    if [ $battery_level -le 10 ] && [ -z "$charging" ]
+    then
+        notify-send --urgency=critical "Battery low" "Battery level is ${battery_level}%!"
+    fi
+    sleep 120
+done

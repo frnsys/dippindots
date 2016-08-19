@@ -1,0 +1,12 @@
+.netrwhist
+.tags
+*.swp
+*.swo
+*.log
+*.spl
+logs/
+cache/
+vim/bundle
+vim/.undo/*
+vim/.backup/*
+vim/.temp/*

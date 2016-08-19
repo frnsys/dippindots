@@ -1,0 +1,30 @@
+#!/bin/bash
+if [ -z $1 ]
+then
+    echo "usage: sync_phone <PHONE_IP>"
+    exit
+fi
+
+PHONE_IP=$1
+PHONE_PORT=2222
+
+# sync directories TO the phone
+for DIR in notes docs; do
+    echo "Syncing ~/${DIR} -> /sdcard/${DIR}"
+    # the ssh user does not have permissions to modify
+    # permission and modification times so we skip those
+    # as such, we only compare sizes; the permission and modification
+    # times are unreliable.
+    rsync -avz -e "ssh -p ${PHONE_PORT}" --no-perms --no-times --size-only --progress --delete ~/${DIR}/ ${PHONE_IP}:/sdcard/${DIR}/
+done
+
+declare -A backups
+backups[DCIM/Camera]=~/photos/android_dump
+backups[Pictures/Instagram]=~/photos/instagram_dump
+
+# backup (i.e. don't delete)
+# directories FROM the phone
+for DIR in "${!backups[@]}"; do
+    echo "Backing up /sdcard/${DIR} -> ${backups[$DIR]}"
+    rsync -avz -e "ssh -p ${PHONE_PORT}" --progress ${PHONE_IP}:/sdcard/${DIR}/ "${backups[$DIR]}"
+done

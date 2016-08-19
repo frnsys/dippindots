@@ -1,0 +1,15 @@
+#!/bin/bash
+# prints terminal colors
+
+for fgbg in 38 48 ; do
+    for color in {0..256} ; do
+        # display the color
+        echo -en "\e[${fgbg};5;${color}m ${color}\t\e[0m"
+        # display 10 colors per lines
+        if [ $((($color + 1) % 10)) == 0 ] ; then
+            echo
+        fi
+    done
+    echo
+done
+exit 0

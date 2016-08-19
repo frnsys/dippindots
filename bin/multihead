@@ -1,0 +1,71 @@
+#!/bin/bash
+# Note: run `xrandr -q` to list connected outputs (monitors). Set the appropriate monitor as EXMON.
+
+PLACE=$1
+INMON=eDP1
+EXMON=HDMI1
+
+function restart_panel {
+    # Kill the panel/lemonbar and restart
+    ps aux | grep '/usr/bin/panel' | awk '{print $2}' | xargs kill
+    panel &
+}
+
+# Set this here for convenience
+bspc config remove_unplugged_monitors true
+
+if [[ $PLACE == 'right' ]]; then
+    EXMON_PLACE=R
+    INMON_PLACE=L
+elif [[ $PLACE == 'left' ]]; then
+    EXMON_PLACE=L
+    INMON_PLACE=R
+elif [[ $PLACE == 'reset' ]]; then
+    # figure out the primary monitor name
+    PRNAME=$(bspc query -M -m primary)
+    if [[ $PRNAME == 'R' ]]; then
+        EXNAME=L
+    else
+        EXNAME=R
+    fi
+
+    # list windows on ext mon, move them to primary mon
+    bspc query -W -m $EXNAME | xargs -L1 -I % bspc window % -m primary
+
+    # list desktops on ext mon, get their numbers, remove them all
+    bspc query -D -m $EXNAME | grep -n '.' | cut -f1 -d: | xargs -L1 -I % bspc desktop $EXNAME:^% -r
+
+    # rename the monitors for reuse later
+    bspc monitor primary -n $INMON
+    bspc monitor $EXNAME $ -n $EXMON
+
+    # "unplug" the monitor
+    xrandr --output $EXMON --off
+
+    # the last desktop sticks, so remove it
+    bspc desktop primary:^$(bspc query -D | wc -l) -r
+
+    restart_panel
+    exit 0
+else
+    echo "Please specify 'left', 'right', or 'reset'."
+    exit 1
+fi
+
+# set primary monitory
+xrandr --output $INMON --auto --primary
+
+# place the external monitor to the specified position
+xrandr --output $EXMON --auto --$PLACE-of $INMON
+
+# rename each monitor so sxhkd can use it with bspwm to move focus/windows/desktops across monitors
+bspc monitor $EXMON -n $EXMON_PLACE
+bspc monitor $INMON -n $INMON_PLACE
+
+# setup desktops on external monitor
+bspc monitor $EXMON_PLACE -d   
+
+# reset the wallpaper to render properly
+feh --bg-fill ~/.wallpaper.jpg &
+
+restart_panel

@@ -1,0 +1,75 @@
+[global]
+    # refer to <https://github.com/knopwob/dunst/blob/master/dunstrc>
+    # put colors in quotation marks so they aren't mistaken as comments
+
+    font = ttyp0 10
+    allow_markup = yes
+    plain_text = no
+    word_wrap = yes
+    alignment = left
+    indicate_hidden = yes
+    show_age_threshold = 60
+    idle_threshold = 120
+    ignore_newline = no
+    transparency = 0
+    shrink = no
+    sticky_history = no
+    history_length = 20
+    show_indicators = no
+    monitor = 0
+    follow = mouse # mouse/keyboard/none
+
+    # sort by urgency
+    sort = yes
+
+    # %s=summary, %b=body
+    format = "%s\n\n%b"
+
+    # [{width}]x{height}[+/-{x}+/-{y}]
+    # height is in number of notifications
+    # everything else in pixels
+    geometry = "300x5-8+26"
+
+    notification_height = 0
+    line_height = 2
+    separator_height = 2
+    padding = 16
+    horizontal_padding = 16
+    icon_position = off
+    separator_color = "#303030" # auto/foreground/frame/a color
+
+    dmenu = "/usr/local/bin/rofi -dmenu -p #"
+    browser = /usr/bin/firefox -new-tab
+
+[frame]
+    width = 0
+    color = "#444444"
+
+[shortcuts]
+# close notification
+    close = ctrl+space
+
+    # close all notifications
+    close_all = ctrl+shift+space
+
+    # redisplay last message (nb: grave is "`")
+    history = ctrl+grave
+
+    # context menu
+    context = ctrl+shift+period
+
+
+[urgency_low]
+    background = "#444444"
+    foreground = "#ffffff"
+    timeout = 2
+
+[urgency_normal]
+    background = "#444444"
+    foreground = "#ffffff"
+    timeout = 2
+
+[urgency_critical]
+    background = "#ef3838"
+    foreground = "#ffffff"
+    timeout = 0

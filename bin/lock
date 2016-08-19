@@ -1,0 +1,6 @@
+#!/bin/bash
+
+lockbg='/tmp/lock.png'
+scrot "$lockbg"
+convert "$lockbg" -scale 10% -scale 1000% "$lockbg"
+i3lock -u -i "$lockbg"

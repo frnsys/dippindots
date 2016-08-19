@@ -1,0 +1,19 @@
+#!/bin/bash
+
+DIR=~/.wallpapers
+if [ -z $1 ]; then
+    echo "Tell me what filename to use in $DIR"
+    exit 0
+elif [ ! -f "$DIR/$1" ]; then
+    echo "The file $DIR/$1 doesn't exist"
+    exit 0
+fi
+
+ext="${1##*.}"
+if [ $ext != "jpg" ]; then
+    echo "The file must be a jpg"
+    exit 0
+fi
+
+ln -sf $DIR/$1 ~/.wallpaper.jpg
+feh --bg-fill ~/.wallpaper.jpg &

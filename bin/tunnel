@@ -1,0 +1,85 @@
+#!/bin/bash
+# Various commands for using SSH tunnels
+
+CMD=$1
+shift # shift the args so that $2 is now $1
+
+if [ -z $CMD ]; then
+    echo "Please specify a command: go, make, push, pull."
+    exit 1
+
+# Connects to a remote server with a SSH tunnel via $BRIDGE
+elif [ $CMD == 'go' ]; then
+    BRIDGE=$1
+    PORT=$2
+
+    if [ "$#" -ne 3 ]; then
+        ssh -t ${BRIDGE} 'ssh localhost -p '${PORT}
+    else
+        REMOTE_CMD=$3
+        ssh -t ${BRIDGE} 'ssh localhost -p '${PORT} ${REMOTE_CMD}
+    fi
+
+elif [ $CMD == 'close' ]; then
+    BRIDGE=$1
+    /usr/bin/ssh -S /tmp/tunnel_%h.sock -O exit $BRIDGE
+
+# Creates an SSH tunnel via $BRIDGE
+elif [ $CMD == 'make' ]; then
+    BRIDGE=$1
+    BRIDGEPORT=$2
+    PORT=$3
+    # Check if the tunnel exists
+    /usr/bin/ssh -S /tmp/tunnel_%h.sock -O check $BRIDGE > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        echo "Creating new tunnel connection to ${BRIDGE}"
+        /usr/bin/ssh -f -N -M -S /tmp/tunnel_%h.sock -R ${PORT}:localhost:22 -L${BRIDGEPORT}:${BRIDGE}:22 -o ExitOnForwardFailure=yes ${BRIDGE}
+        if [[ $? -eq 0 ]]; then
+            echo "Tunnel to ${BRIDGE} created successfully"
+        else
+            echo "An error occurred creating a tunnel to ${BRIDGE}. Return code: ${?}"
+        fi
+    fi
+
+# Copy a file via a SSH tunnel host.
+# This is mainly for single files,
+# but for folders you can just end it with a '.', e.g. ~/foo/bar/.
+# usage: push <user@bridgehost> <port> <user> </path/to/file> </path/to/remote/file>
+# where <port> is the port used for the SSH tunnel on <bridgehost>
+# and <user> is the user used for the remote host
+elif [ $1 == 'push' ]; then
+    BRIDGE=$1
+    PORT=$2
+    USER=$3
+    FILEPATH=$4
+    REMOTE_FILEPATH=$5
+
+    # scp to bridge
+    scp $FILEPATH $BRIDGE:/tmp/__pushed
+
+    # scp to remote and remove temp file
+    ssh $BRIDGE 'scp -p '${PORT}' '${USER}'@localhost:/'${REMOTE_FILEPATH}'; rm /tmp/__pushed'
+
+# Get a file via a SSH tunnel host.
+# This is mainly for single files,
+# but for folders you can just end it with a '.', e.g. ~/foo/bar/.
+# usage: pull <user@bridgehost> <port> <user> </path/to/file>
+# where <port> is the port used for the SSH tunnel on <bridgehost>
+# and <user> is the user used for the remote host
+elif [ $CMD == 'pull' ]; then
+    BRIDGE=$1
+    PORT=$2
+    USER=$3
+    FILEPATH=$4
+    DIR=`dirname ${FILEPATH}`
+    FILE=`basename ${FILEPATH}`
+
+    # ssh into the bridge,
+    # on the bridge, ssh into the remote,
+    # the stream the tar of the file back
+    ssh $BRIDGE 'ssh -p '${PORT}' '${USER}'@localhost "cd '${DIR}'; tar cj '${FILE}'"' | tar xj
+
+else
+    echo "Please specify a command: go, make, push, pull."
+    exit 1
+fi

@@ -1,0 +1,31 @@
+backup:
+    dirs:
+        - '~/projects'
+        - '~/graphics'
+        - '~/stuff'
+        - '~/docs'
+        - '~/notes'
+        - '~/photos'
+        - '~/spaceandtimes'
+    targets:
+        - 'ftseng@svalbard:/mnt/databank/francis/repos'
+        - 'ftseng@svalbard:/mnt/outerspace/francis/repos'
+data:
+    sync: true
+    targets:
+        - 'ftseng@svalbard:/mnt/databank/francis/repos/data/'
+        - 'ftseng@svalbard:/mnt/outerspace/francis/repos/data/'
+medias:
+    never_delete: true
+    dirs:
+        - '~/medias/'
+    targets:
+        - 'ftseng@svalbard:/mnt/databank/francis/medias/'
+        - 'ftseng@svalbard:/mnt/outerspace/francis/medias/'
+archive:
+    never_delete: true
+    dirs:
+        - '~/archives/'
+    targets:
+        - 'ftseng@svalbard:/mnt/databank/francis/archives/'
+        - 'ftseng@svalbard:/mnt/outerspace/francis/archives/'

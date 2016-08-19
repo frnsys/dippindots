@@ -1,0 +1,53 @@
+#!/bin/bash
+
+if [ $(pgrep -cx panel) -gt 1 ] ; then
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
+fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+source ~/.config/lemonbar/colors
+
+PANEL_PADDING=12
+PANEL_HEIGHT=24
+
+FONT1="-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1" # symbols
+FONT2="-*-terminus-medium-r-normal-*-12-*-*-*-c-*-iso8859-1"       # western
+FONT3="-misc-fixed-medium-r-normal-ja-13-0-75-75-c-0-iso10646-1"   # characters
+
+# For determining individual monitor bar geometries (positioning)
+CUR_X_OFFSET=$((0 + $PANEL_PADDING))
+
+# -2 to slightly fix padding
+bspc config bottom_padding $(($PANEL_HEIGHT + $PANEL_PADDING - 2))
+
+while read -r mon; do
+    # Remove existing panel fifos and create new ones
+    [ -e "$PANEL_FIFO$mon" ] && rm "$PANEL_FIFO$mon"
+    mkfifo "$PANEL_FIFO$mon"
+
+    # Only show bspc control info for the monitor this panel is on
+    bspc control --subscribe |\
+        grep -oE "[Mm]$mon[^TM]*[TML]" --line-buffered |\
+        while read line; do echo W$line; done \
+            > "$PANEL_FIFO$mon" &
+
+    clock -sf 'C%m月%d日 %H:%M' > "$PANEL_FIFO$mon" &
+    ~/.config/lemonbar/wifi > "$PANEL_FIFO$mon" &
+    ~/.config/lemonbar/volume > "$PANEL_FIFO$mon" &
+    ~/.config/lemonbar/battery > "$PANEL_FIFO$mon" &
+    ~/.config/lemonbar/weather > "$PANEL_FIFO$mon" &
+
+    # Grep out current monitor width
+    CUR_MON_WIDTH=$(bspc query -T -m $mon | grep -oE "[0-9]{2,6}" | head -n 1)
+
+    # Create the panel with the proper geometry/positioning
+    # -b flag docks the bar at the bottom of the screen
+    cat "$PANEL_FIFO$mon" | panel_bar | lemonbar -b -g $((${CUR_MON_WIDTH} - $PANEL_PADDING*2))x${PANEL_HEIGHT}+${CUR_X_OFFSET}+${PANEL_PADDING} -f "$FONT1" -f "$FONT2" -f "$FONT3" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" &
+
+    # Update the offset
+    CUR_X_OFFSET=$(($CUR_X_OFFSET + $CUR_MON_WIDTH))
+done <<< $"$(bspc query -M | sort)" # sort so that monitor L always comes before monitor R
+
+wait

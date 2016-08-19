@@ -1,0 +1,26 @@
+#!/bin/bash
+
+
+if [[ $1 == 'up' ]]; then
+    # kill all existing stunnel4 processes to avoid this error:
+    # Error binding service [openvpn] to 127.0.0.1:1413
+    # bind: Address already in use (98)
+    # sudo killall stunnel4
+
+    # to set active vpn server, symlink its folder, i.e.:
+    # ln -s ~/stuff/vpn/<server name> ~/ftseng/stuff/vpn/active
+    cd /home/ftseng/stuff/vpn/active
+
+    sudo service stunnel4 restart
+    stunnel4 airvpn.ssl # make sure this does not have `foreground = yes` in it
+    sudo openvpn --config airvpn-ssl.ovpn --daemon
+    echo "VPN active"
+elif [[ $1 == 'down' ]]; then
+    sudo service stunnel4 stop
+    sudo pkill openvpn
+    sudo pkill stunnel4
+    echo "VPN deactivated"
+else
+    echo "Please specify 'up' or 'down'."
+    exit 0
+fi

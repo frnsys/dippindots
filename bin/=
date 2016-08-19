@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# https://github.com/onespaceman/menu-calc
+
+answer=$(echo "$@" | bc -l | sed '/\./ s/\.\{0,1\}0\{1,\}$//')
+
+action=$(echo -e "Copy to clipboard\nClear\nClose" | rofi -dmenu -p "= $answer")
+
+case $action in
+    "Clear") $0 ;;
+    "Copy to clipboard") echo -n "$answer" | xsel --clipboard ;;
+    "Close") ;;
+    "") ;;
+    *) $0 "$answer $action" ;;
+esac

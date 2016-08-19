@@ -1,0 +1,15 @@
+# example systemd service for creating an ssh tunnel on boot
+# create as /etc/systemd/system/tunnel.service
+
+[Unit]
+Description=setup ssh tunnel
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=forking
+User=ftseng
+ExecStart=/home/ftseng/.bin/tunnel make ftseng@starbase.in 19922 10022
+
+[Install]
+WantedBy=multi-user.target

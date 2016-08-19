@@ -1,0 +1,992 @@
+#!/usr/bin/python2
+
+# Copyright (C) 2008,2009,2010,2011  Xyne
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# (version 2) as published by the Free Software Foundation.
+#
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+
+################################################################################
+# ABOUT
+#
+# This is (was?) a simple script that places a GTK color selection dialogue in
+# the tray. You can use it to grab the color of anything on the screen.
+#
+# Most of the code here is for conversion between rgb hex colors and terminal
+# colors.
+################################################################################
+
+
+
+
+
+import pygtk
+pygtk.require('2.0')
+import gtk
+from gobject import timeout_add
+from os.path import exists
+from re import search
+from sys import argv, exit
+from optparse import OptionParser
+from time import time
+
+
+
+###############################################
+########## TERMINAL COLOR CONVERSION ##########
+###############################################
+
+color_int_values = [0, 95, 135, 175, 215, 255,] # determined by direct measurement in urxvt-256color
+color_hex_values = map(lambda x: "%02X" % x, color_int_values)
+greyscale_int_values = [] # same as above
+n = 8;
+while n < 240:
+  greyscale_int_values.append(n)
+  n += 10
+greyscale_hex_values = map(lambda x: "%02X" % x, greyscale_int_values)
+
+
+def term2hex(arg):
+  if arg > 15 and arg < 232:
+    arg -= 16
+    b = arg % 6
+    g = int(arg/6) % 6
+    r = int(arg/36) % 6
+    r,g,b = [color_hex_values[x] for x in (r,g,b)]
+    return '#' + ''.join([r,g,b])
+  elif arg > 231 and arg < 256:
+    arg -= 232
+    return '#' + greyscale_hex_values[arg] * 3
+  else:
+    return '#000000'
+
+
+def hex2term(arg):
+  r,g,b = map(lambda x: int(x,16), (arg[1:3],arg[3:5],arg[5:7]))
+  cr,cg,cb = map(get_closest_color, (r,g,b))
+  gr,gg,gb = map(get_closest_greyscale, (r,g,b))
+
+  vectors = ((cr,cg,cb), (gr,gr,gr), (gg,gg,gg), (gb,gb,gb))
+
+  shortest = 0x1000000
+  closest = 0
+  for i in range(len(vectors)):
+    vr,vg,vb = vectors[i]
+    d = get_vector_distance_squared(r,g,b,vr,vg,vb)
+    if d < shortest:
+      closest = i
+      shortest = d
+  r,g,b = vectors[closest]
+  if closest == 0:
+    r,g,b = map(lambda x: get_index(x,color_int_values), (r,g,b))
+    return 16 + b + 6*g + 36*r
+  else:
+    if r == 0:
+      color = 16
+    elif r == 255:
+      color = 231
+    else:
+      color = get_index(r,greyscale_int_values) + 232
+    return color
+
+
+def get_closest_color(arg):
+  return get_closest(arg,color_int_values)
+
+
+def get_closest_greyscale(arg):
+  return get_closest(arg,greyscale_int_values)
+
+
+def get_closest(arg,int_values):
+  closest = 0
+  shortest = 256
+  for val in int_values:
+    d = abs(arg - val)
+    if d < shortest:
+      closest = val
+      shortest = d
+  return closest
+
+
+def get_index(arg,int_values):
+  for i in range(len(int_values)):
+    if arg == int_values[i]:
+      return i
+
+
+def get_vector_distance_squared(a,b,c,u,v,w):
+  return (a-u)**2 + (b-v)**2 + (c-w)**2
+
+
+
+
+
+
+
+##########################
+########## CMYK ##########
+##########################
+
+def rgb2cmyk(r,g,b):
+  f = 1.0/255
+  r *= f
+  g *= f
+  b *= f
+  k = min(1-r,1-g,1-b)
+  if k < 1:
+    d = 1 - k
+    c = (d-r) / d
+    m = (d-g) / d
+    y = (d-b) / d
+  else:
+    c = 0
+    m = 0
+    y = 0
+  return [int(100*x) for x in (c,m,y,k)]
+
+
+def cmyk2rgb(c,m,y,k):
+  d = k/100.0
+  f = (1.0 - d)/100.0
+  return [int(255.0 * (1.0 - x * f - d)) for x in (c,m,y)]
+
+
+
+
+
+
+
+
+
+#####################################
+########## X11 COLOR NAMES ##########
+#####################################
+
+def get_closest_color_name(r,g,b,colors):
+  shortest = 0x1000000
+  closest = ""
+  j = 0
+  for i in range(len(colors)):
+    vr,vg,vb,name = colors[i]
+    d = get_vector_distance_squared(r,g,b,vr,vg,vb)
+    if d < shortest:
+      closest = name
+      shortest = d
+      j = i
+  return closest,j
+
+
+
+def load_rgb_txt(fpath):
+  if fpath and exists(fpath):
+    try:
+      f = open(fpath,'r')
+      colors = []
+      palette = set()
+      for l in f:
+        l = l.strip()
+        # Match "x y z name".
+        m = search(r'^(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})\s+(.+)$', l)
+        if m:
+          name = m.group(4)
+          if not name in palette:
+            r = int(m.group(1))
+            g = int(m.group(2))
+            b = int(m.group(3))
+            colors.append((r,g,b,name))
+          continue
+        m = search(r'^#([0-9a-fA-F]{6})\s+(.+)$', l)
+        if m:
+          name = m.group(2)
+          if not name in palette:
+            rgb = int(m.group(1), 16)
+            rgb, b = divmod(rgb, 256)
+            r, g = divmod(rgb, 256)
+            colors.append((r,g,b,name))
+          continue
+      f.close()
+      return colors
+    except IOError as (errno, strerror):
+      print "error: failed to open {0}: {1}".format(fpath, strerror)
+      return []
+  else:
+    return []
+
+
+
+
+#########################
+########## GTK ##########
+#########################
+
+class X11ColorComboBox(gtk.ComboBox):
+  def __init__(self, x11_colors=[], wrap_width=1):
+    gtk.ComboBox.__init__(self)
+    liststore = gtk.ListStore(gtk.gdk.Color,str)
+    for c in x11_colors:
+      r,g,b,name = c
+      r,g,b = [x / 255.0 for x in (r,g,b)]
+      color = gtk.gdk.Color(r,g,b)
+      liststore.append((color,name))
+    self.set_model(liststore)
+
+    swatch = gtk.CellRendererText()
+    swatch.set_property("width",40)
+    self.pack_start(swatch,False)
+    self.set_attributes(swatch,background_gdk=0)
+
+    label = gtk.CellRendererText()
+    label.set_property("xpad",10)
+    self.pack_start(label,True)
+    self.set_attributes(label,text=1)
+
+    self.set_wrap_width(wrap_width)
+
+    if len(x11_colors) > 0:
+      self.set_active(0)
+    self.show_all()
+
+
+
+class ZoomWindow(gtk.Window):
+  def __init__(self):
+    gtk.Window.__init__(self, gtk.WINDOW_TOPLEVEL)
+    self.set_position(gtk.WIN_POS_CENTER)
+    self.set_default_size(200,200)
+
+    self.on = False
+
+    self.motion_handler = self.connect("motion-notify-event", self.zoom)
+    self.button_handler = self.connect("button-press-event", self.pause)
+
+    self.handler_block(self.motion_handler)
+    self.handler_block(self.button_handler)
+
+    self.cursor = gtk.gdk.Cursor(gtk.gdk.CROSSHAIR)
+    self.zoom_factor = 10
+    self.width = 25
+    self.height = 25
+    self.x_root = gtk.gdk.screen_width() / 2
+    self.y_root = gtk.gdk.screen_height() / 2
+
+
+
+    self.image = gtk.Image()
+    self.image.show()
+    self.image.set_size_request(50,50)
+    self.add(self.image)
+
+    self.connect("grab-broken-event", lambda *x: self.toggle_zoom(False))
+    self.connect("scroll-event", self.scrolled)
+    self.connect("configure_event", self.configured)
+
+
+    self.accel_group = gtk.AccelGroup()
+    self.add_accel_group(self.accel_group)
+    self.accel_group.connect_group(ord('z'), 0, 0, lambda *x: self.toggle_zoom())
+    self.set_tooltip_text('''Press "z" to toggle zooming.
+
+While zooming:
+  scroll up/down to zoom in/out
+  click any button to stop zooming
+''')
+
+
+
+  def zoom(self, window, event):
+    try:
+      x, y = int(event.x_root), int(event.y_root)
+      self.x_root,self.y_root = x,y
+    except AttributeError:
+      x, y = self.x_root, self.y_root
+
+
+    max_width = gtk.gdk.screen_width()
+    max_height = gtk.gdk.screen_height()
+
+
+    width,dw = divmod(self.width, self.zoom_factor)
+    if dw > 0:
+     width += 1
+
+    height,dh = divmod(self.height, self.zoom_factor)
+    if dh > 0:
+     height += 1
+
+    x_0 = min( max( x - ( (width-1) / 2), 0), max_width - width )
+    y_0 = min( max( y - ( (height-1) / 2), 0), max_height - height )
+
+
+
+    screenshot = gtk.gdk.Pixbuf.get_from_drawable(
+                      gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, width, height),
+                      gtk.gdk.get_default_root_window(),
+                      gtk.gdk.colormap_get_system(),
+                      x_0, y_0, 0, 0, width, height)
+
+    zoomed = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, self.width, self.height)
+
+    screenshot.scale(zoomed, 0, 0, self.width, self.height, -dw/2, -dh/2, self.zoom_factor, self.zoom_factor, gtk.gdk.INTERP_TILES)
+    self.image.set_from_pixbuf(zoomed)
+
+
+
+  def pause(self, window, event):
+    self.toggle_zoom()
+
+
+
+  def toggle_zoom(self, on=None):
+    if on == None:
+      on = not self.on
+    if on:
+      self.handler_unblock(self.motion_handler)
+      self.handler_unblock(self.button_handler)
+      grab = gtk.gdk.pointer_grab(self.window, False,
+                                  gtk.gdk.POINTER_MOTION_MASK |
+                                  gtk.gdk.POINTER_MOTION_HINT_MASK |
+                                  gtk.gdk.BUTTON_PRESS_MASK |
+                                  gtk.gdk.SCROLL_MASK,
+                                  None, self.cursor)
+    else:
+      self.handler_block(self.motion_handler)
+      self.handler_block(self.button_handler)
+      gtk.gdk.pointer_ungrab()
+
+    self.on = on
+
+
+  def scrolled(self, widget, event):
+#     up = event.direction  == gtk.gdk.SCROLL_UP
+#     if event.state & gtk.gdk.SHIFT_MASK:
+#       print "shift"
+#     if event.state & gtk.gdk.CONTROL_MASK:
+#       print "ctrl"
+#     if not event.state & gtk.gdk.SHIFT_MASK and not event.state & gtk.gdk.CONTROL_MASK:
+    if event.direction  == gtk.gdk.SCROLL_UP:
+      self.zoom_in()
+    else:
+      self.zoom_out()
+    self.zoom(widget, event)
+
+
+  def configured(self, widget, event):
+    self.width,self.height = event.width,event.height
+    self.zoom(widget, event)
+
+
+  def zoom_in(self,*args):
+    self.zoom_factor += 1
+
+  def zoom_out(self,*args):
+    if self.zoom_factor > 1:
+      self.zoom_factor -= 1
+
+
+
+
+class Chrom:
+
+  def delete_event(self, widget, event, data=None):
+    if self.statusicon.is_embedded():
+      self.toggle_visibility()
+      return True
+    else:
+      return False
+
+  def destroy(self, widget, data=None):
+    gtk.main_quit()
+
+  def get_color(self):
+    return self.hex_color.get_text()
+
+  def get_rgb(self):
+    r = self.r.get_value()
+    g = self.g.get_value()
+    b = self.b.get_value()
+    return [int(x) for x in (r,g,b)]
+
+  def get_cmyk(self):
+    c = self.c.get_value()
+    m = self.m.get_value()
+    y = self.y.get_value()
+    k = self.k.get_value()
+    return [int(x) for x in (c,m,y,k)]
+
+  def get_palette(self):
+    return self.settings.get_property('gtk-color-palette').split(':')
+
+  def set_palette(self,palette):
+    self.settings.set_property('gtk-color-palette',':'.join(palette))
+
+  def unshift_palette(self,color):
+    if self.autoupdate_palette.get_active():
+      color = str(color)
+      palette = self.get_palette()
+      if color in palette:
+        palette.remove(color)
+        self.set_palette([color] + palette)
+      else:
+        self.set_palette([color] + palette[0:-1])
+
+  def remove_dupes(self,*args):
+    palette = self.get_palette()
+    n = len(palette)
+    palette = list(set(palette))
+    palette += ["#FFFFFF"] * (n - len(palette))
+    self.set_palette(palette)
+    self.sort_palette()
+
+  def sort_palette(self,*args):
+    palette = self.get_palette()
+    palette.sort(self.value_sort)
+    palette.sort(self.hue_sort)
+    self.set_palette(palette)
+
+  def value_sort(self,a,b):
+    a = gtk.gdk.Color(a)
+    b = gtk.gdk.Color(b)
+    return cmp(a.value,b.value)
+
+  def hue_sort(self,a,b):
+    a = gtk.gdk.Color(a)
+    if a.saturation == 0:
+      return 1
+    b = gtk.gdk.Color(b)
+    if b.saturation == 0:
+      return -1
+    return cmp(a.hue,b.hue)
+
+  def reset_colors(self,*args):
+    n = self.get_palette()
+    self.set_palette(['#FFFFFF']*len(n))
+    color = gtk.gdk.Color('#FFFFFF')
+    self.previous_color = color
+    self.colorsel.set_current_color(color)
+    self.update()
+
+  def update_color(self,color):
+    self.previous_color = self.colorsel.get_current_color()
+    self.colorsel.set_previous_color(self.previous_color)
+    self.colorsel.set_current_color(color)
+    self.unshift_palette(self.get_color())
+
+  def update(self,*args):
+    self.colorsel.set_previous_color(self.previous_color)
+    if not self.updating:
+      self.updating = True
+      if not self.colorsel.is_adjusting():
+        self.update_cmyk()
+        self.update_term_color()
+        self.update_x11()
+        self.previous_color = self.colorsel.get_current_color()
+        self.unshift_palette(self.get_color())
+      elif time() - self.last_update > self.update_interval:
+        self.update_cmyk()
+        self.update_term_color()
+        self.update_x11()
+        self.last_update = time()
+      self.updating = False
+
+  def update_cmyk(self,*arg):
+    if self.ignore_update != "cmyk":
+      r,g,b = self.get_rgb()
+      c,m,y,k = rgb2cmyk(r,g,b)
+      self.c.set_value(c)
+      self.m.set_value(m)
+      self.y.set_value(y)
+      self.k.set_value(k)
+
+  def update_x11(self,*arg):
+    if self.ignore_update != "x11":
+      r,g,b = self.get_rgb()
+      name,i = get_closest_color_name(r,g,b,self.x11_colors)
+      self.x11_combobox.set_active(i)
+
+  def update_term_color(self,*arg):
+    if self.ignore_update != "term":
+      hex_color = self.get_color()
+      term_color = self.term_color.get_value()
+      new_term_color = hex2term(hex_color)
+      if term_color != new_term_color:
+        self.term_color.set_value(new_term_color)
+
+  def update_from_cmyk(self,*arg):
+    if not self.updating:
+      #self.updating = True
+      c,m,y,k = self.get_cmyk()
+      r,g,b = [x/255.0 for x in cmyk2rgb(c,m,y,k)]
+      color = gtk.gdk.Color( r,g,b )
+      #self.update_color(color)
+      #self.update_term_color()
+      #self.updating = False
+      #self.update()
+      self.ignore_update = "cmyk"
+      self.colorsel.set_current_color(color)
+      self.ignore_update = None
+
+  def update_from_term_color(self,*arg):
+    if not self.updating:
+      #self.updating = True
+      term_color = int( self.term_color.get_value() )
+      color = gtk.gdk.Color( term2hex( term_color ) )
+      #self.update_color(color)
+      #self.update_cmyk()
+      #self.colorsel.set_previous_color(self.previous_color)
+      #self.updating = False
+      self.ignore_update = "term"
+      self.colorsel.set_current_color(color)
+      self.ignore_update = None
+
+  def update_from_x11_color(self,*arg):
+    if not self.updating:
+      i = self.x11_combobox.get_active()
+      color = self.x11_combobox.get_model()[i][0]
+      self.ignore_update = "x11"
+      self.colorsel.set_current_color(color)
+      self.ignore_update = None
+
+  def update_from_hex_color(self,*arg):
+    if not self.updating:
+      color = gtk.gdk.Color(self.get_color())
+      self.ignore_update = "hex"
+      self.colorsel.set_current_color(color)
+      self.ignore_update = None
+
+  def get_frame(self,label,widgets):
+    frame = gtk.Frame()
+    frame.set_label(label)
+    frame.set_label_align(1,0.5)
+    frame.show()
+
+    n = len(widgets)
+    table = gtk.Table(n,2)
+    table.show()
+    for i in range(n):
+      a,b = widgets[i]
+      a.set_alignment(0,0.5)
+      b.set_alignment(1)
+      table.attach(a,0,1,i,i+1,gtk.FILL|gtk.EXPAND,gtk.FILL,10,0)
+      table.attach(b,1,2,i,i+1,gtk.FILL,gtk.FILL,10,0)
+      a.show()
+      b.show()
+
+    frame.add(table)
+    return frame
+
+
+  def show_help(self,widget):
+    help_message = '''Keys & Buttons:
+  ctrl+a - toggle "auto-add"
+  ctrl+e - select eyedropper
+  s - show/hide zoom window
+  z - pause/unpause zooming
+
+  scroll up/down - zoom in/out
+
+
+Tooltips:
+  Most widgets have tooltops. Hover over them for more information.
+
+Command-line options:
+  See "pychrom -h" for available command-line options, including help with specifying color names via an input file.'''
+    dialog = gtk.MessageDialog(self.window,
+                                gtk.DIALOG_DESTROY_WITH_PARENT,
+                                gtk.MESSAGE_INFO,
+                                gtk.BUTTONS_CLOSE,
+                                help_message)
+
+    button = dialog.get_children()[0].get_children()[-1].get_children()[0]
+    button.connect("clicked", lambda *x: dialog.destroy())
+
+    dialog.show()
+
+
+  def __init__(self, x11_colors, x11_colors_wrap_width=5, update_interval=0.333):
+    self.c = gtk.Adjustment(0,0,100,1,1,0)
+    self.m = gtk.Adjustment(0,0,100,1,1,0)
+    self.y = gtk.Adjustment(0,0,100,1,1,0)
+    self.k = gtk.Adjustment(0,0,100,1,1,0)
+    self.term_color = gtk.Adjustment(16,16,255,1,1,0)
+    self.x11_colors = x11_colors
+    self.update_interval = update_interval
+
+    self.last_update = time()
+    self.ignore_update = None
+
+    self.updating = False
+    self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+    self.window.set_position(gtk.WIN_POS_CENTER)
+    self.window.connect("delete_event", self.delete_event)
+    self.window.connect("destroy", self.destroy)
+    self.window.set_title("pyChrom")
+    self.colorsel = gtk.ColorSelection()
+    self.colorsel.set_has_palette(True)
+    self.window.add(self.colorsel)
+    self.colorsel.show()
+
+    self.zoom_window = ZoomWindow()
+    self.zoom_window.set_title("pyChrom - Zoom Window")
+    self.zoom_window.connect("destroy", self.hide_zoom_window)
+    self.zoom_window.connect("delete_event", self.hide_zoom_window)
+
+    screen = self.colorsel.get_screen()
+    self.settings = gtk.settings_get_for_screen(screen)
+
+    top_hbox = self.colorsel.get_children()[0]
+    vbox = top_hbox.get_children()[1]
+    table = vbox.get_children()[0]
+    table_widgets = table.get_children()
+    palette = vbox.get_children()[1].get_children()[1]
+    #vbox.remove()
+    vbox.get_children()[1].remove(palette)
+    vbox.get_children()[1].hide()
+
+    #color_wheel = top_hbox.get_children()[0].get_children()[0]
+
+    eyedropper = top_hbox.get_children()[0].get_children()[1].get_children()[1]
+    eyedropper.set_tooltip_text('The eyedropper can sample the color of any pixel on the screen. Clicking will inspect a single pixel while dragging will inspect multiple. Enable "auto-add" before dragging to add multiple colors to the palette.')
+
+
+
+    # ColorSelection expects these to exist and will generate warnings of they
+    # are not stored in variables (presumably due to garbage collection).
+    self.alpha_entry = table_widgets[2]
+    self.alpha_hscale = table_widgets[3]
+    self.alpha_label = table_widgets[4]
+
+
+    self.hex_color = table_widgets[0]
+    hex_color_label = table_widgets[1]
+    table_widgets[1].set_text("Value:")
+
+    self.b = table_widgets[6]
+    blue_label = table_widgets[7]
+    self.g = table_widgets[8]
+    green_label = table_widgets[9]
+    self.r = table_widgets[10]
+    red_label = table_widgets[11]
+
+    self.v = table_widgets[12]
+    value_label = table_widgets[13]
+    self.s = table_widgets[14]
+    saturation_label = table_widgets[15]
+    self.h = table_widgets[16]
+    hue_label = table_widgets[17]
+
+
+    table.destroy()
+
+
+
+    ##### TERM COLOR #####
+    term_label = gtk.Label("Value:")
+    term_spin = gtk.SpinButton(self.term_color,0.2,0)
+    term_spin.set_tooltip_text('The value of the (closest) matching color in a 256-color terminal. The terminal foreground and background escape codes are "\e[0;38;5;Xm" and "\e[0;48;5;Xm", respectively, where "X" should be replaced with the color value in this field.')
+
+
+    ##### CMYK #####
+
+    c_label = gtk.Label("Cyan:")
+    c_spin = gtk.SpinButton(self.c,0.2,0)
+    c_spin.set_tooltip_text("The amount of cyan in CMYK mode (range: [0-100]).")
+
+    m_label = gtk.Label("Magenta:")
+    m_spin = gtk.SpinButton(self.m,0.2,0)
+    m_spin.set_tooltip_text("The amount of magenta in CMYK mode (range: [0-100]).")
+
+    y_label = gtk.Label("Yellow:")
+    y_spin = gtk.SpinButton(self.y,0.2,0)
+    y_spin.set_tooltip_text("The amount of yellow in CMYK mode (range: [0-100]).")
+
+    k_label = gtk.Label("Black:")
+    k_spin = gtk.SpinButton(self.k,0.2,0)
+    k_spin.set_tooltip_text("The amount of (key) black in CMYK mode (range: [0-100]).")
+
+
+
+
+    ##### FRAMES #####
+    hbox = gtk.HBox()
+    hbox.show()
+
+    hsv_frame = self.get_frame("HSV", [(hue_label,self.h),(saturation_label,self.s),(value_label,self.v)])
+    self.h.set_tooltip_text("The hue in HSV mode (range: [0-360]).")
+    self.s.set_tooltip_text("The saturation in HSV mode (range: [0-100]).")
+    self.v.set_tooltip_text("The value in HSV mode (range: [0-100]).")
+    hbox.pack_start(hsv_frame,True,True,5)
+
+    rgb_frame = self.get_frame("RGB", [(red_label,self.r),(green_label,self.g),(blue_label,self.b)])
+    self.r.set_tooltip_text("The amount of red in RGB mode (range: [0-255]).")
+    self.g.set_tooltip_text("The amount of green in RGB mode (range: [0-255]).")
+    self.b.set_tooltip_text("The amount of blue in RGB mode (range: [0-255]).")
+    hbox.pack_start(rgb_frame,True,True,5)
+
+    hsv_frame = self.get_frame("CMYK", [(c_label,c_spin),(m_label,m_spin),(y_label,y_spin),(k_label,k_spin)])
+    hbox.pack_start(hsv_frame,True,True,5)
+
+    vbox.pack_start(hbox,False,True,5)
+
+
+    hbox = gtk.HBox(False,10)
+    hbox.show()
+
+    hex_frame = self.get_frame("Hexadecimal Color",[(hex_color_label,self.hex_color)])
+    self.hex_color.set_tooltip_text("The hexadecimal RGB color value, also called the web color.")
+    self.hex_color.set_width_chars(8)
+    self.hex_color.set_alignment(0.5)
+    hbox.pack_start(hex_frame,False,False)
+
+    term_frame = self.get_frame("Terminal Color",[(term_label,term_spin)])
+    hbox.pack_start(term_frame,False,False)
+
+    self.x11_combobox = X11ColorComboBox(x11_colors,x11_colors_wrap_width)
+    self.x11_combobox.set_tooltip_text("The (closest) matching color name as defined by the default X11 color name list or a similar file provided by the user.")
+    self.x11_combobox.connect("changed",self.update_from_x11_color)
+    x11_frame = gtk.Frame()
+    x11_frame.set_label("Color Name")
+    x11_frame.set_label_align(1,0.5)
+    x11_frame.show()
+    x11_frame.add(self.x11_combobox)
+    hbox.pack_start(x11_frame,True,True)
+
+    vbox.pack_start(hbox,False,False)
+
+
+
+    palette_frame = gtk.Frame()
+    palette_frame.set_label("Palette")
+    palette_frame.set_label_align(1,0.5)
+    palette_frame.show()
+
+    palette_box = gtk.VBox()
+    palette_box.show()
+    palette_frame.add(palette_box)
+
+
+    palette_buttons = gtk.HButtonBox()
+    palette_buttons.set_layout(gtk.BUTTONBOX_END)
+    palette_buttons.show()
+
+    palette_box.pack_start(palette)
+    palette.show()
+
+    self.autoupdate_palette = gtk.CheckButton("auto-add",False)
+    self.autoupdate_palette.set_tooltip_text("When checked, new colors will be automatically added to the palette.")
+    self.autoupdate_palette.show()
+    palette_buttons.pack_start(self.autoupdate_palette)
+    #left_vbox.pack_end(palette_buttons)
+
+    self.sort_button = gtk.Button("sort")
+    self.sort_button.set_tooltip_text("Sort the palette colors by hue and value.")
+    self.sort_button.connect("clicked",self.sort_palette)
+    self.sort_button.show()
+    palette_buttons.pack_start(self.sort_button)
+
+    self.dupes_button = gtk.Button("remove duplicates")
+    self.dupes_button.set_tooltip_text("Remove duplicates from the palette and sort the remaining colors.")
+    self.dupes_button.connect("clicked",self.remove_dupes)
+    self.dupes_button.show()
+    palette_buttons.pack_start(self.dupes_button)
+
+    self.reset_button = gtk.Button("clear")
+    self.reset_button.set_tooltip_text("Clear all colors.")
+    self.reset_button.connect("clicked",self.reset_colors)
+    self.reset_button.show()
+    palette_buttons.pack_start(self.reset_button)
+
+    palette_box.pack_start(palette_buttons,False,False,5)
+    vbox.pack_start(palette_frame,True,True)
+
+
+
+
+    left_vbox = top_hbox.get_children()[0]
+    foo = left_vbox.get_children()[-1]
+    foo.remove(eyedropper)
+    left_vbox.remove(foo)
+    left_vbox.pack_start(foo,False,False)
+
+    bar = gtk.HBox()
+
+    help = gtk.Button(stock=gtk.STOCK_HELP)
+    help.set_tooltip_text("Display the help message.")
+    help.connect("clicked",self.show_help)
+    help.show()
+
+    bar.pack_end(help,False,False)
+    bar.pack_end(eyedropper,False,False,5)
+    bar.show()
+    left_vbox.pack_start(bar,True,False)
+    #foo.set_spacing(0)
+    #foo.reorder_child(help,0)
+    #left_vbox.pack_start(help,True,False)
+    #left_vbox.reorder_child(help,0)
+
+
+    self.show_zoom_window = gtk.CheckButton("zoom window",False)
+    self.show_zoom_window.set_tooltip_text("Display the zoom window.")
+    self.show_zoom_window.show()
+    #left_vbox.pack_start(self.show_zoom_window,True,True)
+    bar.pack_start(self.show_zoom_window,False,False)
+
+
+    ##### SET INITIAL COLORS #####
+    self.reset_colors()
+
+
+
+
+
+    ##### SIGNALS #####
+    self.colorsel.connect("color_changed", self.update)
+    self.term_color.connect("value-changed", self.update_from_term_color)
+    self.c.connect("value-changed", self.update_from_cmyk)
+    self.m.connect("value-changed", self.update_from_cmyk)
+    self.y.connect("value-changed", self.update_from_cmyk)
+    self.k.connect("value-changed", self.update_from_cmyk)
+
+    # still need to figure out how i broke the original connection
+    self.hex_color.connect("activate", self.update_from_hex_color)
+
+    self.show_zoom_window.connect("toggled", self.toggle_zoom_window)
+
+
+
+    ##### KEY BINDINGS #####
+    self.accel_group = gtk.AccelGroup()
+    self.window.add_accel_group(self.accel_group)
+    eyedropper.add_accelerator("activate", self.accel_group, ord('e'), gtk.gdk.CONTROL_MASK, 0)
+    self.autoupdate_palette.add_accelerator("activate", self.accel_group, ord('a'), gtk.gdk.CONTROL_MASK, 0)
+
+    self.accel_group.connect_group(ord('s'), 0, 0, self.toggle_show_zoom_window)
+    self.zoom_window.add_accel_group(self.accel_group)
+
+
+
+
+    ##### STATUS ICON #####
+    self.statusicon=gtk.status_icon_new_from_stock(gtk.STOCK_COLOR_PICKER)
+    self.statusicon.connect('activate',self.toggle_visibility)
+    self.statusicon.connect('popup-menu',self.context_menu)
+
+    self.menu = gtk.Menu()
+
+    self.quit = gtk.MenuItem("Quit")
+    self.menu.append(self.quit)
+    self.quit.connect('activate',self.destroy)
+    self.quit.show()
+
+  def context_menu(self,data, event_button, event_time,*args):
+    self.menu.popup(None, None, None, event_button,event_time)
+
+  def toggle_visibility(self,*args):
+    if self.window.get_property("visible"):
+      if self.statusicon.is_embedded():
+        self.pos_x, self.pos_y = self.window.get_position()
+        self.window.hide()
+        if self.show_zoom_window.get_active():
+          self.toggle_zoom_window()
+    else:
+      try:
+        self.window.move(self.pos_x,self.pos_y)
+      except AttributeError:
+        pass
+      self.window.show()
+      if self.show_zoom_window.get_active():
+        self.toggle_zoom_window()
+
+  def toggle_zoom_window(self,*args):
+    if self.zoom_window.get_property("visible"):
+      self.zoom_window.pos_x, self.zoom_window.pos_y = self.zoom_window.get_position()
+      self.zoom_window.hide()
+    else:
+      try:
+        self.zoom_window.move(self.zoom_window.pos_x,self.zoom_window.pos_y)
+      except AttributeError:
+        pass
+      self.zoom_window.show()
+
+  def toggle_show_zoom_window(self,*args):
+    self.show_zoom_window.set_active( not self.show_zoom_window.get_active() )
+
+  def hide_zoom_window(self,*args):
+    self.show_zoom_window.set_active(False)
+    return True
+
+
+
+  def main(self):
+    gtk.main()
+
+
+
+
+
+
+
+def display_rgb_txt_help(*args):
+  print '''COLOR NAMES
+  Color names can be specified via an input file. This was originally included
+  to support the display of X11 color names via the rgb.txt file, but that has
+  been deprecated.
+
+  Each line in the file will
+  represent a color and its name. Colors may be represented in two different
+  ways and the different representations may be mixed in a file:
+
+  255 255 255 white
+  255   0   0 red
+  #0000ff     blue
+  #000000     black
+
+  The first two lines represent the color by its RGB values. These are integers
+  in the range 0-255, inclusive. This representation is the same as that used in
+  the deprecated rgb.txt file.
+
+  The last two lines represent the color by its hexadecimal color code,
+  including the preceding hash.
+
+  The values must be separated by spaces, but the number of spaces does not
+  matter. Spaces within color names will be preserved.
+
+'''
+  exit(0)
+
+if __name__ == "__main__":
+
+  parser = OptionParser(description='An enhanced yet simple pyGTK color selection and conversion tool that can minimize to the tray.')
+
+  parser.add_option("-c","--color-names", dest="rgb_txt", metavar="<filepath>",
+                  help='A path to a file containing color specifications and names. See "--color-names-help" for details.')
+  parser.add_option('--color-names-help', action='callback', callback=display_rgb_txt_help,
+                    help='Display information about the color names specification file.')
+
+  parser.add_option("-i","--update-interval", dest="update_interval", type="float", default=0.333, metavar="n",
+                  help='This determines how often the HSV values, terminal color and color names are updated while continuously adjusting the color with the color wheel. Note that the values are always updated immediately once you release the color wheel. The value is given in seconds. The default is 0.333')
+
+  parser.add_option("--tray", dest="tray", action="store_true",
+                  help='Hide pyChrom in the tray at start-up.')
+
+  (options, args) = parser.parse_args()
+  if options.rgb_txt:
+    x11_colors = load_rgb_txt(options.rgb_txt)
+  else:
+    x11_colors = []
+
+  pychrom = Chrom(x11_colors=x11_colors)
+  if not options.tray:
+    pychrom.window.show()
+  pychrom.main()
