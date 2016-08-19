@@ -314,7 +314,6 @@ ln -sf $DIR/dots/mpd/mpd.conf ~/.mpd/mpd.conf
 ln -sf $DIR/dots/ncmpcpp ~/.ncmpcpp
 
 # symlink notes and sites
-ln -sf $DIR/dots/config/nomadic ~/.nomadic
 ln -sf $DIR/dots/port ~/.port
 
 # backup config
