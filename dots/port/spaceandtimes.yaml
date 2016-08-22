@@ -7,6 +7,5 @@ THEME: publicscience
 github: frnsys
 twitter: frnsys
 links:
-    - <a href='http://frnsys.com'>portfolio</a>
+    - <a href='http://frnsys.com'>francis tseng</a>
 header_code: <a href='/' class='logo'><img src='/assets/logo.png'>space & times</a>
-disqus_shortname: publicscience
