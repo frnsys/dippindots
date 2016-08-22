@@ -5,11 +5,15 @@ let g:unite_winheight = 10
 
 if executable('ag')
     let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden --ignore-case --ignore tags'
+    let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden --ignore-case --ignore tags --ignore node_modules'
     let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_rec_async_command =
+                \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden',
+                \ '--ignore', 'node_modules',
+                \ '-g', '']
 endif
 
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+call unite#custom_source('file_rec/async,file,buffer,grep',
       \ 'ignore_pattern', join([
       \ '\.git/',
       \ '\.hg/',

@@ -21,17 +21,17 @@ Plug 'ehamberg/vim-cute-python'
 Plug 'tpope/vim-surround'
 Plug 'jeetsukumaran/vim-filebeagle'
 Plug 'scrooloose/syntastic'
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary'
 Plug 'lepture/vim-jinja'
 Plug 'airblade/vim-gitgutter'
-Plug 'digitaltoad/vim-jade'
 Plug 'junegunn/goyo.vim'
+Plug 'junegunn/gv.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', {'dir': '~/.vim/bundle/vimproc', 'do': 'make -s'}
 Plug 'klen/python-mode'
-Plug 'frnsys/python-syntax'
+Plug 'hdima/python-syntax'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'kshenoy/vim-signature'
@@ -51,7 +51,6 @@ set noerrorbells 				" Disable error bells
 set novisualbell                " Disable visual bells
 set title 						" Show filename in window titlebar
 set showmode 					" Show the current mode
-set timeoutlen=100 				" Set timeoutlen to be sort, avoiding a lag
 set showcmd 					" Show the command as it's typed
 set shortmess=atI 				" Hide Vim intro message
 let mapleader=";" 		        " Change mapleader
