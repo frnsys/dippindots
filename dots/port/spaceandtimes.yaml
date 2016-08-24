@@ -6,6 +6,7 @@ SITE_URL: http://spaceandtim.es
 THEME: publicscience
 github: frnsys
 twitter: frnsys
+arena: francis-tseng
 links:
     - <a href='http://frnsys.com'>francis tseng</a>
 header_code: <a href='/' class='logo'><img src='/assets/logo.png'>space & times</a>

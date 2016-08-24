@@ -9,7 +9,7 @@ PHONE_IP=$1
 PHONE_PORT=2222
 
 # sync directories TO the phone
-for DIR in notes docs; do
+for DIR in notes docs deaddrop; do
     echo "Syncing ~/${DIR} -> /sdcard/${DIR}"
     # the ssh user does not have permissions to modify
     # permission and modification times so we skip those

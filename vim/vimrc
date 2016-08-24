@@ -51,6 +51,7 @@ set noerrorbells 				" Disable error bells
 set novisualbell                " Disable visual bells
 set title 						" Show filename in window titlebar
 set showmode 					" Show the current mode
+set timeoutlen=100              " Short timeout to avoid lag
 set showcmd 					" Show the command as it's typed
 set shortmess=atI 				" Hide Vim intro message
 let mapleader=";" 		        " Change mapleader
@@ -99,10 +100,6 @@ set statusline+=%=              " Right-align
 set statusline+=%{fugitive#statusline()} " Git branch (requires vim-fugitive)
 set statusline+=\               " Separator
 set statusline+=L:%l/%L[%p%%]   " Lines
-set statusline+=\               " Separator
-set statusline+=C:%v            " Column
-set statusline+=\               " Separator
-set statusline+=Buf:#%n         " Buffer
 
 " search
 set incsearch   " Search as pattern is typed
@@ -255,6 +252,9 @@ nmap <S-t> :tabnew<cr>
 " <C-o> jumps back after going to defintion
 nnoremap <C-g> <C-]>
 
+" show current filename
+nnoremap <C-h> :f<cr>
+
 " command flubs
 command WQ wq
 command Wq wq
@@ -269,7 +269,3 @@ function! CleanWhitespace()
 	call setpos('.', save_cursor)
 	call setreg('/', old_query)
 endfunction
-
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
