@@ -83,6 +83,9 @@ ln -sf $DIR/dots/bash/inputrc ~/.inputrc
 ln -sf $DIR/bin ~/.bin
 ln -sf $DIR/dots/tmux/tmux.conf ~/.tmux.conf
 
+mkdir ~/.config/git
+ln -sf $DIR/dots/gitignore ~/.config/git/ignore
+
 if [ ! -f /etc/environment ]; then
     # Create an empty env file.
     echo "Creating an empty environment variables file at /etc/environment..."
