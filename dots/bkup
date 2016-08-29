@@ -10,6 +10,7 @@ backup:
     targets:
         - 'ftseng@svalbard:/mnt/databank/francis/repos'
         - 'ftseng@svalbard:/mnt/outerspace/francis/repos'
+        - '/media/usb/francis/repos'
 data:
     sync: true
     targets:
