@@ -14,13 +14,13 @@ super + {shift,ctrl} + alt + {h,l}
 super + shift + alt + q
     bspc window -c
 
-# adjust windows so they each occupy the same area
+# adjust windows so they each occupy the same area (balance)
 super + b
     bspc desktop -B
 
-# toggle floating/fullscreen
-super + {s,f}
-    bspc window -t {floating,fullscreen}
+# toggle floating/fullscreen/sticky
+super + {s,f,y}
+    bspc window -t {floating,fullscreen,sticky}
 
 # focus on previous window/desktop
 super + {grave,Tab}
@@ -90,6 +90,9 @@ super + @button{1-3}
 
 super + Return
     urxvt
+
+shift + ctrl + Return
+    bspc rule -a urxvt -o floating=on && urxvt
 
 super + n
     urxvt -e wicd-curses

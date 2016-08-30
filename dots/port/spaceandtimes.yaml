@@ -1,6 +1,6 @@
 PER_PAGE: 5
 SITE_DESC: francis tseng's blog
-SITE_DIR: ~/spaceandtimes
+SITE_DIR: ~/notes/blog
 SITE_NAME: space and times
 SITE_URL: http://spaceandtim.es
 THEME: publicscience

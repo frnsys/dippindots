@@ -6,7 +6,6 @@ backup:
         - '~/docs'
         - '~/notes'
         - '~/photos'
-        - '~/spaceandtimes'
     targets:
         - 'ftseng@svalbard:/mnt/databank/francis/repos'
         - 'ftseng@svalbard:/mnt/outerspace/francis/repos'
