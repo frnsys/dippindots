@@ -15,6 +15,7 @@ hi CursorLine   ctermbg=234 cterm=none
 hi CursorLineNr ctermbg=236 ctermfg=255
 hi CursorColumn ctermbg=237
 hi ColorColumn  ctermbg=237
+hi SignColumn   ctermbg=none
 hi VertSplit    cterm=none
 hi TabLine      ctermbg=none ctermfg=238 cterm=none
 hi TabLineSel   ctermbg=none ctermfg=248
