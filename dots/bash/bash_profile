@@ -42,3 +42,6 @@ set -o vi
 
 # initialize fasd
 eval "$(fasd --init auto)"
+
+# initialize fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

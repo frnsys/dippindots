@@ -123,13 +123,10 @@ rm -rf ~/ffmpeg_build
 cd $DIR
 
 # build the latest mpv
-# this requires ffmpeg!
-git clone --depth=1 https://github.com/mpv-player/mpv.git /tmp/mpv
+git clone --depth=1 https://github.com/mpv-player/mpv-build.git /tmp/mpv
 cd /tmp/mpv
-./bootstrap.py
-./waf configure
-./waf build
-sudo ./waf install
+./rebuild -j4
+sudo ./install
 cd $DIR
 
 # bspwm - window manager

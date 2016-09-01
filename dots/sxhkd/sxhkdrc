@@ -19,7 +19,7 @@ super + b
     bspc desktop -B
 
 # toggle floating/fullscreen/sticky
-super + {s,f,y}
+super + {s,f,t}
     bspc window -t {floating,fullscreen,sticky}
 
 # focus on previous window/desktop

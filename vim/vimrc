@@ -23,7 +23,6 @@ Plug 'jeetsukumaran/vim-filebeagle'
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-commentary'
 Plug 'lepture/vim-jinja'
-Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/gv.vim'
 Plug 'pangloss/vim-javascript'
@@ -67,6 +66,11 @@ let g:netrw_browsex_viewer='firefox'
 " don’t add empty newlines at the end of files
 set binary
 set noeol
+
+" specify how vim saves files
+" so it works better with processes
+" that watch files for changes
+set backupcopy=yes
 
 " disable bells in GUI vim.
 autocmd! GUIEnter * set vb t_vb=
