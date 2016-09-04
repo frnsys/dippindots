@@ -4,8 +4,6 @@ DIR=$(pwd)
 # =============== WELCOME =================================
 tput setaf 6
 echo "Welcome to DippinDots, the dotfiles of the future!"
-tput setaf 2
-echo "Starting up..."
 tput sgr0
 
 tput setaf 3

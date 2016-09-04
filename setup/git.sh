@@ -34,5 +34,5 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 else
 	tput setaf 3
 	echo -e "\nNo SSH keys found, or user skipped, skipping git config..."
-	tput sgr0
+    tput sgr0
 fi

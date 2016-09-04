@@ -17,12 +17,3 @@ to set proper permissions:
     git clone https://github.com/frnsys/dippindots.git ~/.dippindots
     cd ~/.dippindots
     ./dippindots.sh
-
-Or, in one long line:
-
-    git clone https://github.com/frnsys/dippindots.git ~/.dippindots && cd ~/.dippindots && ./dippindots.sh
-
-## Notes
-If you've setup SSH access to GitHub but still have issues pushing
-to GitHub repos, you may need to edit: `.git/config` and change the
-`[remote "origin"]` `url` value to the format: `git@github.com:username/repo.git`.

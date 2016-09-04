@@ -73,7 +73,7 @@ set backupcopy=yes
 autocmd! GUIEnter * set vb t_vb=
 
 " automatically trim trailing whitespace on save.
-autocmd BufWritePre * :%s/\s\+$//e
+"autocmd BufWritePre * :%s/\s\+$//e
 
 " navigation
 set number            			" Show line numbers
