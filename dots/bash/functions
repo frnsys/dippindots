@@ -41,3 +41,36 @@ function server() {
 function aa() {
     source ~/.env/$1/bin/activate
 }
+
+# ---
+
+fasd + fzf
+
+# cd to a subdirectory
+h() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+
+# cd to a directory (global)
+j() {
+  local dir
+  dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+}
+
+# open in vim
+k() {
+  local file
+  file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && vi "${file}" || return 1
+}
+
+# find song in current mpc playlist
+fmpc() {
+  local song_position
+  song_position=$(mpc -f "%position%) %artist% - %title%" playlist | \
+    fzf-tmux --query="$1" --reverse --select-1 --exit-0 | \
+    sed -n 's/^\([0-9]\+\)).*/\1/p') || return 1
+  [ -n "$song_position" ] && mpc -q play $song_position
+}

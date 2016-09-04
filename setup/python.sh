@@ -14,8 +14,7 @@ sudo pip3 install virtualenv
 # the following are required for some python libraries
 sudo apt-get install libsqlite3-dev libbz2-dev
 
-# build from source with shared libraries,
-# so Julia's PyCall has access to Python3's libpython
+# build from source with shared libraries
 PYVERSION=3.5.2
 wget https://www.python.org/ftp/python/${PYVERSION}/Python-${PYVERSION}.tar.xz -O /tmp/Python-${PYVERSION}.tar.xz
 cd /tmp

@@ -12,8 +12,8 @@ message_delay_time = "2"
 visualizer_fifo_path = "/tmp/mpd.fifo"
 visualizer_output_name = "visualizer"
 visualizer_sync_interval = "30"
-visualizer_type = "spectrum" # (spectrum/wave/wave_filled/ellipse)
-visualizer_color = "red"
+visualizer_type = "ellipse" # (spectrum/wave/wave_filled/ellipse)
+visualizer_color = "red,yellow,green,cyan,blue,red,yellow,green,cyan,blue,red,yellow,green,cyan,blue,red"
 visualizer_look="█┃"
 visualizer_in_stereo = "yes"
 

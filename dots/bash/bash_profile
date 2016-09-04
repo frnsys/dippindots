@@ -44,4 +44,7 @@ set -o vi
 eval "$(fasd --init auto)"
 
 # initialize fzf
+# set to ag, which will respect gitignores
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
