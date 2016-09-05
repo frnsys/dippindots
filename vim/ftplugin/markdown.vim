@@ -39,3 +39,6 @@ function! OpenUrlUnderCursor()
     endif
 endfunction
 nnoremap gx :call OpenUrlUnderCursor()<cr>
+
+" compile markdown and preview in browser
+nnoremap <S-p> :!nom view "%"<cr>
