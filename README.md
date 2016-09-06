@@ -17,3 +17,9 @@ to set proper permissions:
     git clone https://github.com/frnsys/dippindots.git ~/.dippindots
     cd ~/.dippindots
     ./dippindots.sh
+
+## Screenshots
+
+![09/2016](shots/09_2016.png)
+
+![12/2015](shots/12_2015.png)
