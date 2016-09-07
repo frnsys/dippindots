@@ -2,6 +2,8 @@
 
 # this encrypts (locks) or decrypts (unlocks) my 'vault' directory;
 # it relies on my GPG keys (with the name $KEYNAME)
+# do `gpg -K` to check that it's there; if not then
+# import it with `gpg --import ~/stuff/keys/private.key`
 
 WRK=~/docs
 DIR=vault
