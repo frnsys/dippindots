@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# this encrypts (locks) or decrypts (unlocks) my 'vault' directory;
+# it relies on my GPG keys (with the name $KEYNAME)
+
+WRK=~/docs
+DIR=vault
+ZIP=$DIR.tar.gz
+OUT=$DIR.gpg
+KEYNAME="Francis Tseng"
+
+if [[ $1 == 'lock' ]]; then
+    echo 'locking...'
+    cd $WRK
+    tar czf "$ZIP" "$DIR"
+    gpg --encrypt --recipient "$KEYNAME" --output "$OUT" "$ZIP"
+    RESULT=$?
+    if [ $RESULT -eq 0 ]; then
+        rm $ZIP
+        rm -rf $DIR
+        echo 'locked.'
+    else
+        echo 'aborting'
+        exit 1
+    fi
+
+elif [[ $1 == 'unlock' ]]; then
+    echo 'unlocking...'
+    cd $WRK
+    gpg --decrypt --output "$ZIP" "$OUT"
+    RESULT=$?
+    if [ $RESULT -eq 0 ]; then
+        tar xzf "$ZIP"
+        rm $OUT
+        rm $ZIP
+        echo 'unlocked.'
+    else
+        echo 'aborting'
+        exit 1
+    fi
+
+else
+    echo "Please specify 'lock' or 'unlock'."
+    exit 0
+fi
