@@ -225,13 +225,6 @@ cd scim/src
 make && sudo make install
 cd $DIR
 
-# truecrypt 7.1a
-cd /tmp
-wget https://github.com/AuditProject/truecrypt-verified-mirror/blob/master/Linux/truecrypt-7.1a-linux-x64.tar.gz?raw=true
-tar xvzf truecrypt*
-./truecrypt-7.1a-setup-x64
-cd $DIR
-
 # lxappearance for managing GTK themeing
 sudo apt-get install lxappearance -y
 git clone https://github.com/horst3180/arc-theme --depth 1 /tmp/arc
