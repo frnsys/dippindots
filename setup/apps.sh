@@ -52,10 +52,6 @@ make
 sudo make install
 cd $DIR
 
-
-# mpd/ncmpcpp/mpc - music player
-sudo apt-get install mpd mpc -y
-
 # build the latest ncmpcpp
 sudo apt-get install libboost-all-dev libfftw3-dev doxygen libncursesw5-dev libtag1-dev libcurl4-openssl-dev
 git clone --depth=1 git://git.musicpd.org/master/libmpdclient.git /tmp/libmpdclient
@@ -71,6 +67,18 @@ BOOST_LIB_SUFFIX="" ./configure --enable-visualizer --enable-outputs --enable-cl
 make
 sudo make install
 cd $DIR
+ln -sf $DIR/dots/ncmpcpp ~/.ncmpcpp
+
+# mopidy
+# you must fill out config auth info yourself!
+wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -
+sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/jessie.list
+sudo apt-get update
+sudo apt-get install mopidy mopidy-spotify mopidy-soundcloud -y
+cp -r $DIR/dots/mopidy ~/.config/mopidy
+
+# mpc
+sudo apt-get install mpc -y
 
 # build latest libass for ffmpeg and mpv
 sudo apt-get install libfribidi-dev
@@ -295,13 +303,6 @@ sudo apt-get install imagemagick recordmydesktop gifsicle
 rm -rf ~/.sylpheed*
 sudo apt-get purge mtpaint pidgin xchat* sylpheed* abiword* gnumeric* transmission* audacious* lightdm openbox network-manager xfce4-notifyd nautilus* whoopsie -y
 sudo apt-get autoremove -y
-
-# mpd/ncmpcpp configs
-mkdir ~/.mpd/
-mkdir ~/.mpd/playlists
-touch ~/.mpd/{mpd.db,mpd.log,mpd.pid,mpd.state}
-ln -sf $DIR/dots/mpd/mpd.conf ~/.mpd/mpd.conf
-ln -sf $DIR/dots/ncmpcpp ~/.ncmpcpp
 
 # symlink notes and sites
 ln -sf $DIR/dots/port ~/.port

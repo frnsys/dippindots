@@ -11,6 +11,6 @@ feh --bg-fill ~/.wallpaper.jpg &
 battcheck &
 sxhkd &
 urxvt &
-mpd &
+mopidy &
 compton -cb -o 0.2 &
 exec ~/.config/bspwm/wm
