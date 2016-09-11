@@ -204,7 +204,8 @@ sudo update-pepperflashplugin-nonfree --install
 # ncdu          -- ncurses disk usage
 # keepassx      -- password management
 # adb           -- for interfacing with android phones
-sudo apt-get install --no-install-recommends --yes zathura android-tools-adb ncdu keepassx
+# gcolor2       -- color picker
+sudo apt-get install --no-install-recommends --yes zathura android-tools-adb ncdu keepassx gcolor2
 
 # for ~/.bin/keepass
 sudo pip2 install gtk

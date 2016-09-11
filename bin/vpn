@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 if [[ $1 == 'up' ]]; then
     # kill all existing stunnel4 processes to avoid this error:
     # Error binding service [openvpn] to 127.0.0.1:1413

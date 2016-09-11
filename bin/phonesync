@@ -1,4 +1,7 @@
 #!/bin/bash
+# sync data between phone and laptop
+# using SSHelper on my phone
+
 if [ -z $1 ]
 then
     echo "usage: sync_phone <PHONE_IP>"
