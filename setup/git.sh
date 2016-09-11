@@ -6,7 +6,7 @@ sudo apt-get install git -y
 
 mkdir ~/.config/git
 ln -sf $DIR/dots/gitignore ~/.config/git/ignore
-ln -sf $DIR/dots/gitconfig ~/.config
+ln -sf $DIR/dots/gitconfig ~/.gitconfig
 
 # so we can push without logging in
 ssh -vT git@github.com
