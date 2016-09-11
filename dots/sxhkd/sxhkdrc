@@ -7,8 +7,8 @@ super + alt + {h,l}
     bspc monitor -f {L,R}
 
 # move window/desktop to left/right monitor
-super + {shift,ctrl} + alt + {h,l}
-    bspc {window,desktop} -m {L,R}
+super + {shift,ctrl} + alt + {h,l,k,j}
+    bspc {window,desktop} -m {L,R,A,B}
 
 # force close current window
 super + shift + alt + q

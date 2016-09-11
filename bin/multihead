@@ -17,16 +17,30 @@ bspc config remove_unplugged_monitors true
 if [[ $PLACE == 'right' ]]; then
     EXMON_PLACE=R
     INMON_PLACE=L
+    POSITION=right-of
 elif [[ $PLACE == 'left' ]]; then
     EXMON_PLACE=L
     INMON_PLACE=R
+    POSITION=left-of
+elif [[ $PLACE == 'above' ]]; then
+    EXMON_PLACE=A
+    INMON_PLACE=B
+    POSITION=above
+elif [[ $PLACE == 'below' ]]; then
+    EXMON_PLACE=B
+    INMON_PLACE=A
+    POSITION=below
 elif [[ $PLACE == 'reset' ]]; then
     # figure out the primary monitor name
     PRNAME=$(bspc query -M -m primary)
     if [[ $PRNAME == 'R' ]]; then
         EXNAME=L
-    else
+    elif [[ $PRNAME == 'L' ]]; then
         EXNAME=R
+    elif [[ $PRNAME == 'A' ]]; then
+        EXNAME=B
+    else
+        EXNAME=A
     fi
 
     # list windows on ext mon, move them to primary mon
@@ -48,7 +62,7 @@ elif [[ $PLACE == 'reset' ]]; then
     restart_panel
     exit 0
 else
-    echo "Please specify 'left', 'right', or 'reset'."
+    echo "Please specify 'left', 'right', 'above', 'below', or 'reset'."
     exit 1
 fi
 
@@ -56,7 +70,7 @@ fi
 xrandr --output $INMON --auto --primary
 
 # place the external monitor to the specified position
-xrandr --output $EXMON --auto --$PLACE-of $INMON
+xrandr --output $EXMON --auto --$POSITION $INMON
 
 # rename each monitor so sxhkd can use it with bspwm to move focus/windows/desktops across monitors
 bspc monitor $EXMON -n $EXMON_PLACE
