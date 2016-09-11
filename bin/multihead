@@ -51,7 +51,7 @@ elif [[ $PLACE == 'reset' ]]; then
 
     # rename the monitors for reuse later
     bspc monitor primary -n $INMON
-    bspc monitor $EXNAME $ -n $EXMON
+    bspc monitor $EXNAME -n $EXMON
 
     # "unplug" the monitor
     xrandr --output $EXMON --off
