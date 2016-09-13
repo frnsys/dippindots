@@ -53,28 +53,23 @@ sudo make install
 cd $DIR
 
 # build the latest ncmpcpp
-sudo apt-get install libboost-all-dev libfftw3-dev doxygen libncursesw5-dev libtag1-dev libcurl4-openssl-dev
-git clone --depth=1 git://git.musicpd.org/master/libmpdclient.git /tmp/libmpdclient
-cd /tmp/libmpdclient
-./autogen.sh
-make
-sudo make install
-git clone --depth=1 git://repo.or.cz/ncmpcpp.git /tmp/ncmpcpp
-cd /tmp/ncmpcpp
-./autogen.sh
-autoreconf --force --install
-BOOST_LIB_SUFFIX="" ./configure --enable-visualizer --enable-outputs --enable-clock --enable-unicode --with-taglib --with-fftw --with-curl
-make
-sudo make install
-cd $DIR
+# NOTE more recent versions of ncmpcpp do not work well with mopidy
+# therefore installing from apt. ncmpcpp version 0.5.10 works alright.
+# tested versions 0.6.6 and above which all did not work properly with mopidy.
+sudo apt-get install ncmpcpp
 ln -sf $DIR/dots/ncmpcpp ~/.ncmpcpp
 
 # mopidy
 # you must fill out config auth info yourself!
-wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -
+sudo apt-get install gstreamer1.0-libav gstreamer1.0-alsa
+sudo apt-get install python-gst-1.0 \
+    gir1.2-gstreamer-1.0 gir1.2-gst-plugins-base-1.0 \
+    gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly \
+    gstreamer1.0-tools
 sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/jessie.list
 sudo apt-get update
-sudo apt-get install mopidy mopidy-spotify mopidy-soundcloud -y
+sudo apt-get install libspotify12 libspotify-dev
+sudo pip2 install mopidy mopidy-soundcloud mopidy-spotify
 cp -r $DIR/dots/mopidy ~/.config/mopidy
 
 # mpc

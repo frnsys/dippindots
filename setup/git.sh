@@ -4,7 +4,7 @@ sudo add-apt-repository ppa:git-core/ppa -y
 sudo apt-get update
 sudo apt-get install git -y
 
-mkdir ~/.config/git
+mkdir -p ~/.config/git
 ln -sf $DIR/dots/gitignore ~/.config/git/ignore
 ln -sf $DIR/dots/gitconfig ~/.gitconfig
 

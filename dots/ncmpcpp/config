@@ -24,7 +24,7 @@ centered_cursor = "yes"
 discard_colors_if_item_is_selected = "yes"
 
 jump_to_now_playing_song_at_start = "yes"
-display_bitrate = "yes"
+display_bitrate = "no"
 display_volume_level = "no"
 ignore_leading_the = "yes"
 mouse_support = "no"
