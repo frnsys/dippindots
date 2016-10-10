@@ -59,6 +59,9 @@ elif [[ $PLACE == 'reset' ]]; then
     # the last desktop sticks, so remove it
     bspc desktop primary:^$(bspc query -D | wc -l) -r
 
+    # reset the wallpaper to render properly
+    feh --bg-fill ~/.wallpaper.jpg &
+
     restart_panel
     exit 0
 else

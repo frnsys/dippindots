@@ -12,7 +12,7 @@ sudo easy_install3 pip
 sudo pip3 install virtualenv
 
 # the following are required for some python libraries
-sudo apt-get install libsqlite3-dev libbz2-dev
+sudo apt-get install libsqlite3-dev libbz2-dev tk8.6-dev
 
 # build from source with shared libraries
 PYVERSION=3.5.2
@@ -28,3 +28,7 @@ sudo make install
 
 # for vim syntax checking
 sudo pip3.5 install pyflakes
+
+# ipython config
+mkdir -p ~/.ipython/profile_default
+ln -sf $DIR/dots/ipython/ipython_config.py ~/.ipython/profile_default/ipython_config.py

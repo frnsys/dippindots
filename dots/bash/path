@@ -15,6 +15,9 @@ export CUDA_HOME="/usr/lib"
 # texlive (for linux)
 export PATH=/usr/local/texlive/2015/bin/x86_64-linux:$PATH
 
+# cargo/rust
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # Keep this last so that /usr/local/bin is
 # at the beginning of your path.
 export PATH="/usr/local/bin:$PATH"

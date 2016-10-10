@@ -16,5 +16,5 @@ if [[ $? == 0 ]]; then
     echo "could not find host '${HOSTNAME}'"
 else
     ADDRESS=$(echo "$NSRESULT" | grep "Address" | tail -1 | cut -d':' -f2)
-    ssh $ADDRESS
+    ssh -Y $ADDRESS
 fi

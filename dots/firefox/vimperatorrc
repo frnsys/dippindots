@@ -28,6 +28,8 @@ inoremap <C-a> <Insert><C-a><Insert>
 set ignorecase
 set smartcase
 
+set defsearch=google
+
 " don't animate fullscreen
 set! browser.fullscreen.animate=false
 

@@ -20,7 +20,7 @@ mkdir /tmp/vim && cd $_
 wget ftp://ftp.ca.vim.org/pub/vim/unix/vim-7.4.tar.bz2
 tar xvjf vim-7.4.tar.bz2
 cd vim*
-./configure --with-features=huge --enable-luainterp=yes --enable-pythoninterp=yes --enable-python3interp=yes --enable-gui=gtk2 --with-x --with-lua-prefix=/usr
+./configure --with-features=huge --enable-luainterp=yes --enable-pythoninterp=yes --enable-python3interp=yes --enable-gui=no --with-x --with-lua-prefix=/usr
 make -s && sudo make install
 cd $DIR
 
