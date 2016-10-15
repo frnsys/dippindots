@@ -69,7 +69,7 @@ sudo apt-get install python-gst-1.0 \
 sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/jessie.list
 sudo apt-get update
 sudo apt-get install libspotify12 libspotify-dev
-sudo pip2 install mopidy mopidy-soundcloud mopidy-spotify
+sudo pip2 install mopidy mopidy-soundcloud mopidy-spotify mopidy-local-sqlite
 cp -r $DIR/dots/mopidy ~/.config/mopidy
 
 # mpc
