@@ -1,13 +1,64 @@
-#!/bin/bash
+#!/usr/bin/python2
 
-result=$(python _emoji/lookup.py $@)
-n_results=$(echo -e "$result" | sed '/^\s*$/d' | wc -l)
+import os
+import gtk
+import json
 
-if (( n_results == 0 )); then
-    echo "no results"
-elif (( n_results > 1 )); then
-    echo "multiple results, please narrow search"
-else
-    echo -en $result | xsel --clipboard
-    echo "copied!"
-fi
+here = os.path.dirname(os.path.realpath(__file__))
+emoji = json.load(open(os.path.join(here, '_emoji/emoji.json'), 'r'))
+
+def search(q):
+    results = []
+    for data in emoji.values():
+        name = data['name']
+        kws = data['keywords']
+        code = data['unicode']
+        shortname = data['shortname']
+        aliases = data['aliases']
+
+        # for simplicity of searching,
+        # ignore skin tone codes
+        if '-' in code:
+            continue
+
+        if q in name\
+            or any(q in kw for kw in kws)\
+            or any(q in a for a in aliases)\
+            or q in shortname:
+            results.append((name, unichr(int(code, 16))))
+    return results
+
+def select(results):
+    selected = None
+    for i, (name, _) in enumerate(results):
+        print('[{}] {}'.format(i, name))
+    while selected is None:
+        inp = raw_input('Select #: ')
+        try:
+            selected = results[int(inp)]
+        except (IndexError, ValueError):
+            pass
+    return selected[1]
+
+if __name__ == '__main__':
+    clipboard = gtk.Clipboard()
+    print('Search for an emoji:')
+
+    try:
+        while True:
+            q = raw_input('> ')
+            results = search(q)
+            if not results:
+                print('No results')
+            elif len(results) == 1:
+                name, code = results[0]
+                clipboard.set_text(code)
+                print('Copied!')
+            else:
+                print('Multiple results:')
+                code = select(results)
+                clipboard.set_text(code)
+                print('Copied!')
+    except (KeyboardInterrupt, EOFError):
+        print('')
+        exit(0)

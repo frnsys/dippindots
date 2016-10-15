@@ -151,6 +151,9 @@ XF86PowerOff
 super + p
     bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/keepass
 
+super + e
+    bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/emoji
+
 # make sxhkd reload its configuration files:
 super + Escape
     pkill -USR1 -x sxhkd; notify-send "sxhkd config reloaded"
