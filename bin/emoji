@@ -1,0 +1,13 @@
+#!/bin/bash
+
+result=$(python _emoji/lookup.py $@)
+n_results=$(echo -e "$result" | sed '/^\s*$/d' | wc -l)
+
+if (( n_results == 0 )); then
+    echo "no results"
+elif (( n_results > 1 )); then
+    echo "multiple results, please narrow search"
+else
+    echo -en $result | xsel --clipboard
+    echo "copied!"
+fi
