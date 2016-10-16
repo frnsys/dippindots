@@ -200,7 +200,8 @@ sudo update-pepperflashplugin-nonfree --install
 # keepassx      -- password management
 # adb           -- for interfacing with android phones
 # gcolor2       -- color picker
-sudo apt-get install --no-install-recommends --yes zathura android-tools-adb ncdu keepassx gcolor2
+# xournal       -- for annotating pdfs
+sudo apt-get install --no-install-recommends --yes zathura android-tools-adb ncdu keepassx gcolor2 xournal
 
 # for ~/.bin/keepass
 sudo pip2 install gtk
