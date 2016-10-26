@@ -42,12 +42,10 @@ elif [ $CMD == 'make' ]; then
     fi
 
 # Copy a file via a SSH tunnel host.
-# This is mainly for single files,
-# but for folders you can just end it with a '.', e.g. ~/foo/bar/.
-# usage: push <user@bridgehost> <port> <user> </path/to/file> </path/to/remote/file>
+# usage: push <user@bridgehost> <port> <user> <path/to/file> <path/to/remote/file>
 # where <port> is the port used for the SSH tunnel on <bridgehost>
 # and <user> is the user used for the remote host
-elif [ $1 == 'push' ]; then
+elif [ $CMD == 'push' ]; then
     BRIDGE=$1
     PORT=$2
     USER=$3
@@ -55,15 +53,13 @@ elif [ $1 == 'push' ]; then
     REMOTE_FILEPATH=$5
 
     # scp to bridge
-    scp $FILEPATH $BRIDGE:/tmp/__pushed
+    scp -r $FILEPATH $BRIDGE:/tmp/__pushed
 
     # scp to remote and remove temp file
-    ssh $BRIDGE 'scp -p '${PORT}' '${USER}'@localhost:/'${REMOTE_FILEPATH}'; rm /tmp/__pushed'
+    ssh $BRIDGE 'scp -rP '${PORT}' /tmp/__pushed '${USER}'@localhost:'${REMOTE_FILEPATH}'; rm -rf /tmp/__pushed'
 
 # Get a file via a SSH tunnel host.
-# This is mainly for single files,
-# but for folders you can just end it with a '.', e.g. ~/foo/bar/.
-# usage: pull <user@bridgehost> <port> <user> </path/to/file>
+# usage: pull <user@bridgehost> <port> <user> <path/to/file>
 # where <port> is the port used for the SSH tunnel on <bridgehost>
 # and <user> is the user used for the remote host
 elif [ $CMD == 'pull' ]; then
