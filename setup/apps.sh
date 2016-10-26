@@ -76,7 +76,7 @@ cp -r $DIR/dots/mopidy ~/.config/mopidy
 sudo apt-get install mpc -y
 
 # build latest libass for ffmpeg and mpv
-sudo apt-get install libfribidi-dev
+sudo apt-get install libfribidi-dev libfontconfig1-dev
 git clone --depth=1 https://github.com/libass/libass.git /tmp/libass
 cd /tmp/libass
 ./autogen.sh
@@ -100,6 +100,7 @@ make
 sudo make install
 
 # compile ffmpeg
+cd /tmp/ffmpeg
 PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
   --prefix="$HOME/ffmpeg_build" \
   --pkg-config-flags="--static" \
@@ -122,7 +123,7 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./conf
   --enable-openssl
 make
 sudo make install
-rm -rf ~/ffmpeg_build
+sudo rm -rf ~/ffmpeg_build
 cd $DIR
 
 # build the latest mpv
