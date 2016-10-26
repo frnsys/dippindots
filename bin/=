@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # https://github.com/onespaceman/menu-calc
 
 answer=$(echo "$@" | bc -l | sed '/\./ s/\.\{0,1\}0\{1,\}$//')

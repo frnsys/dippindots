@@ -1,0 +1,9 @@
+#!/bin/bash
+# ref: <http://superuser.com/questions/556029/how-do-i-convert-a-video-to-gif-using-ffmpeg-with-reasonable-quality>
+
+INP=$1
+OUT=$2
+FPS=24
+
+ffmpeg -y -i "$INP" -vf fps=$FPS,palettegen /tmp/palette.png
+ffmpeg -i "$INP" -i /tmp/palette.png -filter_complex "fps=$FPS,paletteuse" "$OUT"

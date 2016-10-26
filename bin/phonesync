@@ -24,6 +24,7 @@ done
 declare -A backups
 backups[DCIM/Camera]=~/photos/android_dump
 backups[Pictures/Instagram]=~/photos/instagram_dump
+backups[Pictures/reddit_sync]=~/photos/stash
 
 # backup (i.e. don't delete)
 # directories FROM the phone
