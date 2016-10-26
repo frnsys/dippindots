@@ -11,7 +11,7 @@ hi StatusLine   ctermbg=238 ctermfg=233
 hi StatusLineNC ctermbg=238 ctermfg=233
 
 hi LineNr       ctermfg=238
-hi CursorLine   ctermbg=234 cterm=none
+hi CursorLine   ctermbg=none cterm=none
 hi CursorLineNr ctermbg=236 ctermfg=255
 hi CursorColumn ctermbg=237
 hi ColorColumn  ctermbg=237
@@ -70,7 +70,7 @@ hi WarningMsg   ctermbg=196
 hi markdownCheckboxUnchecked  ctermfg=196
 hi markdownCheckboxChecked    ctermfg=35
 hi markdownUnchecked          ctermfg=none
-hi markdownChecked            ctermfg=236
+hi markdownChecked            ctermfg=60
 hi markdownEqnIn              ctermfg=4
 hi markdownEqnDelimiter       ctermfg=42
 hi markdownCode               ctermfg=4

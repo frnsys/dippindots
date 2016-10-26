@@ -31,25 +31,25 @@ URxvt.keysym.C-Up:     perl:font-size:increase
 URxvt.keysym.C-Down:   perl:font-size:decrease
 
 ! DARK
-*.background: #111111
-*.foreground: #c5c8c6
-*.cursorColor: #c9c9c9
-*color0: #757575
-*color8: #B8B8B8
-*color1: #FF5F5F
-*color9: #F53333
-*color2:  #00af87
-*color10: #19D448
-*color3: #FEDE3E
-*color11: #FF5F5F
-*color4: #AF5FD7
-*color12: #DEA3E5
-*color5: #FF87D7
-*color13: #D7AFAF
-*color6: #DEA3E5
-*color14: #3283ED
-*color7: #9a9a9a
-*color15: #ffffff
+!*.background: #111111
+!*.foreground: #c5c8c6
+!*.cursorColor: #c9c9c9
+!*color0: #757575
+!*color8: #B8B8B8
+!*color1: #FF5F5F
+!*color9: #F53333
+!*color2:  #00af87
+!*color10: #19D448
+!*color3: #FEDE3E
+!*color11: #FF5F5F
+!*color4: #AF5FD7
+!*color12: #DEA3E5
+!*color5: #FF87D7
+!*color13: #D7AFAF
+!*color6: #DEA3E5
+!*color14: #3283ED
+!*color7: #9a9a9a
+!*color15: #ffffff
 
 ! LIGHT
 !*.background: #f3f3f3
@@ -71,6 +71,26 @@ URxvt.keysym.C-Down:   perl:font-size:decrease
 !*color14: #AF5FD7
 !*color7: #9a9a9a
 !*color15: #ffffff
+
+! ANOTHER THEME
+*background: #252b39
+*foreground: #c3cee3
+*color0: #747d8e
+*color8: #7081be
+*color1: #d67c9b
+*color9: #d3afc5
+*color2: #abd683
+*color10: #e4eaf0
+*color3: #e3c78a
+*color11: #e3c78a
+*color4: #18c9c9
+*color12: #18c9c9
+*color5: #d5d5ca
+*color13: #d5d5ca
+*color6: #8be9ee
+*color14: #8dc4f0
+*color7: #c3cee3
+*color15: #c3cee3
 
 ! background, border, separator
 rofi.color-window: #444444, #444444, argb:17000000
