@@ -3,6 +3,19 @@ function wakehubble() {
     tunnel go starbase.in 10023 'wakeonlan '$HUBBLE
 }
 
+function pushhubble() {
+    # push a local file to hubble
+    # $1 = local file
+    # $2 = remote path
+    tunnel push ftseng@starbase.in 10022 ftseng $1 $2
+}
+
+function pushhubble() {
+    # pull a local file from hubble
+    # $1 = remote file
+    tunnel pull ftseng@starbase.in 10022 ftseng $1
+}
+
 function hubble() {
     tunnel go starbase.in 10022
 }
