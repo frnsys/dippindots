@@ -145,6 +145,8 @@ if __name__ == '__main__':
             elif cmd == 'get':
                 selected = search(db)
                 print('Username: {}'.format(selected.username))
+                if selected.notes:
+                    print(selected.notes)
                 clipboard.set_text(selected.password)
                 print('Copied password to clipboard\n')
             elif cmd == 'list':
