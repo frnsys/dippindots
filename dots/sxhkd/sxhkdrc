@@ -103,14 +103,28 @@ super + space
 super + w
     rofi -show window
 
-@super + alt + s
-    scrot --select -e 'mogrify -shave 1x1 $f; mv $f ~/stuff/etc/scrots/'
-
-@super + shift + s
-    scrot --select -e 'mogrify -shave 1x1 $f; mv $f /tmp/scrot.png; imgclip /tmp/scrot.png'
-
 super + alt + k
     lock
+
+# ~~screenshots~~
+# these have a 1 sec delay so the focused window
+# can regain focus for the screenshot
+
+# selection to file
+@super + alt + s
+    scrot --select -d 1 -e 'mogrify -shave 1x1 $f; mv $f ~/stuff/etc/scrots/'
+
+# selection to clipboard
+@super + shift + s
+    scrot --select -d 1 -e 'mogrify -shave 1x1 $f; mv $f /tmp/scrot.png; imgclip /tmp/scrot.png'
+
+# focused window to file
+@super + alt + shift + s
+    scrot -u -d 1 -e 'mogrify -shave 1x1 $f; mv $f ~/stuff/etc/scrots/'; notify-send "screenshoted"
+
+# screen to file
+@super + alt + shift + ctrl + s
+    scrot -d 1 -e 'mogrify -shave 1x1 $f; mv $f ~/stuff/etc/scrots/'; notify-send "screenshoted"
 
 #
 # media buttons
