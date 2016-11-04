@@ -20,6 +20,8 @@ to set proper permissions:
 
 ## Screenshots
 
+![11/2016](shots/11_2016.png)
+
 ![09/2016](shots/09_2016.png)
 
 ![12/2015](shots/12_2015.png)
