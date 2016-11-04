@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# get monitor EDIDs
+function edids {
+    xrandr -q --verbose | awk '
+        /^[^ ]+ (dis)?connected / { DEV=$1; }
+        $1 ~ /^[a-f0-9]+$/ { ID[DEV] = ID[DEV] $1 }
+        END { for (X in ID) { print X " " ID[X]; } }'
+}
+
+function count_mons {
+    edids | wc -l
+}
+
+N_MONS=$(count_mons)
+
+while true; do
+    NEW_N_MONS=$(count_mons)
+    if [ "$NEW_N_MONS" -gt "$N_MONS" ]; then
+        EXT_EDID=$(edids | grep "HDMI1" | cut -d' ' -f2)
+        EXT_POS=$(cat ~/.mons | grep $EXT_EDID | cut -d' ' -f2)
+        # if the preferred position is specified,
+        # do it automatically
+        if [ -n "$EXT_POS" ]; then
+            multihead $EXT_POS
+        fi
+
+    elif [ "$NEW_N_MONS" -lt "$N_MONS" ]; then
+        # disconnected
+        multihead reset
+    fi
+    N_MONS=$NEW_N_MONS
+    sleep 1
+done

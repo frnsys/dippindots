@@ -12,5 +12,6 @@ battcheck &
 sxhkd &
 urxvt &
 mopidy &
+monmon &
 compton -cb -o 0.2 &
 exec ~/.config/bspwm/wm

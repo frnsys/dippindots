@@ -308,6 +308,9 @@ ln -sf $DIR/dots/port ~/.port
 # backup config
 ln -s $DIR/dots/bkup ~/.bkup
 
+# monitor position preferences
+ln -sf $DIR/dots/mons ~/.mons
+
 # to setup the compose key
 # for the AltGr prompt, select "default for keyboard"
 # for the compose prompt, select right alt

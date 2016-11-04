@@ -7,7 +7,7 @@ EXMON=HDMI1
 
 function restart_panel {
     # Kill the panel/lemonbar and restart
-    ps aux | grep '/usr/bin/panel' | awk '{print $2}' | xargs kill
+    pkill panel
     panel &
 }
 

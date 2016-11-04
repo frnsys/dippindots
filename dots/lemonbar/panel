@@ -5,7 +5,9 @@ if [ $(pgrep -cx panel) -gt 1 ] ; then
 	exit 1
 fi
 
-trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+# commenting this; it conflicts with `monmon` in that
+# when this is killed, it kills `monmon` too
+# trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
 source ~/.config/lemonbar/colors
 
