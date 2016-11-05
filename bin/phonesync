@@ -32,3 +32,30 @@ for DIR in "${!backups[@]}"; do
     echo "Backing up /sdcard/${DIR} -> ${backups[$DIR]}"
     rsync -avz -e "ssh -p ${PHONE_PORT}" --progress ${PHONE_IP}:/sdcard/${DIR}/ "${backups[$DIR]}"
 done
+
+# sync select music TO the phone
+MUSIC_BASE_DIR=~/musics/
+MUSIC_PLAYLIST=~/musics/_playlists/music.m3u
+
+function urldecode() {
+    python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" $1
+}
+
+# parse a mopidy m3u playlist for local files
+function parse_songs() {
+    while read line; do
+        if [[ $line == "file://"* ]]; then
+            url=$(urldecode $line)
+            echo "${url/file:\/\//}"
+        elif [[ $line == "local:track:"* ]]; then
+            url=$(urldecode $line)
+            echo "${MUSIC_BASE_DIR}${url/local:track:/}"
+        fi
+    done <$MUSIC_PLAYLIST
+}
+
+# create temporary directory for songs
+mkdir /tmp/musics
+parse_songs | xargs -I {} cp {} /tmp/musics/
+rsync -avz -e "ssh -p ${PHONE_PORT}" --no-perms --no-times --size-only --progress --delete /tmp/musics ${PHONE_IP}:/sdcard/Music/
+rm -rf /tmp/musics
