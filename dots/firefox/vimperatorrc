@@ -8,10 +8,10 @@ set complete=tl
 set hintchars=hjklasdfgyuiopqwertnmzxcvb
 
 " scroll more for j/k
-noremap j 3j
-noremap k 3k
-noremap h 3h
-noremap l 3l
+noremap j 8j
+noremap k 8k
+noremap h 8h
+noremap l 8l
 
 " next/prev tabs
 nnoremap K gt
