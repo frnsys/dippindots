@@ -23,7 +23,7 @@ super + {s,f,t}
     bspc window -t {floating,fullscreen,sticky}
 
 # focus on previous window/desktop
-super + {grave,Tab}
+super + {Tab,grave}
     bspc {window,desktop} -f last
 
 # swap current window with previous window
