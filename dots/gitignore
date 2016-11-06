@@ -5,3 +5,4 @@
 *.pyc
 *.egg-info
 node_modules
+dist
