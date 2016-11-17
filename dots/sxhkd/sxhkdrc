@@ -103,6 +103,9 @@ super + space
 super + w
     rofi -show window
 
+super + ctrl + c
+    pick-colour-picker
+
 super + alt + k
     lock
 
@@ -112,19 +115,19 @@ super + alt + k
 
 # selection to file
 @super + alt + s
-    scrot --select -d 1 -e 'mogrify -shave 1x1 $f; mv $f ~/stuff/etc/scrots/'
+    scrot --select -d 1 -e 'mogrify -shave 1x1 $f; mv $f ~/stuff/etc/scrots/'; notify-send "took screenshot"
 
 # selection to clipboard
 @super + shift + s
-    scrot --select -d 1 -e 'mogrify -shave 1x1 $f; mv $f /tmp/scrot.png; imgclip /tmp/scrot.png'
+    scrot --select -d 1 -e 'mogrify -shave 1x1 $f; mv $f /tmp/scrot.png; imgclip /tmp/scrot.png'; notify-send "took screenshot"
 
 # focused window to file
 @super + alt + shift + s
-    scrot -u -d 1 -e 'mogrify -shave 1x1 $f; mv $f ~/stuff/etc/scrots/'; notify-send "screenshoted"
+    scrot -u -d 1 -e 'mogrify -shave 1x1 $f; mv $f ~/stuff/etc/scrots/'; notify-send "took screenshot"
 
 # screen to file
 @super + alt + shift + ctrl + s
-    scrot -d 1 -e 'mogrify -shave 1x1 $f; mv $f ~/stuff/etc/scrots/'; notify-send "screenshoted"
+    scrot -d 1 -e 'mogrify -shave 1x1 $f; mv $f ~/stuff/etc/scrots/'; notify-send "took screenshot"
 
 #
 # media buttons

@@ -1,0 +1,17 @@
+" ref: <https://github.com/1995eaton/chromium-vim>
+" in extension settings, check 'Allow access to file URLs'
+" add this to the cvim extension settings:
+let configpath = '/home/ftseng/.cvimrc'
+set localconfig
+
+map gr previousTab
+map d closeTab
+map - goBack
+map u lastClosedTab
+map b :buffer<Space>
+map <C-q> quitChrome
+map <C-d> scrollPageDown
+map <C-u> scrollPageUp
+
+set autohidecursor
+let barposition = "bottom"

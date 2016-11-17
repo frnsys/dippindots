@@ -4,5 +4,7 @@
 *.swo
 *.pyc
 *.egg-info
+.sass-cache
 node_modules
+bundle.js*
 dist

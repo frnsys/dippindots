@@ -2,5 +2,5 @@
 
 lockbg='/tmp/lock.png'
 scrot "$lockbg"
-convert "$lockbg" -scale 10% -scale 1000% "$lockbg"
+convert "$lockbg" -filter point -resize 10% -resize 1000% "$lockbg"
 i3lock -u -i "$lockbg"

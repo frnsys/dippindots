@@ -24,7 +24,7 @@ for x in /tmp/.X11-unix/*; do
 	    getXuser;
         lockbg="/tmp/lock.png"
         sudo -u $user env DISPLAY=":$displaynum" /usr/bin/scrot "$lockbg"
-        sudo -u $user env DISPLAY=":$displaynum" /usr/bin/convert "$lockbg" -scale 10% -scale 1000% "$lockbg"
+        sudo -u $user env DISPLAY=":$displaynum" /usr/bin/convert "$lockbg" -filter point -resize 10% -resize 1000% "$lockbg"
         sudo -u $user env DISPLAY=":$displaynum" /usr/bin/i3lock -u -i "$lockbg"
             ;;
 	*)
