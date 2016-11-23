@@ -13,5 +13,5 @@ sxhkd &
 urxvt &
 mopidy &
 monmon &
-compton -cb -o 0.2 &
+compton -cb -o 0.4 -r 8 -l -8 -t -8 &
 exec ~/.config/bspwm/wm
