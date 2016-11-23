@@ -7,8 +7,8 @@ if [[ $1 == 'up' ]]; then
     # sudo killall stunnel4
 
     # to set active vpn server, symlink its folder, i.e.:
-    # ln -s ~/stuff/vpn/<server name> ~/ftseng/stuff/vpn/active
-    cd /home/ftseng/stuff/vpn/active
+    # ln -s ~/docs/vpn/<server name> ~/ftseng/docs/vpn/active
+    cd /home/ftseng/docs/vpn/active
 
     sudo service stunnel4 restart
     stunnel4 airvpn.ssl # make sure this does not have `foreground = yes` in it
