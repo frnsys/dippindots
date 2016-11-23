@@ -3,9 +3,19 @@
 import os
 import gtk
 import json
+import subprocess
 
 here = os.path.dirname(os.path.realpath(__file__))
 emoji = json.load(open(os.path.join(here, '_emoji/emoji.json'), 'r'))
+
+def refocus():
+    subprocess.Popen(['bspc', 'window', '-f', 'last']).wait()
+
+def paste(code):
+    clipboard = gtk.Clipboard()
+    clipboard.set_text(code)
+    refocus()
+    subprocess.Popen(['xdotool', 'key', '--clearmodifiers', 'ctrl+v']).wait()
 
 def search(q):
     results = []
@@ -41,7 +51,6 @@ def select(results):
     return selected[1]
 
 if __name__ == '__main__':
-    clipboard = gtk.Clipboard()
     print('Search for an emoji:')
 
     try:
@@ -52,13 +61,13 @@ if __name__ == '__main__':
                 print('No results')
             elif len(results) == 1:
                 name, code = results[0]
-                clipboard.set_text(code)
-                print('Copied!')
+                paste(code)
+                refocus()
             else:
                 print('Multiple results:')
                 code = select(results)
-                clipboard.set_text(code)
-                print('Copied!')
+                paste(code)
+                refocus()
     except (KeyboardInterrupt, EOFError):
         print('')
         exit(0)

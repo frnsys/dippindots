@@ -9,6 +9,8 @@ python2 setup.py install
 import string
 import random
 import getpass
+import subprocess
+from time import sleep
 from keepass import kpdb
 
 chars = string.ascii_letters + string.digits + string.punctuation
@@ -151,8 +153,11 @@ if __name__ == '__main__':
                 print('Username: {}'.format(selected.username))
                 if selected.notes:
                     print(selected.notes)
-                clipboard.set_text(selected.password)
-                print('Copied password to clipboard\n')
+                # refocus last-focused window and type in password
+                subprocess.Popen(['bspc', 'window', '-f', 'last']).wait()
+                subprocess.Popen(['xdotool', 'type', selected.password]).wait()
+                sleep(0.1) # give xdotool a sec
+                exit(0)
             elif cmd == 'list':
                 for entry in get_entries(db):
                     print(entry.title)
