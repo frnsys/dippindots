@@ -6,7 +6,7 @@ IFACE=wlan0
 H_ICON=""
 M_ICON=""
 L_ICON=""
-VPN_CONFIG=/home/ftseng/stuff/vpn/active/airvpn-ssl.ovpn
+VPN_CONFIG=/home/ftseng/docs/vpn/active/airvpn-ssl.ovpn
 
 wifi() {
     SSID=$(iwconfig $IFACE | sed -rn 's/.+ESSID:"(.+)"/\1/p')
