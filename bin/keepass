@@ -73,9 +73,13 @@ def new_entry(db):
             note = 'required' if key in required else 'optional'
             data[key] = raw_input('{} ({}): '.format(key.title(), note))
 
+    if not data['password']:
+        data['password'] = generate_password()
+
     while True:
         print('Data:')
-        print(data)
+        for k, v in data.items():
+            print('  {}: {}'.format(k,v))
         ok = raw_input('Ok? [y/n] ')
         if ok.lower() == 'y':
             break
