@@ -98,7 +98,7 @@ super + n
     urxvt -e wicd-curses
 
 super + space
-    dmenu_run
+    dmenu_run -l 10
 
 super + w
     app_switch
