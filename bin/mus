@@ -2,7 +2,7 @@
 # use dmenu to search for and play/add songs
 
 N_LINES=10
-choice=$(mpc search any ${1} | dmenu -l $N_LINES -i -p ">")
+choice=$(mpc search any ${1} | sort | dmenu -l $N_LINES -i -p ">")
 action=$(echo -e "Play\nAdd" | dmenu -i -p "> $choice")
 
 case $action in
