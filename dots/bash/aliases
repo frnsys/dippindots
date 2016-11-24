@@ -26,6 +26,7 @@ alias gst="git status"
 # Shortcuts
 alias n="cd ~/notes"
 alias p="cd ~/projects; ll"
+alias docs="cd ~/docs; ll"
 alias dl="cd ~/downloads"
 alias o="open"
 alias oo="open ."
