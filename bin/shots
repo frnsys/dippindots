@@ -20,7 +20,7 @@ case $ACTION in
     "Data") imgclip $IMGPATH;;
 
     # view
-    "View") feh $IMGPATH;;
+    "View") feh -Fd $IMGPATH;;
     *) ;;
 esac
 
