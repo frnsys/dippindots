@@ -1,0 +1,26 @@
+#!/bin/bash
+# easily browse and select screenshots
+
+MAX_WIDTH=400
+SHOTS_DIR=~/docs/shots
+
+# make selection
+CHOICE=$(ls -t -d1 $SHOTS_DIR/** | sed -e 's/^/IMG:/' -e 's/\([^\/]\+$\)/\1\t\1/' | dmenu -p "shots" -i -is $MAX_WIDTH)
+
+# copy path or data
+ACTION=$(echo -e "Path\nData\nView" | dmenu -i -p "Copy:")
+
+IMGPATH=$SHOTS_DIR/$CHOICE
+
+case $ACTION in
+    # copy abs path to clipboard
+    "Path") echo $IMGPATH | xsel -b;;
+
+    # copy image data to clipboard
+    "Data") imgclip $IMGPATH;;
+
+    # view
+    "View") feh $IMGPATH;;
+    *) ;;
+esac
+
