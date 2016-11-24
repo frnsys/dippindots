@@ -30,26 +30,11 @@ sudo update-alternatives --install /lib/plymouth/themes/default.plymouth default
 sudo update-alternatives --set default.plymouth /lib/plymouth/themes/text.plymouth
 sudo update-initramfs -u
 
-# rofi
-git clone git@github.com:DaveDavenport/rofi.git /tmp/rofi
-cd /tmp/rofi
-git submodule update --init
-sudo apt-get install -y libxkbcommon-x11-dev libxcb-util0-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev xutils-dev
-sudo add-apt-repository -y 'deb http://debian.jpleau.ca/ jessie-backports main contrib non-free'
-sudo apt-get update
-sudo apt-get install -y --force-yes libxkbcommon-dev
-git clone --recursive https://github.com/Airblader/xcb-util-xrm.git /tmp/xrm
-cd /tmp/xrm
-./autogen.sh --prefix=/usr
-make
-sudo make install
-cd /tmp/rofi
-autoreconf -i
-mkdir build
-cd build
-../configure
-make
-sudo make install
+# dmenu-pango-imlib
+git clone https://github.com/Cloudef/dmenu-pango-imlib /tmp/dmenu
+cd /tmp/dmenu
+sudo apt-get install libimlib2-dev -y
+sudo make clean install
 cd $DIR
 
 # build the latest ncmpcpp

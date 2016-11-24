@@ -91,22 +91,3 @@ URxvt.keysym.C-Down:   perl:font-size:decrease
 *color14: #8dc4f0
 *color7: #c3cee3
 *color15: #c3cee3
-
-! background, border, separator
-rofi.color-window: #fcbae4, #444444, argb:17000000
-
-! background, foreground, alt bg, highlight bg, highlight fg
-rofi.color-normal: #fcbae4, #595357, #fcbae4, #4C97E0, #ffffff
-rofi.color-active: #fcbae4, #00D24C, #fcbae4, #00C448, #ffffff
-rofi.color-urgent: #fcbae4, #FC5155, #fcbae4, #F73035, #ffffff
-
-rofi.bw: 0
-rofi.opacity: 100
-rofi.line-margin: 3
-rofi.fullscreen: true
-rofi.location: 0
-rofi.padding: 250
-rofi.color-enabled: true
-rofi.font: ttyp0 18
-rofi.lines: 8
-rofi.separator-style: none

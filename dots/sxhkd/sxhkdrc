@@ -98,10 +98,10 @@ super + n
     urxvt -e wicd-curses
 
 super + space
-    rofi -terminal urxvt -show run
+    dmenu_run
 
 super + w
-    rofi -show window
+    app_switch
 
 super + ctrl + c
     pick-colour-picker

@@ -1,8 +1,9 @@
 #!/bin/bash
-# use rofi to search for and play/add songs
+# use dmenu to search for and play/add songs
 
-choice=$(mpc search any ${1} | rofi -dmenu -i -p ">")
-action=$(echo -e "Play\nAdd" | rofi -dmenu -i -p "> $choice")
+N_LINES=10
+choice=$(mpc search any ${1} | dmenu -l $N_LINES -i -p ">")
+action=$(echo -e "Play\nAdd" | dmenu -i -p "> $choice")
 
 case $action in
     "Play") mpc add "$choice"; mpc play $(mpc playlist | wc -l);;

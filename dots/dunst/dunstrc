@@ -42,7 +42,7 @@
     # auto/foreground/frame/a color
     separator_color = "#303030"
 
-    dmenu = "/usr/local/bin/rofi -dmenu -p #"
+    dmenu = "/usr/local/bin/dmenu -p #"
     browser = /usr/bin/firefox -new-tab
 
 [frame]

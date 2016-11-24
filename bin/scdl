@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# easily download from soundcloud to my music folder
-# this is a script instead of an alias so it can be used in rofi
-cd ~/musics/_misc; youtube-dl $1
-notify-send "song downloaded"
+# easily download from soundcloud to my music folder,
+# grabs url to download from the clipboard
+URL=$(xsel -b)
+cd ~/musics/_misc; youtube-dl $URL && notify-send "downloaded '$URL'" || notify-send "error downloading '$URL'"
