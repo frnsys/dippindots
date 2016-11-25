@@ -12,13 +12,13 @@ PHONE_IP=$1
 PHONE_PORT=2222
 
 # sync directories TO the phone
-for DIR in notes docs deaddrop; do
+for DIR in notes deaddrop; do
     echo "Syncing ~/${DIR} -> /sdcard/${DIR}"
     # the ssh user does not have permissions to modify
     # permission and modification times so we skip those
     # as such, we only compare sizes; the permission and modification
     # times are unreliable.
-    rsync -avz -e "ssh -p ${PHONE_PORT}" --no-perms --no-times --size-only --progress --delete ~/${DIR}/ ${PHONE_IP}:/sdcard/${DIR}/
+    rsync -avzL -e "ssh -p ${PHONE_PORT}" --no-perms --no-times --size-only --progress --delete ~/${DIR}/ ${PHONE_IP}:/sdcard/${DIR}/
 done
 
 declare -A backups

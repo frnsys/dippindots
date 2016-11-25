@@ -19,7 +19,7 @@ super + b
     bspc desktop -B
 
 # toggle floating/fullscreen/sticky
-super + {s,f,t}
+super + {s,f,y}
     bspc window -t {floating,fullscreen,sticky}
 
 # focus on previous window/desktop
@@ -164,6 +164,9 @@ super + {F1, XF86AudioPrev}
 
 XF86PowerOff
     bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/pwr
+
+super + t
+    bspc rule -a urxvt -o floating=on && urxvt -e vi ~/notes/todo.md
 
 super + p
     bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/keepass
