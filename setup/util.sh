@@ -8,7 +8,7 @@ sudo apt-get install --no-install-recommends dos2unix curl jq gnupg htop wget dn
 sudo pip install youtube-dl
 
 # newer tmux
-sudo apt-get install libevent1-dev -y
+sudo apt-get install libevent-dev -y
 wget https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz /tmp/tmux-2.3.tar.gz
 cd /tmp
 tar -xzvf tmux-2.3.tar.gz
