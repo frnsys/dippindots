@@ -1,3 +1,4 @@
+#!/bin/bash
 while true; do
     battery_level=`acpi -b | grep -P -o '[0-9]+(?=%)'`
     charging=`acpi -b | grep Charging`
