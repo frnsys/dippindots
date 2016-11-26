@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# for `sudo pm-suspend` to work without a password,
+# add this to your sudoers file (run `visudo`):
+# ftseng  ALL = NOPASSWD: /usr/sbin/pm-suspend
+
+IDLE_MIN=10
+IDLE_TIME=$(($IDLE_MIN*60*1000)) # ms
+
+while true; do
+    idle=$(xprintidle)
+    if [ $idle -ge $IDLE_TIME ]; then
+        sudo pm-suspend
+    fi
+    sleep 10
+done

@@ -24,6 +24,10 @@ sudo apt-get install feh xsel dunst xdotool i3lock libnotify-bin unclutter xback
 # auto-lock screen on sleep
 sudo cp $DIR/dots/misc/00_screen /etc/pm/sleep.d/00_screen
 
+# not using a DE or session manager,
+# so manually check idle time for sleeping
+sudo apt-get install xprintidle
+
 # plymouth (splash) config
 sudo apt-get install plymouth-theme-text
 sudo update-alternatives --install /lib/plymouth/themes/default.plymouth default.plymouth /lib/plymouth/themes/text.plymouth 10
