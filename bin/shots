@@ -8,7 +8,7 @@ SHOTS_DIR=~/docs/shots
 CHOICE=$(ls -t -d1 $SHOTS_DIR/** | sed -e 's/^/IMG:/' -e 's/\([^\/]\+$\)/\1\t\1/' | dmenu -p "shots" -i -is $MAX_WIDTH)
 
 # copy path or data
-ACTION=$(echo -e "Path\nData\nView" | dmenu -i -p "Copy:")
+ACTION=$(echo -e "Path\nData\nView\nDelete" | dmenu -i -p "Copy:")
 
 IMGPATH=$SHOTS_DIR/$CHOICE
 
@@ -21,6 +21,9 @@ case $ACTION in
 
     # view
     "View") feh -Fd $IMGPATH;;
+
+    # delete
+    "Delete") rm $IMGPATH;;
     *) ;;
 esac
 

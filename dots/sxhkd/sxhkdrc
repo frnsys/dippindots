@@ -115,19 +115,19 @@ super + alt + k
 
 # selection to file
 @super + alt + s
-    scrot --select -d 1 -e 'mogrify -shave 1x1 $f; mv $f ~/docs/shots/'; notify-send "took screenshot"
+    shot select
 
 # selection to clipboard
 @super + shift + s
-    scrot --select -d 1 -e 'mogrify -shave 1x1 $f; mv $f /tmp/shot.png; imgclip /tmp/shot.png'; notify-send "took screenshot"
+    shot select data
 
 # focused window to file
 @super + alt + shift + s
-    scrot -u -d 1 -e 'mogrify -shave 1x1 $f; mv $f ~/docs/shots/'; notify-send "took screenshot"
+    shot focused
 
 # screen to file
 @super + alt + shift + ctrl + s
-    scrot -d 1 -e 'mogrify -shave 1x1 $f; mv $f ~/docs/shots/'; notify-send "took screenshot"
+    shot
 
 #
 # media buttons

@@ -37,6 +37,18 @@ sudo apt-get install libimlib2-dev -y
 sudo make clean install
 cd $DIR
 
+# main/slop (scrot replacement)
+sudo apt-get install libglm-dev -y
+git clone https://github.com/naelstrof/slop.git /tmp/slop
+cd /tmp/slop
+cmake -DCMAKE_OPENGL_SUPPORT=true ./
+make && sudo make install
+git clone https://github.com/naelstrof/maim.git /tmp/maim
+cd /tmp/maim
+cmake ./
+make && sudo make install
+cd $DIR
+
 # build the latest ncmpcpp
 # NOTE more recent versions of ncmpcpp do not work well with mopidy
 # therefore installing from apt. ncmpcpp version 0.5.10 works alright.

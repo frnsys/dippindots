@@ -1,0 +1,26 @@
+#!/bin/bash
+# take a screenshot
+# usage: shot [select|focused] [path|data]
+
+CMD=$1
+OUT=$2
+OPTS=""
+FNAME=~/docs/shots/$(date +%F-%T).png
+
+case $CMD in
+    "select") OPTS="-s";;
+    "focused") OPTS="-i $(xdotool getactivewindow)";;
+
+    # default to full screen
+    # 1s delay for dmenu to go away
+    *) OPTS="-d 1";;
+esac
+
+maim $OPTS $FNAME
+notify-send "screenshot saved to $FNAME"
+
+case $OUT in
+    "path") echo "$FNAME" | xsel -b;;
+    "data") imgclip "$FNAME";;
+    *) ;;
+esac

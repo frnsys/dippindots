@@ -34,7 +34,6 @@ alias nb="jupyter notebook"
 alias py="python"
 alias ipy="ipython"
 alias za="zathura"
-alias screen="scrot --select"
 alias todo="vi ~/notes/todo.md"
 
 # fasd aliases
