@@ -1,6 +1,3 @@
-# Add `~/.bin` to the `$PATH`
-export PATH="$HOME/.bin:$PATH"
-
 # Add NPM
 export PATH="/usr/local/share/npm/bin:$PATH"
 
@@ -21,3 +18,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # Keep this last so that /usr/local/bin is
 # at the beginning of your path.
 export PATH="/usr/local/bin:$PATH"
+
+# Add `~/.bin` to the `$PATH`
+export PATH="$HOME/.bin:$PATH"
