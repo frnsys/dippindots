@@ -2,4 +2,4 @@
 # global dmenu config
 
 MAX_WIDTH=400
-/usr/local/bin/dmenu -i -ia top-gapless -is $MAX_WIDTH -sf '#222222' -sb '#ffb8b8' -nf '#bcbcbc' -nb '#262626' -fn "ttyp0 14" "$@"
+/usr/local/bin/dmenu -i -ia top-gapless -is $MAX_WIDTH -sf '#222222' -sb '#eaeaea' -nf '#bcbcbc' -nb '#262626' -fn "ttyp0 14" "$@"

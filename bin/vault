@@ -4,6 +4,7 @@
 # it relies on my GPG keys (with the name $KEYNAME)
 # do `gpg -K` to check that it's there; if not then
 # import it with `gpg --import ~/docs/keys/private.key`
+# see `~/docs/keys/note.md` for pw note
 
 WRK=~/docs
 DIR=vault
