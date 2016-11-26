@@ -2,7 +2,6 @@ backup:
     dirs:
         - '~/projects'
         - '~/graphics'
-        - '~/stuff'
         - '~/docs'
         - '~/notes'
         - '~/photos'

@@ -39,9 +39,6 @@ alias todo="vi ~/notes/todo.md"
 # fasd aliases
 alias v="f -e vim"
 
-# Symlink the data directory to this folder
-alias lndata="ln -s ~/data data"
-
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
 	colorflag="--color"

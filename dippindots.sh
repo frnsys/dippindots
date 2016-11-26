@@ -17,7 +17,7 @@ fi
 tput setaf 2
 echo "Select which setup scripts you want to include:"
 tput sgr0
-declare -a available=(python ruby node vim nvim util math apps)
+declare -a available=(python ruby node vim util math apps)
 declare -a selections=()
 for s in "${available[@]}"; do
     read -rep "Include ${s}? (y/n) " -n 1

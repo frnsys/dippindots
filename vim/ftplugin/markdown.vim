@@ -32,7 +32,7 @@ function! OpenUrlUnderCursor()
         if matchend(l:img, 'gif') >= 0
             silent exec "!gifview -a '".l:img."'" | redraw!
         else
-            silent exec "!feh '".l:img."'" | redraw!
+            silent exec "!feh --scale-down '".l:img."'" | redraw!
         endif
     else
         echomsg 'The cursor is not on a link.'
