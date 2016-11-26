@@ -21,11 +21,11 @@ else
 fi
 
 # https://github.com/lolilolicon/xrectsel
-TIME=$(date +"%Y-%m-%d_%H%M%S")
+TIME=$(date +%F-%T)
 VID=/tmp/recording_${TIME}.ogv
 PNG=/tmp/recording_${TIME}
 GIF=/tmp/recording_${TIME}.gif
-OUT=output_${TIME}.gif
+OUT=~/docs/shots/${TIME}.gif
 recordmydesktop $GEO -o $VID --overwrite --fps 30
 mkdir $PNG
 ffmpeg -i $VID -f image2 $PNG/%04d.png
@@ -34,3 +34,6 @@ echo "Creating and optimizing GIF..."
 convert -delay 1x30 $PNG/*.png -layers Optimize $GIF
 gifsicle -O3 $GIF > $OUT
 echo "Preview the gif with 'gifview -a ${OUT}'"
+
+echo ${OUT} | xsel -b
+notify-send "finished recording: ${OUT}"

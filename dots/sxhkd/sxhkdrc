@@ -109,9 +109,7 @@ super + ctrl + c
 super + alt + k
     lock
 
-# ~~screenshots~~
-# these have a 1 sec delay so the focused window
-# can regain focus for the screenshot
+# ~~screenshots/recordings~~
 
 # selection to file
 @super + alt + s
@@ -128,6 +126,14 @@ super + alt + k
 # screen to file
 @super + alt + shift + ctrl + s
     shot
+
+# record region
+@super + r
+    rec region
+
+# stop recording
+@super + ctrl + r
+    pkill recordmydesktop
 
 #
 # media buttons

@@ -19,7 +19,15 @@ case $ACTION in
     "Data") imgclip $IMGPATH;;
 
     # view
-    "View") feh -Fd $IMGPATH;;
+    "View")
+        fname=$(basename "$IMGPATH")
+        ext="${fname##*.}"
+        if [[ $ext == "gif" ]]; then
+            gifview -a $IMGPATH
+        else
+            feh -Fd $IMGPATH
+        fi
+        ;;
 
     # delete
     "Delete") rm $IMGPATH;;
