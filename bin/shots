@@ -25,7 +25,7 @@ case $ACTION in
         if [[ $ext == "gif" ]]; then
             gifview -a $IMGPATH
         else
-            feh -Fd $IMGPATH
+            feh --scale-down $IMGPATH
         fi
         ;;
 
