@@ -25,8 +25,7 @@ OUT=~/docs/shots/${TIME}.gif
 recordmydesktop $OPTS -o $VID --overwrite --fps 24
 
 notify-send "[rec] converting to gif..."
-vid2gif $VID $GIF
-gifsicle -O3 $GIF > $OUT
+vid2gif -f 10 $VID $GIF
 
 echo ${OUT} | xsel -b
 notify-send "[rec] finished: ${OUT}"
