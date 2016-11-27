@@ -11,18 +11,18 @@ if [ -z "$CHOICE" ]; then
 fi
 
 # copy path or data
-ACTION=$(echo -e "Path\nData\nView\nDelete" | dmenu -p "Copy:")
+ACTION=$(echo -e "path\ndata\nview\nrm" | dmenu -p ">")
 IMGPATH=$SHOTS_DIR/$CHOICE
 
 case $ACTION in
     # copy abs path to clipboard
-    "Path") echo $IMGPATH | xsel -b;;
+    "path") echo $IMGPATH | xsel -b;;
 
     # copy image data to clipboard
-    "Data") imgclip $IMGPATH;;
+    "data") imgclip $IMGPATH;;
 
     # view
-    "View")
+    "view")
         fname=$(basename "$IMGPATH")
         ext="${fname##*.}"
         if [[ $ext == "gif" ]]; then
@@ -33,7 +33,7 @@ case $ACTION in
         ;;
 
     # delete
-    "Delete") rm $IMGPATH;;
+    "rm") rm $IMGPATH;;
     *) ;;
 esac
 

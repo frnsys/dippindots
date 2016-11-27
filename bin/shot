@@ -2,25 +2,37 @@
 # take a screenshot
 # usage: shot [select|focused] [path|data]
 
-CMD=$1
-OUT=$2
 OPTS=""
 FNAME=~/docs/shots/$(date +%F-%T).png
 
-case $CMD in
-    "select") OPTS="-s";;
+# if nothing specified, assume dmenu
+if [ -z $1 ]; then
+    DMENU=true
+    choice=$(echo -e "full\nregion\nfocused" | dmenu -i -p "shot")
+else
+    DMENU=false
+    choice=$1
+fi
+
+case $choice in
+    "region") OPTS="-s";;
     "focused") OPTS="-i $(xdotool getactivewindow)";;
 
-    # default to full screen
     # 1s delay for dmenu to go away
-    *) OPTS="-d 1";;
+    "full") OPTS="-d 1";;
 esac
 
 maim $OPTS $FNAME
 notify-send "screenshot saved to $FNAME"
 
-case $OUT in
+if $DMENU; then
+    choice=$(echo -e "path\ndata" | dmenu -i -p "copy")
+else
+    choice=$2
+fi
+
+case $choice in
     "path") echo "$FNAME" | xsel -b;;
-    "data") imgclip "$FNAME";;
+    "data") imgclip "$FNAME" &;;
     *) ;;
 esac

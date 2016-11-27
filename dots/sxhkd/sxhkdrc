@@ -113,11 +113,11 @@ super + alt + k
 
 # selection to file
 @super + alt + s
-    shot select
+    shot region
 
 # selection to clipboard
 @super + shift + s
-    shot select data
+    shot region data
 
 # focused window to file
 @super + alt + shift + s
@@ -125,7 +125,7 @@ super + alt + k
 
 # screen to file
 @super + alt + shift + ctrl + s
-    shot
+    shot full
 
 # record region
 @super + r
