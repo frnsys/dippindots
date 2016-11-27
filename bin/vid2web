@@ -1,7 +1,0 @@
-#!/bin/bash
-# convert a video so that it plays properly in browsers
-
-INP=$1
-OUT=$2
-
-ffmpeg -i $INP -c:v libx264 -c:a aac $OUT
