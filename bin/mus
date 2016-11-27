@@ -45,7 +45,7 @@ def dl_image(url, fname):
 
 def process_local_track(uri):
     path = uri.replace('local:track:', '')
-    path = urllib.unquote_plus(path)
+    path = urllib.unquote(path.encode('ASCII')).decode('utf8')
     path = os.path.join(MUSIC_DIR, path)
 
     img = ''
@@ -86,8 +86,10 @@ def search(query):
 
 def run(cmd, inp=None):
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+    if inp:
+        inp = inp.encode('utf8')
     out, err = proc.communicate(inp)
-    return out.strip().decode('utf-8')
+    return out.strip().decode('utf8')
 
 
 if __name__ == '__main__':
