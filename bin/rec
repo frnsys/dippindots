@@ -4,36 +4,30 @@
 # Adapted from <http://askubuntu.com/a/201018>
 # also see `man recordmydesktop` for more options
 # hit CTRL+C to stop recording
+# there's also a sxhkd binding to stop recording
 
 if [[ $1 == 'region' ]]; then
-    GEO=$(xrectsel "-x=%x -y=%y --width=%w --height=%h")
+    OPTS=$(xrectsel "-x=%x -y=%y --width=%w --height=%h")
 elif [[ $1 == 'window' ]]; then
-    # Window geometry
-    XWININFO=$(xwininfo)
-    read x < <(awk -F: '/Absolute upper-left X/{print $2}' <<< "$XWININFO")
-    read y < <(awk -F: '/Absolute upper-left Y/{print $2}' <<< "$XWININFO")
-    read w < <(awk -F: '/Width/{print $2}' <<< "$XWININFO")
-    read h < <(awk -F: '/Height/{print $2}' <<< "$XWININFO")
-    GEO="-x=$X -y=$y --width=$w --height=$h"
+    OPTS="--windowid $(xwininfo | awk '/Window id:/ {print $4}')"
+elif [[ $1 == 'full' ]]; then
+    OPTS=""
 else
-    echo "Please specify 'region' or 'window'."
+    echo "Please specify 'full', 'region' or 'window'."
     exit 0
 fi
 
 # https://github.com/lolilolicon/xrectsel
 TIME=$(date +%F-%T)
 VID=/tmp/recording_${TIME}.ogv
-PNG=/tmp/recording_${TIME}
 GIF=/tmp/recording_${TIME}.gif
 OUT=~/docs/shots/${TIME}.gif
-recordmydesktop $GEO -o $VID --overwrite --fps 30
-mkdir $PNG
-ffmpeg -i $VID -f image2 $PNG/%04d.png
+recordmydesktop $OPTS -o $VID --overwrite --fps 24
 
-echo "Creating and optimizing GIF..."
-convert -delay 1x30 $PNG/*.png -layers Optimize $GIF
+notify-send "[rec] converting to gif..."
+vid2gif $VID $GIF
+
+notify-send "[rec] optimizing gif..."
 gifsicle -O3 $GIF > $OUT
-echo "Preview the gif with 'gifview -a ${OUT}'"
-
 echo ${OUT} | xsel -b
-notify-send "finished recording: ${OUT}"
+notify-send "[rec] finished: ${OUT}"
