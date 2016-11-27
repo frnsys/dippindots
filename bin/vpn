@@ -1,4 +1,9 @@
 #!/bin/bash
+# for this to work w/o entering a sudo password,
+# add the following after running `sudo visudo`
+#   ftseng  ALL = NOPASSWD: /usr/bin/pkill
+#   ftseng  ALL = NOPASSWD: /usr/sbin/openvpn
+
 
 if [[ $1 == 'up' ]]; then
     # kill all existing stunnel4 processes to avoid this error:
@@ -10,12 +15,12 @@ if [[ $1 == 'up' ]]; then
     # ln -s ~/docs/vpn/<server name> ~/ftseng/docs/vpn/active
     cd /home/ftseng/docs/vpn/active
 
-    sudo service stunnel4 restart
+    service stunnel4 restart
     stunnel4 airvpn.ssl # make sure this does not have `foreground = yes` in it
     sudo openvpn --config airvpn-ssl.ovpn --daemon
     echo "VPN active"
 elif [[ $1 == 'down' ]]; then
-    sudo service stunnel4 stop
+    service stunnel4 stop
     sudo pkill openvpn
     sudo pkill stunnel4
     echo "VPN deactivated"
