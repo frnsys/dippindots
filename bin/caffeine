@@ -4,6 +4,7 @@ function finish {
     echo "Goodbye!"
     xset +dpms
     xset s on
+    rm /tmp/caffeine
     exit 0
 }
 
@@ -11,6 +12,7 @@ trap finish INT TERM QUIT
 
 xset -dpms
 xset s off
+touch /tmp/caffeine
 echo "Staying awake..."
 
 while true; do
