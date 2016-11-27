@@ -26,8 +26,7 @@ recordmydesktop $OPTS -o $VID --overwrite --fps 24
 
 notify-send "[rec] converting to gif..."
 vid2gif $VID $GIF
-
-notify-send "[rec] optimizing gif..."
 gifsicle -O3 $GIF > $OUT
+
 echo ${OUT} | xsel -b
 notify-send "[rec] finished: ${OUT}"
