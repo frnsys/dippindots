@@ -1,4 +1,5 @@
 #!/usr/bin/python2
+from __future__ import unicode_literals
 
 import os
 import sys
@@ -47,18 +48,19 @@ def process_local_track(uri):
     path = urllib.unquote_plus(path)
     path = os.path.join(MUSIC_DIR, path)
 
+    img = ''
     song = eyed3.load(path)
-    choice = '{} - {}'.format(song.tag.artist, song.tag.title)
-
-    if song.tag.images:
-        mime_type = song.tag.images[0].mime_type
-        ext = mime_type.split('/')[-1]
-        img = os.path.join(IMG_DIR, '{}.{}'.format(choice, ext))
-        with open(img, 'w') as f:
-            f.write(song.tag.images[0].image_data)
-        img = 'IMG:{}\t'.format(img)
+    if song.tag:
+        choice = '{} - {}'.format(song.tag.artist, song.tag.title)
+        if song.tag.images:
+            mime_type = song.tag.images[0].mime_type
+            ext = mime_type.split('/')[-1]
+            img = os.path.join(IMG_DIR, '{}.{}'.format(choice.replace('/', '_'), ext))
+            with open(img, 'w') as f:
+                f.write(song.tag.images[0].image_data)
+            img = 'IMG:{}\t'.format(img)
     else:
-        img = ''
+        choice = path
 
     return choice, img, uri
 
@@ -85,7 +87,7 @@ def search(query):
 def run(cmd, inp=None):
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
     out, err = proc.communicate(inp)
-    return out.strip()
+    return out.strip().decode('utf-8')
 
 
 if __name__ == '__main__':
