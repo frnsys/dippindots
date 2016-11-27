@@ -95,7 +95,7 @@ shift + ctrl + Return
     bspc rule -a urxvt -o floating=on && urxvt
 
 super + n
-    urxvt -e wicd-curses
+    bspc rule -a urxvt -o floating=on && urxvt -e wicd-curses
 
 super + space
     dmenu_run -l 10
@@ -179,6 +179,9 @@ super + p
 
 super + e
     bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/emoji
+
+super + c
+    bspc rule -a urxvt -o floating=on && urxvt -e ncmpcpp
 
 # make sxhkd reload its configuration files:
 super + Escape

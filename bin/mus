@@ -1,12 +1,121 @@
-#!/bin/bash
-# use dmenu to search for and play/add songs
+#!/usr/bin/python2
 
-N_LINES=10
-choice=$(mpc search any ${1} | sort | dmenu -l $N_LINES -i -p ">")
-action=$(echo -e "Play\nAdd" | dmenu -i -p "> $choice")
+import os
+import sys
+import eyed3
+import urllib
+import requests
+import subprocess
 
-case $action in
-    "Play") mpc add "$choice"; mpc play $(mpc playlist | wc -l);;
-    "Add") mpc add "$choice";;
-    *) ;;
-esac
+IMG_DIR = '/tmp/mus'
+MUSIC_DIR = os.path.expanduser('~/musics/')
+
+N_LINES = 10    # n lines to show in dmenu
+CHUNK_SIZE = 50 # max 50 tracks per request for spotify
+
+
+def fetch_spotify_tracks(uris):
+    """bulk fetch track metadata from spotify"""
+    data = []
+    ids = [uri.replace('spotify:track:', '') for uri in uris]
+    for i in range(0, len(ids), CHUNK_SIZE):
+        resp = requests.get('https://api.spotify.com/v1/tracks/', params={'ids': ','.join(ids)})
+        data += resp.json()['tracks']
+    return data
+
+
+def process_spotify_track(data, uri):
+    title = data['name']
+    artist = ', '.join([a['name'] for a in data['artists']])
+
+    # for now, no images for spotify. d/ling is too slow.
+    # image_url = data['album']['images'][1]['url'] # img 0 is largest, img 1 is about half as big
+    # image = '/tmp/{}.jpg'.format(data['id'])
+    # dl_image(image_url, image)
+    # return 'IMG:{}\t{} - {}'.format(image, artist, title)
+    return '{} - {}'.format(artist, title), '', uri
+
+
+def dl_image(url, fname):
+    data = requests.get(url).content
+    with open(fname, 'w') as f:
+        f.write(data)
+
+
+def process_local_track(uri):
+    path = uri.replace('local:track:', '')
+    path = urllib.unquote_plus(path)
+    path = os.path.join(MUSIC_DIR, path)
+
+    song = eyed3.load(path)
+    choice = '{} - {}'.format(song.tag.artist, song.tag.title)
+
+    if song.tag.images:
+        mime_type = song.tag.images[0].mime_type
+        ext = mime_type.split('/')[-1]
+        img = os.path.join(IMG_DIR, '{}.{}'.format(choice, ext))
+        with open(img, 'w') as f:
+            f.write(song.tag.images[0].image_data)
+        img = 'IMG:{}\t'.format(img)
+    else:
+        img = ''
+
+    return choice, img, uri
+
+
+def search(query):
+    local = []
+    remote = [] # i.e. spotify
+    results = run(['mpc', 'search', 'any', query])
+    for uri in results.strip().split('\n'):
+        # skipping artists and albums
+        if uri.startswith('spotify:track:'):
+            remote.append(uri)
+
+        elif uri.startswith('local'):
+            local.append(process_local_track(uri))
+
+    # fetch spotify track metadata and process
+    data = fetch_spotify_tracks(remote)
+    remote = [process_spotify_track(d, uri) for d, uri in zip(data, uri)]
+
+    return local + remote
+
+
+def run(cmd, inp=None):
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+    out, err = proc.communicate(inp)
+    return out.strip()
+
+
+if __name__ == '__main__':
+    if not os.path.exists(IMG_DIR):
+        os.makedirs(IMG_DIR)
+
+    query = ' '.join(sys.argv[1:])
+    results = search(query)
+
+    if not results:
+        run(['notify-send', 'No results'])
+        sys.exit()
+
+    lookup = {choice: uri for choice, _, uri in results}
+    choices = ['{}{}'.format(img, ch) for ch, img, _ in results]
+
+    choice = run(
+        ['dmenu', '-is', '120', '-l', str(N_LINES), '-i', '-p', '>'],
+        inp='\n'.join(choices))
+
+    if choice:
+        action = run(
+            ['dmenu', '-i', '-p', '> {}'.format(choice)],
+            inp='Play\nAdd')
+        uri = lookup[choice]
+
+        if action == 'Play':
+            run(['mpc', 'add', uri])
+            tracks = run(['mpc', 'playlist'])
+            track_no = len(tracks.split('\n'))
+            run(['mpc', 'play', str(track_no)])
+        elif action == 'Add':
+            run(['mpc', 'add', uri])
