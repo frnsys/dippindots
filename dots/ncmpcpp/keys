@@ -1,7 +1,0 @@
-# example at /usr/share/doc/ncmpcpp/examples/keys
-
-key_home        = 7  # ctrl-g
-key_end         = 2  # ctrl-b
-key_delete      = 24 # ctrl-x
-key_page_up     = 21 # ctrl-u
-key_page_down   = 4  # ctrl-d

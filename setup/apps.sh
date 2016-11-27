@@ -54,10 +54,16 @@ make && sudo make install
 cd $DIR
 
 # build the latest ncmpcpp
-# NOTE more recent versions of ncmpcpp do not work well with mopidy
-# therefore installing from apt. ncmpcpp version 0.5.10 works alright.
-# tested versions 0.6.6 and above which all did not work properly with mopidy.
-sudo apt-get install ncmpcpp
+sudo apt-get install libboost-all-dev libfftw3-dev doxygen libncursesw5-dev libtag1-dev libcurl4-openssl-dev libmpdclient-dev
+git clone git@github.com:arybczak/ncmpcpp.git /tmp/ncmpcpp
+cd /tmp/ncmpcpp
+git checkout 0.7.7
+./autogen.sh
+autoreconf --force --install
+BOOST_LIB_SUFFIX="" ./configure --enable-visualizer --enable-outputs --enable-unicode --with-taglib --with-fftw
+make
+sudo make install
+cd $DIR
 ln -sf $DIR/dots/ncmpcpp ~/.ncmpcpp
 
 # mopidy
@@ -70,7 +76,7 @@ sudo apt-get install python-gst-1.0 \
 sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/jessie.list
 sudo apt-get update
 sudo apt-get install libspotify12 libspotify-dev
-sudo pip2 install mopidy mopidy-soundcloud mopidy-spotify mopidy-local-sqlite
+sudo pip2 install mopidy mopidy-spotify mopidy-local-sqlite
 cp -r $DIR/dots/mopidy ~/.config/mopidy
 
 # mpc

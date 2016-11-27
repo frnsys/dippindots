@@ -1,102 +1,14 @@
-##### connection settings #####
 mpd_host = "localhost"
 mpd_port = "6600"
 mpd_music_dir = "~/musics"
 
-##### timeouts and delays #####
-mpd_connection_timeout = "10"
-mpd_crossfade_time = "2"
-playlist_disable_highlight_delay = "3"
-message_delay_time = "2"
-
-song_list_format = "{$2%a $9- $5%t}|{%f}$8"
-song_status_format = "$2{%a} {$8• $5%t}{ $8• $8%b}{ $8• $8%y}$1"
 now_playing_prefix = "~> $b"
 now_playing_suffix = "$/b"
 playlist_display_mode = "columns" # classic/columns
 browser_display_mode = "columns" # classic/columns
-user_interface = "alternative" # classic/alternative
 autocenter_mode = "yes"
-progressbar_look = "━■"
-header_visibility = "no"
-statusbar_visibility = "yes"
-titles_visibility = "no"
 cyclic_scrolling = "yes"
-centered_cursor = "yes"
-discard_colors_if_item_is_selected = "yes"
-
 jump_to_now_playing_song_at_start = "yes"
-display_bitrate = "no"
-display_volume_level = "no"
-ignore_leading_the = "yes"
-mouse_support = "no"
-enable_window_title = "no"
-external_editor = "vim"
-use_console_editor = "yes"
 allow_for_physical_item_deletion = "yes"
-playlist_show_remaining_time = "yes"
-
-##### colors #####
+song_columns_list_format = (20)[]{a} (50)[]{t|f:Title} (20)[]{b} (7f)[]{l}
 colors_enabled = "yes"
-empty_tag_color = "blue"
-header_window_color = "red"
-state_line_color = "red"
-state_flags_color = "red"
-volume_color = "red"
-color1 = "red"
-color2 = "green"
-progressbar_color = "red"
-progressbar_elapsed_color = "white"
-statusbar_color = "red"
-alternative_ui_separator_color = "red"
-active_column_color = "blue"
-active_window_border = "green"
-main_window_color = "black"
-main_window_highlight_color = "default"
-
-##### song format #####
-##
-## for song format you can use:
-##
-## %l - length
-## %f - filename
-## %D - directory
-## %a - artist
-## %t - title
-## %b - album
-## %y - year
-## %n - track number (01/12 -> 01)
-## %N - full track info (01/12 -> 01/12)
-## %g - genre
-## %c - composer
-## %p - performer
-## %d - disc
-## %C - comment
-## $R - begin right alignment
-##
-## you can also put them in { } and then it will be displayed
-## only if all requested values are available and/or define alternate
-## value with { }|{ } eg. {%a - %t}|{%f}
-##
-## Note: Format that is similar to "%a - %t" (i.e. without any additional
-## braces) is equal to "{%a - %t}", so if one of the tags is missing,
-## you'll get nothing.
-##
-## text can also have different color than the main window has,
-## eg. if you want length to be green, write $3%l$9
-##
-## available values:
-##
-## - 0 - default window color (discards all other colors)
-## - 1 - black
-## - 2 - red
-## - 3 - green
-## - 4 - yellow
-## - 5 - blue
-## - 6 - magenta
-## - 7 - cyan
-## - 8 - white
-## - 9 - end of current color
-##
-## Note: colors can be nested.
-##
