@@ -79,7 +79,7 @@ def search(query):
 
     # fetch spotify track metadata and process
     data = fetch_spotify_tracks(remote)
-    remote = [process_spotify_track(d, uri) for d, uri in zip(data, uri)]
+    remote = [process_spotify_track(d, uri) for d, uri in zip(data, remote)]
 
     return local + remote
 
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     choices = ['{}{}'.format(img, ch) for ch, img, _ in results]
 
     choice = run(
-        ['dmenu', '-is', '120', '-l', str(N_LINES), '-i', '-p', '>'],
+        ['dmenu', '-is', '200', '-l', str(N_LINES), '-i', '-p', '>'],
         inp='\n'.join(choices))
 
     if choice:
