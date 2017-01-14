@@ -83,11 +83,11 @@ cp -r $DIR/dots/mopidy ~/.config/mopidy
 sudo apt-get install mpc -y
 
 # build latest libass for ffmpeg and mpv
-sudo apt-get install libfribidi-dev libfontconfig1-dev
+sudo apt-get install libfribidi-dev libfontconfig2-dev
 git clone --depth=1 https://github.com/libass/libass.git /tmp/libass
 cd /tmp/libass
 ./autogen.sh
-./configure
+./configure --enable-shared
 make
 sudo make install
 
@@ -102,17 +102,17 @@ wget https://bitbucket.org/multicoreware/x265/downloads/x265_2.0.tar.gz -O /tmp/
 cd /tmp/ffmpeg
 tar -xzvf x265.tar.gz
 cd x265_*/build/linux
-PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED:bool=off ../../source
+PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="/usr/local/ffmpeg" -DENABLE_SHARED:bool=on ../../source
 make
 sudo make install
 
 # compile ffmpeg
 cd /tmp/ffmpeg
-PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
-  --prefix="$HOME/ffmpeg_build" \
+PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="/usr/local/ffmpeg/lib/pkgconfig" ./configure \
+  --prefix="/usr/local/ffmpeg" \
   --pkg-config-flags="--static" \
-  --extra-cflags="-I$HOME/ffmpeg_build/include" \
-  --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+  --extra-cflags="-I/usr/local/ffmpeg/include" \
+  --extra-ldflags="-L/usr/local/ffmpeg/lib" \
   --bindir="/usr/local/bin" \
   --enable-gpl \
   --enable-libass \
@@ -127,10 +127,12 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./conf
   --enable-libx265 \
   --enable-libpulse \
   --enable-nonfree \
-  --enable-openssl
+  --enable-openssl \
+  --enable-shared
 make
 sudo make install
-sudo rm -rf ~/ffmpeg_build
+sudo sh -c "echo '/usr/local/ffmpeg/lib' >> /etc/ld.so.conf"
+sudo ldconfig
 cd $DIR
 
 # build the latest mpv
