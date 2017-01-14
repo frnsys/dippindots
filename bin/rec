@@ -20,12 +20,11 @@ fi
 # https://github.com/lolilolicon/xrectsel
 TIME=$(date +%F-%T)
 VID=/tmp/recording_${TIME}.ogv
-GIF=/tmp/recording_${TIME}.gif
 OUT=~/docs/shots/${TIME}.gif
 recordmydesktop $OPTS -o $VID --overwrite --fps 24
 
 notify-send "[rec] converting to gif..."
-vid2gif -f 10 $VID $GIF
+vid2gif -f 12 $VID $OUT
 
 echo ${OUT} | xsel -b
 notify-send "[rec] finished: ${OUT}"

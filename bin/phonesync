@@ -25,6 +25,7 @@ declare -A backups
 backups[DCIM/Camera]=~/photos/android_dump
 backups[Pictures/Instagram]=~/photos/instagram_dump
 backups[Pictures/reddit_sync]=~/photos/stash
+backups[Tumblr]=~/photos/stash
 
 # backup (i.e. don't delete)
 # directories FROM the phone
@@ -55,7 +56,8 @@ function parse_songs() {
 }
 
 # create temporary directory for songs
+rm -rf /tmp/musics
 mkdir /tmp/musics
-parse_songs | xargs -I {} cp {} /tmp/musics/
+parse_songs | xargs -0 -d '\n' -I {} cp {} /tmp/musics/
 rsync -avz -e "ssh -p ${PHONE_PORT}" --no-perms --no-times --size-only --progress --delete /tmp/musics ${PHONE_IP}:/sdcard/Music/
 rm -rf /tmp/musics
