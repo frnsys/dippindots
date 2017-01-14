@@ -4,6 +4,9 @@ colorscheme colors
 " autocomplete using open tabs & firefox
 set complete=tl
 
+" set window name
+set titlestring=Firefox
+
 " change characters used for links
 set hintchars=hjklasdfgyuiopqwertnmzxcvb
 
@@ -28,7 +31,7 @@ inoremap <C-a> <Insert><C-a><Insert>
 set ignorecase
 set smartcase
 
-set defsearch=google
+set defsearch=startpage
 
 " don't animate fullscreen
 set! browser.fullscreen.animate=false

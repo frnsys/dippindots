@@ -153,8 +153,14 @@ super + {F8, XF86AudioMute}
 super + {F7, XF86MonBrightnessUp}
     /usr/bin/xbacklight -inc 2
 
+super + shift + {F7, XF86MonBrightnessUp}
+    /usr/bin/xbacklight -inc 20
+
 super + {F6, XF86MonBrightnessDown}
     /usr/bin/xbacklight -dec 2
+
+super + shift + {F6, XF86MonBrightnessDown}
+    /usr/bin/xbacklight -dec 20
 
 super + {F5, XF86AudioPlay}
     mpc toggle
