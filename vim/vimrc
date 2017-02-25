@@ -13,7 +13,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/bundle')
-Plug 'ehamberg/vim-cute-python'
 Plug 'tpope/vim-surround'
 Plug 'jeetsukumaran/vim-filebeagle'
 Plug 'scrooloose/syntastic'

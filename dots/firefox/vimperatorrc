@@ -31,7 +31,7 @@ inoremap <C-a> <Insert><C-a><Insert>
 set ignorecase
 set smartcase
 
-set defsearch=startpage
+"set defsearch=startpage
 
 " don't animate fullscreen
 set! browser.fullscreen.animate=false

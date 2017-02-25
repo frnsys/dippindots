@@ -168,6 +168,12 @@
         /**/
     }
 
+  .tabbrowser-tabs[movingtab] > .tabbrowser-tab[beforeselected]:not([last-visible-tab])::after,
+  .tabbrowser-tab:not([selected]):not([afterselected-visible]):not([afterhovered]):not([first-visible-tab]):not(:hover)::before,
+  .tabbrowser-tabs:not([overflow]) > .tabbrowser-tab[last-visible-tab]:not([selected]):not([beforehovered]):not(:hover)::after {
+    display: none !important;
+  }
+
     #TabsToolbar, #tabbrowser-tabs {
         -moz-appearance: none !important;
         height: var(--tab-height) !important; min-height: var(--tab-height)!important;

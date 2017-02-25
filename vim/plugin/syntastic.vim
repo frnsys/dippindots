@@ -12,4 +12,6 @@ let g:syntastic_loc_list_height = 5
 let g:syntastic_python_python_exec = 'python3.5'
 let g:syntastic_python_checkers = ['pyflakes']
 
+" let g:syntastic_rust_checkers = ['rustc']
+
 let g:syntastic_quiet_messages = {'level': 'warnings'}

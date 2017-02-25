@@ -34,7 +34,7 @@ alias nb="jupyter notebook"
 alias py="python"
 alias ipy="ipython"
 alias za="zathura"
-alias todo="vi ~/notes/todo.md"
+alias todo="vi -O ~/notes/todo.md ~/notes/pipeline.md"
 
 # fasd aliases
 alias v="f -e vim"
