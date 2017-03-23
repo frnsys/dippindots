@@ -16,7 +16,7 @@ IMGPATH=$SHOTS_DIR/$CHOICE
 
 case $ACTION in
     # copy abs path to clipboard
-    "path") echo $IMGPATH | xsel -b;;
+    "path") echo -n "${IMGPATH} " | xsel -b;;
 
     # copy image data to clipboard
     "data") imgclip $IMGPATH;;
