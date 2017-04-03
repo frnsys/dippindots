@@ -5,10 +5,11 @@ backup:
         - '~/docs'
         - '~/notes'
         - '~/photos'
+        - '~/musics'
     targets:
         - 'ftseng@svalbard:/mnt/databank/francis/repos'
         - 'ftseng@svalbard:/mnt/outerspace/francis/repos'
-        - '/media/usb/francis/repos'
+        - '/media/usb/repos'
 data:
     sync: true
     targets:
