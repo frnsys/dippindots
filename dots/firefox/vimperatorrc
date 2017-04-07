@@ -43,7 +43,6 @@ set! browser.startup.homepage=https://twitter.com/frnsys/lists/main
 
 " quickmarks
 " access with go<key> (current tab) or gn<key> (new tab)
-qmark t https://twitter.com/frnsys/lists/main
 qmark c https://calendar.google.com
 
 " ignore on certain sites
