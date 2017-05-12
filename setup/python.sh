@@ -12,7 +12,7 @@ sudo easy_install3 pip
 sudo pip3 install virtualenv
 
 # the following are required for some python libraries
-sudo apt-get install libsqlite3-dev libbz2-dev tk8.6-dev
+sudo apt-get install libsqlite3-dev libbz2-dev tk8.6-dev libffi-dev libssl-dev
 
 # build from source with shared libraries
 PYVERSION=3.5.2
