@@ -69,7 +69,7 @@ if [ "$1" == "$LOCAL" ]; then
         pkill -f localhost:$LOCAL_PORT
         exit 0
     }
-    ssh -N -f -L localhost:$LOCALPORT:localhost:$REMOTEPORT $REMOTEHOST
+    ssh -N -f -L 0.0.0.0:$LOCALPORT:localhost:$REMOTEPORT $REMOTEHOST
     echo "localhost:$LOCAL_PORT is forwarding traffic to ${REMOTEHOST}:${REMOTEPORT} (CTRL+C to stop)"
 else
     function finish {

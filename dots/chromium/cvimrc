@@ -8,10 +8,12 @@ set autohidecursor
 
 let barposition = "bottom"
 let hintcharacters = "hjklasdfgyuiopqwertnmzxcvb"
-let blacklists = ["https://mail.protonmail.com/*", "https://docs.google.com"]
+let blacklists = ["https://docs.google.com/*"]
 
 " access with go<key> (current tab) or gn<key> (new tab)
 let qmark c = ["https://calendar.google.com"]
+let qmark g = ["https://github.com/frnsys/"]
+let qmark t = ["https://github.com/thenewinquiry/"]
 
 map gr previousTab
 map d closeTab
