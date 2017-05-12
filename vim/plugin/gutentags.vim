@@ -1,1 +1,1 @@
-let g:gutentags_tagfile = ".tags"
+let g:gutentags_ctags_tagfile = ".tags"
