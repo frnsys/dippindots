@@ -9,7 +9,7 @@ sudo pip install youtube-dl
 
 # newer tmux
 sudo apt-get install libevent-dev -y
-wget https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz /tmp/tmux-2.3.tar.gz
+wget https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz -O /tmp/tmux-2.3.tar.gz
 cd /tmp
 tar -xzvf tmux-2.3.tar.gz
 cd tmux-*
