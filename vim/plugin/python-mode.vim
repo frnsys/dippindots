@@ -13,3 +13,6 @@ let g:pymode_lint = 0
 
 " disable pymode folding, it conflicts with neocomplete
 let g:pymode_folding = 0
+
+" hide the color column
+let g:pymode_options_colorcolumn = 0
