@@ -14,6 +14,8 @@ After=network.target network-online.target
 [Service]
 Type=forking
 User=ftseng
+Restart=always
+RestartSec=3
 ExecStart=/home/ftseng/.bin/tunnel make ftseng@starbase.in 19922 10022
 
 [Install]
