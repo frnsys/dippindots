@@ -39,7 +39,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'SirVer/ultisnips'
 call plug#end()
 
-colorscheme light
+colorscheme dark
 
 set nocompatible      			" Use vim, no vi defaults
 syntax enable         			" Turn on syntax highlighting
