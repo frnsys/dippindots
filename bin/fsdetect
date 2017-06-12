@@ -1,0 +1,28 @@
+#!/bin/bash
+# detects if chromium or firefox are fullscreen
+# and prevents sleep if so
+# adapted from <https://raw.githubusercontent.com/hotice/lightsOn/master/lightsOn.sh>
+
+displays=""
+while read id; do
+    displays="$displays $id"
+done< <(xvinfo | sed -n 's/^screen #\([0-9]\+\)$/\1/p')
+
+while true; do
+    for display in $displays; do
+        activ_win_id=`DISPLAY=:0.${display} xprop -root _NET_ACTIVE_WINDOW`
+        activ_win_id=${activ_win_id:40:9}
+        isActivWinFullscreen=`DISPLAY=:0.${display} xprop -id $activ_win_id | grep _NET_WM_STATE_FULLSCREEN`
+        if [[ "$isActivWinFullscreen" = *NET_WM_STATE_FULLSCREEN* ]]; then
+            activ_win_title=`xprop -id $activ_win_id | grep "WM_CLASS(STRING)"`   # I used WM_NAME(STRING) before, WM_CLASS more accurate.
+            if [[ "$activ_win_title" = *chromium-browser* || "$activ_win_title" = *Firefox* ]];then
+                #check if firefox or chromium is running.
+                if [[ `pgrep -l firefox | grep -wc firefox` -ge 1 || `pgrep -l chromium-browse | grep -wc chromium-browse` -ge 1 ]]; then
+                    xset -dpms
+                    xset dpms
+                fi
+            fi
+        fi
+    done
+    sleep 50
+done

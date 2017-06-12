@@ -13,6 +13,7 @@ sxhkd &
 urxvt &
 mopidy &
 monmon &
+fsdetect &
 idle &
 compton -cb -o 0.4 -r 8 -l -8 -t -8 &
 exec ~/.config/bspwm/wm
