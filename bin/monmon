@@ -15,6 +15,9 @@ function count_mons {
 N_MONS=$(count_mons)
 
 while true; do
+    if [ -f "/tmp/lock" ]; then
+        continue
+    fi
     NEW_N_MONS=$(count_mons)
     if [ "$NEW_N_MONS" -gt "$N_MONS" ]; then
         EXT_EDID=$(edids | grep "HDMI1" | cut -d' ' -f2)
