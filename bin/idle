@@ -9,7 +9,7 @@ IDLE_TIME=$(($IDLE_MIN*60*1000)) # ms
 
 while true; do
     idle=$(xprintidle)
-    if [ $idle -ge $IDLE_TIME ] && [ ! -f "/tmp/caffeine" ]; then
+    if [ $idle -ge $IDLE_TIME ] && [ ! -f "/tmp/caffeine" ] && [ ! -f "/tmp/fullscreen" ]; then
         sudo pm-suspend
     fi
     sleep 10
