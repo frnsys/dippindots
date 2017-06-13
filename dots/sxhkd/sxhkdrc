@@ -36,10 +36,6 @@ super + {o,i}
     bspc window {older,newer} -f; \
     bspc control --record-history on
 
-# move focused window to biggest window
-super + m
-    bspc window -s biggest
-
 # move focus across windows
 super + {h,j,k,l}
     bspc window -f {left,down,up,right}
@@ -186,8 +182,12 @@ super + p
 super + e
     bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/emoji
 
-super + c
+super + m
     bspc rule -a urxvt -o floating=on && urxvt -e ncmpcpp
+
+# toggle caffeine
+super + c
+    if [ ! -f "/tmp/caffeine" ]; then caffeine; else kill `cat /tmp/caffeine`; fi;
 
 # make sxhkd reload its configuration files:
 super + Escape

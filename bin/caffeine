@@ -12,7 +12,7 @@ trap finish INT TERM QUIT
 
 xset -dpms
 xset s off
-touch /tmp/caffeine
+echo $$ > /tmp/caffeine
 echo "Staying awake..."
 
 while true; do
