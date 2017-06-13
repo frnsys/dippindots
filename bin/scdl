@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# easily download from soundcloud to my music folder,
-# grabs url to download from the clipboard
-URL=$(xsel -b)
-cd ~/musics/_misc; youtube-dl $URL && notify-send "downloaded '$URL'" || notify-send "error downloading '$URL'"
