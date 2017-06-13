@@ -123,14 +123,9 @@ super + alt + k
 @super + alt + shift + ctrl + s
     shot full
 
-# record region
+# record region, press again to stop
 @super + r
-    rec region
-
-# stop recording
-@super + ctrl + r
-    pkill recordmydesktop
-
+    if pgrep -x recordmydesktop > /dev/null; then pkill recordmydesktop; else rec region; fi;
 #
 # media buttons
 # these are prefixed with `super`
