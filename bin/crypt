@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# this encrypts (locks) or decrypts (unlocks) files or directories;
+# it relies on my GPG keys (with the name $KEYNAME)
+# do `gpg -K` to check that it's there; if not then
+# import it with `gpg --import ~/docs/keys/private.key`
+# see `~/docs/keys/note.md` for pw note
+
+KEYNAME="Francis Tseng"
+
+CMD=$1
+WRK=`dirname $2`
+INP=`basename $2`
+cd $WRK
+
+if [ $CMD == 'en' ]; then
+    OUT=${INP}.gpg
+    if [[ -d $INP ]]; then
+        # archive, then remove original dir
+        tar czf "${INP}.tar.gz" "$INP" && rm -r $INP
+        INP="${INP}.tar.gz"
+    fi
+    gpg --encrypt --recipient "$KEYNAME" --output "$OUT" "$INP"
+    RESULT=$?
+    if [ $RESULT -eq 0 ]; then
+        rm $INP
+        echo "${WRK}/${OUT}"
+    else
+        if [[ $INP == *.tar.gz ]]; then
+            # restore original dir
+            tar xzf "$INP" && rm $INP
+        fi
+        >&2 echo 'failed'
+        exit 1
+    fi
+
+elif [ $CMD == 'de' ]; then
+    OUT=$INP
+    INP=${INP}.gpg
+
+    if [ ! -f $INP ]; then
+        echo "no file '$INP'"
+        exit 1
+    fi
+
+    gpg --decrypt --output "$OUT" "$INP"
+    RESULT=$?
+    if [ $RESULT -eq 0 ]; then
+        # check if looks like a gzip file,
+        # if so, also assume tar
+        if gunzip -t $OUT 2> /dev/null; then
+            tar xzf "$OUT"
+        fi
+        rm $INP
+        echo "${WRK}/${OUT}"
+    else
+        >&2 echo 'failed'
+        exit 1
+    fi
+
+
+else
+    echo "Specify 'en' or 'de'"
+    exit 1
+fi
