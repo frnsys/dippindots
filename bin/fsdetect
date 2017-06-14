@@ -16,12 +16,9 @@ while true; do
         if [[ "$isActivWinFullscreen" = *NET_WM_STATE_FULLSCREEN* ]]; then
             activ_win_title=`xprop -id $activ_win_id | grep "WM_CLASS(STRING)"`   # I used WM_NAME(STRING) before, WM_CLASS more accurate.
             if [[ "$activ_win_title" = *chromium-browser* || "$activ_win_title" = *Firefox* ]]; then
-                #check if firefox or chromium is running.
-                if [[ `pgrep -l firefox | grep -wc firefox` -ge 1 || `pgrep -l chromium-browse | grep -wc chromium-browse` -ge 1 ]]; then
-                    xset -dpms
-                    xset s off
-                    touch /tmp/fullscreen
-                fi
+                xset -dpms
+                xset s off
+                touch /tmp/fullscreen
             fi
         elif [ -f /tmp/fullscreen ]; then
             xset +dpms
