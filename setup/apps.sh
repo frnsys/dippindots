@@ -19,7 +19,7 @@ tput sgr0
 # compton - for window/bar transparency and shadows
 sudo apt-get update
 sudo apt-get install xorg --no-install-recommends -y
-sudo apt-get install feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight hfsprogs gdebi dhcpcd deluged deluge-console compton -y
+sudo apt-get install feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight hfsprogs gdebi dhcpcd deluged deluge-console compton oathtool -y
 
 # auto-lock screen on sleep
 sudo cp $DIR/dots/misc/00_screen /etc/pm/sleep.d/00_screen
