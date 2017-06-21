@@ -1,0 +1,5 @@
+#!/bin/bash
+# see ~/notes/computers/linux/signal.md for setup instructions
+
+MSG=${1:-$(</dev/stdin)}
+signal-cli -u ${SIGNALNUM} send -m "$MSG" ${SIGNALNUM}
