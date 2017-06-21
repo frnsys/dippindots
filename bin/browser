@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# stop leaking dns requests to google
+chromium-browser --disable-async-dns
