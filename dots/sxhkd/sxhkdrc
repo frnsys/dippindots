@@ -174,6 +174,9 @@ super + t
 super + p
     bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/keepass
 
+super + q
+    q
+
 super + a
     bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/2fa
 

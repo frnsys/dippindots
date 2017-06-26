@@ -14,10 +14,10 @@ elif [ $CMD == 'go' ]; then
     PORT=$2
 
     if [ "$#" -ne 3 ]; then
-        ssh -t ${BRIDGE} 'ssh localhost -p '${PORT}
+        ssh -X -t ${BRIDGE} 'ssh -X localhost -p '${PORT}
     else
         REMOTE_CMD=$3
-        ssh -t ${BRIDGE} 'ssh localhost -p '${PORT} ${REMOTE_CMD}
+        ssh -X -t ${BRIDGE} 'ssh -X localhost -p '${PORT} ${REMOTE_CMD}
     fi
 
 elif [ $CMD == 'close' ]; then
