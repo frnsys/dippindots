@@ -1,20 +1,40 @@
 #!/bin/bash
 
-QUERY=$(echo "" | dmenu -p "search")
-[ "$QUERY" ] || exit
+IMG_DIM=250x250
+SOURCES=$(echo ~/{downloads,projects,docs,notes})
 
-DIRS=$(find ~/ -maxdepth 2 -type d -not -path '*/\.*' -iname "*$QUERY*")
-FILES=$(ag -i -g "$QUERY" ~/)
-
-CHOICE=$(echo -e "$DIRS"$'\n'"$FILES" | dmenu -l 10 -p "results")
-while [ -d "$CHOICE" ]; do
-    CHOICE=$CHOICE/$(ls "$CHOICE" | dmenu -l 10 -p "directory")
-done
-[ "$CHOICE" ] || exit
+# append image preview markup
+function process_files {
+    while read -r line; do
+        case "$line" in
+            *.png|*.jpg|*.jpeg|*.gif) FILES_="$FILES_"$'\n'"IMG:$2$line\t$line";;
+            *) FILES_="$FILES_"$'\n'"$line";;
+        esac
+    done <<< "$1"
+    echo -e "$FILES_" | sed '/^\s*$/d'
+}
 
 function float {
     bspc rule -a $1 -o floating=on
 }
+
+QUERY=$(echo "" | dmenu -p "search") || exit
+DIRS=$(find ~/ -maxdepth 2 -type d -not -path '*/\.*' -iname "*$QUERY*")
+FILES=$(process_files "$(ag -i -g "$QUERY" --depth 3 $SOURCES)")
+
+if [ "$DIRS" ]; then
+    CHOICES="$DIRS"$'\n'"$FILES"
+else
+    CHOICES="$FILES"
+fi
+
+# get choice, and continue prompting while choice is a directory
+CHOICE=$(echo -e "$CHOICES" | dmenu -is $IMG_DIM -l 10 -p "results") || exit
+while [ -d "$CHOICE" ]; do
+    CHOICES=$(process_files "$(ls "$CHOICE")" $CHOICE/)
+    NEXT=$(echo -e "$CHOICES" | dmenu -is $IMG_DIM -l 10 -p "directory") || exit
+    CHOICE=$CHOICE/$NEXT
+done
 
 case "$CHOICE" in
     *.png|*.jpg|*.jpeg) feh --scale-down "$CHOICE";;
