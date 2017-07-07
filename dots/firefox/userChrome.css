@@ -94,11 +94,11 @@
              /*#urlbar * { -moz-appearance: none !important; }*/
 
     /* --- Comment out the section below to make the url-bar visible --- */
-    #nav-bar {
-        width: 0 !important; height: 0 !important;
-        position: fixed !important; left: -1px !important; top: -1px !important;
-        overflow: hidden !important; visibility: hidden !important;
-    }
+    /* #nav-bar { */
+    /*     width: 0 !important; height: 0 !important; */
+    /*     position: fixed !important; left: -1px !important; top: -1px !important; */
+    /*     overflow: hidden !important; visibility: hidden !important; */
+    /* } */
 
     /* TABS */
     .tabbrowser-tab[fadein]:not([pinned]) { min-width: 100px !important; max-width: /*180px*/ 100% !important; }
@@ -203,7 +203,7 @@
     #appmenu-toolbar-button, #appmenu-button-container { display: none !important; }
 
     /* HIDE STATUS BAR */
-    #status-bar, #statusbar-display, statuspanel { display: none !important; }
+    /*#status-bar, #statusbar-display, statuspanel { display: none !important; }*/
 
     /* PRIVATE BROWSING ICON HIDE */
     #main-window[privatebrowsingmode=temporary] #private-browsing-indicator,
