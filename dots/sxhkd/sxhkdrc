@@ -58,18 +58,6 @@ super + shift + {1-9,0}
 super + {1-9,0}
     bspc desktop -f ^{1-9,10}
 
-# pointer focus
-~button1
-    bspc pointer -g focus
-
-# start move/resize
-super + button{1-3}
-    ; bspc pointer -g {move,resize_side,resize_corner}
-
-# end move/resize
-super + @button{1-3}
-    bspc pointer -u
-
 #
 # wm independent hotkeys
 #
@@ -78,10 +66,10 @@ super + Return
     urxvt
 
 shift + ctrl + Return
-    bspc rule -a urxvt -o floating=on && urxvt
+    bspc rule -a URxvt -o state=floating && urxvt
 
 super + n
-    bspc rule -a urxvt -o floating=on && urxvt -e wicd-curses
+    bspc rule -a URxvt -o state=floating && urxvt -e wicd-curses
 
 super + space
     dmenu_run -l 10
@@ -156,25 +144,25 @@ super + {F1, XF86AudioPrev}
     mpc prev
 
 XF86PowerOff
-    bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/pwr
+    bspc rule -a URxvt -o state=floating && urxvt -e ~/.bin/pwr
 
 super + t
-    bspc rule -a urxvt -o floating=on && urxvt -e vi ~/notes/todo.md
+    bspc rule -a URxvt -o state=floating && urxvt -e vi ~/notes/todo.md
 
 super + p
-    bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/keepass
+    bspc rule -a URxvt -o state=floating && urxvt -e ~/.bin/keepass
 
 super + q
     q
 
 super + a
-    bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/2fa
+    bspc rule -a URxvt -o state=floating && urxvt -e ~/.bin/2fa
 
 super + e
-    bspc rule -a urxvt -o floating=on && urxvt -e ~/.bin/emoji
+    bspc rule -a URxvt -o state=floating && urxvt -e ~/.bin/emoji
 
 super + m
-    bspc rule -a urxvt -o floating=on && urxvt -e ncmpcpp
+    bspc rule -a URxvt -o state=floating && urxvt -e ncmpcpp
 
 # toggle caffeine
 super + c

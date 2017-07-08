@@ -15,7 +15,7 @@ function process_files {
 }
 
 function float {
-    bspc rule -a $1 -o floating=on
+    bspc rule -a $1 -o state=floating
 }
 
 QUERY=$(echo "" | dmenu -p "search") || exit
@@ -41,6 +41,6 @@ case "$CHOICE" in
     *.mkv|*.mp4|*.webm) float mpv && mpv --autofit=50%x50% "$CHOICE";;
     *.gif) gifview -a "$CHOICE";;
     *.pdf) float zathura && zathura "$CHOICE";;
-    *.md) float urxvt && urxvt -e vi "$CHOICE";;
+    *.md) float URxvt && urxvt -e vi "$CHOICE";;
     *) notify-send "unrecognized extension";;
 esac

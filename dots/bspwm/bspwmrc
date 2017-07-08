@@ -3,13 +3,15 @@
 . ~/.config/bspwm/colors
 
 bspc config border_width        0
-bspc config window_gap          12
+bspc config window_gap          8
 
 bspc config split_ratio         0.50
 bspc config borderless_monocle  true
 bspc config gapless_monocle     true
 bspc config click_to_focus      true
 bspc config focus_follows_pointer false
+bspc config pointer_modifier mod4 # super
+bspc config pointer_action2 resize_corner
 bspc config normal_border_color "${NORMAL_BORDER_COLOR}"
 bspc config active_border_color "${ACTIVE_BORDER_COLOR}"
 bspc config focused_border_color "${FOCUSED_BORDER_COLOR}"
@@ -20,8 +22,8 @@ bspc config focused_locked_border_color "${FOCUSED_LOCKED_BORDER_COLOR}"
 # Get a window name by running
 # xprop | grep WM_CLASS
 # and click on the window in question
-bspc rule -a feh floating=on
-bspc rule -a gifview floating=on
+bspc rule -a feh state=floating
+bspc rule -a gifview state=floating
 
 for monitor in $(bspc query -M); do
     bspc monitor $monitor -n "$monitor" -d   
