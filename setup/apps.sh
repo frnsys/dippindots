@@ -22,7 +22,11 @@ sudo apt-get install xorg --no-install-recommends -y
 sudo apt-get install feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight hfsprogs gdebi dhcpcd deluged deluge-console compton oathtool -y
 
 # auto-lock screen on sleep
-sudo cp $DIR/dots/misc/00_screen /etc/pm/sleep.d/00_screen
+# https://wiki.archlinux.org/index.php/Power_management#Suspend.2Fresume_service_files
+sudo cp $DIR/bin/lock /usr/bin/lock
+sudo cp $DIR/dots/misc/lock@.service /etc/systemd/system/lock@.service
+sudo chown root:root /etc/systemd/system/lock@.service
+systemctl enable lock@ftseng.service
 
 # not using a DE or session manager,
 # so manually check idle time for sleeping

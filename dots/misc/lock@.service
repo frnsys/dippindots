@@ -1,0 +1,12 @@
+[Unit]
+Description=lock on suspend
+After=sleep.target
+
+[Service]
+User=%i
+Type=forking
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/lock
+
+[Install]
+WantedBy=sleep.target
