@@ -8,45 +8,39 @@ super + alt + {h,l}
 
 # move window/desktop to left/right monitor
 super + {shift,ctrl} + alt + {h,l,k,j}
-    bspc {window,desktop} -m {L,R,A,B}
+    bspc {node,desktop} -m {L,R,A,B}
 
 # force close current window
 super + shift + alt + q
-    bspc window -c
+    bspc node -c
 
 # adjust windows so they each occupy the same area (balance)
 super + b
-    bspc desktop -B
+    bspc node -B
 
 # toggle floating/fullscreen/sticky
-super + {s,f,y}
-    bspc window -t {floating,fullscreen,sticky}
+super + {s,f,y,o}
+    bspc node -t ~{floating,fullscreen,sticky,tiled}
 
 # focus on previous window/desktop
 super + {Tab,grave}
-    bspc {window,desktop} -f last
+    bspc {node,desktop} -f last
 
 # swap current window with previous window
 super + apostrophe
-    bspc window -s last
-
-# focus backwards/forwards through history
-super + {o,i}
-    bspc control --record-history off; \
-    bspc window {older,newer} -f; \
-    bspc control --record-history on
+    bspc node -s last
 
 # move focus across windows
 super + {h,j,k,l}
-    bspc window -f {left,down,up,right}
+    bspc node -f {west,south,north,east}
 
 # swap windows
 super + shift + {h,j,k,l}
-    bspc window -s {left,down,up,right}
+    bspc node -s {west,south,north,east}
 
 # cycle windows forward/backwards
 super + {comma,period}
-    bspc desktop -C {backward,forward}
+    bspc node -C {backward,forward}
 
 # move focus across desktops
 super + bracket{left,right}
@@ -54,15 +48,11 @@ super + bracket{left,right}
 
 # preselect new window location
 super + ctrl + {h,j,k,l}
-    bspc window -p {left,down,up,right}
-
-# resize window
-super + shift + ctrl + {h,j,k,l}
-    bspc window -e {left -10,down +10,up -10,right +10}
+    bspc node -p {west,south,north,east}
 
 # move window to desktop
 super + shift + {1-9,0}
-    bspc window -d ^{1-9,10}
+    bspc node -d ^{1-9,10}
 
 # focus desktop
 super + {1-9,0}

@@ -39,28 +39,30 @@ elif [[ $PLACE == 'reset' ]]; then
         EXNAME=R
     elif [[ $PRNAME == 'A' ]]; then
         EXNAME=B
-    else
+    elif [[ $PRNAME == 'B' ]]; then
         EXNAME=A
     fi
 
-    # list windows on ext mon, move them to primary mon
-    bspc query -W -m $EXNAME | xargs -L1 -I % bspc window % -m primary
+    if [ ! -z "$EXNAME" ]; then
+        # list windows on ext mon, move them to primary mon
+        bspc query -N -m $EXNAME | xargs -L1 -I % bspc node % -m primary
 
-    # list desktops on ext mon, get their numbers, remove them all
-    bspc query -D -m $EXNAME | grep -n '.' | cut -f1 -d: | xargs -L1 -I % bspc desktop $EXNAME:^% -r
+        # list desktops on ext mon, get their numbers, remove them all
+        bspc query -D -m $EXNAME | grep -n '.' | cut -f1 -d: | xargs -L1 -I % bspc desktop $EXNAME:^% -r
 
-    # rename the monitors for reuse later
-    bspc monitor primary -n $INMON
-    bspc monitor $EXNAME -n $EXMON
+        # rename the monitors for reuse later
+        bspc monitor primary -n $INMON
+        bspc monitor $EXNAME -n $EXMON
 
-    # "unplug" the monitor
-    xrandr --output $EXMON --off
+        # "unplug" the monitor
+        xrandr --output $EXMON --off
 
-    # the last desktop sticks, so remove it
-    bspc desktop primary:^$(bspc query -D | wc -l) -r
+        # the last desktop sticks, so remove it
+        bspc desktop primary:^$(bspc query -D | wc -l) -r
 
-    # reset the wallpaper to render properly
-    feh --bg-fill ~/.wallpaper.jpg &
+        # reset the wallpaper to render properly
+        feh --bg-fill ~/.wallpaper.jpg &
+    fi
 
     restart_panel
     exit 0

@@ -29,9 +29,9 @@ sudo cp $DIR/dots/misc/00_screen /etc/pm/sleep.d/00_screen
 sudo apt-get install xprintidle
 
 # plymouth (splash) config
-sudo apt-get install plymouth-theme-text
-sudo update-alternatives --install /lib/plymouth/themes/default.plymouth default.plymouth /lib/plymouth/themes/text.plymouth 10
-sudo update-alternatives --set default.plymouth /lib/plymouth/themes/text.plymouth
+sudo apt-get install plymouth-theme-ubuntu-text
+sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/text.plymouth 10
+sudo update-alternatives --set default.plymouth /usr/share/plymouth/themes/text.plymouth
 sudo update-initramfs -u
 
 # dmenu-pango-imlib
@@ -41,11 +41,11 @@ sudo apt-get install libimlib2-dev -y
 sudo make clean install
 cd $DIR
 
-# main/slop (scrot replacement)
+# maim/slop (scrot replacement)
 sudo apt-get install libglm-dev -y
 git clone https://github.com/naelstrof/slop.git /tmp/slop
 cd /tmp/slop
-cmake -DCMAKE_OPENGL_SUPPORT=true ./
+cmake -DCMAKE_OPENGL_SUPPORT=true -DSLOP_UNICODE=false ./
 make && sudo make install
 git clone https://github.com/naelstrof/maim.git /tmp/maim
 cd /tmp/maim
@@ -54,7 +54,7 @@ make && sudo make install
 cd $DIR
 
 # build the latest ncmpcpp
-sudo apt-get install libboost-all-dev libfftw3-dev doxygen libncursesw5-dev libtag1-dev libcurl4-openssl-dev libmpdclient-dev
+sudo apt-get install libboost-all-dev libfftw3-dev doxygen libncursesw5-dev libtag1-dev libcurl4-openssl-dev libmpdclient-dev libtool
 git clone git@github.com:arybczak/ncmpcpp.git /tmp/ncmpcpp
 cd /tmp/ncmpcpp
 git checkout 0.7.7
@@ -83,7 +83,7 @@ cp -r $DIR/dots/mopidy ~/.config/mopidy
 sudo apt-get install mpc -y
 
 # build latest libass for ffmpeg and mpv
-sudo apt-get install libfribidi-dev libfontconfig2-dev
+sudo apt-get install libfribidi-dev libfontconfig1-dev
 git clone --depth=1 https://github.com/libass/libass.git /tmp/libass
 cd /tmp/libass
 ./autogen.sh
@@ -143,7 +143,7 @@ sudo ./install
 cd $DIR
 
 # bspwm - window manager
-sudo apt-get install xcb libxcb-util0-dev libxcb-ewmh-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-xinerama0-dev libasound2-dev -y
+sudo apt-get install xcb libxcb-util0-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-xinerama0-dev libasound2-dev -y
 git clone https://github.com/baskerville/bspwm.git /tmp/bspwm
 git clone https://github.com/baskerville/sxhkd.git /tmp/sxhkd
 cd /tmp/bspwm && make && sudo make install
