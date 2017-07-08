@@ -320,6 +320,10 @@ ln -s $DIR/dots/bkup ~/.bkup
 # monitor position preferences
 ln -sf $DIR/dots/mons ~/.mons
 
+# fixes some heinous c720 touchpad stuff
+sudo cp $DIR/dots/misc/50-synaptics.conf /usr/share/X11/xorg.conf.d/50-synaptics.conf
+sudo chown root:root /usr/share/X11/xorg.conf.d/50-synaptics.conf
+
 # to setup the compose key
 # for the AltGr prompt, select "default for keyboard"
 # for the compose prompt, select right alt
