@@ -5,5 +5,5 @@ lockbg='/tmp/lock.png'
 scrot "$lockbg"
 convert "$lockbg" -filter point -resize 10% -resize 1000% "$lockbg"
 touch "$lockfi"
-i3lock -n -u -i "$lockbg"
+i3lock -u -i "$lockbg"
 trap "rm $lockfi" EXIT

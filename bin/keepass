@@ -154,7 +154,7 @@ if __name__ == '__main__':
                 if selected.notes:
                     print(selected.notes)
                 # refocus last-focused window and type in password
-                subprocess.Popen(['bspc', 'window', '-f', 'last']).wait()
+                subprocess.Popen(['bspc', 'node', '-f', 'last']).wait()
                 subprocess.Popen(['xdotool', 'type', selected.password]).wait()
                 sleep(0.1) # give xdotool a sec
                 exit(0)
