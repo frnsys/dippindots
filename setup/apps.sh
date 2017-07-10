@@ -147,9 +147,11 @@ sudo ./install
 cd $DIR
 
 # bspwm - window manager
-sudo apt-get install xcb libxcb-util0-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-xinerama0-dev libasound2-dev -y
+sudo apt-get install xcb libxcb-util0-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-xinerama0-dev libxcb-xtest0-dev libasound2-dev -y
+git clone https://github.com/baskerville/xdo /tmp/xdo
 git clone https://github.com/baskerville/bspwm.git /tmp/bspwm
 git clone https://github.com/baskerville/sxhkd.git /tmp/sxhkd
+cd /tmp/xdo && make && sudo make install
 cd /tmp/bspwm && make && sudo make install
 cd /tmp/sxhkd && make && sudo make install
 cd $DIR
