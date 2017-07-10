@@ -44,7 +44,7 @@ super + {comma,period}
 
 # move focus across desktops
 super + bracket{left,right}
-    bspc desktop -f {prev,next}
+    bspc desktop -f {prev.local,next.local}
 
 # preselect new window location
 super + ctrl + {h,j,k,l}
