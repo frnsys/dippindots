@@ -32,7 +32,7 @@ elif [[ $PLACE == 'below' ]]; then
     POSITION=below
 elif [[ $PLACE == 'reset' ]]; then
     # figure out the primary monitor name
-    PRNAME=$(bspc query -M -m primary)
+    PRNAME=$(bspc query -M -m primary --names)
     if [[ $PRNAME == 'R' ]]; then
         EXNAME=L
     elif [[ $PRNAME == 'L' ]]; then
@@ -73,6 +73,7 @@ fi
 
 # set primary monitory
 xrandr --output $INMON --auto --primary
+bspc monitor primary -n $INMON
 
 # place the external monitor to the specified position
 xrandr --output $EXMON --auto --$POSITION $INMON

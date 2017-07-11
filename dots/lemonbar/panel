@@ -44,7 +44,7 @@ while read -r mon; do
     ~/.config/lemonbar/caffeine > "$PANEL_FIFO$mon" &
 
     # Grep out current monitor width
-    CUR_MON_WIDTH=$(bspc query -T -m $mon | grep -oE "width\":[0-9]{2,6}" | head -n 1 | grep -oE "[0-9]{2,6}")
+    CUR_MON_WIDTH=$(bspc query -T -m $mon | grep -oE "width\":[1-9]{2,6}" | head -n 1 | grep -oE "[0-9]{2,6}")
 
     # Create the panel with the proper geometry/positioning
     # -b flag docks the bar at the bottom of the screen
@@ -54,13 +54,18 @@ while read -r mon; do
     CUR_X_OFFSET=$(($CUR_X_OFFSET + $CUR_MON_WIDTH))
 done <<< $"$(bspc query -M --names | sort)" # sort so that monitor L always comes before monitor R
 
-wid=$(xdo id -a "$PANEL_NAME")
+# push panel to below fullscreen windows
+wids=$(xdo id -a "$PANEL_NAME")
 tries_left=20
-while [ -z "$wid" -a "$tries_left" -gt 0 ] ; do
+while [ -z "$wids" -a "$tries_left" -gt 0 ] ; do
 	sleep 0.05
-	wid=$(xdo id -a "$PANEL_NAME")
+	wids=$(xdo id -a "$PANEL_NAME")
 	tries_left=$((tries_left - 1))
 done
-[ -n "$wid" ] && xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "$wid"
+if [ "$wids" ]; then
+    while read -r wid; do
+        xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 2)" "$wid"
+    done <<< "$wids"
+fi
 
 wait
