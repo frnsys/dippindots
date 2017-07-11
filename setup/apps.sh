@@ -312,6 +312,10 @@ ln -sf $DIR/dots/mons ~/.mons
 sudo cp $DIR/dots/misc/50-synaptics.conf /usr/share/X11/xorg.conf.d/50-synaptics.conf
 sudo chown root:root /usr/share/X11/xorg.conf.d/50-synaptics.conf
 
+# brightness adjustment fix
+sudo cp $DIR/dots/misc/20-intel.conf /usr/share/X11/xorg.conf.d/20-intel.conf
+sudo chown root:root /usr/share/X11/xorg.conf.d/20-intel.conf
+
 # to setup the compose key
 # for the AltGr prompt, select "default for keyboard"
 # for the compose prompt, select right alt
