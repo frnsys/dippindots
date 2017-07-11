@@ -13,13 +13,12 @@ tput sgr0
 # libnotify-bin - for `notify-send` to create notifications
 # unclutter - hide cursor after inactivity
 # xbacklight - control screen brightness
-# hfsprogs - hfs+ file system support
 # gdebi - easier installation of deb packages
 # dhcpcd - for android usb tethering
 # compton - for window/bar transparency and shadows
 sudo apt-get update
 sudo apt-get install xorg --no-install-recommends -y
-sudo apt-get install feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight hfsprogs gdebi dhcpcd deluged deluge-console compton oathtool -y
+sudo apt-get install feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight gdebi dhcpcd deluged deluge-console compton oathtool -y
 
 # auto-lock screen on sleep
 # https://wiki.archlinux.org/index.php/Power_management#Suspend.2Fresume_service_files
@@ -183,15 +182,6 @@ sudo mv /tmp/urxvt-perls/* /usr/lib/urxvt/perl/
 git clone https://github.com/majutsushi/urxvt-font-size.git /tmp/urxvt-font-size
 sudo mv /tmp/urxvt-font-size/font-size /usr/lib/urxvt/perl/font-size
 
-# ranger - file browser
-# note: For raster image previews (NOT ascii previews) with w3m-image to work,
-# you have to use xterm or urxvt
-sudo apt-get install ranger highlight atool caca-utils w3m w3m-img poppler-utils -y
-ranger --copy-config=scope
-mkdir ~/.config/ranger/colorschemes
-ln -sf $DIR/dots/ranger/euphrasia.py ~/.config/ranger/colorschemes/euphrasia.py
-ln -sf $DIR/dots/ranger/rc.conf ~/.config/ranger/rc.conf
-
 # wicd - managing network connections
 sudo apt-get install wicd wicd-cli wicd-curses -y
 sudo ln -sf /run/resolvconf/resolv.conf /var/lib/wicd/resolv.conf.orig
@@ -215,9 +205,8 @@ sudo update-pepperflashplugin-nonfree --install
 # ncdu          -- ncurses disk usage
 # keepassx      -- password management
 # adb           -- for interfacing with android phones
-# gcolor2       -- color picker
 # xournal       -- for annotating pdfs
-sudo apt-get install --no-install-recommends --yes zathura android-tools-adb ncdu keepassx gcolor2 xournal
+sudo apt-get install --no-install-recommends --yes zathura android-tools-adb ncdu keepassx xournal
 
 # for ~/.bin/keepass
 sudo pip2 install gtk
@@ -238,13 +227,6 @@ sudo cp $DIR/dots/misc/network/airvpn_down /etc/network/if-post_down/airvpn
 # chrome for netflix
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb
 sudo gdebi /tmp/chrome.deb
-
-# scim, a modern version of sc (spreadsheet calculator)
-cd /tmp
-git clone https://github.com/andmarti1424/scim.git
-cd scim/src
-make && sudo make install
-cd $DIR
 
 # lxappearance for managing GTK themeing
 sudo apt-get install lxappearance -y
