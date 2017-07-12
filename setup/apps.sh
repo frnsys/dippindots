@@ -31,12 +31,6 @@ systemctl enable lock@ftseng.service
 # so manually check idle time for sleeping
 sudo apt-get install xprintidle
 
-# plymouth (splash) config
-sudo apt-get install plymouth-theme-ubuntu-text
-sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/text.plymouth 10
-sudo update-alternatives --set default.plymouth /usr/share/plymouth/themes/text.plymouth
-sudo update-initramfs -u
-
 # dmenu-pango-imlib
 git clone https://github.com/Cloudef/dmenu-pango-imlib /tmp/dmenu
 cd /tmp/dmenu
@@ -209,11 +203,7 @@ sudo update-pepperflashplugin-nonfree --install
 sudo apt-get install --no-install-recommends --yes zathura android-tools-adb ncdu keepassx xournal
 
 # for ~/.bin/keepass
-sudo pip2 install gtk
-git clone git@github.com:brettviren/python-keepass.git /tmp/python-keepass
-cd /tmp/python-keepass
-sudo python2 setup.py install
-cd $DIR
+sudo pip2 install gtk pykeepass
 
 # vpn
 sudo apt-get install -y openvpn stunnel4

@@ -1,9 +1,8 @@
 #!/usr/bin/python2
 
 """
-pip2 install gtk
-git clone git@github.com:brettviren/python-keepass.git
-python2 setup.py install
+For Keepass 2.x (v4) files
+pip2 install gtk pykeepass
 """
 
 import string
@@ -11,7 +10,7 @@ import random
 import getpass
 import subprocess
 from time import sleep
-from keepass import kpdb
+from pykeepass import PyKeePass
 
 chars = string.ascii_letters + string.digits + string.punctuation
 
@@ -30,39 +29,40 @@ def search_entries(db, query):
     query = query.lower()
     for entry in get_entries(db):
         content = ' '.join([entry.title,
-                           entry.url,
-                           entry.notes])
+                           entry.url or '',
+                           entry.notes or ''])
         if query in content.lower():
             results.append(entry)
     return results
 
 
 def add_entry(db, group_name, title, username, url='', notes='', password='', password_length=32, overwrite=False):
-    group_names = [group.name() for group in db.groups]
+    group_names = [group.name for group in db.groups]
     if group_name not in group_names:
         raise KeyError('"{}" is not an existing group'.format(group_name))
     if not password:
         password = generate_password(length=password_length)
+    group = db.find_groups_by_name(group_name, first=True)
     db.add_entry(
-        path=group_name,
+        destination_group=group,
         title=title,
         username=username,
         password=password,
         url=url,
         notes=notes,
-        append=not overwrite)
+        force_creation=not overwrite)
     return password
 
 def new_entry(db):
     print('Groups:')
     data = {}
     for i, group in enumerate(db.groups):
-        print('[{}] {}'.format(i, group.name()))
+        print('[{}] {}'.format(i, group.name))
     data['group_name'] = None
     while data['group_name'] is None:
         inp = raw_input('Select #: ')
         try:
-            data['group_name'] = db.groups[int(inp)].name()
+            data['group_name'] = db.groups[int(inp)].name
         except (ValueError, IndexError):
             pass
 
@@ -125,8 +125,8 @@ def load_db(filename):
     while db is None:
         try:
             masterkey = getpass.getpass()
-            db = kpdb.Database(filename, masterkey)
-        except ValueError:
+            db = PyKeePass(filename, password=masterkey)
+        except IOError:
             print('Incorrect password')
     return db
 
@@ -135,7 +135,7 @@ if __name__ == '__main__':
     import os
     import gtk
     print('Keepass')
-    filename = os.path.expanduser('~/docs/pass.kdb')
+    filename = os.path.expanduser('~/docs/pass.kdbx')
     try:
         db = load_db(filename)
         clipboard = gtk.Clipboard()
@@ -147,7 +147,7 @@ if __name__ == '__main__':
                 password = new_entry(db)
                 clipboard.set_text(password)
                 print('Copied password to clipboard\n')
-                db.write(filename)
+                db.save()
             elif cmd == 'get':
                 selected = search(db)
                 print('Username: {}'.format(selected.username))
