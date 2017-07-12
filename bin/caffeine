@@ -1,5 +1,7 @@
 #!/bin/bash
 
+TAP_MS=30000
+
 function finish {
     echo "Goodbye!"
     xset +dpms
@@ -15,6 +17,19 @@ xset s off
 echo $$ > /tmp/caffeine
 echo "Staying awake..."
 
+# TODO
+# FS_WIN_ID=$(bspc query -N -n focused.fullscreen | awk '{print tolower($0)}')
+# if [ $FS_WIN_ID ]; then
+#     FS_WIN_NAME=$(wmctrl -l | grep $FS_WIN_ID)
+#     case "$FS_WIN_NAME" in
+#       *Firefox*|*mpv*) echo "START CAFFEINE" ;;
+#       *) ;;
+#     esac
+# fi
+
 while true; do
+    if (( $(xprintidle) > $TAP_MS)); then
+        xdotool key shift
+    fi
     sleep 1
 done
