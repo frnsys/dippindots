@@ -28,5 +28,4 @@ archive:
     dirs:
         - '~/archives/'
     targets:
-        - 'ftseng@svalbard:/mnt/databank/francis/archives/'
-        - 'ftseng@svalbard:/mnt/outerspace/francis/archives/'
+        - '/media/usb/archives'
