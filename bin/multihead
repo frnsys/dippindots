@@ -5,6 +5,9 @@ PLACE=$1
 INMON=eDP1
 EXMON=HDMI1
 
+# so bspc properly picks up the primary monitor
+xrandr --output $INMON --auto --primary
+
 function restart_panel {
     # Kill the panel/lemonbar and restart
     pkill panel
@@ -44,6 +47,9 @@ elif [[ $PLACE == 'reset' ]]; then
     fi
 
     if [ ! -z "$EXNAME" ]; then
+        # TODO how to get non-primary monitor name?
+        # try getting primary mon id, then getting the next monitor
+
         # list windows on ext mon, move them to primary mon
         bspc query -N -m $EXNAME | xargs -L1 -I % bspc node % -m primary
 
@@ -79,8 +85,8 @@ bspc monitor primary -n $INMON
 xrandr --output $EXMON --auto --$POSITION $INMON
 
 # rename each monitor so sxhkd can use it with bspwm to move focus/windows/desktops across monitors
-bspc monitor $EXMON -n $EXMON_PLACE
-bspc monitor $INMON -n $INMON_PLACE
+bspc monitor $(bspc query -M -m primary --names) -n $INMON_PLACE
+bspc monitor $(bspc query -M -m primary#next --names) -n $EXMON_PLACE
 
 # setup desktops on external monitor
 bspc monitor $EXMON_PLACE -d   
