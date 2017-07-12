@@ -11,7 +11,7 @@ fi
 
 source ~/.config/lemonbar/colors
 
-PANEL_PADDING=12
+PANEL_PADDING=0
 PANEL_HEIGHT=24
 PANEL_NAME="wm_panel"
 
