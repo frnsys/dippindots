@@ -316,6 +316,9 @@ sudo chown root:root /usr/share/X11/xorg.conf.d/50-synaptics.conf
 sudo cp $DIR/dots/misc/20-intel.conf /usr/share/X11/xorg.conf.d/20-intel.conf
 sudo chown root:root /usr/share/X11/xorg.conf.d/20-intel.conf
 
+# usb mouse fix
+sudo mv /usr/share/X11/xorg.conf.d/20-mouse.conf /usr/share/X11/xorg.conf.d/20-mouse.conf.disabled
+
 # to setup the compose key
 # for the AltGr prompt, select "default for keyboard"
 # for the compose prompt, select right alt
