@@ -68,6 +68,7 @@
         width: 100% !important; height: var(--url-height) !important;
         min-height: var(--url-height) !important; max-height: var(--url-height) !important;
         margin: 0 0 0 0 !important;
+        background: #303030 !important;
 
         /* --- Uncomment the section below to attach the url-bar to the tab-bar [EXPERIMENTAL] (Require a line in "#TabsToolbar" below) --- */
         /*
@@ -78,7 +79,7 @@
     }
        #nav-bar-customization-target { width: 100% !important; }
           #urlbar-wrapper {
-              width: 100% !important; margin-top: -0px !important; /* --- adjust margin-top to ~ -5px if you experience gap --- */
+              width: 100% !important; margin-top: -1px !important; /* --- adjust margin-top to ~ -5px if you experience gap --- */
               position: absolute !important; top: 0 !important; left: 0 !important;
               border-bottom: 0px solid var(--bg-light) !important;
           }
