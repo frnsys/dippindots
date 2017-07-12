@@ -18,9 +18,13 @@ super + shift + alt + q
 super + b
     bspc node -B
 
-# toggle floating/fullscreen/sticky
-super + {s,f,y,o}
-    bspc node -t ~{floating,fullscreen,sticky,tiled}
+# toggle floating/fullscreen/tiled
+super + {s,f,o}
+    bspc node -t ~{floating,fullscreen,tiled}
+
+# toggle sticky
+super + y
+    bspc node -g sticky
 
 # focus on previous window/desktop
 super + {Tab,grave}
