@@ -1,8 +1,8 @@
 DIR=$1
 
 sudo add-apt-repository ppa:git-core/ppa -y
-sudo apt-get update
-sudo apt-get install git -y
+sudo apt update
+sudo apt install -y git
 
 mkdir -p ~/.config/git
 ln -sf $DIR/dots/gitignore ~/.config/git/ignore

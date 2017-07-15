@@ -69,12 +69,7 @@ tput setaf 5
 echo "Symlinking dotfiles..."
 tput sgr0
 
-# Clear out old files
-rm -rf ~/.vim
-
 # Symlink files
-ln -sf $DIR/vim ~/.vim
-ln -sf $DIR/vim/vimrc ~/.vimrc
 ln -sf $DIR/dots/bash/bash_profile ~/.bash_profile
 ln -sf $DIR/dots/bash/bashrc ~/.bashrc
 ln -sf $DIR/dots/bash/inputrc ~/.inputrc

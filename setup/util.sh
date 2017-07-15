@@ -4,11 +4,11 @@ tput setaf 5
 echo -e "\nInstalling utilties..."
 tput sgr0
 
-sudo apt-get install --no-install-recommends dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag -y
+sudo apt install -y --no-install-recommends dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag
 sudo pip install youtube-dl
 
 # newer tmux
-sudo apt-get install libevent-dev -y
+sudo apt install -y libevent-dev
 wget https://github.com/tmux/tmux/releases/download/2.4/tmux-2.4.tar.gz -O /tmp/tmux-2.4.tar.gz
 cd /tmp
 tar -xzvf tmux-2.4.tar.gz

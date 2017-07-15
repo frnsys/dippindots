@@ -4,21 +4,19 @@ tput setaf 5
 echo "Installing Vim..."
 tput sgr0
 
-# Lua
-sudo apt-get install lua5.1 liblua5.1-dev -y
-
-# X11, allows using system clipboard with vim.
-sudo apt-get install libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev -y
-
-# ctags
-sudo apt-get install exuberant-ctags
-
-# Python for the python interps
-sudo apt-get install python-dev python3-dev -y
+sudo apt install -y \
+    # Lua
+    lua6.1 liblua5.1-dev \
+    # ctags
+    exuberant-ctags \
+    # for the python interps
+    python-dev python3-dev \
+    # X11, allows using system clipboard with vim.
+    libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev
 
 mkdir /tmp/vim && cd $_
-wget ftp://ftp.ca.vim.org/pub/vim/unix/vim-7.4.tar.bz2
-tar xvjf vim-7.4.tar.bz2
+wget ftp://ftp.ca.vim.org/pub/vim/unix/vim-8.0.tar.bz2
+tar xvjf vim-*.tar.bz2
 cd vim*
 ./configure --with-features=huge --enable-luainterp=yes --enable-pythoninterp=yes --enable-python3interp=yes --enable-gui=no --with-x --with-lua-prefix=/usr
 make -s && sudo make install
@@ -30,6 +28,11 @@ sudo ln -sf /usr/local/bin/vim /usr/bin/vim
 
 # Jedi for jedi-vim (python completion)
 sudo pip install jedi
+
+# config
+rm -rf ~/.vim
+ln -sf $DIR/vim ~/.vim
+ln -sf $DIR/vim/vimrc ~/.vimrc
 
 # using vim-plug for plugin management
 # it should auto-install plugins on first launch
