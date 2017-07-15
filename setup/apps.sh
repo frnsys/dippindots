@@ -197,7 +197,8 @@ sudo update-pepperflashplugin-nonfree --install
 sudo apt install -y --no-install-recommends zathura android-tools-adb ncdu keepassx xournal pavucontrol firefox chromium-browser
 
 # for ~/.bin/keepass
-sudo pip2 install gtk pykeepass
+sudo pip2 install pykeepass
+sudo apt install python-gtk2
 
 # vpn
 sudo apt install -y openvpn stunnel4
