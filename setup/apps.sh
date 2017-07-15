@@ -171,7 +171,7 @@ sudo mv /tmp/urxvt-font-size/font-size /usr/lib/urxvt/perl/font-size
 
 # wicd - managing network connections
 sudo apt install -y wicd wicd-cli wicd-curses
-sudo ln -sf /run/resolvconf/resolv.conf /var/lib/wicd/resolv.conf.orig # TODO run this
+sudo ln -sf /run/resolvconf/resolv.conf /var/lib/wicd/resolv.conf.orig
 
 # dunst (notifications) config
 ln -sf $DIR/dots/dunst  ~/.config/dunst
@@ -209,14 +209,13 @@ sudo service stunnel4 start
 sudo cp $DIR/dots/misc/network/airvpn_up /etc/network/if-up.d/airvpn
 sudo cp $DIR/dots/misc/network/airvpn_down /etc/network/if-post_down/airvpn
 
-# lxappearance for managing GTK themeing
-sudo apt install -y lxappearance
-git clone https://github.com/horst3180/arc-theme --depth 1 /tmp/arc
-cd /tmp/arc
-./autogen.sh --prefix=/usr
+# GTK/QT themeing
+sudo apt install -y gnome-accessibility-themes
 rm -rf ~/.icons
 ln -sf $DIR/assets/icons ~/.icons
 ln $DIR/dots/gtkrc-2.0 ~/.gtkrc-2.0
+ln $DIR/dots/gtkrc-3.0  ~/.config/gtk-3.0/settings.ini
+echo -e "[Qt]\nstyle=GTK+" >> ~/.config/Trolltech.conf
 
 # setup fonts
 sudo ln -sf /etc/fonts/conf.avail/50-user.conf /etc/fonts/conf.d/50-user.conf
