@@ -18,7 +18,7 @@ sudo apt install -y alsa-utils upower bc
 # compton - for window/bar transparency and shadows
 sudo apt update
 sudo apt install -y --no-install-recommends xorg
-sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight gdebi deluged deluge-console compton oathtool pandoc
+sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight gdebi deluged deluge-console compton oathtool pandoc avahi-daemon
 
 # map capslock to super
 sudo sed -i 's/XKBOPTIONS=""/XKBOPTIONS="caps:super"/' /etc/default/keyboard
