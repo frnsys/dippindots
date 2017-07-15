@@ -14,6 +14,5 @@ urxvt &
 mopidy &
 monmon &
 idle &
-fsdetect &
 #compton -cb -o 0.4 -r 8 -l -8 -t -8 --unredir-if-possible &
 exec ~/.config/bspwm/wm
