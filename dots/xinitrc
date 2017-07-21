@@ -11,7 +11,7 @@ feh --bg-fill ~/.wallpaper.jpg &
 battcheck &
 sxhkd &
 urxvt &
-mopidy &
+#mopidy &
 monmon &
 idle &
 #compton -cb -o 0.4 -r 8 -l -8 -t -8 --unredir-if-possible &
