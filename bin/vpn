@@ -3,8 +3,10 @@
 # add the following after running `sudo visudo`
 #   ftseng  ALL = NOPASSWD: /usr/bin/pkill
 #   ftseng  ALL = NOPASSWD: /usr/sbin/openvpn
-#   ftseng  ALL = NOPASSWD: /usr/sbin/service stunnel4
+#   ftseng  ALL = NOPASSWD: /usr/sbin/service stunnel4 *
 
+VPN_DIR=/home/ftseng/docs/vpn
+ACTIVE=$(basename $(readlink $VPN_DIR/active))
 
 if [[ $1 == 'up' ]]; then
     # kill all existing stunnel4 processes to avoid this error:
@@ -13,19 +15,29 @@ if [[ $1 == 'up' ]]; then
     # sudo killall stunnel4
 
     # to set active vpn server, symlink its folder, i.e.:
-    # ln -s ~/docs/vpn/<server name> ~/ftseng/docs/vpn/active
-    cd /home/ftseng/docs/vpn/active
+    # ln -s ~/docs/vpn/<server name> ~/docs/vpn/active
+    cd $VPN_DIR/active
 
     sudo service stunnel4 restart
     stunnel4 airvpn.ssl # make sure this does not have `foreground = yes` in it
     sudo openvpn --config airvpn-ssl.ovpn --daemon
-    echo "VPN active"
+    notify-send "VPN active ($ACTIVE)"
 elif [[ $1 == 'down' ]]; then
     sudo service stunnel4 stop
     sudo pkill openvpn
     sudo pkill stunnel4
-    echo "VPN deactivated"
+    notify-send "VPN deactivated"
+elif [[ $1 == 'use' ]]; then
+    CHOICE=$(find $VPN_DIR -mindepth 1 -type d -printf "%f\n" | dmenu)
+    if [ -z "$CHOICE" ]; then
+        exit
+    fi
+    rm -rf $VPN_DIR/active
+    ln -s $VPN_DIR/$CHOICE $VPN_DIR/active
+    notify-send "Active VPN is now $CHOICE"
+elif [[ $1 == 'which' ]]; then
+    notify-send "Active VPN is $ACTIVE"
 else
-    echo "Please specify 'up' or 'down'."
+    echo "Please specify 'up', 'down', or 'use'."
     exit 0
 fi
