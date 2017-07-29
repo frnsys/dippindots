@@ -27,9 +27,9 @@ echo "Staying awake..."
 #     esac
 # fi
 
-while true; do
-    if (( $(xprintidle) > $TAP_MS)); then
-        xdotool key shift
-    fi
-    sleep 1
-done
+# while true; do
+#     if (( $(xprintidle) > $TAP_MS)); then
+#         xdotool key shift
+#     fi
+#     sleep 1
+# done

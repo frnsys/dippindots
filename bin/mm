@@ -1,0 +1,5 @@
+#!/bin/bash
+# fyi: use ctrl-y to paste into dmenu
+
+MAX_HEIGHT=${2:-720}
+bspc rule -a mpv -o state=floating && mpv --save-position-on-quit --ytdl-format="bestvideo[ext=mp4][height<=?$MAX_HEIGHT][fps<=30]+bestaudio[ext=m4a]/best" $1
