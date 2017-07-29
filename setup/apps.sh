@@ -4,7 +4,7 @@ tput setaf 5
 echo -e "\nInstalling some more goodies..."
 tput sgr0
 
-sudo apt install -y alsa-utils upower bc
+sudo apt install -y alsa-utils upower bc cryptsetup
 
 # feh - image viewer/wallpaper manager
 # xsel - clipboard
@@ -18,7 +18,7 @@ sudo apt install -y alsa-utils upower bc
 # compton - for window/bar transparency and shadows
 sudo apt update
 sudo apt install -y --no-install-recommends xorg
-sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight gdebi deluged deluge-console compton oathtool pandoc avahi-daemon
+sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight gdebi deluged deluge-console compton oathtool pandoc avahi-daemon redshift
 
 # map capslock to super
 sudo sed -i 's/XKBOPTIONS=""/XKBOPTIONS="caps:super"/' /etc/default/keyboard
