@@ -27,7 +27,7 @@ elif [[ $1 == 'down' ]]; then
     sudo pkill openvpn
     sudo pkill stunnel4
     notify-send "VPN deactivated"
-elif [[ $1 == 'use' ]]; then
+elif [[ $1 == 'switch' ]]; then
     CHOICE=$(find $VPN_DIR -mindepth 1 -type d -printf "%f\n" | dmenu)
     if [ -z "$CHOICE" ]; then
         exit
@@ -38,6 +38,6 @@ elif [[ $1 == 'use' ]]; then
 elif [[ $1 == 'which' ]]; then
     notify-send "Active VPN is $ACTIVE"
 else
-    echo "Please specify 'up', 'down', or 'use'."
+    echo "Please specify 'up', 'down', or 'switch'."
     exit 0
 fi
