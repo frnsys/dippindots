@@ -1,0 +1,32 @@
+#!/bin/bash
+
+DB=~/docs/bmarks
+
+if [[ $1 == 'add' ]]; then
+    URL=$2
+    if [ -z "$URL" ]; then
+        exit
+    fi
+    if grep -Fxq "$URL" $DB; then
+        notify-send "url already exists"
+    else
+        TAGS=$(echo "" | dmenu -p "tags:")
+        echo "$TAGS;$URL" >> $DB
+    fi
+
+elif [[ $1 == 'rm' ]]; then
+    CHOICE=$(grep . $DB | dmenu -l 10 -p "choose:")
+    if [ -z "$CHOICE" ]; then
+        exit
+    fi
+    sed -i '\|'$CHOICE'|d' $DB
+
+else
+    CHOICE=$(grep . $DB | dmenu -l 10 -p "choose:")
+    if [ -z "$CHOICE" ]; then
+        exit
+    fi
+    URL=$(echo $CHOICE | cut -d';' -f2)
+    xdg-open $URL
+
+fi

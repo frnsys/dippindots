@@ -28,8 +28,8 @@ echo "Staying awake..."
 # fi
 
 while true; do
-    if (( $(xprintidle) > $TAP_MS)); then
-        xdotool key shift
-    fi
-    # sleep 1
+    # if (( $(xprintidle) > $TAP_MS)); then
+    #     xdotool key shift
+    # fi
+    sleep 1
 done
