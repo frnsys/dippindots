@@ -87,6 +87,10 @@ super + ctrl + c
 super + alt + k
     lock
 
+# toggle redshit
+super + z
+    pkill -USR1 redshift
+
 # ~~screenshots/recordings~~
 
 # selection to file
