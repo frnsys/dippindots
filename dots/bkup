@@ -8,21 +8,7 @@ backup:
         - '~/musics'
         - '~/downloads'
     targets:
-        - 'ftseng@svalbard:/mnt/databank/francis/repos'
-        - 'ftseng@svalbard:/mnt/outerspace/francis/repos'
         - '/media/usb/repos'
-data:
-    sync: true
-    targets:
-        - 'ftseng@svalbard:/mnt/databank/francis/repos/data/'
-        - 'ftseng@svalbard:/mnt/outerspace/francis/repos/data/'
-medias:
-    never_delete: true
-    dirs:
-        - '~/medias/'
-    targets:
-        - 'ftseng@svalbard:/mnt/databank/francis/medias/'
-        - 'ftseng@svalbard:/mnt/outerspace/francis/medias/'
 archive:
     never_delete: true
     dirs:
