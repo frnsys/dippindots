@@ -4,7 +4,14 @@ tput setaf 5
 echo -e "\nInstalling some more goodies..."
 tput sgr0
 
-sudo apt install -y alsa-utils upower bc cryptsetup
+# NOTE: `dhcpcd5` can conflict with `wicd-curses`,
+# but is needed for usb tethering.
+# see below for how to work around this
+sudo apt install -y alsa-utils upower bc cryptsetup dhcpcd5
+
+# bluetooth
+# see ~/notes/linux/bluetooth.md
+sudo apt install bluez libbluetooth3 libbluetooth-dev blueman
 
 # feh - image viewer/wallpaper manager
 # xsel - clipboard
@@ -172,6 +179,13 @@ sudo mv /tmp/urxvt-font-size/font-size /usr/lib/urxvt/perl/font-size
 # wicd - managing network connections
 sudo apt install -y wicd wicd-cli wicd-curses
 sudo ln -sf /run/resolvconf/resolv.conf /var/lib/wicd/resolv.conf.orig
+# IMPORTANT:
+# - open `wicd-curses`
+# - hit `P` to open preferences
+# - switch to the `External Programs` tab
+# - ensure that `dhclient` is selected as the DHCP client
+# if automatic, it might use `dhcpcd`, which has issues staying connected,
+# resulting in a `DEAUTH_LEAVING` message in `dmesg`.
 
 # dunst (notifications) config
 ln -sf $DIR/dots/dunst  ~/.config/dunst
