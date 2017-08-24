@@ -11,7 +11,7 @@ sudo apt install -y alsa-utils upower bc cryptsetup dhcpcd5
 
 # bluetooth
 # see ~/notes/linux/bluetooth.md
-sudo apt install bluez libbluetooth3 libbluetooth-dev blueman
+sudo apt install bluez libbluetooth3 libbluetooth-dev blueman pulseaudio-module-bluetooth
 
 # feh - image viewer/wallpaper manager
 # xsel - clipboard
