@@ -326,3 +326,8 @@ sudo dpkg-reconfigure keyboard-configuration
 # press =, e for €
 # press -, l for £
 # full reference: https://help.ubuntu.com/community/GtkComposeTable
+
+# fixes for 5G wifi
+# set networking card region
+sudo apt install bcmwl-kernel-source
+sudo sed -i -e 's/REGDOMAIN=.*/REGDOMAIN=US/g' /etc/default/crda
