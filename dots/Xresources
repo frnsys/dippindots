@@ -1,7 +1,7 @@
 ! https://wiki.archlinux.org/index.php/Rxvt-unicode
 URxvt.scrollBar: false
-URxvt.font: xft:ttyp0:style=regular:pixelsize=32:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false
-/* URxvt.font: xft:Input:style=regular:pixelsize=32:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false */
+URxvt.font: xft:ttyp0:style=regular:pixelsize=20:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false
+/* URxvt.font: xft:Input:style=regular:pixelsize=20:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false */
 URxvt.boldFont:
 URxvt.perl-ext-common: default,keyboard-select,clipboard,font-size
 URxvt.saveLines: 1000000

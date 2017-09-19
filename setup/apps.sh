@@ -73,17 +73,10 @@ sudo make install
 cd $DIR
 ln -sf $DIR/dots/ncmpcpp ~/.ncmpcpp
 
-# mopidy
-# you must fill out config auth info yourself!
-sudo apt install -y gstreamer1.0-libav gstreamer1.0-alsa python-gst-1.0 \
-    gir1.2-gstreamer-1.0 gir1.2-gst-plugins-base-1.0 \
-    gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly \
-    gstreamer1.0-tools libffi-dev
-sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/jessie.list
-sudo apt update
-sudo apt install -y libspotify12 libspotify-dev
-sudo pip2 install mopidy mopidy-spotify mopidy-local-sqlite
-cp -r $DIR/dots/mopidy ~/.config/mopidy
+sudo apt install mpd mpc -y
+mkdir ~/.mpd/
+touch ~/.mpd/{mpd.db,mpd.log,mpd.pid,mpd.state}
+ln -sf $DIR/dots/mpd.conf ~/.mpd/mpd.conf
 
 # build latest libass for ffmpeg and mpv
 sudo apt install -y libfribidi-dev libfontconfig1-dev

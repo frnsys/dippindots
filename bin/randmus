@@ -1,8 +1,6 @@
 #!/bin/bash
 
-urlencode() {
-    python -c "import urllib, sys; print urllib.quote(sys.argv[1])" "$1"
-}
+MUSDIR=/home/ftseng/musics/
 
 if [[ -z $1 ]]; then
     N_SONGS=10
@@ -14,7 +12,6 @@ if [[ $2 == "--clear" ]]; then
     mpc clear
 fi
 
-# mopidy requires local files be specified as a `file://` URI
 find ~/musics -name '*.mp3' -type f | shuf -n$N_SONGS | while read -r line; do
-    mpc add "file://$(urlencode "$line")"
+    mpc add "${line#$MUSDIR}"
 done

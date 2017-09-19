@@ -11,7 +11,7 @@ feh --bg-fill ~/.wallpaper.jpg &
 battcheck &
 sxhkd &
 urxvt &
-#mopidy &
+mpd &
 monmon &
 idle &
 redshift &

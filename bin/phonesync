@@ -38,20 +38,10 @@ done
 MUSIC_BASE_DIR=~/musics/
 MUSIC_PLAYLIST=~/musics/_playlists/music.m3u
 
-function urldecode() {
-    python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" $1
-}
-
-# parse a mopidy m3u playlist for local files
+# parse a m3u playlist
 function parse_songs() {
     while read line; do
-        if [[ $line == "file://"* ]]; then
-            url=$(urldecode $line)
-            echo "${url/file:\/\//}"
-        elif [[ $line == "local:track:"* ]]; then
-            url=$(urldecode $line)
-            echo "${MUSIC_BASE_DIR}${url/local:track:/}"
-        fi
+        echo "${MUSIC_BASE_DIR}${line}"
     done <$MUSIC_PLAYLIST
 }
 

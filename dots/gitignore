@@ -10,5 +10,4 @@ node_modules
 bundle.js*
 dist
 env
-**/static/**/style.css
 secret
