@@ -1,5 +1,5 @@
 #!/usr/bin/python2
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
 
 import os
 import sys
@@ -55,6 +55,6 @@ if __name__ == '__main__':
         ['dmenu', '-l', str(N_LINES), '-i', '-p', '>'],
         inp='\n'.join(choices))
     if choice:
-        print(lookup[choice].encode('utf8'))
+        print(lookup[choice].encode('utf8'), end='')
     else:
-        print('')
+        print('', end='')
