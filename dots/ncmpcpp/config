@@ -19,4 +19,4 @@ visualizer_sync_interval = "30"
 visualizer_type = "ellipse" # (spectrum/wave/wave_filled/ellipse)
 visualizer_color = "red,yellow,green,cyan,blue,red,yellow,green,cyan,blue,red,yellow,green,cyan,blue,red"
 visualizer_look="█┃"
-visualizer_in_stereo = "yes"
+visualizer_in_stereo = "no"
