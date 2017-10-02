@@ -13,7 +13,7 @@ WRK=`dirname $2`
 INP=`basename $2`
 cd $WRK
 
-if [ $CMD == 'en' ]; then
+if [[ $CMD == 'en' ]]; then
     OUT=${INP}.gpg
     if [[ -d $INP ]]; then
         # archive, then remove original dir
@@ -34,7 +34,7 @@ if [ $CMD == 'en' ]; then
         exit 1
     fi
 
-elif [ $CMD == 'de' ]; then
+elif [[ $CMD == 'de' ]]; then
     OUT=$INP
     INP=${INP}.gpg
 

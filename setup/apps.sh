@@ -32,9 +32,10 @@ sudo pip install youtube-dl
 # xbacklight - control screen brightness
 # gdebi - easier installation of deb packages
 # compton - for window/bar transparency and shadows
+# sm - large text screen messages
 sudo apt update
 sudo apt install -y --no-install-recommends xorg
-sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight gdebi deluged deluge-console compton oathtool pandoc avahi-daemon redshift
+sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight gdebi deluged deluge-console compton oathtool pandoc avahi-daemon redshift sm
 
 # map capslock to super
 sudo sed -i 's/XKBOPTIONS=""/XKBOPTIONS="caps:super"/' /etc/default/keyboard
