@@ -1,6 +1,6 @@
 # DippinDots
 
-These are my personal dotfiles for Linux (Lubuntu).
+These are my personal dotfiles for Linux (Ubuntu).
 Please feel free to use/modify them as you like!
 
 You should also have your Github SSH keys (`id_rsa` and `id_rsa.pub`) in

@@ -264,11 +264,7 @@ sudo adduser ftseng video
 
 # firefox config
 mkdir -p ~/.mozilla/firefox/profile.default/chrome
-mkdir -p ~/.vimperator/colors
 ln -sf $DIR/dots/firefox/userChrome.css ~/.mozilla/firefox/profile.default/chrome/userChrome.css
-ln -sf $DIR/dots/firefox/userContent.css ~/.mozilla/firefox/profile.default/chrome/userContent.css
-ln -sf $DIR/dots/firefox/vimperatorrc ~/.vimperatorrc
-ln -sf $DIR/dots/firefox/colors.vimp ~/.vimperator/colors/colors.vimp
 sed -i 's/Path=.*/Path=profile.default/' ~/.mozilla/firefox/profiles.ini
 
 # Change default browser

@@ -200,9 +200,6 @@
     #main-window[privatebrowsingmode=temporary] #private-browsing-indicator,
     #main-window[privatebrowsingmode=temporary] #private-browsing-indicator-titlebar { display: none !important; }
 
-    /* Vimperator icon style */
-    #liberator-statusline:not([customizing="true"]) { margin: -2px -2px !important; padding: 0 0 !important; height: 24px !important; }
-    #liberator-statusline:not([customizing="true"]) :-moz-any(toolbarbutton) { height: 100% !important; }
     #tabview-button {
         list-style-image: url(http://twily.info/img/tabview-button.png?v=2) /* 16x16 px image */ !important;
         -moz-image-region: rect(0, 0, 0, 0) !important;

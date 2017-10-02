@@ -60,6 +60,3 @@ export LS_COLORS='no=00:fi=00:di=00;32:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40
 alias sudo='sudo '
 
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-
-# soundcloud likes
-alias soundcloud='mpv --no-audio-display --shuffle "https://soundcloud.com/numpy/likes"'
