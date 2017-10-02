@@ -67,7 +67,7 @@ elif [[ $PLACE == 'reset' ]]; then
         bspc desktop primary:^$(bspc query -D | wc -l) -r
 
         # reset the wallpaper to render properly
-        feh --bg-fill ~/.wallpaper.jpg &
+        feh --bg-fill ~/.wall.jpg &
     fi
 
     restart_panel
@@ -98,6 +98,6 @@ bspc monitor $(bspc query -M -m primary#next --names) -n $EXMON_PLACE
 bspc monitor $EXMON_PLACE -d   
 
 # reset the wallpaper to render properly
-feh --bg-fill ~/.wallpaper.jpg &
+feh --bg-fill ~/.wall.jpg &
 
 restart_panel
