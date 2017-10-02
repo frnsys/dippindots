@@ -17,169 +17,54 @@
     /* TAB VARIABLES */
     --bg-light: #303030; --bg-dark: #303030;
     --fg-light: #CECFD1; --fg-dark: #AAABAD;
-    --highlight: #00D787;
-    --tab-triangle-correction: -1px;
-    --tab-height: 24px; --tab-icon-size: 16px; --tab-strip-margin: 0px; --tab-overlap: -5px;
-    --tab-fonts: "Fantasque Sans Mono", "Droid Sans", "Source Sans Pro", "Lemon",monospace,"Dejavu Sans"; --tab-font-size: 10pt;
-    --tab-text-align: left; /* left | center | right */
-    --tab-triangle: none;  /* block | none */
-
-    /* URL VARIABLES */
-    --url-background: var(--bg-light); --url-color: var(--fg-dark);
-    --url-height: 24px; --url-right-margin: 5px;
-    --url-fonts: "Fantasque Sans Mono", "Droid Sans", "Source Sans Pro", "Lemon", monospace, "Dejavu Sans"; --url-font-size: 10pt;
-    --url-text-align: center; /* left | center | right */
-    --url-position: absolute; /* absolute == top (under tabs) || fixed == bottom of browser */
-
-    margin-bottom: 0 /* var(--url-height) */ !important;
+    --tab-fonts: "Fantasque Sans Mono", monospace; --tab-font-size: 9pt;
 }
-
 
 @-moz-document url(chrome://browser/content/browser.xul) {
     /* URL-BAR */
-    #back-button, #forward-button, #back-button *, #forward-button *, #identity-box, #urlbar-reload-button, #urlbar-stop-button, #urlbar-go-button,
-    #PanelUI-button, #bookmarks-menu-button, #downloads-button, #home-button, #stylish-toolbar-button, #abp-toolbarbutton,
-    #notification-popup-box, #new-tab-button, #private-browsing-indicator, #search-container, #nav-bar-overflow-button,
-    #reader-mode-button, #pocket-button-box, #star-button-box, #pageActionSeparator, #customizableui-special-spring1,
-    #customizableui-special-spring2, #sidebar-button, #stop-reload-button, toolbarbutton[label="Vimium"],
-    .tabs-newtab-button, .tab-close-button, .tab-close, .tab-throbber, .tab-background-start, .tab-background-end,
-    #window-controls /*, #alltabs-button, #tabview-button, .tab-icon-image, .tab-icon-image:not([pinned])*/ { display: none !important; }
-
-    #appcontent {
-        margin-top: var(--url-height) !important;
-    }
-
+    #window-controls,
+    #back-button, #forward-button, #back-button *, #forward-button *,
+    #stop-reload-button,  #pageActionSeparator, #nav-bar-overflow-button, #PanelUI-button,
+    #reader-mode-button, #identity-box, #pocket-button-box, #star-button-box,
+    #home-button, #search-container, #sidebar-button, #urlbar-search-splitter,
+    #customizableui-special-spring2, toolbarbutton[label="Vimium"],
+    .tabs-newtab-button, .tab-close-button { display: none !important; }
+    
     #nav-bar {
-        position: var(--url-position) !important; bottom: 0 !important;
-        width: 100% !important; height: var(--url-height) !important;
-        min-height: var(--url-height) !important; max-height: var(--url-height) !important;
-        margin: 0 0 0 0 !important;
-        background: #303030 !important;
-        top: var(--url-height) !important;
-    }
-    #nav-bar-customization-target { width: 100% !important; margin-top: -5px !important; }
-    #urlbar-wrapper {
-        width: 100% !important; margin-top: -1px !important; /* --- adjust margin-top to ~ -5px if you experience gap --- */
-        position: absolute !important; top: 0 !important; left: 0 !important;
-        border-bottom: 0px solid var(--bg-light) !important;
+        background: var(--bg-dark) !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
     }
     #urlbar {
-        border: none !important; border-radius: 0 !important;
-        margin: 0 0 0 0 !important; padding: 0 2px 0 2px !important;
-        width: calc(100% + var(--url-right-margin)) !important;
-        height: var(--url-height) !important; min-height: var(--url-height) !important;
-        background: var(--url-background) !important; color: var(--url-color) !important;
-        font-family: var(--url-fonts) !important; font-size: var(--url-font-size) !important;
-        text-align: var(--url-text-align) !important;
+        background: var(--bg-dark) !important;
+        color: var(--fg-light) !important;
+        border: none !important;
+        text-align: center;
+        border: none !important;
     }
-
-    /* TABS */
-    .tabbrowser-tab[fadein]:not([pinned]) { min-width: 100px !important; max-width: /*180px*/ 100% !important; }
     tab {
         font-family: var(--tab-fonts) !important;
-        height: var(--tab-height) !important; min-height: var(--tab-height) !important;
-        background: var(--bg-dark) !important; color: var(--fg-dark) !important;
-        font-size: var(--tab-font-size); text-shadow: none !important; text-align: var(--tab-text-align) !important;
-    }
-
-    .tabbrowser-tab label { padding: 0 22px 0 22px !important; }
-
-    #tabbrowser-tabs .tabbrowser-tab[pinned]            { width: 48px !important; }
-    #tabbrowser-tabs .tabbrowser-tab[pinned] label      { display: none !important; }
-
-    #tabbrowser-tabs .tabbrowser-tab .tab-icon-image {
-        margin: 0 -10px 0 16px !important;
-        width: var(--tab-icon-size) !important;
-        height: var(--tab-icon-size) !important;
-    }
-
-    .tabbrowser-tab *, .tabs-newtab-button * {
-        background: none !important; list-style-image: none !important;
-        margin: 0 0 0 0 !important; padding: 0 0 0 0 !important;
-        -moz-appearance: none !important;
-    }
-
-    #tabbrowser-tabs .tabbrowser-tab[pinned] .tab-stack { height: var(--tab-height) !important; width: 100% !important; }
-    #tabbrowser-tabs .tabbrowser-arrowscrollbox .box-inherit.scrollbox-innerbox { max-height: var(--tab-height) !important; }
-    .scrollbutton-up, .scrollbutton-down { border: none !important; }
-
-    #tabbrowser-tabs[overflow]:not([positionpinnedtabs]) { -moz-padding-start: 20px !important; }
-
-    .tabbrowser-tab[selected="true"] .tab-stack {
-        background: var(--fg-light) !important; color: var(--bg-light) !important;
-        border-radius: 0px !important; position: relative !important;
-    }
-    .tabbrowser-tab[selected="true"]:before { /* Left Triangle (of selected tab) */
-        content: '' !important; display: var(--tab-triangle);
-        position: absolute !important; top: 0 !important; left: var(--tab-overlap) !important;
-        width: 0 !important; height: 0 !important;
-        border: none !important; z-index: 2 !important;
-
-        border-top: var(--tab-height) solid var(--bg-dark) !important;
-        border-right: calc(var(--tab-height)/2) solid var(--bg-light) !important;
-    }
-    .tabbrowser-tab[selected="true"]:after { /* Right Triangle (of selected tab) */
-        content: '' !important; display: var(--tab-triangle);
-        position: absolute !important; top: 0 !important; right: var(--tab-overlap) !important;
-        width: 0 !important; height: 0 !important;
-        border: none !important; z-index: 2 !important;
-        border-top: var(--tab-height) solid var(--bg-dark) !important;
-        border-left: calc(var(--tab-height)/2) solid var(--bg-light) !important;
-    }
-
-  .tabbrowser-tabs[movingtab] > .tabbrowser-tab[beforeselected]:not([last-visible-tab])::after,
-  .tabbrowser-tab:not([selected]):not([afterselected-visible]):not([afterhovered]):not([first-visible-tab]):not(:hover)::before,
-  .tabbrowser-tabs:not([overflow]) > .tabbrowser-tab[last-visible-tab]:not([selected]):not([beforehovered]):not(:hover)::after {
-    display: none !important;
-  }
-
-    #TabsToolbar, #tabbrowser-tabs {
-        -moz-appearance: none !important;
-        height: var(--tab-height) !important; min-height: var(--tab-height)!important;
-        margin: 0 var(--tab-strip-margin) !important;
         background: var(--bg-dark) !important;
-
-        /* --- Uncomment the line below to attach the url-bar to the tab-bar [EXPERIMENTAL] (Require a line in "#nav-bar" above) --- */
-        /*margin-left: 150px !important;**/
+        color: var(--fg-dark) !important;
+        font-size: var(--tab-font-size);
+        text-shadow: none !important;
     }
-    #TabsToolbar::after { display: none !important; }
-    .tabbrowser-tab::before, .tabbrowser-tab::after { background: none !important; opacity: 1 !important; visibility: visible !important; }
-
-    #navigator-toolbox::after { height: 0px !important; background: var(--bg-light) !important; }
-    #liberator-separator { height: 0px !important; background: var(--bg-light) !important; border-top: 0 !important; }
-
-    #tabview-button {
-        list-style-image: url(http://twily.info/img/tabview-button.png?v=2) /* 16x16 px image */ !important;
-        -moz-image-region: rect(0, 0, 0, 0) !important;
+    #navigator-toolbox::after {
+        display: none !important;
     }
-
-    /* Tabgroup margin top fix */
-    #tab-view-deck #tab-view { margin: 24px 12px 12px 12px !important; }
-    #tab-view-deck { background: var(--bg-light) !important; }
-}
-
-
-/* AGENT_SHEET */
-@-moz-document url-prefix(http://), url-prefix(https://), url-prefix(chrome://liberator/), url-prefix(file:///) {
-    /* SCROLLBAR */
-    scrollbar[orient="vertical"], scrollbar thumb[orient="vertical"],
-    scrollbar[orient="horizontal"], scrollbar thumb[orient="horizontal"] {
-        display: none !important; /* none = hide || block = show */
+    #tabbrowser-tabs {
+        background: var(--bg-dark);
+    }
+    .tabbrowser-tab * {
+        background: none !important;
+    }
+    .tabbrowser-tab[selected="true"] .tab-stack {
+        background: var(--fg-light) !important;
+        color: var(--bg-light) !important;
+        border-bottom: 1px solid var(--bg-dark);
+    }
+    .tabbrowser-tab::before, .tabbrowser-tab::after {
+        opacity: 0 !important;
     }
 }
-
-
-/* background color around/behind pictures opened in firefox (require html namespace on top) */
-@-moz-document regexp("(https?://|file:///)(.*)\\.(jpeg|jpg|gif|png|apng|svg|bmp|webm|webp)") {
-    body { background: var(--bg-light) !important; }
-    img.decoded { background: url(none) !important; }
-}
-
-
-/* About:Blank background */
-@-moz-document url(about:blank) {
-    html,body { background: var(--bg-light) !important; }
-}
-
-/*----- Fix for white flash on new tab -----*/
-tabbrowser tabpanels, #appcontent > #content { background: var(--bg-light) !important; }
