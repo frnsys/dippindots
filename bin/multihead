@@ -84,6 +84,12 @@ bspc monitor primary -n $INMON
 # place the external monitor to the specified position
 xrandr --output $EXMON --auto --$POSITION $INMON
 
+# NOTE some monitors will be set to "overscan"
+# which clips the borders.
+# you can try something like this to compensate:
+# xrandr --output HDMI-1 --set underscan on
+# xrandr --output HDMI-1 --set "underscan hborder" 40 --set "underscan vborder" 25
+
 # rename each monitor so sxhkd can use it with bspwm to move focus/windows/desktops across monitors
 bspc monitor $(bspc query -M -m primary --names) -n $INMON_PLACE
 bspc monitor $(bspc query -M -m primary#next --names) -n $EXMON_PLACE
