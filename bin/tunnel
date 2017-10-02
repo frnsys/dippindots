@@ -5,7 +5,7 @@ CMD=$1
 shift # shift the args so that $2 is now $1
 
 if [ -z $CMD ]; then
-    echo "Please specify a command: go, make, push, pull."
+    echo "Please specify a command: go, make, push, pull, sync."
     exit 1
 
 # Connects to a remote server with a SSH tunnel via $BRIDGE
@@ -75,7 +75,20 @@ elif [ $CMD == 'pull' ]; then
     # the stream the tar of the file back
     ssh $BRIDGE 'ssh -p '${PORT}' '${USER}'@localhost "cd '${DIR}'; tar cj '${FILE}'"' | tar xj
 
+
+# rsync via a bridge server
+# e.g.
+#   tunnel sync foo ftseng@starbase.in:10023:pi:~/
+# will rsync the `foo` directory
+# to the server tunneled to starbase.in:10023
+# connecting as the user `pi` to the tunneled server
+elif [ $CMD == 'sync' ]; then
+    INPUT=$1
+    FLAGS=$3
+    IFS=: read BRIDGE BRIDGEPORT DESTUSER DEST <<< $2
+    rsync $3 -azv -e 'ssh -p '$BRIDGEPORT' -o "ProxyCommand ssh '$BRIDGE' -W %h:%p"' $INPUT $DESTUSER@localhost:$DEST
+
 else
-    echo "Please specify a command: go, make, push, pull."
+    echo "Please specify a command: go, make, push, pull, sync."
     exit 1
 fi

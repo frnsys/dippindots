@@ -5,7 +5,7 @@
 # when we should sync to one drive then rsync locally to the other.
 for dest in /media/usb /media/usb2/francis; do
     for d in ~/projects ~/graphics ~/docs ~/notes ~/photos ~/musics; do
-        tunsync $d ftseng@starbase.in:10023:pi:$dest/repos --delete
+        tunnel sync $d ftseng@starbase.in:10023:pi:$dest/repos --delete
     done
-    tunsync ~/archives ftseng@starbase.in:10023:pi:$dest/archives
+    tunnel sync ~/archives ftseng@starbase.in:10023:pi:$dest/archives
 done

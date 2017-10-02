@@ -1,5 +1,0 @@
-#!/bin/bash
-# connect to hubble and run the notebook script
-echo "hubble notebook will run at localhost:8889"
-tunnel go starbase.in 10022 'bash notebook.sh'
-portfwd 8889 ftseng@starbase.in:8888
