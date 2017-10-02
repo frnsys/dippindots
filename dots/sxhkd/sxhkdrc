@@ -166,11 +166,11 @@ super + q
 super + a
     bspc rule -a URxvt -o state=floating && urxvt -e ~/.bin/2fa
 
-super + e
-    bspc rule -a URxvt -o state=floating && urxvt -e ~/.bin/emoji
-
 super + m
     bspc rule -a URxvt -o state=floating && urxvt -e ncmpcpp
+
+super + e
+    bspc rule -a Pick-colour-picker -o state=floating && /usr/bin/pick-colour-picker
 
 # toggle caffeine
 super + c

@@ -37,7 +37,6 @@ Plug 'rust-lang/rust.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'SirVer/ultisnips'
-Plug 'KabbAmine/vCoolor.vim'
 call plug#end()
 
 colorscheme dark

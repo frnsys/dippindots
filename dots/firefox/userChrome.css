@@ -18,6 +18,7 @@
     --bg-light: #303030; --bg-dark: #303030;
     --fg-light: #CECFD1; --fg-dark: #AAABAD;
     --tab-fonts: "Fantasque Sans Mono", monospace; --tab-font-size: 9pt;
+    --tab-min-height: 28px !important;
 }
 
 @-moz-document url(chrome://browser/content/browser.xul) {
