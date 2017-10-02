@@ -44,7 +44,7 @@ super + shift + {h,j,k,l}
 
 # cycle windows forward/backwards
 super + {comma,period}
-    bspc node -C {backward,forward}
+    bspc node @/ -C {backward,forward}
 
 # move focus across desktops
 super + bracket{left,right}
