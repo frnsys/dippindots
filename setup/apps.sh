@@ -4,6 +4,11 @@ tput setaf 5
 echo -e "\nInstalling some more goodies..."
 tput sgr0
 
+# prereqs
+sudo apt install -y ruby ruby-dev
+sudo gem install sass
+sudo apt install -y nodejs npm
+
 # NOTE: `dhcpcd5` can conflict with `wicd-curses`,
 # but is needed for usb tethering.
 # see below for how to work around this
@@ -12,6 +17,10 @@ sudo apt install -y alsa-utils upower bc cryptsetup dhcpcd5
 # bluetooth
 # see ~/notes/linux/bluetooth.md
 sudo apt install bluez libbluetooth3 libbluetooth-dev blueman pulseaudio-module-bluetooth
+
+# utils
+sudo apt install -y --no-install-recommends dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag
+sudo pip install youtube-dl
 
 # feh - image viewer/wallpaper manager
 # xsel - clipboard
@@ -157,11 +166,6 @@ cd /tmp/bar && make && sudo make install
 echo 'export PANEL_FIFO="/tmp/panel-fifo"' | sudo tee -a /etc/profile
 cd $DIR
 
-# inkscape
-sudo apt install -y inkscape
-sudo ln -sf $DIR/dots/inkscape/default.xml /usr/share/inkscape/keys/default.xml
-sudo ln -sf $DIR/dots/inkscape/icons.svg /usr/share/inkscape/icons/icons.svg
-
 # urxvt - terminal
 sudo apt install -y rxvt-unicode-256color
 git clone https://github.com/muennich/urxvt-perls.git /tmp/urxvt-perls
@@ -236,9 +240,9 @@ xset fp rehash
 fc-cache -fv
 
 # wallpapers
-ln -sf $DIR/assets/wallpapers ~/.wallpapers
-ln -sf ~/.wallpapers/0.jpg ~/.wallpaper.jpg
-chmod 644 ~/.wallpaper.jpg
+ln -sf $DIR/assets/walls ~/.walls
+ln -sf ~/.walls/0.jpg ~/.wall.jpg
+chmod 644 ~/.wall.jpg
 
 # for easily updating system time to current time zone
 # to preview, run `tzupdate -p`

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIR=~/.wallpapers
+DIR=~/.walls
 if [ -z $1 ]; then
     echo "Tell me what filename to use in $DIR"
     exit 0
@@ -15,5 +15,5 @@ if [ $ext != "jpg" ]; then
     exit 0
 fi
 
-ln -sf $DIR/$1 ~/.wallpaper.jpg
-feh --bg-fill ~/.wallpaper.jpg &
+ln -sf $DIR/$1 ~/.wall.jpg
+feh --bg-fill ~/.wall.jpg &

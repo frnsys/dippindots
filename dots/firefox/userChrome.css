@@ -42,7 +42,7 @@
     #PanelUI-button, #bookmarks-menu-button, #downloads-button, #home-button, #stylish-toolbar-button, #abp-toolbarbutton,
     #notification-popup-box, #new-tab-button, #private-browsing-indicator, #search-container, #nav-bar-overflow-button,
     #reader-mode-button, #pocket-button-box, #star-button-box, #pageActionSeparator, #customizableui-special-spring1,
-    #customizableui-special-spring2, #sidebar-button, #stop-reload-button,
+    #customizableui-special-spring2, #sidebar-button, #stop-reload-button, toolbarbutton[label="Vimium"],
     .tabs-newtab-button, .tab-close-button, .tab-close, .tab-throbber, .tab-background-start, .tab-background-end,
     #window-controls /*, #alltabs-button, #tabview-button, .tab-icon-image, .tab-icon-image:not([pinned])*/ { display: none !important; }
 
