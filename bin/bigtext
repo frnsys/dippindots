@@ -1,0 +1,40 @@
+#!/usr/bin/python
+
+import sys
+import webbrowser
+
+if len(sys.argv) > 1:
+    text = sys.argv[1]
+else:
+    text = sys.stdin.read().strip()
+
+if not text:
+    sys.exit(1)
+
+style = '''
+body {
+    height: 100vh;
+}
+h1 {
+    text-align: center;
+    font-family: 'sans-serif';
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 5em;
+}
+'''
+
+html = '''
+<html>
+<style>{style}</style>
+<body>
+    <h1>{text}</h1>
+</body>
+</html>
+'''.format(style=style, text=text)
+
+with open('/tmp/bigtext.html', 'w') as f:
+    f.write(html)
+
+webbrowser.open('/tmp/bigtext.html')
