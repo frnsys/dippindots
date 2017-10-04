@@ -8,11 +8,11 @@ xset fp rehash
 fc-cache -fv &
 unclutter -root -visible &
 feh --bg-fill ~/.wall.jpg &
+multihead mon &
 battcheck &
 sxhkd &
 urxvt &
 mpd &
-monmon &
 idle &
 redshift &
 #compton -cb -o 0.4 -r 8 -l -8 -t -8 --unredir-if-possible &

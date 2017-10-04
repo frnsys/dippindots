@@ -1,65 +1,94 @@
 #!/bin/bash
 
+CMD=$1
+
 # this encrypts (locks) or decrypts (unlocks) files or directories;
 # it relies on my GPG keys (with the name $KEYNAME)
 # do `gpg -K` to check that it's there; if not then
 # import it with `gpg --import ~/docs/keys/private.key`
 # see `~/docs/keys/note.md` for pw note
+if [[ $CMD == 'en' || $CMD == 'de' ]]; then
+    KEYNAME="Francis Tseng"
+    WRK=`dirname $2`
+    INP=`basename $2`
+    cd $WRK
 
-KEYNAME="Francis Tseng"
-
-CMD=$1
-WRK=`dirname $2`
-INP=`basename $2`
-cd $WRK
-
-if [[ $CMD == 'en' ]]; then
-    OUT=${INP}.gpg
-    if [[ -d $INP ]]; then
-        # archive, then remove original dir
-        tar czf "${INP}.tar.gz" "$INP" && rm -r $INP
-        INP="${INP}.tar.gz"
-    fi
-    gpg --encrypt --recipient "$KEYNAME" --output "$OUT" "$INP"
-    RESULT=$?
-    if [ $RESULT -eq 0 ]; then
-        rm $INP
-        echo "${WRK}/${OUT}"
-    else
-        if [[ $INP == *.tar.gz ]]; then
-            # restore original dir
-            tar xzf "$INP" && rm $INP
+    if [[ $CMD == 'en' ]]; then
+        OUT=${INP}.gpg
+        if [[ -d $INP ]]; then
+            # archive, then remove original dir
+            tar czf "${INP}.tar.gz" "$INP" && rm -r $INP
+            INP="${INP}.tar.gz"
         fi
-        >&2 echo 'failed'
-        exit 1
-    fi
-
-elif [[ $CMD == 'de' ]]; then
-    OUT=$INP
-    INP=${INP}.gpg
-
-    if [ ! -f $INP ]; then
-        echo "no file '$INP'"
-        exit 1
-    fi
-
-    gpg --decrypt --output "$OUT" "$INP"
-    RESULT=$?
-    if [ $RESULT -eq 0 ]; then
-        # check if looks like a gzip file,
-        # if so, also assume tar
-        if gunzip -t $OUT 2> /dev/null; then
-            tar xzf "$OUT"
+        gpg --encrypt --recipient "$KEYNAME" --output "$OUT" "$INP"
+        RESULT=$?
+        if [ $RESULT -eq 0 ]; then
+            rm $INP
+            echo "${WRK}/${OUT}"
+        else
+            if [[ $INP == *.tar.gz ]]; then
+                # restore original dir
+                tar xzf "$INP" && rm $INP
+            fi
+            >&2 echo 'failed'
+            exit 1
         fi
-        rm $INP
-        echo "${WRK}/${OUT}"
-    else
-        >&2 echo 'failed'
-        exit 1
+
+    elif [[ $CMD == 'de' ]]; then
+        OUT=$INP
+        INP=${INP}.gpg
+
+        if [ ! -f $INP ]; then
+            echo "no file '$INP'"
+            exit 1
+        fi
+
+        gpg --decrypt --output "$OUT" "$INP"
+        RESULT=$?
+        if [ $RESULT -eq 0 ]; then
+            # check if looks like a gzip file,
+            # if so, also assume tar
+            if gunzip -t $OUT 2> /dev/null; then
+                tar xzf "$OUT"
+            fi
+            rm $INP
+            echo "${WRK}/${OUT}"
+        else
+            >&2 echo 'failed'
+            exit 1
+        fi
     fi
 
+
+# to encrypt an external hard drive (say /dev/sdb1):
+# - backup existing data
+# - wipe all existing data: `sudo wipefs -a /dev/sdb1`
+# - use `fdisk` to delete old partition(s)
+#   create a new primary partition: `sudo fdisk /dev/sdb`
+#   NOTE that this is `/dev/sdb` and not `/dev/sdb1`
+# - encrypt the partition: `sudo cryptsetup luksFormat /dev/sdb1`
+# - decrypt it: `sudo cryptsetup luksOpen /dev/sdb1 enc_vol`
+# - create the filesystem: `sudo mkfs.ext4 /dev/mapper/enc_vol`
+elif [[ $CMD == 'mount' || $CMD == 'umount' ]]; then
+    DISK=$2 # e.g. /dev/sdb1
+    MNT_DIR=/media/usb
+    ENC_VOL=enc_vol
+
+    if [[ $CMD == 'mount' ]]; then
+        if [ -z $DISK ]; then
+            echo "Specify a disk"
+            exit 1
+        fi
+        sudo cryptsetup luksOpen $DISK $ENC_VOL
+        sudo mount /dev/mapper/$ENC_VOL $MNT_DIR
+        echo "mounted to /media/usb"
+    elif [[ $CMD == 'umount' ]]; then
+        sudo umount $MNT_DIR
+        sudo cryptsetup luksClose $ENC_VOL
+        echo "unmounted"
+    fi
 
 else
-    echo "Specify 'en' or 'de'"
+    echo "Specify 'en', 'de', 'mount', or 'umount'"
     exit 1
 fi
