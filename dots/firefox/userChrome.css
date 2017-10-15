@@ -17,7 +17,7 @@
     /* TAB VARIABLES */
     --bg-light: #303030; --bg-dark: #303030;
     --fg-light: #CECFD1; --fg-dark: #AAABAD;
-    --tab-fonts: "Fantasque Sans Mono", monospace; --tab-font-size: 9pt;
+    --tab-fonts: "Terminus", "Fantasque Sans Mono", monospace; --tab-font-size: 9pt;
     --tab-min-height: 28px !important;
 }
 
@@ -43,6 +43,8 @@
         border: none !important;
         text-align: center;
         border: none !important;
+        font-family: var(--tab-fonts) !important;
+        font-size: 12px;
     }
     tab {
         font-family: var(--tab-fonts) !important;
@@ -68,4 +70,11 @@
     .tabbrowser-tab::before, .tabbrowser-tab::after {
         opacity: 0 !important;
     }
-}
+    .autocomplete-richlistitem {
+        font-size: 12px !important;
+        font-family: var(--tab-fonts) !important;
+        color: var(--fg-light) !important;
+    }
+    panel[type="autocomplete"], panel[type="autocomplete-richlistbox"], .autocomplete-history-popup {
+        background: var(--bg-dark) !important;
+    }
