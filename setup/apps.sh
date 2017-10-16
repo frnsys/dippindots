@@ -199,6 +199,14 @@ sudo apt update
 sudo apt install -y pepperflashplugin-nonfree
 sudo update-pepperflashplugin-nonfree --install
 
+# ranger
+# note: For raster image previews (NOT ascii previews) with w3m-image to work,
+# you have to use xterm or urxvt
+sudo apt install -y ranger highlight atool caca-utils w3m w3m-img poppler-utils
+ranger --copy-config=scope
+ln -sf $DIR/dots/ranger/rc.conf ~/.config/ranger/rc.conf
+ln -sf $DIR/dots/ranger/rifle.conf ~/.config/ranger/rifle.conf
+
 # install some cool apps :D
 # zathura       -- keyboard-driven pdf viewer
 # ncdu          -- ncurses disk usage
