@@ -1,13 +1,17 @@
 ! https://wiki.archlinux.org/index.php/Rxvt-unicode
 URxvt.scrollBar: false
 ! URxvt.font: xft:ttyp0:style=regular:pixelsize=20:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false
-URxvt.font: -*-terminus-medium-r-normal-*-18-*-*-*-c-*-iso8859-1
+URxvt.font: -*-terminus-medium-r-normal-*-24-*-*-*-c-*-iso8859-1
 URxvt.boldFont:
 URxvt.perl-ext-common: default,keyboard-select,clipboard,font-size
 URxvt.saveLines: 1000000
 URxvt.iso14755: false
 URxvt.internalBorder: 12
 URxvt.lineSpace: 4
+
+! For HDPI screens
+! Lookup here: <http://dpi.lv/>
+Xft.dpi: 166
 
 ! Meta key is "alt" by default, so "alt+esc" to activate keyboard selection.
 ! Use hjkl to navigate (other vim movement commands supported too)

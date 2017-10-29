@@ -8,11 +8,11 @@ fi
 source ~/.config/lemonbar/colors
 
 PANEL_PADDING=0
-PANEL_HEIGHT=24
+PANEL_HEIGHT=32
 PANEL_NAME="wm_panel"
 
 FONT1="-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1" # symbols
-FONT2="-*-terminus-medium-r-normal-*-12-*-*-*-c-*-iso8859-1"       # western
+FONT2="-*-terminus-medium-r-normal-*-14-*-*-*-c-*-iso8859-1"       # western
 FONT3="-misc-fixed-medium-r-normal-ja-13-0-75-75-c-0-iso10646-1"   # characters
 
 # For determining individual monitor bar geometries (positioning)
