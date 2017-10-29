@@ -23,7 +23,7 @@ bspc config focused_locked_border_color "${FOCUSED_LOCKED_BORDER_COLOR}"
 # xprop | grep WM_CLASS
 # and click on the window in question
 bspc rule -a feh state=floating
-bspc rule -a gifview state=floating
+bspc rule -a Gifview state=floating
 
 for monitor in $(bspc query -M); do
     bspc monitor $monitor -n "$monitor" -d   
