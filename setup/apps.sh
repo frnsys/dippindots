@@ -142,6 +142,10 @@ cd $DIR
 
 sudo apt install -y mpc mpv
 
+# stream2chromecast
+sudo git clone https://github.com/frnsys/stream2chromecast.git /usr/local/share/stream2chromecast
+sudo ln -sf /usr/local/share/stream2chromecast/stream2chromecast.py /usr/local/bin/stream2chromecast
+
 # bspwm - window manager
 sudo apt install -y xcb libxcb-util0-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev  libxcb-xtest0-dev libasound2-dev libxcb-ewmh-dev
 git clone https://github.com/baskerville/xdo /tmp/xdo
