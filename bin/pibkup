@@ -1,11 +1,20 @@
 #!/bin/bash
 
-# TODO this is wasteful since we sync
-# identical stuff twice over the wire,
-# when we should sync to one drive then rsync locally to the other.
-for dest in /media/usb /media/usb2/francis; do
-    for d in ~/projects ~/graphics ~/docs ~/notes ~/photos ~/musics; do
-        tunnel sync $d ftseng@starbase.in:10023:pi:$dest/repos --delete
+if [[ $1 == 'remote' ]]; then
+    # TODO this is wasteful since we sync
+    # identical stuff twice over the wire,
+    # when we should sync to one drive then rsync locally to the other.
+    for dest in /media/shuttle /media/outerspace/francis; do
+        for d in ~/projects ~/docs ~/notes ~/photos ~/musics; do
+            tunnel sync $d ftseng@starbase.in:10023:pi:$dest/repos --delete
+        done
+        tunnel sync ~/archives ftseng@starbase.in:10023:pi:$dest/archives
     done
-    tunnel sync ~/archives ftseng@starbase.in:10023:pi:$dest/archives
-done
+elif [[ $1 == 'local' ]]; then
+    for dest in /media/shuttle /media/outerspace/francis; do
+        for d in ~/projects ~/docs ~/notes ~/photos ~/musics; do
+            rsync -azv --progress $d pi@svalbard.local:$dest/repos --delete
+        done
+        rsync -azv --progress ~/archives pi@svalbard.local:$dest/archives
+    done
+fi
