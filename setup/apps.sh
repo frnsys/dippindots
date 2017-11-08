@@ -4,11 +4,6 @@ tput setaf 5
 echo -e "\nInstalling some more goodies..."
 tput sgr0
 
-# prereqs
-sudo apt install -y ruby ruby-dev
-sudo gem install sass
-sudo apt install -y nodejs npm
-
 # NOTE: `dhcpcd5` can conflict with `wicd-curses`,
 # but is needed for usb tethering.
 # see below for how to work around this
@@ -107,7 +102,7 @@ wget https://bitbucket.org/multicoreware/x265/downloads/x265_2.0.tar.gz -O /tmp/
 cd /tmp/ffmpeg
 tar -xzvf x265.tar.gz
 cd x265_*/build/linux
-PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="/usr/local/ffmpeg" -DENABLE_SHARED:bool=on ../../source
+CFLAGS=-fPIC PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="/usr/local/ffmpeg" -DENABLE_SHARED:bool=on ../../source
 make
 sudo make install
 
