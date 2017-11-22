@@ -15,7 +15,7 @@ endif
 call plug#begin('~/.vim/bundle')
 Plug 'tpope/vim-surround'
 Plug 'jeetsukumaran/vim-filebeagle'
-Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale'
 Plug 'tpope/vim-commentary'
 Plug 'lepture/vim-jinja'
 Plug 'junegunn/goyo.vim'

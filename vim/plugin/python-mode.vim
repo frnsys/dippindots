@@ -8,7 +8,7 @@ let g:pymode_virtualenv = 1
 let g:pymode_rope = 0
 
 " disable linting, it is not well updated
-" using syntastic instead
+" using ale instead
 let g:pymode_lint = 0
 
 " disable pymode folding, it conflicts with neocomplete

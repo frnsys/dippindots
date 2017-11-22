@@ -96,8 +96,8 @@ cd $DIR
 sudo ln -sf /usr/local/bin/vim /usr/bin/vi
 sudo ln -sf /usr/local/bin/vim /usr/bin/vim
 
-# Jedi for jedi-vim (python completion)
-sudo pip install jedi
+# mypy for python type annotations
+sudo pip3 install mypy
 
 # config
 rm -rf ~/.vim

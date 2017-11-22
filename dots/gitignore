@@ -11,3 +11,4 @@ bundle.js*
 dist
 env
 secret
+**/static/css/style.css
