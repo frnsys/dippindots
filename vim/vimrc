@@ -160,9 +160,6 @@ if has("autocmd")
   " in makefiles, use real tabs, not tabs expanded to spaces
   au FileType make setlocal noexpandtab
 
-  " make sure all markdown files have the correct filetype set
-  au BufRead,BufNewFile,BufReadPost *.{md,markdown,mdown,mkd,mkdn,txt} set filetype=markdown
-
   " treat JSON files like JavaScript
   au BufNewFile,BufRead *.json set ft=javascript
 
