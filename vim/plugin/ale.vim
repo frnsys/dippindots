@@ -9,5 +9,5 @@ let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 0
 
 let g:ale_linters = {
-  \'python': ['mypy', 'pyflakes'],
+  \'python': ['pyflakes'],
 \}

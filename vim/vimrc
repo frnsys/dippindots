@@ -22,8 +22,6 @@ Plug 'junegunn/goyo.vim'
 Plug 'junegunn/gv.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'Shougo/neocomplete.vim'
-Plug 'Shougo/vimproc.vim', {'dir': '~/.vim/bundle/vimproc', 'do': 'make -s'}
 Plug 'klen/python-mode'
 Plug 'hdima/python-syntax'
 Plug 'dhruvasagar/vim-table-mode'
@@ -36,6 +34,7 @@ Plug 'konfekt/fastfold'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'SirVer/ultisnips'
+Plug 'maralla/completor.vim'
 call plug#end()
 
 colorscheme dark
