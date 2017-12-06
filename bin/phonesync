@@ -23,7 +23,6 @@ done
 
 declare -A backups
 backups[DCIM/Camera]=~/photos/android_dump
-backups[Pictures/Instagram]=~/photos/instagram_dump
 backups[Pictures/reddit_sync]=~/photos/stash
 backups[Tumblr]=~/photos/stash
 backups[MyTinyScan/Documents]=~/docs/scans
