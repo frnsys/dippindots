@@ -139,6 +139,7 @@ cd $DIR
 
 sudo add-apt-repository -y ppa:mc3man/mpv-tests
 sudo apt install -y mpc mpv
+ln -sf $DIR/dots/mpv ~/.config/mpv
 
 # stream2chromecast
 sudo git clone https://github.com/frnsys/stream2chromecast.git /usr/local/share/stream2chromecast
