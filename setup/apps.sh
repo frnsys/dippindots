@@ -110,10 +110,12 @@ sudo make install
 cd /tmp/ffmpeg
 PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="/usr/local/ffmpeg/lib/pkgconfig" ./configure \
   --prefix="/usr/local/ffmpeg" \
-  --pkg-config-flags="--static" \
+  #--pkg-config-flags="--static" \
   --extra-cflags="-I/usr/local/ffmpeg/include" \
   --extra-ldflags="-L/usr/local/ffmpeg/lib" \
   --bindir="/usr/local/bin" \
+  --cc="gcc -m64 -fPIC" \
+  --enable-pic \
   --enable-gpl \
   --enable-libass \
   --enable-libfdk-aac \
@@ -135,6 +137,7 @@ sudo sh -c "echo '/usr/local/ffmpeg/lib' >> /etc/ld.so.conf"
 sudo ldconfig
 cd $DIR
 
+sudo add-apt-repository -y ppa:mc3man/mpv-tests
 sudo apt install -y mpc mpv
 
 # stream2chromecast
