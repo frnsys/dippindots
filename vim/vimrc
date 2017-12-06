@@ -29,7 +29,6 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-fugitive'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'janko-m/vim-test'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'SirVer/ultisnips'
