@@ -2,7 +2,7 @@
     # refer to <https://github.com/knopwob/dunst/blob/master/dunstrc>
     # put colors in quotation marks so they aren't mistaken as comments
 
-    font = ttyp0 10
+    font = terminus 16
     allow_markup = yes
     plain_text = no
     word_wrap = yes
