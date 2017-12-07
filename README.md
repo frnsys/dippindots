@@ -12,6 +12,18 @@ to set proper permissions:
     chmod 600 ~/.ssh/id_rsa
     chmod 600 ~/.ssh/config
 
+To transfer a GPG secret key:
+
+    # export
+    gpg --export-secret-keys <EMAIL> > secret.key
+
+    # import
+    gpg --import secret.key
+    gpg --edit-ley <EMAIL>
+    gpg> trust
+    Your decision? 5 (Ultimate trust)
+
+
 ## Usage
 
     git clone https://github.com/frnsys/dippindots.git ~/.dippindots
