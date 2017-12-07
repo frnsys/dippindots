@@ -1,13 +1,13 @@
 ! https://wiki.archlinux.org/index.php/Rxvt-unicode
-URxvt.scrollBar: false
-! URxvt.font: xft:ttyp0:style=regular:pixelsize=20:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false
-URxvt.font: -*-terminus-medium-r-normal-*-24-*-*-*-c-*-iso8859-1
+! use fc-list for fonts
+URxvt.font: xft:terminus:style=regular:pixelsize=24:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false
 URxvt.boldFont:
 URxvt.perl-ext-common: default,keyboard-select,font-size
 URxvt.saveLines: 1000000
 URxvt.iso14755: false
 URxvt.internalBorder: 12
 URxvt.lineSpace: 4
+URxvt.scrollBar: false
 
 ! For HDPI screens
 ! Lookup here: <http://dpi.lv/>
