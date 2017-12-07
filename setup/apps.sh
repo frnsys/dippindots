@@ -11,7 +11,7 @@ sudo apt install -y alsa-utils upower bc cryptsetup dhcpcd5
 
 # bluetooth
 # see ~/notes/linux/bluetooth.md
-sudo apt install bluez libbluetooth3 libbluetooth-dev blueman pulseaudio-module-bluetooth
+sudo apt install -y bluez libbluetooth3 libbluetooth-dev blueman pulseaudio-module-bluetooth
 
 # utils
 sudo apt install -y --no-install-recommends dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag
@@ -78,7 +78,7 @@ sudo make install
 cd $DIR
 ln -sf $DIR/dots/ncmpcpp ~/.ncmpcpp
 
-sudo apt install mpd mpc -y
+sudo apt install -y mpd mpc
 mkdir ~/.mpd/
 touch ~/.mpd/{mpd.db,mpd.log,mpd.pid,mpd.state}
 ln -sf $DIR/dots/mpd.conf ~/.mpd/mpd.conf
@@ -221,7 +221,7 @@ sudo apt install -y --no-install-recommends zathura android-tools-adb ncdu keepa
 
 # for ~/.bin/keepass
 sudo pip2 install pykeepass
-sudo apt install python-gtk2
+sudo apt install -y python-gtk2
 
 # vpn
 sudo apt install -y openvpn stunnel4
@@ -318,6 +318,9 @@ sudo chown root:root /usr/share/X11/xorg.conf.d/20-intel.conf
 # usb mouse fix
 sudo mv /usr/share/X11/xorg.conf.d/20-mouse.conf /usr/share/X11/xorg.conf.d/20-mouse.conf.disabled
 
+# better chinese character support
+sudo apt install -y fonts-noto-cjk
+
 # to setup the compose key
 # for the AltGr prompt, select "default for keyboard"
 # for the compose prompt, select right alt
@@ -334,5 +337,5 @@ sudo dpkg-reconfigure keyboard-configuration
 
 # fixes for 5G wifi
 # set networking card region
-sudo apt install bcmwl-kernel-source
+sudo apt install -y bcmwl-kernel-source
 sudo sed -i -e 's/REGDOMAIN=.*/REGDOMAIN=US/g' /etc/default/crda
