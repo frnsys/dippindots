@@ -242,7 +242,7 @@ echo -e "[Qt]\nstyle=GTK+" >> ~/.config/Trolltech.conf
 
 # setup fonts
 sudo ln -sf /etc/fonts/conf.avail/50-user.conf /etc/fonts/conf.d/50-user.conf
-sudo apt install -y fonts-inconsolata xfonts-terminus
+sudo apt install -y fonts-inconsolata xfonts-terminus ttf-mscorefonts-installer
 ln -sf $DIR/assets/fonts ~/.fonts
 ln -sf $DIR/dots/fonts.conf ~/.fonts.conf
 mkfontdir ~/.fonts
