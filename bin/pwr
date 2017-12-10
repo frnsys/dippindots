@@ -4,11 +4,11 @@ read -rep "; shutdown, sleep, or restart? `echo $'\n> '`"
 
 if [[ $REPLY = shutdown ]]; then
     echo "Shutting down"
-    sudo poweroff
+    systemctl poweroff
 elif [[ $REPLY = restart ]]; then
     echo "Restarting"
-    sudo reboot
+    systemctl reboot
 elif [[ $REPLY = sleep ]]; then
     echo "Sleeping"
-    sudo -v; sleep 2; sudo pm-suspend-hybrid
+    sudo -v; sleep 2; systemctl hybrid-sleep
 fi
