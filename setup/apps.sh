@@ -6,12 +6,13 @@ tput sgr0
 
 # NOTE: `dhcpcd5` can conflict with `wicd-curses`,
 # but is needed for usb tethering.
-# see below for how to work around this
+# see the wicd comments below for how to work around this
 sudo apt install -y alsa-utils upower bc cryptsetup dhcpcd5
 
 # bluetooth
 # see ~/notes/linux/bluetooth.md
 sudo apt install -y bluez libbluetooth3 libbluetooth-dev blueman pulseaudio-module-bluetooth
+pactl load-module module-bluetooth-discover
 
 # utils
 sudo apt install -y --no-install-recommends dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag
@@ -33,7 +34,17 @@ sudo apt install -y --no-install-recommends xorg
 sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight gdebi deluged deluge-console compton oathtool pandoc avahi-daemon redshift sm
 
 # map capslock to super
-sudo sed -i 's/XKBOPTIONS=""/XKBOPTIONS="caps:super"/' /etc/default/keyboard
+# use right alt as compose key
+sudo sed -i 's/XKBOPTIONS=""/XKBOPTIONS="compose:ralt,caps:super"/' /etc/default/keyboard
+
+# to enable `systemctl hybrid-sleep`,
+# which is durable to power loss,
+# you must disable secure boot in the BIOS.
+
+# TODO auto replace?
+# sudo vi /etc/systemd/logind.conf
+# add:
+# HandleLidSwitch=hybrid-sleep
 
 # auto-lock screen on sleep
 # https://wiki.archlinux.org/index.php/Power_management#Suspend.2Fresume_service_files
@@ -320,20 +331,6 @@ sudo mv /usr/share/X11/xorg.conf.d/20-mouse.conf /usr/share/X11/xorg.conf.d/20-m
 
 # better chinese character support
 sudo apt install -y fonts-noto-cjk
-
-# to setup the compose key
-# for the AltGr prompt, select "default for keyboard"
-# for the compose prompt, select right alt
-sudo dpkg-reconfigure keyboard-configuration
-# usage: press the compose key (e.g right alt), no need to hold it down, then
-# press ", e for ë
-# press ~, e for ẽ
-# press ^, o for ô
-# press ', a for á
-# press `, a for à
-# press =, e for €
-# press -, l for £
-# full reference: https://help.ubuntu.com/community/GtkComposeTable
 
 # fixes for 5G wifi
 # set networking card region

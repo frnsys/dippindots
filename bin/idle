@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# for `sudo pm-suspend` to work without a password,
-# add this to your sudoers file (run `visudo`):
-# ftseng  ALL = NOPASSWD: /usr/sbin/pm-suspend
+# `systemctl hybrid-sleep` requires that
+# secure boot is disabled in the BIOS
 
 IDLE_MIN=10
 IDLE_TIME=$(($IDLE_MIN*60*1000)) # ms
@@ -10,7 +9,7 @@ IDLE_TIME=$(($IDLE_MIN*60*1000)) # ms
 while true; do
     idle=$(xprintidle)
     if [ $idle -ge $IDLE_TIME ] && [ ! -f "/tmp/caffeine" ] && [ ! -f "/tmp/fullscreen" ]; then
-        sudo pm-suspend
+        systemctl hybrid-sleep
     fi
     sleep 10
 done

@@ -128,13 +128,13 @@ super + {F8, XF86AudioMute}
     amixer -D pulse set -M Master toggle
 
 super + {F7, XF86MonBrightnessUp}
-    /usr/bin/xbacklight -inc 2
+    /usr/bin/xbacklight -inc 5
 
 super + shift + {F7, XF86MonBrightnessUp}
     /usr/bin/xbacklight -inc 20
 
 super + {F6, XF86MonBrightnessDown}
-    /usr/bin/xbacklight -dec 2
+    /usr/bin/xbacklight -dec 5
 
 super + shift + {F6, XF86MonBrightnessDown}
     /usr/bin/xbacklight -dec 20

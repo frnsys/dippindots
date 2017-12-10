@@ -34,7 +34,7 @@ if [[ $PLACE == 'mon' ]]; then
         fi
         NEW_N_MONS=$(count_mons)
         if [ "$NEW_N_MONS" -gt "$N_MONS" ]; then
-            EXT_EDID=$(edids "HDMI1")
+            EXT_EDID=$(edids $EXMON)
             EXT_POS=$(cat ~/.mons | grep $EXT_EDID | cut -d' ' -f2)
             # if the preferred position is specified,
             # do it automatically
@@ -126,8 +126,8 @@ else
     # NOTE some monitors will be set to "overscan"
     # which clips the borders.
     # you can try something like this to compensate:
-    # xrandr --output HDMI-1 --set underscan on
-    # xrandr --output HDMI-1 --set "underscan hborder" 40 --set "underscan vborder" 25
+    # xrandr --output $EXMON --set underscan on
+    # xrandr --output $EXMON --set "underscan hborder" 40 --set "underscan vborder" 25
 
     # rename each monitor so sxhkd can use it with bspwm to move focus/windows/desktops across monitors
     bspc monitor $(bspc query -M -m primary --names) -n $INMON_PLACE
