@@ -315,19 +315,18 @@ ln -s $DIR/dots/bkup ~/.bkup
 # monitor position preferences
 ln -sf $DIR/dots/mons ~/.mons
 
-# TODO remove?
+# START C720 SPECIFIC =============================================
 # fixes some heinous c720 touchpad stuff
 sudo cp $DIR/dots/misc/50-synaptics.conf /usr/share/X11/xorg.conf.d/50-synaptics.conf
 sudo chown root:root /usr/share/X11/xorg.conf.d/50-synaptics.conf
 
-# TODO remove?
 # brightness adjustment fix
 sudo cp $DIR/dots/misc/20-intel.conf /usr/share/X11/xorg.conf.d/20-intel.conf
 sudo chown root:root /usr/share/X11/xorg.conf.d/20-intel.conf
 
-# TODO remove?
 # usb mouse fix
 sudo mv /usr/share/X11/xorg.conf.d/20-mouse.conf /usr/share/X11/xorg.conf.d/20-mouse.conf.disabled
+# END C720 SPECIFIC ===============================================
 
 # better chinese character support
 sudo apt install -y fonts-noto-cjk
