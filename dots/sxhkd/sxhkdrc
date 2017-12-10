@@ -156,9 +156,6 @@ super + {F2, XF86AudioNext}
 super + {F1, XF86AudioPrev}
     mpc prev
 
-super + Delete
-    bspc rule -a URxvt -o state=floating && urxvt -e ~/.bin/pwr
-
 super + t
     bspc rule -a URxvt -o state=floating && urxvt -e vi ~/notes/todo.md
 
