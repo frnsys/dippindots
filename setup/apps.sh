@@ -262,13 +262,6 @@ chmod 644 ~/.wall.jpg
 sudo pip2 install git+https://github.com/cdown/tzupdate
 
 # TODO remove?
-# power management stuff
-# note:
-# /etc/systemd/logind.conf
-#   HandleLidSwitch=suspend
-#   HandlePowerKey=ignore
-
-# TODO remove?
 # this was necessary to get sound and video working on the C720 (sound and video was only playable by root)
 sudo adduser ftseng audio
 sudo adduser ftseng pulse-access
@@ -300,19 +293,6 @@ ln -sf $DIR/dots/port ~/.port
 
 # backup config
 ln -s $DIR/dots/bkup ~/.bkup
-
-# START C720 SPECIFIC =============================================
-# fixes some heinous c720 touchpad stuff
-sudo cp $DIR/dots/misc/50-synaptics.conf /usr/share/X11/xorg.conf.d/50-synaptics.conf
-sudo chown root:root /usr/share/X11/xorg.conf.d/50-synaptics.conf
-
-# brightness adjustment fix
-sudo cp $DIR/dots/misc/20-intel.conf /usr/share/X11/xorg.conf.d/20-intel.conf
-sudo chown root:root /usr/share/X11/xorg.conf.d/20-intel.conf
-
-# usb mouse fix
-sudo mv /usr/share/X11/xorg.conf.d/20-mouse.conf /usr/share/X11/xorg.conf.d/20-mouse.conf.disabled
-# END C720 SPECIFIC ===============================================
 
 # better chinese character support
 sudo apt install -y fonts-noto-cjk

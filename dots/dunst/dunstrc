@@ -30,7 +30,7 @@
     # [{width}]x{height}[+/-{x}+/-{y}]
     # height is in number of notifications
     # everything else in pixels
-    geometry = "300x5-8+26"
+    geometry = "400x5-8+26"
 
     notification_height = 0
     line_height = 2
