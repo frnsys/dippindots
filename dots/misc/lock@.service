@@ -10,4 +10,7 @@ ExecStart=/usr/bin/lock
 ExecStartPost=/bin/sleep 1
 
 [Install]
-WantedBy=suspend.target
+; NOTE if you change this,
+; you must disable and then re-enable
+; the service
+WantedBy=suspend.target hybrid-sleep.target
