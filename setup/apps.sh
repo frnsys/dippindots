@@ -302,13 +302,11 @@ sudo apt install -y fonts-noto-cjk
 sudo apt install -y bcmwl-kernel-source
 sudo sed -i -e 's/REGDOMAIN=.*/REGDOMAIN=US/g' /etc/default/crda
 
+# for thinkpads
 # tlp for better battery life
 sudo add-apt-repository ppa:linrunner/tlp
+sudo add-apt-repository ppa:morgwai/tpbat
 sudo apt update
 sudo apt install tlp --no-install-recommends
-
-# for thinkpads
-# sudo add-apt-repository ppa:morgwai/tpbat
-# sudo apt update
-# sudo apt install acpi-call-dkms
-# sudo apt install tpacpi-bat # replacement for tm-smapi-dkms
+sudo apt install acpi-call-dkms
+sudo apt install tpacpi-bat # replacement for tm-smapi-dkms
