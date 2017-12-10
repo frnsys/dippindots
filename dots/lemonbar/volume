@@ -20,5 +20,5 @@ volume() {
 
 while true; do
     echo 'V'$(volume)
-    sleep 1s
+    sleep 2
 done

@@ -3,7 +3,7 @@ URxvt.scrollBar: false
 ! URxvt.font: xft:ttyp0:style=regular:pixelsize=20:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false
 URxvt.font: -*-terminus-medium-r-normal-*-24-*-*-*-c-*-iso8859-1
 URxvt.boldFont:
-URxvt.perl-ext-common: default,keyboard-select,clipboard,font-size
+URxvt.perl-ext-common: default,keyboard-select,font-size
 URxvt.saveLines: 1000000
 URxvt.iso14755: false
 URxvt.internalBorder: 12
@@ -19,14 +19,8 @@ URxvt.lineSpace: 4
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
 
 ! ctrl+alt+c to copy selected text (using the keyboard-select method from above)
-! ctrl+alt-p to paste.
-! Note: the keyboard-select method pastes into the PRIMARY buffer,
-! the clipboard copy/paste works off of the CLIPBOARD buffer. The
-! CLIPBOARD buffer is what the desktop ctrl+c/ctrl+v works off of.
-! Also note that this uses xsel, so install that first, and set it to be
-! your system clipboard manager.
-URxvt.keysym.M-C-c: perl:clipboard:copy
-URxvt.keysym.M-C-p: perl:clipboard:paste
+! ctrl+alt+p to paste.
+URxvt.keysym.M-C-p: eval:paste_clipboard
 
 ! Easily scale fonts up/down
 URxvt.keysym.C-Up:     perl:font-size:increase

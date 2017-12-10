@@ -13,6 +13,6 @@ caffeine() {
 
 while true; do
     echo 'F'$(caffeine)
-    sleep 1s
+    sleep 5
 done
 

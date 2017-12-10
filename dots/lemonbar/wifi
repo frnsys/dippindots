@@ -48,5 +48,5 @@ wifi() {
 
 while true; do
     echo 'N'$(wifi)
-    sleep 1s
+    sleep 5
 done

@@ -6,23 +6,12 @@ CHARGE_ICON=""
 PLUGGED_ICON=""
 
 battery() {
-    BATTERY=$(upower -e | grep battery)
+    STATUS=$(acpi)
+    TIME=$(echo $STATUS | grep -o '[0-9]*:[0-9]*:[0-9]*' | cut -d : -f 1,2)
+    STATE=$(echo $STATUS | grep -o ': [^ ]*,' | tr -dc 'A-Za-z')
+    PERCENT=$(echo $STATUS | grep -o '[^ ]*%' | tr -dc '0-9')
 
-    TIME_RAW=$(upower -i $BATTERY | grep -E "to empty|to full" | cut -d':' -f2)
-    TIME_NUMS=$(echo $TIME_RAW | cut -d' ' -f1)
-    TIME_UNIT=$(echo $TIME_RAW | cut -d' ' -f2)
-
-    if [[ $TIME_UNIT == "minute"* ]]; then
-        TIME_UNIT="m"
-    elif [[ $TIME_UNIT == "hour"* ]]; then
-        TIME_UNIT="h"
-    fi
-
-    STATE=$(upower -i $BATTERY | grep "state" | cut -d':' -f2 | xargs)
-    PERCENT=$(upower -i $BATTERY | grep "percent" | cut -d':' -f2 | tr -dc '0-9')
-    TIME="${TIME_NUMS}${TIME_UNIT}"
-
-	if [[ $STATE == "discharging" ]]; then
+	if [[ $STATE == "Discharging" ]]; then
         if [ $PERCENT -lt 10 ]; then
             echo "%{F$COLOR_URGENT}${CHARGE_ICON}${TIME}%{F-}"
         else
@@ -37,5 +26,5 @@ battery() {
 
 while true; do
     echo 'B'$(battery)
-    sleep 1s
+    sleep 10
 done

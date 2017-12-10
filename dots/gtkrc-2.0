@@ -1,7 +1,6 @@
 # if you want to edit this, it's probably better to run `lxappearance`
 
 gtk-theme-name="HighContrast"
-gtk-icon-theme-name="Classic95"
 gtk-font-name="Ttyp0 10"
 gtk-cursor-theme-name="DMZ-White"
 gtk-cursor-theme-size=0

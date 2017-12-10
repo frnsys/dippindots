@@ -22,5 +22,5 @@ weather() {
 
 while true; do
     echo 'R'$(weather)
-    sleep 300s # every 5min
+    sleep 600 # every 10min
 done

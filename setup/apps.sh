@@ -7,7 +7,7 @@ tput sgr0
 # NOTE: `dhcpcd5` can conflict with `wicd-curses`,
 # but is needed for usb tethering.
 # see the wicd comments below for how to work around this
-sudo apt install -y alsa-utils upower bc cryptsetup dhcpcd5
+sudo apt install -y alsa-utils acpi bc cryptsetup dhcpcd5
 
 # bluetooth
 # see ~/notes/linux/bluetooth.md
@@ -336,3 +336,14 @@ sudo apt install -y fonts-noto-cjk
 # set networking card region
 sudo apt install -y bcmwl-kernel-source
 sudo sed -i -e 's/REGDOMAIN=.*/REGDOMAIN=US/g' /etc/default/crda
+
+# tlp for better battery life
+sudo add-apt-repository ppa:linrunner/tlp
+sudo apt update
+sudo apt install tlp --no-install-recommends
+
+# for thinkpads
+# sudo add-apt-repository ppa:morgwai/tpbat
+# sudo apt update
+# sudo apt install acpi-call-dkms
+# sudo apt install tpacpi-bat # replacement for tm-smapi-dkms
