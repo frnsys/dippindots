@@ -10,9 +10,5 @@ elif [[ $REPLY = restart ]]; then
     systemctl reboot
 elif [[ $REPLY = sleep ]]; then
     echo "Sleeping"
-<<<<<<< HEAD
-    sudo -v; sleep 2; systemctl hybrid-sleep
-=======
     sleep 2; systemctl hybrid-sleep
->>>>>>> c1622a7... many x260 fixes and tweaks
 fi

@@ -5,16 +5,18 @@ if [[ $1 == 'remote' ]]; then
     # identical stuff twice over the wire,
     # when we should sync to one drive then rsync locally to the other.
     for dest in /media/shuttle /media/outerspace/francis; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/musics; do
+        for d in ~/projects ~/docs ~/notes ~/photos; do
             tunnel sync $d ftseng@starbase.in:10023:pi:$dest/repos --delete
         done
         tunnel sync ~/archives ftseng@starbase.in:10023:pi:$dest
+        tunnel sync ~/musics ftseng@starbase.in:10023:pi:$dest
     done
 elif [[ $1 == 'local' ]]; then
     for dest in /media/shuttle /media/outerspace/francis; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/musics; do
+        for d in ~/projects ~/docs ~/notes ~/photos; do
             rsync -azv --progress $d pi@svalbard.local:$dest/repos --delete
         done
         rsync -azv --progress ~/archives pi@svalbard.local:$dest
+        rsync -azv --progress ~/musics pi@svalbard.local:$dest
     done
 fi
