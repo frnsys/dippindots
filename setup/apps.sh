@@ -33,6 +33,8 @@ sudo apt update
 sudo apt install -y --no-install-recommends xorg
 sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight gdebi deluged deluge-console compton oathtool pandoc avahi-daemon redshift sm
 
+ln -sf $DIR/dots/redshift.conf ~/.config/redshift.conf
+
 # map capslock to super
 # use right alt as compose key
 sudo sed -i 's/XKBOPTIONS=""/XKBOPTIONS="compose:ralt,caps:super"/' /etc/default/keyboard
