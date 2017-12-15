@@ -14,10 +14,6 @@ super + {shift,ctrl} + alt + {h,l,k,j}
 super + shift + alt + q
     bspc node -c
 
-# adjust windows so they each occupy the same area (balance)
-super + b
-    bspc node -B
-
 # toggle floating/fullscreen/tiled
 super + {s,f,o}
     bspc node -t ~{floating,fullscreen,tiled}
@@ -87,9 +83,13 @@ super + ctrl + c
 super + alt + k
     lock
 
-# toggle redshit
+# toggle redshift
 super + z
     pkill -USR1 redshift
+
+# toggle bluetooth
+super + b
+    bluetooth toggle
 
 # ~~screenshots/recordings~~
 

@@ -24,6 +24,9 @@ while read -r line ; do
 		F*)
 			caffeine="%{F$COLOR_STATUS_FG}%{B$COLOR_STATUS_BG}${line#?}%{B-}%{F-}"
 			;;
+		L*)
+			bluetooth="%{F$COLOR_STATUS_FG}%{B$COLOR_STATUS_BG}${line#?}%{B-}%{F-}"
+			;;
 		W*)
 			# bspwm internal state
 			wm_infos=""
@@ -62,5 +65,5 @@ while read -r line ; do
 			done
 			;;
 	esac
-	printf "%s\n" "%{l}${wm_infos}%{c}${clock}%{r}${caffeine} ${battery} ${volume} ${weather} ${wifi}"
+	printf "%s\n" "%{l}${wm_infos}%{c}${clock}%{r}${caffeine} ${battery} ${volume} ${bluetooth} ${weather} ${wifi}"
 done
