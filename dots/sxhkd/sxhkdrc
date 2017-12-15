@@ -128,16 +128,16 @@ super + {F8, XF86AudioMute}
     amixer -D pulse set -M Master toggle
 
 super + {F7, XF86MonBrightnessUp}
-    /usr/bin/xbacklight -inc 5
+    brightness 5
 
 super + shift + {F7, XF86MonBrightnessUp}
-    /usr/bin/xbacklight -inc 20
+    brightness 20
 
 super + {F6, XF86MonBrightnessDown}
-    /usr/bin/xbacklight -dec 5
+    brightness -5
 
 super + shift + {F6, XF86MonBrightnessDown}
-    /usr/bin/xbacklight -dec 20
+    brightness -20
 
 super + {F5, XF86AudioPlay}
     mpc toggle

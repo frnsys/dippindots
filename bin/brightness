@@ -1,0 +1,19 @@
+#!/bin/bash
+# use this instead of xbacklight
+# (it stopped working after sleep)
+
+if ! [[ "$1" =~ ^-?[0-9]+$ ]]; then
+    echo "change amount must be an integer"
+fi
+
+BACKLIGHT=/sys/class/backlight/intel_backlight
+MAX=$(cat $BACKLIGHT/max_brightness)
+MIN=0
+
+CHANGE=$1 # percent
+CURRENT=$(cat $BACKLIGHT/brightness)
+UPDATED=$(echo "scale=2;$CURRENT+$1/100*$MAX" | bc)
+UPDATED=$(echo "scale=0;($UPDATED+0.5)/1" | bc) # trick to round floats
+UPDATED=$(( UPDATED < MIN ? MIN : UPDATED ))
+UPDATED=$(( UPDATED > MAX ? MAX : UPDATED ))
+echo $UPDATED > $BACKLIGHT/brightness

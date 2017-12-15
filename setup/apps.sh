@@ -25,13 +25,12 @@ sudo pip install youtube-dl
 # i3lock - locking the screen
 # libnotify-bin - for `notify-send` to create notifications
 # unclutter - hide cursor after inactivity
-# xbacklight - control screen brightness
 # gdebi - easier installation of deb packages
 # compton - for window/bar transparency and shadows
 # sm - large text screen messages
 sudo apt update
 sudo apt install -y --no-install-recommends xorg
-sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter xbacklight gdebi deluged deluge-console compton oathtool pandoc avahi-daemon redshift sm
+sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console compton oathtool pandoc avahi-daemon redshift sm
 
 ln -sf $DIR/dots/redshift.conf ~/.config/redshift.conf
 
