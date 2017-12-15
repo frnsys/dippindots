@@ -4,7 +4,6 @@ backup:
         - '~/docs'
         - '~/notes'
         - '~/photos'
-        - '~/musics'
         - '~/downloads'
     targets:
         - '/media/usb/repos'
@@ -14,3 +13,9 @@ archive:
         - '~/archives/'
     targets:
         - '/media/usb/archives'
+music:
+    never_delete: true
+    dirs:
+        - '~/musics/'
+    targets:
+        - '/media/usb/musics'
