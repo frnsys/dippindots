@@ -7,7 +7,7 @@ if [[ $REPLY = shutdown ]]; then
     systemctl poweroff
 elif [[ $REPLY = restart ]]; then
     echo "Restarting"
-    systemctl reboot
+    systemctl reboot -i
 elif [[ $REPLY = sleep ]]; then
     echo "Sleeping"
     sleep 2; systemctl hybrid-sleep

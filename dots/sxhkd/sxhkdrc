@@ -89,7 +89,7 @@ super + z
 
 # toggle bluetooth
 super + b
-    bluetooth toggle
+    bluetooth toggle; notify-send "$(bluetooth)"
 
 # ~~screenshots/recordings~~
 
