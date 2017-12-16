@@ -41,11 +41,6 @@ make
 sudo make install
 cd $DIR
 
-git clone https://github.com/clvv/fasd.git /tmp/fasd
-cd /tmp/fasd
-sudo make install
-cd $DIR
-
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 

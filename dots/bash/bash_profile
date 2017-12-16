@@ -40,9 +40,6 @@ done
 # vi keybindings for bash
 set -o vi
 
-# initialize fasd
-eval "$(fasd --init auto)"
-
 # initialize fzf
 # set to ag, which will respect gitignores
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
