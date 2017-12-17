@@ -3,7 +3,6 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 # to avoid accidentally overwriting files
@@ -13,7 +12,6 @@ alias mv="mv -i"
 alias ga="git add"
 alias gaa="git add -A"
 alias gcm="git commit -m"
-alias gac="git add -A; git commit -m"
 alias gp="git push"
 alias gpl="git pull"
 alias gcb="git checkout -b"
@@ -28,13 +26,10 @@ alias n="cd ~/notes"
 alias p="cd ~/projects; ll"
 alias docs="cd ~/docs; ll"
 alias dl="cd ~/downloads"
-alias o="open"
-alias oo="open ."
 alias nb="jupyter notebook"
 alias py="python"
 alias ipy="ipython"
 alias za="zathura"
-alias todo="vi -O ~/notes/todo.md ~/notes/pipeline.md"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`

@@ -18,9 +18,6 @@ shopt -s nocaseglob
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend
 
-# Ignore less interesting commands in the history
-export HISTIGNORE=*history*:ls:ll:la:cd:pwd:gpg:exit:su:df:clear
-
 # Autocorrect typos in path names when using `cd`
 shopt -s cdspell
 
@@ -45,6 +42,3 @@ set -o vi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_CTRL_T_COMMAND="fd . $HOME"
 export FZF_ALT_C_COMMAND="fd -t d . $HOME"
-
-# rvm
-# source ~/.rvm/scripts/rvm

@@ -4,10 +4,7 @@ tput setaf 5
 echo -e "\nInstalling some more goodies..."
 tput sgr0
 
-# NOTE: `dhcpcd5` can conflict with `wicd-curses`,
-# but is needed for usb tethering.
-# see the wicd comments below for how to work around this
-sudo apt install -y alsa-utils acpi bc cryptsetup dhcpcd5
+sudo apt update
 
 # bluetooth
 # see ~/notes/linux/bluetooth.md
@@ -15,7 +12,10 @@ sudo apt install -y bluez libbluetooth3 libbluetooth-dev blueman pulseaudio-modu
 pactl load-module module-bluetooth-discover
 
 # utils
-sudo apt install -y --no-install-recommends dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag
+# NOTE: `dhcpcd5` can conflict with `wicd-curses`,
+# but is needed for usb tethering.
+# see the wicd comments below for how to work around this
+sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag
 sudo pip install youtube-dl
 
 # feh - image viewer/wallpaper manager
@@ -28,7 +28,6 @@ sudo pip install youtube-dl
 # gdebi - easier installation of deb packages
 # compton - for window/bar transparency and shadows
 # sm - large text screen messages
-sudo apt update
 sudo apt install -y --no-install-recommends xorg
 sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console compton oathtool pandoc avahi-daemon redshift sm
 
@@ -153,10 +152,6 @@ sudo add-apt-repository -y ppa:mc3man/mpv-tests
 sudo apt install -y mpc mpv
 ln -sf $DIR/dots/mpv ~/.config/mpv
 
-# stream2chromecast
-sudo git clone https://github.com/frnsys/stream2chromecast.git /usr/local/share/stream2chromecast
-sudo ln -sf /usr/local/share/stream2chromecast/stream2chromecast.py /usr/local/bin/stream2chromecast
-
 # bspwm - window manager
 sudo apt install -y xcb libxcb-util0-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev  libxcb-xtest0-dev libasound2-dev libxcb-ewmh-dev
 git clone https://github.com/baskerville/xdo /tmp/xdo
@@ -206,9 +201,6 @@ ln -sf $DIR/dots/dunst  ~/.config/dunst
 # other defaults
 ln -sf $DIR/dots/xinitrc ~/.xinitrc
 ln -sf $DIR/dots/Xresources ~/.Xresources
-
-# update the repositories
-sudo apt update
 
 # flash player
 sudo apt install -y pepperflashplugin-nonfree

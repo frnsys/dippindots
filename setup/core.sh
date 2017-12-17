@@ -21,15 +21,6 @@ ln -sf $DIR/dots/gitconfig ~/.gitconfig
 # so we can push without logging in
 ssh -vT git@github.com
 
-# If Git isn't installed by now, something messed up
-if [[ ! "$(type -P git)" ]]; then
-  tput setaf 1
-  echo "Git should be installed. It isn't. Aborting."
-  tput sgr0
-  exit 1
-fi
-
-
 echo "Installing utils..."
 sudo apt install -y libevent-dev
 wget https://github.com/tmux/tmux/releases/download/2.4/tmux-2.4.tar.gz -O /tmp/tmux-2.4.tar.gz
