@@ -86,7 +86,7 @@ elif [ $CMD == 'sync' ]; then
     INPUT=$1
     FLAGS=$3
     IFS=: read BRIDGE BRIDGEPORT DESTUSER DEST <<< $2
-    rsync $3 -azv -e 'ssh -p '$BRIDGEPORT' -o "ProxyCommand ssh '$BRIDGE' -W %h:%p"' $INPUT $DESTUSER@localhost:$DEST
+    rsync $3 -azv -e 'ssh -p '$BRIDGEPORT' -o "ProxyCommand ssh '$BRIDGE' -W %h:%p"' "${INPUT}" $DESTUSER@localhost:$DEST
 
 else
     echo "Please specify a command: go, make, push, pull, sync."
