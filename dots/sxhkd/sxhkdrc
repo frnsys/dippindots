@@ -173,10 +173,6 @@ super + m
 super + e
     bspc rule -a Pick-colour-picker -o state=floating && /usr/bin/pick-colour-picker
 
-# toggle caffeine
-super + c
-    if [ ! -f "/tmp/caffeine" ]; then caffeine; else kill `cat /tmp/caffeine`; fi;
-
 # make sxhkd reload its configuration files:
 super + Escape
     pkill -USR1 -x sxhkd; notify-send "sxhkd config reloaded"

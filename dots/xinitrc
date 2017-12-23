@@ -8,11 +8,9 @@ xset fp rehash
 fc-cache -fv &
 unclutter -root -visible &
 feh --bg-fill ~/.wall.jpg &
-#multihead mon &
 battcheck &
 sxhkd &
 urxvt &
-#idle &
 redshift &
 weather &
 exec ~/.config/bspwm/wm
