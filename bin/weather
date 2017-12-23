@@ -21,6 +21,6 @@ weather() {
 }
 
 while true; do
-    echo $(weather)
+    echo $(weather) > /tmp/weather
     sleep 600 # every 10min
 done

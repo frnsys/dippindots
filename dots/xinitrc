@@ -14,5 +14,5 @@ sxhkd &
 urxvt &
 #idle &
 redshift &
-weather > /tmp/weather &
+weather &
 exec ~/.config/bspwm/wm
