@@ -26,5 +26,5 @@ battery() {
 
 while true; do
     echo 'B'$(battery)
-    sleep 10
+    sleep 5
 done

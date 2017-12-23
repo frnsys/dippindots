@@ -3,7 +3,7 @@
 source ~/.config/lemonbar/colors
 
 btooth() {
-    if [ "$(bluetooth)" == "bluetooth = on" ]; then
+    if [[ "$(bluetooth)" == *"= on" ]]; then
         ICON=""
     else
         ICON=""
