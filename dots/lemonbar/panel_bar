@@ -7,26 +7,11 @@ num_mon=$(bspc query -M | wc -l)
 while read -r line ; do
 	case $line in
 		C*)
-			clock="%{F$COLOR_STATUS_FG}%{B$COLOR_STATUS_BG} ${line#?} %{B-}%{F-}"
+			clock="${line#?}"
 			;;
-        B*)
-			battery="%{F$COLOR_STATUS_FG}%{B$COLOR_STATUS_BG}${line#?}%{B-}%{F-}"
+        S*)
+			status="${line#?}"
             ;;
-        R*)
-			weather="%{F$COLOR_STATUS_FG}%{B$COLOR_STATUS_BG}${line#?}%{B-}%{F-}"
-            ;;
-        N*)
-			wifi="%{F$COLOR_STATUS_FG}%{B$COLOR_STATUS_BG}${line#?}%{B-}%{F-}"
-            ;;
-        V*)
-			volume="%{F$COLOR_STATUS_FG}%{B$COLOR_STATUS_BG}${line#?}%{B-}%{F-}"
-            ;;
-		F*)
-			caffeine="%{F$COLOR_STATUS_FG}%{B$COLOR_STATUS_BG}${line#?}%{B-}%{F-}"
-			;;
-		L*)
-			bluetooth="%{F$COLOR_STATUS_FG}%{B$COLOR_STATUS_BG}${line#?}%{B-}%{F-}"
-			;;
 		W*)
 			# bspwm internal state
 			wm_infos=""
@@ -65,5 +50,5 @@ while read -r line ; do
 			done
 			;;
 	esac
-	printf "%s\n" "%{l}${wm_infos}%{c}${clock}%{r}${caffeine} ${battery} ${volume} ${bluetooth} ${weather} ${wifi}"
+	printf "%s\n" "%{l}${wm_infos}%{c}${clock}%{r}${status}"
 done

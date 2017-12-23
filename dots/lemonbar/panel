@@ -33,12 +33,7 @@ while read -r mon; do
             > "$PANEL_FIFO$mon" &
 
     clock -sf 'C%m月%d日 %H:%M' > "$PANEL_FIFO$mon" &
-    ~/.config/lemonbar/wifi > "$PANEL_FIFO$mon" &
-    ~/.config/lemonbar/volume > "$PANEL_FIFO$mon" &
-    ~/.config/lemonbar/battery > "$PANEL_FIFO$mon" &
-    ~/.config/lemonbar/weather > "$PANEL_FIFO$mon" &
-    ~/.config/lemonbar/caffeine > "$PANEL_FIFO$mon" &
-    ~/.config/lemonbar/bluetooth > "$PANEL_FIFO$mon" &
+    ~/.config/lemonbar/status > "$PANEL_FIFO$mon" &
 
     # Grep out current monitor width
     CUR_MON_WIDTH=$(bspc query -T -m $mon | grep -oE "width\":[0-9]{2,6}" | head -n 1 | grep -oE "[0-9]{2,6}")
@@ -51,6 +46,7 @@ while read -r mon; do
     CUR_X_OFFSET=$(($CUR_X_OFFSET + $CUR_MON_WIDTH))
 done <<< $"$(bspc query -M --names | sort)" # sort so that monitor L always comes before monitor R
 
+# So fullscreen goes over the panel
 xdo raise $(xdo id -n root)
 xdo lower $(xdo id -a $PANEL_NAME)
 
