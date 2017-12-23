@@ -74,9 +74,6 @@ super + n
 super + space
     dmenu_run -l 10
 
-super + w
-    app_switch
-
 super + ctrl + c
     pick-colour-picker
 
@@ -90,6 +87,10 @@ super + z
 # toggle bluetooth
 super + b
     bluetooth toggle; notify-send "$(bluetooth)"
+
+# toggle wifi
+super + w
+    wifi toggle; notify-send "$(wifi)"
 
 # ~~screenshots/recordings~~
 
