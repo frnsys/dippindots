@@ -51,18 +51,7 @@ while read -r mon; do
     CUR_X_OFFSET=$(($CUR_X_OFFSET + $CUR_MON_WIDTH))
 done <<< $"$(bspc query -M --names | sort)" # sort so that monitor L always comes before monitor R
 
-# push panel to below fullscreen windows
-wids=$(xdo id -a "$PANEL_NAME")
-tries_left=20
-while [ -z "$wids" -a "$tries_left" -gt 0 ] ; do
-	sleep 0.05
-	wids=$(xdo id -a "$PANEL_NAME")
-	tries_left=$((tries_left - 1))
-done
-if [ "$wids" ]; then
-    while read -r wid; do
-        xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 2)" "$wid"
-    done <<< "$wids"
-fi
+xdo raise $(xdo id -n root)
+xdo lower $(xdo id -a $PANEL_NAME)
 
 wait
