@@ -31,16 +31,45 @@ fi
 # get choice, and continue prompting while choice is a directory
 CHOICE=$(echo -e "$CHOICES" | dmenu -is $IMG_DIM -l 10 -p "results") || exit
 while [ -d "$CHOICE" ]; do
-    CHOICES=$(process_files "$(ls "$CHOICE")" $CHOICE/)
+    CHOICES=$(process_files "$(ls -r "$CHOICE")" $CHOICE/)
     NEXT=$(echo -e "$CHOICES" | dmenu -is $IMG_DIM -l 10 -p "directory") || exit
     CHOICE=$CHOICE/$NEXT
 done
 
 case "$CHOICE" in
-    *.png|*.jpg|*.jpeg) feh --scale-down "$CHOICE";;
-    *.mkv|*.mp4|*.webm) float mpv && mpv --autofit=50%x50% "$CHOICE";;
-    *.gif) gifview -a "$CHOICE";;
-    *.pdf) float zathura && zathura "$CHOICE";;
-    *.md) float URxvt && urxvt -e vi "$CHOICE";;
-    *) notify-send "unrecognized extension";;
+    *.png|*.jpg|*.jpeg|*.gif)
+        ACTION=$(echo -e "path\ndata\nview\nrm" | dmenu -p ">");;
+    *)
+        ACTION=$(echo -e "path\nview\nrm" | dmenu -p ">");;
+esac
+
+case "$ACTION" in
+    "view")
+        case "$CHOICE" in
+            *.png|*.jpg|*.jpeg) feh --scale-down "$CHOICE";;
+            *.mkv|*.mp4|*.webm) float mpv && mpv --autofit=50%x50% "$CHOICE";;
+            *.gif) gifview -a "$CHOICE";;
+            *.pdf) float zathura && zathura "$CHOICE";;
+            *.md) float URxvt && urxvt -e vi "$CHOICE";;
+            *) notify-send "unrecognized extension";;
+        esac;;
+
+    # remove with confirmation
+    "rm")
+        CONFIRM=$(dmenu -p "confirm? (y/n)")
+        if [ $CONFIRM = 'y' ]; then
+            # don't actually delete, move to /tmp
+            # so deletes on reboot
+            mv "$CHOICE" /tmp/
+            notify-send "deleted"
+        else
+            notify-send "canceled"
+        fi;;
+
+    # copy image data to clipboard
+    "data") imgclip "$CHOICE";;
+
+    # copy path to clipboard
+    "path") echo -n "${CHOICE} " | xsel -b;;
+    *) ;;
 esac
