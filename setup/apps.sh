@@ -53,10 +53,6 @@ sudo cp $DIR/dots/misc/lock@.service /etc/systemd/system/lock@.service
 sudo chown root:root /etc/systemd/system/lock@.service
 systemctl enable lock@ftseng.service
 
-# not using a DE or session manager,
-# so manually check idle time for sleeping
-sudo apt install -y xprintidle
-
 # dmenu-pango-imlib
 git clone https://github.com/Cloudef/dmenu-pango-imlib /tmp/dmenu
 cd /tmp/dmenu

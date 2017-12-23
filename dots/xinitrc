@@ -12,7 +12,6 @@ feh --bg-fill ~/.wall.jpg &
 battcheck &
 sxhkd &
 urxvt &
-#idle &
 redshift &
 weather &
 exec ~/.config/bspwm/wm
