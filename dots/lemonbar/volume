@@ -3,8 +3,9 @@
 source ~/.config/lemonbar/colors
 
 volume() {
-    LEVEL=`amixer -D pulse get -M Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p' | uniq`
-    STATE=`amixer -D pulse get -M Master | sed -n 's/^.*\[\(o[nf]\+\)]$/\1/p' | uniq`
+    STATUS=$(amixer -D pulse get -M Master)
+    LEVEL=$(echo $STATUS | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p' | uniq)
+    STATE=$(echo $STATUS | sed -n 's/^.*\[\(o[nf]\+\)]$/\1/p' | uniq)
 
     if [[ $STATE != "on" ]]; then
         ICON=""
