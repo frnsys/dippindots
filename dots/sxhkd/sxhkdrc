@@ -84,6 +84,10 @@ super + alt + k
 super + z
     pkill -USR1 redshift
 
+# toggle caffeine
+super + c
+    caffeine
+
 # toggle bluetooth
 super + b
     bluetooth toggle; notify-send "$(bluetooth)"

@@ -110,7 +110,17 @@ weather() {
 }
 
 
+caffeine() {
+    if [[ "$(xset q | grep "DPMS is")" == *"Disabled" ]]; then
+        ICON=" "
+    else
+        ICON=""
+    fi
+    echo "%{F$COLOR_ICON}$ICON%{F-}"
+}
+
+
 while true; do
-    echo 'S'$(battery) $(volume)$(bluetooth) $(weather) $(wifi)
+    echo 'S'$(battery) $(volume)$(bluetooth)$(caffeine) $(weather) $(wifi)
     sleep $UPDATE_INTERVAL
 done

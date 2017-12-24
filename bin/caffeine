@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [[ "$(xset q | grep "DPMS is")" == *"Enabled" ]]; then
+    xset -dpms
+    notify-send "caffeine on"
+else
+    xset +dpms
+    xset dpms 300 # 5min
+    notify-send "caffeine off"
+fi
