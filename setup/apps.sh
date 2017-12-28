@@ -15,7 +15,7 @@ pactl load-module module-bluetooth-discover
 # NOTE: `dhcpcd5` can conflict with `wicd-curses`,
 # but is needed for usb tethering.
 # see the wicd comments below for how to work around this
-sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag
+sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag xbacklight
 sudo pip install youtube-dl
 
 # feh - image viewer/wallpaper manager

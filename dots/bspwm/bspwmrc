@@ -27,7 +27,7 @@ bspc rule -a mpv state=floating
 bspc rule -a Gifview state=floating
 
 for monitor in $(bspc query -M); do
-    bspc monitor $monitor -n "$monitor" -d   
+    bspc monitor $monitor -n "$monitor" -d \* \* \*
 done
 
 # This must go after the rest of the config!
