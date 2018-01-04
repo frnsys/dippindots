@@ -93,10 +93,10 @@ battery() {
         else
             echo "%{B$COLOR_FOREGROUND}%{F$COLOR_BACKGROUND} ${CHARGE_ICON}:${TIME} %{F-}%{B-}"
         fi
-    elif [ $PERCENT -lt 100 ]; then
-        echo "${PLUGGED_ICON}:${TIME}"
+    elif [ $PERCENT -lt 99 ]; then
+        echo "${PLUGGED_ICON}:${TIME} "
     else
-        echo "${PLUGGED_ICON}"
+        echo "${PLUGGED_ICON} "
     fi
 }
 
