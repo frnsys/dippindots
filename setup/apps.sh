@@ -29,13 +29,19 @@ sudo pip install youtube-dl
 # compton - for window/bar transparency and shadows
 # sm - large text screen messages
 sudo apt install -y --no-install-recommends xorg
-sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console compton oathtool pandoc avahi-daemon redshift sm
+sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console compton oathtool avahi-daemon redshift sm
 
 ln -sf $DIR/dots/redshift.conf ~/.config/redshift.conf
+
+sudo apt install -y --no-install-recommends texlive lmodern pandoc
 
 # map capslock to super
 # use right alt as compose key
 sudo sed -i 's/XKBOPTIONS=""/XKBOPTIONS="compose:ralt,caps:super"/' /etc/default/keyboard
+
+# larger font for boot tty
+sudo sed -i 's/FONTFACE=.*/FONTFACE="Terminus"/' /etc/default/console-setup
+sudo sed -i 's/FONTSIZE=.*/FONTSIZE="14x28"/' /etc/default/console-setup
 
 # to enable `systemctl hybrid-sleep`,
 # which is durable to power loss,
@@ -232,6 +238,12 @@ sudo service stunnel4 start
 sudo cp $DIR/dots/misc/network/airvpn_up /etc/network/if-up.d/airvpn
 sudo cp $DIR/dots/misc/network/airvpn_down /etc/network/if-post_down/airvpn
 
+# signal desktop client
+curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
+echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+sudo apt update && sudo apt install signal-desktop
+
+
 # GTK/QT themeing
 sudo apt install -y gnome-accessibility-themes
 rm -rf ~/.icons
@@ -310,3 +322,6 @@ sudo apt update
 sudo apt install tlp --no-install-recommends
 sudo apt install acpi-call-dkms
 sudo apt install tpacpi-bat # replacement for tm-smapi-dkms
+
+# enable horizontal trackpad scrolling
+synclient HorizTwoFingerScroll=1
