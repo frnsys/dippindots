@@ -322,6 +322,3 @@ sudo apt update
 sudo apt install tlp --no-install-recommends
 sudo apt install acpi-call-dkms
 sudo apt install tpacpi-bat # replacement for tm-smapi-dkms
-
-# enable horizontal trackpad scrolling
-synclient HorizTwoFingerScroll=1

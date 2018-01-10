@@ -2,6 +2,11 @@ export BSPWM_TREE=/tmp/bspwm.tree
 export BSPWM_HISTORY=/tmp/bspwm.history
 export BSPWM_STACK=/tmp/bspwm.stack
 
+# enable horizontal trackpad scrolling
+# and palm detection
+synclient HorizTwoFingerScroll=1
+synclient PalmDetect=1
+
 xrdb -merge -I$HOME ~/.Xresources
 xset +fp ~/.fonts/
 xset fp rehash
