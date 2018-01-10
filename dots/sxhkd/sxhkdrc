@@ -130,7 +130,7 @@ super + {F9, XF86AudioLowerVolume}
     amixer -D pulse set -M Master 5%-
 
 super + {F8, XF86AudioMute}
-    amixer -D pulse set -M Master toggle
+    notify-send "volume $(amixer -D pulse set -M Master toggle | sed -n 's/^.*\[\([a-z]*\)\]/\1/p' | head -n 1)"
 
 super + {F7, XF86MonBrightnessUp}
     xbacklight -inc 5
