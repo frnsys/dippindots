@@ -34,6 +34,8 @@ for DIR in "${!backups[@]}"; do
     rsync -avz -e "ssh -p ${PHONE_PORT}" --progress ${PHONE_IP}:/sdcard/${DIR}/ "${backups[$DIR]}"
 done
 
+rsync -avz -e "ssh -p ${PHONE_PORT}" --progress ${PHONE_IP}:/sdcard/Pictures/ ~/photos/phone_pictures
+
 # sync select music TO the phone
 MUSIC_BASE_DIR=~/musics/
 MUSIC_PLAYLIST=~/musics/_playlists/music.m3u
