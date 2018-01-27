@@ -5,6 +5,7 @@ backup:
         - '~/notes'
         - '~/photos'
         - '~/downloads'
+        - '~/work'
     targets:
         - '/media/usb/repos'
 archive:

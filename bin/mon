@@ -3,7 +3,7 @@
 
 PLACE=$1
 INMON=eDP1
-EXMON=HDMI1
+EXMON=HDMI2
 
 function restart_panel {
     # Kill the panel/lemonbar and restart
