@@ -82,12 +82,10 @@ bluetooth() {
 
 
 battery() {
-    STATUS=$(acpi)
-    TIME=$(echo $STATUS | grep -o '[0-9]*:[0-9]*:[0-9]*' | cut -d : -f 1,2)
-    STATE=$(echo $STATUS | grep -o ': [^ ]*,' | tr -dc 'A-Za-z')
-    PERCENT=$(echo $STATUS | grep -o '[^ ]*%' | tr -dc '0-9')
+    TIME=$(batt time)
+    PERCENT=$(batt percent)
 
-	if [[ $STATE == "Discharging" ]]; then
+    if [[ $(batt status) == "Discharging" ]]; then
         if [ $PERCENT -lt 10 ]; then
             echo "%{B$COLOR_URGENT} ${CHARGE_ICON}:${TIME} %{B-}"
         else

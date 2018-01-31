@@ -1,0 +1,42 @@
+#!/bin/bash
+# normally, would just use acpi,
+# but it doesn't work well for multiple batteries
+# (e.g. thinkpads)
+
+BATS=/sys/class/power_supply/BAT*/
+
+function query() {
+    # query a numerical value for multiple batteries
+    # and echo their sum
+    result=$(cat $BATS/$1)
+    echo "$result" | paste -sd+ | bc
+}
+
+
+if [[ $1 == 'mon' ]]; then
+    while true; do
+        battery_level=$(batt percent)
+        if [ $battery_level -le 10 ] && [[ $(batt status) == "Discharging" ]]; then
+            notify-send --urgency=critical "Battery low" "Battery level is ${battery_level}%!"
+        fi
+        sleep 120
+    done
+
+elif [[ $1 == 'status' ]]; then
+    echo $(cat $BATS/status | grep -E "Discharging|Charging")
+
+else
+    POWER_USAGE=$(query power_now)   # mW
+    ENERGY_FULL=$(query energy_full) # mWh
+    ENERGY_NOW=$(query energy_now)   # mWh
+
+    if [[ $1 == 'percent' ]]; then
+        PERCENT=$(echo "$ENERGY_NOW/$ENERGY_FULL * 100" | bc -l)
+        printf '%.0f\n' $PERCENT
+
+    elif [[ $1 == 'time' ]]; then
+        SECS=$(echo "$ENERGY_NOW/$POWER_USAGE * 60 * 60" | bc -l)
+        SECS=$(printf '%.0f' $SECS)
+        printf '%02d:%02d\n' $(($SECS/3600)) $(($SECS%3600/60))
+    fi
+fi
