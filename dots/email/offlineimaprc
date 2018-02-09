@@ -1,0 +1,43 @@
+[general]
+accounts = main
+
+
+[Account main]
+localrepository = main-local
+remoterepository = main-remote
+
+# full refresh, in min
+autorefresh = 1
+
+# quick refreshs between each full refresh
+quick = 10
+
+# update notmuch index after sync
+postsynchook = notmuch new
+
+
+[Repository main-local]
+type = Maildir
+localfolders = ~/.mail
+
+# delete remote mails that were deleted locally
+sync_deletes = yes
+
+
+[Repository main-remote]
+type = IMAP
+remoteport = 1143
+remotehost = 127.0.0.1
+remoteuser = f@frnsys.com
+remotepasseval = open('/home/ftseng/docs/keys/mail').read().split('\n')[-1].split('=')[-1]
+keepalive = 60
+holdconnectionopen = yes
+
+# delete local mails that were deleted on the remote server
+expunge = yes
+
+# exclude these from syncing
+folderfilter = lambda foldername: foldername not in ['All Mail', 'Trash', 'Spam']
+
+# is broken, but connecting locally to bridge so should be ok
+ssl = no

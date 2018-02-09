@@ -3,7 +3,7 @@
 lockfi='/tmp/lock'
 lockbg='/tmp/lock.png'
 maim "$lockbg"
-convert "$lockbg" -filter point -resize 10% -resize 1000% "$lockbg"
+convert "$lockbg" -filter point -resize 5% -resize 2000% "$lockbg"
 touch "$lockfi"
 i3lock -u -i "$lockbg"
 trap "rm $lockfi" EXIT

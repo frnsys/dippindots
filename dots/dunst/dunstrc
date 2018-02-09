@@ -2,7 +2,7 @@
     # refer to <https://github.com/knopwob/dunst/blob/master/dunstrc>
     # put colors in quotation marks so they aren't mistaken as comments
 
-    font = ttyp0 10
+    font = terminus 16
     allow_markup = yes
     plain_text = no
     word_wrap = yes
@@ -30,7 +30,7 @@
     # [{width}]x{height}[+/-{x}+/-{y}]
     # height is in number of notifications
     # everything else in pixels
-    geometry = "300x5-8+26"
+    geometry = "400x5-8+26"
 
     notification_height = 0
     line_height = 2

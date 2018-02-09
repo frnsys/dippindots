@@ -15,7 +15,7 @@ pactl load-module module-bluetooth-discover
 # NOTE: `dhcpcd5` can conflict with `wicd-curses`,
 # but is needed for usb tethering.
 # see the wicd comments below for how to work around this
-sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag
+sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag xbacklight graphviz
 sudo pip install youtube-dl
 
 # feh - image viewer/wallpaper manager
@@ -29,13 +29,19 @@ sudo pip install youtube-dl
 # compton - for window/bar transparency and shadows
 # sm - large text screen messages
 sudo apt install -y --no-install-recommends xorg
-sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console compton oathtool pandoc avahi-daemon redshift sm
+sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console compton oathtool avahi-daemon redshift sm
 
 ln -sf $DIR/dots/redshift.conf ~/.config/redshift.conf
+
+sudo apt install -y --no-install-recommends texlive lmodern pandoc
 
 # map capslock to super
 # use right alt as compose key
 sudo sed -i 's/XKBOPTIONS=""/XKBOPTIONS="compose:ralt,caps:super"/' /etc/default/keyboard
+
+# larger font for boot tty
+sudo sed -i 's/FONTFACE=.*/FONTFACE="Terminus"/' /etc/default/console-setup
+sudo sed -i 's/FONTSIZE=.*/FONTSIZE="14x28"/' /etc/default/console-setup
 
 # to enable `systemctl hybrid-sleep`,
 # which is durable to power loss,
@@ -205,7 +211,7 @@ sudo update-pepperflashplugin-nonfree --install
 # ranger
 # note: For raster image previews (NOT ascii previews) with w3m-image to work,
 # you have to use xterm or urxvt
-sudo apt install -y ranger highlight atool caca-utils w3m w3m-img poppler-utils
+sudo apt install -y --no-install-recommends ranger highlight atool caca-utils w3m w3m-img poppler-utils
 ranger --copy-config=scope
 ln -sf $DIR/dots/ranger/rc.conf ~/.config/ranger/rc.conf
 ln -sf $DIR/dots/ranger/rifle.conf ~/.config/ranger/rifle.conf
@@ -232,6 +238,12 @@ sudo service stunnel4 start
 sudo cp $DIR/dots/misc/network/airvpn_up /etc/network/if-up.d/airvpn
 sudo cp $DIR/dots/misc/network/airvpn_down /etc/network/if-post_down/airvpn
 
+# signal desktop client
+curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
+echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+sudo apt update && sudo apt install signal-desktop
+
+
 # GTK/QT themeing
 sudo apt install -y gnome-accessibility-themes
 rm -rf ~/.icons
@@ -242,7 +254,7 @@ echo -e "[Qt]\nstyle=GTK+" >> ~/.config/Trolltech.conf
 
 # setup fonts
 sudo ln -sf /etc/fonts/conf.avail/50-user.conf /etc/fonts/conf.d/50-user.conf
-sudo apt install -y fonts-inconsolata xfonts-terminus
+sudo apt install -y fonts-inconsolata xfonts-terminus ttf-mscorefonts-installer
 ln -sf $DIR/assets/fonts ~/.fonts
 ln -sf $DIR/dots/fonts.conf ~/.fonts.conf
 mkfontdir ~/.fonts
@@ -260,13 +272,6 @@ chmod 644 ~/.wall.jpg
 # to preview, run `tzupdate -p`
 # to make the change, run `sudo tzupdate`
 sudo pip2 install git+https://github.com/cdown/tzupdate
-
-# TODO remove?
-# power management stuff
-# note:
-# /etc/systemd/logind.conf
-#   HandleLidSwitch=suspend
-#   HandlePowerKey=ignore
 
 # TODO remove?
 # this was necessary to get sound and video working on the C720 (sound and video was only playable by root)
@@ -301,18 +306,23 @@ ln -sf $DIR/dots/port ~/.port
 # backup config
 ln -s $DIR/dots/bkup ~/.bkup
 
-# START C720 SPECIFIC =============================================
-# fixes some heinous c720 touchpad stuff
-sudo cp $DIR/dots/misc/50-synaptics.conf /usr/share/X11/xorg.conf.d/50-synaptics.conf
-sudo chown root:root /usr/share/X11/xorg.conf.d/50-synaptics.conf
-
-# brightness adjustment fix
-sudo cp $DIR/dots/misc/20-intel.conf /usr/share/X11/xorg.conf.d/20-intel.conf
-sudo chown root:root /usr/share/X11/xorg.conf.d/20-intel.conf
-
-# usb mouse fix
-sudo mv /usr/share/X11/xorg.conf.d/20-mouse.conf /usr/share/X11/xorg.conf.d/20-mouse.conf.disabled
-# END C720 SPECIFIC ===============================================
+# muttrc
+sudo apt install -y xsltproc libidn11-dev libsasl2-dev libnotmuch-dev notmuch offlineimap urlscan --no-install-recommends
+git clone git@github.com:neomutt/neomutt.git /tmp/neomutt
+cd /tmp/neomutt
+./configure --disable-doc --ssl --sasl --notmuch
+make
+sudo make install
+sudo ln -s /usr/bin/neomutt /usr/bin/mutt
+ln -sf $DIR/dots/email/muttrc ~/.muttrc
+ln -sf $DIR/dots/email/mailcap ~/.mailcap
+ln -sf $DIR/dots/email/offlineimaprc ~/.offlineimaprc
+ln -sf $DIR/dots/email/notmuch-config ~/.notmuch-config
+ln -sf $DIR/dots/email/signature ~/.signature
+sudo ln -sf $DIR/dots/email/view_html.sh /usr/local/bin/view_html
+sudo ln -sf $DIR/dots/email/view_mht.py /usr/local/bin/view_mht
+# you need to run offlineimap to sync
+cd $DIR
 
 # better chinese character support
 sudo apt install -y fonts-noto-cjk
@@ -322,13 +332,11 @@ sudo apt install -y fonts-noto-cjk
 sudo apt install -y bcmwl-kernel-source
 sudo sed -i -e 's/REGDOMAIN=.*/REGDOMAIN=US/g' /etc/default/crda
 
+# for thinkpads
 # tlp for better battery life
 sudo add-apt-repository ppa:linrunner/tlp
+sudo add-apt-repository ppa:morgwai/tpbat
 sudo apt update
 sudo apt install tlp --no-install-recommends
-
-# for thinkpads
-# sudo add-apt-repository ppa:morgwai/tpbat
-# sudo apt update
-# sudo apt install acpi-call-dkms
-# sudo apt install tpacpi-bat # replacement for tm-smapi-dkms
+sudo apt install acpi-call-dkms
+sudo apt install tpacpi-bat # replacement for tm-smapi-dkms

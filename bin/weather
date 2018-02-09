@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /etc/environment
+
 weather() {
     # b/c vpn messes with IP,
     # check for hardcoded coords first

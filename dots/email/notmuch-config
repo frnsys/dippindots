@@ -1,0 +1,16 @@
+[database]
+path=/home/ftseng/.mail
+
+[user]
+name=Francis Tseng
+primary_email=f@frnsys.com
+
+[new]
+tags=unread;inbox;
+ignore=
+
+[search]
+exclude_tags=deleted;spam;
+
+[maildir]
+synchronize_flags=true

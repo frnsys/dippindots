@@ -1,9 +1,11 @@
 #! /bin/sh
 
-. ~/.config/bspwm/colors
+NORMAL_BORDER_COLOR="#d6c08f"
+ACTIVE_BORDER_COLOR="#1a476b"
+FOCUSED_BORDER_COLOR="#4e4e4e"
 
 bspc config border_width        0
-bspc config window_gap          0
+bspc config window_gap          16
 
 bspc config split_ratio         0.50
 bspc config borderless_monocle  true
@@ -15,9 +17,6 @@ bspc config pointer_action2 resize_side
 bspc config normal_border_color "${NORMAL_BORDER_COLOR}"
 bspc config active_border_color "${ACTIVE_BORDER_COLOR}"
 bspc config focused_border_color "${FOCUSED_BORDER_COLOR}"
-bspc config presel_border_color "${PRESEL_BORDER_COLOR}"
-bspc config urgent_border_color "${URGENT_BORDER_COLOR}"
-bspc config focused_locked_border_color "${FOCUSED_LOCKED_BORDER_COLOR}"
 
 # Get a window name by running
 # xprop | grep WM_CLASS
@@ -27,7 +26,7 @@ bspc rule -a mpv state=floating
 bspc rule -a Gifview state=floating
 
 for monitor in $(bspc query -M); do
-    bspc monitor $monitor -n "$monitor" -d   
+    bspc monitor $monitor -n "$monitor" -d \* \* \*
 done
 
 # This must go after the rest of the config!

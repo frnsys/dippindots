@@ -130,19 +130,19 @@ super + {F9, XF86AudioLowerVolume}
     amixer -D pulse set -M Master 5%-
 
 super + {F8, XF86AudioMute}
-    amixer -D pulse set -M Master toggle
+    notify-send "volume $(amixer -D pulse set -M Master toggle | sed -n 's/^.*\[\([a-z]*\)\]/\1/p' | head -n 1)"
 
 super + {F7, XF86MonBrightnessUp}
-    brightness 5
+    xbacklight -inc 5
 
 super + shift + {F7, XF86MonBrightnessUp}
-    brightness 20
+    xbacklight -inc 20
 
 super + {F6, XF86MonBrightnessDown}
-    brightness -5
+    xbacklight -dec 5
 
 super + shift + {F6, XF86MonBrightnessDown}
-    brightness -20
+    xbacklight -dec 20
 
 super + {F5, XF86AudioPlay}
     mpc toggle
@@ -155,9 +155,6 @@ super + {F2, XF86AudioNext}
 
 super + {F1, XF86AudioPrev}
     mpc prev
-
-XF86PowerOff
-    bspc rule -a URxvt -o state=floating && urxvt -e ~/.bin/pwr
 
 super + t
     bspc rule -a URxvt -o state=floating && urxvt -e vi ~/notes/todo.md

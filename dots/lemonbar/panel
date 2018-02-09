@@ -8,12 +8,11 @@ fi
 source ~/.config/lemonbar/colors
 
 PANEL_PADDING=0
-PANEL_HEIGHT=32
+PANEL_HEIGHT=36
 PANEL_NAME="wm_panel"
 
-FONT1="-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1" # symbols
-FONT2="-*-terminus-medium-r-normal-*-14-*-*-*-c-*-iso8859-1"       # western
-FONT3="-misc-fixed-medium-r-normal-ja-13-0-75-75-c-0-iso10646-1"   # characters
+FONT1="-*-terminus-medium-r-normal-*-22-*-*-*-c-*-iso8859-1"       # western
+FONT2="-misc-fixed-medium-r-normal-ja-19-0-75-75-c-0-iso10646-1"   # characters
 
 # For determining individual monitor bar geometries (positioning)
 CUR_X_OFFSET=$((0 + $PANEL_PADDING))
@@ -40,7 +39,7 @@ while read -r mon; do
 
     # Create the panel with the proper geometry/positioning
     # -b flag docks the bar at the bottom of the screen
-    cat "$PANEL_FIFO$mon" | panel_bar | lemonbar -n "$PANEL_NAME" -b -g $((${CUR_MON_WIDTH} - $PANEL_PADDING*2))x${PANEL_HEIGHT}+${CUR_X_OFFSET}+${PANEL_PADDING} -f "$FONT1" -f "$FONT2" -f "$FONT3" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" &
+    cat "$PANEL_FIFO$mon" | panel_bar | lemonbar -n "$PANEL_NAME" -b -g $((${CUR_MON_WIDTH} - $PANEL_PADDING*2))x${PANEL_HEIGHT}+${CUR_X_OFFSET}+${PANEL_PADDING} -f "$FONT1" -f "$FONT2" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" &
 
     # Update the offset
     CUR_X_OFFSET=$(($CUR_X_OFFSET + $CUR_MON_WIDTH))
