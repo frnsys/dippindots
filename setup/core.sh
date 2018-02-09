@@ -71,8 +71,8 @@ sudo apt install -y \
     libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev
 
 mkdir /tmp/vim && cd $_
-wget ftp://ftp.ca.vim.org/pub/vim/unix/vim-8.0.tar.bz2
-tar xvjf vim-*.tar.bz2
+wget https://github.com/vim/vim/archive/v8.0.1489.zip
+unzip v*.zip
 cd vim*
 ./configure --with-features=huge --enable-luainterp=yes --enable-pythoninterp=yes --enable-python3interp=yes --enable-gui=no --with-x --with-lua-prefix=/usr
 make -s && sudo make install
