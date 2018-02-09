@@ -306,6 +306,24 @@ ln -sf $DIR/dots/port ~/.port
 # backup config
 ln -s $DIR/dots/bkup ~/.bkup
 
+# muttrc
+sudo apt install -y xsltproc libidn11-dev libsasl2-dev libnotmuch-dev notmuch offlineimap urlscan --no-install-recommends
+git clone git@github.com:neomutt/neomutt.git /tmp/neomutt
+cd /tmp/neomutt
+./configure --disable-doc --ssl --sasl --notmuch
+make
+sudo make install
+sudo ln -s /usr/bin/neomutt /usr/bin/mutt
+ln -sf $DIR/dots/email/muttrc ~/.muttrc
+ln -sf $DIR/dots/email/mailcap ~/.mailcap
+ln -sf $DIR/dots/email/offlineimaprc ~/.offlineimaprc
+ln -sf $DIR/dots/email/notmuch-config ~/.notmuch-config
+ln -sf $DIR/dots/email/signature ~/.signature
+sudo ln -sf $DIR/dots/email/view_html.sh /usr/local/bin/view_html
+sudo ln -sf $DIR/dots/email/view_mht.py /usr/local/bin/view_mht
+# you need to run offlineimap to sync
+cd $DIR
+
 # better chinese character support
 sudo apt install -y fonts-noto-cjk
 
