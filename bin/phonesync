@@ -23,9 +23,7 @@ done
 
 declare -A backups
 backups[DCIM/Camera]=~/photos/android_dump
-backups[Pictures/reddit_sync]=~/photos/stash
-backups[Tumblr]=~/photos/stash
-backups[MyTinyScan/Documents]=~/docs/scans
+backups[Pictures]=~/photos/phone_pictures
 
 # backup (i.e. don't delete)
 # directories FROM the phone
@@ -33,8 +31,6 @@ for DIR in "${!backups[@]}"; do
     echo "Backing up /sdcard/${DIR} -> ${backups[$DIR]}"
     rsync -avz -e "ssh -p ${PHONE_PORT}" --progress ${PHONE_IP}:/sdcard/${DIR}/ "${backups[$DIR]}"
 done
-
-rsync -avz -e "ssh -p ${PHONE_PORT}" --progress ${PHONE_IP}:/sdcard/Pictures/ ~/photos/phone_pictures
 
 # sync select music TO the phone
 MUSIC_BASE_DIR=~/musics/
