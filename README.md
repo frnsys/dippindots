@@ -3,6 +3,8 @@
 These are my personal dotfiles for Linux (Ubuntu).
 Please feel free to use/modify them as you like!
 
+They may be slightly tailored to ThinkPads.
+
 You should also have your Github SSH keys (`id_rsa` and `id_rsa.pub`) in
 `~/.ssh/` so login-less (SSH) Github access can be setup. You may need
 to set proper permissions:
