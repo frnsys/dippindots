@@ -1,5 +1,13 @@
 #!/usr/bin/python3
 
+"""
+for converting MHT/MHTML files
+(which HTML emails containing inline attachements are
+attached as)
+to regular HTML files.
+(b/c most browsers do not support MHTML files out-of-the-box)
+"""
+
 import quopri
 
 def convert(fname, output='/tmp/view_mht'):
