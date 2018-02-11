@@ -38,9 +38,9 @@ done
 
 case "$CHOICE" in
     *.png|*.jpg|*.jpeg|*.gif)
-        ACTION=$(echo -e "path\ndata\nview\nrm" | dmenu -p ">");;
+        ACTION=$(echo -e "view\npath\ndata\nrm" | dmenu -p ">");;
     *)
-        ACTION=$(echo -e "path\nview\nrm" | dmenu -p ">");;
+        ACTION=$(echo -e "view\npath\nrm" | dmenu -p ">");;
 esac
 
 case "$ACTION" in
