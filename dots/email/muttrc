@@ -4,9 +4,17 @@ set folder=~/.mail/
 set record=+Sent
 set postponed=+Drafts
 set trash=+Trash
-set spoolfile=+INBOX
-mailboxes +INBOX +Archive
-set mail_check = 2 # seconds
+set mail_check=2 # seconds
+
+# to use notmuch's tagging features,
+# use virtual-mailboxes instead of mailboxes
+# set spoolfile=+INBOX
+# mailboxes +INBOX +Archive +Sent +Trash
+set virtual_spoolfile # use first defined virtual-mailbox as spool
+virtual-mailboxes "INBOX" "notmuch://?query=folder:INBOX"
+virtual-mailboxes "Archive" "notmuch://?query=folder:Archive"
+virtual-mailboxes "Sent" "notmuch://?query=folder:Sent"
+virtual-mailboxes "Trash" "notmuch://?query=folder:Trash"
 
 # smtp
 source ~/docs/keys/mail
@@ -20,17 +28,19 @@ set from="f@frnsys.com"
 set forward_format="Fwd: %s"
 set mime_forward                    # when forwarding, include attachments
 set mime_forward_rest               # ''
-set attribution="On %d, %n wrote:"  # format of quoting header
+set attribution="\n\nOn %d, %n wrote:"  # format of quoting header
 set reply_to                        # reply to Reply to: field
 set reverse_name                    # reply as whomever it was to
 set use_from                        # set the From: header
 set fast_reply                      # don't prompt for forward subject or to/subject on reply
 set include                         # always quote message in reply
 set forward_quote                   # forward messages as quote
+set send_charset="utf-8"
 set signature=~/.signature
+set editor="vim -c Goyo"
 
-# use vim as the editor, with line wraps
-set editor="vim +':set textwidth=70' +':set wrap' +\`awk '/^$/ {print i+2; exit} {i++}' %s\` %s"
+# seems to be more consistent quoting regexp
+set quote_regexp="^(    ).+"
 
 # addresses
 # to add an address, either:
@@ -45,44 +55,41 @@ source $alias_file
 macro index,pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
 macro attach,compose \cb "<pipe-entry> urlscan<Enter>" "call urlscan to extract URLs out of a message"
 
-# notmuch
-# https://www.neomutt.org/feature/notmuch
-macro index S "<vfolder-from-query>"
-
 # index interface
 set mail_check_stats    # poll read/unread/etc counts
 set sidebar_visible
 set sidebar_width=15
 set sidebar_format="%B%* %S"
-set index_format="[%Z]  %{%b %d}  %-20.20F  %s"
+set index_format="[%Z] %-10g %{%b %d}  %-20.20F  %s"
+# set index_format="[%Z] %-10y %{%b %d}  %-20.20F  %s"
+set status_format="-%f %V%>-"
 set sort=threads
 set sort_aux=reverse-last-date-received
 
 # pager interface
-ignore *                                # first, ignore all headers
-unignore from: to: cc: date: subject:   # then, show only these
-hdr_order from: to: cc: date: subject:  # and in this order
 set pager_index_lines=6                 # number of index lines to show
 set pager_context=3                     # lines of context
 set pager_stop                          # don't jump to the next email at end of current one
 
 # colors
-color indicator     default     green       # selected item
-color index         green       default ~A  # all messages
-color index         yellow      default ~N  # new messages
-color index         yellow      default ~U  # unread messages
+color indicator     color16     color35     # selected item
+color index         color110    default ~A  # all messages
+color index         color35     default ~N  # new messages
+color index         color35     default ~U  # unread messages
 color index         color238    default ~D  # deleted messages
-color attachment    magenta     default     # attachment headers
-color quoted        blue        default     # quoted emails
+color attachment    color238    default     # attachment headers
+color quoted        color240    default     # quoted emails
 color hdrdefault    green       default     # headers
-color header        yellow      default "^(From|To|Cc|Bcc)"
-color header        green       default "^(Subject|Date)"
+color header        color25     default "^(From|To|Cc|Bcc)"
+color header        color33     default "^(Subject)"
+color header        color238    default "^(Date)"
+color status        default     default
 
 # urls
-color body brightcolor39 default "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+color body color33 default "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
 
 # emails
-color body brightcolor39 default "((@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]),)*@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]):)?[0-9a-z_.+%$-]+@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\])"
+color body color33 default "((@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]),)*@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]):)?[0-9a-z_.+%$-]+@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\])"
 
 # attachments
 set mailcap_path=~/.mailcap
@@ -98,8 +105,7 @@ macro pager <return> "v<return>q"
 macro attach s <save-entry><bol>~/downloads/<eol>
 
 # vim-like bindings
-bind index g noop
-bind pager g noop
+bind index,pager g noop
 bind pager gg top
 bind pager G bottom
 bind alias,index,browser,query gg first-entry
@@ -109,11 +115,20 @@ bind pager k previous-line
 bind pager \Cj next-entry
 bind pager \Ck previous-entry
 bind index za collapse-thread
+bind index D delete-thread
 bind alias,index,pager,browser,query \Cd half-down
 bind alias,index,pager,browser,query \Cu half-up
+bind index,pager y group-reply
 
 # suppress "press any key to continue"
 unset wait_key
+
+# faster switching of mailboxes
+set sleep_time=0
+
+# go to first entry instead of first unread entry
+# when loading a folder
+folder-hook . 'push <first-entry>'
 
 # move email to archive
 macro index,pager A ":set confirmappend=no delete=yes\n<tag-prefix><save-message>+Archive\n<sync-mailbox>:set confirmappend=yes delete=ask-yes\n"
@@ -121,3 +136,36 @@ macro index,pager A ":set confirmappend=no delete=yes\n<tag-prefix><save-message
 # notifications
 # unfortunately these don't have access to info like subjects or senders
 set new_mail_command="notify-send 'New email' '%n new message(s)' &"
+
+# notmuch--
+# https://www.neomutt.org/feature/notmuch
+
+# search
+# `man notmuch-search-terms` for syntax
+macro index,pager S "<vfolder-from-query>"
+
+# add/remove tags
+# use `-<TAG>` to remove tag
+bind index,pager Y modify-labels
+
+# filter tags
+bind index,pager Y modify-labels
+macro index \Cy "<vfolder-from-query>tag:" "Limit view to tag"
+
+# b/c we're using notmuch virtual folders,
+# re-bind `c` from <change-folder>
+bind index,pager c change-vfolder
+
+# shortcuts to folders
+macro index,pager gi "<change-vfolder>INBOX<Enter>"
+macro index,pager ga "<change-vfolder>Archive<Enter>"
+# --notmuch
+
+# this is experimental!
+# esc+5 to parse composed email as markdown and send as text/html
+# downside is then this will not have a text/plain part
+# but people are looking at this: <https://github.com/neomutt/neomutt/issues/587>
+# it also mangles quotes, you lose the indent depth
+# see also: <http://nosubstance.me/post/mutt-secret-sauce/>
+# and: <https://github.com/oblitum/dotfiles/blob/ArchLinux/.local/bin/MIMEmbellish>
+macro compose \e5 "F nom convert \ny^T^Utext/html; charset=utf-8\n"

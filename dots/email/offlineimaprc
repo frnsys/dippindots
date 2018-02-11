@@ -7,7 +7,7 @@ localrepository = main-local
 remoterepository = main-remote
 
 # full refresh, in min
-autorefresh = 1
+autorefresh = 0.2
 
 # quick refreshs between each full refresh
 quick = 10
@@ -36,8 +36,8 @@ holdconnectionopen = yes
 # delete local mails that were deleted on the remote server
 expunge = yes
 
-# exclude these from syncing
-folderfilter = lambda foldername: foldername not in ['All Mail', 'Trash', 'Spam']
+# sync only these folders
+folderfilter = lambda foldername: foldername in ['INBOX', 'Archive', 'Sent']
 
 # is broken, but connecting locally to bridge so should be ok
 ssl = no

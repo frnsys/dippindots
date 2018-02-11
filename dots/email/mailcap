@@ -13,3 +13,4 @@ text/html; w3m -I %{charset} -T text/html; copiousoutput;
 multipart/related; view_mht %s /tmp/view_mht && view_html /tmp/view_mht; test=test -n "$DISPLAY"; needsterminal;
 
 text/plain; vim %s
+application/msword; libreoffice %s

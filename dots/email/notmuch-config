@@ -1,3 +1,5 @@
+# man notmuch-config
+
 [database]
 path=/home/ftseng/.mail
 
@@ -6,7 +8,7 @@ name=Francis Tseng
 primary_email=f@frnsys.com
 
 [new]
-tags=unread;inbox;
+tags=unread;
 ignore=
 
 [search]
