@@ -20,7 +20,8 @@ function float {
 
 QUERY=$(echo "" | dmenu -p "search") || exit
 DIRS=$(find ~/ -maxdepth 2 -type d -not -path '*/\.*' -iname "*$QUERY*")
-FILES=$(process_files "$(ag -i -g "$QUERY" --depth 3 $SOURCES)")
+# FILES=$(process_files "$(ag -i -g "$QUERY" --depth 3 $SOURCES)")
+FILES=$(process_files "$(rg -S --files -g "*$QUERY*" $SOURCES)")
 
 if [ "$DIRS" ]; then
     CHOICES="$DIRS"$'\n'"$FILES"
