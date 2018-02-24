@@ -90,6 +90,7 @@ xrandr --output $INMON --auto --primary
 bspc monitor primary -n $INMON
 
 # place the external monitor to the specified position
+# if external monitor is 4k, use `--scale 0.5x0.5`
 xrandr --output $EXMON --auto --$POSITION $INMON
 
 # NOTE some monitors will be set to "overscan"
