@@ -307,8 +307,8 @@ ln -sf $DIR/dots/port ~/.port
 ln -s $DIR/dots/bkup ~/.bkup
 
 # muttrc
-sudo apt install -y xsltproc libidn11-dev libsasl2-dev libnotmuch-dev notmuch urlscan --no-install-recommends
-sudo pip install offlineimap
+sudo apt install -y xsltproc libidn11-dev libsasl2-dev libnotmuch-dev notmuch --no-install-recommends
+sudo pip install offlineimap urlscan
 git clone git@github.com:neomutt/neomutt.git /tmp/neomutt
 cd /tmp/neomutt
 ./configure --disable-doc --ssl --sasl --notmuch
@@ -322,6 +322,7 @@ ln -sf $DIR/dots/email/notmuch-config ~/.notmuch-config
 ln -sf $DIR/dots/email/signature ~/.signature
 sudo ln -sf $DIR/dots/email/view_html.sh /usr/local/bin/view_html
 sudo ln -sf $DIR/dots/email/view_mht.py /usr/local/bin/view_mht
+sudo ln -sf $DIR/dots/email/update_nm.sh /usr/local/bin/update_nm
 cd $DIR
 
 # better chinese character support

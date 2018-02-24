@@ -113,8 +113,19 @@ caffeine() {
     echo "$ICON"
 }
 
+email() {
+    INBOX=$(notmuch count "folder:INBOX")
+    UNREAD=$(notmuch count "tag:unread AND folder:INBOX")
+    if (( $UNREAD > 0 )); then
+        bg=$COLOR_ICON
+    else
+        bg="#cccccc"
+    fi
+    echo "%{B$bg} ${INBOX} %{B-}"
+}
+
 
 while true; do
-    echo 'S'$(bluetooth)$(caffeine) $(weather) $(battery)$(volume)$(wifi)
+    echo 'S'$(bluetooth)$(caffeine) $(weather) $(battery)$(email)$(volume)$(wifi)
     sleep $UPDATE_INTERVAL
 done

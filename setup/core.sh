@@ -39,7 +39,7 @@ sudo apt install -y --no-install-recommends wget silversearcher-ag
 
 # rust & fd
 curl -sf -L https://static.rust-lang.org/rustup.sh | sh
-cargo install fd-find
+cargo install fd-find ripgrep
 
 
 echo "Installing math libs..."

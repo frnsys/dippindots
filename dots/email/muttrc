@@ -13,6 +13,7 @@ set mail_check=2 # seconds
 set virtual_spoolfile # use first defined virtual-mailbox as spool
 virtual-mailboxes "INBOX" "notmuch://?query=folder:INBOX"
 virtual-mailboxes "Archive" "notmuch://?query=folder:Archive"
+virtual-mailboxes "Upcoming" "notmuch://?query=tag:upcoming"
 virtual-mailboxes "Sent" "notmuch://?query=folder:Sent"
 virtual-mailboxes "Trash" "notmuch://?query=folder:Trash"
 
@@ -35,9 +36,11 @@ set use_from                        # set the From: header
 set fast_reply                      # don't prompt for forward subject or to/subject on reply
 set include                         # always quote message in reply
 set forward_quote                   # forward messages as quote
+set text_flowed
 set send_charset="utf-8"
 set signature=~/.signature
 set editor="vim -c Goyo"
+set edit_headers
 
 # seems to be more consistent quoting regexp
 set quote_regexp="^(    ).+"
@@ -132,10 +135,6 @@ folder-hook . 'push <first-entry>'
 
 # move email to archive
 macro index,pager A ":set confirmappend=no delete=yes\n<tag-prefix><save-message>+Archive\n<sync-mailbox>:set confirmappend=yes delete=ask-yes\n"
-
-# notifications
-# unfortunately these don't have access to info like subjects or senders
-set new_mail_command="notify-send 'New email' '%n new message(s)' &"
 
 # notmuch--
 # https://www.neomutt.org/feature/notmuch

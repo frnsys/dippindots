@@ -13,7 +13,8 @@ autorefresh = 0.2
 quick = 10
 
 # update notmuch index after sync
-postsynchook = notmuch new
+# (using custom script)
+postsynchook = update_nm
 
 
 [Repository main-local]
@@ -37,7 +38,7 @@ holdconnectionopen = yes
 expunge = yes
 
 # sync only these folders
-folderfilter = lambda foldername: foldername in ['INBOX', 'Archive', 'Sent']
+folderfilter = lambda foldername: foldername not in ['All Mail', 'Trash', 'Spam']
 
 # is broken, but connecting locally to bridge so should be ok
 ssl = no
