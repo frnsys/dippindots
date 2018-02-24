@@ -1,1 +1,0 @@
-`emoji.json` from <https://github.com/Ranks/emojione>
