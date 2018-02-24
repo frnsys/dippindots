@@ -27,7 +27,7 @@ function! OpenUrlUnderCursor()
     let l:url = matchstr(l:obj, '\(http\|https\):\/\/[^ >,;]*')
     let l:img = matchstr(l:obj, '[^<>()]\+\.\(jpg\|jpeg\|png\|gif\)')
     if l:url != ''
-        call netrw#NetrwBrowseX(l:url, 0)
+        call netrw#BrowseX(l:url, 0)
     elseif l:img != ''
         if matchend(l:img, 'gif') >= 0
             silent exec "!gifview -a '".l:img."'" | redraw!
