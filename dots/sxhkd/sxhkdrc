@@ -1,5 +1,7 @@
 #
 # bspwm hotkeys
+# for special keys, e.g. "semicolon":
+# <https://github.com/baskerville/sxhkd/blob/8211d20326874dd96303bd331c58ba3ad4d6e54d/src/parse.c>
 #
 
 # switch focus to left/right monitor
@@ -168,8 +170,14 @@ super + q
 super + a
     bspc rule -a URxvt -o state=floating && urxvt -e ~/.bin/2fa
 
+super + equal
+    bspc rule -a URxvt -o state=floating && urxvt -e python3
+
 super + semicolon
     bspc rule -a URxvt -o state=floating && urxvt -e ncmpcpp
+
+super + e
+    emo
 
 super + m
     bspc rule -a URxvt -o state=floating && urxvt -e mutt

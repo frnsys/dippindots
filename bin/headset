@@ -1,0 +1,17 @@
+#!/bin/bash
+
+HEADSET=EP650
+HEADSET_MAC=$(bt-device -l | grep $HEADSET | cut -d "(" -f2 | cut -d ")" -f1)
+
+choice=$(echo -e "connect\ndisconnect" | dmenu -i -p "headset")
+
+if [[ $choice == 'disconnect' ]]; then
+    bt-device -d $HEADSET_MAC
+    notify-send "disconnecting headset"
+elif [[ $choice == 'connect' ]]; then
+    # bt-device -c $HEADSET_MAC
+    # should work, but complains that it "Already Exists"
+    # this works though:
+    echo -e "connect $HEADSET_MAC\nquit" | bluetoothctl
+    notify-send "connecting headset"
+fi

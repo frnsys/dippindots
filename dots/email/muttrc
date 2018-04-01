@@ -60,14 +60,14 @@ macro attach,compose \cb "<pipe-entry> urlscan<Enter>" "call urlscan to extract 
 
 # index interface
 set mail_check_stats    # poll read/unread/etc counts
-set sidebar_visible
-set sidebar_width=15
-set sidebar_format="%B%* %S"
 set index_format="[%Z] %-10g %{%b %d}  %-20.20F  %s"
 # set index_format="[%Z] %-10y %{%b %d}  %-20.20F  %s"
 set status_format="-%f %V%>-"
 set sort=threads
 set sort_aux=reverse-last-date-received
+# set sidebar_visible
+# set sidebar_width=15
+# set sidebar_format="%B%* %S"
 
 # pager interface
 set pager_index_lines=6                 # number of index lines to show
