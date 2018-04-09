@@ -1,0 +1,13 @@
+#!/bin/bash
+# setup (HP printers):
+#   sudo apt install cups printer-driver-hpcups hplip
+# setup the printer (defaults ok):
+#   hp-setup -i
+
+PRINTER=psc_1300
+
+if [[ $1 == 'list' ]]; then
+    lpstat -p
+else
+    lp -d $PRINTER -o fit-to-page notes.pdf
+fi
