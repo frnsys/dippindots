@@ -26,27 +26,6 @@ URxvt.keysym.M-C-p: eval:paste_clipboard
 URxvt.keysym.C-Up:     perl:font-size:increase
 URxvt.keysym.C-Down:   perl:font-size:decrease
 
-! DARK
-*.background: #111111
-*.foreground: #c5c8c6
-*.cursorColor: #c9c9c9
-*color0: #757575
-*color8: #B8B8B8
-*color1: #FF5F5F
-*color9: #F53333
-*color2:  #00af87
-*color10: #19D448
-*color3: #FEDE3E
-*color11: #FF5F5F
-*color4: #AF5FD7
-*color12: #DEA3E5
-*color5: #FF87D7
-*color13: #D7AFAF
-*color6: #DEA3E5
-*color14: #3283ED
-*color7: #9a9a9a
-*color15: #ffffff
-
 ! LIGHT
 !*.background: #f3f3f3
 !*.foreground: #202020
@@ -87,3 +66,40 @@ URxvt.keysym.C-Down:   perl:font-size:decrease
 !*color14: #8dc4f0
 !*color7: #c3cee3
 !*color15: #c3cee3
+
+! ANOTHER THEME
+*.foreground:   #e1bcc8
+*.background:   #161219
+*.cursorColor:  #c7c7c7
+
+! black
+*.color0:       #1d2c47
+*.color8:       #1d2c47
+
+! red
+*.color1:       #d2275a
+*.color9:       #ff2f6d
+
+! green
+*.color2:       #8752ba
+*.color10:      #b66efb
+
+! yellow
+*.color3:       #e15581
+*.color11:      #fb5f90
+
+! blue
+*.color4:       #1e59aa
+*.color12:      #2c84fc
+
+! magenta
+*.color5:       #8752ba
+*.color13:      #b56efa
+
+! cyan
+*.color6:       #4b76b8
+*.color14:      #67a2fd
+
+! white
+*.color7:       #e95986
+*.color15:      #fb89ad

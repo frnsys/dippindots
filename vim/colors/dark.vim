@@ -3,7 +3,7 @@
 " ref: <http://vimdoc.sourceforge.net/htmldoc/syntax.html>
 " or :h hi
 
-hi Normal       ctermfg=8
+hi Normal       ctermfg=255
 hi Visual       ctermbg=227
 hi ModeMsg      ctermfg=1
 hi ErrorMsg     ctermbg=196 ctermfg=230
