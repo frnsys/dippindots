@@ -42,5 +42,6 @@ set -o vi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_CTRL_T_COMMAND="fd . $HOME"
 export FZF_ALT_C_COMMAND="fd -t d . $HOME"
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 
 export PATH="$HOME/.cargo/bin:$PATH"
