@@ -98,6 +98,9 @@ super + b
 super + w
     wifi toggle; notify-send "$(wifi)"
 
+super + slash
+    feedly
+
 # ~~screenshots/recordings~~
 
 # selection to file
