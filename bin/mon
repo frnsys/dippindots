@@ -73,10 +73,10 @@ elif [[ $PLACE == 'reset' ]]; then
                 break
             fi
         done
-
-        # reset the wallpaper to render properly
-        feh --bg-fill ~/.wall.jpg &
     fi
+
+    # reset the wallpaper to render properly
+    feh --bg-fill ~/.wall.jpg &
 
     restart_panel
     exit 0
