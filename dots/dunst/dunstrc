@@ -2,8 +2,8 @@
     # refer to <https://github.com/knopwob/dunst/blob/master/dunstrc>
     # put colors in quotation marks so they aren't mistaken as comments
 
-    font = terminus 16
-    allow_markup = yes
+    font = terminus 12
+    markup = yes
     plain_text = no
     word_wrap = yes
     alignment = left
@@ -37,13 +37,14 @@
     separator_height = 2
     padding = 16
     horizontal_padding = 16
-    icon_position = off
+    icon_position = left
+    max_icon_size = 128
 
     # auto/foreground/frame/a color
     separator_color = "#303030"
 
-    dmenu = "/usr/local/bin/dmenu -p #"
-    browser = /usr/bin/firefox -new-tab
+    dmenu = "/home/ftseng/.bin/dmenu -p dunst:"
+    browser = /usr/local/bin/firefox -new-tab
 
 [frame]
     width = 0
@@ -51,7 +52,7 @@
 
 [shortcuts]
 # close notification
-    close = ctrl+space
+    close = ctrl+shift+period
 
     # close all notifications
     close_all = ctrl+shift+space
@@ -60,20 +61,23 @@
     history = ctrl+grave
 
     # context menu
-    context = ctrl+shift+period
+    context = ctrl+space
 
 
 [urgency_low]
     background = "#444444"
     foreground = "#ffffff"
     timeout = 2
+    icon = ""
 
 [urgency_normal]
     background = "#444444"
     foreground = "#ffffff"
     timeout = 2
+    icon = ""
 
 [urgency_critical]
     background = "#ef3838"
     foreground = "#ffffff"
     timeout = 0
+    icon = ""

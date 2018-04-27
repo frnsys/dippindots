@@ -20,7 +20,6 @@ sudo pip install youtube-dl
 
 # feh - image viewer/wallpaper manager
 # xsel - clipboard
-# dunst - notifications
 # xdotool - simulating interactions with the GUI
 # i3lock - locking the screen
 # libnotify-bin - for `notify-send` to create notifications
@@ -29,7 +28,7 @@ sudo pip install youtube-dl
 # compton - for window/bar transparency and shadows
 # sm - large text screen messages
 sudo apt install -y --no-install-recommends xorg
-sudo apt install -y feh xsel dunst xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console compton oathtool avahi-daemon redshift sm
+sudo apt install -y feh xsel xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console compton oathtool avahi-daemon redshift sm
 
 ln -sf $DIR/dots/redshift.conf ~/.config/redshift.conf
 
@@ -197,7 +196,15 @@ sudo ln -sf /run/resolvconf/resolv.conf /var/lib/wicd/resolv.conf.orig
 # if automatic, it might use `dhcpcd`, which has issues staying connected,
 # resulting in a `DEAUTH_LEAVING` message in `dmesg`.
 
+# dunst - notifications
 # dunst (notifications) config
+sudo apt-get install libxss-dev libxdg-basedir-dev libxinerama-dev libxft-dev libcairo2-dev libdbusmenu-glib-dev
+wget https://github.com/dunst-project/dunst/archive/v1.3.1.zip -O /tmp/dunst.zip
+cd /tmp/
+unzip dunst.zip
+cd dunst*
+make
+sudo make install
 ln -sf $DIR/dots/dunst  ~/.config/dunst
 
 # other defaults
