@@ -1,0 +1,9 @@
+#!/bin/bash
+
+CHOICE=$(tac /tmp/feedly/stream | dmenu -ia center -is 360x220 -fn "terminus 16" -l 16 -p feedly:)
+if [ -z "$CHOICE" ]; then
+    exit
+fi
+IFS="|" read -ra PARTS <<< "$CHOICE"
+URL=${PARTS[-1]}
+/usr/local/bin/firefox $URL

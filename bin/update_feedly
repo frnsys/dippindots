@@ -1,0 +1,134 @@
+#!/usr/bin/python3
+"""
+pip install apscheduler pillow requests
+"""
+import os
+import sys
+import requests
+import textwrap
+import subprocess
+from hashlib import md5
+from datetime import datetime
+from PIL import Image, ImageDraw, ImageFont
+from apscheduler.schedulers.blocking import BlockingScheduler
+
+# expires 2018-05-23
+# https://developer.feedly.com/v3/developer/
+FEEDLY_USER_ID = os.environ.get('FEEDLY_USER_ID')
+FEEDLY_ACCESS_TOKEN = os.environ.get('FEEDLY_ACCESS_TOKEN')
+FEEDLY_FEED_ID = 'user/{}/category/global.all'.format(FEEDLY_USER_ID)
+FEEDLY_BASE_URL = 'https://cloud.feedly.com/v3'
+FEEDLY_STREAM_URL = '{}/streams/contents'.format(FEEDLY_BASE_URL)
+SCREENSHOT_SIZE = (960, 1200)
+CACHE_DIR = '/tmp/feedly'
+LAST_UPDATED_FILE = os.path.join(CACHE_DIR, 'last_updated')
+FEEDLY_STREAM_FILE = os.path.join(CACHE_DIR, 'stream')
+HEADERS = {
+    'Authorization': 'OAuth {}'.format(FEEDLY_ACCESS_TOKEN)
+}
+TIMEOUT_MS = 5000
+
+
+def screenshot(url, imagepath):
+    subprocess.run([
+        'timeout',
+        '10s',
+        'wkhtmltoimage',
+        '--quiet',
+        '--images',
+        '--width', str(SCREENSHOT_SIZE[0]),
+        '--height', str(SCREENSHOT_SIZE[1]),
+        '--enable-javascript',
+        '--stop-slow-scripts',
+        '--javascript-delay', '400',
+        '--load-error-handling', 'ignore',
+        '--load-media-error-handling', 'ignore',
+        url, imagepath])
+
+
+def annotate_image(imagepath, text, x_offset=12, y_offset=12, line_padding=12):
+    try:
+        image = Image.open(imagepath)
+    except FileNotFoundError:
+        image = Image.new('RGB', SCREENSHOT_SIZE, color='#ffffff')
+    draw = ImageDraw.Draw(image)
+    lines = textwrap.wrap(text, width=16)
+    font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSansMono-BoldOblique.ttf', 98)
+    y_text = y_offset
+    for line in lines:
+        width, height = font.getsize(line)
+        for offset in [-2, -1, 1, 2]:
+            draw.text((x_offset+offset, y_text+offset), line, font=font, fill='#000000')
+        draw.text((x_offset, y_text), line, font=font, fill='#ff0000')
+        y_text += height + line_padding
+    image.save(imagepath)
+
+
+def notify(body, imagepath=None):
+    cmd = ['notify-send', body, '-t', str(TIMEOUT_MS)]
+    if imagepath is not None:
+        cmd.extend(['-i', imagepath])
+    subprocess.run(cmd)
+
+
+def update():
+    print('Updating', datetime.now())
+    try:
+        resp = requests.get(FEEDLY_STREAM_URL, headers=HEADERS, params={'streamId': FEEDLY_FEED_ID})
+    except requests.exceptions.HTTPError as err:
+        code = err.response.status_code
+        if code == 401:
+            notify('Feedly: 401 Error. May need to refresh token')
+        else:
+            notify('Feedly: {} Error'.format(code))
+        return
+
+    data = resp.json()
+    entries = data['items']
+    stream_file = open(FEEDLY_STREAM_FILE, 'a')
+
+    if not os.path.exists(LAST_UPDATED_FILE):
+        last_updated = datetime(year=1970, month=1, day=1)
+    else:
+        with open(LAST_UPDATED_FILE, 'r') as f:
+            last_updated = datetime.fromtimestamp(float(f.read().strip()))
+    print('Last updated:', last_updated)
+
+    for entry in entries:
+        dt = datetime.fromtimestamp(entry['crawled']/10e2)
+        if dt < last_updated:
+            continue
+
+        title = entry['title']
+        url = entry['alternate'][0]['href']
+        source = entry['origin']['title']
+        print(title, dt)
+
+        fname = md5(url.encode('utf8')).hexdigest()
+        imagepath = '{}.jpg'.format(os.path.join(CACHE_DIR, fname))
+        screenshot(url, imagepath)
+        # annotate_image(imagepath, title)
+
+        dmenu_choice = 'IMG:{}\t{} [{}]|{}\n'.format(imagepath, title, source, url)
+        stream_file.write(dmenu_choice)
+
+    with open(LAST_UPDATED_FILE, 'w') as f:
+        f.write(str(datetime.now().timestamp()))
+
+    stream_file.close()
+    print('Finished update')
+
+
+if __name__ == '__main__':
+    if FEEDLY_USER_ID is None or FEEDLY_ACCESS_TOKEN is None:
+        notify('Feedly user id and/or access token are not set in /etc/environment')
+        sys.exit(1)
+
+    print('Starting', datetime.now())
+    if not os.path.exists(CACHE_DIR):
+        os.makedirs(CACHE_DIR)
+
+    update()
+    scheduler = BlockingScheduler()
+    scheduler.add_job(update, trigger='interval', minutes=15)
+    scheduler.start()
