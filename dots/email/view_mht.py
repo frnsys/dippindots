@@ -23,7 +23,7 @@ def convert(fname, output='/tmp/view_mht'):
     for chunk in chunks:
         # headers and content are separated by
         # an empty line
-        headers, content = chunk.strip().split('\n\n')
+        headers, content = chunk.strip().split('\n\n', 1)
         headers = dict([l.split(': ') for l in headers.split('\n')])
         parts.append((headers, content))
 
@@ -35,10 +35,18 @@ def convert(fname, output='/tmp/view_mht'):
     # assume remaining parts are b64-encoded assets
     # (though again we could verify via headers)
     for headers, content in parts:
-        cid = 'cid:{}'.format(headers['Content-Id'][1:-1])
+        cid = headers.get('Content-Id')
         mime = headers['Content-Type']
         data = 'data:{};base64, {}'.format(mime, content)
-        html = html.replace(cid, data)
+
+        # if cid present, seems to be embedded image
+        if cid is not None:
+            cid = 'cid:{}'.format(cid[1:-1])
+            html = html.replace(cid, data)
+
+        # otherwise, some other embedded content, e.g..PDF
+        else:
+            html = '{}\n\n<embed src="{}" width="100%" height="600">'.format(html, data)
 
     with open(output, 'w') as f:
         f.write(html)
