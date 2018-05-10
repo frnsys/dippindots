@@ -101,6 +101,9 @@ super + w
 super + slash
     feedly
 
+super + backslash
+    silence
+
 # ~~screenshots/recordings~~
 
 # selection to file

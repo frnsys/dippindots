@@ -124,8 +124,15 @@ email() {
     echo "%{B$bg} ${INBOX} %{B-}"
 }
 
+notifications() {
+    if [ -f /tmp/dunst_paused ]; then
+        echo " ¬NOT"
+    else
+        echo ""
+    fi
+}
 
 while true; do
-    echo 'S'$(bluetooth)$(caffeine) $(weather) $(battery)$(email)$(volume)$(wifi)
+    echo 'S'$(notifications)$(bluetooth)$(caffeine) $(weather) $(battery)$(email)$(volume)$(wifi)
     sleep $UPDATE_INTERVAL
 done

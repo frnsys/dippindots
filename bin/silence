@@ -1,0 +1,12 @@
+#!/bin/bash
+
+PAUSE_FILE=/tmp/dunst_paused
+
+if [ -f $PAUSE_FILE ]; then
+    pkill -u "$USER" -USR2 dunst
+    rm $PAUSE_FILE
+    notify-send "Resuming notifications"
+else
+    pkill -u "$USER" -USR1 dunst
+    touch $PAUSE_FILE
+fi
