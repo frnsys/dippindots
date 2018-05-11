@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HEADSET=EP650
+HEADSET=$(echo -e "EP650\nNC50" | dmenu -i -p "headset")
 HEADSET_MAC=$(bt-device -l | grep $HEADSET | cut -d "(" -f2 | cut -d ")" -f1)
 
 choice=$(echo -e "connect\ndisconnect" | dmenu -i -p "headset")
