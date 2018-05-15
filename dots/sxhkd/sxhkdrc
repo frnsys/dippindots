@@ -124,7 +124,7 @@ super + backslash
 
 # record region, press again to stop
 @super + r
-    if pgrep -x recordmydesktop > /dev/null; then pkill recordmydesktop; else rec region; fi;
+    if pgrep -x recordmydesktop > /dev/null; then notify-send "[rec] saving..." && pkill recordmydesktop; else rec region; fi;
 #
 # media buttons
 # these are prefixed with `super`

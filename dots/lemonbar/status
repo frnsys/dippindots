@@ -85,7 +85,7 @@ battery() {
     TIME=$(batt time)
     PERCENT=$(batt percent)
 
-    if [[ $(batt status) == "Discharging" ]]; then
+    if [[ $(batt status) = *"Discharging"* ]]; then
         if [ $PERCENT -lt 10 ]; then
             echo "%{B$COLOR_URGENT} ${CHARGE_ICON}:${TIME} %{B-}"
         else

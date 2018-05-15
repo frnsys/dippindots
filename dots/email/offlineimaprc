@@ -1,5 +1,6 @@
 [general]
 accounts = main
+socktimeout = 10
 
 
 [Account main]
