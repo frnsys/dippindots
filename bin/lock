@@ -7,5 +7,4 @@ convert "$lockbg" -filter point -resize 5% -resize 2000% "$lockbg"
 touch "$lockfi"
 pkill -u "$USER" -USR1 dunst
 i3lock -u -i "$lockbg"
-pkill -u "$USER" -USR2 dunst
-trap "rm $lockfi" EXIT
+trap "rm $lockfi; pkill -u $USER -USR2 dunst" EXIT

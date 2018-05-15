@@ -24,33 +24,44 @@ if [[ $1 == 'mon' ]]; then
     done
 
 elif [[ $1 == 'status' ]]; then
-    echo $(cat $BATS/status | grep -E "Discharging|Charging")
+    echo $(cat $BATS/status | grep -E "Discharging|Charging|Full")
 
 else
-    POWER_NOW=$(query power_now)   # mW
-    ENERGY_FULL=$(query energy_full) # mWh
-    ENERGY_NOW=$(query energy_now)   # mWh
+    STATUS=$(batt status)
+    if [[ $STATUS == "Full" ]]; then
+        if [[ $1 == 'percent' ]]; then
+            printf "100"
 
-    if [ -f /tmp/power ]; then
-        POWER_EWMA=$(cat /tmp/power)
-        POWER_EWMA=$(echo "$EWMA_ALPHA * $POWER_NOW + (1-$EWMA_ALPHA) * $POWER_EWMA" | bc -l)
-    else
-        POWER_EWMA=$POWER_NOW
-    fi
-    POWER_EWMA=$(printf '%.0f\n' $POWER_EWMA)
-    echo $POWER_EWMA > /tmp/power
-
-    if [[ $1 == 'percent' ]]; then
-        PERCENT=$(echo "$ENERGY_NOW/$ENERGY_FULL * 100" | bc -l)
-        printf '%.0f\n' $PERCENT
-
-    elif [[ $1 == 'time' ]]; then
-        if [[ $(batt status) == "Discharging" ]]; then
-            SECS=$(echo "$ENERGY_NOW/$POWER_EWMA * 60 * 60" | bc -l)
-        else
-            SECS=$(echo "($ENERGY_FULL - $ENERGY_NOW)/$POWER_EWMA * 60 * 60" | bc -l)
+        elif [[ $1 == 'time' ]]; then
+            printf "FULL"
         fi
-        SECS=$(printf '%.0f' $SECS)
-        printf '%02d:%02d\n' $(($SECS/3600)) $(($SECS%3600/60))
+    else
+        POWER_NOW=$(query power_now)   # mW
+        ENERGY_FULL=$(query energy_full) # mWh
+        ENERGY_NOW=$(query energy_now)   # mWh
+        if [ -f /tmp/power ]; then
+            POWER_EWMA=$(cat /tmp/power)
+            POWER_EWMA=$(echo "$EWMA_ALPHA * $POWER_NOW + (1-$EWMA_ALPHA) * $POWER_EWMA" | bc -l)
+        else
+            POWER_EWMA=$POWER_NOW
+        fi
+        POWER_EWMA=$(printf '%.0f\n' $POWER_EWMA)
+        echo $POWER_EWMA > /tmp/power
+
+        if [[ $1 == 'percent' ]]; then
+            PERCENT=$(echo "$ENERGY_NOW/$ENERGY_FULL * 100" | bc -l)
+            printf '%.0f\n' $PERCENT
+
+        elif [[ $1 == 'time' ]]; then
+            if [ "$POWER_EWMA" -eq "0" ]; then
+                SECS=0
+            elif [[ $STATUS == "Discharging" ]]; then
+                SECS=$(echo "$ENERGY_NOW/$POWER_EWMA * 60 * 60" | bc -l)
+            else
+                SECS=$(echo "($ENERGY_FULL - $ENERGY_NOW)/$POWER_EWMA * 60 * 60" | bc -l)
+            fi
+            SECS=$(printf '%.0f' $SECS)
+            printf '%02d:%02d\n' $(($SECS/3600)) $(($SECS%3600/60))
+        fi
     fi
 fi
