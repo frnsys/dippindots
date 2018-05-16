@@ -82,27 +82,20 @@ bluetooth() {
 
 
 battery() {
-    TIME=$(batt time)
     PERCENT=$(batt percent)
 
     if [[ $(batt status) = *"Discharging"* ]]; then
         if [ $PERCENT -lt 10 ]; then
-            echo "%{B$COLOR_URGENT} ${CHARGE_ICON}:${TIME} %{B-}"
+            echo "%{B$COLOR_URGENT} ${CHARGE_ICON}:${PERCENT}% %{B-}"
         else
-            echo "%{B$COLOR_FOREGROUND}%{F$COLOR_BACKGROUND} ${CHARGE_ICON}:${TIME} %{F-}%{B-}"
+            echo "%{B$COLOR_FOREGROUND}%{F$COLOR_BACKGROUND} ${CHARGE_ICON}:${PERCENT}% %{F-}%{B-}"
         fi
     elif [ $PERCENT -lt 99 ]; then
-        echo "${PLUGGED_ICON}:${TIME} "
+        echo "${PLUGGED_ICON}:${PERCENT}% "
     else
         echo "${PLUGGED_ICON} "
     fi
 }
-
-
-weather() {
-    cat /tmp/weather
-}
-
 
 caffeine() {
     if [[ "$(xset q | grep "DPMS is")" == *"Disabled" ]]; then
@@ -133,6 +126,6 @@ notifications() {
 }
 
 while true; do
-    echo 'S'$(notifications)$(bluetooth)$(caffeine) $(weather) $(battery)$(email)$(volume)$(wifi)
+    echo 'S'$(notifications)$(bluetooth)$(caffeine) $(battery)$(email)$(volume)$(wifi)
     sleep $UPDATE_INTERVAL
 done
