@@ -12,14 +12,24 @@ PHONE_IP=$1
 PHONE_PORT=2222
 
 # sync directories TO the phone
-for DIR in notes deaddrop; do
+for DIR in deaddrop; do
     echo "Syncing ~/${DIR} -> /sdcard/${DIR}"
     # the ssh user does not have permissions to modify
     # permission and modification times so we skip those
     # as such, we only compare sizes; the permission and modification
     # times are unreliable.
-    rsync -avzL -e "ssh -p ${PHONE_PORT}" --no-perms --no-times --size-only --progress --delete ~/${DIR}/ ${PHONE_IP}:/sdcard/${DIR}/
+
+    # TODO this doesn't seem to be working anymore, not sure why.
+    # workaround below is a bit hacky, but works.
+    # rsync -avzL -e "ssh -p ${PHONE_PORT}" --no-perms --no-times --size-only --progress --delete ~/${DIR}/ ${PHONE_IP}:/sdcard/${DIR}/
+
+    # NOTE this workaround is NOT good for really large folders,
+    # b/c it has to move the folder, which is slow if it is large.
+    ssh -p $PHONE_PORT $PHONE_IP "mv /sdcard/${DIR} ${DIR}"
+    rsync -avzL -e "ssh -p ${PHONE_PORT}" --no-perms --no-times --size-only --progress --delete ~/${DIR}/ ${PHONE_IP}:${DIR}/
+    ssh -p $PHONE_PORT $PHONE_IP "mv ${DIR} /sdcard/${DIR}"
 done
+exit
 
 declare -A backups
 backups[DCIM/Camera]=~/photos/android_dump
