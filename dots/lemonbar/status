@@ -73,7 +73,7 @@ volume() {
 
 bluetooth() {
     if [[ "$(/usr/bin/bluetooth)" == *"= on" ]]; then
-        ICON=" B"
+        ICON="B"
     else
         ICON=""
     fi
@@ -94,16 +94,14 @@ battery() {
         else
             echo "%{B$COLOR_FOREGROUND}%{F$COLOR_BACKGROUND} |||| %{F-}%{B-}"
         fi
-    elif [ $PERCENT -lt 99 ]; then
-        echo "${PLUGGED_ICON}:${PERCENT}% "
     else
-        echo "${PLUGGED_ICON} "
+        echo "${PLUGGED_ICON}:${PERCENT}% "
     fi
 }
 
 caffeine() {
     if [[ "$(xset q | grep "DPMS is")" == *"Disabled" ]]; then
-        ICON=" C"
+        ICON="C"
     else
         ICON=""
     fi
@@ -123,13 +121,13 @@ email() {
 
 notifications() {
     if [ -f /tmp/dunst_paused ]; then
-        echo " S"
+        echo "S"
     else
         echo ""
     fi
 }
 
 while true; do
-    echo 'S'$(notifications)$(caffeine)$(bluetooth) $(battery)$(email)$(volume)$(wifi)
+    echo 'S'$(notifications)$(bluetooth)$(caffeine) $(battery)$(email)$(volume)$(wifi)
     sleep $UPDATE_INTERVAL
 done

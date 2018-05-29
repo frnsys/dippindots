@@ -24,7 +24,6 @@ batt mon &
 sxhkd &
 urxvt &
 redshift &
-weather &
 
 # email: start protonmail bridge and offlineimap
 tmux new-session -d -s mail 'Desktop-Bridge --cli' \; split-window -d 'sleep 5; offlineimap'
