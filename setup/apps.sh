@@ -232,6 +232,10 @@ ln -sf $DIR/dots/ranger/rifle.conf ~/.config/ranger/rifle.conf
 # pavucontrol   -- for managing sound
 sudo apt install -y --no-install-recommends zathura android-tools-adb ncdu keepassx xournal pavucontrol firefox chromium-browser
 
+# adb-sync
+git clone https://github.com/google/adb-sync /tmp/adb-sync
+sudo cp /tmp/adb-sync/adb-sync /usr/local/bin/
+
 # for ~/.bin/keepass
 sudo pip2 install pykeepass
 sudo apt install -y python-gtk2

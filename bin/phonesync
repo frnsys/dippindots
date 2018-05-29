@@ -1,35 +1,12 @@
 #!/bin/bash
-# sync data between phone and laptop
-# using SSHelper on my phone
-
-if [ -z $1 ]
-then
-    echo "usage: sync_phone <PHONE_IP>"
-    exit
-fi
-
-PHONE_IP=$1
-PHONE_PORT=2222
+# sync data between phone and laptop over USB
+# requires adb-sync
 
 # sync directories TO the phone
 for DIR in deaddrop; do
     echo "Syncing ~/${DIR} -> /sdcard/${DIR}"
-    # the ssh user does not have permissions to modify
-    # permission and modification times so we skip those
-    # as such, we only compare sizes; the permission and modification
-    # times are unreliable.
-
-    # TODO this doesn't seem to be working anymore, not sure why.
-    # workaround below is a bit hacky, but works.
-    # rsync -avzL -e "ssh -p ${PHONE_PORT}" --no-perms --no-times --size-only --progress --delete ~/${DIR}/ ${PHONE_IP}:/sdcard/${DIR}/
-
-    # NOTE this workaround is NOT good for really large folders,
-    # b/c it has to move the folder, which is slow if it is large.
-    ssh -p $PHONE_PORT $PHONE_IP "mv /sdcard/${DIR} ${DIR}"
-    rsync -avzL -e "ssh -p ${PHONE_PORT}" --no-perms --no-times --size-only --progress --delete ~/${DIR}/ ${PHONE_IP}:${DIR}/
-    ssh -p $PHONE_PORT $PHONE_IP "mv ${DIR} /sdcard/${DIR}"
+    adb-sync --delete "~/${DIR}/" "/sdcard/${DIR}"
 done
-exit
 
 declare -A backups
 backups[DCIM/Camera]=~/photos/android_dump
@@ -39,7 +16,7 @@ backups[Pictures]=~/photos/phone_pictures
 # directories FROM the phone
 for DIR in "${!backups[@]}"; do
     echo "Backing up /sdcard/${DIR} -> ${backups[$DIR]}"
-    rsync -avz -e "ssh -p ${PHONE_PORT}" --progress ${PHONE_IP}:/sdcard/${DIR}/ "${backups[$DIR]}"
+    adb-sync --reverse "/sdcard/${DIR}/" "${backups[$DIR]}"
 done
 
 # sync select music TO the phone
@@ -57,5 +34,5 @@ function parse_songs() {
 rm -rf /tmp/musics
 mkdir /tmp/musics
 parse_songs | xargs -0 -d '\n' -I {} cp {} /tmp/musics/
-rsync -avz -e "ssh -p ${PHONE_PORT}" --no-perms --no-times --size-only --progress --delete /tmp/musics ${PHONE_IP}:/sdcard/Music/
+adb-sync --delete /tmp/musics/ /sdcard/Music/musics
 rm -rf /tmp/musics
