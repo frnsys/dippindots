@@ -3,4 +3,4 @@
 # to send an attachment, use `-a /path/to/file`
 
 MSG=${1:-$(</dev/stdin)}
-signal-cli -u ${SIGNALNUM} send ${SIGNALNUM} -m "$MSG"
+signal-cli -u ${DAEMONSIGNALNUM} send ${SIGNALNUM} -m "$MSG"
