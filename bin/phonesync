@@ -3,10 +3,7 @@
 # requires adb-sync
 
 # sync directories TO the phone
-for DIR in deaddrop; do
-    echo "Syncing ~/${DIR} -> /sdcard/${DIR}"
-    adb-sync --delete "~/${DIR}/" "/sdcard/${DIR}"
-done
+adb-sync --delete --force ~/deaddrop/ /sdcard/deaddrop
 
 declare -A backups
 backups[DCIM/Camera]=~/photos/android_dump
