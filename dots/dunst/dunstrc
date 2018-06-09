@@ -47,8 +47,8 @@
     browser = /usr/local/bin/firefox -new-tab
 
 [frame]
-    width = 0
-    color = "#444444"
+    width = 5
+    color = "#1cbc5f"
 
 [shortcuts]
 # close notification

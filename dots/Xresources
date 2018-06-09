@@ -27,8 +27,8 @@ URxvt.keysym.C-Up:     perl:font-size:increase
 URxvt.keysym.C-Down:   perl:font-size:decrease
 
 ! LIGHT
-!*.background: #f3f3f3
-!*.foreground: #202020
+!*.background: #eaeaea
+!*.foreground: #000000
 !*.cursorColor: #ff5f5f
 !*color0: #757575
 !*color8: #B8B8B8
@@ -48,29 +48,10 @@ URxvt.keysym.C-Down:   perl:font-size:decrease
 !*color15: #ffffff
 
 ! ANOTHER THEME
-!*background: #252b39
-!*foreground: #c3cee3
-!*color0: #747d8e
-!*color8: #7081be
-!*color1: #d67c9b
-!*color9: #d3afc5
-!*color2: #abd683
-!*color10: #e4eaf0
-!*color3: #e3c78a
-!*color11: #e3c78a
-!*color4: #18c9c9
-!*color12: #18c9c9
-!*color5: #d5d5ca
-!*color13: #d5d5ca
-!*color6: #8be9ee
-!*color14: #8dc4f0
-!*color7: #c3cee3
-!*color15: #c3cee3
-
-! ANOTHER THEME
-*.foreground:   #e1bcc8
-*.background:   #161219
-*.cursorColor:  #c7c7c7
+*.foreground:   #ffffff
+!*.background:   #161219
+*.background:   #000000
+*.cursorColor:  #43cc70
 
 ! black
 *.color0:       #1d2c47
@@ -81,11 +62,11 @@ URxvt.keysym.C-Down:   perl:font-size:decrease
 *.color9:       #ff2f6d
 
 ! green
-*.color2:       #8752ba
-*.color10:      #b66efb
+*.color2:       #43cc70
+*.color10:      #43cc70
 
 ! yellow
-*.color3:       #e15581
+*.color3:       #e5cf2b
 *.color11:      #fb5f90
 
 ! blue
