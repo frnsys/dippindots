@@ -79,5 +79,6 @@
 [urgency_critical]
     background = "#ef3838"
     foreground = "#ffffff"
+    frame_color = "#bf1c1c"
     timeout = 0
     icon = ""
