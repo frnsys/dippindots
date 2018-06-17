@@ -19,9 +19,9 @@ virtual-mailboxes "Trash" "notmuch://?query=folder:Trash"
 
 # smtp
 source ~/docs/keys/mail
-set smtp_url=smtp://$my_user:$my_pass@127.0.0.1:1025
+set smtp_url=smtps://$my_user:$my_pass@smtp.fastmail.com:465
 set ssl_force_tls
-set ssl_starttls
+# set ssl_starttls
 
 # composing
 set realname="Francis Tseng"
@@ -100,9 +100,9 @@ auto_view text/html
 alternative_order text/plain text/html
 bind attach <return> view-mailcap
 
-# press <enter> in the pager to view first attachment
+# press <enter> in the pager to view html attachment
 # useful for quickly seeing html
-macro pager <return> "v<return>q"
+macro pager <return> "v/html<return><return>q"
 
 # save attachments to directory
 macro attach s <save-entry><bol>~/downloads/<eol>

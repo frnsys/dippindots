@@ -28,12 +28,15 @@ sync_deletes = yes
 
 [Repository main-remote]
 type = IMAP
-remoteport = 1143
-remotehost = 127.0.0.1
+remoteport = 993
+remotehost = imap.fastmail.com
 remoteuser = f@frnsys.com
 remotepasseval = open('/home/ftseng/docs/keys/mail').read().split('\n')[-1].split('=')[-1]
 keepalive = 60
 holdconnectionopen = yes
+
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 
 # delete local mails that were deleted on the remote server
 expunge = yes
@@ -41,5 +44,3 @@ expunge = yes
 # sync only these folders
 folderfilter = lambda foldername: foldername not in ['All Mail', 'Trash', 'Spam']
 
-# is broken, but connecting locally to bridge so should be ok
-ssl = no
