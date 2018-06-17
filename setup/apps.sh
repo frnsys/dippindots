@@ -336,6 +336,11 @@ sudo ln -sf $DIR/dots/email/view_mht.py /usr/local/bin/view_mht
 sudo ln -sf $DIR/dots/email/update_nm.sh /usr/local/bin/update_nm
 cd $DIR
 
+sudo cp $DIR/dots/email/offlineimap.service /etc/systemd/user/offlineimap.service
+systemctl --user daemon-reload
+systemctl --user enable offlineimap.service
+systemctl --user start offlineimap.service
+
 # better chinese character support
 sudo apt install -y fonts-noto-cjk
 
