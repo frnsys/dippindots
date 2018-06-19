@@ -11,7 +11,7 @@ cyclic_scrolling = "yes"
 jump_to_now_playing_song_at_start = "yes"
 allow_for_physical_item_deletion = "yes"
 song_columns_list_format = (20)[]{a} (50)[]{t|f:Title} (20)[]{b} (7f)[]{l}
-colors_enabled = "yes"
+colors_enabled = "no"
 
 visualizer_fifo_path = "/tmp/mpd.fifo"
 visualizer_output_name = "visualizer"
