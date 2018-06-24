@@ -12,7 +12,7 @@ NEW_NOTES=0
 notify-send "Fetching memos..."
 while IFS=, read -r timestamp body; do
     if [[ "$body" != "\"" ]]; then
-        dt=$(date -d @${timestamp:1})
+        dt=$(date -d @${timestamp:1:10})
         echo -e "# $dt\n" >> $OUTPUT_FILE
         printf "${body:2:${#body}-5}" | sed "s/\"\"/\"/g" >> $OUTPUT_FILE
         echo -e "\n\n---\n" >> $OUTPUT_FILE
