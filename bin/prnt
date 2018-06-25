@@ -9,5 +9,5 @@ PRINTER=psc_1300
 if [[ $1 == 'list' ]]; then
     lpstat -p
 else
-    lp -d $PRINTER -o fit-to-page notes.pdf
+    lp -d $PRINTER -o fit-to-page $1
 fi
