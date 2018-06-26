@@ -4,7 +4,6 @@
 PLACE=$1
 INMON=eDP1
 EXMON=HDMI2
-DESKTOPS="# # #"
 
 function restart_panel {
     # Kill the panel/lemonbar and restart
@@ -69,7 +68,7 @@ elif [[ $PLACE == 'reset' ]]; then
         # then reset desktops (otherwise the last one sticks)
         bspc subscribe monitor | while read -a msg ; do
             if [[ $msg == 'monitor_remove' ]]; then
-                bspc monitor primary --reset-desktops $DESKTOPS
+                bspc monitor primary --reset-desktops "#" "#" "#"
                 break
             fi
         done
@@ -104,7 +103,7 @@ bspc monitor $(bspc query -M -m primary --names) -n $INMON_PLACE
 bspc monitor $(bspc query -M -m primary#next --names) -n $EXMON_PLACE
 
 # setup desktops on external monitor
-bspc monitor $EXMON_PLACE -d $DESKTOPS
+bspc monitor $EXMON_PLACE -d "#" "#" "#"
 
 # reset the wallpaper to render properly
 feh --bg-fill ~/.wall.jpg &

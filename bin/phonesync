@@ -8,6 +8,7 @@ adb-sync --delete --force ~/deaddrop/ /sdcard/deaddrop
 declare -A backups
 backups[DCIM/Camera]=~/photos/android_dump
 backups[Pictures]=~/photos/phone_pictures
+backups[Tumblr]=~/photos/tumblr
 
 # backup (i.e. don't delete)
 # directories FROM the phone

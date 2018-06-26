@@ -85,11 +85,11 @@ battery() {
     PERCENT=$(batt percent)
 
     if [[ $(batt status) = *"Discharging"* ]]; then
-        if [ $PERCENT -lt 10 ]; then
+        if [ $PERCENT -le 10 ]; then
             echo "%{B$COLOR_URGENT} |::: %{B-}"
-        elif [ $PERCENT -lt 50 ]; then
+        elif [ $PERCENT -le 50 ]; then
             echo "%{B$COLOR_FOREGROUND}%{F$COLOR_BACKGROUND} ||:: %{F-}%{B-}"
-        elif [ $PERCENT -lt 75 ]; then
+        elif [ $PERCENT -le 75 ]; then
             echo "%{B$COLOR_FOREGROUND}%{F$COLOR_BACKGROUND} |||: %{F-}%{B-}"
         else
             echo "%{B$COLOR_FOREGROUND}%{F$COLOR_BACKGROUND} |||| %{F-}%{B-}"

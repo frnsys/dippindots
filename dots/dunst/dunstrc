@@ -34,7 +34,7 @@
 
     notification_height = 0
     line_height = 2
-    separator_height = 2
+    separator_height = 5
     padding = 16
     horizontal_padding = 16
     icon_position = left
