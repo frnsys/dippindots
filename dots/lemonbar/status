@@ -127,7 +127,15 @@ notifications() {
     fi
 }
 
+tasks() {
+    if [ ! -z "$(task status)" ]; then
+        echo "T"
+    else
+        echo ""
+    fi
+}
+
 while true; do
-    echo 'S'$(notifications)$(bluetooth)$(caffeine) $(battery)$(email)$(volume)$(wifi)
+    echo 'S'$(notifications)$(tasks)$(bluetooth)$(caffeine) $(battery)$(email)$(volume)$(wifi)
     sleep $UPDATE_INTERVAL
 done
