@@ -1,0 +1,39 @@
+#!/bin/bash
+# Time tracking
+# Usage:
+# - Start task: task <TASK NAME>
+# - Stop task: task stop
+# - Task status: task status
+
+TASK_FILE=~/work/_admin/tracking.txt
+TASK=$1
+
+if [ -z "$TASK" ]; then
+    exit 1
+fi
+
+# Check if a task is active
+if [ -f $TASK_FILE ]; then
+    LAST=$(tail -n 1 $TASK_FILE)
+    LAST_START=$(echo -e "$LAST" | cut -f1)
+    LAST_TASK=$(echo -e "$LAST" | cut -f2)
+    LAST_END=$(echo -e "$LAST" | cut -f3)
+    if [ -z "$LAST_END" ]; then
+        END_TIME=$(date +%s)
+        ELAPSED_SEC=$(($END_TIME - $LAST_START))
+        if [ $TASK == 'status' ]; then
+            echo -e "$LAST_TASK\t$ELAPSED_SEC"
+        else
+            printf "\t${ELAPSED_SEC}\n" >> $TASK_FILE
+            notify-send "${LAST_TASK} lasted ${ELAPSED_SEC}s"
+        fi
+    fi
+fi
+
+if [ $TASK == 'stop' ] || [ $TASK == 'status' ]; then
+    exit 0
+else
+    notify-send "Started ${TASK}"
+    START_TIME=$(date +%s)
+    echo -en "${START_TIME}\t$TASK" >> $TASK_FILE
+fi

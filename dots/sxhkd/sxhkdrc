@@ -176,11 +176,11 @@ super + q
 super + a
     bspc rule -a URxvt -o state=floating && urxvt -e ~/.bin/2fa
 
-super + equal
-    notify-send "Battery is at $(batt percent)%"
-
 super + semicolon
     bspc rule -a URxvt -o state=floating && urxvt -e ncmpcpp
+
+super + equal
+    notify-send $(task status)
 
 super + e
     emo
