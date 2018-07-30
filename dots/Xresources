@@ -1,6 +1,8 @@
 ! https://wiki.archlinux.org/index.php/Rxvt-unicode
 ! use fc-list for fonts
-URxvt.font: xft:terminus:style=regular:pixelsize=30:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false
+/* URxvt.font: xft:Fira Code:style=regular:pixelsize=26:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false */
+! Installation of Source Code Pro: <https://github.com/adobe-fonts/source-code-pro/issues/17#issuecomment-233178247>
+URxvt.font: xft:Source Code Pro:style=regular:pixelsize=27:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false
 URxvt.boldFont:
 URxvt.perl-ext-common: default,keyboard-select,font-size
 URxvt.saveLines: 1000000
@@ -8,6 +10,7 @@ URxvt.iso14755: false
 URxvt.internalBorder: 12
 URxvt.lineSpace: 4
 URxvt.scrollBar: false
+URxvt.letterSpace: -1
 
 ! For HDPI screens
 ! Lookup here: <http://dpi.lv/>

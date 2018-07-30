@@ -1,7 +1,8 @@
 application/pdf; zathura %s
 image/gif; gifview --bg=#ffffff -a %s
-image/jpg; feh --scale-down --magick-timeout 1 -- %s
 image/png; feh --scale-down --magick-timeout 1 -- %s
+image/jpg; feh --scale-down --magick-timeout 1 -- %s
+image/jpeg; feh --scale-down --magick-timeout 1 -- %s
 
 # show html in firefox
 text/html; view_html %s; test=test -n "$DISPLAY"; needsterminal;

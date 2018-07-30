@@ -5,4 +5,4 @@ START=$2 # in the format HH:MM:SS.MS
 END=$3   # in the format HH:MM:SS.MS
 OUTPUT=$4
 
-ffmpeg -i "$1" -vcodec copy -acodec copy -ss $2 -t $3 "$4"
+ffmpeg -i "$1" -vcodec copy -acodec copy -ss $2 -to $3 "$4"

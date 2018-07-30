@@ -34,7 +34,7 @@ hi MatchParen   ctermbg=234 ctermfg=2
 hi Comment      ctermfg=240
 hi Todo         ctermbg=none ctermfg=1
 hi String       ctermfg=14
-hi Function     ctermfg=3
+hi Function     ctermfg=7
 hi Conditional  ctermfg=14
 hi Repeat       ctermfg=14
 hi Operator     ctermfg=14
