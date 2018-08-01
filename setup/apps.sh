@@ -357,3 +357,8 @@ sudo apt update
 sudo apt install tlp --no-install-recommends
 sudo apt install acpi-call-dkms
 sudo apt install tpacpi-bat # replacement for tm-smapi-dkms
+
+# for USB input devices
+sudo apt install linux-image-generic
+sudo update-initramfs -k all -c
+# then reboot
