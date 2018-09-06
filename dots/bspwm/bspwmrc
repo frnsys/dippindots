@@ -18,9 +18,6 @@ bspc config normal_border_color "${NORMAL_BORDER_COLOR}"
 bspc config active_border_color "${ACTIVE_BORDER_COLOR}"
 bspc config focused_border_color "${FOCUSED_BORDER_COLOR}"
 
-# don't auto-unfullscreen fullscreened apps e.g. youtube
-# bspc config ignore_emwh_fullscreen exit
-
 # Get a window name by running
 # xprop | grep WM_CLASS
 # and click on the window in question

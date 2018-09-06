@@ -99,7 +99,7 @@ super + w
     wifi toggle; notify-send "$(wifi)"
 
 super + slash
-    fetch_memos
+    daemon
 
 super + backslash
     silence

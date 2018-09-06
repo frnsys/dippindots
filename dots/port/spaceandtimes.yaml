@@ -2,7 +2,7 @@ PER_PAGE: 5
 SITE_DESC: francis tseng's blog
 SITE_DIR: ~/notes/blog
 SITE_NAME: space and times
-SITE_URL: http://spaceandtim.es
+SITE_URL: https://spaceandtim.es
 THEME: publicscience
 github: frnsys
 twitter: frnsys
