@@ -4,6 +4,7 @@
 #   ftseng  ALL = NOPASSWD: /usr/bin/pkill
 #   ftseng  ALL = NOPASSWD: /usr/sbin/openvpn
 #   ftseng  ALL = NOPASSWD: /usr/sbin/service stunnel4 *
+# Logs for stunnel and openvpn both go to /var/log/syslog
 
 VPN_DIR=/home/ftseng/docs/vpn
 ACTIVE=$(basename $(readlink $VPN_DIR/active))
