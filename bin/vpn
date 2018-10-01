@@ -3,6 +3,7 @@
 # add the following after running `sudo visudo`
 #   ftseng  ALL = NOPASSWD: /usr/bin/pkill
 #   ftseng  ALL = NOPASSWD: /usr/sbin/openvpn
+#   ftseng  ALL = NOPASSWD: /usr/local/sbin/openvpn
 #   ftseng  ALL = NOPASSWD: /usr/sbin/service stunnel4 *
 # Logs for stunnel and openvpn both go to /var/log/syslog
 
