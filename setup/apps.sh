@@ -344,6 +344,10 @@ systemctl --user start offlineimap.service
 # better chinese character support
 sudo apt install -y fonts-noto-cjk
 
+# chinese pinyin input
+# Hit CTRL+SPACE+LEFT_SHIFT, in that order
+sudo apt install -y fcitx fcitx-googlepinyin
+
 # fixes for 5G wifi
 # set networking card region
 sudo apt install -y bcmwl-kernel-source
