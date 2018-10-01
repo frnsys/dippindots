@@ -47,9 +47,21 @@ function parse_git_branch() {
 	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
-# ref:
-# \u = user
-# \h = host
-# \w = cwd (full path)
-# \W = cwd (current dir only)
-export PS1="\[$RED\]\h\[$RESET\]:\[$BLUE\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \":\")\[$BLUE\]\$(parse_git_branch)\[$RESET\] > \[$RESET\]"
+# Current virtualenv
+function parse_venv() {
+    if [[ $VIRTUAL_ENV != "" ]]; then
+        # Strip out the path and just leave the env name
+        echo "(${VIRTUAL_ENV##*/}) "
+    fi
+}
+
+function update_prompt() {
+    # ref:
+    # \u = user
+    # \h = host
+    # \w = cwd (full path)
+    # \W = cwd (current dir only)
+    export PS1="\[$GREEN\]$(parse_venv)\[$RESET\]\[$RED\]\h\[$RESET\]:\[$BLUE\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \":\")\[$BLUE\]\$(parse_git_branch)\[$RESET\] > \[$RESET\]"
+}
+export -f update_prompt
+export PROMPT_COMMAND='update_prompt'

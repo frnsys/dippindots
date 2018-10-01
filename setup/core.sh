@@ -51,6 +51,10 @@ sudo apt -y install python3 python3-setuptools python-pip
 sudo easy_install3 pip
 sudo pip3 install virtualenv
 
+# pyenv for easier version management
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
+
 # for vim syntax checking
 sudo pip3 install pyflakes
 
