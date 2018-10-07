@@ -44,7 +44,7 @@ elif [[ $1 == 'best' ]]; then
     BEST=""
     BEST_VPN=""
     notify-send "Pinging servers..."
-    for f in ~/docs/vpn/**/airvpn-ssl.ovpn; do
+    for f in $VPN_DIR/**/airvpn-ssl.ovpn; do
         VPN=$(echo $f | cut -d'/' -f6)
         [[ $VPN == "active" ]] && continue
         IP=$(cat $f | grep net_gateway | cut -d' ' -f2)
