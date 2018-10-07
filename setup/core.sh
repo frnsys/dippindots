@@ -46,12 +46,11 @@ echo "Installing math libs..."
 sudo apt install -y libatlas-base-dev liblapack-dev libopenblas-dev libopenblas-base libatlas3-base
 
 
-echo "Installing Python3, pip, and virtualenv..."
-sudo apt -y install python3 python3-setuptools python-pip
-sudo easy_install3 pip
-sudo pip3 install virtualenv
+echo "Installing Python3..."
+sudo apt -y install python3 python3-setuptools python-pip python3-pip
 
 # pyenv for easier version management
+sudo apt -y install tk-dev
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
 
