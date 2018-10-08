@@ -52,8 +52,10 @@ elif [[ $1 == 'best' ]]; then
         if [ -z "$PING" ]; then
             echo "$VPN: No response"
         else
+            # Round
+            PING=$(printf "%.*f\n" 0 $PING)
             echo "$VPN: ${PING}ms"
-            if [ -z "$BEST" ] || [ "$PING" -lt $BEST ]; then
+            if [ -z "$BEST" ] || [ "$PING" -lt "$BEST" ]; then
                 BEST=$PING
                 BEST_VPN=$VPN
             fi
@@ -63,8 +65,8 @@ elif [[ $1 == 'best' ]]; then
         echo "No servers could be reached"
         notify-send "No servers could be reached"
     else
-        echo "Best: $VPN (${PING}ms)"
-        notify-send "Best: $VPN (${PING}ms)"
+        echo "Best: $BEST_VPN (${BEST}ms)"
+        notify-send "Best: $BEST_VPN (${BEST}ms)"
     fi
 
 elif [[ $1 == 'which' ]]; then
