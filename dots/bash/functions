@@ -3,14 +3,6 @@ function wakehubble() {
     tunnel go starbase.in 10023 'wakeonlan '$HUBBLE
 }
 
-function tni() {
-    ssh -i ~/.ssh/tni_id_rsa ftseng@$DARKINQUIRY
-}
-
-function tni_stag() {
-    ssh -i ~/.ssh/tni_id_rsa ftseng@$DARKINQUIRY_STAGING
-}
-
 function pushhubble() {
     # push a local file to hubble
     # $1 = local file
