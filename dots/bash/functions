@@ -1,5 +1,7 @@
 function wakehubble() {
     # svalbard
+    # make sure wakeonlan is installed: apt install wakeonlan
+    # make sure there's a user on svalbard named ftseng
     tunnel go starbase.in 10023 'wakeonlan '$HUBBLE
 }
 
