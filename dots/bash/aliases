@@ -29,8 +29,10 @@ alias docs="cd ~/docs; ll"
 alias dl="cd ~/downloads"
 alias nb="jupyter notebook"
 alias py="python"
+alias t="tmux attach || tmux new"
 alias ipy="ipython"
 alias za="zathura"
+alias h="hubble"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
