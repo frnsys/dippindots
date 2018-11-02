@@ -7,6 +7,7 @@ fi
 if tput setaf 1 &> /dev/null; then
 	tput sgr0
 	if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
+		BG=$(tput setab 4)
 		RED=$(tput setaf 1)
 		YELLOW=$(tput setaf 3)
 		GREEN=$(tput setaf 10)
@@ -61,7 +62,7 @@ function update_prompt() {
     # \h = host
     # \w = cwd (full path)
     # \W = cwd (current dir only)
-    export PS1="\[$GREEN\]$(parse_venv)\[$RESET\]\[$RED\]\h\[$RESET\]:\[$BLUE\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \":\")\[$BLUE\]\$(parse_git_branch)\[$RESET\] > \[$RESET\]"
+    export PS1="\[$GREEN\]$(parse_venv)\[$RESET\]\[$BG\]\h\[$RESET\]:\[$BLUE\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \":\")\[$BLUE\]\$(parse_git_branch)\[$RESET\] > \[$RESET\]"
 }
 export -f update_prompt
 export PROMPT_COMMAND='update_prompt'
