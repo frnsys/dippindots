@@ -67,13 +67,14 @@ elif [ $CMD == 'pull' ]; then
     PORT=$2
     USER=$3
     FILEPATH=$4
+    OUT=$5
     DIR=`dirname ${FILEPATH}`
     FILE=`basename ${FILEPATH}`
 
     # ssh into the bridge,
     # on the bridge, ssh into the remote,
     # the stream the tar of the file back
-    ssh $BRIDGE 'ssh -p '${PORT}' '${USER}'@localhost "cd '${DIR}'; tar cj '${FILE}'"' | tar xj
+    ssh $BRIDGE 'ssh -p '${PORT}' '${USER}'@localhost "cd '${DIR}'; tar cj '${FILE}'"' | tar xjO > "$OUT"
 
 
 # rsync via a bridge server

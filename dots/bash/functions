@@ -15,11 +15,11 @@ function pushhubble() {
 function pullhubble() {
     # pull a local file from hubble
     # $1 = remote file
-    tunnel pull ftseng@starbase.in 10022 ftseng $1
+    tunnel pull ftseng@starbase.in 10022 ftseng $1 $2
 }
 
 function hubble() {
-    ssh -Y hubble.local || tunnel go starbase.in 10022
+    ssh -Y hubble.local 2> /dev/null || tunnel go starbase.in 10022
 }
 
 # Activate a Python virtualenv by name.
