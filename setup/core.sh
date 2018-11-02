@@ -1,3 +1,7 @@
+#!/bin/bash
+# Exit on any failure
+set -e
+
 DIR=$1
 
 echo "Installing prereqs..."
@@ -6,8 +10,9 @@ sudo apt upgrade -y
 sudo apt install -y --no-install-recommends python gcc gfortran build-essential g++ make cmake autoconf wget git openssh-server python-software-properties software-properties-common libncurses5-dev libxml2-dev libxslt1-dev libyaml-dev bzip2 curl python-dev libsqlite3-dev
 
 sudo pip install libsass
-sudo apt install -y nodejs npm
-
+curl https://www.npmjs.com/install.sh | sh
+sudo npm install -g n
+sudo /usr/local/bin/n stable
 
 echo "Installing git..."
 sudo add-apt-repository ppa:git-core/ppa -y

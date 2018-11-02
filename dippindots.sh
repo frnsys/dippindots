@@ -1,4 +1,7 @@
 #!/bin/bash
+# Exit on any failure
+set -e
+
 DIR=$(pwd)
 
 # =============== WELCOME =================================

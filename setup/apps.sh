@@ -1,3 +1,7 @@
+#!/bin/bash
+# Exit on any failure
+set -e
+
 DIR=$1
 
 tput setaf 5
