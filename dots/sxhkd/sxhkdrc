@@ -101,9 +101,6 @@ super + w
 super + slash
     daemon
 
-super + backslash
-    silence
-
 # ~~screenshots/recordings~~
 
 # selection to file
@@ -179,8 +176,14 @@ super + a
 super + semicolon
     bspc rule -a URxvt -o state=floating && urxvt -e ncmpcpp
 
+super + minus
+    togglewin Discord
+
+super + backslash
+    togglewin Signal
+
 super + equal
-    notify-send $(task status)
+    togglewin Slack
 
 super + e
     emo
