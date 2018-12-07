@@ -1,6 +1,9 @@
 " don't override my existing syntax highlighting
 let g:pymode_syntax = 0
 
+" use python3
+let g:pymode_python = 'python3'
+
 " auto-check for venv
 let g:pymode_virtualenv = 1
 
