@@ -7,12 +7,13 @@ DIR=$1
 echo "Installing prereqs..."
 sudo apt update
 sudo apt upgrade -y
-sudo apt install -y --no-install-recommends python gcc gfortran build-essential g++ make cmake autoconf wget git openssh-server python-software-properties software-properties-common libncurses5-dev libxml2-dev libxslt1-dev libyaml-dev bzip2 curl python-dev libsqlite3-dev
+sudo apt install -y --no-install-recommends python python-pip gcc gfortran build-essential g++ make cmake autoconf wget unzip git openssh-server software-properties-common libncurses5-dev libxml2-dev libxslt1-dev libyaml-dev bzip2 curl python-dev libsqlite3-dev
 
 sudo pip install libsass
-curl https://www.npmjs.com/install.sh | sh
+curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
+sudo apt install -y nodejs
 sudo npm install -g n
-sudo /usr/local/bin/n stable
+sudo /usr/bin/n stable
 
 echo "Installing git..."
 sudo add-apt-repository ppa:git-core/ppa -y
@@ -26,17 +27,6 @@ ln -sf $DIR/dots/gitconfig ~/.gitconfig
 # so we can push without logging in
 ssh -vT git@github.com
 
-echo "Installing utils..."
-sudo apt install -y libevent-dev
-wget https://github.com/tmux/tmux/releases/download/2.4/tmux-2.4.tar.gz -O /tmp/tmux-2.4.tar.gz
-cd /tmp
-tar -xzvf tmux-2.4.tar.gz
-cd tmux-2.4
-./configure
-make
-sudo make install
-cd $DIR
-
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
@@ -44,6 +34,7 @@ sudo apt install -y --no-install-recommends wget silversearcher-ag
 
 # rust & fd
 curl -sf -L https://static.rust-lang.org/rustup.sh | sh
+source ~/.cargo/env
 cargo install fd-find ripgrep
 
 
@@ -68,14 +59,11 @@ ln -sf $DIR/dots/ipython/ipython_config.py ~/.ipython/profile_default/ipython_co
 
 
 echo "Installing Vim..."
+# Lua, ctags, python interps, and X11/system clipboard support
 sudo apt install -y \
-    # Lua
-    lua6.1 liblua5.1-dev \
-    # ctags
+    lua5.1 liblua5.1-dev \
     exuberant-ctags \
-    # for the python interps
     python-dev python3-dev \
-    # X11, allows using system clipboard with vim.
     libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev
 
 mkdir /tmp/vim && cd $_

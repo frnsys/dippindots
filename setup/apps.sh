@@ -65,12 +65,12 @@ systemctl enable lock@ftseng.service
 # dmenu-pango-imlib
 git clone https://github.com/Cloudef/dmenu-pango-imlib /tmp/dmenu
 cd /tmp/dmenu
-sudo apt install -y libxinerama-dev libimlib2-dev libxcb-xinerama0-dev libxft-dev libpango1.0-dev
+sudo apt install -y libxinerama-dev libimlib2-dev libxcb-xinerama0-dev libxft-dev libpango1.0-dev libssl-dev
 sudo make clean install
 cd $DIR
 
 # maim/slop (scrot replacement)
-sudo apt install -y libglm-dev libgl1-mesa-dev libgles2-mesa-dev mesa-utils-extra libxrandr-dev libxcomposite-dev
+sudo apt install -y libglm-dev libgl1-mesa-dev libgles2-mesa-dev mesa-utils-extra libxrandr-dev libxcomposite-dev libglew-dev
 git clone https://github.com/naelstrof/slop.git /tmp/slop
 cd /tmp/slop
 cmake -DCMAKE_OPENGL_SUPPORT=true -DSLOP_UNICODE=false ./
@@ -83,7 +83,7 @@ cd $DIR
 
 # build the latest ncmpcpp
 sudo apt install -y libboost-all-dev libfftw3-dev doxygen libncursesw5-dev libtag1-dev libcurl4-openssl-dev libmpdclient-dev libtool
-git clone git@github.com:arybczak/ncmpcpp.git /tmp/ncmpcpp
+git clone https://github.com/arybczak/ncmpcpp.git /tmp/ncmpcpp
 cd /tmp/ncmpcpp
 git checkout 0.7.7
 ./autogen.sh
@@ -126,7 +126,6 @@ sudo make install
 cd /tmp/ffmpeg
 PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="/usr/local/ffmpeg/lib/pkgconfig" ./configure \
   --prefix="/usr/local/ffmpeg" \
-  #--pkg-config-flags="--static" \
   --extra-cflags="-I/usr/local/ffmpeg/include" \
   --extra-ldflags="-L/usr/local/ffmpeg/lib" \
   --bindir="/usr/local/bin" \
@@ -201,12 +200,11 @@ sudo ln -sf /run/resolvconf/resolv.conf /var/lib/wicd/resolv.conf.orig
 # resulting in a `DEAUTH_LEAVING` message in `dmesg`.
 
 # dunst - notifications
-# dunst (notifications) config
-sudo apt-get install libxss-dev libxdg-basedir-dev libxinerama-dev libxft-dev libcairo2-dev libdbusmenu-glib-dev
+sudo apt install -y libxss-dev libxdg-basedir-dev libxinerama-dev libxft-dev libcairo2-dev libdbusmenu-glib-dev libgtk2.0-dev
 wget https://github.com/dunst-project/dunst/archive/v1.3.1.zip -O /tmp/dunst.zip
 cd /tmp/
 unzip dunst.zip
-cd dunst*
+cd dunst-*
 make
 sudo make install
 ln -sf $DIR/dots/dunst  ~/.config/dunst
@@ -251,12 +249,12 @@ sudo service stunnel4 start
 
 # autostart/stop vpn on wifi up/down
 sudo cp $DIR/dots/misc/network/airvpn_up /etc/network/if-up.d/airvpn
-sudo cp $DIR/dots/misc/network/airvpn_down /etc/network/if-post_down/airvpn
+sudo cp $DIR/dots/misc/network/airvpn_down /etc/network/if-post-down.d/airvpn
 
 # signal desktop client
 curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
 echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
-sudo apt update && sudo apt install signal-desktop
+sudo apt update && sudo apt install -y signal-desktop
 
 
 # GTK/QT themeing
@@ -280,7 +278,7 @@ fc-cache -fv
 
 # wallpapers
 ln -sf $DIR/assets/walls ~/.walls
-ln -sf ~/.walls/0.jpg ~/.wall.jpg
+ln -sf ~/.walls/1.jpg ~/.wall.jpg
 chmod 644 ~/.wall.jpg
 
 # for easily updating system time to current time zone
@@ -324,7 +322,7 @@ ln -s $DIR/dots/bkup ~/.bkup
 # muttrc
 sudo apt install -y xsltproc libidn11-dev libsasl2-dev libnotmuch-dev notmuch --no-install-recommends
 sudo pip install offlineimap urlscan
-git clone git@github.com:neomutt/neomutt.git /tmp/neomutt
+git clone https://github.com/neomutt/neomutt.git /tmp/neomutt
 cd /tmp/neomutt
 ./configure --disable-doc --ssl --sasl --notmuch
 make
@@ -360,11 +358,13 @@ sudo sed -i -e 's/REGDOMAIN=.*/REGDOMAIN=US/g' /etc/default/crda
 # for thinkpads
 # tlp for better battery life
 sudo add-apt-repository ppa:linrunner/tlp
-sudo add-apt-repository ppa:morgwai/tpbat
 sudo apt update
 sudo apt install tlp --no-install-recommends
 sudo apt install acpi-call-dkms
-sudo apt install tpacpi-bat # replacement for tm-smapi-dkms
+# replacement for tm-smapi-dkms
+git clone https://github.com/teleshoes/tpacpi-bat /tmp/tpacpi-bat
+cd /tmp/tpacpi-bat
+./install.pl
 
 # for USB input devices
 sudo apt install linux-image-generic
