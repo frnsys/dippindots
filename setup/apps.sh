@@ -367,6 +367,14 @@ git clone https://github.com/teleshoes/tpacpi-bat /tmp/tpacpi-bat
 cd /tmp/tpacpi-bat
 ./install.pl
 
+# Use more familiar network interface names (wlan0, eth0)
+# Some parts of the dotfiles expect names like wlan0
+sudo sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT="net.ifnames=0 biosdevname=0"/' /etc/default/grub
+sudo update-grub
+sudo update-initramfs -u
+sudo sed -i 's/wireless_interface =.*/wireless_interface = wlan0/' /etc/wicd/manager-settings.conf
+sudo sed -i 's/wired_interface =.*/wired_interface = eth0/' /etc/wicd/manager-settings.conf
+
 # for USB input devices
 sudo apt install linux-image-generic
 sudo update-initramfs -k all -c
