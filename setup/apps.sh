@@ -375,7 +375,8 @@ cd /tmp/tpacpi-bat
 
 # Use more familiar network interface names (wlan0, eth0)
 # Some parts of the dotfiles expect names like wlan0
-sudo sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT="net.ifnames=0 biosdevname=0"/' /etc/default/grub
+GRUB_PARAMS="net.ifnames=0 biosdevname=0 acpi_osi=linux acpi_backlight=vendor"
+sudo sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT=\"$GRUB_PARAMS\"/" /etc/default/grub
 sudo update-grub
 sudo update-initramfs -u
 sudo sed -i 's/wireless_interface =.*/wireless_interface = wlan0/' /etc/wicd/manager-settings.conf
