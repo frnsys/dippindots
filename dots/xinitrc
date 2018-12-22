@@ -7,6 +7,9 @@ export BSPWM_STACK=/tmp/bspwm.stack
 synclient HorizTwoFingerScroll=1
 synclient PalmDetect=1
 
+# higher trackpad sensitivity/speed
+synclient MinSpeed=2
+
 # palm detection isn't working well
 # so explicitly disable mouse tapping/scrolling
 # (clicking and movement still work)

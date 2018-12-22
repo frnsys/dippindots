@@ -34,9 +34,12 @@ sudo pip install youtube-dl
 sudo apt install -y --no-install-recommends xorg
 sudo apt install -y feh xsel xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console compton oathtool avahi-daemon redshift sm
 
+# for inputs (e.g. trackpad)
+sudo apt install -y xserver-xorg-input-synaptics
+
 # seems necessary for xbacklight for thinkpads,
 # which use `intel_brightness` (in `/sys/class/backlight`)
-sudo apt install xserver-xorg-video-intel
+sudo apt install -y xserver-xorg-video-intel
 sudo cp $DIR/dots/misc/20-intel.conf /usr/share/X11/xorg.conf.d/
 ln -sf $DIR/dots/redshift.conf ~/.config/redshift.conf
 
