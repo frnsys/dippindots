@@ -39,16 +39,14 @@
     horizontal_padding = 16
     icon_position = left
     max_icon_size = 128
+    frame_width = 5
+    frame_color = "#1cbc5f"
 
     # auto/foreground/frame/a color
     separator_color = "#303030"
 
     dmenu = "/home/ftseng/.bin/dmenu -p dunst:"
     browser = /usr/local/bin/firefox -new-tab
-
-[frame]
-    width = 5
-    color = "#1cbc5f"
 
 [shortcuts]
 # close notification
