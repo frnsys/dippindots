@@ -92,11 +92,11 @@ super + c
 
 # toggle bluetooth
 super + b
-    bluetooth toggle; notify-send "$(bluetooth)"
+    sudo bluetooth toggle; notify-send "$(bluetooth)"
 
 # toggle wifi
 super + w
-    wifi toggle; notify-send "$(wifi)"
+    sudo wifi toggle; notify-send "$(wifi)"
 
 super + slash
     daemon

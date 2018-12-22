@@ -358,6 +358,8 @@ sudo sed -i -e 's/REGDOMAIN=.*/REGDOMAIN=US/g' /etc/default/crda
 
 # for thinkpads
 # tlp for better battery life
+# also provides utility commands `bluetooth` and `wifi`
+# which are used elsewhere in scripts
 sudo add-apt-repository ppa:linrunner/tlp
 sudo apt update
 sudo apt install tlp --no-install-recommends
@@ -374,6 +376,9 @@ sudo update-grub
 sudo update-initramfs -u
 sudo sed -i 's/wireless_interface =.*/wireless_interface = wlan0/' /etc/wicd/manager-settings.conf
 sudo sed -i 's/wired_interface =.*/wired_interface = eth0/' /etc/wicd/manager-settings.conf
+
+# Setup passwordless sudo/root for certain commands
+sudo cp $DIR/dots/misc/00_anarres /etc/sudoers.d/
 
 # for USB input devices
 sudo apt install linux-image-generic
