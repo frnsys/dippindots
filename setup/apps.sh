@@ -260,6 +260,17 @@ curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
 echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
 sudo apt update && sudo apt install -y signal-desktop
 
+# signal-cli
+# used by daemon script
+# has to be built from source at the moment
+sudo apt install -y openjdk-8-jre openjdk-8-jdk gradle
+git clone https://github.com/AsamK/signal-cli.git /tmp/signal-cli
+cd /tmp/signal-cli
+./gradlew build
+./gradlew installDist
+sudo cp -r build/install/signal-cli /opt/signal-cli
+sudo ln -sf /opt/signal-cli/bin/signal-cli /usr/local/bin/signal-cli
+cd $DIR
 
 # GTK/QT themeing
 sudo apt install -y gnome-accessibility-themes
