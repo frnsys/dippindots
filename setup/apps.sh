@@ -324,6 +324,7 @@ sudo apt install -y xsltproc libidn11-dev libsasl2-dev libnotmuch-dev notmuch --
 sudo pip install offlineimap urlscan
 git clone https://github.com/neomutt/neomutt.git /tmp/neomutt
 cd /tmp/neomutt
+git checkout neomutt-20180716
 ./configure --disable-doc --ssl --sasl --notmuch
 make
 sudo make install
