@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# encrypt ssh keys
+# results in /tmp/ssh_keys.gpg
+rm /tmp/ssh_keys.gpg
+cp -r ~/.ssh /tmp/ssh_keys
+crypt en /tmp/ssh_keys
+
 if [[ $1 == 'remote' ]]; then
     # TODO this is wasteful since we sync
     # identical stuff twice over the wire,
@@ -9,7 +15,10 @@ if [[ $1 == 'remote' ]]; then
             tunnel sync $d ftseng@starbase.in:10023:pi:$dest/repos --delete --progress
         done
         tunnel sync ~/archives ftseng@starbase.in:10023:pi:$dest --progress
-        tunnel sync ~/musics ftseng@starbase.in:10023:pi:$dest --progress
+        # tunnel sync ~/musics ftseng@starbase.in:10023:pi:$dest --progress
+        tunnel push /tmp/ssh_keys.gpg ftseng@starbase.in:10023:pi:$dest/ssh_keys.gpg
+        date > /tmp/last_updated
+        tunnel push /tmp/last_updated ftseng@starbase.in:10023:pi:$dest/last_updated
     done
 elif [[ $1 == 'local' ]]; then
     for dest in /media/shuttle /media/outerspace/francis; do
@@ -18,5 +27,17 @@ elif [[ $1 == 'local' ]]; then
         done
         rsync -azv --progress ~/archives pi@svalbard.local:$dest
         rsync -azv --progress ~/musics pi@svalbard.local:$dest
+        scp /tmp/ssh_keys.gpg pi@svalbard.local:$dest/ssh_keys.gpg
+        date > /tmp/last_updated
+        scp /tmp/last_updated pi@svalbard.local:$dest/last_updated
     done
+elif [[ $1 == 'usb' ]]; then
+    dest=/media/usb
+    for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
+        rsync -azv --progress $d $dest/repos --delete
+    done
+    rsync -azv --progress ~/archives $dest
+    rsync -azv --progress ~/musics $dest
+    date > $dest/last_updated
+    cp /tmp/ssh_keys.gpg $dest/
 fi

@@ -9,13 +9,13 @@ function pushhubble() {
     # push a local file to hubble
     # $1 = local file
     # $2 = remote path
-    tunnel push ftseng@starbase.in 10022 ftseng $1 $2
+    tunnel push $1 ftseng@starbase.in:10022:ftseng:$2
 }
 
 function pullhubble() {
     # pull a local file from hubble
     # $1 = remote file
-    tunnel pull ftseng@starbase.in 10022 ftseng $1 $2
+    tunnel pull ftseng@starbase.in:10022:ftseng:$1 $2
 }
 
 function hubble() {

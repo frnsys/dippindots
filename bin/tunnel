@@ -46,35 +46,29 @@ elif [ $CMD == 'make' ]; then
 # where <port> is the port used for the SSH tunnel on <bridgehost>
 # and <user> is the user used for the remote host
 elif [ $CMD == 'push' ]; then
-    BRIDGE=$1
-    PORT=$2
-    USER=$3
-    FILEPATH=$4
-    REMOTE_FILEPATH=$5
+    FILEPATH=$1
+    IFS=: read BRIDGE BRIDGEPORT DESTUSER DEST <<< $2
 
     # scp to bridge
     scp -r $FILEPATH $BRIDGE:/tmp/__pushed
 
     # scp to remote and remove temp file
-    ssh $BRIDGE 'scp -rP '${PORT}' /tmp/__pushed '${USER}'@localhost:'${REMOTE_FILEPATH}'; rm -rf /tmp/__pushed'
+    ssh $BRIDGE 'scp -rP '${BRIDGEPORT}' /tmp/__pushed '${DESTUSER}'@localhost:'${DEST}'; rm -rf /tmp/__pushed'
 
 # Get a file via a SSH tunnel host.
 # usage: pull <user@bridgehost> <port> <user> <path/to/file>
 # where <port> is the port used for the SSH tunnel on <bridgehost>
 # and <user> is the user used for the remote host
 elif [ $CMD == 'pull' ]; then
-    BRIDGE=$1
-    PORT=$2
-    USER=$3
-    FILEPATH=$4
-    OUT=$5
-    DIR=`dirname ${FILEPATH}`
-    FILE=`basename ${FILEPATH}`
+    IFS=: read BRIDGE BRIDGEPORT REMOTEUSER REMOTEPATH <<< $1
+    DIR=`dirname ${REMOTEPATH}`
+    FILE=`basename ${REMOTEPATH}`
+    DEST=$2
 
     # ssh into the bridge,
     # on the bridge, ssh into the remote,
     # the stream the tar of the file back
-    ssh $BRIDGE 'ssh -p '${PORT}' '${USER}'@localhost "cd '${DIR}'; tar cj '${FILE}'"' | tar xjO > "$OUT"
+    ssh $BRIDGE 'ssh -p '${BRIDGEPORT}' '${DESTUSER}'@localhost "cd '${DIR}'; tar cj '${FILE}'"' | tar xjO > "$DEST"
 
 
 # rsync via a bridge server
@@ -87,7 +81,7 @@ elif [ $CMD == 'sync' ]; then
     INPUT=$1
     FLAGS=$3
     IFS=: read BRIDGE BRIDGEPORT DESTUSER DEST <<< $2
-    rsync $3 -azv -e 'ssh -p '$BRIDGEPORT' -o "ProxyCommand ssh '$BRIDGE' -W %h:%p"' "${INPUT}" $DESTUSER@localhost:$DEST
+    rsync $FLAGS -azv -e 'ssh -p '$BRIDGEPORT' -o "ProxyCommand ssh '$BRIDGE' -W %h:%p"' "${INPUT}" $DESTUSER@localhost:$DEST
 
 else
     echo "Please specify a command: go, make, push, pull, sync."
