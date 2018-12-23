@@ -3,7 +3,8 @@
 # requires adb-sync
 
 # sync directories TO the phone
-adb-sync --delete --force ~/deaddrop/ /sdcard/deaddrop
+cp ~/docs/pass.kdbx ~/deaddrop/
+adb-sync --delete --force --copy-links ~/deaddrop/ /sdcard/deaddrop
 
 declare -A backups
 backups[DCIM/Camera]=~/photos/android_dump
