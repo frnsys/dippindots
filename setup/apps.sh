@@ -34,6 +34,9 @@ sudo pip install youtube-dl
 sudo apt install -y --no-install-recommends xorg
 sudo apt install -y feh xsel xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console compton oathtool avahi-daemon redshift sm
 
+# deluged config
+ln -sf ~/.dippindots/dots/deluged.conf ~/.config/deluge/core.conf
+
 # for inputs (e.g. trackpad)
 sudo apt install -y xserver-xorg-input-synaptics
 
