@@ -403,3 +403,12 @@ sudo cp $DIR/dots/misc/00_anarres /etc/sudoers.d/
 sudo apt install linux-image-generic
 sudo update-initramfs -k all -c
 # then reboot
+
+# NOTE: import GPG private key
+# see ~/docs/keys/note.md for password hint
+# requires the `~/docs` directory has been restored
+# gpg --import ~/docs/keys/private.key
+# then:
+# gpg --edit-key <KEY_ID>
+# gpg> trust
+# and set to ultimate trust
