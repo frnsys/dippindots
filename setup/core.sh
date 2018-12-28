@@ -20,6 +20,10 @@ sudo add-apt-repository ppa:git-core/ppa -y
 sudo apt update
 sudo apt install -y git
 
+curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+sudo apt install -y git-lfs
+git lfs install
+
 mkdir -p ~/.config/git
 ln -sf $DIR/dots/gitignore ~/.config/git/ignore
 ln -sf $DIR/dots/gitconfig ~/.gitconfig
