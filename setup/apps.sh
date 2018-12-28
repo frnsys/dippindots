@@ -365,6 +365,10 @@ systemctl --user daemon-reload
 systemctl --user enable offlineimap.service
 systemctl --user start offlineimap.service
 
+# install python
+env PYTHON_CFLAGS=-fPIC pyenv install 3.6.6
+pyenv global 3.6.6
+
 # better chinese character support
 sudo apt install -y fonts-noto-cjk
 
