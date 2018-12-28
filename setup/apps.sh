@@ -19,7 +19,7 @@ pactl load-module module-bluetooth-discover
 # NOTE: `dhcpcd5` can conflict with `wicd-curses`,
 # but is needed for usb tethering.
 # see the wicd comments below for how to work around this
-sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag xbacklight graphviz
+sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag xbacklight graphviz tree
 sudo pip install youtube-dl
 
 # feh - image viewer/wallpaper manager
@@ -243,6 +243,14 @@ ln -sf $DIR/dots/ranger/rifle.conf ~/.config/ranger/rifle.conf
 # xournal       -- for annotating pdfs
 # pavucontrol   -- for managing sound
 sudo apt install -y --no-install-recommends zathura android-tools-adb ncdu keepassx xournal pavucontrol firefox chromium-browser
+
+# geckodriver
+wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz -O /tmp/geckodriver.tar.gz
+cd /tmp
+tar -xzvf geckodriver.tar.gz
+chmod +x geckodriver
+sudo mv geckodriver /usr/local/bin/
+cd $DIR
 
 # adb-sync
 git clone https://github.com/google/adb-sync /tmp/adb-sync
