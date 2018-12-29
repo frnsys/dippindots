@@ -2,7 +2,7 @@
 
 # encrypt ssh keys
 # results in /tmp/ssh_keys.gpg
-rm /tmp/ssh_keys.gpg
+rm -f /tmp/ssh_keys.gpg
 cp -r ~/.ssh /tmp/ssh_keys
 crypt en /tmp/ssh_keys
 
@@ -11,7 +11,7 @@ if [[ $1 == 'remote' ]]; then
     # identical stuff twice over the wire,
     # when we should sync to one drive then rsync locally to the other.
     for dest in /media/shuttle /media/outerspace/francis; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
+        for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
             tunnel sync $d ftseng@starbase.in:10023:pi:$dest/repos --delete --progress
         done
         tunnel sync ~/archives ftseng@starbase.in:10023:pi:$dest --progress
@@ -22,7 +22,7 @@ if [[ $1 == 'remote' ]]; then
     done
 elif [[ $1 == 'local' ]]; then
     for dest in /media/shuttle /media/outerspace/francis; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
+        for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
             rsync -azv --progress $d pi@svalbard.local:$dest/repos --delete
         done
         rsync -azv --progress ~/archives pi@svalbard.local:$dest
@@ -33,7 +33,7 @@ elif [[ $1 == 'local' ]]; then
     done
 elif [[ $1 == 'usb' ]]; then
     dest=/media/usb
-    for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
+    for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
         rsync -azv --progress $d $dest/repos --delete
     done
     rsync -azv --progress ~/archives $dest
