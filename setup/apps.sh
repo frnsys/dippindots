@@ -56,14 +56,16 @@ sudo sed -i 's/XKBOPTIONS=""/XKBOPTIONS="compose:ralt,caps:super"/' /etc/default
 sudo sed -i 's/FONTFACE=.*/FONTFACE="Terminus"/' /etc/default/console-setup
 sudo sed -i 's/FONTSIZE=.*/FONTSIZE="14x28"/' /etc/default/console-setup
 
+# lid close/switch behavior
 # to enable `systemctl hybrid-sleep`,
 # which is durable to power loss,
 # you must disable secure boot in the BIOS.
-
+sudo apt install -y pm-utils
 # TODO auto replace?
 # sudo vi /etc/systemd/logind.conf
 # add:
 # HandleLidSwitch=hybrid-sleep
+# systemctl restart systemd-logind.service
 
 # auto-lock screen on sleep
 # https://wiki.archlinux.org/index.php/Power_management#Suspend.2Fresume_service_files
