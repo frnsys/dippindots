@@ -6,6 +6,8 @@ rm -f /tmp/ssh_keys.gpg
 cp -r ~/.ssh /tmp/ssh_keys
 crypt en /tmp/ssh_keys
 
+sudo cp /etc/wicd/wireless-settings.conf ~/docs/backups/
+
 if [[ $1 == 'remote' ]]; then
     # TODO this is wasteful since we sync
     # identical stuff twice over the wire,
@@ -15,7 +17,7 @@ if [[ $1 == 'remote' ]]; then
             tunnel sync $d ftseng@starbase.in:10023:pi:$dest/repos --delete --progress
         done
         tunnel sync ~/archives ftseng@starbase.in:10023:pi:$dest --progress
-        # tunnel sync ~/musics ftseng@starbase.in:10023:pi:$dest --progress
+        tunnel sync ~/musics ftseng@starbase.in:10023:pi:$dest --progress
         tunnel push /tmp/ssh_keys.gpg ftseng@starbase.in:10023:pi:$dest/ssh_keys.gpg
         date > /tmp/last_updated
         tunnel push /tmp/last_updated ftseng@starbase.in:10023:pi:$dest/last_updated
