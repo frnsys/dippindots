@@ -263,7 +263,7 @@ sudo pip2 install pykeepass
 sudo apt install -y python-gtk2
 
 # vpn
-sudo apt install -y openvpn stunnel4
+sudo apt install -y openvpn stunnel4 resolvconf
 sudo sed -i "s/ENABLED=0/ENABLED=1/" /etc/default/stunnel4
 sudo service stunnel4 start
 
