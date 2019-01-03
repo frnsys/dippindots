@@ -1,6 +1,6 @@
 #!/bin/bash
 # setup (HP printers):
-#   sudo apt install cups printer-driver-hpcups hplip
+#   sudo apt install cups printer-driver-hpcups hplip hplip-gui
 # setup the printer (defaults ok):
 #   hp-setup -i
 
