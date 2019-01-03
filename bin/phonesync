@@ -10,6 +10,8 @@ declare -A backups
 backups[DCIM/Camera]=~/photos/android_dump
 backups[Pictures]=~/photos/phone_pictures
 backups[Tumblr]=~/photos/tumblr
+backups[tencent/MicroMsg/WeChat]=~/photos/wechat
+backups[WhatsApp/Media]=~/photos/whatsapp
 
 # backup (i.e. don't delete)
 # directories FROM the phone
