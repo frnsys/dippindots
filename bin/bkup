@@ -8,31 +8,40 @@ crypt en /tmp/ssh_keys
 
 cp ~/.ssh/config ~/docs/backups/ssh_config
 sudo cp /etc/wicd/wireless-settings.conf ~/docs/backups/
+sudo chmod 755 ~/docs/backups/wireless-settings.conf
+
+# gpg --export-secret-keys f@frnsys.com > ~/docs/backups/secret.key
 
 if [[ $1 == 'remote' ]]; then
     # TODO this is wasteful since we sync
     # identical stuff twice over the wire,
     # when we should sync to one drive then rsync locally to the other.
-    for dest in /media/shuttle /media/outerspace/francis; do
+    for dest in \
+        10023:pi:/media/shuttle\
+        10023:pi:/media/outerspace/francis\
+        10022:ftseng:/mnt/library; do
         for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
-            tunnel sync $d ftseng@starbase.in:10023:pi:$dest/repos --delete --progress
+            tunnel sync $d ftseng@starbase.in:$dest/repos --delete --progress
         done
-        tunnel sync ~/archives ftseng@starbase.in:10023:pi:$dest --progress
-        tunnel sync ~/musics ftseng@starbase.in:10023:pi:$dest --progress
-        tunnel push /tmp/ssh_keys.gpg ftseng@starbase.in:10023:pi:$dest/ssh_keys.gpg
+        tunnel sync ~/archives ftseng@starbase.in:$dest --progress
+        tunnel sync ~/musics ftseng@starbase.in:$dest --progress
+        tunnel push /tmp/ssh_keys.gpg ftseng@starbase.in:$dest/ssh_keys.gpg
         date > /tmp/last_updated
-        tunnel push /tmp/last_updated ftseng@starbase.in:10023:pi:$dest/last_updated
+        tunnel push /tmp/last_updated ftseng@starbase.in:$dest/last_updated
     done
 elif [[ $1 == 'local' ]]; then
-    for dest in /media/shuttle /media/outerspace/francis; do
+    for dest in \
+        pi@svalbard.local:/media/shuttle\
+        pi@svalbard.local:/media/outerspace/francis\
+        ftseng@hubble.local:/mnt/library; do
         for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
-            rsync -azv --progress $d pi@svalbard.local:$dest/repos --delete
+            rsync -azv --progress $d $dest/repos --delete
         done
-        rsync -azv --progress ~/archives pi@svalbard.local:$dest
-        rsync -azv --progress ~/musics pi@svalbard.local:$dest
-        scp /tmp/ssh_keys.gpg pi@svalbard.local:$dest/ssh_keys.gpg
+        rsync -azv --progress ~/archives $dest
+        rsync -azv --progress ~/musics $dest
+        scp /tmp/ssh_keys.gpg $dest/ssh_keys.gpg
         date > /tmp/last_updated
-        scp /tmp/last_updated pi@svalbard.local:$dest/last_updated
+        scp /tmp/last_updated $dest/last_updated
     done
 elif [[ $1 == 'usb' ]]; then
     dest=/media/usb
