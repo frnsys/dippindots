@@ -6,6 +6,7 @@ rm -f /tmp/ssh_keys.gpg
 cp -r ~/.ssh /tmp/ssh_keys
 crypt en /tmp/ssh_keys
 
+cp ~/.ssh/config ~/docs/backups/ssh_config
 sudo cp /etc/wicd/wireless-settings.conf ~/docs/backups/
 
 if [[ $1 == 'remote' ]]; then
