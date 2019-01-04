@@ -379,6 +379,9 @@ systemctl --user start offlineimap.service
 env PYTHON_CFLAGS=-fPIC pyenv install 3.6.6
 pyenv global 3.6.6
 
+# for pypi
+ln -sf ~/.dippindots/dots/pypirc ~/.pypirc
+
 # better chinese character support
 sudo apt install -y fonts-noto-cjk
 
