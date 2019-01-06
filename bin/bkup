@@ -19,7 +19,7 @@ if [[ $1 == 'remote' ]]; then
     for dest in \
         10023:pi:/media/shuttle\
         10023:pi:/media/outerspace/francis\
-        10022:ftseng:/mnt/library; do
+        10022:ftseng:/mnt/library/backup; do
         for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
             tunnel sync $d ftseng@starbase.in:$dest/repos --delete --progress
         done
@@ -33,7 +33,7 @@ elif [[ $1 == 'local' ]]; then
     for dest in \
         pi@svalbard.local:/media/shuttle\
         pi@svalbard.local:/media/outerspace/francis\
-        ftseng@hubble.local:/mnt/library; do
+        ftseng@hubble.local:/mnt/library/backup; do
         for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
             rsync -azv --progress $d $dest/repos --delete
         done
