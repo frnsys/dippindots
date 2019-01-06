@@ -12,7 +12,7 @@ sudo apt update
 
 # bluetooth
 # see ~/notes/linux/bluetooth.md
-sudo apt install -y bluez libbluetooth3 libbluetooth-dev blueman pulseaudio-module-bluetooth
+sudo apt install -y bluez libbluetooth3 libbluetooth-dev blueman pulseaudio-module-bluetooth bluez-tools
 pactl load-module module-bluetooth-discover
 
 # utils
