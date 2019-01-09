@@ -419,6 +419,9 @@ sudo sed -i 's/wired_interface =.*/wired_interface = eth0/' /etc/wicd/manager-se
 # Setup passwordless sudo/root for certain commands
 sudo cp $DIR/dots/misc/00_anarres /etc/sudoers.d/
 
+# Remove default home directories ("Desktop", etc)
+sudo sed -i 's/enabled=True/enabled=False/' /etc/xdg/user-dirs.conf
+
 # for USB input devices
 sudo apt install linux-image-generic
 sudo update-initramfs -k all -c
