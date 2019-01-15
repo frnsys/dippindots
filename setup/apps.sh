@@ -423,6 +423,11 @@ sudo cp $DIR/dots/misc/00_anarres /etc/sudoers.d/
 # Remove default home directories ("Desktop", etc)
 sudo sed -i 's/enabled=True/enabled=False/' /etc/xdg/user-dirs.conf
 
+# Not sure why these lines are in startx,
+# but they interfere with notifications for apps like Slack
+sudo sed -i 's/unset DBUS_SESSION_BUS_ADDRESS/#unset DBUS_SESSION_BUS_ADDRESS/' /usr/bin/startx
+sudo sed -i 's/unset SESSION_MANAGER/#unset SESSION_MANAGER/' /usr/bin/startx
+
 # for USB input devices
 sudo apt install linux-image-generic
 sudo update-initramfs -k all -c
