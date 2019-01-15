@@ -180,10 +180,10 @@ super + minus
     togglewin Discord
 
 super + backslash
-    togglewin Signal
+    togglewin ^Signal
 
 super + equal
-    togglewin Slack
+    togglewin ^Slack
 
 super + e
     emo
