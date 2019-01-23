@@ -54,8 +54,22 @@ sudo apt -y install tk-dev
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
 
+# activate pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
+
+# install python
+env PYTHON_CFLAGS=-fPIC pyenv install 3.6.6
+pyenv global 3.6.6
+
 # for vim syntax checking
-sudo pip3 install pyflakes
+# make sure this installs under the installed pyenv
+pip install pyflakes
 
 # ipython config
 mkdir -p ~/.ipython/profile_default
