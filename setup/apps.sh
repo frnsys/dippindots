@@ -67,6 +67,10 @@ sudo apt install -y pm-utils
 # HandleLidSwitch=hybrid-sleep
 # systemctl restart systemd-logind.service
 
+# don't automatically kill user processes
+# like tmux on logout
+sudo sed -i 's/#KillUserProcesses=no/KillUserProcesses=no/' /etc/systemd/logind.conf
+
 # auto-lock screen on sleep
 # https://wiki.archlinux.org/index.php/Power_management#Suspend.2Fresume_service_files
 sudo cp $DIR/bin/lock /usr/bin/lock
