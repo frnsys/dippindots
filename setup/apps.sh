@@ -214,6 +214,9 @@ sudo ln -sf /run/resolvconf/resolv.conf /var/lib/wicd/resolv.conf.orig
 # - ensure that `dhclient` is selected as the DHCP client
 # if automatic, it might use `dhcpcd`, which has issues staying connected,
 # resulting in a `DEAUTH_LEAVING` message in `dmesg`.
+# - switch to the `Advanced Settings` tab
+# - uncheck "Ping static gateways after connecting to verify association"
+# otherwise there may be issues connecting to public wifi networks with captive portals
 
 # dunst - notifications
 sudo apt install -y libxss-dev libxdg-basedir-dev libxinerama-dev libxft-dev libcairo2-dev libdbusmenu-glib-dev libgtk2.0-dev
