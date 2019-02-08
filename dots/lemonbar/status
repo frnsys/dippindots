@@ -139,8 +139,9 @@ notifications() {
 }
 
 tasks() {
-    if [ ! -z "$(task status)" ]; then
-        echo "T"
+    TASK="$(task status)"
+    if [ ! -z "$TASK" ]; then
+        echo "T:[$TASK]"
     else
         echo ""
     fi

@@ -21,11 +21,14 @@ if [ -f $TASK_FILE ]; then
     if [ -z "$LAST_END" ]; then
         END_TIME=$(date +%s)
         ELAPSED_SEC=$(($END_TIME - $LAST_START))
+        ((h=ELAPSED_SEC/3600))
+        ((m=ELAPSED_SEC%3600/60))
+        ((s=ELAPSED_SEC%60))
         if [ $TASK == 'status' ]; then
-            echo -e "$LAST_TASK\t$ELAPSED_SEC"
+            echo -e "$LAST_TASK\t$h:$m:$s"
         else
             printf "\t${ELAPSED_SEC}\n" >> $TASK_FILE
-            notify-send "${LAST_TASK} lasted ${ELAPSED_SEC}s"
+            notify-send "${LAST_TASK} lasted $h:$m:$s"
         fi
     fi
 fi
