@@ -9,8 +9,7 @@ TASK_FILE=~/work/_admin/tracking.txt
 TASK=$1
 
 if [ -z "$TASK" ]; then
-    # `tac` instead of `cat` so most recent is first
-    TASK=$(tac $TASK_FILE | cut -f2 | uniq | dmenu -l 10 -p "task")
+    TASK=$(cat $TASK_FILE | cut -f2 | tac | uniq | dmenu -l 10 -p "task")
 fi
 
 # Abort if no task chosen
