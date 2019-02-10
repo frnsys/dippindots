@@ -8,13 +8,24 @@
 TASK_FILE=~/work/_admin/tracking.txt
 TASK=$1
 
-if [ -z "$TASK" ]; then
+function chooseTask {
     TASK=$(cat $TASK_FILE | cut -f2 | tac | uniq | dmenu -l 10 -p "task")
-fi
+    if [ -z "$TASK" ]; then
+        exit 0
+    fi
+}
 
-# Abort if no task chosen
-if [ -z "$TASK" ]; then
-    exit 1
+if [ $TASK == 'total' ] ; then
+    TASK=$2
+    if [ -z "$TASK" ]; then
+        chooseTask
+    fi
+    TOTAL_SEC=$(cat $TASK_FILE | grep -P "$TASK\t" | cut -f3 | paste -sd+ | bc)
+    ((h=TOTAL_SEC/3600))
+    ((m=TOTAL_SEC%3600/60))
+    ((s=TOTAL_SEC%60))
+    notify-send "${TASK} total: $h:$m:$s"
+    exit 0
 fi
 
 # Check if a task is active
@@ -23,6 +34,8 @@ if [ -f $TASK_FILE ]; then
     LAST_START=$(echo -e "$LAST" | cut -f1)
     LAST_TASK=$(echo -e "$LAST" | cut -f2)
     LAST_END=$(echo -e "$LAST" | cut -f3)
+
+    # Check if task is active
     if [ -z "$LAST_END" ]; then
         END_TIME=$(date +%s)
         ELAPSED_SEC=$(($END_TIME - $LAST_START))
@@ -35,13 +48,15 @@ if [ -f $TASK_FILE ]; then
             printf "\t${ELAPSED_SEC}\n" >> $TASK_FILE
             notify-send "${LAST_TASK} lasted $h:$m:$s"
         fi
+        exit 0
+    elif [ $TASK == 'stop' ] || [ $TASK == 'status' ]; then
+        exit 0
     fi
 fi
 
-if [ $TASK == 'stop' ] || [ $TASK == 'status' ]; then
-    exit 0
-else
-    notify-send "Started ${TASK}"
-    START_TIME=$(date +%s)
-    echo -en "${START_TIME}\t$TASK" >> $TASK_FILE
+if [ -z "$TASK" ]; then
+    chooseTask
 fi
+notify-send "Started ${TASK}"
+START_TIME=$(date +%s)
+echo -en "${START_TIME}\t$TASK" >> $TASK_FILE
