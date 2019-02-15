@@ -4,6 +4,7 @@
 # - Start task: task <TASK NAME>
 # - Stop task: task stop
 # - Task status: task status
+# - Task total time: task total <TASK NAME>
 
 TASK_FILE=~/work/_admin/tracking.txt
 TASK=$1
@@ -15,7 +16,7 @@ function chooseTask {
     fi
 }
 
-if [ $TASK == 'total' ] ; then
+if [ $TASK == 'total' ]; then
     TASK=$2
     if [ -z "$TASK" ]; then
         chooseTask
@@ -25,6 +26,7 @@ if [ $TASK == 'total' ] ; then
     ((m=TOTAL_SEC%3600/60))
     ((s=TOTAL_SEC%60))
     notify-send "${TASK} total: $h:$m:$s"
+    echo "${TASK} total: $h:$m:$s"
     exit 0
 fi
 
