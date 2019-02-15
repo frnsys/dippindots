@@ -24,7 +24,7 @@ elif [ $CMD == 'sync' ]; then
         sudo mount /dev/${KOBO} /media/usb
 
         # Sync books to Kobo
-        sudo rsync -ravu ~/docs/library/ books/
+        sudo rsync --delete -ravu ~/docs/library/ /media/usb/books/
 
         # Sync annotations from Kobo
         sudo cp /media/usb/.kobo/KoboReader.sqlite /tmp/KoboReader.sqlite
