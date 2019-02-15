@@ -3,6 +3,7 @@
 #   sudo apt install cups printer-driver-hpcups hplip hplip-gui
 # setup the printer (defaults ok):
 #   hp-setup -i
+# see ~/notes/linux/printing.md
 
 PRINTER=psc_1300
 
