@@ -1,0 +1,58 @@
+#!/bin/bash
+
+KOBO='sda'
+CMD=$1
+KOBOANNO=~/projects/tools/kobo/main.py
+SITE2EPUB=~/projects/tools/site2epub/site2epub.py
+KEPUBIFY=~/docs/library/kepubify
+OUTDIR=~/docs/library
+
+function e {
+    echo "$1"
+    notify-send "$1"
+}
+
+if [[ -z $CMD ]]; then
+    e "No command specified"
+    exit 1
+
+elif [ $CMD == 'sync' ]; then
+    if [[ -z $(lsblk | grep $KOBO) ]]; then
+        e "Kobo doesn't seem to be plugged in"
+        exit 1
+    else
+        sudo mount /dev/${KOBO} /media/usb
+
+        # Sync books to Kobo
+        sudo rsync -ravu ~/docs/library/ books/
+
+        # Sync annotations from Kobo
+        sudo cp /media/usb/.kobo/KoboReader.sqlite /tmp/KoboReader.sqlite
+        python "$KOBOANNO" /tmp/KoboReader.sqlite ~/notes/kobo.json
+
+        sudo umount /media/usb
+    fi
+
+elif [ $CMD == 'save' ]; then
+    URL=$2
+    if [[ -z $URL ]]; then
+        e "No URL specified"
+        exit 1
+    fi
+
+    # url to epub
+    EPUBPATH=$(python "$SITE2EPUB" "$URL" "$OUTDIR")
+
+    # epub to kepub
+    $KEPUBIFY "$EPUBPATH"
+    KEPUBPATH=$(echo "$EPUBPATH" | sed 's/\.epub/.kepub.epub/')
+
+    # replace epub with kepub
+    rm "$EPUBPATH"
+    mv "$KEPUBPATH" "$EPUBPATH"
+
+    e "Saved to ${EPUBPATH}"
+
+else
+    e "Unrecognized command"
+fi
