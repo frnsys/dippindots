@@ -177,7 +177,8 @@ super + semicolon
     bspc rule -a URxvt -o state=floating && urxvt -e ncmpcpp
 
 super + minus
-    togglewin Discord
+    task
+    # togglewin Discord
 
 super + backslash
     togglewin ^Signal
