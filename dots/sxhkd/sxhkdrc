@@ -56,15 +56,11 @@ super + shift + {1-9,0}
 super + {1-9,0}
     bspc desktop -f ^{1-9,10}
 
-#
-# wm independent hotkeys
-#
-
 super + Return
     urxvt
 
-shift + ctrl + Return
-    bspc rule -a URxvt -o state=floating && urxvt
+super + g
+    bspc rule -a URxvt -o state=floating && urxvt -e tmux attach -t 0
 
 super + n
     bspc rule -a URxvt -o state=floating && urxvt -e wicd-curses
