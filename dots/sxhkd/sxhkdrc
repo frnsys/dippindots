@@ -28,10 +28,6 @@ super + y
 super + {Tab,grave}
     bspc {node,desktop} -f last
 
-# swap current window with previous window
-super + apostrophe
-    bspc node -s last
-
 # move focus across windows
 super + {h,j,k,l}
     bspc node -f {west,south,north,east}
@@ -186,11 +182,17 @@ super + backslash
 super + equal
     togglewin ^Slack
 
+super + plus
+    togglewin ^Discord
+
 super + e
     emo
 
 super + m
     bspc rule -a URxvt -o state=floating && urxvt -e mutt
+
+super + apostrophe
+    note
 
 # make sxhkd reload its configuration files:
 super + Escape
