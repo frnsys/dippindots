@@ -4,8 +4,8 @@ KOBO='sda'
 CMD=$1
 KOBOANNO=~/projects/tools/kobo/main.py
 SITE2EPUB=~/projects/tools/site2epub/site2epub.py
-KEPUBIFY=~/docs/library/kepubify
-OUTDIR=~/docs/library
+KEPUBIFY=~/projects/tools/kobo/kepubify
+OUTDIR=~/docs/library/epubs/articles
 
 function e {
     echo "$1"
@@ -24,7 +24,7 @@ elif [ $CMD == 'sync' ]; then
         sudo mount /dev/${KOBO} /media/usb
 
         # Sync books to Kobo
-        sudo rsync --delete -ravu ~/docs/library/ /media/usb/books/
+        sudo rsync --delete -ravu ~/docs/library/epubs /media/usb/books/
 
         # Sync annotations from Kobo
         sudo cp /media/usb/.kobo/KoboReader.sqlite /tmp/KoboReader.sqlite
