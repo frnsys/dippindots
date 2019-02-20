@@ -244,6 +244,7 @@ sudo apt install -y --no-install-recommends ranger highlight atool caca-utils w3
 ranger --copy-config=scope
 ln -sf $DIR/dots/ranger/rc.conf ~/.config/ranger/rc.conf
 ln -sf $DIR/dots/ranger/rifle.conf ~/.config/ranger/rifle.conf
+ln -sf $DIR/dots/ranger/scope.sh ~/.config/ranger/scope.sh
 
 # install some cool apps :D
 # zathura       -- keyboard-driven pdf viewer
