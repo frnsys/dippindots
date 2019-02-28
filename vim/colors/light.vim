@@ -3,7 +3,7 @@
 " ref: <http://vimdoc.sourceforge.net/htmldoc/syntax.html>
 " or :h hi
 
-hi Normal       ctermfg=235
+hi Normal       ctermfg=232 ctermbg=254
 hi Visual       ctermbg=227
 hi ModeMsg      ctermfg=1
 hi ErrorMsg     ctermbg=196 ctermfg=230
@@ -70,7 +70,7 @@ hi WarningMsg   ctermbg=196
 hi markdownCheckboxUnchecked  ctermfg=196
 hi markdownCheckboxChecked    ctermfg=35
 hi markdownUnchecked          ctermfg=none
-hi markdownChecked            ctermfg=3
+hi markdownChecked            ctermfg=248
 hi markdownEqnIn              ctermfg=4
 hi markdownEqnDelimiter       ctermfg=42
 hi markdownCode               ctermfg=4
@@ -79,3 +79,4 @@ hi markdownCodeBlock          ctermfg=4
 hi markdownBold               ctermfg=42 ctermbg=none
 hi markdownItalic             ctermfg=42 ctermbg=none
 hi markdownUrl                ctermfg=2
+hi markdownRule               ctermfg=27

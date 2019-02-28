@@ -35,7 +35,14 @@ Plug 'SirVer/ultisnips'
 call plug#end()
 
 colorscheme dark
-" colorscheme light
+" Use light color scheme for markdown
+autocmd BufEnter *.md colorscheme light
+" autocmd BufEnter *.md Goyo 64
+
+" Use F10 to get syntax highlighting group under cursor
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 set nocompatible      			" Use vim, no vi defaults
 syntax enable         			" Turn on syntax highlighting
@@ -186,6 +193,12 @@ imap <C-o> <esc>o
 
 " easily paste in current datetime
 nnoremap <leader>t "=strftime("%m.%d.%Y %H:%M")<CR>P
+
+" easily paste html clipboard content as markdown
+nnoremap <leader>c :!nom clip <bar> xsel -b<CR>P
+
+" reformat/reflow text copied from pdf
+nnoremap <leader>m <S-v>}2k<CR>Jv$:s/- //<CR>
 
 " quick buffer nav
 nnoremap [b :bprevious<cr>
