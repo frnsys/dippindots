@@ -255,6 +255,7 @@ ln -sf $DIR/dots/ranger/scope.sh ~/.config/ranger/scope.sh
 # xournal       -- for annotating pdfs
 # pavucontrol   -- for managing sound
 sudo apt install -y --no-install-recommends zathura android-tools-adb ncdu keepassx xournal pavucontrol firefox chromium-browser
+ln -sf $DIR/dots/zathurarc ~/.config/zathura/zathurarc
 
 # geckodriver
 wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz -O /tmp/geckodriver.tar.gz
