@@ -21,12 +21,12 @@ if [ $TASK == 'total' ]; then
     if [ -z "$TASK" ]; then
         chooseTask
     fi
-    TOTAL_SEC=$(cat $TASK_FILE | grep -P "$TASK\t" | cut -f3 | paste -sd+ | bc)
+    TOTAL_SEC=$(cat $TASK_FILE | grep -P "$TASK" | cut -f3 | paste -sd+ | bc)
     ((h=TOTAL_SEC/3600))
     ((m=TOTAL_SEC%3600/60))
     ((s=TOTAL_SEC%60))
     notify-send "${TASK} total: $h:$m:$s"
-    echo "${TASK} total: $h:$m:$s"
+    echo -e "${TASK}\t$h:$m:$s"
     exit 0
 fi
 
