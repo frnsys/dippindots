@@ -1,6 +1,5 @@
 #!/bin/bash
 
-KOBO='sda'
 CMD=$1
 KOBOANNO=~/projects/tools/kobo/main.py
 SITE2EPUB=~/projects/tools/site2epub/site2epub.py
@@ -13,25 +12,27 @@ function e {
 }
 
 if [[ -z $CMD ]]; then
-    e "No command specified"
+    e "No command specified. Specify one of sync or save."
     exit 1
 
 elif [ $CMD == 'sync' ]; then
-    if [[ -z $(lsblk | grep $KOBO) ]]; then
+    echo "Mounting Kobo disk..."
+    KOBODISK=$(lsblk -ro NAME,LABEL | grep KOBOeReader | cut -d' ' -f1)
+    if [[ -z ${KOBODISK} ]]; then
         e "Kobo doesn't seem to be plugged in"
         exit 1
-    else
-        sudo mount /dev/${KOBO} /media/usb
-
-        # Sync books to Kobo
-        sudo rsync --delete -ravu ~/docs/library/epubs /media/usb/books/
-
-        # Sync annotations from Kobo
-        sudo cp /media/usb/.kobo/KoboReader.sqlite /tmp/KoboReader.sqlite
-        python "$KOBOANNO" /tmp/KoboReader.sqlite ~/notes/kobo.json
-
-        sudo umount /media/usb
     fi
+    sudo mount /dev/${KOBODISK} /media/usb
+
+    echo "Syncing books to Kobo..."
+    sudo rsync --delete -ravu ~/docs/library/epubs /media/usb/books/
+
+    echo "Syncing annotations from Kobo..."
+    sudo cp /media/usb/.kobo/KoboReader.sqlite /tmp/KoboReader.sqlite
+    python "$KOBOANNO" /tmp/KoboReader.sqlite ~/notes/kobo.json
+
+    echo "Unmounting..."
+    sudo umount /media/usb
 
 elif [ $CMD == 'save' ]; then
     URL=$2
