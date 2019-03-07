@@ -46,7 +46,7 @@ sudo apt install -y xserver-xorg-video-intel
 sudo cp $DIR/dots/misc/20-intel.conf /usr/share/X11/xorg.conf.d/
 ln -sf $DIR/dots/redshift.conf ~/.config/redshift.conf
 
-sudo apt install -y --no-install-recommends texlive lmodern pandoc
+sudo apt install -y --no-install-recommends texlive lmodern pandoc texlive-latex-extra texlive-fonts-extra cm-super
 
 # map capslock to super
 # use right alt as compose key
@@ -256,6 +256,9 @@ ln -sf $DIR/dots/ranger/scope.sh ~/.config/ranger/scope.sh
 # pavucontrol   -- for managing sound
 sudo apt install -y --no-install-recommends zathura android-tools-adb ncdu keepassx xournal pavucontrol firefox chromium-browser
 ln -sf $DIR/dots/zathurarc ~/.config/zathura/zathurarc
+
+# for scripts that watch filesystem for changes
+cargo install watchexec
 
 # geckodriver
 wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz -O /tmp/geckodriver.tar.gz

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
+
+# Compile and recompile on change
+# https://tex.stackexchange.com/questions/59403/what-font-packages-are-installed-in-tex-live
+watchexec -d 100 -f */$1 -- \
+    pandoc \
+        -V documentclass=scrartcl \
+        -V fontfamily=mathpazo \
+        -V fontsize=13pt \
+        -V linestretch=1.2 \
+        -V urlcolor=blue \
+        -V colorlinks \
+        -V geometry:margin=1in \
+        -o /tmp/preview.pdf $1 &
+WATCHFILE_PID=$!
+
+# Open in zathura
+bspc rule -a Zathura -o state=tiled; zathura /tmp/preview.pdf &
+ZATHURA_PID=$!
+
+# If we close Zathura, kill the watch process too
+wait $ZATHURA_PID
+kill $WATCHFILE_PID
