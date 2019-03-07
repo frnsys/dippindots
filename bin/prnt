@@ -5,10 +5,9 @@
 #   hp-setup -i
 # see ~/notes/linux/printing.md
 
-PRINTER=psc_1300
-
-if [[ $1 == 'list' ]]; then
-    lpstat -p
+PRINTER=$(lpstat -e | dmenu -l 10 -p "printer:")
+if [ -z $PRINTER ]; then
+    exit 0
 else
-    lp -d $PRINTER -o fit-to-page $1
+    lpr -P "$PRINTER" -o Duplex=DuplexNoTumble -o sides=two-sided-long-edge $1
 fi
