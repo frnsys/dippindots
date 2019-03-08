@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -z $(bluetooth | grep on) ]]; then
+    notify-send "Bluetooth is off"
+fi
+
 HEADSET=$(echo -e "EP650\nNC50" | dmenu -i -p "headset")
 HEADSET_MAC=$(bt-device -l | grep $HEADSET | cut -d "(" -f2 | cut -d ")" -f1)
 
