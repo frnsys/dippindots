@@ -179,7 +179,7 @@ super + equal
     togglewin ^Slack
 
 super + plus
-    togglewin ^Discord
+    togglewin Discord$
 
 super + e
     emo
