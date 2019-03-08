@@ -57,6 +57,7 @@ set shortmess=atI 				" Hide Vim intro message
 let mapleader=";" 		        " Change mapleader
 set wrap
 set textwidth=0 wrapmargin=0 formatoptions=cq
+set display+=lastline
 set hidden
 set clipboard^=unnamed,unnamedplus " Use OS clipboard (on +clipboard compiled Vim)
 set tags=./tags,./TAGS,tags,TAGS,~/.vimtags
