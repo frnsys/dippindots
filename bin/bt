@@ -1,0 +1,21 @@
+#!/bin/bash
+
+bt_status() {
+    POWER=$(echo -e "show\nquit" | bluetoothctl | grep "Powered: yes")
+    if [[ "$(/usr/bin/bluetooth)" == *"= on" ]] && [[ ! -z "$POWER" ]]; then
+        echo "on"
+    else
+        echo "off"
+    fi
+}
+
+CMD=$1
+if [[ $CMD == "toggle" ]]; then
+    sudo bluetooth toggle
+    if [[ "$(/usr/bin/bluetooth)" == *"= on" ]] && [[ $(bt_status) == "off" ]]; then
+        sleep 5 # wait for device to turn on
+        echo -e "power on\nquit" | bluetoothctl
+    fi
+else
+    bt_status
+fi

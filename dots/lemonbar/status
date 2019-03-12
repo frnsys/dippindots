@@ -81,7 +81,7 @@ volume() {
 
 
 bluetooth() {
-    if [[ "$(/usr/bin/bluetooth)" == *"= on" ]]; then
+    if [[ "$(bt)" == "on" ]]; then
         ICON="B"
     else
         ICON=""

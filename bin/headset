@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ -z $(bluetooth | grep on) ]]; then
+if [[ -z $(bt | grep on) ]]; then
     notify-send "Bluetooth is off"
 fi
 

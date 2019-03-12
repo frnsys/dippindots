@@ -84,7 +84,7 @@ super + c
 
 # toggle bluetooth
 super + b
-    sudo bluetooth toggle; notify-send "$(bluetooth)"
+    bt toggle; notify-send "$(bt)"
 
 # toggle wifi
 super + w
