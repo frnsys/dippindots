@@ -35,9 +35,6 @@ Plug 'SirVer/ultisnips'
 call plug#end()
 
 colorscheme dark
-" Use light color scheme for markdown
-autocmd BufEnter *.md colorscheme light
-" autocmd BufEnter *.md Goyo 64
 
 " Use F10 to get syntax highlighting group under cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'

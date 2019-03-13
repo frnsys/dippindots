@@ -1,3 +1,4 @@
+colorscheme light
 set nocursorcolumn
 setlocal spell
 set complete+=kspell
@@ -41,4 +42,10 @@ endfunction
 nnoremap gx :call OpenUrlUnderCursor()<cr>
 
 " compile markdown and preview in browser
-nnoremap <leader>p :!nom view -i "%"<cr>
+" nnoremap <leader>p :!nom view -i "%"<cr>
+" compile markdown and preview as pdf
+nnoremap <leader>p :!preview "%" &<cr>
+
+" use j/k to move up/down visual (wrapped) lines
+map j gj
+map k gk
