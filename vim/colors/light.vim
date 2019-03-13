@@ -71,12 +71,13 @@ hi markdownCheckboxUnchecked  ctermfg=196
 hi markdownCheckboxChecked    ctermfg=35
 hi markdownUnchecked          ctermfg=none
 hi markdownChecked            ctermfg=248
-hi markdownEqnIn              ctermfg=4
-hi markdownEqnDelimiter       ctermfg=42
-hi markdownCode               ctermfg=4
-hi markdownCodeDelimiter      ctermfg=42
-hi markdownCodeBlock          ctermfg=4
-hi markdownBold               ctermfg=42 ctermbg=none
-hi markdownItalic             ctermfg=42 ctermbg=none
-hi markdownUrl                ctermfg=2
-hi markdownRule               ctermfg=27
+hi markdownEqnIn              ctermfg=232
+hi markdownEqnDelimiter       ctermfg=27
+hi markdownCode               ctermfg=232
+hi markdownCodeDelimiter      ctermfg=27
+hi markdownBold               ctermfg=232 cterm=bold
+hi markdownItalic             ctermfg=232 cterm=italic ctermbg=none
+hi markdownUrl                ctermfg=196
+hi markdownRule               ctermfg=196
+hi markdownLinkText           ctermfg=27 cterm=underline
+hi Title                      ctermfg=27

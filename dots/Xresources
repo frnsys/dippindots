@@ -2,8 +2,9 @@
 ! use fc-list for fonts
 /* URxvt.font: xft:Fira Code:style=regular:pixelsize=26:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false */
 ! Installation of Source Code Pro: <https://github.com/adobe-fonts/source-code-pro/issues/17#issuecomment-233178247>
-URxvt.font: xft:Source Code Pro:style=light:pixelsize=28:antialias=true:hinting=slight,xft:Noto Sans CJK SC:antialias=true:size=64
-URxvt.boldFont:
+URxvt.font: xft:Source Code Pro:style=light:pixelsize=24:antialias=true:hinting=slight,xft:Noto Sans CJK SC:antialias=true:size=64
+URxvt.boldFont: xft:Source Code Pro:style=bold:pixelsize=24:antialias=true:hinting=slight,xft:Noto Sans CJK SC:antialias=true:size=64
+URxvt.italicFont: xft:Source Code Pro:style=italic:pixelsize=24:antialias=true:hinting=slight,xft:Noto Sans CJK SC:antialias=true:size=64
 URxvt.perl-ext-common: default,keyboard-select,font-size
 URxvt.saveLines: 1000000
 URxvt.iso14755: false
