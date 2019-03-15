@@ -2,7 +2,7 @@
 set wildmenu " enhance command-line completion
 set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem,*.meta
 set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
-set wildignore+=*/.bundle/*,*/.sass-cache/*,*/node_modules/*
+set wildignore+=*/.bundle/*,*/.sass-cache/*,node_modules
 set wildignore+=*.swp,*~,._*
 set wildignore+=*.pyc,*.egg-info,__pycache__
 
@@ -19,14 +19,12 @@ Plug 'w0rp/ale'
 Plug 'tpope/vim-commentary'
 Plug 'lepture/vim-jinja'
 Plug 'junegunn/goyo.vim'
-Plug 'junegunn/gv.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'klen/python-mode'
 Plug 'hdima/python-syntax'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'kshenoy/vim-signature'
-Plug 'tpope/vim-fugitive'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -98,7 +96,6 @@ set statusline+=%m              " Modified
 set statusline+=%r              " Readonly
 set statusline+=%<              " Truncation point (for smaller windows)
 set statusline+=%=              " Right-align
-set statusline+=%{fugitive#statusline()} " Git branch (requires vim-fugitive)
 set statusline+=\               " Separator
 set statusline+=L:%l/%L[%p%%]   " Lines
 
@@ -201,12 +198,6 @@ nnoremap [b :bprevious<cr>
 nnoremap ]b :bnext<cr>
 
 " quickfix nav
-" also used for navigating through git log for a file (requires vim-fugitive)
-" first run :Glog
-" you can also use :copen to navigate commits
-" use :Glog -- to just show commit messages
-" use :Glog -- % to just show commit messages that affect the current file
-" use :Ggrep to search for a word in past commits, use :copen to navigate
 nnoremap [c :cprev<cr>
 nnoremap ]c :cnext<cr>
 
