@@ -1,0 +1,2 @@
+#!/bin/bash
+mpv --geometry=640x360-25-50 --ytdl-format=best[height=720] "$1"
