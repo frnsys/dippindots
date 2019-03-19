@@ -46,7 +46,10 @@ sudo apt install -y xserver-xorg-video-intel
 sudo cp $DIR/dots/misc/20-intel.conf /usr/share/X11/xorg.conf.d/
 ln -sf $DIR/dots/redshift.conf ~/.config/redshift.conf
 
-sudo apt install -y --no-install-recommends texlive lmodern pandoc texlive-latex-extra texlive-fonts-extra cm-super
+# pandoc
+sudo apt install -y --no-install-recommends texlive lmodern texlive-latex-extra texlive-fonts-extra cm-super
+wget https://github.com/jgm/pandoc/releases/download/2.7.1/pandoc-2.7.1-1-amd64.deb -O /tmp/pandoc.deb
+sudo gdebi --n /tmp/pandoc.deb
 
 # map capslock to super
 # use right alt as compose key
