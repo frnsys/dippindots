@@ -9,11 +9,10 @@ sudo apt update
 sudo apt upgrade -y
 sudo apt install -y --no-install-recommends python python-pip gcc gfortran build-essential g++ make cmake autoconf wget unzip git openssh-server software-properties-common libncurses5-dev libxml2-dev libxslt1-dev libyaml-dev bzip2 curl python-dev libsqlite3-dev
 
+echo "Installing nvm/node..."
 sudo pip install libsass
-curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
-sudo apt install -y nodejs
-sudo npm install -g n
-sudo /usr/bin/n stable
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+nvm install node
 
 echo "Installing git..."
 sudo add-apt-repository ppa:git-core/ppa -y
