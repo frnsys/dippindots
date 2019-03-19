@@ -163,11 +163,19 @@ if has("autocmd")
   " make Python follow PEP8 for whitespace ( http://www.python.org/dev/peps/pep-0008/ )
   au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4
 
+  " other filetype specific settings
+  au FileType crontab setlocal backupcopy=yes
+  au FileType css setlocal tabstop=2 shiftwidth=2
+  au FileType sass setlocal tabstop=2 shiftwidth=2
+  au FileType javascript setlocal tabstop=2 shiftwidth=2
+
+  " for text
+  au FileType text setlocal nocursorcolumn spell complete+=kspell
+
   " remember last location in file, but not for commit messages.
   au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal! g`\"" | endif
 endif
-
 
 " map the arrow keys to be based on display lines, not physical lines
 map <Down> gj

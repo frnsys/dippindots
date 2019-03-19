@@ -73,7 +73,7 @@ hi markdownUnchecked          ctermfg=none
 hi markdownChecked            ctermfg=248
 hi markdownEqnIn              ctermfg=232
 hi markdownEqnDelimiter       ctermfg=27
-hi markdownCode               ctermfg=232
+hi markdownCode               ctermfg=27
 hi markdownCodeDelimiter      ctermfg=27
 hi markdownBold               ctermfg=232 cterm=bold
 hi markdownItalic             ctermfg=232 cterm=italic ctermbg=none
