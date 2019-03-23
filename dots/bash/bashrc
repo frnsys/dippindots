@@ -1,6 +1,1 @@
 [ -n "$PS1" ] && source ~/.bash_profile
-
-# 256 color term.
-export TERM=xterm-256color
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash

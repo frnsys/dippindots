@@ -1,8 +1,8 @@
 # Load env values.
 source /etc/environment
 
-# So tmux uses proper vim colors.
-export TERM=screen-256color
+# 256 color term.
+export TERM=xterm-256color
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
@@ -43,14 +43,17 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+  eval "$(pyenv init - bash --no-rehash)"
   eval "$(pyenv virtualenv-init -)"
 fi
 
 # nvm
+# w/ some hacks to improve startup time
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+alias node='unalias node ; unalias npm ; nvm use default ; node $@'
+alias npm='unalias node ; unalias npm ; nvm use default ; npm $@'
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
