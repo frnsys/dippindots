@@ -9,12 +9,24 @@ bt_status() {
     fi
 }
 
+bt_on() {
+    sudo bluetooth on
+    while echo -e "show\nquit" | bluetoothctl | grep -q "No default controller available"; do
+        sleep 0.1
+    done
+    echo -e "power on\nquit" | bluetoothctl
+}
+
+bt_off() {
+    sudo bluetooth off
+}
+
 CMD=$1
 if [[ $CMD == "toggle" ]]; then
-    sudo bluetooth toggle
-    if [[ "$(/usr/bin/bluetooth)" == *"= on" ]] && [[ $(bt_status) == "off" ]]; then
-        sleep 5 # wait for device to turn on
-        echo -e "power on\nquit" | bluetoothctl
+    if [[ $(bt_status) == "off" ]]; then
+        bt_on
+    else
+        bt_off
     fi
 else
     bt_status
