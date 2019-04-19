@@ -3,6 +3,7 @@ set nocursorcolumn
 setlocal spell
 set complete+=kspell
 
+let g:vimfootnotelinebreak = 0
 let g:markdown_fenced_languages = ['css', 'javascript', 'js=javascript', 'json=javascript', 'sass', 'xml', 'html', 'python']
 
 
@@ -44,7 +45,7 @@ nnoremap gx :call OpenUrlUnderCursor()<cr>
 " compile markdown and preview in browser
 " nnoremap <leader>p :!nom view -i "%"<cr>
 " compile markdown and preview as pdf
-nnoremap <leader>p :!preview "%" &<cr>
+nnoremap <leader>p :silent !preview "%" &<cr>
 
 " use j/k to move up/down visual (wrapped) lines
 map j gj
