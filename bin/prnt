@@ -11,8 +11,8 @@ if [ -z $PRINTER ]; then
     exit 0
 else
     if [ -z $PAGES ]; then
-        lpr -P "$PRINTER" -o Duplex=DuplexNoTumble -o sides=two-sided-long-edge $1
+        lpr -P "$PRINTER" -o Duplex=DuplexNoTumble -o sides=two-sided-long-edge -o "$1"
     else
-        lpr -P "$PRINTER" -o Duplex=DuplexNoTumble -o sides=two-sided-long-edge -o page-ranges=$PAGES $1
+        lpr -P "$PRINTER" -o Duplex=DuplexNoTumble -o sides=two-sided-long-edge -o page-ranges=$PAGES "$1"
     fi
 fi
