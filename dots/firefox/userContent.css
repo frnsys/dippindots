@@ -1,0 +1,7 @@
+/* hiding medium.com bloat */
+.js-metabarMiddle.metabar-inner {
+  display: none !important;
+}
+.u-fixed.u-bottom0 {
+  display: none !important;
+}
