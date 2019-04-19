@@ -40,6 +40,10 @@ super + shift + {h,j,k,l}
 super + {comma,period}
     bspc node @/ -C {backward,forward}
 
+# rotate window layout
+super + question
+    bspc node @/ -R 90
+
 # move focus across desktops
 super + bracket{left,right}
     bspc desktop -f {prev.local,next.local}
@@ -84,7 +88,7 @@ super + c
 
 # toggle bluetooth
 super + b
-    bt toggle; notify-send "$(bt)"
+    bt toggle; notify-send "toggling bluetooth"
 
 # toggle wifi
 super + w
@@ -170,7 +174,9 @@ super + semicolon
 
 super + minus
     task
-    # togglewin Discord
+
+super + shift + minus
+    if pgrep -x panel > /dev/null; then pkill panel; else panel; fi;
 
 super + backslash
     togglewin ^Signal
@@ -180,6 +186,9 @@ super + equal
 
 super + plus
     togglewin Discord$
+
+super + shift + backslash
+    togglewin ^Patchwork
 
 super + e
     emo
