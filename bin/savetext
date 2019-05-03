@@ -1,0 +1,51 @@
+#!/bin/bash
+# Save selected text to a note file
+
+TEXT="$(xsel)"
+if [ -z "$TEXT" ]; then
+    exit 0
+fi
+
+# Get notes, sorted by last modified
+NOTES=$(find ~/notes -type f -not -path *assets* -not -path '*/\.*' -printf "%T@\t%Tc\t%p\n" | sort -nr | cut -f3 -d$'\t')
+NOTE=$(echo -e "new note\n$NOTES" | dmenu -p "add to:" -l 10)
+
+if [ -z "$NOTE" ]; then
+    exit 0
+elif [ "$NOTE" == "new note" ]; then
+    NOTEDIR=$(find ~/notes -type d -not -path *assets* -not -path '*/\.*' | dmenu -p "location:" -l 10)
+    if [ -z "$NOTEDIR" ]; then
+        exit 0
+    fi
+
+    TITLE=$(echo "" | dmenu -p "title:")
+    if [ -z "$TITLE" ]; then
+        exit 0
+    fi
+
+    AUTHORS=$(echo "" | dmenu -p "authors:")
+    if [ -z "$AUTHORS" ]; then
+        exit 0
+    fi
+
+    URL=$(echo "" | dmenu -p "url:")
+    SLUG=$(python -c 'from slugify import slugify; print(slugify("'"$TITLE"'", separator="_"))')
+    if [ -z "$SLUG" ]; then
+        exit 0
+    fi
+    NOTE="$NOTEDIR/$SLUG.md"
+    notify-send "Creating note: $NOTE"
+
+    # Setup metadata
+    if [ -z "$URL" ]; then
+        echo -e "---\ntitle: ${TITLE}\nauthors: ${AUTHORS}\n---" >> $NOTE
+    else
+        echo -e "---\ntitle: ${TITLE}\nauthors: ${AUTHORS}\nurl: ${URL}\n---" >> $NOTE
+    fi
+fi
+
+# Insert markdown quotes
+TEXT=$(echo "$TEXT" | sed -e 's/^/> /')
+
+# Append to note
+echo -e "\n$TEXT" >> $NOTE

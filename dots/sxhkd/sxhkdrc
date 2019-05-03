@@ -199,6 +199,9 @@ super + m
 super + apostrophe
     note
 
+super + i
+    savetext
+
 # make sxhkd reload its configuration files:
 super + Escape
     pkill -USR1 -x sxhkd; notify-send "sxhkd config reloaded"
