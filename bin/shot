@@ -34,7 +34,7 @@ else
 fi
 
 case $choice in
-    "path") echo "$FNAME" | xsel -b;;
+    "path") echo -n "$FNAME " | xsel -b;;
     "data") imgclip "$FNAME" &;;
     *) ;;
 esac
