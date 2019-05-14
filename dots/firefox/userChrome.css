@@ -85,6 +85,7 @@
     .autocomplete-richlistitem[selected] {
         background: #3d52ff !important;
     }
-    panel[type="autocomplete"], panel[type="autocomplete-richlistbox"], .autocomplete-history-popup {
+    panel, panel[type="autocomplete"], panel[type="autocomplete-richlistbox"], .autocomplete-history-popup {
         background: var(--bg-dark) !important;
+        color: var(--fg-light) !important;
     }
