@@ -243,7 +243,7 @@ sudo update-pepperflashplugin-nonfree --install
 # ranger
 # note: For raster image previews (NOT ascii previews) with w3m-image to work,
 # you have to use xterm or urxvt
-sudo apt install -y --no-install-recommends ranger highlight atool caca-utils w3m w3m-img poppler-utils
+sudo apt install -y --no-install-recommends ranger highlight atool caca-utils w3m w3m-img poppler-utils ffmpegthumbnailer
 sudo ln -sf /usr/lib/w3m/w3mimgdisplay /usr/local/bin/w3mimgdisplay
 # ranger --copy-config=scope
 ln -sf $DIR/dots/ranger/rc.conf ~/.config/ranger/rc.conf
