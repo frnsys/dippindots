@@ -47,7 +47,7 @@ sudo cp $DIR/dots/misc/20-intel.conf /usr/share/X11/xorg.conf.d/
 ln -sf $DIR/dots/redshift.conf ~/.config/redshift.conf
 
 # pandoc
-sudo apt install -y --no-install-recommends texlive lmodern texlive-latex-extra texlive-fonts-extra cm-super
+sudo apt install -y --no-install-recommends texlive lmodern texlive-latex-extra texlive-fonts-extra cm-super texlive-generic-recommended
 wget https://github.com/jgm/pandoc/releases/download/2.7.1/pandoc-2.7.1-1-amd64.deb -O /tmp/pandoc.deb
 sudo gdebi --n /tmp/pandoc.deb
 
