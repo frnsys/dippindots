@@ -3,7 +3,8 @@
 # usage: shot [select|focused] [path|data]
 
 OPTS=""
-FNAME=~/docs/shots/$(date +%F-%T).png
+FNAME=$(date +%F-%T)
+FPATH=~/docs/shots/$FNAME.png
 
 # if nothing specified, assume dmenu
 if [ -z $1 ]; then
@@ -24,17 +25,16 @@ case $choice in
     *) exit 1;;
 esac
 
-maim $OPTS $FNAME
-notify-send "screenshot saved to $FNAME"
+maim -q $OPTS $FPATH
+notify-send "screenshot saved to $FPATH"
 
 if $DMENU; then
     choice=$(echo -e "path\ndata" | dmenu -i -p "copy")
+    case $choice in
+        "path") echo -n "$FPATH " | xsel -b;;
+        "data") imgclip "$FPATH" &;;
+        *) ;;
+    esac
 else
-    choice=$2
+    echo $FPATH
 fi
-
-case $choice in
-    "path") echo -n "$FNAME " | xsel -b;;
-    "data") imgclip "$FNAME" &;;
-    *) ;;
-esac
