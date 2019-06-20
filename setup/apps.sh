@@ -341,14 +341,16 @@ sudo adduser ftseng pulse-access
 sudo adduser ftseng video
 
 # firefox config
+# Make sure to disable media.peerconnection.enabled in about:config
+# to prevent WebRTC IP leaks
+# Also disabled hardware acceleration,
+# had issues with slow painting otherwise
 mkdir -p ~/.mozilla/firefox/profile.default/chrome
 ln -sf $DIR/dots/firefox/userChrome.css ~/.mozilla/firefox/profile.default/chrome/userChrome.css
 ln -sf $DIR/dots/firefox/userContent.css ~/.mozilla/firefox/profile.default/chrome/userContent.css
 sed -i 's/Path=.*/Path=profile.default/' ~/.mozilla/firefox/profiles.ini
 # extensions
-# https://addons.mozilla.org/en-US/firefox/addon/vimium-ff/
 # https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/
-# https://addons.mozilla.org/en-US/firefox/addon/new-window-without-toolbar/
 # https://addons.mozilla.org/en-US/firefox/addon/zhongwen-chinese-english/
 
 # Change default browser
