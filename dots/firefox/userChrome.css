@@ -19,16 +19,18 @@
     --fg-light: #CECFD1; --fg-dark: #AAABAD;
     --tab-fonts: "Terminus", "Fantasque Sans Mono", monospace; --tab-font-size: 9pt;
     --tab-min-height: 28px !important;
+    --toolbar-bgcolor: #303030 !important;
+    --toolbar-color: #AAABAD !important;
 }
 
-@-moz-document url(chrome://browser/content/browser.xul) {
+/* @-moz-document url(chrome://browser/content/browser.xul) { */
     /* URL-BAR */
     #window-controls,
     #back-button, #forward-button, #back-button *, #forward-button *,
     #stop-reload-button,  #pageActionSeparator, #nav-bar-overflow-button, #PanelUI-button,
     #reader-mode-button, #identity-box, #pocket-button-box, #star-button-box,
     #home-button, #search-container, #sidebar-button, #urlbar-search-splitter,
-    #customizableui-special-spring2, toolbarbutton[label="Vimium"],
+    #customizableui-special-spring2,
     .titlebar-placeholder, .search-one-offs,
     .tabs-newtab-button, .tab-close-button,
     #alltabs-button { display: none !important; }
@@ -89,3 +91,4 @@
         background: var(--bg-dark) !important;
         color: var(--fg-light) !important;
     }
+/* } */

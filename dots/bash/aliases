@@ -34,6 +34,7 @@ alias t="tmux attach || tmux new"
 alias ipy="ipython"
 alias za="zathura"
 alias h="hubble"
+alias r="ranger"
 alias publish="port build spaceandtimes; port sync spaceandtimes ftseng@starbase.in:/srv/spaceandtimes"
 
 # Detect which `ls` flavor is in use

@@ -99,13 +99,9 @@ super + slash
 
 # ~~screenshots/recordings~~
 
-# selection to file
+# region
 @super + alt + s
     shot region
-
-# selection to clipboard
-@super + shift + s
-    shot region data
 
 # focused window to file
 @super + alt + shift + s
