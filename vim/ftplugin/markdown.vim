@@ -47,6 +47,12 @@ nnoremap gx :call OpenUrlUnderCursor()<cr>
 " compile markdown and preview as pdf
 nnoremap <leader>p :silent !preview "%" &<cr>
 
-" use j/k to move up/down visual (wrapped) lines
-map j gj
-map k gk
+" easily paste html clipboard content as quoted markdown
+nnoremap <leader>c :silent !nom clip <bar> sed 's/^/> /' <bar> xsel -b<CR>P
+
+" screenshot, move to assets folder, paste in markdown
+nnoremap <leader>s "=system("fpath=$(shot region <bar> tail -n 1); fname=$(basename $fpath); mv $fpath assets/$fname; echo '![](assets/'$fname')'")<CR>P
+
+" use J/K to move up/down visual (wrapped) lines
+map J gj
+map K gk

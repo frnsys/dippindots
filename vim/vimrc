@@ -196,9 +196,6 @@ imap <C-o> <esc>o
 " easily paste in current datetime
 nnoremap <leader>t "=strftime("%m.%d.%Y %H:%M")<CR>P
 
-" easily paste html clipboard content as quoted markdown
-nnoremap <leader>c :silent !nom clip <bar> sed 's/^/> /' <bar> xsel -b<CR>P
-
 " reformat/reflow text copied from pdf
 nnoremap <leader>m <S-v>}2k<CR>Jv$:s/- //<CR>
 
