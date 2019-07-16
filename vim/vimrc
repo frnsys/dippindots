@@ -29,6 +29,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'frnsys/vim-markdownfootnotes'
+Plug 'rust-lang/rust.vim'
 call plug#end()
 
 colorscheme dark

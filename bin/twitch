@@ -1,4 +1,6 @@
 #!/bin/bash
+# USAGE: twitch -m <MONITOR NAME>
+# Use -w to enable webcam
 # reference: <https://wiki.archlinux.org/index.php/Streaming_using_twitch.tv>
 # reference: <https://trac.ffmpeg.org/wiki/EncodingForStreamingSites>
 
@@ -11,17 +13,38 @@
 # if you want to do both simultaneously add another `-f pulse` to get a second channel and also add `-filter_complex amix=inputs=2`
 # I haven't tested it though
 
-if [ -z $1 ]
-then
-    echo "usage: twitch <MONITOR NAME>"
-    echo "use xrandr to see monitor names"
-    exit
+# Kill child processes
+trap 'jobs -p | xargs kill' EXIT
+
+MONITOR=eDP1
+while getopts ":m:w" OPT; do
+    case $OPT in
+        m)
+            MONITOR=$OPTARG
+            ;;
+        w)
+            WEBCAM=true
+            ;;
+        ?)
+            exit
+            ;;
+    esac
+done
+
+# Webcam setup
+# git clone https://github.com/chendotjs/Webcam-SDL2
+# sudo apt-get install libsdl2-dev
+# cd Webcam-SDL2/src
+# make
+# sudo mv simple_cam /usr/local/bin/
+if [ "$WEBCAM" = true ] ; then
+    simple_cam 640 480 /dev/video0 &
 fi
 
-MONITOR=$1
 MONINFO=$(xrandr | grep ${MONITOR} | sed 's/primary//' | awk '{print $3}')
 if [ -z "$MONINFO" ]; then
     echo "Couldn't find info for monitor ${MONITOR}"
+    echo "use xrandr to see monitor names"
     exit
 fi
 

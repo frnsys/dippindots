@@ -16,9 +16,6 @@ sudo apt install -y bluez libbluetooth3 libbluetooth-dev blueman pulseaudio-modu
 pactl load-module module-bluetooth-discover
 
 # utils
-# NOTE: `dhcpcd5` can conflict with `wicd-curses`,
-# but is needed for usb tethering.
-# see the wicd comments below for how to work around this
 sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag xbacklight graphviz tree
 sudo pip install youtube-dl
 
@@ -207,20 +204,6 @@ sudo mv /tmp/urxvt-perls/* /usr/lib/urxvt/perl/
 git clone https://github.com/majutsushi/urxvt-font-size.git /tmp/urxvt-font-size
 sudo mv /tmp/urxvt-font-size/font-size /usr/lib/urxvt/perl/font-size
 
-# wicd - managing network connections
-sudo apt install -y wicd wicd-cli wicd-curses
-sudo ln -sf /run/resolvconf/resolv.conf /var/lib/wicd/resolv.conf.orig
-# IMPORTANT:
-# - open `wicd-curses`
-# - hit `P` to open preferences
-# - switch to the `External Programs` tab
-# - ensure that `dhclient` is selected as the DHCP client
-# if automatic, it might use `dhcpcd`, which has issues staying connected,
-# resulting in a `DEAUTH_LEAVING` message in `dmesg`.
-# - switch to the `Advanced Settings` tab
-# - uncheck "Ping static gateways after connecting to verify association"
-# otherwise there may be issues connecting to public wifi networks with captive portals
-
 # dunst - notifications
 sudo apt install -y libxss-dev libxdg-basedir-dev libxinerama-dev libxft-dev libcairo2-dev libdbusmenu-glib-dev libgtk2.0-dev
 wget https://github.com/dunst-project/dunst/archive/v1.3.1.zip -O /tmp/dunst.zip
@@ -285,8 +268,8 @@ sudo sed -i "s/ENABLED=0/ENABLED=1/" /etc/default/stunnel4
 sudo service stunnel4 start
 
 # autostart/stop vpn on wifi up/down
-sudo cp $DIR/dots/misc/network/airvpn_up /etc/network/if-up.d/airvpn
-sudo cp $DIR/dots/misc/network/airvpn_down /etc/network/if-post-down.d/airvpn
+sudo cp $DIR/dots/misc/network/airvpn_up /etc/networkd-dispatcher/routable.d/airvpn
+sudo cp $DIR/dots/misc/network/airvpn_down  /etc/networkd-dispatcher/no-carrier.d/airvpn
 
 # signal desktop client
 curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
@@ -434,8 +417,6 @@ GRUB_PARAMS="net.ifnames=0 biosdevname=0 acpi_osi=linux acpi_backlight=vendor"
 sudo sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT=\"$GRUB_PARAMS\"/" /etc/default/grub
 sudo update-grub
 sudo update-initramfs -u
-sudo sed -i 's/wireless_interface =.*/wireless_interface = wlan0/' /etc/wicd/manager-settings.conf
-sudo sed -i 's/wired_interface =.*/wired_interface = eth0/' /etc/wicd/manager-settings.conf
 
 # Setup passwordless sudo/root for certain commands
 sudo cp $DIR/dots/misc/00_anarres /etc/sudoers.d/

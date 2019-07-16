@@ -6,9 +6,12 @@ rm -f /tmp/ssh_keys.gpg
 cp -r ~/.ssh /tmp/ssh_keys
 crypt en /tmp/ssh_keys
 
+# ssb stuff
+rm -f /tmp/ssb_secret.gpg
+cp -r ~/.ssb/secret /tmp/ssb_secret
+crypt en /tmp/ssb_secret
+
 cp ~/.ssh/config ~/docs/backups/ssh_config
-sudo cp /etc/wicd/wireless-settings.conf ~/docs/backups/
-sudo chmod 755 ~/docs/backups/wireless-settings.conf
 
 # gpg --export-secret-keys f@frnsys.com > ~/docs/backups/secret.key
 
@@ -26,6 +29,7 @@ if [[ $1 == 'remote' ]]; then
         tunnel sync ~/archives ftseng@starbase.in:$dest --progress
         tunnel sync ~/musics ftseng@starbase.in:$dest --progress
         tunnel push /tmp/ssh_keys.gpg ftseng@starbase.in:$dest/ssh_keys.gpg
+        tunnel push /tmp/ssb_secret.gpg ftseng@starbase.in:$dest/ssb_secret.gpg
         date > /tmp/last_updated
         tunnel push /tmp/last_updated ftseng@starbase.in:$dest/last_updated
     done
@@ -40,11 +44,12 @@ elif [[ $1 == 'local' ]]; then
         rsync -azv --progress ~/archives $dest
         rsync -azv --progress ~/musics $dest
         scp /tmp/ssh_keys.gpg $dest/ssh_keys.gpg
+        scp /tmp/ssb_secret.gpg $dest/ssb_secret.gpg
         date > /tmp/last_updated
         scp /tmp/last_updated $dest/last_updated
     done
 elif [[ $1 == 'usb' ]]; then
-    dest=/media/usb
+    dest=/media/usb/backup
     for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
         rsync -azv --progress $d $dest/repos --delete
     done
@@ -52,4 +57,5 @@ elif [[ $1 == 'usb' ]]; then
     rsync -azv --progress ~/musics $dest
     date > $dest/last_updated
     cp /tmp/ssh_keys.gpg $dest/
+    cp /tmp/ssb_secret.gpg $dest/
 fi

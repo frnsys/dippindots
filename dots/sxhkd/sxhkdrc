@@ -63,11 +63,8 @@ super + {1-9,0}
 super + Return
     urxvt
 
-super + g
-    bspc rule -a URxvt -o state=floating && urxvt -e tmux attach -t 0
-
 super + n
-    bspc rule -a URxvt -o state=floating && urxvt -e wicd-curses
+    connect
 
 super + space
     dmenu_run -l 10
@@ -175,16 +172,16 @@ super + shift + minus
     if pgrep -x panel > /dev/null; then pkill panel; else panel; fi;
 
 super + backslash
-    togglewin ^Signal
+    togglewin Signal
 
 super + equal
-    togglewin ^Slack
+    togglewin Ripcord
 
-super + plus
-    togglewin Discord$
+# super + plus
+#     togglewin Discord$
 
-super + shift + backslash
-    togglewin ^Patchwork
+# super + shift + backslash
+#     togglewin ^Patchwork
 
 super + e
     emo
@@ -195,8 +192,8 @@ super + m
 super + apostrophe
     note
 
-super + i
-    savetext
+super + g
+    pickcolor
 
 # make sxhkd reload its configuration files:
 super + Escape

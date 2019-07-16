@@ -147,7 +147,17 @@ tasks() {
     fi
 }
 
+streaming() {
+    STREAMING=$(pgrep twitch)
+    bg=$COLOR_URGENT
+    if [ -n "$STREAMING" ]; then
+        echo "%{B$bg} LIVE %{B-}"
+    else
+        echo ""
+    fi
+}
+
 while true; do
-    echo 'S'$(notifications)$(tasks)$(bluetooth)$(caffeine) $(battery)$(email)$(volume)$(wifi)
+    echo 'S'$(notifications)$(tasks) $(streaming) $(bluetooth)$(caffeine) $(battery)$(email)$(volume)$(wifi)
     sleep $UPDATE_INTERVAL
 done

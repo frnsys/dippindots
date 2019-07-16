@@ -6,7 +6,7 @@ import hashlib
 import argparse
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-parser = argparse.ArgumentParser(description='A simple fake server for testing your API client.')
+parser = argparse.ArgumentParser(description='A simple server to receive and save JSON data')
 parser.add_argument('FILE', type=str, help='File to save received data')
 parser.add_argument('UPLOAD_DIR', type=str, help='Directory to save uploaded files')
 parser.add_argument('-p', '--port', type=int, dest='PORT', default=8888, help='Port for server')
