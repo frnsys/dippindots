@@ -1,0 +1,121 @@
+#!/usr/bin/python3
+"""
+sudo vi /etc/sudoers.d/00_anarres
+ftseng  ALL = NOPASSWD: /sbin/iwlist wlan0 scan
+ftseng  ALL = NOPASSWD: /sbin/wpa_supplicant
+ftseng  ALL = NOPASSWD: /usr/bin/pkill
+
+Make sure the dhcpcd service is running as well
+"""
+
+import os
+import re
+import sys
+import subprocess
+
+IFACE='wlan0'
+NETWORKS_DIR = os.path.expanduser('~/docs/networks')
+
+REGEXS = {
+    'bssid': 'Address: ([0-9A-Z:]+)',
+    'encryption': 'Encryption key:(on|off)',
+    'channel': 'Channel:(\d+)',
+    'essid': 'ESSID:"(.+)?"',
+    'frequency': 'Frequency:([\d.]+ GHz)',
+    'quality': 'Quality=(\d+/\d+)'
+}
+REGEXS = {k: re.compile(r) for k, r in REGEXS.items()}
+
+
+def run(cmd, input=None, notify_on_err=True):
+    proc = subprocess.Popen(cmd,
+                            stdout=subprocess.PIPE,
+                            stdin=subprocess.PIPE,
+                            stderr=subprocess.PIPE)
+    out, err = proc.communicate(input)
+    out = out.decode('utf8')
+    err = err.decode('utf8')
+    if proc.returncode is not 0:
+        if notify_on_err: notify(err)
+        raise Exception('Non-zero exit code')
+    return out.strip()
+
+
+def scan(iface='wlan0'):
+    cmd = ['sudo', 'iwlist', iface, 'scan']
+    out = run(cmd)
+
+    # Group cell lines
+    # Skip first line
+    cells = []
+    for l in out.split('\n')[1:]:
+        l = l.strip()
+        if l.startswith('Cell'):
+            cells.append([l])
+        else:
+            cells[-1].append(l)
+
+    # Extract information
+    networks = {}
+    for c in cells:
+        c = '\n'.join(c)
+        try:
+            data = {k: r.search(c).group(1) for k, r in REGEXS.items()}
+        except:
+            print(c)
+            for k, r in REGEXS.items():
+                print(k)
+                r.search(c).group(1)
+            raise
+        id = '{}@{}'.format(data['essid'], data['bssid'])
+        networks[id] = data
+    return networks
+
+
+def dmenu(choices=None, prompt='>', n_lines=10, exit_on_none=True):
+    choices = choices or []
+    cmd = ['dmenu', '-l', str(n_lines), '-p', prompt]
+    inp = '\n'.join(choices).encode('utf8')
+    choice = run(cmd, inp)
+    if exit_on_none and not choice: sys.exit(0)
+    return choice
+
+
+def connect(conf, iface='wlan0'):
+    # Kill existing connection, if any
+    proc = subprocess.run(['sudo', 'pkill', 'wpa_supplicant'])
+
+    cmd = ['sudo', 'wpa_supplicant', '-c', conf, '-i', iface]
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+    while True:
+        line = proc.stdout.readline()
+        if not line:
+            break
+        print(line.decode('utf8').strip())
+
+
+def authenticate(essid, password, outfile):
+    out = run(['wpa_passphrase', essid, password])
+    with open(outfile, 'w') as f:
+        f.write(out)
+
+
+def notify(msg):
+    subprocess.run(['notify-send', msg])
+
+
+if __name__ == '__main__':
+    notify('Scanning...')
+    networks = scan(IFACE)
+    network_id = dmenu(networks.keys())
+    network = networks[network_id]
+
+    conf = os.path.join(NETWORKS_DIR, network_id)
+    if not os.path.exists(conf):
+        if network['encryption'] == 'on':
+            password = dmenu(prompt='password')
+            authenticate(network['essid'], password, conf)
+        else:
+            with open(conf, 'w') as f:
+                f.write('network={{\n  ssid="{}"\n  key_mgmt=NONE\n}}'.format(network['essid']))
+    connect(conf, IFACE)

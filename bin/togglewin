@@ -1,30 +1,32 @@
 #!/bin/bash
-# Toggle a window's hidden state by name
+# Toggle a window's hidden state by class name
+# To see a class, use `xprop | grep WM_CLASS` and
+# click on the window
 
 NAME="$1"
 
 # Get all window node ids
 node_ids="$(bspc query -N -n .window)"
 
-# Get all window names
-win_names="$(xtitle $node_ids)"
+# Find window with matching window class
+while read -r node_id; do
+    wm_class=$(xprop -id $node_id | grep WM_CLASS | sed -rn 's/.*"([A-Za-z]+)"$/\1/p')
+    if [[ $wm_class == $NAME ]]; then
+        match_id=$node_id
+        break
+    fi
+done <<< "$node_ids"
 
-# Get the line number of the name matching the target window
-line_no=$(echo "${win_names}" | grep -n $NAME | cut -d : -f 1)
-
-if [ -z "$line_no" ]; then
+if [ -z "$match_id" ]; then
     notify-send "No matching window found"
     exit 1
 fi
 
-# Get the node id for that line
-node_id=$(echo "${node_ids}" | sed -n ${line_no}'p')
-
 # Set sticky=on so the window shows up on any desktop
 # Set floating so it floats
-bspc node $node_id --flag sticky=on
-bspc node $node_id --state floating
+bspc node $match_id --flag sticky=on
+bspc node $match_id --state floating
 
 # Toggle hidden and focus
-bspc node $node_id --flag hidden
-bspc node -f $node_id
+bspc node $match_id --flag hidden
+bspc node -f $match_id

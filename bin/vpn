@@ -1,6 +1,6 @@
 #!/bin/bash
 # for this to work w/o entering a sudo password,
-# add the following after running `sudo EDITOR=vim visudo`
+# add the following to /etc/sudoers.d/00_anarres:
 #   ftseng  ALL = NOPASSWD: /usr/bin/pkill
 #   ftseng  ALL = NOPASSWD: /usr/sbin/openvpn
 #   ftseng  ALL = NOPASSWD: /usr/local/sbin/openvpn
