@@ -1,0 +1,4 @@
+#!/bin/bash
+# sudo apt install -y gpick
+
+gpick -so --no-newline | xsel -b
