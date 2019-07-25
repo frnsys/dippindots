@@ -1,23 +1,29 @@
 #!/bin/bash
 # USAGE: twitch -m <MONITOR NAME>
 # Use -w to enable webcam
+# Use -a to enable microphone
+# ---
 # reference: <https://wiki.archlinux.org/index.php/Streaming_using_twitch.tv>
 # reference: <https://trac.ffmpeg.org/wiki/EncodingForStreamingSites>
-
-# NOTE if you want to record one of microphone audio or computer audio
-# install `pavucontrol`, run it, go to the `Recording` tab, and when
-# this is running you should see something there.
-# - the computer audio is "Monitor of Built-In Audio Analog Stereo"
-# - the mic audio is "Built-In Audio Analog Stereo"
-# reference: <http://askubuntu.com/questions/516899/how-do-i-stream-computer-audio-only-with-ffmpeg>
-# if you want to do both simultaneously add another `-f pulse` to get a second channel and also add `-filter_complex amix=inputs=2`
-# I haven't tested it though
+# ---
+# Lookup pulse source with:
+#   pactl list | grep -A2 'Source #' | grep 'Name: ' | cut -d" " -f2
+# ---
+# Webcam setup
+# git clone https://github.com/chendotjs/Webcam-SDL2
+# sudo apt-get install libsdl2-dev
+# cd Webcam-SDL2/src
+# make
+# sudo mv simple_cam /usr/local/bin/
 
 # Kill child processes
 trap 'jobs -p | xargs kill' EXIT
 
 MONITOR=eDP1
-while getopts ":m:w" OPT; do
+MIC_INPUT=alsa_input.usb-046d_HD_Webcam_C615_19620B90-00.analog-mono
+MON_INPUT=alsa_output.pci-0000_00_1f.3.analog-stereo.monitor
+while getopts ":m:wa" OPT; do
+    echo $OPT
     case $OPT in
         m)
             MONITOR=$OPTARG
@@ -25,21 +31,14 @@ while getopts ":m:w" OPT; do
         w)
             WEBCAM=true
             ;;
+        a)
+            MIC=true
+            ;;
         ?)
             exit
             ;;
     esac
 done
-
-# Webcam setup
-# git clone https://github.com/chendotjs/Webcam-SDL2
-# sudo apt-get install libsdl2-dev
-# cd Webcam-SDL2/src
-# make
-# sudo mv simple_cam /usr/local/bin/
-if [ "$WEBCAM" = true ] ; then
-    simple_cam 640 480 /dev/video0 &
-fi
 
 MONINFO=$(xrandr | grep ${MONITOR} | sed 's/primary//' | awk '{print $3}')
 if [ -z "$MONINFO" ]; then
@@ -67,9 +66,20 @@ CBR="1000k" # constant bitrate (should be between 1000k - 3000k)
 # list: http://bashtech.net/twitch/ingest.php
 SERVER=live-jfk
 
+WEBCAM_ARGS=""
+MIC_ARGS=""
+if [ "$WEBCAM" = true ] ; then
+    WEBCAM_ARGS="-f v4l2 -video_size 320x240 -framerate $FPS -i /dev/video0 -filter_complex "[0][1]overlay=x=W-w:y=H-h""
+fi
+if [ "$MIC" = true ] ; then
+    MIC_ARGS="-f pulse -ac 2 -i $MIC_INPUT -filter_complex amix=inputs=2"
+fi
+
 ffmpeg -f x11grab -s $INPUTRES -framerate $FPS -i :0.0+$OFFSET \
-    -f pulse -ac 2 -i default \
-    -c:v libx264 -preset $QUALITY -pix_fmt yuv420p -vf scale=$OUTPUT_WIDTH:-1 \
+    $WEBCAM_ARGS \
+    -f pulse -ac 2 -i $MON_INPUT \
+    $MIC_ARGS \
+    -c:v libx264 -preset $QUALITY -pix_fmt yuv420p \
     -g $GOP -keyint_min $FPS \
     -b:v $CBR -minrate $CBR -maxrate $CBR -bufsize $CBR \
     -c:a aac -b:a $AUDIO_ERATE -ar $AUDIO_SRATE \
