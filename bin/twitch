@@ -20,7 +20,11 @@
 trap 'jobs -p | xargs kill' EXIT
 
 MONITOR=eDP1
-MIC_INPUT=alsa_input.usb-046d_HD_Webcam_C615_19620B90-00.analog-mono
+MIC_INPUT=$(pactl list | grep -A2 'Source #' | grep 'Name: ' | cut -d" " -f2 | dmenu)
+if [ -z "$MIC_INPUT" ] ; then
+    exit 0
+fi
+
 MON_INPUT=alsa_output.pci-0000_00_1f.3.analog-stereo.monitor
 while getopts ":m:wa" OPT; do
     echo $OPT
