@@ -94,6 +94,7 @@ cd $DIR
 # Overwrite vi
 sudo ln -sf /usr/local/bin/vim /usr/bin/vi
 sudo ln -sf /usr/local/bin/vim /usr/bin/vim
+sudo ln -sf /usr/bin/vim /etc/alternatives/editor
 
 # mypy for python type annotations
 sudo pip3 install mypy
