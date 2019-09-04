@@ -32,8 +32,8 @@
     #home-button, #search-container, #sidebar-button, #urlbar-search-splitter,
     #customizableui-special-spring2,
     .titlebar-placeholder, .search-one-offs,
-    .tabs-newtab-button, .tab-close-button,
-    #alltabs-button { display: none !important; }
+    .tabs-newtab-button, .tab-close-button, #tabs-newtab-button,
+    #alltabs-button, #tracking-protection-icon-container { display: none !important; }
 
     /* Hide tab bar if only one tab */
     #tabbrowser-tabs, #tabbrowser-tabs > .tabbrowser-arrowscrollbox, #tabbrowser-tabs[positionpinnedtabs] > .tabbrowser-tab[pinned]{ min-height: 0px !important;}
@@ -54,6 +54,13 @@
         border: none !important;
         font-family: var(--tab-fonts) !important;
         font-size: 12px;
+    }
+    #urlbar-input {
+      text-align: center;
+    }
+    #urlbar-results {
+        background: var(--bg-dark) !important;
+        color: var(--fg-light) !important;
     }
     tab {
         font-family: var(--tab-fonts) !important;

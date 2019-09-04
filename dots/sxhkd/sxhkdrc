@@ -69,9 +69,6 @@ super + n
 super + space
     dmenu_run -l 10
 
-super + ctrl + c
-    pick-colour-picker
-
 super + alt + k
     lock
 
