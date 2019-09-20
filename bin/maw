@@ -24,6 +24,7 @@ class JSONRequestHandler(BaseHTTPRequestHandler):
         auth_key = self.headers.get('Authentication')
         if args.KEY and args.KEY != auth_key:
             self.send_response(401)
+            self.end_headers()
             self.wfile.write(b'unauthorized')
             return
 
