@@ -48,10 +48,24 @@ nnoremap gx :call OpenUrlUnderCursor()<cr>
 nnoremap <leader>p :silent !preview "%" &<cr>
 
 " easily paste html clipboard content as quoted markdown
-nnoremap <leader>c :silent !nom clip <bar> sed 's/^/> /' <bar> xsel -b<CR>P
+function! PasteQuotedHTML()
+    augroup PasteQuotedHTMLGroup
+        autocmd!
+        autocmd User AsyncRunStop normal P
+    augroup END
+    call asyncrun#run("!", "", "nom clip | sed 's/^/> /' | xsel -bi")
+endfunction
+nnoremap <leader>c :call PasteQuotedHTML()<cr>
 
 " easily paste pdf clipboard content as quoted markdown
-nnoremap <leader>d :silent !xsel -b <bar> /home/ftseng/projects/tools/pdf_paste.py <bar> sed 's/^/> /' <bar> xsel -b<CR>P
+function! PasteQuotedPDF()
+    augroup PasteQuotedPDFGroup
+        autocmd!
+        autocmd User AsyncRunStop normal P
+    augroup END
+    call asyncrun#run("!", "", "xsel -b | /home/ftseng/projects/tools/pdf_paste.py | sed 's/^/> /' | xsel -bi")
+endfunction
+nnoremap <leader>d :call PasteQuotedPDF()<cr>
 
 " screenshot, move to assets folder, paste in markdown
 nnoremap <leader>s "=system("fpath=$(shot region <bar> tail -n 1); fname=$(basename $fpath); mv $fpath assets/$fname; echo '![](assets/'$fname')'")<CR>P

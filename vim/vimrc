@@ -30,6 +30,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'frnsys/vim-markdownfootnotes'
 Plug 'rust-lang/rust.vim'
+Plug 'skywind3000/asyncrun.vim'
 call plug#end()
 
 colorscheme dark
