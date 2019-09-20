@@ -13,7 +13,7 @@ elif [[ $1 == 'window' ]]; then
 elif [[ $1 == 'full' ]]; then
     OPTS=""
 else
-    echo "Please specify 'full', 'region' or 'window'."
+    notify-send "Please specify 'full', 'region' or 'window'."
     exit 0
 fi
 
