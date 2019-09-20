@@ -9,7 +9,7 @@ if [[ $1 == 'compile' ]]; then
         -V linestretch=1.2 \
         -V urlcolor=blue \
         -V colorlinks \
-        -V geometry:margin=1in \
+        -V geometry:margin=0.5in \
         -f markdown+lists_without_preceding_blankline+hard_line_breaks+smart \
         -o /tmp/preview.pdf $2
 

@@ -45,7 +45,7 @@ nnoremap gx :call OpenUrlUnderCursor()<cr>
 " compile markdown and preview in browser
 " nnoremap <leader>p :!nom view -i "%"<cr>
 " compile markdown and preview as pdf
-nnoremap <leader>p :silent !preview "%" &<cr>
+nnoremap <leader>p :AsyncRun preview "%"<cr>
 
 " easily paste html clipboard content as quoted markdown
 function! PasteQuotedHTML()
