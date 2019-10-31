@@ -1,0 +1,64 @@
+#!/usr/bin/python3
+import re
+
+replacements = [
+    ('ﬂ', 'fl'),
+    ('ﬁ', 'fi'),
+    ('ﬄ', 'ffl'),
+    ('ﬃ', 'ffi'),
+    ('ﬀ', 'ff'),
+    ('​', ''),
+    ('“', '"'),
+    ('”', '"'),
+    ('‘‘', '"'),
+    ('’’', '"'),
+    ('‘', '\''),
+    ('’', '\''),
+    ('', '^-'),
+    ('∼', '~'),
+    ('−', '-'),
+    ('', '^-'),
+    ('', '-'),
+]
+
+def fix_text(text):
+    fixed_paras = []
+    paras = text.split('\n\n')
+    for p in paras:
+        # Collapse multiple consecutive whitespace
+        p = re.sub(r' +', ' ', p).strip()
+
+        # Join lines via heuristic
+        lines = p.split('\n')
+        toks = []
+        for l in lines:
+            toks += l.split(' ')
+
+        fixed = []
+        i = 0
+        while i < len(toks):
+            a = toks[i]
+            try:
+                b = toks[i+1]
+            except IndexError:
+                fixed.append(a)
+                break
+            if a.endswith('-'):
+                tok = a[:-1] + b
+                fixed.append(tok)
+                i += 2
+            else:
+                fixed.append(a)
+                i += 1
+        fixed_paras.append(' '.join(fixed))
+    text = '\n\n'.join(fixed_paras)
+    for frm, to in replacements:
+        text = text.replace(frm, to)
+    return text
+
+if __name__ == '__main__':
+    import sys
+    # Drop excess new line
+    text = [l[:-1] for l in sys.stdin]
+    text = '\n'.join(text)
+    print(fix_text(text))
