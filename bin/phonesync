@@ -40,5 +40,5 @@ adb-sync --delete /tmp/musics/ /sdcard/Music/musics
 rm -rf /tmp/musics
 
 # parse moonreader highlights
-cd ~/notes/pdfs
-python moonreader.py
+# cd ~/notes/pdfs
+# python moonreader.py
