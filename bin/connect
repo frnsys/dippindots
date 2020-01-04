@@ -1,11 +1,16 @@
 #!/usr/bin/python3
 """
 sudo vi /etc/sudoers.d/00_anarres
-ftseng  ALL = NOPASSWD: /sbin/iwlist wlan0 scan
+ftseng  ALL = NOPASSWD: /sbin/iw
 ftseng  ALL = NOPASSWD: /sbin/wpa_supplicant
 ftseng  ALL = NOPASSWD: /usr/bin/pkill
 
 Make sure the dhcpcd service is running as well
+
+References:
+    - <https://wiki.archlinux.org/index.php/Network_configuration/Wireless#Discover_access_points>
+    - <https://www.cs.upc.edu/lclsi/Manuales/wireless/files/wpa_supplicant.conf>
+
 """
 
 import os
@@ -17,15 +22,18 @@ IFACE='wlan0'
 NETWORKS_DIR = os.path.expanduser('~/docs/networks')
 
 REGEXS = {
-    'bssid': 'Address: ([0-9A-Z:]+)',
-    'encryption': 'Encryption key:(on|off)',
-    'channel': 'Channel:(\d+)',
-    'essid': 'ESSID:"(.+)?"',
-    'frequency': 'Frequency:([\d.]+ GHz)',
-    'quality': 'Quality=(\d+/\d+)'
+    'bssid': 'BSS ([0-9a-z:]+)',
+    'essid': 'SSID: (.+)?',
 }
 REGEXS = {k: re.compile(r) for k, r in REGEXS.items()}
+ENC_REGEXS = {
+    'wpa2': 'RSN:',
+    'wpa1': 'WPA:',
+}
+ENC_REGEXS = {k: re.compile(r) for k, r in ENC_REGEXS.items()}
 
+def is_encrypted(cell):
+    return any(r.search(cell) is not None for typ, r in ENC_REGEXS.items())
 
 def run(cmd, input=None, notify_on_err=True):
     proc = subprocess.Popen(cmd,
@@ -42,15 +50,15 @@ def run(cmd, input=None, notify_on_err=True):
 
 
 def scan(iface='wlan0'):
-    cmd = ['sudo', 'iwlist', iface, 'scan']
+    cmd = ['sudo', 'iw', 'dev', iface, 'scan']
     out = run(cmd)
 
     # Group cell lines
     # Skip first line
     cells = []
-    for l in out.split('\n')[1:]:
-        l = l.strip()
-        if l.startswith('Cell'):
+    for l in out.split('\n'):
+        # l = l.strip()
+        if l.startswith('BSS'):
             cells.append([l])
         else:
             cells[-1].append(l)
@@ -67,7 +75,8 @@ def scan(iface='wlan0'):
                 print(k)
                 r.search(c).group(1)
             raise
-        id = '{}@{}'.format(data['essid'], data['bssid'])
+        id = '{}@{}'.format(data['essid'], data['bssid'].upper())
+        data['encryption'] = is_encrypted(c)
         networks[id] = data
     return networks
 
@@ -112,7 +121,7 @@ if __name__ == '__main__':
 
     conf = os.path.join(NETWORKS_DIR, network_id)
     if not os.path.exists(conf):
-        if network['encryption'] == 'on':
+        if network['encryption']:
             password = dmenu(prompt='password')
             authenticate(network['essid'], password, conf)
         else:
