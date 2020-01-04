@@ -49,7 +49,7 @@ nnoremap <leader>p :AsyncRun preview "%"<cr>
 
 " easily paste html clipboard content as quoted markdown
 function! PasteQuotedHTML()
-    augroup PasteQuotedHTMLGroup
+    augroup AsyncGroup
         autocmd!
         autocmd User AsyncRunStop normal P
     augroup END
@@ -59,11 +59,11 @@ nnoremap <leader>c :call PasteQuotedHTML()<cr>
 
 " easily paste pdf clipboard content as quoted markdown
 function! PasteQuotedPDF()
-    augroup PasteQuotedPDFGroup
+    augroup AsyncGroup
         autocmd!
         autocmd User AsyncRunStop normal P
     augroup END
-    call asyncrun#run("!", "", "xsel -b | /home/ftseng/projects/tools/pdf_paste.py | sed 's/^/> /' | xsel -bi")
+    call asyncrun#run("!", "", "xsel -b | ~/.bin/pdfpaste | sed 's/^/> /' | xsel -bi")
 endfunction
 nnoremap <leader>d :call PasteQuotedPDF()<cr>
 
