@@ -58,9 +58,16 @@
     #urlbar-input {
       text-align: center;
     }
+    #urlbar-input-container {
+        background: var(--bg-dark) !important;
+    }
     #urlbar-results {
         background: var(--bg-dark) !important;
         color: var(--fg-light) !important;
+    }
+    #urlbar-background {
+        background: var(--bg-dark) !important;
+        border: none !important;
     }
     tab {
         font-family: var(--tab-fonts) !important;

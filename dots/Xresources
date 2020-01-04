@@ -2,7 +2,7 @@
 ! use fc-list for fonts
 /* URxvt.font: xft:Fira Code:style=regular:pixelsize=26:antialias=true:hinting=slight,xft:Kochi Gothic:antialias=false */
 ! Installation of Source Code Pro: <https://github.com/adobe-fonts/source-code-pro/issues/17#issuecomment-233178247>
-URxvt.font: xft:Source Code Pro:style=light:pixelsize=26:antialias=true:hinting=slight,xft:Noto Sans CJK SC:antialias=true:size=64
+URxvt.font: xft:Source Code Pro:style=light:pixelsize=26:antialias=true:hinting=slight,xft:Noto Sans CJK SC:antialias=true:size=64,xft:symbola:size=10:minspace=False
 URxvt.boldFont: xft:Source Code Pro:style=bold:pixelsize=26:antialias=true:hinting=slight,xft:Noto Sans CJK SC:antialias=true:size=64
 URxvt.italicFont: xft:Source Code Pro:style=italic:pixelsize=26:antialias=true:hinting=slight,xft:Noto Sans CJK SC:antialias=true:size=64
 URxvt.perl-ext-common: default,keyboard-select,font-size
@@ -53,8 +53,8 @@ URxvt.keysym.C-Down:   perl:font-size:decrease
 
 ! ANOTHER THEME
 *.foreground:   #ffffff
-!*.background:   #161219
-*.background:   #000000
+*.background:   #161219
+!*.background:   #000000
 *.cursorColor:  #43cc70
 
 ! black

@@ -192,6 +192,9 @@ super + apostrophe
 super + g
     pickcolor
 
+super + u
+    notify-send "$(curl "https://wttr.in/New York?m&format=%l:+%C+%t+%w+%o")"
+
 # make sxhkd reload its configuration files:
 super + Escape
     pkill -USR1 -x sxhkd; notify-send "sxhkd config reloaded"
