@@ -1,15 +1,11 @@
 #!/bin/bash
 
+# commented b/c already saved in ~/docs/keys
 # encrypt ssh keys
 # results in /tmp/ssh_keys.gpg
-rm -f /tmp/ssh_keys.gpg
-cp -r ~/.ssh /tmp/ssh_keys
-crypt en /tmp/ssh_keys
-
-# ssb stuff
-rm -f /tmp/ssb_secret.gpg
-cp -r ~/.ssb/secret /tmp/ssb_secret
-crypt en /tmp/ssb_secret
+# rm -f /tmp/ssh_keys.gpg
+# cp -r ~/.ssh /tmp/ssh_keys
+# crypt en /tmp/ssh_keys
 
 cp ~/.ssh/config ~/docs/backups/ssh_config
 
@@ -28,25 +24,52 @@ if [[ $1 == 'remote' ]]; then
         done
         tunnel sync ~/archives ftseng@starbase.in:$dest --progress
         tunnel sync ~/musics ftseng@starbase.in:$dest --progress
-        tunnel push /tmp/ssh_keys.gpg ftseng@starbase.in:$dest/ssh_keys.gpg
-        tunnel push /tmp/ssb_secret.gpg ftseng@starbase.in:$dest/ssb_secret.gpg
         date > /tmp/last_updated
         tunnel push /tmp/last_updated ftseng@starbase.in:$dest/last_updated
     done
-elif [[ $1 == 'local' ]]; then
+elif [[ $1 == 'home' ]]; then
     for dest in \
         pi@svalbard.local:/media/shuttle\
-        pi@svalbard.local:/media/outerspace/francis\
+        pi@svalbard.local:/media/outerspace/francis; do
+        for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
+            rsync -azv --progress $d $dest/repos --delete
+        done
+        rsync -azv --progress ~/archives $dest
+        rsync -azv --progress ~/musics $dest
+        date > /tmp/last_updated
+        scp /tmp/last_updated $dest/last_updated
+    done
+    for dest in \
+        10022:ftseng:/mnt/library/backup; do
+        for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
+            tunnel sync $d ftseng@starbase.in:$dest/repos --delete --progress
+        done
+        tunnel sync ~/archives ftseng@starbase.in:$dest --progress
+        tunnel sync ~/musics ftseng@starbase.in:$dest --progress
+        date > /tmp/last_updated
+        tunnel push /tmp/last_updated ftseng@starbase.in:$dest/last_updated
+    done
+elif [[ $1 == 'studio' ]]; then
+    for dest in \
         ftseng@hubble.local:/mnt/library/backup; do
         for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
             rsync -azv --progress $d $dest/repos --delete
         done
         rsync -azv --progress ~/archives $dest
         rsync -azv --progress ~/musics $dest
-        scp /tmp/ssh_keys.gpg $dest/ssh_keys.gpg
-        scp /tmp/ssb_secret.gpg $dest/ssb_secret.gpg
         date > /tmp/last_updated
         scp /tmp/last_updated $dest/last_updated
+    done
+    for dest in \
+        10023:pi:/media/shuttle\
+        10023:pi:/media/outerspace/francis; do
+        for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
+            tunnel sync $d ftseng@starbase.in:$dest/repos --delete --progress
+        done
+        tunnel sync ~/archives ftseng@starbase.in:$dest --progress
+        tunnel sync ~/musics ftseng@starbase.in:$dest --progress
+        date > /tmp/last_updated
+        tunnel push /tmp/last_updated ftseng@starbase.in:$dest/last_updated
     done
 elif [[ $1 == 'usb' ]]; then
     dest=/media/usb/backup
@@ -56,6 +79,4 @@ elif [[ $1 == 'usb' ]]; then
     rsync -azv --progress ~/archives $dest
     rsync -azv --progress ~/musics $dest
     date > $dest/last_updated
-    cp /tmp/ssh_keys.gpg $dest/
-    cp /tmp/ssb_secret.gpg $dest/
 fi
