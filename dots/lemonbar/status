@@ -107,15 +107,6 @@ battery() {
     fi
 }
 
-caffeine() {
-    if [[ "$(xset q | grep "DPMS is")" == *"Disabled" ]]; then
-        ICON="C"
-    else
-        ICON=""
-    fi
-    echo "$ICON"
-}
-
 email() {
     INBOX=$(notmuch count "folder:INBOX")
     UNREAD=$(notmuch count "tag:unread AND folder:INBOX")
@@ -156,6 +147,6 @@ streaming() {
 }
 
 while true; do
-    echo 'S'$(notifications)$(tasks) $(streaming) $(bluetooth)$(caffeine) $(battery) $(email) $(volume)$(wifi)
+    echo 'S'$(notifications)$(tasks) $(streaming) $(bluetooth) $(battery) $(email) $(volume)$(wifi)
     sleep $UPDATE_INTERVAL
 done

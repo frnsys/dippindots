@@ -48,3 +48,8 @@ function extract() {
         echo "'$1' is not a valid file!"
     fi
 }
+
+# convenience function for youtube
+function yt() {
+    mpv --geometry=640x360-25-50 --ytdl-format=best[height=720] "$1"
+}

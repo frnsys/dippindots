@@ -43,9 +43,7 @@ endfunction
 nnoremap gx :call OpenUrlUnderCursor()<cr>
 
 " compile markdown and preview in browser
-" nnoremap <leader>p :!nom view -i "%"<cr>
-" compile markdown and preview as pdf
-nnoremap <leader>p :AsyncRun preview "%"<cr>
+nnoremap <leader>p :AsyncRun nom view -w -i "%"<cr>
 
 " easily paste html clipboard content as quoted markdown
 function! PasteQuotedHTML()
@@ -73,3 +71,7 @@ nnoremap <leader>s "=system("fpath=$(shot region <bar> tail -n 1); fname=$(basen
 " use J/K to move up/down visual (wrapped) lines
 map J gj
 map K gk
+
+" assuming inline annotations are demarcated
+" by {...}, this highlights those annotations
+map <leader>h /{.\+}<CR>
