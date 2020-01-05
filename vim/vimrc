@@ -13,23 +13,26 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/bundle')
-Plug 'tpope/vim-surround'
-Plug 'jeetsukumaran/vim-filebeagle'
 Plug 'w0rp/ale'
-Plug 'tpope/vim-commentary'
-Plug 'lepture/vim-jinja'
-Plug 'junegunn/goyo.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'klen/python-mode'
-Plug 'hdima/python-syntax'
-Plug 'dhruvasagar/vim-table-mode'
-Plug 'kshenoy/vim-signature'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'frnsys/vim-markdownfootnotes'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'kshenoy/vim-signature'
+Plug 'jeetsukumaran/vim-filebeagle'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
+Plug 'lepture/vim-jinja'
+Plug 'klen/python-mode'
+Plug 'hdima/python-syntax'
 Plug 'rust-lang/rust.vim'
+
+" Markdown and writing
+Plug 'junegunn/goyo.vim'
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'frnsys/vim-markdownfootnotes'
+Plug 'masukomi/vim-markdown-folding'
 Plug 'skywind3000/asyncrun.vim'
 call plug#end()
 
