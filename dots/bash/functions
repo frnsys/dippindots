@@ -48,8 +48,3 @@ function extract() {
         echo "'$1' is not a valid file!"
     fi
 }
-
-function log() {
-    TODAY=`date +%Y-%m-%d`
-    vi ~/notes/log/${TODAY}.md
-}
