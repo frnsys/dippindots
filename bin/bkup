@@ -19,7 +19,7 @@ if [[ $1 == 'remote' ]]; then
         10023:pi:/media/shuttle\
         10023:pi:/media/outerspace/francis\
         10022:ftseng:/mnt/library/backup; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
+        for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
             tunnel sync $d ftseng@starbase.in:$dest/repos --delete --progress
         done
         tunnel sync ~/archives ftseng@starbase.in:$dest --progress
@@ -31,7 +31,7 @@ elif [[ $1 == 'home' ]]; then
     for dest in \
         pi@svalbard.local:/media/shuttle\
         pi@svalbard.local:/media/outerspace/francis; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
+        for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
             rsync -azv --progress $d $dest/repos --delete
         done
         rsync -azv --progress ~/archives $dest
@@ -41,7 +41,7 @@ elif [[ $1 == 'home' ]]; then
     done
     for dest in \
         10022:ftseng:/mnt/library/backup; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
+        for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
             tunnel sync $d ftseng@starbase.in:$dest/repos --delete --progress
         done
         tunnel sync ~/archives ftseng@starbase.in:$dest --progress
@@ -52,7 +52,7 @@ elif [[ $1 == 'home' ]]; then
 elif [[ $1 == 'studio' ]]; then
     for dest in \
         ftseng@hubble.local:/mnt/library/backup; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
+        for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
             rsync -azv --progress $d $dest/repos --delete
         done
         rsync -azv --progress ~/archives $dest
@@ -63,7 +63,7 @@ elif [[ $1 == 'studio' ]]; then
     for dest in \
         10023:pi:/media/shuttle\
         10023:pi:/media/outerspace/francis; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
+        for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
             tunnel sync $d ftseng@starbase.in:$dest/repos --delete --progress
         done
         tunnel sync ~/archives ftseng@starbase.in:$dest --progress
@@ -73,7 +73,7 @@ elif [[ $1 == 'studio' ]]; then
     done
 elif [[ $1 == 'usb' ]]; then
     dest=/media/usb/backup
-    for d in ~/projects ~/docs ~/notes ~/photos ~/work ~/deaddrop; do
+    for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
         rsync -azv --progress $d $dest/repos --delete
     done
     rsync -azv --progress ~/archives $dest

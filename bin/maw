@@ -67,6 +67,23 @@ class JSONRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(b'ok')
         return
 
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/plain; charset=utf-8')
+        self.end_headers()
+
+        with open(args.FILE, 'r') as f:
+            data = [json.loads(l) for l in f.readlines()]
+
+        text = []
+        for d in data:
+            item = []
+            for k, v in d.items():
+                item.append('{}:\t{}'.format(k, v).encode('utf8'))
+            text.append(b'\n'.join(item))
+        self.wfile.write(b'\n\n'.join(text[::-1]))
+
+
 if __name__ == '__main__':
     print('Running on port', args.PORT)
     server = HTTPServer(('localhost', args.PORT), JSONRequestHandler)
