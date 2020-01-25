@@ -34,6 +34,10 @@ elif [[ $PLACE == 'below' ]]; then
     EXMON_PLACE=B
     INMON_PLACE=A
     POSITION=below
+elif [[ $PLACE == 'mirror' ]]; then
+    EXMON_PLACE=M
+    INMON_PLACE=P
+    POSITION=mirror
 elif [[ $PLACE == 'reset' ]]; then
     # figure out the primary monitor name
     PRNAME=$(bspc query -M -m primary --names)
@@ -45,6 +49,8 @@ elif [[ $PLACE == 'reset' ]]; then
         EXNAME=B
     elif [[ $PRNAME == 'B' ]]; then
         EXNAME=A
+    elif [[ $PRNAME == 'P' ]]; then
+        EXNAME=M
     fi
 
     if [ ! -z "$EXNAME" ]; then
@@ -80,7 +86,7 @@ elif [[ $PLACE == 'reset' ]]; then
     restart_panel
     exit 0
 else
-    echo "Please specify 'left', 'right', 'above', 'below', or 'reset'."
+    echo "Please specify 'left', 'right', 'above', 'below', 'mirror', or 'reset'."
     exit 1
 fi
 
@@ -89,8 +95,13 @@ xrandr --output $INMON --auto --primary
 bspc monitor primary -n $INMON
 
 # place the external monitor to the specified position
-# if external monitor is 4k, use `--scale 0.5x0.5`
-xrandr --output $EXMON --auto --$POSITION $INMON
+if [[ $PLACE == 'mirror' ]]; then
+    RES=$(xrandr | grep \* | awk '{print $1}')
+    xrandr --output $EXMON --auto --scale-from $RES --output $INMON
+else
+    # if external monitor is 4k, use `--scale 0.5x0.5`
+    xrandr --output $EXMON --auto --$POSITION $INMON
+fi
 
 # NOTE some monitors will be set to "overscan"
 # which clips the borders.
