@@ -51,7 +51,8 @@ elif [[ $1 == 'home' ]]; then
     done
 elif [[ $1 == 'studio' ]]; then
     for dest in \
-        ftseng@hubble.local:/mnt/library/backup; do
+        ftseng@hubble.local:/mnt/library/backup\
+        pi@turtle.local:/media/backpack/backup; do
         for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
             rsync -azv --progress $d $dest/repos --delete
         done
