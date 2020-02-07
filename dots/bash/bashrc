@@ -1,1 +1,27 @@
-[ -n "$PS1" ] && source ~/.bash_profile
+# Initialize fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_CTRL_T_COMMAND="fd . $HOME"
+export FZF_ALT_C_COMMAND="fd -t d . $HOME"
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+
+# Bash completion
+[ -f /etc/bash_completion ] && source /etc/bash_completion
+
+# nvm
+# w/ some hacks to improve startup time
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
+alias nvm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && nvm'
+alias node='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && node'
+alias npm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && npm'
+
+# Autocorrect typos in path names when using `cd`
+shopt -s cdspell
+
+# Load the shell dotfiles, and then some:
+# * ~/.path can be used to extend `$PATH`.
+# * ~/.extra can be used for other settings you don’t want to commit.
+for file in ~/.dippindots/dots/bash/{path,prompt,exports,aliases,functions}; do
+	[ -r "$file" ] && source "$file"
+done
+unset file
