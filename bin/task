@@ -28,6 +28,22 @@ if [ $TASK == 'total' ]; then
     notify-send "${TASK} total: $h:$m:$s"
     echo -e "${TASK}\t$h:$m:$s"
     exit 0
+
+elif [ $TASK == 'total_month' ]; then
+    TASK=$2
+    if [ -z "$TASK" ]; then
+        chooseTask
+    fi
+    MONTH_START=$(date --date="$(date +'%Y-%m-01')" +%s)
+    MONTH_END=$(date --date="$(date +'%Y-%m-01') + 1 month" +%s)
+    TOTAL_SEC=$(cat $TASK_FILE | grep -P "$TASK" | awk '$1 >= '$MONTH_START' && $1 < '$MONTH_END | cut -f3 | paste -sd+ | bc)
+    ((h=TOTAL_SEC/3600))
+    ((m=TOTAL_SEC%3600/60))
+    ((s=TOTAL_SEC%60))
+    notify-send "${TASK} total: $h:$m:$s"
+    echo -e "${TASK}\t$h:$m:$s"
+    exit 0
+
 fi
 
 # Check if a task is active
