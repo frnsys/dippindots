@@ -2,12 +2,12 @@
 export EDITOR="vim"
 export VISUAL="vim"
 
-# Larger bash history (allow 32³ entries; default is 500)
-export HISTSIZE=32768
+# Larger bash history
+export HISTSIZE=10000
 export HISTFILESIZE=$HISTSIZE
-export HISTCONTROL=ignoreboth
+export HISTCONTROL="ignoreboth:erasedups"
 # Make some commands not show up in history
-export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+export HISTIGNORE="ls *:cd *:cd -:pwd:exit:date:* --help:za *:ag *:vi *:kill *:aa *:ga *:ps *:mv *:..:dl:gcm *:gp:h:ipython:python:which *"
 
 # Prefer US English and use UTF-8
 export LANG="en_US"
