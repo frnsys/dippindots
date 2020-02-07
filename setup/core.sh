@@ -30,6 +30,8 @@ ln -sf $DIR/dots/gitconfig ~/.gitconfig
 # so we can push without logging in
 ssh -vT git@github.com
 
+echo "Installing fzf..."
+echo "Say NO to auto-completion for performance"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 

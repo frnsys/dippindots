@@ -7,10 +7,8 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 # Bash completion
 [ -f /etc/bash_completion ] && source /etc/bash_completion
 
-# nvm
-# w/ some hacks to improve startup time
+# nvm, lazy loaded
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
 alias nvm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && nvm'
 alias node='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && node'
 alias npm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && npm'
