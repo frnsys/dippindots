@@ -13,20 +13,18 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/bundle')
-Plug 'w0rp/ale'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'kshenoy/vim-signature'
 Plug 'jeetsukumaran/vim-filebeagle'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'dense-analysis/ale'
+
+" Syntax highlighting
 Plug 'mxw/vim-jsx'
-Plug 'pangloss/vim-javascript'
 Plug 'lepture/vim-jinja'
-Plug 'klen/python-mode'
-Plug 'hdima/python-syntax'
-Plug 'rust-lang/rust.vim'
+Plug 'pangloss/vim-javascript'
 
 " Markdown and writing
 Plug 'junegunn/goyo.vim'
@@ -36,12 +34,12 @@ Plug 'masukomi/vim-markdown-folding'
 Plug 'skywind3000/asyncrun.vim'
 call plug#end()
 
-colorscheme dark
-
 " Use F10 to get syntax highlighting group under cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+colorscheme dark
 
 set nocompatible      			" Use vim, no vi defaults
 syntax enable         			" Turn on syntax highlighting
@@ -73,9 +71,6 @@ set noeol
 " that watch files for changes
 set backupcopy=yes
 
-" disable bells in GUI vim.
-autocmd! GUIEnter * set vb t_vb=
-
 " automatically trim trailing whitespace on save.
 autocmd BufWritePre * :%s/\s\+$//e
 
@@ -88,22 +83,12 @@ set cursorline 				    " Highlight current line
 set scrolloff=3 				" Start scrolling three lines before border
 set showmatch 					" Show matching brackets
 let &showbreak='↘ '             " Show this at the start of wrapped lines
+set laststatus=0                " Never show the status bar
 if exists("&relativenumber")
 	set relativenumber 			" Use relative line numbering
 	au BufReadPost * set relativenumber
 endif
 
-" status bar
-set laststatus=0                " Never show the status bar
-set statusline=%f               " Filename
-set statusline+=\               " Separator
-set statusline+=%y              " Filetype
-set statusline+=%m              " Modified
-set statusline+=%r              " Readonly
-set statusline+=%<              " Truncation point (for smaller windows)
-set statusline+=%=              " Right-align
-set statusline+=\               " Separator
-set statusline+=L:%l/%L[%p%%]   " Lines
 
 " search
 set incsearch   " Search as pattern is typed
@@ -145,6 +130,11 @@ set listchars+=extends:>          " The character to show in the last column whe
                                   " off and the line continues beyond the right of the screen
 set listchars+=precedes:<         " The character to show in the last column when wrap is
                                   " off and the line continues beyond the right of the screen
+
+" set large redrawtime to prevent
+" syntax highlighting from being
+" disabled on large files
+" set redrawtime=10000
 
 " centralize backup, swap, & undo files
 set backupdir^=~/.vim/.backup// 	" Backup files
@@ -229,6 +219,9 @@ nnoremap <C-g> <C-]>
 
 " show current filename
 nnoremap <C-h> :f<cr>
+
+" for inline mathjax
+imap <leader>b ¦
 
 " command flubs
 command WQ wq

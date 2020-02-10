@@ -20,6 +20,7 @@ hi VertSplit    cterm=none
 hi TabLine      ctermbg=none ctermfg=238 cterm=none
 hi TabLineSel   ctermbg=none ctermfg=248
 hi TabLineFill  cterm=none ctermbg=none
+hi Directory    ctermfg=12
 
 hi PMenu        ctermbg=229 ctermfg=235
 hi PMenuSel     cterm=reverse
@@ -34,15 +35,15 @@ hi MatchParen   ctermbg=234 ctermfg=2
 hi Comment      ctermfg=240
 hi Todo         ctermbg=none ctermfg=1
 hi String       ctermfg=14
-hi Function     ctermfg=7
-hi Conditional  ctermfg=14
-hi Repeat       ctermfg=14
-hi Operator     ctermfg=14
-hi Include      ctermfg=14
+hi Function     ctermfg=15
+hi Conditional  ctermfg=13
+hi Repeat       ctermfg=13
+hi Operator     ctermfg=13
+hi Include      ctermfg=10
 hi Constant     ctermfg=9
 hi Define       ctermfg=11
 hi Special      ctermfg=4
-hi Statement    ctermfg=9
+hi Statement    ctermfg=1
 hi Identifier   ctermfg=9
 hi Type         ctermfg=9
 hi Character    ctermfg=11
@@ -51,6 +52,7 @@ hi Boolean      ctermfg=11
 hi Float        ctermfg=11
 hi Keyword      ctermfg=14
 hi Error        ctermbg=196 ctermfg=255
+hi Structure    ctermfg=3
 
 hi Title        ctermfg=1
 hi PreProc      ctermfg=14
@@ -59,7 +61,6 @@ hi SpellBad     ctermfg=none ctermbg=none cterm=underline
 hi Underlined   ctermfg=4
 
 hi Conceal      ctermfg=4 ctermbg=none
-hi Structure    ctermfg=4
 
 " TODO unsure
 hi Ignore       ctermbg=33
