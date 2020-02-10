@@ -21,7 +21,7 @@ To transfer a GPG secret key:
 
     # import
     gpg --import secret.key
-    gpg --edit-ley <EMAIL>
+    gpg --edit-key <EMAIL>
     gpg> trust
     Your decision? 5 (Ultimate trust)
 
