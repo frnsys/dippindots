@@ -29,21 +29,28 @@ if [ $TASK == 'total' ]; then
     echo -e "${TASK}\t$h:$m:$s"
     exit 0
 
-elif [ $TASK == 'total_month' ]; then
+elif [ $TASK == 'months' ]; then
     TASK=$2
     if [ -z "$TASK" ]; then
         chooseTask
     fi
-    MONTH_START=$(date --date="$(date +'%Y-%m-01')" +%s)
-    MONTH_END=$(date --date="$(date +'%Y-%m-01') + 1 month" +%s)
-    TOTAL_SEC=$(cat $TASK_FILE | grep -P "$TASK" | awk '$1 >= '$MONTH_START' && $1 < '$MONTH_END | cut -f3 | paste -sd+ | bc)
-    ((h=TOTAL_SEC/3600))
-    ((m=TOTAL_SEC%3600/60))
-    ((s=TOTAL_SEC%60))
-    notify-send "${TASK} total: $h:$m:$s"
-    echo -e "${TASK}\t$h:$m:$s"
-    exit 0
 
+    RESULTS=""
+    MONTHS=$(cat $TASK_FILE | grep -P "$TASK" | cut -f1 | xargs -I {} date -d @{} +'%Y-%m-01' | uniq)
+    for MONTH in `echo -e "$MONTHS"`; do
+        MONTH_START=$(date --date="$MONTH" +%s)
+        MONTH_END=$(date --date="$MONTH + 1 month" +%s)
+        TOTAL_SEC=$(cat $TASK_FILE | grep -P "$TASK" | awk '$1 >= '$MONTH_START' && $1 < '$MONTH_END | cut -f3 | paste -sd+ | bc)
+        ((h=TOTAL_SEC/3600))
+        ((m=TOTAL_SEC%3600/60))
+        ((s=TOTAL_SEC%60))
+        MONTH=$(date --date="$MONTH" +'%m/%y')
+
+        echo -e "${TASK}\t${MONTH}\t$h:$m:$s"
+        RESULTS="${RESULTS}${TASK}\t${MONTH}\t$h:$m:$s\n"
+    done
+    notify-send "$(echo -e "${RESULTS}")"
+    exit 0
 fi
 
 # Check if a task is active
