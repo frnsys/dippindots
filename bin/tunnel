@@ -79,8 +79,10 @@ elif [ $CMD == 'pull' ]; then
 # connecting as the user `pi` to the tunneled server
 elif [ $CMD == 'sync' ]; then
     INPUT=$1
-    FLAGS=$3
-    IFS=: read BRIDGE BRIDGEPORT DESTUSER DEST <<< $2
+    shift
+    IFS=: read BRIDGE BRIDGEPORT DESTUSER DEST <<< $1
+    shift
+    FLAGS=$@
     rsync $FLAGS -azv -e 'ssh -p '$BRIDGEPORT' -o "ProxyCommand ssh '$BRIDGE' -W %h:%p"' "${INPUT}" $DESTUSER@localhost:$DEST
 
 else
