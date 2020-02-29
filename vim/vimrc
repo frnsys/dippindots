@@ -228,3 +228,9 @@ command WQ wq
 command Wq wq
 command W w
 command Q q
+
+" custom syntax
+augroup customSyntax
+    autocmd!
+    autocmd WinEnter,VimEnter * :silent! call matchadd('Note', 'ENH', -1)
+augroup END

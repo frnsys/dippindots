@@ -12,8 +12,8 @@ export VISUAL="vim"
 export HISTSIZE=10000
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL="ignoreboth:erasedups"
-export HISTIGNORE="ls:ls *:cd:cd *:mkdir *:pwd:exit:date:* --help:za *:ag *:\
-                   kill *:pkill *:aa *:ps *:mv *:rm *:..:dl:h:which *:man *:\
+export HISTIGNORE="ls:cd:pwd:exit:date:* --help:za *:ag *:\
+                   kill *:pkill *:aa *:ps *:..:dl:h:which *:man *:\
                    gcm *:gp:ga *:gcm *:\
                    ipython:python:python3"
 

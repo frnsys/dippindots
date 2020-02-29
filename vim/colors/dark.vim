@@ -42,7 +42,7 @@ hi Operator     ctermfg=13
 hi Include      ctermfg=10
 hi Constant     ctermfg=9
 hi Define       ctermfg=11
-hi Special      ctermfg=4
+hi Special      ctermfg=14
 hi Statement    ctermfg=1
 hi Identifier   ctermfg=9
 hi Type         ctermfg=9
@@ -80,3 +80,6 @@ hi markdownCodeBlock          ctermfg=4
 hi markdownBold               ctermfg=42 ctermbg=none
 hi markdownItalic             ctermfg=42 ctermbg=none
 hi markdownUrl                ctermfg=2
+
+" custom
+hi Note         ctermbg=none ctermfg=3

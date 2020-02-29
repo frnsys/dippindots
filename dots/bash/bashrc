@@ -13,6 +13,9 @@ alias nvm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && nvm'
 alias node='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && node'
 alias npm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && npm'
 
+# pyenv
+eval "$(pyenv init - bash --no-rehash)"
+
 # Autocorrect typos in path names when using `cd`
 shopt -s cdspell
 
