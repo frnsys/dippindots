@@ -11,6 +11,37 @@ cp ~/.ssh/config ~/docs/backups/ssh_config
 
 # gpg --export-secret-keys f@frnsys.com > ~/docs/backups/secret.key
 
+
+REPOS=(~/projects ~/docs ~/notes ~/photos ~/work)
+OTHER=(~/archives ~/musics)
+BRIDGE=ftseng@starbase.in
+
+function localSync() {
+    dest=$1
+    for d in ${REPOS[@]}; do
+        rsync -azv --progress $d $dest/repos --delete
+    done
+    for d in ${OTHER[@]}; do
+        rsync -azv --progress $d $dest
+    done
+    rsync -azv --progress ~/downloads $dest/repos --delete --progress --exclude=torrents
+    date > /tmp/last_updated
+    scp /tmp/last_updated $dest/last_updated
+}
+
+function remoteSync() {
+    dest=$1
+    for d in ${REPOS[@]}; do
+        tunnel sync $d $BRIDGE:$dest/repos --delete --progress
+    done
+    for d in ${OTHER[@]}; do
+        tunnel sync $d $BRIDGE:$dest --progress
+    done
+    tunnel sync ~/downloads $BRIDGE:$dest/repos --delete --progress --exclude=torrents
+    date > /tmp/last_updated
+    tunnel push /tmp/last_updated $BRIDGE:$dest/last_updated
+}
+
 if [[ $1 == 'remote' ]]; then
     # TODO this is wasteful since we sync
     # identical stuff twice over the wire,
@@ -19,65 +50,30 @@ if [[ $1 == 'remote' ]]; then
         10023:pi:/media/shuttle\
         10023:pi:/media/outerspace/francis\
         10022:ftseng:/mnt/library/backup; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
-            tunnel sync $d ftseng@starbase.in:$dest/repos --delete --progress
-        done
-        tunnel sync ~/archives ftseng@starbase.in:$dest --progress
-        tunnel sync ~/musics ftseng@starbase.in:$dest --progress
-        date > /tmp/last_updated
-        tunnel push /tmp/last_updated ftseng@starbase.in:$dest/last_updated
+        remoteSync $dest
     done
 elif [[ $1 == 'home' ]]; then
     for dest in \
         pi@svalbard.local:/media/shuttle\
         pi@svalbard.local:/media/outerspace/francis; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
-            rsync -azv --progress $d $dest/repos --delete
-        done
-        rsync -azv --progress ~/archives $dest
-        rsync -azv --progress ~/musics $dest
-        date > /tmp/last_updated
-        scp /tmp/last_updated $dest/last_updated
+        localSync $dest
     done
     for dest in \
         10022:ftseng:/mnt/library/backup; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
-            tunnel sync $d ftseng@starbase.in:$dest/repos --delete --progress
-        done
-        tunnel sync ~/archives ftseng@starbase.in:$dest --progress
-        tunnel sync ~/musics ftseng@starbase.in:$dest --progress
-        date > /tmp/last_updated
-        tunnel push /tmp/last_updated ftseng@starbase.in:$dest/last_updated
+        remoteSync $dest
     done
 elif [[ $1 == 'studio' ]]; then
     for dest in \
         ftseng@hubble.local:/mnt/library/backup\
         pi@turtle.local:/media/backpack/backup; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
-            rsync -azv --progress $d $dest/repos --delete
-        done
-        rsync -azv --progress ~/archives $dest
-        rsync -azv --progress ~/musics $dest
-        date > /tmp/last_updated
-        scp /tmp/last_updated $dest/last_updated
+        localSync $dest
     done
     for dest in \
         10023:pi:/media/shuttle\
         10023:pi:/media/outerspace/francis; do
-        for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
-            tunnel sync $d ftseng@starbase.in:$dest/repos --delete --progress
-        done
-        tunnel sync ~/archives ftseng@starbase.in:$dest --progress
-        tunnel sync ~/musics ftseng@starbase.in:$dest --progress
-        date > /tmp/last_updated
-        tunnel push /tmp/last_updated ftseng@starbase.in:$dest/last_updated
+        remoteSync $dest
     done
 elif [[ $1 == 'usb' ]]; then
     dest=/media/usb/backup
-    for d in ~/projects ~/docs ~/notes ~/photos ~/work; do
-        rsync -azv --progress $d $dest/repos --delete
-    done
-    rsync -azv --progress ~/archives $dest
-    rsync -azv --progress ~/musics $dest
-    date > $dest/last_updated
+    localSync $dest
 fi
