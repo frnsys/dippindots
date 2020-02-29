@@ -24,6 +24,7 @@ NETWORKS_DIR = os.path.expanduser('~/docs/networks')
 REGEXS = {
     'bssid': 'BSS ([0-9a-z:]+)',
     'essid': 'SSID: (.+)?',
+    'auth': 'Authentication suites: (.+)',
 }
 REGEXS = {k: re.compile(r) for k, r in REGEXS.items()}
 ENC_REGEXS = {
@@ -31,6 +32,14 @@ ENC_REGEXS = {
     'wpa1': 'WPA:',
 }
 ENC_REGEXS = {k: re.compile(r) for k, r in ENC_REGEXS.items()}
+IDENTITY_TMPL = '''
+network={{
+    ssid="{essid}"
+    key_mgmt={key_mgmt}
+    identity="{identity}"
+    password="{password}"
+}}
+'''
 
 def is_encrypted(cell):
     return any(r.search(cell) is not None for typ, r in ENC_REGEXS.items())
@@ -73,10 +82,11 @@ def scan(iface='wlan0'):
             print(c)
             for k, r in REGEXS.items():
                 print(k)
-                r.search(c).group(1)
-            raise
+            continue
+            # raise
         id = '{}@{}'.format(data['essid'], data['bssid'].upper())
         data['encryption'] = is_encrypted(c)
+        data['auth'] = data.get('auth', '')
         networks[id] = data
     return networks
 
@@ -109,6 +119,15 @@ def authenticate(essid, password, outfile):
         f.write(out)
 
 
+def identity_authenticate(essid, identity, password, outfile, key_mgmt='WPA-EAP'):
+    out = IDENTITY_TMPL.format(
+            essid=essid, identity=identity,
+            password=password, key_mgmt=key_mgmt).strip()
+    with open(outfile, 'w') as f:
+        f.write(out)
+    return conf
+
+
 def notify(msg):
     subprocess.run(['notify-send', msg])
 
@@ -122,8 +141,16 @@ if __name__ == '__main__':
     conf = os.path.join(NETWORKS_DIR, network_id)
     if not os.path.exists(conf):
         if network['encryption']:
-            password = dmenu(prompt='password')
-            authenticate(network['essid'], password, conf)
+            if 'PSK' in network['auth']:
+                password = dmenu(prompt='password')
+                authenticate(network['essid'], password, conf)
+            elif '802.1X' in network['auth']:
+                identity = dmenu(prompt='identity')
+                password = dmenu(prompt='password')
+                identity_authenticate(network['essid'], identity, password, conf)
+            else:
+                notify('Unrecognized authentication suite(s): {}'.format(' '.join(network['auth'])))
+                sys.exit(1)
         else:
             with open(conf, 'w') as f:
                 f.write('network={{\n  ssid="{}"\n  key_mgmt=NONE\n}}'.format(network['essid']))
