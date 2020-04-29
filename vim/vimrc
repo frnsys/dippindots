@@ -18,7 +18,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-commentary'
 Plug 'kshenoy/vim-signature'
 Plug 'jeetsukumaran/vim-filebeagle'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'dense-analysis/ale'
 
 " Syntax highlighting
@@ -27,11 +26,9 @@ Plug 'lepture/vim-jinja'
 Plug 'pangloss/vim-javascript'
 
 " Markdown and writing
-Plug 'junegunn/goyo.vim'
-Plug 'dhruvasagar/vim-table-mode'
-Plug 'frnsys/vim-markdownfootnotes'
-Plug 'masukomi/vim-markdown-folding'
-Plug 'skywind3000/asyncrun.vim'
+Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
+Plug 'dhruvasagar/vim-table-mode', {'for': 'markdown'}
+Plug 'skywind3000/asyncrun.vim', {'for': 'markdown'}
 call plug#end()
 
 " Use F10 to get syntax highlighting group under cursor
@@ -88,7 +85,6 @@ if exists("&relativenumber")
 	set relativenumber 			" Use relative line numbering
 	au BufReadPost * set relativenumber
 endif
-
 
 " search
 set incsearch   " Search as pattern is typed

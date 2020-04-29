@@ -78,10 +78,9 @@ ln -sf $DIR/dots/ipython/ipython_config.py ~/.ipython/profile_default/ipython_co
 
 
 echo "Installing Vim..."
-# Lua, ctags, python interps, and X11/system clipboard support
+# Lua, python interps, and X11/system clipboard support
 sudo apt install -y \
     lua5.1 liblua5.1-dev \
-    exuberant-ctags \
     python-dev python3-dev \
     libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev
 
