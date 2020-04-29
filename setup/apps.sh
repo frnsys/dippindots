@@ -32,7 +32,7 @@ sudo apt install -y --no-install-recommends xorg
 sudo apt install -y feh xsel xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console compton oathtool avahi-daemon redshift sm
 
 # deluged config
-ln -sf ~/.dippindots/dots/deluged.conf ~/.config/deluge/core.conf
+ln -sf $DIR/dots/deluged.conf ~/.config/deluge/core.conf
 
 # for inputs (e.g. trackpad)
 sudo apt install -y xserver-xorg-input-synaptics
@@ -387,7 +387,7 @@ systemctl --user enable offlineimap.service
 systemctl --user start offlineimap.service
 
 # for pypi
-ln -sf ~/.dippindots/dots/pypirc ~/.pypirc
+ln -sf $DIR/dots/pypirc ~/.pypirc
 
 # better chinese character support
 sudo apt install -y fonts-noto-cjk
