@@ -61,7 +61,7 @@ super + {1-9,0}
     bspc desktop -f ^{1-9,10}
 
 super + Return
-    urxvt
+    kitty
 
 super + n
     connect
@@ -144,19 +144,19 @@ super + {F1, XF86AudioPrev}
     mpc prev
 
 super + t
-    bspc rule -a URxvt -o state=floating && urxvt -e vi ~/notes/todo.md
+    bspc rule -a kitty -o state=floating && kitty -e vi ~/notes/todo.md
 
 super + p
-    bspc rule -a URxvt -o state=floating && urxvt -e ~/.bin/keepass
+    bspc rule -a kitty -o state=floating && kitty -e ~/.bin/keepass
 
 super + q
     q
 
 super + a
-    bspc rule -a URxvt -o state=floating && urxvt -e ~/.bin/2fa
+    bspc rule -a kitty -o state=floating && kitty -e ~/.bin/2fa
 
 super + semicolon
-    bspc rule -a URxvt -o state=floating && urxvt -e ncmpcpp
+    bspc rule -a kitty -o state=floating && kitty -e ncmpcpp
 
 super + minus
     task
@@ -180,7 +180,7 @@ super + e
     emo
 
 super + m
-    bspc rule -a URxvt -o state=floating && urxvt -e mutt
+    bspc rule -a kitty -o state=floating && kitty -e mutt
 
 super + apostrophe
     note
@@ -188,6 +188,7 @@ super + apostrophe
 super + g
     pickcolor
 
+# weather
 super + u
     notify-send "$(curl "https://wttr.in/New York?m&format=%l:+%C+%t+%w+%o")"
 

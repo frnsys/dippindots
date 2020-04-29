@@ -18,7 +18,6 @@ synclient MaxSpeed=2.5
 # re-enable 0.5s after last key press
 syndaemon -t -k -i .5 -d
 
-xrdb -merge -I$HOME ~/.Xresources
 xset +fp ~/.fonts/
 xset fp rehash
 fc-cache -fv &
