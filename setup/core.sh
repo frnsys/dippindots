@@ -65,7 +65,7 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 # install python
-env PYTHON_CFLAGS=-fPIC pyenv install 3.6.6
+env PYTHON_CFLAGS=-fPIC PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.6.6
 pyenv global 3.6.6
 
 # for vim syntax checking
