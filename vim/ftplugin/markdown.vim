@@ -1,4 +1,4 @@
-colorscheme light
+" colorscheme light
 set nocursorcolumn
 setlocal spell
 set complete+=kspell

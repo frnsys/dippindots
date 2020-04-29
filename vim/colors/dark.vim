@@ -72,14 +72,17 @@ hi markdownCheckboxUnchecked  ctermfg=196
 hi markdownCheckboxChecked    ctermfg=35
 hi markdownUnchecked          ctermfg=none
 hi markdownChecked            ctermfg=60
-hi markdownEqnIn              ctermfg=4
-hi markdownEqnDelimiter       ctermfg=42
-hi markdownCode               ctermfg=4
-hi markdownCodeDelimiter      ctermfg=42
+hi markdownEqnIn              ctermfg=14
+hi markdownEqnDelimiter       ctermfg=11
+hi markdownCode               ctermfg=250
+hi markdownCodeDelimiter      ctermfg=12
 hi markdownCodeBlock          ctermfg=4
-hi markdownBold               ctermfg=42 ctermbg=none
-hi markdownItalic             ctermfg=42 ctermbg=none
-hi markdownUrl                ctermfg=2
+hi markdownBold               ctermfg=216 ctermbg=none cterm=bold
+hi markdownItalic             ctermfg=216 ctermbg=none cterm=italic
+hi markdownUrl                ctermfg=105
+hi markdownRule               ctermfg=105
+hi markdownLinkText           ctermfg=105 cterm=underline
+hi Title                      ctermfg=216
 
 " custom
 hi Note         ctermbg=none ctermfg=3
