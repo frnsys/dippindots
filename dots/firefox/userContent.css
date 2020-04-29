@@ -1,7 +1,17 @@
+/* in about:config, set
+ * toolkit.legacyUserProfileCustomizations.stylesheets
+ * to true
+ */
+
 /* hiding medium.com bloat */
 .js-metabarMiddle.metabar-inner {
   display: none !important;
 }
 .u-fixed.u-bottom0 {
+  display: none !important;
+}
+
+/* hide on twitter.com */
+[aria-label="Who to follow"] {
   display: none !important;
 }
