@@ -5,5 +5,4 @@ index-servers =
   pypi
 
 [pypi]
-repository: https://pypi.org/legacy/
 username: frnsys
