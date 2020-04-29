@@ -16,7 +16,7 @@ sudo apt install -y bluez libbluetooth3 libbluetooth-dev blueman pulseaudio-modu
 pactl load-module module-bluetooth-discover
 
 # utils
-sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick nmap httpie silversearcher-ag xbacklight graphviz tree
+sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick silversearcher-ag xbacklight tree
 sudo pip install youtube-dl
 
 # feh - image viewer/wallpaper manager
@@ -26,10 +26,8 @@ sudo pip install youtube-dl
 # libnotify-bin - for `notify-send` to create notifications
 # unclutter - hide cursor after inactivity
 # gdebi - easier installation of deb packages
-# compton - for window/bar transparency and shadows
-# sm - large text screen messages
 sudo apt install -y --no-install-recommends xorg
-sudo apt install -y feh xsel xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console compton oathtool avahi-daemon redshift sm
+sudo apt install -y feh xsel xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console oathtool avahi-daemon redshift
 
 # deluged config
 ln -sf $DIR/dots/deluged.conf ~/.config/deluge/core.conf
