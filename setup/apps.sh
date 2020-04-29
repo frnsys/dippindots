@@ -97,6 +97,14 @@ cmake ./
 make && sudo make install
 cd $DIR
 
+# webp imlib2 loader for feh
+sudo apt install -y libimlib2-dev libwebp-dev pkg-config
+git clone https://github.com/gawen947/imlib2-webp.git /tmp/webp
+cd /tmp/webp
+make
+sudo make install
+cd $DIR
+
 # build the latest ncmpcpp
 sudo apt install -y libboost-all-dev libfftw3-dev doxygen libncursesw5-dev libtag1-dev libcurl4-openssl-dev libmpdclient-dev libtool
 git clone https://github.com/arybczak/ncmpcpp.git /tmp/ncmpcpp
