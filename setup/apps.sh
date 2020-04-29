@@ -205,16 +205,11 @@ cd /tmp/bar && make && sudo make install
 echo 'export PANEL_FIFO="/tmp/panel-fifo"' | sudo tee -a /etc/profile
 cd $DIR
 
-# kitty - terminal
-git clone https://github.com/kovidgoyal/kitty /tmp/kitty
-sudo apt install libdbus-1-dev libxcursor-dev libxrandr-dev libxi-dev libxinerama-dev libgl1-mesa-dev libxkbcommon-x11-dev libfontconfig-dev libpython-dev
-cd /tmp/kitty
-make
-sudo cp -r /tmp/kitty /opt/kitty
-sudo ln -sf /opt/kitty/kitty/launcher/kitty /usr/local/bin/kitty
-sudo ln -sf /opt/kitty/terminfo/x/xterm-kitty /usr/share/terminfo/x/xterm-kitty
-mkdir ~/.config/kitty
-ln $DIR/dots/kitty.conf ~/.config/kitty/kitty.conf
+# alacritty - terminal
+sudo add-apt-repository -y ppa:mmstick76/alacritty
+sudo apt install -y alacritty
+mkdir -p ~/.config/alacritty
+ln $DIR/dots/alacritty.conf ~/.config/alacritty/alacritty.conf
 cd $DIR
 
 # dunst - notifications
@@ -235,11 +230,8 @@ sudo apt install -y pepperflashplugin-nonfree
 sudo update-pepperflashplugin-nonfree --install
 
 # ranger
-# note: For raster image previews (NOT ascii previews) with w3m-image to work,
-# you have to use a term like xterm, urxvt, or kitty
-sudo apt install -y --no-install-recommends ranger highlight atool caca-utils w3m w3m-img poppler-utils ffmpegthumbnailer
-sudo ln -sf /usr/lib/w3m/w3mimgdisplay /usr/local/bin/w3mimgdisplay
-# ranger --copy-config=scope
+sudo apt install -y --no-install-recommends highlight atool caca-utils w3m w3m-img poppler-utils ffmpegthumbnailer
+pip install ueberzug ranger-fm
 ln -sf $DIR/dots/ranger/rc.conf ~/.config/ranger/rc.conf
 ln -sf $DIR/dots/ranger/rifle.conf ~/.config/ranger/rifle.conf
 ln -sf $DIR/dots/ranger/scope.sh ~/.config/ranger/scope.sh

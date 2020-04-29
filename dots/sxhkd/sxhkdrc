@@ -61,7 +61,7 @@ super + {1-9,0}
     bspc desktop -f ^{1-9,10}
 
 super + Return
-    kitty
+    alacritty
 
 super + n
     connect
@@ -144,19 +144,19 @@ super + {F1, XF86AudioPrev}
     mpc prev
 
 super + t
-    bspc rule -a kitty -o state=floating && kitty -e vi ~/notes/todo.md
+    bspc rule -a alacritty -o state=floating && alacritty -e vi ~/notes/todo.md
 
 super + p
-    bspc rule -a kitty -o state=floating && kitty -e ~/.bin/keepass
+    bspc rule -a alacritty -o state=floating && alacritty -e ~/.bin/keepass
 
 super + q
     q
 
 super + a
-    bspc rule -a kitty -o state=floating && kitty -e ~/.bin/2fa
+    bspc rule -a alacritty -o state=floating && alacritty -e ~/.bin/2fa
 
 super + semicolon
-    bspc rule -a kitty -o state=floating && kitty -e ncmpcpp
+    bspc rule -a alacritty -o state=floating && alacritty -e ncmpcpp
 
 super + minus
     task
@@ -180,7 +180,7 @@ super + e
     emo
 
 super + m
-    bspc rule -a kitty -o state=floating && kitty -e mutt
+    bspc rule -a alacritty -o state=floating && alacritty -e mutt
 
 super + apostrophe
     note

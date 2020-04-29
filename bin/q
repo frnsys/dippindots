@@ -51,7 +51,7 @@ case "$ACTION" in
             *.mkv|*.mp4|*.webm) float mpv && mpv --autofit=50%x50% "$CHOICE";;
             *.gif) gifview -a "$CHOICE";;
             *.pdf) float zathura && zathura "$CHOICE";;
-            *.md) float kitty && kitty -e vi "$CHOICE";;
+            *.md) float alacritty && alacritty -e vi "$CHOICE";;
             *) notify-send "unrecognized extension";;
         esac;;
 
