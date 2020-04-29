@@ -18,11 +18,12 @@ BRIDGE=ftseng@starbase.in
 
 function localSync() {
     dest=$1
+    echo $dest
     for d in ${REPOS[@]}; do
-        rsync -azv --progress $d $dest/repos --delete
+        rsync -azv --progress $d $dest/repos --delete --exclude=.git/lfs
     done
     for d in ${OTHER[@]}; do
-        rsync -azv --progress $d $dest
+        rsync -azv --progress $d $dest --exclude=.git/lfs
     done
     rsync -azv --progress ~/downloads $dest/repos --delete --progress --exclude=torrents
     date > /tmp/last_updated
@@ -31,11 +32,12 @@ function localSync() {
 
 function remoteSync() {
     dest=$1
+    echo $dest
     for d in ${REPOS[@]}; do
-        tunnel sync $d $BRIDGE:$dest/repos --delete --progress
+        tunnel sync $d $BRIDGE:$dest/repos --delete --progress --exclude=.git/lfs
     done
     for d in ${OTHER[@]}; do
-        tunnel sync $d $BRIDGE:$dest --progress
+        tunnel sync $d $BRIDGE:$dest --progress --exclude=.git/lfs
     done
     tunnel sync ~/downloads $BRIDGE:$dest/repos --delete --progress --exclude=torrents
     date > /tmp/last_updated
