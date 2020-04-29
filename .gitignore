@@ -10,3 +10,4 @@ vim/bundle
 vim/.undo/*
 vim/.backup/*
 vim/.temp/*
+assets/fonts
