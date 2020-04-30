@@ -4,7 +4,7 @@ setlocal spell
 set complete+=kspell
 
 let g:vimfootnotelinebreak = 0
-let g:markdown_fenced_languages = ['css', 'javascript', 'js=javascript', 'json=javascript', 'sass', 'xml', 'html', 'python']
+" let g:markdown_fenced_languages = ['css', 'javascript', 'js=javascript', 'json=javascript', 'sass', 'xml', 'html', 'python']
 
 
 " open markdown syntax urls
