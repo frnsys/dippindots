@@ -4,20 +4,21 @@ export BSPWM_STACK=/tmp/bspwm.stack
 
 # enable horizontal trackpad scrolling
 # and palm detection
-synclient HorizTwoFingerScroll=1
-synclient PalmDetect=1
+# synclient HorizTwoFingerScroll=1
+# synclient PalmDetect=1
 
 # higher trackpad sensitivity/speed
-synclient MinSpeed=2.5
-synclient MaxSpeed=2.5
+# synclient MinSpeed=0
+# synclient MaxSpeed=2.5
 
 # palm detection isn't working well
 # so explicitly disable mouse tapping/scrolling
 # (clicking and movement still work)
 # while typing non-modifier keys
 # re-enable 0.5s after last key press
-syndaemon -t -k -i .5 -d
+# syndaemon -t -k -i .5 -d
 
+xrdb -merge -I$HOME ~/.Xresources
 xset +fp ~/.fonts/
 xset fp rehash
 fc-cache -fv &

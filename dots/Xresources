@@ -1,0 +1,3 @@
+! For HDPI screens
+! Lookup here: <http://dpi.lv/>
+Xft.dpi: 144

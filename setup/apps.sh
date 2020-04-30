@@ -222,6 +222,7 @@ ln -sf $DIR/dots/dunst  ~/.config/dunst
 
 # other defaults
 ln -sf $DIR/dots/xinitrc ~/.xinitrc
+ln -sf $DIR/dots/Xresources ~/.Xresources
 
 # flash player
 sudo apt install -y pepperflashplugin-nonfree
