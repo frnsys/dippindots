@@ -6,7 +6,7 @@
 *.spl
 logs/
 cache/
-vim/bundle
+vim/pack
 vim/.undo/*
 vim/.backup/*
 vim/.temp/*

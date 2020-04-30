@@ -6,30 +6,30 @@ set wildignore+=*/.bundle/*,*/.sass-cache/*,node_modules
 set wildignore+=*.swp,*~,._*
 set wildignore+=*.pyc,*.egg-info,__pycache__
 
-" auto-install vim-plug
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall
-endif
+" to install new plugins,
+" add them here and then run the command:
+" call minpac#update()
+packadd minpac
+call minpac#init()
 
-call plug#begin('~/.vim/bundle')
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-commentary'
-Plug 'kshenoy/vim-signature'
-Plug 'jeetsukumaran/vim-filebeagle'
-Plug 'dense-analysis/ale'
+set rtp+=~/.fzf
+call minpac#add('junegunn/fzf')
+call minpac#add('junegunn/fzf.vim')
+call minpac#add('tpope/vim-commentary')
+call minpac#add('kshenoy/vim-signature')
+call minpac#add('jeetsukumaran/vim-filebeagle')
+call minpac#add('dense-analysis/ale')
 
-" Syntax highlighting
-Plug 'mxw/vim-jsx'
-Plug 'lepture/vim-jinja'
-Plug 'pangloss/vim-javascript'
+" Syntax
+call minpac#add('mxw/vim-jsx')
+call minpac#add('lepture/vim-jinja')
+call minpac#add('pangloss/vim-javascript')
 
-" Markdown and writing
-Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
-Plug 'dhruvasagar/vim-table-mode', {'for': 'markdown'}
-Plug 'skywind3000/asyncrun.vim', {'for': 'markdown'}
-call plug#end()
+" Markdown
+call minpac#add('junegunn/goyo.vim')
+call minpac#add('dhruvasagar/vim-table-mode')
+call minpac#add('skywind3000/asyncrun.vim')
+packloadall
 
 " Use F10 to get syntax highlighting group under cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'

@@ -105,5 +105,6 @@ rm -rf ~/.vim
 ln -sf $DIR/vim ~/.vim
 ln -sf $DIR/vim/vimrc ~/.vimrc
 
-# using vim-plug for plugin management
-# it should auto-install plugins on first launch
+# minpac for plugin management
+mkdir -p ~/.vim/pack/minpac/opt
+git clone https://github.com/k-takata/minpac.git ~/.vim/pack/minpac/opt/minpac
