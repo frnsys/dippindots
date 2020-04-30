@@ -230,7 +230,7 @@ sudo update-pepperflashplugin-nonfree --install
 
 # ranger
 sudo apt install -y --no-install-recommends highlight atool caca-utils w3m w3m-img poppler-utils ffmpegthumbnailer
-pip install ueberzug ranger-fm
+pip3 install ueberzug ranger-fm
 ln -sf $DIR/dots/ranger/rc.conf ~/.config/ranger/rc.conf
 ln -sf $DIR/dots/ranger/rifle.conf ~/.config/ranger/rifle.conf
 ln -sf $DIR/dots/ranger/scope.sh ~/.config/ranger/scope.sh
