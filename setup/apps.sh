@@ -32,8 +32,8 @@ sudo apt install -y feh xsel xdotool i3lock libnotify-bin unclutter gdebi deluge
 # deluged config
 ln -sf $DIR/dots/deluged.conf ~/.config/deluge/core.conf
 
-# for inputs (e.g. trackpad)
-sudo apt install -y xserver-xorg-input-synaptics
+# trackpad config
+sudo cp $DIR/dots/misc/01-libinput.conf /usr/share/X11/xorg.conf.d/
 
 # seems necessary for xbacklight for thinkpads,
 # which use `intel_brightness` (in `/sys/class/backlight`)
