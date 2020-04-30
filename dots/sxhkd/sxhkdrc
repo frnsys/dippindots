@@ -188,6 +188,9 @@ super + apostrophe
 super + g
     pickcolor
 
+super + c
+    bspc rule -a alacritty -o state=floating && alacritty -e khal interactive
+
 # weather
 super + u
     notify-send "$(curl "https://wttr.in/New York?m&format=%l:+%C+%t+%w+%o")"

@@ -1,0 +1,103 @@
+#!/bin/bash
+# Creates notifications for upcoming calendar events
+# from *.ics files
+
+REMINDER_TIME=600 # seconds
+REMINDER_DIR=~/.calendar
+EXPIRED_FILE=${REMINDER_DIR}/.expired
+REMINDER_FILE=${REMINDER_DIR}/.upcoming
+
+# Check the reminder file,
+# create a notification for upcoming events
+remind() {
+    while true; do
+        NOW=$(date +%s)
+        while IFS= read -r line; do
+            ts=$(start_ts $line)
+            diff=$(($ts - $NOW))
+
+            # Should probably parse the ics TRIGGER value,
+            # but for now easier to just set fixed reminders
+            if [[ $diff -lt $REMINDER_TIME ]]; then
+                summary=$(cat $line | grep SUMMARY | cut -f2 -d":")
+                notify-send -t 0 "Calendar: ${summary}"
+                sed -i '\|'"$line"'|d' "$REMINDER_FILE"
+                echo "$line" >> "$EXPIRED_FILE"
+            fi
+        done < "$REMINDER_FILE"
+        sleep 60
+    done
+}
+
+parse_dt() {
+    echo "${dt:0:4}-${dt:4:2}-${dt:6:2}T${dt:9:2}:${dt:11:2}"
+}
+
+parse_d() {
+    echo "${dt:0:4}-${dt:4:2}-${dt:6:2}"
+}
+
+# Extract the start datetime (as a timestmap) from an event
+start_ts() {
+    RAW=$(cat "$1" | grep DTSTART | tail -n1)
+    case $RAW in
+        *DTSTART:*)
+            dt=$(echo $RAW | cut -f2 -d":")
+            ts=$(date +%s --utc --date=$(parse_dt $dt))
+            ;;
+        *DTSTART\;TZID=*)
+            dt=$(echo $RAW | cut -f2 -d"=")
+            tz=$(echo $dt | cut -f1 -d":")
+            dt=$(echo $dt | cut -f2 -d":")
+            ts=$(date +%s --utc --date='TZ="'$tz'" '$(parse_dt $dt))
+            ;;
+        *DTSTART\;VALUE=DATE*)
+            tz=$(cat "$1" | grep TZID | cut -f2 -d":")
+            dt=$(echo $RAW | cut -f2 -d":")
+            ts=$(date +%s --utc --date='TZ="'$tz'" '$(parse_d $dt))
+            ;;
+        *)
+            echo "Unrecognized DTSTART: ${RAW}"
+            ;;
+    esac
+    echo "$ts"
+}
+
+
+# Full scan on startup, in case anything
+# was changed while this script wasn't running
+echo "Generating reminders..."
+NOW=$(date +%s)
+[ -e "$REMINDER_FILE" ] && rm "$REMINDER_FILE"
+[ ! -f "$EXPIRED_FILE" ] && touch "$EXPIRED_FILE"
+for f in ~/.calendar/**/*.ics; do
+    if ! grep -Fxq "$f" "$EXPIRED_FILE"; then
+        ts=$(start_ts "$f")
+        if [[ "$NOW" -lt "$ts" ]]; then
+            echo "$f" >> "$REMINDER_FILE"
+        else
+            echo "$f" >> "$EXPIRED_FILE"
+        fi
+    fi
+done
+echo "Ready"
+
+# Run remind subprocess in background
+remind &
+P1=$!
+
+# Monitor calendar directory for new or removed events
+inotifywait -r -m ~/.calendar -e create -e delete |
+    while read path action file; do
+        if [[ "$file" =~ .*ics$ ]]; then
+            f=$path/$file
+            if [[ "$action" == "DELETE" ]]; then
+                sed -i '\|'"$f"'|d' "$REMINDER_FILE"
+            else
+                echo "$f" >> "$REMINDER_FILE"
+            fi
+            cat "$REMINDER_FILE"
+        fi
+    done
+
+wait $P1
