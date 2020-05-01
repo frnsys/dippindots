@@ -1,12 +1,20 @@
 [calendars]
-
 [[local_calendar]]
 path = ~/.calendar/*
 type = discover
 
 [locale]
 timeformat = %H:%M
-dateformat = %m/%d/%Y
-longdateformat = %m/%d/%Y
-datetimeformat = %m/%d/%Y %H:%M
-longdatetimeformat = %m/%d/%Y %H:%M
+dateformat = %m/%d/%y
+longdateformat = %m/%d/%y
+datetimeformat = %m/%d/%y %H:%M
+longdatetimeformat = %m/%d/%y %H:%M
+firstweekday = 6
+
+[keybindings]
+export = x
+external_edit = e
+
+[view]
+event_view_always_visible = true
+event_view_weighting = 3
