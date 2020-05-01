@@ -2,6 +2,11 @@ export BSPWM_TREE=/tmp/bspwm.tree
 export BSPWM_HISTORY=/tmp/bspwm.history
 export BSPWM_STACK=/tmp/bspwm.stack
 
+# https://www.reddit.com/r/firefox/comments/bbky54/bug_bounty_to_support_kinetic_touchpad_scrolling/
+# # https://bugzilla.mozilla.org/show_bug.cgi?id=1213601
+# https://bugzilla.mozilla.org/show_bug.cgi?id=1564238
+export MOZ_USE_XINPUT2=1
+
 xrdb -merge -I$HOME ~/.Xresources
 xset +fp ~/.fonts/
 xset fp rehash
