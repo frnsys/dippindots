@@ -31,11 +31,6 @@ call minpac#add('dhruvasagar/vim-table-mode')
 call minpac#add('skywind3000/asyncrun.vim')
 packloadall
 
-" Use F10 to get syntax highlighting group under cursor
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
 colorscheme dark
 
 set nocompatible      			" Use vim, no vi defaults
@@ -43,7 +38,6 @@ syntax enable         			" Turn on syntax highlighting
 set encoding=utf-8 nobomb       " Set default encoding to UTF-8
 set noerrorbells 				" Disable error bells
 set novisualbell                " Disable visual bells
-set title 						" Show filename in window titlebar
 set showmode 					" Show the current mode
 set timeoutlen=100              " Short timeout to avoid lag
 set showcmd 					" Show the command as it's typed
@@ -73,18 +67,13 @@ autocmd BufWritePre * :%s/\s\+$//e
 
 " navigation
 set number            			" Show line numbers
-set ruler             			" Show line and column number of cursor
 set nostartofline 				" Don't reset cursor to start of line when moving
-"set cursorcolumn 				" Highlight current column
 set cursorline 				    " Highlight current line
 set scrolloff=3 				" Start scrolling three lines before border
 set showmatch 					" Show matching brackets
 let &showbreak='↘ '             " Show this at the start of wrapped lines
 set laststatus=0                " Never show the status bar
-if exists("&relativenumber")
-	set relativenumber 			" Use relative line numbering
-	au BufReadPost * set relativenumber
-endif
+set relativenumber 			" Use relative line numbering
 
 " search
 set incsearch   " Search as pattern is typed
@@ -126,16 +115,11 @@ set listchars+=extends:>          " The character to show in the last column whe
 set listchars+=precedes:<         " The character to show in the last column when wrap is
                                   " off and the line continues beyond the right of the screen
 
-" set large redrawtime to prevent
-" syntax highlighting from being
-" disabled on large files
-" set redrawtime=10000
-
 " centralize backup, swap, & undo files
 set backupdir^=~/.vim/.backup// 	" Backup files
 set directory^=~/.vim/.temp// 		" Swap files
 if exists("&undodir")
-	set undodir=~/.vim/.undo 				" Undo files
+	set undodir=~/.vim/.undo 		" Undo files
     set undofile
     set undolevels=500
     set undoreload=500
@@ -145,13 +129,10 @@ endif
 " filetypes
 filetype plugin indent on " Turn on filetype plugins (:help filetype-plugin)
 if has("autocmd")
-  " in makefiles, use real tabs, not tabs expanded to spaces
-  au FileType make setlocal noexpandtab
-
   " treat JSON files like JavaScript
   au BufNewFile,BufRead *.json set ft=javascript
 
-  " make Python follow PEP8 for whitespace ( http://www.python.org/dev/peps/pep-0008/ )
+  " make Python follow PEP8 for whitespace (http://www.python.org/dev/peps/pep-0008/)
   au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4
 
   " other filetype specific settings
@@ -185,9 +166,6 @@ imap <C-o> <esc>o
 
 " easily paste in current datetime
 nnoremap <leader>t "=strftime("%m.%d.%Y %H:%M")<CR>P
-
-" reformat/reflow text copied from pdf
-nnoremap <leader>m <S-v>}2k<CR>Jv$:s/- //<CR>
 
 " quick buffer nav
 nnoremap [b :bprevious<cr>
@@ -229,6 +207,3 @@ augroup customSyntax
     autocmd!
     autocmd WinEnter,VimEnter * :silent! call matchadd('Note', 'ENH', -1)
 augroup END
-
-" make footnote from selected text
-vnoremap <C-f> y:! makefn "<C-r>0" \| xsel -b<cr>

@@ -75,3 +75,6 @@ map K gk
 " assuming inline annotations are demarcated
 " by {...}, this highlights those annotations
 map <leader>h /{.\+}<CR>
+
+" make footnote from selected text
+vnoremap <C-f> y:! makefn "<C-r>0" \| xsel -b<cr>
