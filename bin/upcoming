@@ -1,10 +1,9 @@
 #!/bin/bash
 # Creates notifications for upcoming calendar events
-# from *.ics files
+# and shows upcoming events from *.ics files
 
 REMINDER_TIME=600 # seconds
-REMINDER_DIR=~/.calendar
-UPCOMING_FILE=${REMINDER_DIR}/.upcoming
+UPCOMING_FILE=~/.calendar/.upcoming
 
 # Check if an event is upcoming
 check_event() {
@@ -28,6 +27,8 @@ parse_dt() {
 }
 
 # Extract the start datetime (as a timestamp) from an event
+# It doesn't seem you can (easily at least) pass associative arrays
+# as arguments, so we use it as a global variable, yuck
 start_ts() {
     DTSTART=${event[DTSTART]}
     if [[ ${event[TZID]} ]]; then
@@ -83,6 +84,8 @@ view_upcoming() {
     END_DATE=$(date -d "today + $DAYS days 00:00:00" +%s)
 
     # Check the upcoming file
+    # Can't have nested associative arrays
+    # so have separate ones for the fields we want to use
     declare -A events
     declare -A descriptions
     declare -A summaries
@@ -123,6 +126,7 @@ view_upcoming() {
         # Print event info
         echo -e "$(date -d @$ts +%H:%M)\t$(tput setaf 2)${summ}$(tput sgr 0)"
         if [ -n "$desc" ]; then
+            # Indent description
             desc=$(echo -e "${desc}" | sed 's/^/\t/')
             echo -e "${desc}\n"
         else
