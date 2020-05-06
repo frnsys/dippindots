@@ -32,6 +32,14 @@ super + {Tab,grave}
 super + {h,j,k,l}
     bspc node -f {west,south,north,east}
 
+# switch between tiled and monocle
+super + shift + m
+    bspc desktop -l next
+
+# switch between nodes in monocle
+super + shift + bracket{left,right}
+    bspc node -f {next,prev}.local
+
 # swap windows
 super + shift + {h,j,k,l}
     bspc node -s {west,south,north,east}
@@ -189,7 +197,7 @@ super + g
     pickcolor
 
 super + c
-    bspc rule -a alacritty -o state=floating && alacritty -e khal interactive
+    bspc rule -a alacritty -o state=floating && alacritty -e upcoming view
 
 # weather
 super + u

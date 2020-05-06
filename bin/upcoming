@@ -4,100 +4,191 @@
 
 REMINDER_TIME=600 # seconds
 REMINDER_DIR=~/.calendar
-EXPIRED_FILE=${REMINDER_DIR}/.expired
-REMINDER_FILE=${REMINDER_DIR}/.upcoming
+UPCOMING_FILE=${REMINDER_DIR}/.upcoming
+
+# Check if an event is upcoming
+check_event() {
+    NOW=$(date +%s)
+    ts=$(start_ts)
+    if [[ "$NOW" -lt "$ts" ]]; then
+        echo "$f" >> "$UPCOMING_FILE"
+        return 0
+    fi
+    return 1
+}
+
+# Parse an ics datetime into a format `date` can deal with
+parse_dt() {
+    dt=$1
+    if [[ ${#dt} -lt 9 ]]; then
+        echo "${dt:0:4}-${dt:4:2}-${dt:6:2}"
+    else
+        echo "${dt:0:4}-${dt:4:2}-${dt:6:2}T${dt:9:2}:${dt:11:2}"
+    fi
+}
+
+# Extract the start datetime (as a timestamp) from an event
+start_ts() {
+    DTSTART=${event[DTSTART]}
+    if [[ ${event[TZID]} ]]; then
+        echo $(date +%s --utc --date='TZ="'${event[TZID]}'" '$(parse_dt $DTSTART))
+    else
+        echo $(date +%s --utc --date=$(parse_dt $DTSTART))
+    fi
+}
+
+# Iterate over the events in a single ics file
+iterate_events() {
+    handle_event=$1
+    declare -A event=( )
+
+    # Join lines if following lines are preceded with a space
+    # b/c ics values can wrap like that
+    # Then remove VALARM section, since it can interfere (it also has a "DESCRIPTION" key)
+    data=$(cat "$2" | sed -e :a -e '$!N;s/\n //;ta' -e 'P;D' | sed '/^BEGIN:VALARM/,/^END:VALARM/ {/.*/d}')
+
+    while IFS=: read -r key value; do
+      value=${value%$'\r'} # remove DOS newlines
+      if [[ $key = END && $value = VEVENT ]]; then
+        # If handle event returns true (0), break
+        if $handle_event; then break; fi
+        event=( )
+      else
+
+      if [[ $key == "DTSTART;TZID=*" ]]; then
+        event[TZID]=${key##*";TZID="}
+      fi
+        event[${key%%";"*}]=$value
+      fi
+    done <<< $data
+}
+
+# Check if an event is upcoming,
+# if so, save its data for later use
+is_upcoming() {
+    ts=$(start_ts)
+    if [[ "$ts" -gt "$TODAY" && "$ts" -lt "$END_DATE" ]]; then
+        file=$(basename $line)
+        key="${ts}_${file}"
+        events[$key]=$ts
+        summaries[$key]=${event[SUMMARY]}
+        descriptions[$key]=${event[DESCRIPTION]}
+    fi
+    return 1
+}
+
+view_upcoming() {
+    DAYS=$1
+    TODAY=$(date -d "today 00:00:00" +%s)
+    END_DATE=$(date -d "today + $DAYS days 00:00:00" +%s)
+
+    # Check the upcoming file
+    declare -A events
+    declare -A descriptions
+    declare -A summaries
+    while IFS= read -r line; do
+        if [ -f "$line" ]; then
+            iterate_events is_upcoming $line
+        fi
+    done < "$UPCOMING_FILE"
+
+    # Sort by timestamp
+    LAST_DAY=""
+    mapfile -d '' sorted < <(printf '%s\0' "${!events[@]}" | sort -z)
+    for key in "${sorted[@]}"; do
+        ts=${events[$key]}
+        desc=${descriptions[$key]}
+        summ=${summaries[$key]}
+        days=$(echo "( `date -d @$ts +%s` - `date -d @$TODAY +%s`) / (24*3600)" | bc -l | cut -d"." -f1)
+        days=${days:-0} # Set to 0 if empty (indicating today)
+
+        # Print days out
+        if [ "$days" != "$LAST_DAY" ]; then
+            LAST_DAY=$days
+            tput setaf 11
+            case $days in
+                0)
+                    echo -e "Today"
+                    ;;
+                1)
+                    echo -e $(date -d @$ts +%m/%d)"\tTomorrow"
+                    ;;
+                *)
+                    echo -e $(date -d @$ts +%m/%d)"\t${days} days"
+                    ;;
+            esac
+            tput sgr0
+        fi
+
+        # Print event info
+        echo -e "$(date -d @$ts +%H:%M)\t$(tput setaf 2)${summ}$(tput sgr 0)"
+        if [ -n "$desc" ]; then
+            desc=$(echo -e "${desc}" | sed 's/^/\t/')
+            echo -e "${desc}\n"
+        else
+            echo ""
+        fi
+    done
+}
+
+# Send notification for upcoming event
+decide_remind() {
+    NOW=$(date +%s)
+    ts=$(start_ts)
+    diff=$(($ts - $NOW))
+    # Should probably parse the ics TRIGGER value,
+    # but for now easier to just set fixed reminders
+    if [[ $diff -gt 0 && $diff -lt $REMINDER_TIME ]]; then
+        summary=${event[SUMMARY]}
+        notify-send -t 0 "Calendar: ${summary}"
+    fi
+}
 
 # Check the reminder file,
 # create a notification for upcoming events
 remind() {
+    while IFS= read -r line; do
+        if [ -f "$line" ]; then
+            iterate_events decide_remind $line
+        fi
+    done < "$UPCOMING_FILE"
+}
+
+update() {
+    # Only check ics files modified after this datetime
+    # Start with 0 so on a first run this will refresh everything
+    last_updated=0
+    [ -e "$UPCOMING_FILE" ] && rm "$UPCOMING_FILE"
+
     while true; do
         NOW=$(date +%s)
-        while IFS= read -r line; do
-            ts=$(start_ts $line)
-            diff=$(($ts - $NOW))
 
-            # Should probably parse the ics TRIGGER value,
-            # but for now easier to just set fixed reminders
-            if [[ $diff -lt $REMINDER_TIME ]]; then
-                summary=$(cat $line | grep SUMMARY | cut -f2 -d":")
-                notify-send -t 0 "Calendar: ${summary}"
-                sed -i '\|'"$line"'|d' "$REMINDER_FILE"
-                echo "$line" >> "$EXPIRED_FILE"
+        # Check which ics files have upcoming events
+        for f in ~/.calendar/**/*.ics; do
+            modified=$(date +%s -r "$f")
+            if [[ "$modified" -gt "$last_updated" ]]; then
+                iterate_events check_event $f
             fi
-        done < "$REMINDER_FILE"
+        done
+        last_updated=$NOW
+        sleep 600
+    done
+}
+
+if [[ $1 == 'view' ]]; then
+    # Show upcoming agenda
+    # Usage: upcoming view [DAYS]
+    # DAYS defaults to 2
+    view_upcoming ${2:-2} | less -R
+
+elif [[ $1 == 'remind' ]]; then
+    # Update upcoming events in the background
+    update &
+    P1=$!
+
+    while true; do
+        remind
         sleep 60
     done
-}
-
-parse_dt() {
-    echo "${dt:0:4}-${dt:4:2}-${dt:6:2}T${dt:9:2}:${dt:11:2}"
-}
-
-parse_d() {
-    echo "${dt:0:4}-${dt:4:2}-${dt:6:2}"
-}
-
-# Extract the start datetime (as a timestmap) from an event
-start_ts() {
-    RAW=$(cat "$1" | grep DTSTART | tail -n1)
-    case $RAW in
-        *DTSTART:*)
-            dt=$(echo $RAW | cut -f2 -d":")
-            ts=$(date +%s --utc --date=$(parse_dt $dt))
-            ;;
-        *DTSTART\;TZID=*)
-            dt=$(echo $RAW | cut -f2 -d"=")
-            tz=$(echo $dt | cut -f1 -d":")
-            dt=$(echo $dt | cut -f2 -d":")
-            ts=$(date +%s --utc --date='TZ="'$tz'" '$(parse_dt $dt))
-            ;;
-        *DTSTART\;VALUE=DATE*)
-            tz=$(cat "$1" | grep TZID | cut -f2 -d":")
-            dt=$(echo $RAW | cut -f2 -d":")
-            ts=$(date +%s --utc --date='TZ="'$tz'" '$(parse_d $dt))
-            ;;
-        *)
-            echo "Unrecognized DTSTART: ${RAW}"
-            ;;
-    esac
-    echo "$ts"
-}
-
-
-# Full scan on startup, in case anything
-# was changed while this script wasn't running
-echo "Generating reminders..."
-NOW=$(date +%s)
-[ -e "$REMINDER_FILE" ] && rm "$REMINDER_FILE"
-[ ! -f "$EXPIRED_FILE" ] && touch "$EXPIRED_FILE"
-for f in ~/.calendar/**/*.ics; do
-    if ! grep -Fxq "$f" "$EXPIRED_FILE"; then
-        ts=$(start_ts "$f")
-        if [[ "$NOW" -lt "$ts" ]]; then
-            echo "$f" >> "$REMINDER_FILE"
-        else
-            echo "$f" >> "$EXPIRED_FILE"
-        fi
-    fi
-done
-echo "Ready"
-
-# Run remind subprocess in background
-remind &
-P1=$!
-
-# Monitor calendar directory for new or removed events
-inotifywait -r -m ~/.calendar -e create -e delete |
-    while read path action file; do
-        if [[ "$file" =~ .*ics$ ]]; then
-            f=$path/$file
-            if [[ "$action" == "DELETE" ]]; then
-                sed -i '\|'"$f"'|d' "$REMINDER_FILE"
-            else
-                echo "$f" >> "$REMINDER_FILE"
-            fi
-            cat "$REMINDER_FILE"
-        fi
-    done
-
-wait $P1
+    wait $P1
+fi

@@ -396,12 +396,10 @@ systemctl --user start offlineimap.service
 
 # calendar
 pip3 install vdirsyncer[google]
-pip3 install git+git://github.com/pimutils/khal.git
-mkdir -p ~/.config/{vdirsyncer,khal}
+mkdir -p ~/.config/vdirsyncer
 mkdir -p ~/.config/vdirsyncer/tokens
 sudo ln -sf $(which vdirsyncer) /usr/local/bin/vdirsyncer
 ln -sf $DIR/dots/calendar/vdirsyncer ~/.config/vdirsyncer/config
-ln -sf $DIR/dots/calendar/khal ~/.config/khal/config
 vdirsyncer discover
 sudo cp $DIR/dots/calendar/vdirsyncer.{service,timer} /etc/systemd/user/
 systemctl --user daemon-reload
