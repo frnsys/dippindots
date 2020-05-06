@@ -17,7 +17,7 @@ batt mon &
 sxhkd &
 redshift &
 dunst &
-upcoming &
+upcoming remind &
 
 # for web highlighting
 maw ~/notes/web/annos.json ~/notes/web/assets &

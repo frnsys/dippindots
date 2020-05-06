@@ -136,15 +136,21 @@ view_upcoming() {
 }
 
 # Send notification for upcoming event
+# Track which events we've already sent notifications for
+NOTIFIED=()
 decide_remind() {
     NOW=$(date +%s)
     ts=$(start_ts)
-    diff=$(($ts - $NOW))
-    # Should probably parse the ics TRIGGER value,
-    # but for now easier to just set fixed reminders
-    if [[ $diff -gt 0 && $diff -lt $REMINDER_TIME ]]; then
-        summary=${event[SUMMARY]}
-        notify-send -t 0 "Calendar: ${summary}"
+    hash=$(echo "${ts}_${event[SUMMARY]}" | md5sum | awk '{ print $1 }')
+    if [[ ! "${NOTIFIED[*]}" =~ "${hash}" ]]; then
+        diff=$(($ts - $NOW))
+        # Should probably parse the ics TRIGGER value,
+        # but for now easier to just set fixed reminders
+        if [[ $diff -gt 0 && $diff -lt $REMINDER_TIME ]]; then
+            NOTIFIED+=($hash)
+            summary=${event[SUMMARY]}
+            notify-send -t 0 "Calendar: ${summary}"
+        fi
     fi
 }
 
