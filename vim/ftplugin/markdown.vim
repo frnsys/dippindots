@@ -77,4 +77,4 @@ map K gk
 map <leader>h /{.\+}<CR>
 
 " make footnote from selected text
-vnoremap <C-f> y:! makefn "<C-r>0" \| xsel -b<cr>
+vnoremap <C-f> y:! cite "<C-r>0" \| xsel -b<cr>
