@@ -44,6 +44,17 @@ sudo ninja -C builddir/ install
 sudo cp $DIR/dots/misc/01-libinput.conf /usr/share/X11/xorg.conf.d/
 cd $DIR
 
+# picom compositor
+sudo apt install -y libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-
+render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev  libevdev-dev uthash-dev libev-dev libx11-xcb-dev
+git clone https://github.com/yshui/picom /tmp/picom
+cd /tmp/picom
+git checkout v8
+meson --buildtype=release . build
+ninja -C build
+sudo ninja -C build install
+ln -sf $DIR/dots/picom.conf ~/.config/picom.conf
+
 # seems necessary for xbacklight for thinkpads,
 # which use `intel_brightness` (in `/sys/class/backlight`)
 sudo apt install -y xserver-xorg-video-intel

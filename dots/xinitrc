@@ -13,6 +13,7 @@ xset fp rehash
 fc-cache -fv &
 unclutter -root -visible &
 feh --bg-fill ~/.wall.jpg &
+picom --config ~/.config/picom.conf &
 batt mon &
 sxhkd &
 redshift &
