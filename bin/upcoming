@@ -7,7 +7,7 @@ UPCOMING_FILE=~/.calendar/.upcoming
 
 # Check if an event is upcoming
 check_event() {
-    NOW=$(date +%s)
+    NOW=$(date --utc +%s)
     ts=$(start_ts)
     if [[ "$NOW" -lt "$ts" ]]; then
         echo "$f" >> "$UPCOMING_FILE"
@@ -26,7 +26,7 @@ parse_dt() {
     fi
 }
 
-# Extract the start datetime (as a timestamp) from an event
+# Extract the start datetime (as a UTC timestamp) from an event
 # It doesn't seem you can (easily at least) pass associative arrays
 # as arguments, so we use it as a global variable, yuck
 start_ts() {
@@ -80,8 +80,8 @@ is_upcoming() {
 
 view_upcoming() {
     DAYS=$1
-    TODAY=$(date -d "today 00:00:00" +%s)
-    END_DATE=$(date -d "today + $DAYS days 00:00:00" +%s)
+    TODAY=$(date --utc -d "today 00:00:00" +%s)
+    END_DATE=$(date --utc -d "today + $DAYS days 00:00:00" +%s)
 
     # Check the upcoming file
     # Can't have nested associative arrays
@@ -114,17 +114,17 @@ view_upcoming() {
                     echo -e "Today"
                     ;;
                 1)
-                    echo -e $(date -d @$ts +%m/%d)"\tTomorrow"
+                    echo -e $(date --utc -d @$ts +%m/%d)"\tTomorrow"
                     ;;
                 *)
-                    echo -e $(date -d @$ts +%m/%d)"\t${days} days"
+                    echo -e $(date --utc -d @$ts +%m/%d)"\t${days} days"
                     ;;
             esac
             tput sgr0
         fi
 
         # Print event info
-        echo -e "$(date -d @$ts +%H:%M)\t$(tput setaf 2)${summ}$(tput sgr 0)"
+        echo -e "$(date --utc -d @$ts +%H:%M)\t$(tput setaf 2)${summ}$(tput sgr 0)"
         if [ -n "$desc" ]; then
             # Indent description
             desc=$(echo -e "${desc}" | sed 's/^/\t/')
@@ -139,7 +139,7 @@ view_upcoming() {
 # Track which events we've already sent notifications for
 NOTIFIED=()
 decide_remind() {
-    NOW=$(date +%s)
+    NOW=$(date --utc +%s)
     ts=$(start_ts)
     hash=$(echo "${ts}_${event[SUMMARY]}" | md5sum | awk '{ print $1 }')
     if [[ ! "${NOTIFIED[*]}" =~ "${hash}" ]]; then
