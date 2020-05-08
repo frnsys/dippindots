@@ -1,11 +1,11 @@
-# Easier navigation: .., ..., ...., ....., ~ and -
+# Easier navigation
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias -- -="cd -"
 
-# to avoid accidentally overwriting files
+# To avoid accidentally overwriting files
 alias mv="mv -i"
 
 # Git
@@ -18,17 +18,13 @@ alias gcb="git checkout -b"
 alias gm="git merge --no-ff"
 alias gch="git checkout"
 alias gbd="git branch -d"
-alias gbs="git branch"
-alias gst="git status"
 alias gds="git diff --staged"
 alias gsu="git submodule foreach git pull origin master"
 
 # Shortcuts
 alias n="cd ~/notes"
-alias b="cd ~/notes/blog"
 alias w="cd ~/work"
 alias p="cd ~/projects"
-alias docs="cd ~/docs"
 alias dl="cd ~/downloads"
 alias nb="jupyter notebook"
 alias py="python"
@@ -44,5 +40,3 @@ alias ls="command ls --color"
 
 # enable aliases to be sudo’ed
 alias sudo='sudo '
-
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"

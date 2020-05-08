@@ -16,7 +16,6 @@ set rtp+=~/.fzf
 call minpac#add('junegunn/fzf')
 call minpac#add('junegunn/fzf.vim')
 call minpac#add('tpope/vim-commentary')
-call minpac#add('kshenoy/vim-signature')
 call minpac#add('jeetsukumaran/vim-filebeagle')
 call minpac#add('dense-analysis/ale')
 
@@ -26,7 +25,6 @@ call minpac#add('lepture/vim-jinja')
 call minpac#add('pangloss/vim-javascript')
 
 " Markdown
-call minpac#add('junegunn/goyo.vim')
 call minpac#add('dhruvasagar/vim-table-mode')
 call minpac#add('skywind3000/asyncrun.vim')
 packloadall

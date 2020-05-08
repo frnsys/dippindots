@@ -85,11 +85,11 @@ super + z
     pkill -USR1 redshift
 
 # toggle bluetooth
-super + b
+super + shift + b
     bt toggle; notify-send "toggling bluetooth"
 
 # toggle wifi
-super + w
+super + shift + w
     sudo wifi toggle; notify-send "$(wifi)"
 
 super + slash
@@ -112,11 +112,10 @@ super + slash
 # record region, press again to stop
 @super + r
     if pgrep -x recordmydesktop > /dev/null; then notify-send "[rec] saving..." && pkill recordmydesktop; else rec region; fi;
-#
+
 # media buttons
 # these are prefixed with `super`
 # so they also can work as regular function keys
-#
 
 super + {F10, XF86AudioRaiseVolume}
     amixer -D pulse set -M Master 5%+
@@ -138,18 +137,6 @@ super + {F6, XF86MonBrightnessDown}
 
 super + shift + {F6, XF86MonBrightnessDown}
     xbacklight -dec 20
-
-super + {F5, XF86AudioPlay}
-    mpc toggle
-
-super + {F4, XF86AudioStop}
-    mpc stop
-
-super + {F2, XF86AudioNext}
-    mpc next
-
-super + {F1, XF86AudioPrev}
-    mpc prev
 
 super + t
     bspc rule -a alacritty -o state=floating && alacritty -e vi ~/notes/todo.md
@@ -178,20 +165,11 @@ super + backslash
 super + equal
     togglewin Ripcord
 
-# super + plus
-#     togglewin Discord$
-
-# super + shift + backslash
-#     togglewin ^Patchwork
-
 super + e
     emo
 
 super + m
     bspc rule -a alacritty -o state=floating && alacritty -e mutt
-
-super + apostrophe
-    note
 
 super + g
     pickcolor
