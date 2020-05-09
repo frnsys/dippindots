@@ -30,12 +30,7 @@ parse_dt() {
 # It doesn't seem you can (easily at least) pass associative arrays
 # as arguments, so we use it as a global variable, yuck
 start_ts() {
-    DTSTART=${event[DTSTART]}
-    if [[ ${event[TZID]} ]]; then
-        echo $(date +%s --utc --date='TZ="'${event[TZID]}'" '$(parse_dt $DTSTART))
-    else
-        echo $(date +%s --utc --date=$(parse_dt $DTSTART))
-    fi
+    echo $(date +%s --utc --date=$(parse_dt ${event[DTSTART]}))
 }
 
 # Iterate over the events in a single ics file
@@ -102,7 +97,7 @@ view_upcoming() {
         ts=${events[$key]}
         desc=${descriptions[$key]}
         summ=${summaries[$key]}
-        days=$(echo "( `date -d @$ts +%s` - `date -d @$TODAY +%s`) / (24*3600)" | bc -l | cut -d"." -f1)
+        days=$(echo "( `date --utc -d @$ts +%s` - `date --utc -d @$TODAY +%s`) / (24*3600)" | bc -l | cut -d"." -f1)
         days=${days:-0} # Set to 0 if empty (indicating today)
 
         # Print days out
@@ -149,7 +144,8 @@ decide_remind() {
         if [[ $diff -gt 0 && $diff -lt $REMINDER_TIME ]]; then
             NOTIFIED+=($hash)
             summary=${event[SUMMARY]}
-            notify-send -t 0 "Calendar: ${summary}"
+            time=$(date --utc -d @$ts +%H:%M)
+            notify-send -t 0 "Calendar: [${time}] ${summary}"
         fi
     fi
 }
