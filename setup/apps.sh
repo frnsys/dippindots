@@ -314,8 +314,8 @@ cd $DIR
 sudo apt install -y gnome-accessibility-themes
 rm -rf ~/.icons
 ln -sf $DIR/assets/icons ~/.icons
-ln $DIR/dots/gtkrc-2.0 ~/.gtkrc-2.0
-ln $DIR/dots/gtkrc-3.0  ~/.config/gtk-3.0/settings.ini
+ln -sf $DIR/dots/gtkrc ~/.gtkrc-2.0
+ln -sf $DIR/dots/gtkrc  ~/.config/gtk-3.0/settings.ini
 echo -e "[Qt]\nstyle=GTK+" >> ~/.config/Trolltech.conf
 
 # setup fonts
