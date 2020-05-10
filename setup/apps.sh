@@ -30,7 +30,7 @@ sudo apt install -y --no-install-recommends xorg
 sudo apt install -y feh xsel xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console oathtool avahi-daemon redshift
 
 # deluged config
-ln -sf $DIR/dots/deluged.conf ~/.config/deluge/core.conf
+ln -sf $DIR/dots/misc/deluged.conf ~/.config/deluge/core.conf
 
 # latest libinput
 # trackpad config
@@ -53,13 +53,13 @@ git checkout v8
 meson --buildtype=release . build
 ninja -C build
 sudo ninja -C build install
-ln -sf $DIR/dots/picom.conf ~/.config/picom.conf
+ln -sf $DIR/dots/misc/picom.conf ~/.config/picom.conf
 
 # seems necessary for xbacklight for thinkpads,
 # which use `intel_brightness` (in `/sys/class/backlight`)
 sudo apt install -y xserver-xorg-video-intel
 sudo cp $DIR/dots/misc/20-intel.conf /usr/share/X11/xorg.conf.d/
-ln -sf $DIR/dots/redshift.conf ~/.config/redshift.conf
+ln -sf $DIR/dots/misc/redshift.conf ~/.config/redshift.conf
 
 # pandoc
 sudo apt install -y --no-install-recommends texlive lmodern texlive-latex-extra texlive-fonts-extra cm-super texlive-generic-recommended
@@ -139,7 +139,7 @@ ln -sf $DIR/dots/ncmpcpp ~/.ncmpcpp
 sudo apt install -y mpd mpc
 mkdir ~/.mpd/
 touch ~/.mpd/{mpd.db,mpd.log,mpd.pid,mpd.state}
-ln -sf $DIR/dots/mpd.conf ~/.mpd/mpd.conf
+ln -sf $DIR/dots/misc/mpd.conf ~/.mpd/mpd.conf
 
 # build latest libass for ffmpeg and mpv
 sudo apt install -y libfribidi-dev libfontconfig1-dev
@@ -263,7 +263,7 @@ ln -sf $DIR/dots/ranger/scope.sh ~/.config/ranger/scope.sh
 # xournal       -- for annotating pdfs
 # pavucontrol   -- for managing sound
 sudo apt install -y --no-install-recommends zathura android-tools-adb ncdu keepassx xournal pavucontrol firefox chromium-browser
-ln -sf $DIR/dots/zathurarc ~/.config/zathura/zathurarc
+ln -sf $DIR/dots/misc/zathurarc ~/.config/zathura/zathurarc
 
 # for scripts that watch filesystem for changes
 cargo install watchexec
@@ -314,15 +314,15 @@ cd $DIR
 sudo apt install -y gnome-accessibility-themes
 rm -rf ~/.icons
 ln -sf $DIR/assets/icons ~/.icons
-ln -sf $DIR/dots/gtkrc ~/.gtkrc-2.0
-ln -sf $DIR/dots/gtkrc  ~/.config/gtk-3.0/settings.ini
+ln -sf $DIR/dots/misc/gtkrc ~/.gtkrc-2.0
+ln -sf $DIR/dots/misc/gtkrc  ~/.config/gtk-3.0/settings.ini
 echo -e "[Qt]\nstyle=GTK+" >> ~/.config/Trolltech.conf
 
 # setup fonts
 sudo ln -sf /etc/fonts/conf.avail/50-user.conf /etc/fonts/conf.d/50-user.conf
 sudo apt install -y fonts-inconsolata xfonts-terminus ttf-mscorefonts-installer
 ln -sf $DIR/assets/fonts ~/.fonts
-ln -sf $DIR/dots/fonts.conf ~/.fonts.conf
+ln -sf $DIR/dots/misc/fonts.conf ~/.fonts.conf
 mkfontdir ~/.fonts
 mkfontscale ~/.fonts
 xset +fp ~/.fonts/
@@ -419,7 +419,7 @@ systemctl --user start vdirsyncer.timer
 # check timers with `systemctl list-timers --all --user`
 
 # for pypi
-ln -sf $DIR/dots/pypirc ~/.pypirc
+ln -sf $DIR/dots/misc/pypirc ~/.pypirc
 
 # better chinese character support
 sudo apt install -y fonts-noto-cjk

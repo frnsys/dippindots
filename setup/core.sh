@@ -24,8 +24,8 @@ sudo apt install -y git-lfs
 git lfs install
 
 mkdir -p ~/.config/git
-ln -sf $DIR/dots/gitignore ~/.config/git/ignore
-ln -sf $DIR/dots/gitconfig ~/.gitconfig
+ln -sf $DIR/dots/git/gitignore ~/.config/git/ignore
+ln -sf $DIR/dots/git/gitconfig ~/.gitconfig
 
 # so we can push without logging in
 ssh -vT git@github.com
@@ -74,7 +74,7 @@ pip install pyflakes
 
 # ipython config
 mkdir -p ~/.ipython/profile_default
-ln -sf $DIR/dots/ipython/ipython_config.py ~/.ipython/profile_default/ipython_config.py
+ln -sf $DIR/dots/misc/ipython_config.py ~/.ipython/profile_default/ipython_config.py
 
 
 echo "Installing Vim..."

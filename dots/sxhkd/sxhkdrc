@@ -95,6 +95,9 @@ super + shift + w
 super + slash
     daemon
 
+super + apostrophe
+    notify-send "Now: $(date '+%m/%d %H:%M')"
+
 # ~~screenshots/recordings~~
 
 # region
@@ -139,7 +142,7 @@ super + shift + {F6, XF86MonBrightnessDown}
     xbacklight -dec 20
 
 super + t
-    bspc rule -a alacritty -o state=floating && alacritty -e vi ~/notes/todo.md
+    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes -e vi todo.md
 
 super + p
     bspc rule -a alacritty -o state=floating && alacritty -e ~/.bin/keepass
