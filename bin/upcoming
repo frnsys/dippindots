@@ -1,6 +1,15 @@
 #!/bin/bash
-# Creates notifications for upcoming calendar events
-# and shows upcoming events from *.ics files
+# This works in tandem with vdirsyncer, which is what
+# downloads the ics files.
+#
+# Commands:
+#
+#   upcoming view [DAYS]
+#   Show events upcoming in the next DAYS (default 2)
+#
+#   upcoming remind
+#   Processes new and updated events (upcoming event ics files put into UPCOMING_FILE)
+#   and sends a reminder notification upcoming events (REMINDER_TIME seconds before, see below).
 
 REMINDER_TIME=600 # seconds
 UPCOMING_FILE=~/.calendar/.upcoming
@@ -394,7 +403,7 @@ view_upcoming() {
 NOTIFIED=()
 decide_remind() {
     ts=$1
-    now=$2
+    now=$(date --utc +%s)
     hash=$(echo "${ts}_${event[SUMMARY]}" | md5sum | awk '{ print $1 }')
     if [[ ! "${NOTIFIED[*]}" =~ "${hash}" ]]; then
         diff=$(($ts - $now))
@@ -404,6 +413,7 @@ decide_remind() {
             NOTIFIED+=($hash)
             summary=${event[SUMMARY]}
             time=$(date --utc -d @$ts +%H:%M)
+            echo "Calendar: [${time}] ${summary}"
             notify-send -t 0 "Calendar: [${time}] ${summary}"
         fi
     fi
