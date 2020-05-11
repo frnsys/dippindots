@@ -5,15 +5,83 @@
 REMINDER_TIME=600 # seconds
 UPCOMING_FILE=~/.calendar/.upcoming
 
+# For recurring rules
+SPD=$((24 * 60 * 60)) # seconds per day
+SPW=$((7 * $SPD)) # seconds per week
+SPY=$((365 * $SPD)) # seconds per year. TODO what about leap years?
+declare -A WEEKDAYS=( [MO]=1 [TU]=2 [WE]=3 [TH]=4 [FR]=5 [SA]=6 [SU]=7 )
+
 # Check if an event is upcoming
 check_event() {
-    NOW=$(date --utc +%s)
-    ts=$(start_ts)
-    if [[ "$NOW" -lt "$ts" ]]; then
+    ts=$1
+    now=$2
+    if [[ "$now" -lt "$ts" ]]; then
         echo "$f" >> "$UPCOMING_FILE"
         return 0
     fi
     return 1
+}
+
+# Parse a single or recurring event
+parse_event() {
+    handle_event=$1
+
+    # Treat "now" as the start of today,
+    # b/c if we're e.g. 1 minute into an event we still want to see it
+    now=$(date --utc -d "today 00:00:00" +%s)
+    ts=$(start_ts)
+
+    # Handle recurring events
+    if [ -n "${event[RRULE]}" ]; then
+        declare -A rrule
+        while IFS== read key value; do
+            rrule["$key"]="$value"
+        done < <(echo "${event[RRULE]}" | sed 's/;/\n/g' )
+
+        count=${rrule[COUNT]}
+        interval=${rrule[INTERVAL]:-1}
+
+        if [ -n "${rrule[UNTIL]}" ]; then
+            until_ts=$(date +%s --utc --date=$(parse_dt ${rrule[UNTIL]}))
+            # If UNTIL is in the past, we can ignore this event
+            if [[ "$now" -gt "$until_ts" ]]; then
+                return 0
+            fi
+        fi
+
+        case ${rrule[FREQ]} in
+            "DAILY")
+                starts=$(get_next_daily $now $ts $interval $count)
+                ;;
+            "WEEKLY")
+                starts=$(get_next_weekly $now $ts $interval ${rrule[BYDAY]} $count)
+                ;;
+            "MONTHLY")
+                starts=$(get_next_monthly $now $ts $interval ${rrule[BYDAY]:-${rrule[BYMONTHDAY]}} $count)
+                ;;
+            "YEARLY")
+                starts=$(get_next_yearly $now $ts $interval $count)
+                ;;
+            *)
+                echo "Unrecognized FREQ: ${rrule[FREQ]}"
+                ;;
+        esac
+
+        # No upcoming dates
+        if [ -z "$starts" ]; then
+            return 0
+        fi
+
+        while read sts; do
+            if $handle_event $sts $now; then
+                return 0
+            fi
+        done < <(echo "$starts")
+    else
+        if $handle_event $ts $now; then
+            return 0
+        fi
+    fi
 }
 
 # Parse an ics datetime into a format `date` can deal with
@@ -33,6 +101,196 @@ start_ts() {
     echo $(date +%s --utc --date=$(parse_dt ${event[DTSTART]}))
 }
 
+# Calculating elapsed intervals for recurring rules
+elapsed_intervals() {
+    count=$1
+    base_interval=$2
+    n_intervals=$(bc -l <<<"$elapsed/$base_interval")
+    n_intervals_floor=$(echo $n_intervals | cut -d'.' -f 1)
+    n_intervals_floor=${n_intervals_floor:-0}
+    echo $n_intervals_floor
+}
+
+# Get next datetimes for an interval
+get_next() {
+    now=$1
+    start=$2
+    base_interval=$3
+    extend=${4:-1}
+    count=$5
+
+    elapsed=$(($now-$start))
+
+    # Starts in the future
+    # TODO maybe should be diff b/c there could be e.g. two close dates in the future
+    if [[ $elapsed -lt 0 ]]; then
+        echo $start
+        return 0
+    fi
+
+    # Project out $extend intervals
+    if [ -z "${count}" ]; then
+        count=$((($elapsed/$base_interval) + $extend))
+    fi
+    n_intervals=$(elapsed_intervals $count $base_interval)
+
+    # If we haven't reached $count intervals,
+    # figure out the next datetime
+    if [[ $n_intervals -lt $count ]]; then
+        remaining=$(($count - $n_intervals))
+        next=$(($start + (($n_intervals+1) * $base_interval)))
+
+        for (( i=0; i<$remaining; ++i)); do
+            # TODO check against until?
+            next_ts=$(($next + ($i*$base_interval)))
+            echo $next_ts
+            # echo $(date --utc -d @$next_ts)
+        done
+        return 0
+    else
+        # Event is all done
+        return 1
+    fi
+}
+
+get_next_daily() {
+    # Look ahead 7 days by default
+    lookahead=7
+    interval=$3
+    base_interval=$(($interval*$SPD))
+    get_next $1 $2 $base_interval $lookahead $4
+}
+
+get_next_yearly() {
+    interval=$3
+    base_interval=$(($interval*$SPY))
+    get_next $1 $2 $base_interval 1 $4
+}
+
+get_next_weekly() {
+    now=$1
+    start=$2
+    interval=$3
+    byday=$4
+    count=$5
+    base_interval=$(($interval*$SPW))
+
+    if [ -z "${byday}" ]; then
+        n_days=1
+        STARTS=($start)
+    else
+        # Get day of week of start time
+        DOW=$(date --utc -d @$start +%u)
+
+        # Get number of weekly repeating days
+        n_days=$(($(echo "${byday}" | awk -F"," '{print NF-1}') + 1))
+
+        # Convert to start timestamps
+        # for each day in $byday,
+        # then sort by start timestamps
+        STARTS=()
+        while read DAYNAME; do
+            DAY=${WEEKDAYS[$DAYNAME]}
+
+            diff=$(($DAY - $DOW))
+            if [[ $diff -lt 0 ]]; then
+                diff=$(($diff + 7))
+            fi
+            adjustment=$(($diff * $SPD))
+            day_start=$(($start + $adjustment))
+            STARTS+=($day_start)
+        done < <(echo "$byday" | sed 's/,/\n/g' )
+        IFS=$'\n' STARTS=($(sort <<<"${STARTS[*]}")); unset IFS
+    fi
+
+    # If count isn't defined, just get the current count and add to it
+    if [ -z "${count}" ]; then
+        elapsed=$(($now-$start))
+        count=$((($elapsed/$base_interval * $n_days) + $n_days))
+    fi
+
+    # Each day might have a different count if the
+    # overall account and number of set days don't
+    # cleanly divide
+    base_count=$(($count/$n_days)) # already floor (integer division)
+    leftover=$(($count-($base_count*$n_days)))
+
+    index=0
+    for start in ${STARTS[@]}; do
+        if [[ $index -lt $leftover ]]; then
+            count=$(($base_count + 1))
+        else
+            count=$base_count
+        fi
+
+        get_next $now $start $base_interval 1 $count
+
+        (( index++ ))
+    done
+}
+
+# Because months aren't fixed intervals of time,
+# have to treat differently
+get_next_monthly() {
+    now=$1
+    start=$2
+    interval=$3
+    byday=$4
+    count=$5
+
+    # Look ahead 1 month by default
+    lookahead=1
+
+    # Not working in seconds here, but months
+    base_interval=$interval
+
+    # Extract the time
+    time=$(date --utc --date @$start +%H:%M)
+
+    # TODO there may be edge cases here?
+    now_month=$(date --utc --date @$now +%-m)
+    now_year=$(date --utc --date @$now +%Y)
+    start_month=$(date --utc --date @$start +%-m)
+    start_year=$(date --utc --date @$start +%Y)
+
+    # Express as just months
+    start_month=$(($start_year * 12 + $start_month-1))
+    now_month=$(($now_year * 12 + $now_month-1))
+
+    while read months; do
+        # Convert back to date
+        year=$(($months / 12))
+        month=$(($months-($year*12)+1))
+
+        # If $byday is only digits, we assume it's
+        # a BYMONTHDAY value
+        if [[ $byday =~ ^[0-9]+$ ]]; then
+            echo $(date --utc --date="${year}-${month}-${byday}T${time}" +%s)
+
+        # Otherwise, we need to find the correct day
+        else
+            nth=$(grep -Eo '[0-9]+' <<< "$byday")
+            dow=$(grep -Eo '[[:alpha:]]+' <<< "$byday")
+            target_dow=${WEEKDAYS[$dow]}
+
+            # Get weekday for first day of month
+            first_dow=$(date --utc --date="${year}-${month}-1T${time}" +%u)
+
+            # Figure out when the first target day is,
+            # then adjust by necessary number of weeks
+            diff=$(($target_dow - $first_dow))
+            if [[ $diff -lt 0 ]]; then
+                diff=$(($diff + 7))
+            fi
+            day=$((1+$diff));
+            adjustment=$((7 * ($nth-1)))
+            day=$(($day+$adjustment))
+            echo $(date --utc --date="${year}-${month}-${day}T${time}" +%s)
+        fi
+    done < <(get_next $now_month $start_month $base_interval $lookahead $count)
+}
+
+
 # Iterate over the events in a single ics file
 iterate_events() {
     handle_event=$1
@@ -41,13 +299,14 @@ iterate_events() {
     # Join lines if following lines are preceded with a space
     # b/c ics values can wrap like that
     # Then remove VALARM section, since it can interfere (it also has a "DESCRIPTION" key)
-    data=$(cat "$2" | sed -e :a -e '$!N;s/\n //;ta' -e 'P;D' | sed '/^BEGIN:VALARM/,/^END:VALARM/ {/.*/d}')
+    # Also strip out everything before the first VEVENT so VCALENDAR-level properties don't bleed into the first event
+    data=$(cat "$2" | sed -e :a -e '$!N;s/\n //;ta' -e 'P;D' | sed '/^BEGIN:VALARM/,/^END:VALARM/ {/.*/d}' | sed '/^BEGIN:VCALENDAR/,/^BEGIN:VEVENT/ {/.*/d}')
 
     while IFS=: read -r key value; do
       value=${value%$'\r'} # remove DOS newlines
       if [[ $key = END && $value = VEVENT ]]; then
         # If handle event returns true (0), break
-        if $handle_event; then break; fi
+        if parse_event $handle_event; then break; fi
         event=( )
       else
 
@@ -62,7 +321,7 @@ iterate_events() {
 # Check if an event is upcoming,
 # if so, save its data for later use
 is_upcoming() {
-    ts=$(start_ts)
+    ts=$1
     if [[ "$ts" -gt "$TODAY" && "$ts" -lt "$END_DATE" ]]; then
         file=$(basename $line)
         key="${ts}_${file}"
@@ -134,11 +393,11 @@ view_upcoming() {
 # Track which events we've already sent notifications for
 NOTIFIED=()
 decide_remind() {
-    NOW=$(date --utc +%s)
-    ts=$(start_ts)
+    ts=$1
+    now=$2
     hash=$(echo "${ts}_${event[SUMMARY]}" | md5sum | awk '{ print $1 }')
     if [[ ! "${NOTIFIED[*]}" =~ "${hash}" ]]; then
-        diff=$(($ts - $NOW))
+        diff=$(($ts - $now))
         # Should probably parse the ics TRIGGER value,
         # but for now easier to just set fixed reminders
         if [[ $diff -gt 0 && $diff -lt $REMINDER_TIME ]]; then
@@ -167,6 +426,7 @@ update() {
     [ -e "$UPCOMING_FILE" ] && rm "$UPCOMING_FILE"
 
     while true; do
+        echo "Updating..."
         NOW=$(date +%s)
 
         # Check which ics files have upcoming events
@@ -177,6 +437,7 @@ update() {
             fi
         done
         last_updated=$NOW
+        echo "Done"
         sleep 600
     done
 }
@@ -197,4 +458,7 @@ elif [[ $1 == 'remind' ]]; then
         sleep 60
     done
     wait $P1
+
+elif [[ $1 == 'update' ]]; then
+    update
 fi
