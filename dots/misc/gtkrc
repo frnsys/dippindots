@@ -1,9 +1,8 @@
-# if you want to edit this, it's probably better to run `lxappearance`
-
-gtk-theme-name="HighContrast"
-gtk-icon-theme-name="Classic95"
-gtk-font-name="terminus 10"
-gtk-cursor-theme-name="DMZ-White"
+[Settings]
+gtk-theme-name=HighContrast
+gtk-icon-theme-name=Classic95
+gtk-font-name=terminus 10
+gtk-cursor-theme-name=DMZ-White
 gtk-cursor-theme-size=0
 gtk-toolbar-style=GTK_TOOLBAR_BOTH
 gtk-toolbar-icon-size=GTK_ICON_SIZE_SMALL_TOOLBAR
@@ -11,6 +10,6 @@ gtk-button-images=1
 gtk-menu-images=1
 gtk-enable-event-sounds=1
 gtk-enable-input-feedback-sounds=1
-gtx-xft-antialias=1
+gtk-xft-antialias=1
 gtk-xft-hinting=1
-gtk-xft-hintstyle="hintfull"
+gtk-xft-hintstyle=hintfull
