@@ -16,7 +16,6 @@ set rtp+=~/.fzf
 call minpac#add('junegunn/fzf')
 call minpac#add('junegunn/fzf.vim')
 call minpac#add('tpope/vim-commentary')
-call minpac#add('jeetsukumaran/vim-filebeagle')
 call minpac#add('dense-analysis/ale')
 
 " Syntax
@@ -183,6 +182,11 @@ nnoremap <expr><silent> _  !v:count ? "<C-W>s<C-W><Down>"  : '_'
 
 " new tab
 nmap <S-t> :tabnew<cr>
+
+" netrw
+let g:netrw_banner=0
+let g:netrw_liststyle=3
+nmap - :Explore<cr>
 
 " go to definition
 " <C-o> jumps back after going to defintion
