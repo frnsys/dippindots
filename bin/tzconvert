@@ -1,53 +1,9 @@
-#!/usr/bin/python3
+#!/bin/bash
 
-import sys
-import pytz
-import subprocess
-from datetime import datetime
-from collections import defaultdict
+DATETIME=$1
+TIMEZONES=$(cd /usr/share/zoneinfo/posix && find * -type f -or -type l | sort)
+FROM_TZ=$(echo -e "$TIMEZONES" | dmenu -p "From")
+TO_TZ=$(echo -e "$TIMEZONES" | dmenu -p "To")
 
-
-def dmenu(choices=[], prompt='>'):
-    """Convenience func to use dmenu"""
-    cmd = ['dmenu', '-l', '10', '-i', '-p', prompt]
-    inp = '\n'.join(choices).encode('utf8')
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
-    out, err = proc.communicate(inp)
-    choice = out.strip().decode('utf8')
-    return choice
-
-
-# Add GMT offsets to timezone list
-offsets = set()
-offset_lookup = defaultdict(list)
-for tz in pytz.all_timezones:
-    tz = pytz.timezone(tz)
-    offset = datetime.now(tz).utcoffset().total_seconds()/3600
-    offset_lookup[offset].append(tz)
-    offsets.add('GMT{:+}'.format(offset))
-timezones = pytz.all_timezones + sorted(list(offsets))
-
-# Get user inputs
-time = dmenu(prompt='time') or sys.exit(1)
-from_tz = dmenu(timezones, prompt='from') or sys.exit(1)
-to_tz = dmenu(timezones, prompt='to') or sys.exit(1)
-
-# Do the conversion
-hour, minute = time.split(':')
-from_tz = pytz.timezone(from_tz)
-to_tz = pytz.timezone(to_tz)
-
-dt = datetime.now(from_tz)
-dt = dt.replace(hour=int(hour), minute=int(minute))
-
-to_dt = dt.astimezone(to_tz)
-to_time = '{}:{}'.format(to_dt.hour, to_dt.minute)
-
-# Check day difference
-day_diff = to_dt.day - dt.day
-if day_diff:
-    to_time = '{} {:+} day'.format(to_time, day_diff)
-
-# Display result
-ms_hold = 5000
-subprocess.call(['notify-send', to_time, '-t', str(ms_hold)])
+UTC_TIMESTAMP=$(date --utc -d 'TZ="'${FROM_TZ}'" '"${DATETIME}" +%s)
+echo $(TZ=":${TO_TZ}" date -d @$UTC_TIMESTAMP)
