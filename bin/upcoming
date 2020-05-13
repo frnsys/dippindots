@@ -414,6 +414,10 @@ NOTIFIED=()
 decide_remind() {
     ts=$1
     now=$(date --utc +%s)
+    # echo ${event[SUMMARY]}
+    # echo "Now:"$(date -d @$now)
+    # echo "Starts:"$(date -d @$ts)
+    # echo "==="
     hash=$(echo "${ts}_${event[SUMMARY]}" | md5sum | awk '{ print $1 }')
     if [[ ! "${NOTIFIED[*]}" =~ "${hash}" ]]; then
         diff=$(($ts - $now))
@@ -422,9 +426,9 @@ decide_remind() {
         if [[ $diff -gt 0 && $diff -lt $REMINDER_TIME ]]; then
             NOTIFIED+=($hash)
             summary=${event[SUMMARY]}
-            time=$(date --utc -d @$ts +%H:%M)
-            echo "Calendar: [${time}] ${summary}"
-            notify-send -t 0 "Calendar: [${time}] ${summary}"
+            time=$(date -d @$ts +%H:%M) # Display local time
+            echo "[${time}] ${summary}"
+            notify-send -t 0 "[${time}] ${summary}"
         fi
     fi
 }
