@@ -1,9 +1,10 @@
 #!/bin/bash
 
-DATETIME=$1
+DATETIME=$(dmenu -p "Datetime")
 TIMEZONES=$(cd /usr/share/zoneinfo/posix && find * -type f -or -type l | sort)
 FROM_TZ=$(echo -e "$TIMEZONES" | dmenu -p "From")
 TO_TZ=$(echo -e "$TIMEZONES" | dmenu -p "To")
 
 UTC_TIMESTAMP=$(date --utc -d 'TZ="'${FROM_TZ}'" '"${DATETIME}" +%s)
-echo $(TZ=":${TO_TZ}" date -d @$UTC_TIMESTAMP)
+RESULT=$(TZ=":${TO_TZ}" date -d @$UTC_TIMESTAMP)
+notify-send -t 0 "$RESULT"

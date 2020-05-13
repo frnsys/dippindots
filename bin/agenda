@@ -4,10 +4,10 @@
 #
 # Commands:
 #
-#   upcoming view [DAYS]
+#   agenda view [DAYS]
 #   Show events upcoming in the next DAYS (default 2)
 #
-#   upcoming remind
+#   agenda remind
 #   Processes new and updated events (upcoming event ics files put into UPCOMING_FILE)
 #   and sends a reminder notification upcoming events (REMINDER_TIME seconds before, see below).
 
