@@ -466,7 +466,7 @@ if [[ $1 == 'view' ]]; then
     # Show upcoming agenda
     # Usage: upcoming view [DAYS]
     # DAYS defaults to 2
-    view_upcoming ${2:-2}
+    view_upcoming ${2:-2} | less -R
 
 elif [[ $1 == 'remind' ]]; then
     while true; do
