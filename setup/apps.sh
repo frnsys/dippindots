@@ -256,13 +256,16 @@ ln -sf $DIR/dots/ranger/rifle.conf ~/.config/ranger/rifle.conf
 ln -sf $DIR/dots/ranger/scope.sh ~/.config/ranger/scope.sh
 
 # install some cool apps :D
-# zathura       -- keyboard-driven pdf viewer
 # ncdu          -- ncurses disk usage
 # keepassx      -- password management
 # adb           -- for interfacing with android phones
 # xournal       -- for annotating pdfs
 # pavucontrol   -- for managing sound
-sudo apt install -y --no-install-recommends zathura android-tools-adb ncdu keepassx xournal pavucontrol firefox chromium-browser
+sudo apt install -y --no-install-recommends android-tools-adb ncdu keepassx xournal pavucontrol firefox chromium-browser
+
+# zathura
+sudo add-apt-repository -y ppa:spvkgn/zathura-mupdf
+sudo apt install zathura zathura-pdf-mupdf
 ln -sf $DIR/dots/misc/zathurarc ~/.config/zathura/zathurarc
 
 # for scripts that watch filesystem for changes
@@ -437,7 +440,7 @@ sudo sed -i -e 's/REGDOMAIN=.*/REGDOMAIN=US/g' /etc/default/crda
 # tlp for better battery life
 # also provides utility commands `bluetooth` and `wifi`
 # which are used elsewhere in scripts
-sudo add-apt-repository ppa:linrunner/tlp
+sudo add-apt-repository -y ppa:linrunner/tlp
 sudo apt update
 sudo apt install tlp --no-install-recommends
 sudo apt install acpi-call-dkms
