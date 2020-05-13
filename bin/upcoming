@@ -14,6 +14,11 @@
 REMINDER_TIME=600 # seconds
 UPCOMING_FILE=~/.calendar/.upcoming
 
+# use system timezone by default.
+# the `date` command uses this anyways if --utc is not specified,
+# but in some places we are explicit
+DEFAULT_TZ=$(cat /etc/timezone)
+
 # For recurring rules
 SPD=$((24 * 60 * 60)) # seconds per day
 SPW=$((7 * $SPD)) # seconds per week
@@ -34,10 +39,11 @@ check_event() {
 # Parse a single or recurring event
 parse_event() {
     handle_event=$1
+    starts=()
 
-    # Treat "now" as the start of today,
+    # Treat "now" as the start of today (local time, but as UTC),
     # b/c if we're e.g. 1 minute into an event we still want to see it
-    now=$(date --utc -d "today 00:00:00" +%s)
+    now=$(date --utc -d @$(date -d "today 00:00:00" +%s) +%s)
     ts=$(start_ts)
 
     # Handle recurring events
@@ -76,16 +82,19 @@ parse_event() {
                 ;;
         esac
 
+        # Sort starts times
+        IFS=$'\n' starts=($(sort <<<"${starts[*]}")); unset IFS
+
         # No upcoming dates
         if [ -z "$starts" ]; then
             return 0
         fi
 
-        while read sts; do
+        for sts in ${starts[@]}; do
             if $handle_event $sts $now; then
                 return 0
             fi
-        done < <(echo "$starts")
+        done
     else
         if $handle_event $ts $now; then
             return 0
@@ -107,7 +116,8 @@ parse_dt() {
 # It doesn't seem you can (easily at least) pass associative arrays
 # as arguments, so we use it as a global variable, yuck
 start_ts() {
-    echo $(date +%s --utc --date=$(parse_dt ${event[DTSTART]}))
+    TZ=${event[TZID]:-$DEFAULT_TZ}
+    echo $(date +%s --utc --date='TZ="'$TZ'" '$(parse_dt ${event[DTSTART]}))
 }
 
 # Calculating elapsed intervals for recurring rules
@@ -319,9 +329,9 @@ iterate_events() {
         event=( )
       else
 
-      if [[ $key == "DTSTART;TZID=*" ]]; then
-        event[TZID]=${key##*";TZID="}
-      fi
+        if [[ $key == "DTSTART;TZID="* ]]; then
+            event[TZID]=${key##*";TZID="}
+        fi
         event[${key%%";"*}]=$value
       fi
     done <<< $data
@@ -343,8 +353,8 @@ is_upcoming() {
 
 view_upcoming() {
     DAYS=$1
-    TODAY=$(date --utc -d "today 00:00:00" +%s)
-    END_DATE=$(date --utc -d "today + $DAYS days 00:00:00" +%s)
+    TODAY=$(date --utc -d @$(date -d "today 00:00:00" +%s) +%s)
+    END_DATE=$(date --utc -d @$(date -d "+ $DAYS days 00:00:00" +%s) +%s)
 
     # Check the upcoming file
     # Can't have nested associative arrays
@@ -377,17 +387,17 @@ view_upcoming() {
                     echo -e "Today"
                     ;;
                 1)
-                    echo -e $(date --utc -d @$ts +%m/%d)"\tTomorrow"
+                    echo -e $(date -d @$ts +%m/%d)"\tTomorrow"
                     ;;
                 *)
-                    echo -e $(date --utc -d @$ts +%m/%d)"\t${days} days"
+                    echo -e $(date -d @$ts +%m/%d)"\t${days} days"
                     ;;
             esac
             tput sgr0
         fi
 
         # Print event info
-        echo -e "$(date --utc -d @$ts +%H:%M)\t$(tput setaf 2)${summ}$(tput sgr 0)"
+        echo -e "$(date -d @$ts +%H:%M)\t$(tput setaf 2)${summ}$(tput sgr 0)"
         if [ -n "$desc" ]; then
             # Indent description
             desc=$(echo -e "${desc}" | sed 's/^/\t/')
@@ -456,9 +466,18 @@ if [[ $1 == 'view' ]]; then
     # Show upcoming agenda
     # Usage: upcoming view [DAYS]
     # DAYS defaults to 2
-    view_upcoming ${2:-2} | less -R
+    view_upcoming ${2:-2}
 
 elif [[ $1 == 'remind' ]]; then
+    while true; do
+        remind
+        sleep 60
+    done
+
+elif [[ $1 == 'update' ]]; then
+    update
+
+elif [[ $1 == 'daemon' ]]; then
     # Update upcoming events in the background
     update &
     P1=$!
@@ -468,7 +487,4 @@ elif [[ $1 == 'remind' ]]; then
         sleep 60
     done
     wait $P1
-
-elif [[ $1 == 'update' ]]; then
-    update
 fi
