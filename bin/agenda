@@ -11,7 +11,7 @@
 #   Processes new and updated events (upcoming event ics files put into UPCOMING_FILE)
 #   and sends a reminder notification upcoming events (REMINDER_TIME seconds before, see below).
 
-REMINDER_TIME=600 # seconds
+REMINDER_TIME=300 # seconds
 UPCOMING_FILE=~/.calendar/.upcoming
 
 # use system timezone by default.
@@ -346,6 +346,7 @@ is_upcoming() {
         key="${ts}_${file}"
         events[$key]=$ts
         summaries[$key]=${event[SUMMARY]}
+        locations[$key]=${event[LOCATION]}
         descriptions[$key]=${event[DESCRIPTION]}
     fi
     return 1
@@ -362,6 +363,7 @@ view_upcoming() {
     declare -A events
     declare -A descriptions
     declare -A summaries
+    declare -A locations
     while IFS= read -r line; do
         if [ -f "$line" ]; then
             iterate_events is_upcoming $line
@@ -370,9 +372,11 @@ view_upcoming() {
 
     # Sort by timestamp
     LAST_DAY=""
+    LAST_TS=0
     mapfile -d '' sorted < <(printf '%s\0' "${!events[@]}" | sort -z)
     for key in "${sorted[@]}"; do
         ts=${events[$key]}
+        loc=${locations[$key]}
         desc=${descriptions[$key]}
         summ=${summaries[$key]}
         days=$(echo "( `date --utc -d @$ts +%s` - `date --utc -d @$TODAY +%s`) / (24*3600)" | bc -l | cut -d"." -f1)
@@ -396,8 +400,15 @@ view_upcoming() {
             tput sgr0
         fi
 
+        now=$(date +%s)
+        if [[ $now -gt $LAST_TS && $now -lt $ts ]]; then
+            echo -e "--------$(tput setaf 3)Now$(tput sgr 0)--------\n"
+        fi
+        LAST_TS=$ts
+
         # Print event info
         echo -e "$(date -d @$ts +%H:%M)\t$(tput setaf 2)${summ}$(tput sgr 0)"
+        if [ -n "$loc" ]; then echo -e "\t${loc}"; fi
         if [ -n "$desc" ]; then
             # Indent description
             desc=$(echo -e "${desc}" | sed 's/^/\t/')
