@@ -12,7 +12,6 @@ backups[Pictures]=~/photos/phone_pictures
 backups[Tumblr]=~/photos/tumblr
 backups[tencent/MicroMsg/WeChat]=~/photos/wechat
 backups[WhatsApp/Media]=~/photos/whatsapp
-backups[Highlights]=~/notes/pdfs/
 
 # backup (i.e. don't delete)
 # directories FROM the phone
@@ -38,7 +37,3 @@ mkdir /tmp/musics
 parse_songs | xargs -0 -d '\n' -I {} cp {} /tmp/musics/
 adb-sync --delete /tmp/musics/ /sdcard/Music/musics
 rm -rf /tmp/musics
-
-# parse moonreader highlights
-# cd ~/notes/pdfs
-# python moonreader.py
