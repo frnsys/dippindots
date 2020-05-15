@@ -68,6 +68,7 @@ hi WarningMsg   ctermbg=196
 
 " markdown
 " ref: <https://github.com/tpope/vim-markdown/blob/master/syntax/markdown.vim>
+hi markdownQuestion           ctermfg=221
 hi markdownCheckboxUnchecked  ctermfg=196
 hi markdownCheckboxChecked    ctermfg=35
 hi markdownUnchecked          ctermfg=none
