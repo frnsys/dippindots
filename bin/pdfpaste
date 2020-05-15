@@ -50,7 +50,11 @@ def fix_text(text):
             else:
                 fixed.append(a)
                 i += 1
-        fixed_paras.append(' '.join(fixed))
+
+        # Join and clean up whitespace again
+        p = ' '.join(fixed)
+        p = re.sub(r' +', ' ', p).strip()
+        fixed_paras.append(p)
     text = '\n\n'.join(fixed_paras)
     for frm, to in replacements:
         text = text.replace(frm, to)
