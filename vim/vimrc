@@ -186,7 +186,7 @@ nmap <S-t> :tabnew<cr>
 " netrw
 let g:netrw_banner=0
 let g:netrw_liststyle=3
-let g:netrw_list_hide= '.*\.swp$,.*\.pyc,\.tags,\.git,\.sass-cache'
+let g:netrw_list_hide= '.*\.swp$,.*\.pyc,\.tags,\.git,\.sass-cache,node_modules'
 nmap - :Explore<cr>
 
 " go to definition
