@@ -19,7 +19,6 @@ pactl load-module module-bluetooth-discover
 sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick silversearcher-ag xbacklight tree
 sudo pip install youtube-dl
 
-# feh - image viewer/wallpaper manager
 # xsel - clipboard
 # xdotool - simulating interactions with the GUI
 # i3lock - locking the screen
@@ -27,7 +26,7 @@ sudo pip install youtube-dl
 # unclutter - hide cursor after inactivity
 # gdebi - easier installation of deb packages
 sudo apt install -y --no-install-recommends xorg
-sudo apt install -y feh xsel xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console oathtool avahi-daemon redshift
+sudo apt install -y xsel xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console oathtool avahi-daemon redshift
 
 # deluged config
 ln -sf $DIR/dots/misc/deluged.conf ~/.config/deluge/core.conf
@@ -114,6 +113,10 @@ cd /tmp/maim
 cmake ./
 make && sudo make install
 cd $DIR
+
+# feh - image viewer/wallpaper manager
+# librsvg for viewing svgs with feh
+sudo apt install -y feh librsvg2-bin
 
 # webp imlib2 loader for feh
 sudo apt install -y libimlib2-dev libwebp-dev pkg-config

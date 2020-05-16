@@ -50,8 +50,8 @@ safepipe() { "$@"; test $? = 0 -o $? = 141; }
 if [ "$preview_images" = "True" ]; then
     case "$mimetype" in
         # Image previews for SVG files, disabled by default.
-        ###image/svg+xml)
-        ###   convert "$path" "$cached" && exit 6 || exit 1;;
+        image/svg)
+            convert "$path" "$cached" && exit 6 || exit 1;;
         # Image previews for image files. w3mimgdisplay will be called for all
         # image files (unless overriden as above), but might fail for
         # unsupported types.
