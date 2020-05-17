@@ -15,11 +15,11 @@ function cleanup {
 trap cleanup EXIT
 
 PANEL_PADDING=0
-PANEL_HEIGHT=36
+PANEL_HEIGHT=22
 PANEL_NAME="wm_panel"
 
-FONT1="-*-terminus-medium-r-normal-*-22-*-*-*-c-*-iso8859-1"       # western
-FONT2="-misc-fixed-medium-r-normal-ja-19-0-75-75-c-0-iso10646-1"   # characters
+FONT1="-*-terminus-medium-r-normal-*-16-*-*-*-c-*-iso8859-1"       # western
+FONT2="-misc-fixed-medium-r-normal-ja-16-0-75-75-c-0-iso10646-1"   # characters
 
 # For determining individual monitor bar geometries (positioning)
 CUR_X_OFFSET=$((0 + $PANEL_PADDING))

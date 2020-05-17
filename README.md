@@ -30,7 +30,7 @@ To transfer a GPG secret key:
 
     git clone https://github.com/frnsys/dippindots.git ~/.dippindots
     cd ~/.dippindots
-    ./dippindots.sh
+    ./setup.sh
 
 ## Screenshots
 

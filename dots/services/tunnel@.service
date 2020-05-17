@@ -1,4 +1,5 @@
 # example systemd service for creating an ssh tunnel on boot
+# (used by hubble)
 # create as /etc/systemd/system/tunnel@.service
 # to start:
 #   sudo systemctl start tunnel@ftseng.service

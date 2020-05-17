@@ -6,8 +6,8 @@
 *.spl
 logs/
 cache/
-vim/pack
-vim/.undo/*
-vim/.backup/*
-vim/.temp/*
+dots/vim/.undo/*
+dots/vim/.backup/*
+dots/vim/.temp/*
+dots/vim/pack
 assets/fonts
