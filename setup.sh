@@ -209,7 +209,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     # auto-lock screen on sleep
     # https://wiki.archlinux.org/index.php/Power_management#Suspend.2Fresume_service_files
     sudo cp $DIR/bin/lock /usr/bin/lock
-    sudo cp $DIR/dots/misc/lock@.service /etc/systemd/system/lock@.service
+    sudo cp $DIR/dots/services/lock@.service /etc/systemd/system/lock@.service
     sudo chown root:root /etc/systemd/system/lock@.service
     systemctl enable lock@ftseng.service
 
@@ -414,8 +414,8 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo service stunnel4 start
 
     # autostart/stop vpn on wifi up/down
-    sudo cp $DIR/dots/misc/network/airvpn_up /etc/networkd-dispatcher/routable.d/airvpn
-    sudo cp $DIR/dots/misc/network/airvpn_down  /etc/networkd-dispatcher/no-carrier.d/airvpn
+    sudo cp $DIR/dots/services/network/airvpn_up /etc/networkd-dispatcher/routable.d/airvpn
+    sudo cp $DIR/dots/services/network/airvpn_down  /etc/networkd-dispatcher/no-carrier.d/airvpn
 
     # signal desktop client
     curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
