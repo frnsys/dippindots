@@ -90,6 +90,13 @@ parse_event() {
             return 0
         fi
 
+        # Debugging
+        # echo "EVENT:${event[SUMMARY]}"
+        # echo "BYDAY:${rrule[BYDAY]}"
+        # for sts in ${starts[@]}; do
+        #     echo $(date -d @$sts)
+        # done
+
         for sts in ${starts[@]}; do
             if $handle_event $sts $now; then
                 return 0
@@ -199,7 +206,9 @@ get_next_weekly() {
         STARTS=($start)
     else
         # Get day of week of start time
-        DOW=$(date --utc -d @$start +%u)
+        # Don't do this as UTC, we want the day of week
+        # in the local time zone
+        DOW=$(date -d @$start +%u)
 
         # Get number of weekly repeating days
         n_days=$(($(echo "${byday}" | awk -F"," '{print NF-1}') + 1))
