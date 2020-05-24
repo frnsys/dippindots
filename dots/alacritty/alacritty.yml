@@ -1,0 +1,58 @@
+# https://github.com/alacritty/alacritty/blob/master/alacritty.yml
+
+window:
+  title: alacritty
+  class:
+    instance: alacritty
+    general: alacritty
+dynamic_title: false
+
+mouse:
+    url:
+        launcher: None
+
+font:
+  normal:
+    family: Source Code Pro
+    style: Light
+  size: 12.0
+  offset:
+      y: 4 # line height
+
+colors:
+  primary:
+    background: '#202020'
+    foreground: '#ffffff'
+  cursor:
+    text: '#000000'
+    cursor: '#43cc70'
+  selection:
+    text: '#000000'
+    background: '#fffacd'
+  normal:
+    black:   '#1d2c47'
+    red:     '#d2275a'
+    green:   '#43cc70'
+    yellow:  '#e5cf2b'
+    blue:    '#1e59aa'
+    magenta: '#8752ba'
+    cyan:    '#4b76b8'
+    white:   '#e95986'
+  bright:
+    black:   '#1d2c47'
+    red:     '#ff2f6d'
+    green:   '#43cc70'
+    yellow:  '#fb5f90'
+    blue:    '#2c84fc'
+    magenta: '#b56efa'
+    cyan:    '#67a2fd'
+    white:   '#fb89ad'
+
+key_bindings:
+  - { key: P,        mods: Control|Shift,           action: Paste            }
+  - { key: C,        mods: Control|Shift,           action: Copy             }
+  - { key: Back,     mods: Control,                 action: ResetFontSize    }
+  - { key: Equals,   mods: Control,                 action: IncreaseFontSize }
+  - { key: Add,      mods: Control,                 action: IncreaseFontSize }
+  - { key: Subtract, mods: Control,                 action: DecreaseFontSize }
+  - { key: Minus,    mods: Control,                 action: DecreaseFontSize }

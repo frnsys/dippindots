@@ -347,8 +347,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     # alacritty - terminal
     sudo add-apt-repository -y ppa:mmstick76/alacritty
     sudo apt install -y alacritty
-    mkdir -p ~/.config/alacritty
-    ln $DIR/dots/alacritty.conf ~/.config/alacritty/alacritty.conf
+    ln -sf $DIR/dots/alacritty ~/.config/alacritty
     cd $DIR
 
     # dunst - notifications
