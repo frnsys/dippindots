@@ -66,7 +66,7 @@ echo "Installing Python3..."
 sudo apt -y install python3 python3-setuptools python-pip python3-pip
 
 # pyenv for easier version management
-sudo apt -y install tk-dev
+sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
 
