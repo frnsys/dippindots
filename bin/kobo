@@ -1,7 +1,6 @@
 #!/bin/bash
 
 CMD=$1
-KOBOANNO=~/projects/tools/kobo/main.py
 
 function e {
     echo "$1"
@@ -26,7 +25,21 @@ elif [ $CMD == 'sync' ]; then
 
     echo "Syncing annotations from Kobo..."
     sudo cp /media/usb/.kobo/KoboReader.sqlite /tmp/KoboReader.sqlite
-    python "$KOBOANNO" /tmp/KoboReader.sqlite ~/notes/kobo.json
+    sqlite3 /tmp/KoboReader.sqlite "SELECT
+        json_object(
+            'path', Bookmark.VolumeID,
+            'text', Bookmark.Text,
+            'anno', Bookmark.Annotation,
+            'extra_anno', Bookmark.ExtraAnnotationData,
+            'created', Bookmark.DateCreated,
+            'modified', Bookmark.DateModified,
+            'book_title', content.BookTitle,
+            'title', content.Title,
+            'author', content.Attribution)
+        FROM Bookmark INNER JOIN content
+        ON Bookmark.VolumeID = content.ContentID;" > /tmp/kobo.new.jsonl
+    sort <(cat /tmp/kobo.new.jsonl) <(cat ~/notes/kobo.jsonl) | jq -sc '. | unique | .[]' > /tmp/kobo.jsonl
+    mv /tmp/kobo.jsonl ~/notes/kobo.jsonl
 
     echo "Unmounting..."
     sudo umount /media/usb
