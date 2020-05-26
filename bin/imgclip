@@ -1,40 +1,5 @@
-#! /usr/bin/python
+#!/bin/bash
+# Copies an image file to the clipboard.
+# Usage: imgclip <path to image>
 
-"""
-Copies an image file to the clipboard.
-Usage: imgclip <path to image>
-"""
-
-import os
-import sys
-import gtk
-
-
-class ImgClip(gtk.Window):
-    def __init__(self):
-        super(ImgClip, self).__init__(gtk.WINDOW_POPUP)
-        self.clipboard_owner = None
-
-    def save(self, f):
-        assert os.path.exists(f), "file does not exist"
-        pb = gtk.gdk.pixbuf_new_from_file(f)
-        clipboard = gtk.Clipboard()
-        clipboard.set_image(pb)
-
-        # keep active while owning the clipboard,
-        # auto-exit when another program takes ownership
-        clipboard.connect("owner-change", self.on_owner_change)
-
-    def on_owner_change(self, clipboard, event):
-        if not self.clipboard_owner:
-            self.clipboard_owner = event.owner
-        elif self.clipboard_owner != event.owner:
-            exit()
-
-if __name__ == '__main__':
-    ImgClip().save(sys.argv[1])
-
-    try:
-        gtk.main()
-    except KeyboardInterrupt:
-        print("Bye")
+xclip -selection clipboard -target image/png -i "$1"
