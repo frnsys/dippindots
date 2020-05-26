@@ -2,4 +2,4 @@
 # global dmenu config
 
 MAX_WIDTH=400
-/usr/local/bin/dmenu -i -ia top-gapless -is $MAX_WIDTH -sf '#000000' -sb '#43cc70' -nf '#ffffff' -nb '#111112' -fn "terminus 12" "$@"
+/usr/local/bin/dmenu -i -ia top-gapless -is $MAX_WIDTH -sf '#000000' -sb '#43cc70' -nf '#ffffff' -nb '#111112' -fn "Source Code Pro 10" "$@"

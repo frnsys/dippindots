@@ -2,7 +2,7 @@
     # refer to <https://github.com/knopwob/dunst/blob/master/dunstrc>
     # put colors in quotation marks so they aren't mistaken as comments
 
-    font = terminus 12
+    font = Source Code Pro 10
     markup = yes
     plain_text = no
     word_wrap = yes
@@ -39,7 +39,7 @@
     horizontal_padding = 16
     icon_position = left
     max_icon_size = 128
-    frame_width = 5
+    frame_width = 2
     frame_color = "#1cbc5f"
 
     # auto/foreground/frame/a color
@@ -63,13 +63,13 @@
 
 
 [urgency_low]
-    background = "#444444"
+    background = "#333333"
     foreground = "#ffffff"
     timeout = 2
     icon = ""
 
 [urgency_normal]
-    background = "#444444"
+    background = "#333333"
     foreground = "#ffffff"
     timeout = 2
     icon = ""

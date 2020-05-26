@@ -52,7 +52,7 @@ def run(cmd, input=None, notify_on_err=True):
     out, err = proc.communicate(input)
     out = out.decode('utf8')
     err = err.decode('utf8')
-    if proc.returncode is not 0:
+    if proc.returncode != 0:
         if notify_on_err: notify(err)
         raise Exception('Non-zero exit code')
     return out.strip()

@@ -38,7 +38,7 @@ while read -r mon; do
         while read line; do echo W$line; done \
             > "$PANEL_FIFO$mon" &
 
-    clock -sf 'C%m月%d日 %H:%M' > "$PANEL_FIFO$mon" &
+    clock -sf 'C%m/%d %H:%M' > "$PANEL_FIFO$mon" &
     ~/.config/lemonbar/status > "$PANEL_FIFO$mon" &
 
     # Grep out current monitor width
