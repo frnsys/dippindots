@@ -1,8 +1,9 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 """
 For Keepass 2.x (v4) files
-pip2 install gtk pykeepass
+apt install python3-gi
+/usr/bin/pip3 install pykeepass
 """
 
 import string
@@ -60,7 +61,7 @@ def new_entry(db):
         print('[{}] {}'.format(i, group.name))
     data['group_name'] = None
     while data['group_name'] is None:
-        inp = raw_input('Select #: ')
+        inp = input('Select #: ')
         try:
             data['group_name'] = db.groups[int(inp)].name
         except (ValueError, IndexError):
@@ -73,7 +74,7 @@ def new_entry(db):
         data[key] = None
         while data[key] is None or (not data[key] and key in required):
             note = 'required' if key in required else 'optional'
-            data[key] = raw_input('{} ({}): '.format(key.title(), note))
+            data[key] = input('{} ({}): '.format(key.title(), note))
 
     if not data['password']:
         data['password'] = generate_password()
@@ -82,22 +83,22 @@ def new_entry(db):
         print('Data:')
         for k, v in data.items():
             print('  {}: {}'.format(k,v))
-        ok = raw_input('Ok? [y/n] ')
+        ok = input('Ok? [y/n] ')
         if ok.lower() == 'y':
             break
         else:
             key = None
             while key not in data:
-                key = raw_input('Change key: ')
+                key = input('Change key: ')
             data[key] = None
             while data[key] is None or (not data[key] and key in required):
                 note = 'required' if key in required else 'optional'
-                data[key] = raw_input('{} ({}): '.format(key.title(), note))
+                data[key] = input('{} ({}): '.format(key.title(), note))
     return add_entry(db, **data)
 
 
 def search(db):
-    query = raw_input('Search: ')
+    query = input('Search: ')
     selected = None
     while selected is None:
         entries = search_entries(db, query)
@@ -106,7 +107,7 @@ def search(db):
             for i, entry in enumerate(entries):
                 print('[{}] {}'.format(i, entry.title))
             while selected is None:
-                inp = raw_input('Select #: ')
+                inp = input('Select #: ')
                 try:
                     selected = entries[int(inp)]
                 except ValueError:
@@ -116,7 +117,7 @@ def search(db):
                     pass
         else:
             print('No results')
-            query = raw_input('Search: ')
+            query = input('Search: ')
     return selected
 
 
@@ -133,16 +134,18 @@ def load_db(filename):
 
 if __name__ == '__main__':
     import os
-    import gtk
+    import gi
+    gi.require_version("Gtk", "3.0")
+    from gi.repository import Gtk
     print('Keepass')
     filename = os.path.expanduser('~/docs/pass.kdbx')
     try:
         db = load_db(filename)
-        clipboard = gtk.Clipboard()
+        clipboard = Gtk.Clipboard()
         print('Commands: new, get, list, quit')
 
         while True:
-            cmd = raw_input('> ')
+            cmd = input('> ')
             if cmd == 'new':
                 password = new_entry(db)
                 clipboard.set_text(password)
