@@ -138,13 +138,14 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo pip install youtube-dl
 
     # xsel - clipboard
+    # xclip - clipboard, used by imgclip script
     # xdotool - simulating interactions with the GUI
     # i3lock - locking the screen
     # libnotify-bin - for `notify-send` to create notifications
     # unclutter - hide cursor after inactivity
     # gdebi - easier installation of deb packages
     sudo apt install -y --no-install-recommends xorg
-    sudo apt install -y xsel xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console oathtool avahi-daemon redshift
+    sudo apt install -y xsel xclip xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console oathtool avahi-daemon redshift
 
     # deluged config
     ln -sf $DIR/dots/misc/deluged.conf ~/.config/deluge/core.conf
