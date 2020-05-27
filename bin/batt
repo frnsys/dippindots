@@ -3,7 +3,6 @@
 # but it doesn't work well for multiple batteries
 # (e.g. thinkpads)
 
-EWMA_ALPHA=0.05
 BATS=/sys/class/power_supply/BAT*/
 
 function query() {

@@ -1,3 +1,4 @@
+set font "Source Code Pro 8"
 set selection-clipboard clipboard
 
 " to activate, use ctrl+r
