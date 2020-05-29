@@ -42,28 +42,11 @@ function! OpenUrlUnderCursor()
 endfunction
 nnoremap gx :call OpenUrlUnderCursor()<cr>
 
-" compile markdown and preview in browser
-nnoremap <leader>p :AsyncRun nom view -w -i "%"<cr>
-
 " easily paste html clipboard content as quoted markdown
-function! PasteQuotedHTML()
-    augroup AsyncGroup
-        autocmd!
-        autocmd User AsyncRunStop normal P
-    augroup END
-    call asyncrun#run("!", "", "nom clip | sed 's/^/> /' | xsel -bi")
-endfunction
-nnoremap <leader>c :call PasteQuotedHTML()<cr>
+nnoremap <leader>c :r !nom clip<cr>
 
 " easily paste pdf clipboard content as quoted markdown
-function! PasteQuotedPDF()
-    augroup AsyncGroup
-        autocmd!
-        autocmd User AsyncRunStop normal P
-    augroup END
-    call asyncrun#run("!", "", "xsel -b | ~/.bin/pdfpaste | sed 's/^/> /' | xsel -bi")
-endfunction
-nnoremap <leader>d :call PasteQuotedPDF()<cr>
+nnoremap <leader>d :r !pdfpaste<cr>
 
 " screenshot, move to assets folder, paste in markdown
 nnoremap <leader>s "=system("fpath=$(shot region <bar> tail -n 1); fname=$(basename $fpath); mv $fpath assets/$fname; echo '![](assets/'$fname')'")<CR>P

@@ -1,68 +1,41 @@
-#!/usr/bin/python3
-import re
+#!/bin/bash
 
-replacements = [
-    ('ﬂ', 'fl'),
-    ('ﬁ', 'fi'),
-    ('ﬄ', 'ffl'),
-    ('ﬃ', 'ffi'),
-    ('ﬀ', 'ff'),
-    ('​', ''),
-    ('“', '"'),
-    ('”', '"'),
-    ('‘‘', '"'),
-    ('’’', '"'),
-    ('‘', '\''),
-    ('’', '\''),
-    ('', '^-'),
-    ('∼', '~'),
-    ('−', '-'),
-    ('', '^-'),
-    ('', '-'),
-]
+# Replacements to fix common mistakes
+# and make more plaintext friendly
+declare -A REPLACE=(
+    [ﬂ]="fl"
+    [ﬁ]="fi"
+    [ﬄ]="ffl"
+    [ﬃ]="ffi"
+    [ﬀ]="ff"
+    [​]=""
+    [“]='"'
+    [”]='"'
+    [‘‘]='"'
+    [’’]='"'
+    [‘]="'"
+    [’]="'"
+    []="^-"
+    [∼]="~"
+    [−]="-"
+    []="^-"
+    []="-"
+)
 
-def fix_text(text):
-    fixed_paras = []
-    paras = text.split('\n\n')
-    for p in paras:
-        # Collapse multiple consecutive whitespace
-        p = re.sub(r' +', ' ', p).strip()
+# Get clipboard selection
+TEXT=$(xsel -b)
 
-        # Join lines via heuristic
-        lines = p.split('\n')
-        toks = []
-        for l in lines:
-            toks += l.split(' ')
+# In order:
+# 1. add spaces to the end of newlines
+# 2. lines that end with "- " are assumed to be a broken word,
+#    replace with just "" so that when we delete newlines, the parts are joined
+# 3. delete newlines
+TEXT=$(echo -e "$TEXT" | sed 's/$/ /g' | sed 's/- $//g' | tr -d '\n')
 
-        fixed = []
-        i = 0
-        while i < len(toks):
-            a = toks[i]
-            try:
-                b = toks[i+1]
-            except IndexError:
-                fixed.append(a)
-                break
-            if a.endswith('-'):
-                tok = a[:-1] + b
-                fixed.append(tok)
-                i += 2
-            else:
-                fixed.append(a)
-                i += 1
+# Apply replacements
+for key in "${!REPLACE[@]}"; do
+    TEXT=$(echo "$TEXT" | sed 's/'${key}'/'${REPLACE[$key]}'/g')
+done
 
-        # Join and clean up whitespace again
-        p = ' '.join(fixed)
-        p = re.sub(r' +', ' ', p).strip()
-        fixed_paras.append(p)
-    text = '\n\n'.join(fixed_paras)
-    for frm, to in replacements:
-        text = text.replace(frm, to)
-    return text
-
-if __name__ == '__main__':
-    import sys
-    # Drop excess new line
-    text = [l[:-1] for l in sys.stdin]
-    text = '\n'.join(text)
-    print(fix_text(text))
+# Add markdown quote syntax
+echo $TEXT | sed 's/^/> /'

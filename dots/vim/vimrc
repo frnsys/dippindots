@@ -25,7 +25,6 @@ call minpac#add('pangloss/vim-javascript')
 
 " Markdown
 call minpac#add('dhruvasagar/vim-table-mode')
-call minpac#add('skywind3000/asyncrun.vim')
 packloadall
 
 colorscheme dark
