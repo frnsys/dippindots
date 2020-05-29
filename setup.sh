@@ -445,8 +445,10 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     # setup fonts
     sudo ln -sf /etc/fonts/conf.avail/50-user.conf /etc/fonts/conf.d/50-user.conf
     sudo apt install -y fonts-inconsolata xfonts-terminus ttf-mscorefonts-installer
+    mkdir -p ~/.config/fontconfig
     ln -sf $DIR/assets/fonts ~/.fonts
     ln -sf $DIR/dots/misc/fonts.conf ~/.fonts.conf
+    ln -sf $DIR/dots/misc/fonts.conf ~/.config/fontconfig/fonts.conf
     mkfontdir ~/.fonts
     mkfontscale ~/.fonts
     xset +fp ~/.fonts/
