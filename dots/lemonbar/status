@@ -146,7 +146,13 @@ streaming() {
     fi
 }
 
+muted() {
+    if [[ $(mute status) = "yes" ]]; then
+        echo "% "
+    fi
+}
+
 while true; do
-    echo 'S'$(notifications)$(tasks) $(streaming) $(bluetooth) $(battery) $(email) $(volume)$(wifi)
+    echo 'S'$(notifications)$(tasks) $(streaming) $(bluetooth) $(battery) $(email) $(muted)$(volume)$(wifi)
     sleep $UPDATE_INTERVAL
 done

@@ -33,8 +33,8 @@ super + {h,j,k,l}
     bspc node -f {west,south,north,east}
 
 # switch between tiled and monocle
-super + shift + m
-    bspc desktop -l next
+# super + shift + m
+#     bspc desktop -l next
 
 # switch between nodes in monocle
 super + shift + bracket{left,right}
@@ -173,6 +173,9 @@ super + e
 
 super + m
     bspc rule -a alacritty -o state=floating && alacritty -e mutt
+
+super + shift + m
+    mute toggle
 
 super + g
     pickcolor
