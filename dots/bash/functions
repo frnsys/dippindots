@@ -53,6 +53,14 @@ function extract() {
 }
 
 # convenience function for youtube
-function yt() {
+function watch() {
     mpv --geometry=640x360-25-50 --ytdl-format=best[height=720] "$1"
+}
+
+function rand() {
+    cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
+}
+
+function gpr() {
+    git fetch origin pull/$1/head:pr$1; git checkout pr$1
 }
