@@ -125,9 +125,6 @@ endif
 " filetypes
 filetype plugin indent on " Turn on filetype plugins (:help filetype-plugin)
 if has("autocmd")
-  " treat JSON files like JavaScript
-  au BufNewFile,BufRead *.json set ft=javascript
-
   " make Python follow PEP8 for whitespace (http://www.python.org/dev/peps/pep-0008/)
   au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4
 
