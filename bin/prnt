@@ -5,14 +5,24 @@
 #   hp-setup -i
 # see ~/notes/linux/printing.md
 
+args=()
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -p|--pages) args+=("-o page-ranges=$2"); shift ;;
+        -d|--double-sided) args+=("-o Duplex=DuplexNoTumble -o sides=two-sided-long-edge") ;;
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
+
 PRINTER=$(lpstat -e | dmenu -l 10 -p "printer:")
-PAGES=$2
 if [ -z $PRINTER ]; then
     exit 0
 else
-    if [ -z $PAGES ]; then
-        lpr -P "$PRINTER" -o Duplex=DuplexNoTumble -o sides=two-sided-long-edge "$1"
-    else
-        lpr -P "$PRINTER" -o Duplex=DuplexNoTumble -o sides=two-sided-long-edge -o page-ranges=$PAGES "$1"
-    fi
+    # NOTE: sometimes lpr doesn't work but lp does
+    lpr -P "$PRINTER" ${args[@]} "$1"
 fi
+
+# to remove all queued jobs:
+# lprm -P $PRINTER -
+# the hp-toolbox interface basically doesn't do it otherwise
