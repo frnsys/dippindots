@@ -24,7 +24,7 @@ APPS=$REPLY
 echo "Installing prereqs..."
 sudo apt update
 sudo apt upgrade -y
-sudo apt install -y --no-install-recommends python python-pip gcc gfortran build-essential g++ make cmake autoconf wget unzip git openssh-server software-properties-common libncurses5-dev libxml2-dev libxslt1-dev libyaml-dev bzip2 curl python-dev libsqlite3-dev
+sudo apt install -y --no-install-recommends python3 python3-pip gcc gfortran build-essential g++ make cmake autoconf wget unzip git openssh-server software-properties-common libncurses5-dev libxml2-dev libxslt1-dev libyaml-dev bzip2 curl python-dev libsqlite3-dev
 
 echo "Installing nvm/node..."
 sudo pip install libsass
@@ -63,7 +63,7 @@ echo "Installing math libs..."
 sudo apt install -y libatlas-base-dev liblapack-dev libopenblas-dev libopenblas-base libatlas3-base
 
 echo "Installing Python3..."
-sudo apt -y install python3 python3-setuptools python-pip python3-pip
+sudo apt -y install python3 python3-setuptools python3-pip
 
 # pyenv for easier version management
 sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
@@ -99,7 +99,7 @@ sudo apt install -y \
     libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev
 
 mkdir /tmp/vim && cd $_
-wget https://github.com/vim/vim/archive/v8.0.1489.zip
+wget https://github.com/vim/vim/archive/v8.2.1119.zip
 unzip v*.zip
 cd vim*
 ./configure --with-features=huge --enable-luainterp=yes --enable-pythoninterp=yes --enable-python3interp=yes --enable-gui=no --with-x --with-lua-prefix=/usr
