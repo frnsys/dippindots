@@ -51,6 +51,14 @@ elif [ $TASK == 'months' ]; then
     done
     notify-send "$(echo -e "${RESULTS}")"
     exit 0
+
+elif [ $TASK == 'tasks' ]; then
+    TASK=$2
+    if [ -z "$TASK" ]; then
+        chooseTask
+    fi
+
+    cat $TASK_FILE | grep -P "$TASK" | cut -f2 | sort | uniq
 fi
 
 # Check if a task is active
