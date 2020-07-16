@@ -17,7 +17,7 @@
     /* TAB VARIABLES */
     --bg-light: #303030; --bg-dark: #303030;
     --fg-light: #CECFD1; --fg-dark: #AAABAD;
-    --tab-fonts: "Terminus", "Fantasque Sans Mono", monospace; --tab-font-size: 9pt;
+    --tab-fonts: "Source Code Pro", monospace; --tab-font-size: 11px;
     --tab-min-height: 28px !important;
     --toolbar-bgcolor: #303030 !important;
     --toolbar-color: #AAABAD !important;
@@ -53,7 +53,7 @@
         text-align: center;
         border: none !important;
         font-family: var(--tab-fonts) !important;
-        font-size: 12px;
+        font-size: 11px !important;
     }
     #urlbar-input {
       text-align: center;
