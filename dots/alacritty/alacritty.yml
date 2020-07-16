@@ -5,6 +5,9 @@ window:
   class:
     instance: alacritty
     general: alacritty
+  dimensions:
+    columns: 86
+    lines: 24
 dynamic_title: false
 
 mouse:
