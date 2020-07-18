@@ -1,8 +1,12 @@
 #!/bin/bash
+# for this to work w/o entering a sudo password,
+# add the following to /etc/sudoers.d/00_anarres:
+#   ftseng  ALL = NOPASSWD: /usr/bin/bluetooth
+#   ftseng  ALL = NOPASSWD: /bin/systemctl start bluetooth
+#   ftseng  ALL = NOPASSWD: /bin/systemctl stop bluetooth
 
 bt_status() {
-    POWER=$(echo -e "show\nquit" | bluetoothctl | grep "Powered: yes")
-    if [[ "$(/usr/bin/bluetooth)" == *"= on" ]] && [[ ! -z "$POWER" ]]; then
+    if [[ "$(/usr/bin/bluetooth)" == *"= on" ]]; then
         echo "on"
     else
         echo "off"
@@ -10,6 +14,7 @@ bt_status() {
 }
 
 bt_on() {
+    sudo systemctl start bluetooth
     sudo bluetooth on
     while echo -e "show\nquit" | bluetoothctl | grep -q "No default controller available"; do
         sleep 0.1
@@ -18,6 +23,7 @@ bt_on() {
 }
 
 bt_off() {
+    sudo systemctl stop bluetooth
     sudo bluetooth off
 }
 
