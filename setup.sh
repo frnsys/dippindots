@@ -134,7 +134,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     pactl load-module module-bluetooth-discover
 
     # utils
-    sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick silversearcher-ag xbacklight tree
+    sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick silversearcher-ag tree
     sudo pip install youtube-dl
 
     # xsel - clipboard
@@ -173,10 +173,8 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo ninja -C build install
     ln -sf $DIR/dots/misc/picom.conf ~/.config/picom.conf
 
-    # seems necessary for xbacklight for thinkpads,
-    # which use `intel_brightness` (in `/sys/class/backlight`)
-    sudo apt install -y xserver-xorg-video-intel
-    sudo cp $DIR/dots/misc/20-intel.conf /usr/share/X11/xorg.conf.d/
+    # backlight
+    sudo cp $DIR/bin/glow /usr/bin/glow
     ln -sf $DIR/dots/misc/redshift.conf ~/.config/redshift.conf
 
     # pandoc

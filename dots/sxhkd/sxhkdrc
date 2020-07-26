@@ -130,16 +130,19 @@ super + {F8, XF86AudioMute}
     notify-send "volume $(amixer -D pulse set -M Master toggle | sed -n 's/^.*\[\([a-z]*\)\]/\1/p' | head -n 1)"
 
 super + {F7, XF86MonBrightnessUp}
-    xbacklight -inc 5
+    sudo glow +50
 
 super + shift + {F7, XF86MonBrightnessUp}
-    xbacklight -inc 20
+    sudo glow +200
 
 super + {F6, XF86MonBrightnessDown}
-    xbacklight -dec 5
+    sudo glow -50
 
 super + shift + {F6, XF86MonBrightnessDown}
-    xbacklight -dec 20
+    sudo glow -200
+
+super + shift + alt + {F6, XF86MonBrightnessDown}
+    sudo glow -1
 
 super + t
     bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes -e vi todo.md
