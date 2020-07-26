@@ -7,9 +7,6 @@ export BSPWM_STACK=/tmp/bspwm.stack
 # https://bugzilla.mozilla.org/show_bug.cgi?id=1564238
 export MOZ_USE_XINPUT2=1
 
-# Fix for Mesa driver bug (mpv won't play)
-export MESA_LOADER_DRIVER_OVERRIDE=i965
-
 xrdb -merge -I$HOME ~/.Xresources
 xset +fp ~/.fonts/
 xset fp rehash

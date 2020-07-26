@@ -318,6 +318,9 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo apt install -y mpc mpv
     ln -sf $DIR/dots/mpv ~/.config/mpv
 
+    # for mpv hardware acceleration
+    sudo apt install i965-va-driver
+
     # bspwm - window manager
     sudo apt install -y xcb libxcb-util0-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev  libxcb-xtest0-dev libasound2-dev libxcb-ewmh-dev
     git clone https://github.com/baskerville/xdo /tmp/xdo
