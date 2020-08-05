@@ -20,12 +20,12 @@ function localSync() {
     dest=$1
     echo $dest
     for d in ${REPOS[@]}; do
-        rsync -azv --progress $d $dest/repos --delete --delete-excluded --exclude={.git/lfs,node_modules}
+        rsync -azvu --progress $d $dest/repos --delete --delete-excluded --exclude={.git/lfs,node_modules}
     done
     for d in ${OTHER[@]}; do
-        rsync -azv --progress $d $dest --exclude=.git/lfs
+        rsync -azvu --progress $d $dest --delete-excluded --exclude={.git/lfs,node_modules}
     done
-    rsync -azv --progress ~/downloads $dest/repos --delete --delete-excluded --progress --exclude=torrents
+    rsync -azvu --progress ~/downloads $dest/repos --delete --delete-excluded --progress --exclude=torrents
     date > /tmp/last_updated
     scp /tmp/last_updated $dest/last_updated
 }
@@ -75,6 +75,26 @@ elif [[ $1 == 'studio' ]]; then
         10023:pi:/media/outerspace/francis; do
         remoteSync $dest
     done
+elif [[ $1 == 'cloud' ]]; then
+    # for dest in \
+    #     ftseng@starbase.in:~/backup; do
+    #     CLOUDREPOS=(~/docs ~/notes ~/photos)
+    #     for d in ${CLOUDREPOS[@]}; do
+    #         rsync -azvu --progress $d $dest/repos --delete --delete-excluded --exclude={.git/lfs,node_modules}
+    #     done
+    # done
+
+    for dest in \
+        ftseng@starbase.in:/mnt/backup; do
+        for d in ${REPOS[@]}; do
+            rsync -azvu --progress $d $dest/repos --delete --delete-excluded --exclude={.git/lfs,node_modules}
+        done
+        for d in ${OTHER[@]}; do
+            rsync -azvu --progress $d $dest/repos --delete-excluded --exclude={.git/lfs,node_modules}
+        done
+        rsync -azvu --progress ~/downloads $dest/repos --delete --delete-excluded --progress --exclude=torrents
+    done
+
 elif [[ $1 == 'usb' ]]; then
     dest=/media/usb/backup
     localSync $dest
