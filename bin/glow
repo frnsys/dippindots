@@ -1,0 +1,6 @@
+#!/bin/bash
+# Change screen brightness
+
+AMOUNT=$1
+DEVICE=/sys/class/backlight/intel_backlight/brightness
+echo $(($(cat $DEVICE)+$AMOUNT)) | tee $DEVICE
