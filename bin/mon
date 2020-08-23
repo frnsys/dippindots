@@ -2,8 +2,8 @@
 # Note: run `xrandr -q` to list connected outputs (monitors). Set the appropriate monitor as EXMON.
 
 PLACE=$1
-INMON=eDP1
-EXMON=HDMI2
+INMON=eDP-1
+EXMON=HDMI-2
 
 function restart_panel {
     # Kill the panel/lemonbar and restart
