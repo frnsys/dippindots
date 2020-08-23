@@ -8,7 +8,7 @@ window:
   dimensions:
     columns: 86
     lines: 24
-dynamic_title: false
+  dynamic_title: false
 
 mouse:
     url:
