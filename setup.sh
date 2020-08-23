@@ -120,6 +120,8 @@ ln -sf $DIR/dots/vim ~/.vim
 ln -sf $DIR/dots/vim/vimrc ~/.vimrc
 
 # minpac for plugin management
+# in vim, call:
+# call minpac#update()
 mkdir -p ~/.vim/pack/minpac/opt
 git clone https://github.com/k-takata/minpac.git ~/.vim/pack/minpac/opt/minpac
 
