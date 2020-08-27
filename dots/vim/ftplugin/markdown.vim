@@ -27,12 +27,14 @@ function! OpenUrlUnderCursor()
 
     let l:obj = l:line[l:lcol + 1: l:rcol - 1]
     let l:url = matchstr(l:obj, '\(http\|https\):\/\/[^ >,;]*')
-    let l:img = matchstr(l:obj, '[^<>()]\+\.\(jpg\|jpeg\|png\|gif\)')
+    let l:img = matchstr(l:obj, '[^<>()]\+\.\(jpg\|jpeg\|png\|gif\|mp4\)')
     if l:url != ''
         call netrw#BrowseX(l:url, 0)
     elseif l:img != ''
         if matchend(l:img, 'gif') >= 0
             silent exec "!gifview -a '".l:img."'" | redraw!
+        elseif matchend(l:img, 'mp4') >= 0
+            silent exec "!mpv '".l:img."'" | redraw!
         else
             silent exec "!feh --scale-down '".l:img."'" | redraw!
         endif
