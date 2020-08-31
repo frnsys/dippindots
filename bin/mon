@@ -13,7 +13,7 @@ function restart_panel {
 
 
 # so bspc properly picks up the primary monitor
-xrandr --output $INMON --auto --primary
+xrandr --output "$INMON" --auto --primary
 
 # Set this here for convenience
 bspc config remove_unplugged_monitors true
@@ -64,11 +64,11 @@ elif [[ $PLACE == 'reset' ]]; then
         bspc query -D -m $EXNAME | grep -n '.' | cut -f1 -d: | xargs -L1 -I % bspc desktop $EXNAME:^% -r
 
         # rename the monitors for reuse later
-        bspc monitor primary -n $INMON
-        bspc monitor $EXNAME -n $EXMON
+        bspc monitor primary -n "$INMON"
+        bspc monitor $EXNAME -n "$EXMON"
 
         # "unplug" the monitor
-        xrandr --output $EXMON --off
+        xrandr --output "$EXMON" --off
 
         # wait for the monitor to be removed
         # then reset desktops (otherwise the last one sticks)
@@ -91,16 +91,16 @@ else
 fi
 
 # set primary monitory
-xrandr --output $INMON --auto --primary
-bspc monitor primary -n $INMON
+xrandr --output "$INMON" --auto --primary
+bspc monitor primary -n "$INMON"
 
 # place the external monitor to the specified position
 if [[ $PLACE == 'mirror' ]]; then
     RES=$(xrandr | grep \* | awk '{print $1}')
-    xrandr --output $EXMON --auto --scale-from $RES --output $INMON
+    xrandr --output "$EXMON" --auto --scale-from $RES --output "$INMON"
 else
     # if external monitor is 4k, use `--scale 0.5x0.5`
-    xrandr --output $EXMON --auto --$POSITION $INMON
+    xrandr --output "$EXMON" --auto --$POSITION "$INMON"
 fi
 
 # NOTE some monitors will be set to "overscan"
