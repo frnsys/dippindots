@@ -27,6 +27,8 @@ REGEXS = {
     'auth': 'Authentication suites: (.+)',
 }
 REGEXS = {k: re.compile(r) for k, r in REGEXS.items()}
+REQUIRED = ['bssid', 'essid']
+OPTIONAL = ['auth']
 ENC_REGEXS = {
     'wpa2': 'RSN:',
     'wpa1': 'WPA:',
@@ -77,17 +79,22 @@ def scan(iface='wlan0'):
     for c in cells:
         c = '\n'.join(c)
         try:
-            data = {k: r.search(c).group(1) for k, r in REGEXS.items()}
+            data = {k: REGEXS[k].search(c).group(1) for k in REQUIRED}
         except:
             print(c)
-            for k, r in REGEXS.items():
-                print(k)
+            print('='*20)
             continue
             # raise
+        for k in OPTIONAL:
+            try:
+                data[k] = REGEXS[k].search(c).group(1)
+            except:
+                continue
         id = '{}@{}'.format(data['essid'], data['bssid'].upper())
         data['encryption'] = is_encrypted(c)
         data['auth'] = data.get('auth', '')
         networks[id] = data
+    print(networks)
     return networks
 
 
