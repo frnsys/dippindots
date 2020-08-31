@@ -20,12 +20,12 @@ function localSync() {
     dest=$1
     echo $dest
     for d in ${REPOS[@]}; do
-        rsync -azvu --progress $d $dest/repos --delete --delete-excluded --exclude={.git/lfs,node_modules}
+        rsync -azvu --progress "$d" "$dest/repos" --delete --delete-excluded --exclude={.git/lfs,node_modules}
     done
     for d in ${OTHER[@]}; do
-        rsync -azvu --progress $d $dest --delete-excluded --exclude={.git/lfs,node_modules}
+        rsync -azvu --progress "$d" "$dest" --delete-excluded --exclude={.git/lfs,node_modules}
     done
-    rsync -azvu --progress ~/downloads $dest/repos --delete --delete-excluded --progress --exclude=torrents
+    rsync -azvu --progress ~/downloads "$dest/repos" --delete --delete-excluded --progress --exclude=torrents
     date > /tmp/last_updated
     scp /tmp/last_updated $dest/last_updated
 }
@@ -92,7 +92,7 @@ elif [[ $1 == 'cloud' ]]; then
         for d in ${OTHER[@]}; do
             rsync -azvu --progress $d $dest/repos --delete-excluded --exclude={.git/lfs,node_modules}
         done
-        rsync -azvu --progress ~/downloads $dest/repos --delete --delete-excluded --progress --exclude=torrents
+        # rsync -azvu --progress ~/downloads $dest/repos --delete --delete-excluded --progress --exclude=torrents
     done
 
 elif [[ $1 == 'usb' ]]; then
