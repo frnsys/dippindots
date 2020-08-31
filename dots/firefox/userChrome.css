@@ -15,7 +15,7 @@
 
 :root {
     /* TAB VARIABLES */
-    --bg-light: #303030; --bg-dark: #303030;
+    --bg-light: #202020; --bg-dark: #202020;
     --fg-light: #CECFD1; --fg-dark: #AAABAD;
     --tab-fonts: "Source Code Pro", monospace; --tab-font-size: 11px;
     --tab-min-height: 28px !important;

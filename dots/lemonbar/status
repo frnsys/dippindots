@@ -112,9 +112,9 @@ email() {
     UNREAD=$(notmuch count "tag:unread AND folder:INBOX")
     bg=$COLOR_BACKGROUND
     if (( $UNREAD > 0 )); then
-        fg="#0000ff"
+        fg="#FFCC4D"
     else
-        fg="#ffffff"
+        fg="$COLOR_FOREGROUND"
     fi
     echo "%{B$bg}%{F$fg}M${INBOX}%{F-}%{B-}"
 }

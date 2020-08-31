@@ -2,7 +2,7 @@
     # refer to <https://github.com/knopwob/dunst/blob/master/dunstrc>
     # put colors in quotation marks so they aren't mistaken as comments
 
-    font = Source Code Pro 10
+    font = Source Code Pro 9
     markup = yes
     plain_text = no
     word_wrap = yes
@@ -35,11 +35,11 @@
     notification_height = 0
     line_height = 2
     separator_height = 5
-    padding = 16
-    horizontal_padding = 16
+    padding = 12
+    horizontal_padding = 12
     icon_position = left
     max_icon_size = 128
-    frame_width = 2
+    frame_width = 1
     frame_color = "#1cbc5f"
 
     # auto/foreground/frame/a color
@@ -63,13 +63,13 @@
 
 
 [urgency_low]
-    background = "#333333"
+    background = "#202020"
     foreground = "#ffffff"
     timeout = 2
     icon = ""
 
 [urgency_normal]
-    background = "#333333"
+    background = "#202020"
     foreground = "#ffffff"
     timeout = 2
     icon = ""
