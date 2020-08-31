@@ -9,6 +9,11 @@ function restart_panel {
     # Kill the panel/lemonbar and restart
     pkill panel
     panel &
+
+    # Restart dunst too, to correct
+    # notification placement
+    pkill dunst
+    dunst &
 }
 
 
