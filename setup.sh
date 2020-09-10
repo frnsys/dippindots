@@ -274,11 +274,11 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
 
     # ffmpeg
     sudo apt install -y autoconf automake build-essential libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev libx264-dev libmp3lame-dev libfdk-aac-dev libvpx-dev libopus-dev libpulse-dev yasm
-    git clone --depth=1 git://source.ffmpeg.org/ffmpeg.git /tmp/ffmpeg
+    git clone --depth=1 --branch n4.3.1 git://source.ffmpeg.org/ffmpeg.git /tmp/ffmpeg
     cd /tmp/ffmpeg
 
     # a detour for x265
-    wget https://bitbucket.org/multicoreware/x265/downloads/x265_2.0.tar.gz -O /tmp/ffmpeg/x265.tar.gz
+    wget https://bitbucket.org/multicoreware/x265_git/downloads/x265_3.3.tar.gz -O /tmp/ffmpeg/x265.tar.gz
     cd /tmp/ffmpeg
     tar -xzvf x265.tar.gz
     cd x265_*/build/linux
@@ -312,7 +312,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
       --enable-shared
     make
     sudo make install
-    sudo sh -c "echo '/usr/local/ffmpeg/lib' >> /etc/ld.so.conf"
+    sudo sh -c "echo '/usr/local/ffmpeg/lib' > /etc/ld.so.conf.d/ffmpeg.conf"
     sudo ldconfig
     cd $DIR
 
