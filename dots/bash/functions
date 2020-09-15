@@ -8,13 +8,15 @@ function wakehubble() {
 function pushhubble() {
     # push a local file to hubble
     # $1 = local file
-    # $2 = remote path
-    tunnel push "$1" ftseng@starbase.in:10022:ftseng:"$2"
+    # $2 = remote path (optional)
+    TO=${2:-"~/$(basename $1)"}
+    tunnel push "$1" ftseng@starbase.in:10022:ftseng:"$TO"
 }
 
 function pullhubble() {
     # pull a local file from hubble
     # $1 = remote file
+    # $2 = local path (optoinal)
 
     TO=${2:-"."}
     if [[ -d $TO ]]; then
