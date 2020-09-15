@@ -25,7 +25,7 @@ case $choice in
     *) exit 1;;
 esac
 
-maim -q $OPTS $FPATH
+maim -u -q $OPTS $FPATH
 notify-send "screenshot saved to $FPATH"
 
 if $DMENU; then
