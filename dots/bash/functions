@@ -34,6 +34,11 @@ function aa() {
     pyenv activate $1
 }
 
+# Download youtube vids
+function getvid() {
+    youtube-dl -f 'bestvideo[ext=mp4,height<=720]+bestaudio[ext=m4a]/best[height<=720]' --merge-output-format mp4 "$1"
+}
+
 # easier archive extraction
 function extract() {
     if [ -f "$1" ] ; then
