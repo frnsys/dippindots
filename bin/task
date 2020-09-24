@@ -41,13 +41,28 @@ elif [ $TASK == 'months' ]; then
         MONTH_START=$(date --date="$MONTH" +%s)
         MONTH_END=$(date --date="$MONTH + 1 month" +%s)
         TOTAL_SEC=$(cat $TASK_FILE | grep -P "$TASK" | awk '$1 >= '$MONTH_START' && $1 < '$MONTH_END | cut -f3 | paste -sd+ | bc)
-        ((h=TOTAL_SEC/3600))
-        ((m=TOTAL_SEC%3600/60))
-        ((s=TOTAL_SEC%60))
+        ((H=TOTAL_SEC/3600))
+        ((M=TOTAL_SEC%3600/60))
+        ((S=TOTAL_SEC%60))
         MONTH=$(date --date="$MONTH" +'%m/%y')
+        echo -e "${TASK}\t${MONTH}\t$H:$M:$S"
 
-        echo -e "${TASK}\t${MONTH}\t$h:$m:$s"
-        RESULTS="${RESULTS}${TASK}\t${MONTH}\t$h:$m:$s\n"
+        DAY_START=$MONTH_START
+        while [ "$DAY_START" -lt "$MONTH_END" ]; do
+            d=$(date --date="@$DAY_START")
+            DAY_END=$(date --date="$d + 1 day" +%s)
+            TOTAL_SEC=$(cat $TASK_FILE | grep -P "$TASK" | awk '$1 >= '$DAY_START' && $1 < '$DAY_END | cut -f3 | paste -sd+ | bc)
+            if [ ! -z "$TOTAL_SEC" ]; then
+                DAY=$(date --date="@$DAY_START" +'%m/%d')
+                ((h=TOTAL_SEC/3600))
+                ((m=TOTAL_SEC%3600/60))
+                ((s=TOTAL_SEC%60))
+                echo -e "\t$DAY\t$h:$m:$s"
+            fi
+            DAY_START=$DAY_END
+        done
+
+        RESULTS="${RESULTS}${TASK}\t${MONTH}\t$H:$M:$S\n"
     done
     notify-send "$(echo -e "${RESULTS}")"
     exit 0
