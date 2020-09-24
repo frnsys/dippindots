@@ -32,11 +32,11 @@ function! OpenUrlUnderCursor()
         call netrw#BrowseX(l:url, 0)
     elseif l:img != ''
         if matchend(l:img, 'gif') >= 0
-            silent exec "!gifview -a '".l:img."'" | redraw!
+            silent exec "!gifview -a '".expand('%:p:h')."/".l:img."'" | redraw!
         elseif matchend(l:img, 'mp4') >= 0
-            silent exec "!mpv '".l:img."'" | redraw!
+            silent exec "!mpv '".expand('%:p:h')."/".l:img."'" | redraw!
         else
-            silent exec "!feh --scale-down '".l:img."'" | redraw!
+            silent exec "!feh --scale-down '".expand('%:p:h')."/".l:img."'" | redraw!
         endif
     else
         echomsg 'The cursor is not on a link.'
@@ -51,7 +51,7 @@ nnoremap <leader>c :r !nom clip<cr>
 nnoremap <leader>d :r !pdfpaste<cr>
 
 " screenshot, move to assets folder, paste in markdown
-nnoremap <leader>s "=system("fpath=$(shot region <bar> tail -n 1); fname=$(basename $fpath); mv $fpath assets/$fname; echo '![](assets/'$fname')'")<CR>P
+nnoremap <leader>s "=system("fpath=$(shot region <bar> tail -n 1); [ ! -z $fpath ] && (fname=$(basename $fpath); [ -f $fpath ] && (mv $fpath ".expand('%:p:h')."/assets/$fname; echo '![](assets/'$fname')'))")<CR>P
 
 " use J/K to move up/down visual (wrapped) lines
 map J gj

@@ -26,15 +26,17 @@ case $choice in
 esac
 
 maim -u -q $OPTS $FPATH
-notify-send "screenshot saved to $FPATH"
+if [ -f $FPATH ]; then
+    notify-send "screenshot saved to $FPATH"
 
-if $DMENU; then
-    choice=$(echo -e "path\ndata" | dmenu -i -p "copy")
-    case $choice in
-        "path") echo -n "$FPATH " | xsel -b;;
-        "data") imgclip "$FPATH" &;;
-        *) ;;
-    esac
-else
-    echo $FPATH
+    if $DMENU; then
+        choice=$(echo -e "path\ndata" | dmenu -i -p "copy")
+        case $choice in
+            "path") echo -n "$FPATH " | xsel -b;;
+            "data") imgclip "$FPATH" &;;
+            *) ;;
+        esac
+    else
+        echo $FPATH
+    fi
 fi
