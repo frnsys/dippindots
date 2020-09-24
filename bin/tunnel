@@ -68,8 +68,12 @@ elif [ $CMD == 'pull' ]; then
     # ssh into the bridge,
     # on the bridge, ssh into the remote,
     # the stream the tar of the file back
-    ssh $BRIDGE 'ssh -p '${BRIDGEPORT}' localhost "cd '${DIR}'; tar cj '"${FILE}"'"' | tar xjO > "$DEST"
-
+    # we don't scp back b/c the remote machine might not
+    # have ssh access to the local machine
+    ssh $BRIDGE 'ssh -p '${BRIDGEPORT}' localhost "cd '${DIR}'; tar cJ '"${FILE}"'"' > "/tmp/__pulled.tar.xz"
+    tar xJf "/tmp/__pulled.tar.xz" -C /tmp/
+    mv "/tmp/$FILE" "$DEST"
+    rm /tmp/__pulled.tar.xz
 
 # rsync via a bridge server
 # e.g.
