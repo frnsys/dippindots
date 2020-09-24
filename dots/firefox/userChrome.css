@@ -17,7 +17,7 @@
     /* TAB VARIABLES */
     --bg-light: #202020; --bg-dark: #202020;
     --fg-light: #CECFD1; --fg-dark: #AAABAD;
-    --tab-fonts: "Source Code Pro", monospace; --tab-font-size: 11px;
+    --tab-fonts: "Source Code Pro", "Noto Sans", "Helvetica"; --tab-font-size: 11px;
     --tab-min-height: 28px !important;
     --toolbar-bgcolor: #303030 !important;
     --toolbar-color: #AAABAD !important;
@@ -92,6 +92,9 @@
     }
     .tabbrowser-tab::before, .tabbrowser-tab::after {
         opacity: 0 !important;
+    }
+    .tab-label {
+      padding-top: 2px;
     }
     .autocomplete-richlistitem {
         font-size: 12px !important;
