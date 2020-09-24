@@ -76,3 +76,8 @@ function rand() {
 function gpr() {
     git fetch origin pull/$1/head:pr$1; git checkout pr$1
 }
+
+# compress video
+function shrinkvid() {
+    ffmpeg -i "$1" -filter:v scale="trunc(oh*a/2)*2:720" -vcodec libx265 -crf 28 -c:a aac "shrunk/$1"
+}
