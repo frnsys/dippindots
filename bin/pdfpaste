@@ -20,22 +20,26 @@ declare -A REPLACE=(
     [−]="-"
     []="^-"
     []="-"
+    [�]="-"
 )
 
-# Get clipboard selection
-TEXT=$(xsel -b)
+if [ -n "$1" ]; then
+    TEXT="$1"
+else
+    # Get clipboard selection
+    TEXT=$(xsel -b)
+fi
 
 # In order:
 # 1. add spaces to the end of newlines
 # 2. lines that end with "- " are assumed to be a broken word,
 #    replace with just "" so that when we delete newlines, the parts are joined
 # 3. delete newlines
-TEXT=$(echo -e "$TEXT" | sed 's/$/ /g' | sed 's/- $//g' | tr -d '\n')
+TEXT=$(echo -e "$TEXT" | sed 's/$/ /g' | sed 's/- $//g' | tr -d '\n' | sed 's/  */ /g')
 
 # Apply replacements
 for key in "${!REPLACE[@]}"; do
     TEXT=$(echo "$TEXT" | sed 's/'${key}'/'${REPLACE[$key]}'/g')
 done
 
-# Add markdown quote syntax
-echo $TEXT | sed 's/^/> /'
+echo -e "$TEXT"

@@ -48,7 +48,7 @@ nnoremap gx :call OpenUrlUnderCursor()<cr>
 nnoremap <leader>c :r !nom clip<cr>
 
 " easily paste pdf clipboard content as quoted markdown
-nnoremap <leader>d :r !pdfpaste<cr>
+nnoremap <leader>d :r !pdfpaste <bar> sed 's/^/> /'<cr>
 
 " screenshot, move to assets folder, paste in markdown
 nnoremap <leader>s "=system("fpath=$(shot region <bar> tail -n 1); [ ! -z $fpath ] && (fname=$(basename $fpath); [ -f $fpath ] && (mv $fpath ".expand('%:p:h')."/assets/$fname; echo '![](assets/'$fname')'))")<CR>P
