@@ -22,12 +22,13 @@ IFACE='wlan0'
 NETWORKS_DIR = os.path.expanduser('~/docs/networks')
 
 REGEXS = {
+    'signal': 'signal: (-?[^\s]+)',
     'bssid': 'BSS ([0-9a-z:]+)',
     'essid': 'SSID: (.+)?',
     'auth': 'Authentication suites: (.+)',
 }
 REGEXS = {k: re.compile(r) for k, r in REGEXS.items()}
-REQUIRED = ['bssid', 'essid']
+REQUIRED = ['bssid', 'essid', 'signal']
 OPTIONAL = ['auth']
 ENC_REGEXS = {
     'wpa2': 'RSN:',
@@ -90,9 +91,12 @@ def scan(iface='wlan0'):
                 data[k] = REGEXS[k].search(c).group(1)
             except:
                 continue
+
+        if data['essid'] is None: continue
         id = '{}@{}'.format(data['essid'], data['bssid'].upper())
         data['encryption'] = is_encrypted(c)
         data['auth'] = data.get('auth', '')
+        data['signal'] = float(data['signal'])
         networks[id] = data
     print(networks)
     return networks
@@ -142,7 +146,7 @@ def notify(msg):
 if __name__ == '__main__':
     notify('Scanning...')
     networks = scan(IFACE)
-    network_id = dmenu(networks.keys())
+    network_id = dmenu(sorted(networks.keys(), key=lambda k: networks[k]['signal'], reverse=True))
     network = networks[network_id]
 
     conf = os.path.join(NETWORKS_DIR, network_id)
