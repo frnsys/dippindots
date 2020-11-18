@@ -13,6 +13,7 @@
 
 REMINDER_TIME=300 # seconds
 UPCOMING_FILE=~/.calendar/.upcoming
+DELIMITER="###:::###"
 
 # use system timezone by default.
 # the `date` command uses this anyways if --utc is not specified,
@@ -24,17 +25,6 @@ SPD=$((24 * 60 * 60)) # seconds per day
 SPW=$((7 * $SPD)) # seconds per week
 SPY=$((365 * $SPD)) # seconds per year. TODO what about leap years?
 declare -A WEEKDAYS=( [MO]=1 [TU]=2 [WE]=3 [TH]=4 [FR]=5 [SA]=6 [SU]=7 )
-
-# Check if an event is upcoming
-check_event() {
-    ts=$1
-    now=$2
-    if [[ "$now" -lt "$ts" ]]; then
-        echo "$f" >> "$UPCOMING_FILE"
-        return 0
-    fi
-    return 1
-}
 
 # Parse an ics datetime into a format `date` can deal with
 parse_dt() {
@@ -268,9 +258,7 @@ get_next_monthly() {
 
 
 # Iterate over the events in a single ics file
-iterate_events() {
-    handle_event=$1
-
+parse_events() {
     skipped=()
     event_starts=()
     declare -A overrides=( )
@@ -287,7 +275,7 @@ iterate_events() {
     # b/c ics values can wrap like that
     # Then remove VALARM section, since it can interfere (it also has a "DESCRIPTION" key)
     # Also strip out everything before the first VEVENT so VCALENDAR-level properties don't bleed into the first event
-    data=$(cat "$2" | sed -e :a -e '$!N;s/\n //;ta' -e 'P;D' | \
+    data=$(cat "$1" | sed -e :a -e '$!N;s/\n //;ta' -e 'P;D' | \
         sed '/^BEGIN:VALARM/,/^END:VALARM/ {/.*/d}' | \
         sed '/^BEGIN:VCALENDAR/,/^BEGIN:VEVENT/ {/.*/d}')
 
@@ -418,11 +406,28 @@ iterate_events() {
             if [[ -v "overrides[${start_ts}]" ]] ; then
                 start_ts=${overrides[${start_ts}]}
             fi
-            if $handle_event $start_ts "$summary" "$location" "$description" $now; then
-                return 0
+            if [[ "$now" -lt "$start_ts" ]]; then
+                echo "${start_ts}$DELIMITER${summary}$DELIMITER${location}$DELIMITER${description}" >> "$UPCOMING_FILE"
             fi
         fi
     done
+}
+
+iterate_upcoming() {
+    handle_event=$1
+    while IFS= read -r line; do
+        line=$line$DELIMITER
+        event=()
+        while [[ $line ]]; do
+            event+=( "${line%%"$DELIMITER"*}" );
+            line=${line#*"$DELIMITER"};
+        done
+        start_ts=${event[0]}
+        summary=${event[1]}
+        location=${event[2]}
+        description=${event[3]}
+        $handle_event $start_ts "$summary" "$location" "$description"
+    done < "$UPCOMING_FILE"
 }
 
 # Check if an event is upcoming,
@@ -433,8 +438,7 @@ is_upcoming() {
     location=$3
     description=$4
     if [[ "$ts" -gt "$TODAY" && "$ts" -lt "$END_DATE" ]]; then
-        file=$(basename $line)
-        key="${ts}_${file}"
+        key="${ts}_${summary}"
         events[$key]=$ts
         summaries[$key]="${summary}"
         locations[$key]="${location}"
@@ -455,11 +459,7 @@ view_upcoming() {
     declare -A descriptions
     declare -A summaries
     declare -A locations
-    while IFS= read -r line; do
-        if [ -f "$line" ]; then
-            iterate_events is_upcoming $line
-        fi
-    done < "$UPCOMING_FILE"
+    iterate_upcoming is_upcoming
 
     # Sort by timestamp
     LAST_DAY=""
@@ -515,19 +515,16 @@ view_upcoming() {
 NOTIFIED=()
 decide_remind() {
     ts=$1
+    summary=$2
     now=$(date --utc +%s)
-    # echo ${event[SUMMARY]}
-    # echo "Now:"$(date -d @$now)
-    # echo "Starts:"$(date -d @$ts)
-    # echo "==="
-    hash=$(echo "${ts}_${event[SUMMARY]}" | md5sum | awk '{ print $1 }')
+    hash=$(echo "${ts}_${summary}" | md5sum | awk '{ print $1 }')
     if [[ ! "${NOTIFIED[*]}" =~ "${hash}" ]]; then
         diff=$(($ts - $now))
         # Should probably parse the ics TRIGGER value,
         # but for now easier to just set fixed reminders
         if [[ $diff -gt 0 && $diff -lt $REMINDER_TIME ]]; then
             NOTIFIED+=($hash)
-            summary=${event[SUMMARY]}
+            summary=${summary}
             time=$(date -d @$ts +%H:%M) # Display local time
             echo "[${time}] ${summary}"
             notify-send -t 0 "[${time}] ${summary}"
@@ -538,11 +535,7 @@ decide_remind() {
 # Check the reminder file,
 # create a notification for upcoming events
 remind() {
-    while IFS= read -r line; do
-        if [ -f "$line" ]; then
-            iterate_events decide_remind $line
-        fi
-    done < "$UPCOMING_FILE"
+    iterate_upcoming decide_remind
 }
 
 update() {
@@ -555,15 +548,28 @@ update() {
         echo "Updating..."
         NOW=$(date +%s)
 
+        # Full refresh on new day
+        if [ -f "$UPCOMING_FILE" ]; then
+            today=$(date +%d)
+            last_modified_day=$(date +%d -r "$UPCOMING_FILE")
+            if [[ "$last_modified_day" -lt "$today" ]]; then
+                last_updated=0
+            fi
+        fi
+
         # Check which ics files have upcoming events
         for f in ~/.calendar/**/*.ics; do
             modified=$(date +%s -r "$f")
             if [[ "$modified" -gt "$last_updated" ]]; then
-                iterate_events check_event $f
+                parse_events $f
             fi
         done
-        last_updated=$NOW
+
+        # Remove duplicates
+        awk -i inplace '!seen[$0]++' "$UPCOMING_FILE"
+
         echo "Done"
+        last_updated=$NOW
         sleep 600
     done
 }
@@ -594,3 +600,4 @@ elif [[ $1 == 'daemon' ]]; then
     done
     wait $P1
 fi
+
