@@ -13,9 +13,11 @@
 
 REMINDER_TIME=300 # seconds
 UPCOMING_FILE=~/.calendar/.upcoming
+
+# Used for the parsed event data
 DELIMITER="###:::###"
 
-# use system timezone by default.
+# Use system timezone by default.
 # the `date` command uses this anyways if --utc is not specified,
 # but in some places we are explicit
 DEFAULT_TZ=$(cat /etc/timezone)
@@ -66,13 +68,13 @@ get_next() {
     # This is used to adjust for daylight savings
     # This is because e.g. 2:30PM EDT is technically a different
     # time than 2:30PM EST, but generally we want to treat them
-    # the same; i.e. arepeating event at 2:30 PM EDT should
-    # also occur at 2:30PM EST.
+    # the same; i.e. a repeating event
+    # at 2:30 PM EDT should also occur at 2:30PM EST.
     from_offset=$(TZ=$tzid date --date @$start +%z)
-    sign_a=${from_offset:0:1}
-    hours_a=${from_offset:1:2}
-    minutes_a=${from_offset:3:4}
-    from_offset=$(echo "0${sign_a}(${hours_a} + ${minutes_a}/60)" | bc)
+    sign=${from_offset:0:1}
+    hours=${from_offset:1:2}
+    minutes=${from_offset:3:4}
+    from_offset=$(echo "0${sign}(${hours} + ${minutes}/60)" | bc)
 
     elapsed=$(($now-$start))
 
@@ -100,10 +102,10 @@ get_next() {
             next_ts=$(($next + ($i*$base_interval)))
 
             to_offset=$(TZ=$tzid date --date @$next_ts +%z)
-            sign_b=${to_offset:0:1}
-            hours_b=${to_offset:1:2}
-            minutes_b=${to_offset:3:4}
-            to_offset=$(echo "0${sign_b}(${hours_b} + ${minutes_b}/60)" | bc)
+            sign=${to_offset:0:1}
+            hours=${to_offset:1:2}
+            minutes=${to_offset:3:4}
+            to_offset=$(echo "0${sign}(${hours} + ${minutes}/60)" | bc)
             dst_adjusted=$(echo "(($from_offset - $to_offset) * 60 * 60) + ${next_ts}" | bc)
 
             echo $dst_adjusted
@@ -264,7 +266,8 @@ parse_events() {
     declare -A overrides=( )
     declare -A event=( )
 
-    # Assume these are the same across the events
+    # Assume these are the same
+    # across the recurring events
     tzid=''
     rrule=''
     summary=''
@@ -287,7 +290,9 @@ parse_events() {
             start_ts=$(dt_to_ts ${event[DTSTART]} $tzid)
             event_starts+=($start_ts)
 
-            # Single event overrides
+            # Single event overrides,
+            # e.g. when an instance of a repeated
+            # is moved to a different time than normal
             if [[ -v "event[RECURRENCE-ID]" ]] ; then
                 overrides[${event[RECURRENCE-ID]}]=$start_ts
             fi
@@ -303,6 +308,8 @@ parse_events() {
             event[RECURRENCE-ID]=$(dt_to_ts $value ${key##*";TZID="})
 
         # Recurrence rule
+        # This is used to determine how the event repeats,
+        # e.g. weekly, etc
         elif [[ $key == "RRULE" ]]; then
             rrule=$value
 
@@ -313,6 +320,7 @@ parse_events() {
             fi
             event[${key%%";"*}]=$value
 
+        # Other important event info
         elif [[ $key == "SUMMARY" ]]; then
             summary=$value
 
@@ -337,7 +345,7 @@ parse_events() {
     # b/c if we're e.g. 1 minute into an event we still want to see it
     now=$(date --utc -d @$(date -d "today 00:00:00" +%s) +%s)
 
-    # If recurring
+    # If recurring...
     if [ -n "$rrule" ]; then
         declare -A RRULE
         while IFS== read key value; do
@@ -372,6 +380,8 @@ parse_events() {
                 echo "Unrecognized FREQ: ${RRULE[FREQ]}"
                 ;;
         esac
+
+        # Add to existing start timestamps
         starts=("${event_starts[@]}" "${starts[@]}")
     else
         starts=("${event_starts[@]}")
@@ -398,11 +408,11 @@ parse_events() {
     #     echo "  $(date -d @$sts)"
     # done
 
-    # Call handle_event on each upcoming start timestamp
+    # Write parsed event data to a file for later reference
     for start_ts in ${starts[@]}; do
-        # If not an skipped date
+        # If not a skipped event instance
         if [[ ! " ${skipped[@]} " =~ " ${start_ts} " ]]; then
-            # If there is a change to this event
+            # If there is a change to this event instance
             if [[ -v "overrides[${start_ts}]" ]] ; then
                 start_ts=${overrides[${start_ts}]}
             fi
