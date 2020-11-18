@@ -72,14 +72,19 @@ get_next() {
     extend=${5:-1}
     count=$6
 
-    elapsed=$(($now-$start))
-
     # Get UTC offset for start time
-    start_offset=$(TZ=$tzid date --date @$start +%z)
-    sign_a=${start_offset:0:1}
-    hours_a=${start_offset:1:2}
-    minutes_a=${start_offset:3:4}
-    a=$(echo "0${sign_a}(${hours_a} + ${minutes_a}/60)" | bc)
+    # This is used to adjust for daylight savings
+    # This is because e.g. 2:30PM EDT is technically a different
+    # time than 2:30PM EST, but generally we want to treat them
+    # the same; i.e. arepeating event at 2:30 PM EDT should
+    # also occur at 2:30PM EST.
+    from_offset=$(TZ=$tzid date --date @$start +%z)
+    sign_a=${from_offset:0:1}
+    hours_a=${from_offset:1:2}
+    minutes_a=${from_offset:3:4}
+    from_offset=$(echo "0${sign_a}(${hours_a} + ${minutes_a}/60)" | bc)
+
+    elapsed=$(($now-$start))
 
     # Starts in the future
     # TODO maybe should be diff b/c there could be e.g. two close dates in the future
@@ -104,12 +109,12 @@ get_next() {
             # TODO check against until?
             next_ts=$(($next + ($i*$base_interval)))
 
-            offset=$(TZ=$tzid date --date @$next_ts +%z)
-            sign_b=${offset:0:1}
-            hours_b=${offset:1:2}
-            minutes_b=${offset:3:4}
-            b=$(echo "0${sign_b}(${hours_b} + ${minutes_b}/60)" | bc)
-            dst_adjusted=$(echo "(($a - $b) * 60 * 60) + ${next_ts}" | bc)
+            to_offset=$(TZ=$tzid date --date @$next_ts +%z)
+            sign_b=${to_offset:0:1}
+            hours_b=${to_offset:1:2}
+            minutes_b=${to_offset:3:4}
+            to_offset=$(echo "0${sign_b}(${hours_b} + ${minutes_b}/60)" | bc)
+            dst_adjusted=$(echo "(($from_offset - $to_offset) * 60 * 60) + ${next_ts}" | bc)
 
             echo $dst_adjusted
         done
@@ -275,6 +280,7 @@ iterate_events() {
     tzid=''
     rrule=''
     summary=''
+    location=''
     description=''
 
     # Join lines if following lines are preceded with a space
@@ -298,9 +304,6 @@ iterate_events() {
                 overrides[${event[RECURRENCE-ID]}]=$start_ts
             fi
 
-            # TODO
-            # If handle event returns true (0), break
-            # if parse_event $handle_event; then break; fi
             event=( )
 
         # Skipped dates for recurring events
@@ -327,6 +330,9 @@ iterate_events() {
 
         elif [[ $key == "DESCRIPTION" ]]; then
             description=$value
+
+        elif [[ $key == "LOCATION" ]]; then
+            location=$value
 
         else
             event[${key%%";"*}]=$value
@@ -378,55 +384,61 @@ iterate_events() {
                 echo "Unrecognized FREQ: ${RRULE[FREQ]}"
                 ;;
         esac
-
-        # Sort start times
-        IFS=$'\n' starts=($(sort <<<"${starts[*]}")); unset IFS
-
-        # No upcoming dates
-        if [ -z "$starts" ]; then
-            return 0
-        fi
-
-        # Debugging
-        # echo "FIRST:$(date -d @$ts)"
-        # echo "EVENT:${summary}"
-        # echo "BYDAY:${rrule[BYDAY]}"
-        # echo "STARTS:"
-        # for sts in ${starts[@]}; do
-        #     echo "  $(date -d @$sts)"
-        # done
-        # echo "OVERRIDES:"
-        # for o_ts in ${!overrides[@]}; do
-        #     echo "  $(date -d @$o_ts) -> $(date -d @${overrides[$o_ts]})"
-        # done
-
-        # Call handle_event on each upcoming start timestamp
-        for start_ts in ${starts[@]}; do
-            # If not an skipped date
-            if [[ ! " ${skipped[@]} " =~ " ${start_ts} " ]]; then
-                # If there is a change to this event
-                if [[ -v "overrides[${start_ts}]" ]] ; then
-                    start_ts=${overrides[${start_ts}]}
-                fi
-                if $handle_event $start_ts $now; then
-                    return 0
-                fi
-            fi
-        done
+        starts=("${event_starts[@]}" "${starts[@]}")
+    else
+        starts=("${event_starts[@]}")
     fi
+
+    # Sort start times
+    IFS=$'\n' starts=($(sort <<<"${starts[*]}")); unset IFS
+
+    # No upcoming dates
+    if [ -z "$starts" ]; then
+        return 0
+    fi
+
+    # Debugging
+    # echo "====================="
+    # echo "EVENT:${summary}"
+    # echo "RRULE:${rrule}"
+    # echo "OVERRIDES:"
+    # for o_ts in ${!overrides[@]}; do
+    #     echo "  $(date -d @$o_ts) -> $(date -d @${overrides[$o_ts]})"
+    # done
+    # echo "NEXT:"
+    # for sts in ${starts[@]}; do
+    #     echo "  $(date -d @$sts)"
+    # done
+
+    # Call handle_event on each upcoming start timestamp
+    for start_ts in ${starts[@]}; do
+        # If not an skipped date
+        if [[ ! " ${skipped[@]} " =~ " ${start_ts} " ]]; then
+            # If there is a change to this event
+            if [[ -v "overrides[${start_ts}]" ]] ; then
+                start_ts=${overrides[${start_ts}]}
+            fi
+            if $handle_event $start_ts "$summary" "$location" "$description" $now; then
+                return 0
+            fi
+        fi
+    done
 }
 
 # Check if an event is upcoming,
 # if so, save its data for later use
 is_upcoming() {
     ts=$1
+    summary=$2
+    location=$3
+    description=$4
     if [[ "$ts" -gt "$TODAY" && "$ts" -lt "$END_DATE" ]]; then
         file=$(basename $line)
         key="${ts}_${file}"
         events[$key]=$ts
-        summaries[$key]=${event[SUMMARY]}
-        locations[$key]=${event[LOCATION]}
-        descriptions[$key]=${event[DESCRIPTION]}
+        summaries[$key]="${summary}"
+        locations[$key]="${location}"
+        descriptions[$key]="${description}"
     fi
     return 1
 }
@@ -450,52 +462,52 @@ view_upcoming() {
     done < "$UPCOMING_FILE"
 
     # Sort by timestamp
-    # LAST_DAY=""
-    # LAST_TS=0
-    # mapfile -d '' sorted < <(printf '%s\0' "${!events[@]}" | sort -z)
-    # for key in "${sorted[@]}"; do
-    #     ts=${events[$key]}
-    #     loc=${locations[$key]}
-    #     desc=${descriptions[$key]}
-    #     summ=${summaries[$key]}
-    #     days=$(echo "( `date --utc -d @$ts +%s` - `date --utc -d @$TODAY +%s`) / (24*3600)" | bc -l | cut -d"." -f1)
-    #     days=${days:-0} # Set to 0 if empty (indicating today)
+    LAST_DAY=""
+    LAST_TS=0
+    mapfile -d '' sorted < <(printf '%s\0' "${!events[@]}" | sort -z)
+    for key in "${sorted[@]}"; do
+        ts=${events[$key]}
+        loc=${locations[$key]}
+        desc=${descriptions[$key]}
+        summ=${summaries[$key]}
+        days=$(echo "( `date --utc -d @$ts +%s` - `date --utc -d @$TODAY +%s`) / (24*3600)" | bc -l | cut -d"." -f1)
+        days=${days:-0} # Set to 0 if empty (indicating today)
 
-    #     # Print days out
-    #     if [ "$days" != "$LAST_DAY" ]; then
-    #         LAST_DAY=$days
-    #         tput setaf 11
-    #         case $days in
-    #             0)
-    #                 echo -e "Today"
-    #                 ;;
-    #             1)
-    #                 echo -e $(date -d @$ts +%m/%d)"\tTomorrow"
-    #                 ;;
-    #             *)
-    #                 echo -e $(date -d @$ts +%m/%d)"\t${days} days"
-    #                 ;;
-    #         esac
-    #         tput sgr0
-    #     fi
+        # Print days out
+        if [ "$days" != "$LAST_DAY" ]; then
+            LAST_DAY=$days
+            tput setaf 11
+            case $days in
+                0)
+                    echo -e "Today"
+                    ;;
+                1)
+                    echo -e $(date -d @$ts +%m/%d)"\tTomorrow"
+                    ;;
+                *)
+                    echo -e $(date -d @$ts +%m/%d)"\t${days} days"
+                    ;;
+            esac
+            tput sgr0
+        fi
 
-    #     now=$(date +%s)
-    #     if [[ $now -gt $LAST_TS && $now -lt $ts ]]; then
-    #         echo -e "--------$(tput setaf 3)Now$(tput sgr 0)--------\n"
-    #     fi
-    #     LAST_TS=$ts
+        now=$(date +%s)
+        if [[ $now -gt $LAST_TS && $now -lt $ts ]]; then
+            echo -e "--------$(tput setaf 3)Now$(tput sgr 0)--------\n"
+        fi
+        LAST_TS=$ts
 
-    #     # Print event info
-    #     echo -e "$(date -d @$ts +%H:%M)\t$(tput setaf 2)${summ}$(tput sgr 0)"
-    #     if [ -n "$loc" ]; then echo -e "\t${loc}"; fi
-    #     if [ -n "$desc" ]; then
-    #         # Indent description
-    #         desc=$(echo -e "${desc}" | sed 's/^/\t/')
-    #         echo -e "${desc}\n"
-    #     else
-    #         echo ""
-    #     fi
-    # done
+        # Print event info
+        echo -e "$(date -d @$ts +%H:%M)\t$(tput setaf 2)${summ}$(tput sgr 0)"
+        if [ -n "$loc" ]; then echo -e "\t${loc}"; fi
+        if [ -n "$desc" ]; then
+            # Indent description
+            desc=$(echo -e "${desc}" | sed 's/^/\t/')
+            echo -e "${desc}\n"
+        else
+            echo ""
+        fi
+    done
 }
 
 # Send notification for upcoming event
@@ -560,8 +572,7 @@ if [[ $1 == 'view' ]]; then
     # Show upcoming agenda
     # Usage: upcoming view [DAYS]
     # DAYS defaults to 2
-    # view_upcoming ${2:-2} | less -R
-    view_upcoming ${2:-2}
+    view_upcoming ${2:-2} | less -R
 
 elif [[ $1 == 'remind' ]]; then
     while true; do
