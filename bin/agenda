@@ -545,7 +545,9 @@ decide_remind() {
 # Check the reminder file,
 # create a notification for upcoming events
 remind() {
-    iterate_upcoming decide_remind
+    if [ -f "$UPCOMING_FILE" ]; then
+        iterate_upcoming decide_remind
+    fi
 }
 
 update() {
