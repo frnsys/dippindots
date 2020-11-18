@@ -46,12 +46,11 @@ parse_dt() {
     fi
 }
 
-# Extract the start datetime (as a UTC timestamp) from an event
-# It doesn't seem you can (easily at least) pass associative arrays
-# as arguments, so we use it as a global variable, yuck
-start_ts() {
-    TZ=${event[TZID]:-$DEFAULT_TZ}
-    echo $(date +%s --utc --date='TZ="'$TZ'" '$(parse_dt ${event[DTSTART]}))
+# Convert datetime from an event to a UTC timestamp
+dt_to_ts() {
+    DTSTART=$1
+    TZ=${2:-$DEFAULT_TZ}
+    echo $(date +%s --utc --date='TZ="'$TZ'" '$(parse_dt $DTSTART))
 }
 
 # Calculating elapsed intervals for recurring rules
@@ -266,86 +265,83 @@ get_next_monthly() {
 # Iterate over the events in a single ics file
 iterate_events() {
     handle_event=$1
-    rrule=''
-    thestarts=()
-    exceptions=()
-    declare -A recurrences=( )
+
+    skipped=()
+    event_starts=()
+    declare -A overrides=( )
     declare -A event=( )
+
+    # Assume these are the same across the events
+    tzid=''
+    rrule=''
+    summary=''
+    description=''
 
     # Join lines if following lines are preceded with a space
     # b/c ics values can wrap like that
     # Then remove VALARM section, since it can interfere (it also has a "DESCRIPTION" key)
     # Also strip out everything before the first VEVENT so VCALENDAR-level properties don't bleed into the first event
-    data=$(cat "$2" | sed -e :a -e '$!N;s/\n //;ta' -e 'P;D' | sed '/^BEGIN:VALARM/,/^END:VALARM/ {/.*/d}' | sed '/^BEGIN:VCALENDAR/,/^BEGIN:VEVENT/ {/.*/d}')
+    data=$(cat "$2" | sed -e :a -e '$!N;s/\n //;ta' -e 'P;D' | \
+        sed '/^BEGIN:VALARM/,/^END:VALARM/ {/.*/d}' | \
+        sed '/^BEGIN:VCALENDAR/,/^BEGIN:VEVENT/ {/.*/d}')
 
     while IFS=: read -r key value; do
-      value=${value%$'\r'} # remove DOS newlines
+        value=${value%$'\r'} # remove DOS newlines
 
-      if [[ $key = END && $value = VEVENT ]]; then
-            TZ=${event[TZID]:-$DEFAULT_TZ}
-            tsz=$(date +%s --utc --date='TZ="'$TZ'" '$(parse_dt ${event[DTSTART]}))
-            echo "+++++++++++++++++"
-            echo "EVSTART:${event[DTSTART]}"
-            echo "TSEXTRACT:$tsz"
-            echo "    :$(date -d @$tsz)"
-            thestarts+=($tsz)
-            # echo $event
-            # echo "events: ${#ics_events[*]}"
+        if [[ $key = END && $value = VEVENT ]]; then
+            # Save event start timestamp
+            start_ts=$(dt_to_ts ${event[DTSTART]} $tzid)
+            event_starts+=($start_ts)
 
-            # Single event exceptions
+            # Single event overrides
             if [[ -v "event[RECURRENCE-ID]" ]] ; then
-                TZ=${event[TZID]:-$DEFAULT_TZ}
-                tsx=$(date +%s --utc --date='TZ="'$TZ'" '$(parse_dt ${event[DTSTART]}))
-                recurrences[${event[RECURRENCE-ID]}]=$tsx
+                overrides[${event[RECURRENCE-ID]}]=$start_ts
             fi
 
             # TODO
-        # If handle event returns true (0), break
-        # if parse_event $handle_event; then break; fi
-          # event=( )
+            # If handle event returns true (0), break
+            # if parse_event $handle_event; then break; fi
+            event=( )
 
-      # Exception dates for recurring events
-      elif [[ $key == "EXDATE"* ]]; then
-          tzid=${key##*";TZID="}
-          exdate=$(date +%s --utc --date='TZ="'$tzid'" '$(parse_dt ${value}))
-          exceptions+=($exdate)
+        # Skipped dates for recurring events
+        elif [[ $key == "EXDATE"* ]]; then
+            skipped+=$(dt_to_ts $value ${key##*";TZID="})
 
-      # Use recurrence ids for exceptions
-      elif [[ $key == "RECURRENCE-ID"* ]]; then
-          tzid=${key##*";TZID="}
-          redate=$(date +%s --utc --date='TZ="'$tzid'" '$(parse_dt ${value}))
-          event[RECURRENCE-ID]=$redate
+        # Use recurrence ids for overrides
+        elif [[ $key == "RECURRENCE-ID"* ]]; then
+            event[RECURRENCE-ID]=$(dt_to_ts $value ${key##*";TZID="})
 
-      # Recurrence rule
-      elif [[ $key == "RRULE" ]]; then
-          rrule=$value
+        # Recurrence rule
+        elif [[ $key == "RRULE" ]]; then
+            rrule=$value
 
-      # Event start datetime
-      elif [[ $key == "DTSTART;TZID="* ]]; then
-        event[TZID]=${key##*";TZID="}
-        event[${key%%";"*}]=$value
+        # Event start datetime
+        elif [[ $key == "DTSTART"* ]]; then
+            if [[ $key == "DTSTART;TZID="* ]]; then
+                tzid=${key##*";TZID="}
+            fi
+            event[${key%%";"*}]=$value
 
-      else
-        event[${key%%";"*}]=$value
-      fi
+        elif [[ $key == "SUMMARY" ]]; then
+            summary=$value
+
+        elif [[ $key == "DESCRIPTION" ]]; then
+            description=$value
+
+        else
+            event[${key%%";"*}]=$value
+
+        fi
     done <<< $data
 
+    # Process event data
     starts=()
+    tzid=${tzid:-DEFAULT_TZ}
+    initial_ts=${event_starts[0]}
 
     # Treat "now" as the start of today (local time, but as UTC),
     # b/c if we're e.g. 1 minute into an event we still want to see it
     now=$(date --utc -d @$(date -d "today 00:00:00" +%s) +%s)
-
-    echo "--------------------------------"
-    echo "${event[SUMMARY]}"
-    echo "exceptions: ${exceptions[*]}"
-    echo "recurrences: ${recurrences[@]}"
-    echo "thestarts: ${thestarts[*]}"
-    echo "thestarts first: ${thestarts[0]}"
-    echo "$rrule"
-    ts=${thestarts[0]}
-    tzid=${event[TZID]:-$DEFAULT_TZ} # assuming same timezone. necessary to deal with daylight savings
-    echo "FIRST:$(date -d @$ts)"
 
     # If recurring
     if [ -n "$rrule" ]; then
@@ -367,23 +363,23 @@ iterate_events() {
 
         case ${RRULE[FREQ]} in
             "DAILY")
-                starts=$(get_next_daily $now $ts $tzid $interval $count)
+                starts=$(get_next_daily $now $initial_ts $tzid $interval $count)
                 ;;
             "WEEKLY")
-                starts=$(get_next_weekly $now $ts $tzid $interval ${RRULE[BYDAY]} $count)
+                starts=$(get_next_weekly $now $initial_ts $tzid $interval ${RRULE[BYDAY]} $count)
                 ;;
             "MONTHLY")
-                starts=$(get_next_monthly $now $ts $tzid $interval ${RRULE[BYDAY]:-${RRULE[BYMONTHDAY]}} $count)
+                starts=$(get_next_monthly $now $initial_ts $tzid $interval ${RRULE[BYDAY]:-${RRULE[BYMONTHDAY]}} $count)
                 ;;
             "YEARLY")
-                starts=$(get_next_yearly $now $ts $tzid $interval $count)
+                starts=$(get_next_yearly $now $initial_ts $tzid $interval $count)
                 ;;
             *)
                 echo "Unrecognized FREQ: ${RRULE[FREQ]}"
                 ;;
         esac
 
-        # Sort starts times
+        # Sort start times
         IFS=$'\n' starts=($(sort <<<"${starts[*]}")); unset IFS
 
         # No upcoming dates
@@ -392,28 +388,29 @@ iterate_events() {
         fi
 
         # Debugging
-        echo "FIRST:$(date -d @$ts)"
-        echo "EVENT:${event[SUMMARY]}"
-        echo "BYDAY:${rrule[BYDAY]}"
-        for sts in ${starts[@]}; do
-            echo $(date -d @$sts)
-        done
+        # echo "FIRST:$(date -d @$ts)"
+        # echo "EVENT:${summary}"
+        # echo "BYDAY:${rrule[BYDAY]}"
+        # echo "STARTS:"
+        # for sts in ${starts[@]}; do
+        #     echo "  $(date -d @$sts)"
+        # done
+        # echo "OVERRIDES:"
+        # for o_ts in ${!overrides[@]}; do
+        #     echo "  $(date -d @$o_ts) -> $(date -d @${overrides[$o_ts]})"
+        # done
 
-        for sts in ${starts[@]}; do
-            # If not an exception date
-            if [[ ! " ${exceptions[@]} " =~ " ${sts} " ]]; then
+        # Call handle_event on each upcoming start timestamp
+        for start_ts in ${starts[@]}; do
+            # If not an skipped date
+            if [[ ! " ${skipped[@]} " =~ " ${start_ts} " ]]; then
                 # If there is a change to this event
-                if [[ -v "recurrences[${sts}]" ]] ; then
-                    echo "Recurrence found------------>"
-                    reevent=${recurrences[${sts}]}
-                    TZ=${reevent[TZID]:-$DEFAULT_TZ}
-                    sts=$(date +%s --utc --date='TZ="'$TZ'" '$(parse_dt ${reevent[DTSTART]}))
+                if [[ -v "overrides[${start_ts}]" ]] ; then
+                    start_ts=${overrides[${start_ts}]}
                 fi
-                if $handle_event $sts $now; then
+                if $handle_event $start_ts $now; then
                     return 0
                 fi
-            else
-                echo "Exception found------------>"
             fi
         done
     fi
