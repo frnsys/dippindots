@@ -95,8 +95,10 @@ super + shift + w
 super + slash
     daemon
 
+# https://github.com/soimort/translate-shell
 super + apostrophe
-    notify-send "Now: $(date '+%m/%d %H:%M')"
+    notify-send "$(xsel | trans -brief)"
+    # notify-send "Now: $(date '+%m/%d %H:%M')"
 
 # ~~screenshots/recordings~~
 

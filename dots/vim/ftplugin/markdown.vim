@@ -45,7 +45,7 @@ endfunction
 nnoremap gx :call OpenUrlUnderCursor()<cr>
 
 " easily paste html clipboard content as quoted markdown
-nnoremap <leader>c :r !nom clip<cr>
+nnoremap <leader>c :r !nom clip <bar> sed 's/^/> /'<cr>
 
 " easily paste pdf clipboard content as quoted markdown
 nnoremap <leader>d :r !pdfpaste <bar> sed 's/^/> /'<cr>

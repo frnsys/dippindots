@@ -79,5 +79,20 @@ function gpr() {
 
 # compress video
 function shrinkvid() {
-    ffmpeg -i "$1" -filter:v scale="trunc(oh*a/2)*2:720" -vcodec libx265 -crf 28 -c:a aac "shrunk/$1"
+    # libx264 is way faster than libx265 but maybe doesn't get as small
+    ffmpeg -i "$1" -filter:v scale="trunc(oh*a/2)*2:720" -vcodec libx264 -crf 28 -preset veryfast -c:a aac "${1%.*}__sm.mp4"
+}
+
+function giftomp4() {
+    ffmpeg -i "$1" -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" "${1%.gif}.mp4"
+}
+
+function clipvid() {
+    ffmpeg -ss "$1" -to "$2" -i "$3" "$4"
+}
+
+function pdfpages() {
+    for pdf in *.pdf; do
+        echo "[$(pdfinfo "$pdf" | grep Pages | awk '{print $2}')] $pdf"
+    done
 }

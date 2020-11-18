@@ -296,6 +296,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
       --cc="gcc -m64 -fPIC" \
       --enable-pic \
       --enable-gpl \
+      --enable-x86asm \
       --enable-libass \
       --enable-libfdk-aac \
       --enable-libfreetype \
