@@ -13,6 +13,7 @@
 
 REMINDER_TIME=300 # seconds
 UPCOMING_FILE=~/.calendar/.upcoming
+DELIMITER="###:::###"
 
 # use system timezone by default.
 # the `date` command uses this anyways if --utc is not specified,
@@ -25,90 +26,6 @@ SPW=$((7 * $SPD)) # seconds per week
 SPY=$((365 * $SPD)) # seconds per year. TODO what about leap years?
 declare -A WEEKDAYS=( [MO]=1 [TU]=2 [WE]=3 [TH]=4 [FR]=5 [SA]=6 [SU]=7 )
 
-# Check if an event is upcoming
-check_event() {
-    ts=$1
-    now=$2
-    if [[ "$now" -lt "$ts" ]]; then
-        echo "$f" >> "$UPCOMING_FILE"
-        return 0
-    fi
-    return 1
-}
-
-# Parse a single or recurring event
-parse_event() {
-    handle_event=$1
-    starts=()
-
-    # Treat "now" as the start of today (local time, but as UTC),
-    # b/c if we're e.g. 1 minute into an event we still want to see it
-    now=$(date --utc -d @$(date -d "today 00:00:00" +%s) +%s)
-    ts=$(start_ts)
-
-    # Handle recurring events
-    if [ -n "${event[RRULE]}" ]; then
-        declare -A rrule
-        while IFS== read key value; do
-            rrule["$key"]="$value"
-        done < <(echo "${event[RRULE]}" | sed 's/;/\n/g' )
-
-        count=${rrule[COUNT]}
-        interval=${rrule[INTERVAL]:-1}
-
-        if [ -n "${rrule[UNTIL]}" ]; then
-            until_ts=$(date +%s --utc --date=$(parse_dt ${rrule[UNTIL]}))
-            # If UNTIL is in the past, we can ignore this event
-            if [[ "$now" -gt "$until_ts" ]]; then
-                return 0
-            fi
-        fi
-
-        case ${rrule[FREQ]} in
-            "DAILY")
-                starts=$(get_next_daily $now $ts $interval $count)
-                ;;
-            "WEEKLY")
-                starts=$(get_next_weekly $now $ts $interval ${rrule[BYDAY]} $count)
-                ;;
-            "MONTHLY")
-                starts=$(get_next_monthly $now $ts $interval ${rrule[BYDAY]:-${rrule[BYMONTHDAY]}} $count)
-                ;;
-            "YEARLY")
-                starts=$(get_next_yearly $now $ts $interval $count)
-                ;;
-            *)
-                echo "Unrecognized FREQ: ${rrule[FREQ]}"
-                ;;
-        esac
-
-        # Sort starts times
-        IFS=$'\n' starts=($(sort <<<"${starts[*]}")); unset IFS
-
-        # No upcoming dates
-        if [ -z "$starts" ]; then
-            return 0
-        fi
-
-        # Debugging
-        # echo "EVENT:${event[SUMMARY]}"
-        # echo "BYDAY:${rrule[BYDAY]}"
-        # for sts in ${starts[@]}; do
-        #     echo $(date -d @$sts)
-        # done
-
-        for sts in ${starts[@]}; do
-            if $handle_event $sts $now; then
-                return 0
-            fi
-        done
-    else
-        if $handle_event $ts $now; then
-            return 0
-        fi
-    fi
-}
-
 # Parse an ics datetime into a format `date` can deal with
 parse_dt() {
     dt=$1
@@ -119,12 +36,11 @@ parse_dt() {
     fi
 }
 
-# Extract the start datetime (as a UTC timestamp) from an event
-# It doesn't seem you can (easily at least) pass associative arrays
-# as arguments, so we use it as a global variable, yuck
-start_ts() {
-    TZ=${event[TZID]:-$DEFAULT_TZ}
-    echo $(date +%s --utc --date='TZ="'$TZ'" '$(parse_dt ${event[DTSTART]}))
+# Convert datetime from an event to a UTC timestamp
+dt_to_ts() {
+    DTSTART=$1
+    TZ=${2:-$DEFAULT_TZ}
+    echo $(date +%s --utc --date='TZ="'$TZ'" '$(parse_dt $DTSTART))
 }
 
 # Calculating elapsed intervals for recurring rules
@@ -141,9 +57,22 @@ elapsed_intervals() {
 get_next() {
     now=$1
     start=$2
-    base_interval=$3
-    extend=${4:-1}
-    count=$5
+    tzid=$3
+    base_interval=$4
+    extend=${5:-1}
+    count=$6
+
+    # Get UTC offset for start time
+    # This is used to adjust for daylight savings
+    # This is because e.g. 2:30PM EDT is technically a different
+    # time than 2:30PM EST, but generally we want to treat them
+    # the same; i.e. arepeating event at 2:30 PM EDT should
+    # also occur at 2:30PM EST.
+    from_offset=$(TZ=$tzid date --date @$start +%z)
+    sign_a=${from_offset:0:1}
+    hours_a=${from_offset:1:2}
+    minutes_a=${from_offset:3:4}
+    from_offset=$(echo "0${sign_a}(${hours_a} + ${minutes_a}/60)" | bc)
 
     elapsed=$(($now-$start))
 
@@ -169,8 +98,15 @@ get_next() {
         for (( i=0; i<$remaining; ++i)); do
             # TODO check against until?
             next_ts=$(($next + ($i*$base_interval)))
-            echo $next_ts
-            # echo $(date --utc -d @$next_ts)
+
+            to_offset=$(TZ=$tzid date --date @$next_ts +%z)
+            sign_b=${to_offset:0:1}
+            hours_b=${to_offset:1:2}
+            minutes_b=${to_offset:3:4}
+            to_offset=$(echo "0${sign_b}(${hours_b} + ${minutes_b}/60)" | bc)
+            dst_adjusted=$(echo "(($from_offset - $to_offset) * 60 * 60) + ${next_ts}" | bc)
+
+            echo $dst_adjusted
         done
         return 0
     else
@@ -182,23 +118,24 @@ get_next() {
 get_next_daily() {
     # Look ahead 7 days by default
     lookahead=7
-    interval=$3
+    interval=$4
     base_interval=$(($interval*$SPD))
-    get_next $1 $2 $base_interval $lookahead $4
+    get_next $1 $2 $3 $base_interval $lookahead $5 $6
 }
 
 get_next_yearly() {
-    interval=$3
+    interval=$4
     base_interval=$(($interval*$SPY))
-    get_next $1 $2 $base_interval 1 $4
+    get_next $1 $2 $3 $base_interval 1 $5 $6
 }
 
 get_next_weekly() {
     now=$1
     start=$2
-    interval=$3
-    byday=$4
-    count=$5
+    tzid=$3
+    interval=$4
+    byday=$5
+    count=$6
     base_interval=$(($interval*$SPW))
 
     if [ -z "${byday}" ]; then
@@ -251,7 +188,7 @@ get_next_weekly() {
             count=$base_count
         fi
 
-        get_next $now $start $base_interval 1 $count
+        get_next $now $start $tzid $base_interval 1 $count
 
         (( index++ ))
     done
@@ -262,9 +199,10 @@ get_next_weekly() {
 get_next_monthly() {
     now=$1
     start=$2
-    interval=$3
-    byday=$4
-    count=$5
+    tzid=$3
+    interval=$4
+    byday=$5
+    count=$6
 
     # Look ahead 1 month by default
     lookahead=1
@@ -315,48 +253,196 @@ get_next_monthly() {
             day=$(($day+$adjustment))
             echo $(date --utc --date="${year}-${month}-${day}T${time}" +%s)
         fi
-    done < <(get_next $now_month $start_month $base_interval $lookahead $count)
+    done < <(get_next $now_month $start_month $tzid $base_interval $lookahead $count)
 }
 
 
 # Iterate over the events in a single ics file
-iterate_events() {
-    handle_event=$1
+parse_events() {
+    skipped=()
+    event_starts=()
+    declare -A overrides=( )
     declare -A event=( )
+
+    # Assume these are the same across the events
+    tzid=''
+    rrule=''
+    summary=''
+    location=''
+    description=''
 
     # Join lines if following lines are preceded with a space
     # b/c ics values can wrap like that
     # Then remove VALARM section, since it can interfere (it also has a "DESCRIPTION" key)
     # Also strip out everything before the first VEVENT so VCALENDAR-level properties don't bleed into the first event
-    data=$(cat "$2" | sed -e :a -e '$!N;s/\n //;ta' -e 'P;D' | sed '/^BEGIN:VALARM/,/^END:VALARM/ {/.*/d}' | sed '/^BEGIN:VCALENDAR/,/^BEGIN:VEVENT/ {/.*/d}')
+    data=$(cat "$1" | sed -e :a -e '$!N;s/\n //;ta' -e 'P;D' | \
+        sed '/^BEGIN:VALARM/,/^END:VALARM/ {/.*/d}' | \
+        sed '/^BEGIN:VCALENDAR/,/^BEGIN:VEVENT/ {/.*/d}')
 
     while IFS=: read -r key value; do
-      value=${value%$'\r'} # remove DOS newlines
-      if [[ $key = END && $value = VEVENT ]]; then
-        # If handle event returns true (0), break
-        if parse_event $handle_event; then break; fi
-        event=( )
-      else
+        value=${value%$'\r'} # remove DOS newlines
 
-        if [[ $key == "DTSTART;TZID="* ]]; then
-            event[TZID]=${key##*";TZID="}
+        if [[ $key = END && $value = VEVENT ]]; then
+            # Save event start timestamp
+            start_ts=$(dt_to_ts ${event[DTSTART]} $tzid)
+            event_starts+=($start_ts)
+
+            # Single event overrides
+            if [[ -v "event[RECURRENCE-ID]" ]] ; then
+                overrides[${event[RECURRENCE-ID]}]=$start_ts
+            fi
+
+            event=( )
+
+        # Skipped dates for recurring events
+        elif [[ $key == "EXDATE"* ]]; then
+            skipped+=$(dt_to_ts $value ${key##*";TZID="})
+
+        # Use recurrence ids for overrides
+        elif [[ $key == "RECURRENCE-ID"* ]]; then
+            event[RECURRENCE-ID]=$(dt_to_ts $value ${key##*";TZID="})
+
+        # Recurrence rule
+        elif [[ $key == "RRULE" ]]; then
+            rrule=$value
+
+        # Event start datetime
+        elif [[ $key == "DTSTART"* ]]; then
+            if [[ $key == "DTSTART;TZID="* ]]; then
+                tzid=${key##*";TZID="}
+            fi
+            event[${key%%";"*}]=$value
+
+        elif [[ $key == "SUMMARY" ]]; then
+            summary=$value
+
+        elif [[ $key == "DESCRIPTION" ]]; then
+            description=$value
+
+        elif [[ $key == "LOCATION" ]]; then
+            location=$value
+
+        else
+            event[${key%%";"*}]=$value
+
         fi
-        event[${key%%";"*}]=$value
-      fi
     done <<< $data
+
+    # Process event data
+    starts=()
+    tzid=${tzid:-DEFAULT_TZ}
+    initial_ts=${event_starts[0]}
+
+    # Treat "now" as the start of today (local time, but as UTC),
+    # b/c if we're e.g. 1 minute into an event we still want to see it
+    now=$(date --utc -d @$(date -d "today 00:00:00" +%s) +%s)
+
+    # If recurring
+    if [ -n "$rrule" ]; then
+        declare -A RRULE
+        while IFS== read key value; do
+            RRULE["$key"]="$value"
+        done < <(echo "${rrule}" | sed 's/;/\n/g' )
+
+        count=${RRULE[COUNT]}
+        interval=${RRULE[INTERVAL]:-1}
+
+        if [ -n "${RRULE[UNTIL]}" ]; then
+            until_ts=$(date +%s --utc --date=$(parse_dt ${RRULE[UNTIL]}))
+            # If UNTIL is in the past, we can ignore this event
+            if [[ "$now" -gt "$until_ts" ]]; then
+                return 0
+            fi
+        fi
+
+        case ${RRULE[FREQ]} in
+            "DAILY")
+                starts=$(get_next_daily $now $initial_ts $tzid $interval $count)
+                ;;
+            "WEEKLY")
+                starts=$(get_next_weekly $now $initial_ts $tzid $interval ${RRULE[BYDAY]} $count)
+                ;;
+            "MONTHLY")
+                starts=$(get_next_monthly $now $initial_ts $tzid $interval ${RRULE[BYDAY]:-${RRULE[BYMONTHDAY]}} $count)
+                ;;
+            "YEARLY")
+                starts=$(get_next_yearly $now $initial_ts $tzid $interval $count)
+                ;;
+            *)
+                echo "Unrecognized FREQ: ${RRULE[FREQ]}"
+                ;;
+        esac
+        starts=("${event_starts[@]}" "${starts[@]}")
+    else
+        starts=("${event_starts[@]}")
+    fi
+
+    # Sort start times
+    IFS=$'\n' starts=($(sort <<<"${starts[*]}")); unset IFS
+
+    # No upcoming dates
+    if [ -z "$starts" ]; then
+        return 0
+    fi
+
+    # Debugging
+    # echo "====================="
+    # echo "EVENT:${summary}"
+    # echo "RRULE:${rrule}"
+    # echo "OVERRIDES:"
+    # for o_ts in ${!overrides[@]}; do
+    #     echo "  $(date -d @$o_ts) -> $(date -d @${overrides[$o_ts]})"
+    # done
+    # echo "NEXT:"
+    # for sts in ${starts[@]}; do
+    #     echo "  $(date -d @$sts)"
+    # done
+
+    # Call handle_event on each upcoming start timestamp
+    for start_ts in ${starts[@]}; do
+        # If not an skipped date
+        if [[ ! " ${skipped[@]} " =~ " ${start_ts} " ]]; then
+            # If there is a change to this event
+            if [[ -v "overrides[${start_ts}]" ]] ; then
+                start_ts=${overrides[${start_ts}]}
+            fi
+            if [[ "$now" -lt "$start_ts" ]]; then
+                echo "${start_ts}$DELIMITER${summary}$DELIMITER${location}$DELIMITER${description}" >> "$UPCOMING_FILE"
+            fi
+        fi
+    done
+}
+
+iterate_upcoming() {
+    handle_event=$1
+    while IFS= read -r line; do
+        line=$line$DELIMITER
+        event=()
+        while [[ $line ]]; do
+            event+=( "${line%%"$DELIMITER"*}" );
+            line=${line#*"$DELIMITER"};
+        done
+        start_ts=${event[0]}
+        summary=${event[1]}
+        location=${event[2]}
+        description=${event[3]}
+        $handle_event $start_ts "$summary" "$location" "$description"
+    done < "$UPCOMING_FILE"
 }
 
 # Check if an event is upcoming,
 # if so, save its data for later use
 is_upcoming() {
     ts=$1
+    summary=$2
+    location=$3
+    description=$4
     if [[ "$ts" -gt "$TODAY" && "$ts" -lt "$END_DATE" ]]; then
-        file=$(basename $line)
-        key="${ts}_${file}"
+        key="${ts}_${summary}"
         events[$key]=$ts
-        summaries[$key]=${event[SUMMARY]}
-        locations[$key]=${event[LOCATION]}
-        descriptions[$key]=${event[DESCRIPTION]}
+        summaries[$key]="${summary}"
+        locations[$key]="${location}"
+        descriptions[$key]="${description}"
     fi
     return 1
 }
@@ -373,11 +459,7 @@ view_upcoming() {
     declare -A descriptions
     declare -A summaries
     declare -A locations
-    while IFS= read -r line; do
-        if [ -f "$line" ]; then
-            iterate_events is_upcoming $line
-        fi
-    done < "$UPCOMING_FILE"
+    iterate_upcoming is_upcoming
 
     # Sort by timestamp
     LAST_DAY=""
@@ -433,19 +515,16 @@ view_upcoming() {
 NOTIFIED=()
 decide_remind() {
     ts=$1
+    summary=$2
     now=$(date --utc +%s)
-    # echo ${event[SUMMARY]}
-    # echo "Now:"$(date -d @$now)
-    # echo "Starts:"$(date -d @$ts)
-    # echo "==="
-    hash=$(echo "${ts}_${event[SUMMARY]}" | md5sum | awk '{ print $1 }')
+    hash=$(echo "${ts}_${summary}" | md5sum | awk '{ print $1 }')
     if [[ ! "${NOTIFIED[*]}" =~ "${hash}" ]]; then
         diff=$(($ts - $now))
         # Should probably parse the ics TRIGGER value,
         # but for now easier to just set fixed reminders
         if [[ $diff -gt 0 && $diff -lt $REMINDER_TIME ]]; then
             NOTIFIED+=($hash)
-            summary=${event[SUMMARY]}
+            summary=${summary}
             time=$(date -d @$ts +%H:%M) # Display local time
             echo "[${time}] ${summary}"
             notify-send -t 0 "[${time}] ${summary}"
@@ -456,11 +535,7 @@ decide_remind() {
 # Check the reminder file,
 # create a notification for upcoming events
 remind() {
-    while IFS= read -r line; do
-        if [ -f "$line" ]; then
-            iterate_events decide_remind $line
-        fi
-    done < "$UPCOMING_FILE"
+    iterate_upcoming decide_remind
 }
 
 update() {
@@ -473,15 +548,28 @@ update() {
         echo "Updating..."
         NOW=$(date +%s)
 
+        # Full refresh on new day
+        if [ -f "$UPCOMING_FILE" ]; then
+            today=$(date +%d)
+            last_modified_day=$(date +%d -r "$UPCOMING_FILE")
+            if [[ "$last_modified_day" -lt "$today" ]]; then
+                last_updated=0
+            fi
+        fi
+
         # Check which ics files have upcoming events
         for f in ~/.calendar/**/*.ics; do
             modified=$(date +%s -r "$f")
             if [[ "$modified" -gt "$last_updated" ]]; then
-                iterate_events check_event $f
+                parse_events $f
             fi
         done
-        last_updated=$NOW
+
+        # Remove duplicates
+        awk -i inplace '!seen[$0]++' "$UPCOMING_FILE"
+
         echo "Done"
+        last_updated=$NOW
         sleep 600
     done
 }
@@ -512,3 +600,4 @@ elif [[ $1 == 'daemon' ]]; then
     done
     wait $P1
 fi
+
