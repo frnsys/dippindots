@@ -512,7 +512,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
 
     # muttrc
     sudo apt install -y xsltproc libidn11-dev libsasl2-dev libnotmuch-dev notmuch --no-install-recommends
-    sudo pip install offlineimap urlscan
+    sudo pip install isync urlscan # isync is mbsync
     git clone https://github.com/neomutt/neomutt.git /tmp/neomutt
     cd /tmp/neomutt
     git checkout neomutt-20180716
@@ -522,7 +522,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo ln -s /usr/bin/neomutt /usr/bin/mutt
     ln -sf $DIR/dots/email/muttrc ~/.muttrc
     ln -sf $DIR/dots/email/mailcap ~/.mailcap
-    ln -sf $DIR/dots/email/offlineimaprc ~/.offlineimaprc
+    ln -sf $DIR/dots/email/mbsyncrc ~/.mbsyncrc
     ln -sf $DIR/dots/email/notmuch-config ~/.notmuch-config
     ln -sf $DIR/dots/email/signature ~/.signature
     sudo ln -sf $DIR/dots/email/view_html.sh /usr/local/bin/view_html
@@ -530,10 +530,11 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo ln -sf $DIR/dots/email/update_nm.sh /usr/local/bin/update_nm
     cd $DIR
 
-    sudo cp $DIR/dots/email/offlineimap.service /etc/systemd/user/offlineimap.service
+    mkdir ~/.mail
+    sudo cp $DIR/dots/email/mbsync.{service,timer} /etc/systemd/user/
     systemctl --user daemon-reload
-    systemctl --user enable offlineimap.service
-    systemctl --user start offlineimap.service
+    systemctl --user enable mbsync.timer
+    systemctl --user start mbsync.timer
 
     # calendar
     pip3 install vdirsyncer[google]

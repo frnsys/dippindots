@@ -1,18 +1,7 @@
 #!/bin/bash
 
-declare -A tags
-tags[expense]=Labels.Expense
-tags[donation]=Labels.Donation
-tags[upcoming]=Labels.Upcoming
-
 # process new emails
 notmuch new
-
-# auto-tag based on maildir folder
-for tag in "${!tags[@]}"; do
-    echo "Tagging ${tags[$tag]} -> $tag"
-    notmuch tag +$tag -- folder:${tags[$tag]} and -tag:$tag
-done
 
 # send notification if new emails
 UNREAD=$(notmuch count "tag:unread AND folder:INBOX")
