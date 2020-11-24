@@ -32,7 +32,6 @@ else
             printf "100"
         fi
     else
-        POWER_NOW=$(query power_now)   # mW
         ENERGY_FULL=$(query energy_full) # mWh
         ENERGY_NOW=$(query energy_now)   # mWh
         if [[ $1 == 'percent' ]]; then

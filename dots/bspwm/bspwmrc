@@ -2,10 +2,11 @@
 
 NORMAL_BORDER_COLOR="#4e4e4e"
 ACTIVE_BORDER_COLOR="#1a476b"
+# FOCUSED_BORDER_COLOR="#43CC70"
 FOCUSED_BORDER_COLOR="#d6c08f"
 
-bspc config border_width        0
-bspc config window_gap          0
+bspc config border_width        1
+bspc config window_gap          10
 
 bspc config split_ratio         0.50
 bspc config borderless_monocle  true

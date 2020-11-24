@@ -565,6 +565,7 @@ update() {
             today=$(date +%d)
             last_modified_day=$(date +%d -r "$UPCOMING_FILE")
             if [[ "$last_modified_day" -lt "$today" ]]; then
+                rm "$UPCOMING_FILE"
                 last_updated=0
             fi
         fi

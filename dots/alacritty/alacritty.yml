@@ -17,8 +17,9 @@ mouse:
 font:
   normal:
     family: Source Code Pro
-    style: Light
-  size: 12.0
+    family: terminus
+    # style: Light
+  size: 12.0 # Source Code Pro, terminus
   offset:
       y: 4 # line height
 

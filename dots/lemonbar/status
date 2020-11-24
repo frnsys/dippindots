@@ -93,14 +93,15 @@ battery() {
     PERCENT=$(batt percent)
 
     if [[ $(batt status) = *"Discharging"* ]]; then
+        HOURS_LEFT=$(batt duration)
         if [ $PERCENT -le 10 ]; then
-            echo "%{B$COLOR_URGENT} |::: %{B-}"
+            echo "%{B$COLOR_URGENT} |::: ${HOURS_LEFT} %{B-}"
         elif [ $PERCENT -le 50 ]; then
-            echo "%{B$COLOR_BACKGROUND}%{F$COLOR_FOREGROUND}||::%{F-}%{B-}"
+            echo "%{B$COLOR_BACKGROUND}%{F$COLOR_FOREGROUND}||:: ${HOURS_LEFT}%{F-}%{B-}"
         elif [ $PERCENT -le 75 ]; then
-            echo "%{B$COLOR_BACKGROUND}%{F$COLOR_FOREGROUND}|||:%{F-}%{B-}"
+            echo "%{B$COLOR_BACKGROUND}%{F$COLOR_FOREGROUND}|||: ${HOURS_LEFT}%{F-}%{B-}"
         else
-            echo "%{B$COLOR_BACKGROUND}%{F$COLOR_FOREGROUND}||||%{F-}%{B-}"
+            echo "%{B$COLOR_BACKGROUND}%{F$COLOR_FOREGROUND}|||| ${HOURS_LEFT}%{F-}%{B-}"
         fi
     else
         echo "${PLUGGED_ICON}:${PERCENT}% "
@@ -137,7 +138,7 @@ tasks() {
 }
 
 streaming() {
-    STREAMING=$(pgrep twitch)
+    STREAMING=$(ps -a | grep twitch)
     bg=$COLOR_URGENT
     if [ -n "$STREAMING" ]; then
         echo "%{B$bg} LIVE %{B-}"
