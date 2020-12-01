@@ -237,22 +237,38 @@ get_next_monthly() {
 
         # Otherwise, we need to find the correct day
         else
-            nth=$(grep -Eo '[0-9]+' <<< "$byday")
+            nth=$(grep -Eo '[-0-9]+' <<< "$byday")
             dow=$(grep -Eo '[[:alpha:]]+' <<< "$byday")
             target_dow=${WEEKDAYS[$dow]}
 
-            # Get weekday for first day of month
-            first_dow=$(date --utc --date="${year}-${month}-1T${time}" +%u)
+            # If negative nth, start from the end of the month
+            if [[ $nth == "-"* ]]; then
+                # Drop negative
+                nth="${nth:1}"
+
+                sign="-"
+
+                # Get weekday for last day of month
+                # and last day of month
+                ref_day=$(date --utc --date="${year}-${month}-1T${time} + 1 month - 1 day" +%d)
+                ref_dow=$(date --utc --date="${year}-${month}-1T${time} + 1 month - 1 day" +%u)
+            else
+                sign="+"
+
+                # Get weekday for first day of month
+                ref_day=1
+                ref_dow=$(date --utc --date="${year}-${month}-1T${time}" +%u)
+            fi
 
             # Figure out when the first target day is,
             # then adjust by necessary number of weeks
-            diff=$(($target_dow - $first_dow))
+            diff=$((($target_dow-$ref_dow)* $sign 1))
             if [[ $diff -lt 0 ]]; then
                 diff=$(($diff + 7))
             fi
-            day=$((1+$diff));
-            adjustment=$((7 * ($nth-1)))
-            day=$(($day+$adjustment))
+            day=$(($ref_day$sign$diff));
+            weeks_adjustment=$((7 * ($nth-1)))
+            day=$(($day+$weeks_adjustment))
             echo $(date --utc --date="${year}-${month}-${day}T${time}" +%s)
         fi
     done < <(get_next $now_month $start_month $tzid $base_interval $lookahead $count)
