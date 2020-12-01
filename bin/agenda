@@ -491,49 +491,51 @@ view_upcoming() {
     LAST_DAY=""
     LAST_TS=0
     mapfile -d '' sorted < <(printf '%s\0' "${!events[@]}" | sort -z)
-    for key in "${sorted[@]}"; do
-        ts=${events[$key]}
-        loc=${locations[$key]}
-        desc=${descriptions[$key]}
-        summ=${summaries[$key]}
-        days=$(echo "( `date --utc -d @$ts +%s` - `date --utc -d @$TODAY +%s`) / (24*3600)" | bc -l | cut -d"." -f1)
-        days=${days:-0} # Set to 0 if empty (indicating today)
+    if [ ${#sorted[@]} -gt 0 ]; then
+        for key in "${sorted[@]}"; do
+            ts=${events[$key]}
+            loc=${locations[$key]}
+            desc=${descriptions[$key]}
+            summ=${summaries[$key]}
+            days=$(echo "( `date --utc -d @$ts +%s` - `date --utc -d @$TODAY +%s`) / (24*3600)" | bc -l | cut -d"." -f1)
+            days=${days:-0} # Set to 0 if empty (indicating today)
 
-        # Print days out
-        if [ "$days" != "$LAST_DAY" ]; then
-            LAST_DAY=$days
-            tput setaf 11
-            case $days in
-                0)
-                    echo -e "Today"
-                    ;;
-                1)
-                    echo -e $(date -d @$ts +%m/%d)"\tTomorrow"
-                    ;;
-                *)
-                    echo -e $(date -d @$ts +%m/%d)"\t${days} days"
-                    ;;
-            esac
-            tput sgr0
-        fi
+            # Print days out
+            if [ "$days" != "$LAST_DAY" ]; then
+                LAST_DAY=$days
+                tput setaf 11
+                case $days in
+                    0)
+                        echo -e "Today"
+                        ;;
+                    1)
+                        echo -e $(date -d @$ts +%m/%d)"\tTomorrow"
+                        ;;
+                    *)
+                        echo -e $(date -d @$ts +%m/%d)"\t${days} days"
+                        ;;
+                esac
+                tput sgr0
+            fi
 
-        now=$(date +%s)
-        if [[ $now -gt $LAST_TS && $now -lt $ts ]]; then
-            echo -e "--------$(tput setaf 3)Now$(tput sgr 0)--------\n"
-        fi
-        LAST_TS=$ts
+            now=$(date +%s)
+            if [[ $now -gt $LAST_TS && $now -lt $ts ]]; then
+                echo -e "--------$(tput setaf 3)Now$(tput sgr 0)--------\n"
+            fi
+            LAST_TS=$ts
 
-        # Print event info
-        echo -e "$(date -d @$ts +%H:%M)\t$(tput setaf 2)${summ}$(tput sgr 0)"
-        if [ -n "$loc" ]; then echo -e "\t${loc}"; fi
-        if [ -n "$desc" ]; then
-            # Indent description
-            desc=$(echo -e "${desc}" | sed 's/^/\t/')
-            echo -e "${desc}\n"
-        else
-            echo ""
-        fi
-    done
+            # Print event info
+            echo -e "$(date -d @$ts +%H:%M)\t$(tput setaf 2)${summ}$(tput sgr 0)"
+            if [ -n "$loc" ]; then echo -e "\t${loc}"; fi
+            if [ -n "$desc" ]; then
+                # Indent description
+                desc=$(echo -e "${desc}" | sed 's/^/\t/')
+                echo -e "${desc}\n"
+            else
+                echo ""
+            fi
+        done
+    fi
 }
 
 # Send notification for upcoming event
@@ -576,11 +578,11 @@ update() {
         echo "Updating..."
         NOW=$(date +%s)
 
-        # Full refresh on new day
+        # Full refresh roughly every hour
         if [ -f "$UPCOMING_FILE" ]; then
-            today=$(date +%d)
-            last_modified_day=$(date +%d -r "$UPCOMING_FILE")
-            if [[ "$last_modified_day" -lt "$today" ]]; then
+            now_hour=$(date +%H)
+            last_modified_hour=$(date +%H -r "$UPCOMING_FILE")
+            if [[ "$last_modified_hour" != "$now_hour" ]]; then
                 rm "$UPCOMING_FILE"
                 last_updated=0
             fi
