@@ -16,7 +16,7 @@ syntax match Comment /\%^---\_.\{-}---$/ contains=@Spell
 
 " disable indented code syntax highlighting,
 " interferes with nested list items
-syn clear markdownCodeBlock
+" syn clear markdownCodeBlock
 
 " fix for nested list items to have proper bullet highlighting
 syn match markdownListMarker

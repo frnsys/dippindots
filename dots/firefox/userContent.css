@@ -11,7 +11,14 @@
   display: none !important;
 }
 
-/* hide on twitter.com */
+/* twitter.com */
 [aria-label="Who to follow"] {
   display: none !important;
+}
+
+@-moz-document domain(youtube.com) {
+  #buttons.ytd-masthead,
+  .ytd-popup-container {
+    display: none !important;
+  }
 }
