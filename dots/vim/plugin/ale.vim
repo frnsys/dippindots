@@ -12,3 +12,9 @@ let g:ale_linters = {
   \'python': ['pyflakes'],
   \'javascript': []
 \}
+
+" gutter sign config
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '>>'
+hi ALEErrorSign ctermbg=none ctermfg=196
+hi ALEWarningSign ctermbg=none ctermfg=3

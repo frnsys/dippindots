@@ -211,8 +211,14 @@ augroup customSyntax
     autocmd WinEnter,VimEnter * :silent! call matchadd('Note', 'ENH', -1)
 augroup END
 
+" don't automatically insert first omnicompletion match
+set completeopt=noinsert,menuone
+
 " map omnicompletion to ctrl+l in insert mode
-inoremap <C-l> <c-x><c-o>
+inoremap <c-l> <c-x><c-o>
+
+" enter selects first or highlighted omnicompletion match
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " auto-close quickfix window if it's the only one left
 " this makes it easier to :q quit with a file has e.g. syntactic errors
