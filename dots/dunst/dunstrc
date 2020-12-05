@@ -2,7 +2,8 @@
     # refer to <https://github.com/knopwob/dunst/blob/master/dunstrc>
     # put colors in quotation marks so they aren't mistaken as comments
 
-    font = Source Code Pro 9
+    # font = Source Code Pro Light 9
+    font = Roboto Mono Light 9
     markup = yes
     plain_text = no
     word_wrap = yes

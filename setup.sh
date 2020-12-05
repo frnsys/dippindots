@@ -342,7 +342,8 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo ln -sf ~/.config/lemonbar/panel_bar /usr/bin/panel_bar
     git clone https://github.com/baskerville/sutils.git /tmp/sutils
     git clone https://github.com/baskerville/xtitle.git /tmp/xtitle
-    git clone https://github.com/LemonBoy/bar.git /tmp/bar
+    # git clone https://github.com/LemonBoy/bar.git /tmp/bar
+    git clone https://github.com/drscream/lemonbar-xft /tmp/bar
     cd /tmp/sutils && make && sudo make install
     cd /tmp/xtitle && make && sudo make install
     cd /tmp/bar && make && sudo make install
@@ -458,6 +459,10 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     xset +fp ~/.fonts/
     xset fp rehash
     fc-cache -fv
+
+    sudo mkdir /usr/share/fonts/truetype/robotomono
+    sudo wget --content-disposition -P /usr/share/fonts/truetype/robotomono https://github.com/google/fonts/blob/master/apache/robotomono/static/RobotoMono-{Bold,BoldItalic,Italic,Light,LightItalic,Medium,MediumItalic,Regular,Thin,ThinItalic}.ttf?raw=true
+    sudo fc-cache -fv
 
     # wallpapers
     ln -sf $DIR/assets/walls ~/.walls

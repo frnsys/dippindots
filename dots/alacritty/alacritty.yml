@@ -18,8 +18,10 @@ font:
   normal:
     family: Source Code Pro
     family: terminus
-    # style: Light
-  size: 12.0 # Source Code Pro, terminus
+    family: Roboto Mono
+    style: Light
+  # size: 12.0 # Source Code Pro, terminus
+  size: 10.0 # Roboto Mono
   offset:
       y: 4 # line height
 

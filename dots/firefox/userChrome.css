@@ -17,7 +17,7 @@
     /* TAB VARIABLES */
     --bg-light: #202020; --bg-dark: #202020;
     --fg-light: #CECFD1; --fg-dark: #AAABAD;
-    --tab-fonts: "Source Code Pro", "Noto Sans", "Helvetica"; --tab-font-size: 11px;
+    --tab-fonts: "Roboto Mono", "Source Code Pro", "Noto Sans", "Helvetica"; --tab-font-size: 10px;
     --tab-min-height: 28px !important;
     --toolbar-bgcolor: #303030 !important;
     --toolbar-color: #AAABAD !important;
