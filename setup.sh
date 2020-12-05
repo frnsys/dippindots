@@ -58,6 +58,11 @@ sudo apt install -y --no-install-recommends wget silversearcher-ag
 curl -sf -L https://static.rust-lang.org/rustup.sh | sh
 source ~/.cargo/env
 cargo install fd-find ripgrep
+rustup toolchain add nightly
+
+# racer/racer-vim dependencies
+cargo +nightly install racer
+rustup component add rust-src
 
 echo "Installing math libs..."
 sudo apt install -y libatlas-base-dev liblapack-dev libopenblas-dev libopenblas-base libatlas3-base

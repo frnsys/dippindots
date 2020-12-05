@@ -25,6 +25,10 @@ call minpac#add('pangloss/vim-javascript')
 
 " Markdown
 call minpac#add('dhruvasagar/vim-table-mode')
+
+" Rust
+call minpac#add('racer-rust/vim-racer')
+
 packloadall
 
 colorscheme dark
@@ -206,3 +210,10 @@ augroup customSyntax
     autocmd!
     autocmd WinEnter,VimEnter * :silent! call matchadd('Note', 'ENH', -1)
 augroup END
+
+" map omnicompletion to ctrl+l in insert mode
+inoremap <C-l> <c-x><c-o>
+
+" auto-close quickfix window if it's the only one left
+" this makes it easier to :q quit with a file has e.g. syntactic errors
+:autocmd WinEnter * if &buftype ==# 'quickfix' && winnr('$') == 1 | quit | endif

@@ -33,6 +33,8 @@ alias ipy="ipython"
 alias za="zathura"
 alias h="hubble"
 alias r="ranger"
+alias cb="cargo build"
+alias cr="cargo run"
 alias publish="port build spaceandtimes; port sync spaceandtimes ftseng@starbase.in:/srv/spaceandtimes"
 
 # Always use color output for `ls`
