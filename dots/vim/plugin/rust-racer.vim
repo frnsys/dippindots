@@ -1,5 +1,8 @@
 let g:racer_cmd = "/home/ftseng/.cargo/bin/racer"
-let g:racer_experimental_completer = 1
+
+" Handled by ALE
+" let g:racer_experimental_completer = 1
+
 augroup Racer
     autocmd!
     " Opens the docs or source preview window

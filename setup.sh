@@ -62,7 +62,7 @@ rustup toolchain add nightly
 
 # racer/racer-vim dependencies
 cargo +nightly install racer
-rustup component add rust-src
+rustup component add rust-src rls --toolchain nightly
 
 echo "Installing math libs..."
 sudo apt install -y libatlas-base-dev liblapack-dev libopenblas-dev libopenblas-base libatlas3-base

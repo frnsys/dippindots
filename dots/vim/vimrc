@@ -1,3 +1,11 @@
+" has to be set before the plugin loads
+" have to use the nightly toolchain for some reason
+" or autocomplete doesn't work
+let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
+let g:ale_rust_rls_toolchain = 'nightly'
+
+
 " wild
 set wildmenu " enhance command-line completion
 set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem,*.meta
@@ -214,12 +222,9 @@ augroup END
 " don't automatically insert first omnicompletion match
 set completeopt=noinsert,menuone
 
-" map omnicompletion to ctrl+l in insert mode
-inoremap <c-l> <c-x><c-o>
-
-" enter selects first or highlighted omnicompletion match
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" map omnicompletion to ctrl+n in insert mode
+inoremap <c-n> <c-x><c-o>
 
 " auto-close quickfix window if it's the only one left
 " this makes it easier to :q quit with a file has e.g. syntactic errors
-:autocmd WinEnter * if &buftype ==# 'quickfix' && winnr('$') == 1 | quit | endif
+autocmd WinEnter * if &buftype ==# 'quickfix' && winnr('$') == 1 | quit | endif
