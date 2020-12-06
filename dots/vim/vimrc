@@ -1,11 +1,3 @@
-" has to be set before the plugin loads
-" have to use the nightly toolchain for some reason
-" or autocomplete doesn't work
-let g:ale_completion_enabled = 1
-let g:ale_completion_autoimport = 1
-let g:ale_rust_rls_toolchain = 'nightly'
-
-
 " wild
 set wildmenu " enhance command-line completion
 set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem,*.meta
@@ -13,6 +5,13 @@ set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
 set wildignore+=*/.bundle/*,*/.sass-cache/*,node_modules
 set wildignore+=*.swp,*~,._*
 set wildignore+=*.pyc,*.egg-info,__pycache__
+
+" has to be set before the plugin loads
+" have to use the nightly toolchain for some reason
+" or autocomplete doesn't work
+let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
+let g:ale_rust_rls_toolchain = 'nightly'
 
 " to install new plugins,
 " add them here and then run the command:
@@ -33,9 +32,6 @@ call minpac#add('pangloss/vim-javascript')
 
 " Markdown
 call minpac#add('dhruvasagar/vim-table-mode')
-
-" Rust
-call minpac#add('racer-rust/vim-racer')
 
 packloadall
 
@@ -196,10 +192,6 @@ let g:netrw_banner=0
 let g:netrw_liststyle=3
 let g:netrw_list_hide= '.*\.swp$,.*\.pyc,\.tags,\.git,\.sass-cache,node_modules'
 nmap - :Explore<cr>
-
-" go to definition
-" <C-o> jumps back after going to defintion
-nnoremap <C-g> <C-]>
 
 " show current filename
 nnoremap <C-h> :f<cr>

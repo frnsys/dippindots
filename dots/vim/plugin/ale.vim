@@ -11,7 +11,7 @@ let g:ale_lint_on_enter = 0
 let g:ale_linters = {
   \'python': ['pyflakes'],
   \'javascript': [],
-  \'rust': ['rls']
+  \'rust': ['cargo', 'rls']
 \}
 
 " gutter sign config
@@ -26,3 +26,12 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 " use ale for omnicompletion
 set omnifunc=ale#completion#OmniFunc
+
+" go to documentation
+" Opens the docs or source preview window
+" Use <c-w>z to close it
+nmap gd <Plug>(ale_hover)
+
+" go to definition
+" <C-o> jumps back after going to defintion
+nmap <c-g> <Plug>(ale_go_to_definition)
