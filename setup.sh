@@ -60,9 +60,10 @@ source ~/.cargo/env
 cargo install fd-find ripgrep
 rustup toolchain add nightly
 
-# racer/racer-vim dependencies
-cargo +nightly install racer
-rustup component add rust-src rls --toolchain nightly
+# dependencies for rust features in vim/ale
+rustup component add rust-src --toolchain nightly
+sudo curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux -o /usr/local/bin/rust-analyzer
+sudo chmod +x /usr/local/bin/rust-analyzer
 
 echo "Installing math libs..."
 sudo apt install -y libatlas-base-dev liblapack-dev libopenblas-dev libopenblas-base libatlas3-base
