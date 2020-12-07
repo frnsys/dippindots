@@ -115,7 +115,7 @@ super + apostrophe
     shot full
 
 # record region, press again to stop
-@super + r
+@super + shift + r
     if pgrep -x recordmydesktop > /dev/null; then notify-send "[rec] saving..." && pkill recordmydesktop; else rec region; fi;
 
 # media buttons
