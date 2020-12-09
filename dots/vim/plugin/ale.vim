@@ -8,6 +8,9 @@ let g:ale_lint_on_text_changed = 'normal' " always, insert, normal, never
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 0
 
+let g:ale_rust_analyzer_config = {
+  \'rust-analyzer.diagnostics.disabled': ['unresolved-import']
+\}
 let g:ale_linters = {
   \'python': ['pyflakes'],
   \'javascript': [],
