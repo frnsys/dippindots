@@ -8,9 +8,14 @@ let g:ale_lint_on_text_changed = 'normal' " always, insert, normal, never
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 0
 
+" diagnostics giving a lot of headache, so disabling for now,
+" but later can replace with these lines:
+" 'diagnostics': { 'disabled': ['unresolved-import'] },
+" 'procMacro': { 'enable': v:true },
 let g:ale_rust_analyzer_config = {
-  \'rust-analyzer.diagnostics.disabled': ['unresolved-import']
-\}
+  \ 'diagnostics': { 'enable': v:false },
+  \ 'cargo': { 'loadOutDirsFromCheck': v:true },
+\ }
 let g:ale_linters = {
   \'python': ['pyflakes'],
   \'javascript': [],
