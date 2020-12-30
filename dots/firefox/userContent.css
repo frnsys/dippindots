@@ -18,7 +18,7 @@
 
 @-moz-document domain(youtube.com) {
   #buttons.ytd-masthead,
-  .ytd-popup-container {
+  ytd-mealbar-promo-renderer {
     display: none !important;
   }
 }
