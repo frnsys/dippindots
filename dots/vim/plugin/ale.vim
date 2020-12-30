@@ -15,10 +15,11 @@ let g:ale_lint_on_enter = 0
 let g:ale_rust_analyzer_config = {
   \ 'diagnostics': { 'enable': v:false },
   \ 'cargo': { 'loadOutDirsFromCheck': v:true },
+  \ 'checkOnSave': { 'command': 'clippy', 'enable': v:true }
 \ }
 let g:ale_linters = {
   \'python': ['pyflakes'],
-  \'javascript': [],
+  \'javascript': ['tsserver'],
   \'rust': ['analyzer']
 \}
 
@@ -29,8 +30,10 @@ hi ALEErrorSign ctermbg=none ctermfg=196
 hi ALEWarningSign ctermbg=none ctermfg=3
 
 " navigate between errors
+" press enter to view error details
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap <silent> <leader>m <Plug>(ale_detail)
 
 " use ale for omnicompletion
 set omnifunc=ale#completion#OmniFunc

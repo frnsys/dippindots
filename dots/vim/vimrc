@@ -29,6 +29,7 @@ call minpac#add('dense-analysis/ale')
 call minpac#add('mxw/vim-jsx')
 call minpac#add('lepture/vim-jinja')
 call minpac#add('pangloss/vim-javascript')
+call minpac#add('sirtaj/vim-openscad')
 
 " Markdown
 call minpac#add('dhruvasagar/vim-table-mode')
