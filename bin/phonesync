@@ -7,10 +7,9 @@ cp ~/docs/pass.kdbx ~/deaddrop/
 adb-sync --delete --force --copy-links ~/deaddrop/ /sdcard/deaddrop
 
 declare -A backups
-backups[DCIM/Camera]=~/photos/android_dump
-backups[Pictures]=~/photos/phone_pictures
-backups[tencent/MicroMsg/WeChat]=~/photos/wechat
-backups["WhatsApp/Media/WhatsApp Images"]=~/photos/whatsapp
+backups[DCIM/Camera]=~/photos/phone/dcim
+backups[Pictures]=~/photos/phone/misc
+backups[tencent/MicroMsg/WeChat]=~/photos/phone/wechat
 
 # backup (i.e. don't delete)
 # directories FROM the phone
