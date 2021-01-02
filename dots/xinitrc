@@ -25,4 +25,7 @@ maw ~/notes/web/annos.json ~/notes/web/assets &
 # Properly set DBUS_SESSION_BUS_ADDRESS
 source /etc/X11/Xsession.d/20dbus_xdg-runtime
 
+# Show panel when cursor is at bottom of screen
+xdotool behave_screen_edge bottom exec panel_autohide &
+
 exec ~/.config/bspwm/wm

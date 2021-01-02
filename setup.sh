@@ -347,6 +347,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     ln -sf $DIR/dots/lemonbar  ~/.config/lemonbar
     sudo ln -sf ~/.config/lemonbar/panel /usr/bin/panel
     sudo ln -sf ~/.config/lemonbar/panel_bar /usr/bin/panel_bar
+    sudo ln -sf ~/.config/lemonbar/panel_autohide /usr/bin/panel_autohide
     git clone https://github.com/baskerville/sutils.git /tmp/sutils
     git clone https://github.com/baskerville/xtitle.git /tmp/xtitle
     # git clone https://github.com/LemonBoy/bar.git /tmp/bar

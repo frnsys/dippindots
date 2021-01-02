@@ -1,0 +1,3 @@
+#!/bin/bash
+panel &
+xdotool search --sync --name "wm_panel" behave %@ mouse-leave exec pkill panel
