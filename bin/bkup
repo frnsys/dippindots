@@ -20,11 +20,11 @@ function localSync() {
     dest=$1
     echo $dest
     for d in ${REPOS[@]}; do
-        rsync -azvu --progress "$d" "$dest/repos" --delete --delete-excluded --exclude={.git/lfs,node_modules}
+        rsync -azvu --progress "$d" "$dest/repos" --delete --delete-excluded --exclude={.git/lfs,node_modules,target/release,target/debug}
     done
     for d in ${OTHER[@]}; do
         # NOTE can't use `--delete-excluded` because it also implies `--delete`
-        rsync -azvu --progress "$d" "$dest" --exclude={.git/lfs,node_modules}
+        rsync -azvu --progress "$d" "$dest" --exclude={.git/lfs,node_modules,target/release,target/debug}
     done
     rsync -azvu --progress ~/downloads "$dest/repos" --delete --delete-excluded --progress --exclude=torrents
     date > /tmp/last_updated
