@@ -31,7 +31,7 @@
     #reader-mode-button, #identity-box, #pocket-button-box, #star-button-box,
     #home-button, #search-container, #sidebar-button, #urlbar-search-splitter,
     #customizableui-special-spring2,
-    .titlebar-placeholder, .search-one-offs,
+    .titlebar-placeholder, .search-one-offs, #new-tab-button,
     .tabs-newtab-button, .tab-close-button, #tabs-newtab-button,
     #alltabs-button, #tracking-protection-icon-container { display: none !important; }
 
