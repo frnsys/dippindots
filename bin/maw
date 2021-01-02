@@ -9,6 +9,10 @@ import json
 import base64
 import hashlib
 import argparse
+from email import utils
+from datetime import datetime
+from xml.etree import ElementTree as etree
+
 from collections import defaultdict
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -19,6 +23,34 @@ parser.add_argument('-p', '--port', type=int, dest='PORT', default=8888, help='P
 parser.add_argument('-k', '--key', type=str, dest='KEY', default=None, help='Secret key to authenticate clients')
 args = parser.parse_args()
 
+rss_meta = {
+    'title': 'hili',
+    'link': 'TODO',
+    'description': 'highlights',
+}
+rss_mapping = {
+    'link': lambda i: i['href'],
+    'title': lambda i: i['title'],
+    'description': lambda i: i['text'],
+    'pubDate': lambda i: utils.format_datetime(datetime.fromtimestamp(i['time']/1000))
+}
+
+def gen_rss(items):
+    rss = etree.Element('rss', version='2.0')
+    channel = etree.SubElement(rss, 'channel')
+    for key, val in rss_meta.items():
+        sub = etree.SubElement(channel, key)
+        sub.text = val
+
+    for item in items:
+        item_el = etree.SubElement(channel, 'item')
+        for tag, fn in rss_mapping.items():
+            el = etree.SubElement(item_el, tag)
+            el.text = fn(item)
+        for tag in item['tags']:
+            el = etree.SubElement(item_el, 'category')
+            el.text = tag
+    return etree.tostring(rss)
 
 class JSONRequestHandler(BaseHTTPRequestHandler):
     def do_POST(self):
@@ -69,94 +101,99 @@ class JSONRequestHandler(BaseHTTPRequestHandler):
         return
 
     def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
-
-        data = []
         with open(args.FILE, 'r') as f:
-            for l in f.read().splitlines():
-                data.append(json.loads(l))
+            items = map(json.loads, f.read().splitlines())
 
-        # Reverse chron
-        html = ['''
-            <html>
-                <head>
-                    <meta charset="utf8">
-                    <style>
-                        html {
-                            overflow-x: hidden;
-                        }
-                        article {
-                            margin: 4em auto;
-                            max-width: 720px;
-                            line-height: 1.4;
-                            padding-bottom: 4em;
-                            border-bottom: 2px solid black;
-                            font-family: sans-serif;
-                        }
-                        .highlight {
-                            margin: 2em 0;
-                        }
-                        .tags {
-                            color: #888;
-                            margin-top: 1em;
-                            font-size: 0.8em;
-                        }
-                        a {
-                            color: blue;
-                        }
-                        img {
-                            max-width: 100%;
-                        }
-                    </style>
-                </head>
-                <body>''']
+        if self.path.startswith('/rss.xml'):
+            self.send_response(200)
+            self.send_header('Content-type', 'text/xml')
+            self.end_headers()
+            self.wfile.write(gen_rss(items))
+        else:
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
 
-        grouped = defaultdict(list)
-        for d in data:
-            grouped[d['href']].append(d)
+            # Reverse chron
+            html = ['''
+                <html>
+                    <head>
+                        <meta charset="utf8">
+                        <style>
+                            html {
+                                overflow-x: hidden;
+                            }
+                            article {
+                                margin: 4em auto;
+                                max-width: 720px;
+                                line-height: 1.4;
+                                padding-bottom: 4em;
+                                border-bottom: 2px solid black;
+                                font-family: sans-serif;
+                            }
+                            .highlight {
+                                margin: 2em 0;
+                            }
+                            .tags {
+                                color: #888;
+                                margin-top: 1em;
+                                font-size: 0.8em;
+                            }
+                            a {
+                                color: blue;
+                            }
+                            img {
+                                max-width: 100%;
+                            }
+                        </style>
+                    </head>
+                    <body>''']
 
-        for href, group in sorted(grouped.items(), key=lambda g: -max([d['time'] for d in g[1]])):
-            html.append('''
-                <article>
-                    <h4><a href="{href}">{title}</a></h4>'''.format(href=href, title=group[0]['title']))
-            for d in group:
-                if 'file' in d:
-                    # fname = d['file']['name']
-                    html.append('''
-                        <div class="highlight">
-                            <img src="{src}">
-                            <p>{text}</p>
-                            <div class="tags"><em>{tags}</em></div>
-                        </div>
-                    '''.format(
-                        # src=os.path.join(args.UPLOAD_DIR, fname),
-                        src=d['file']['src'],
-                        text=d['text'],
-                        tags=', '.join(d['tags'])
-                    ))
-                else:
-                    html.append('''
-                        <div class="highlight">
-                            {html}
-                            <div class="tags"><em>{tags}</em></div>
-                        </div>
-                    '''.format(
-                        html=d['html'],
-                        tags=', '.join(d['tags'])
-                    ))
-            html.append('</article>')
+            grouped = defaultdict(list)
+            for d in items:
+                grouped[d['href']].append(d)
 
-        html.append('</body></html>')
+            for href, group in sorted(grouped.items(), key=lambda g: -max([d['time'] for d in g[1]])):
+                html.append('''
+                    <article>
+                        <h4><a href="{href}">{title}</a></h4>'''.format(href=href, title=group[0]['title']))
+                for d in group:
+                    if 'file' in d:
+                        # fname = d['file']['name']
+                        html.append('''
+                            <div class="highlight">
+                                <img src="{src}">
+                                <p>{text}</p>
+                                <div class="tags"><em>{tags}</em></div>
+                            </div>
+                        '''.format(
+                            # src=os.path.join(args.UPLOAD_DIR, fname),
+                            src=d['file']['src'],
+                            text=d['text'],
+                            tags=', '.join(d['tags'])
+                        ))
+                    else:
+                        html.append('''
+                            <div class="highlight">
+                                {html}
+                                <div class="tags"><em>{tags}</em></div>
+                            </div>
+                        '''.format(
+                            html=d['html'],
+                            tags=', '.join(d['tags'])
+                        ))
+                html.append('</article>')
 
-        # Response
-        html = '\n'.join(html).encode('utf8')
-        self.wfile.write(html)
+            html.append('</body></html>')
+
+            # Response
+            html = '\n'.join(html).encode('utf8')
+            self.wfile.write(html)
 
 
 if __name__ == '__main__':
     print('Running on port', args.PORT)
     server = HTTPServer(('localhost', args.PORT), JSONRequestHandler)
     server.serve_forever()
+
