@@ -28,4 +28,7 @@ source /etc/X11/Xsession.d/20dbus_xdg-runtime
 # Show panel when cursor is at bottom of screen
 xdotool behave_screen_edge bottom exec panel_autohide &
 
+# Bluetooth off by default
+bt toggle
+
 exec ~/.config/bspwm/wm
