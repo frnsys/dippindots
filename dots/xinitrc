@@ -26,6 +26,8 @@ maw ~/notes/web/annos.jsonl ~/notes/web/assets &
 source /etc/X11/Xsession.d/20dbus_xdg-runtime
 
 # Show panel when cursor is at bottom of screen
+# This leaves behind a lot of zombie processes ("[panel_autohide] <defunct>")
+# which is annoying but shouldn't impact system resources
 xdotool behave_screen_edge bottom exec panel_autohide &
 
 # Bluetooth off by default
