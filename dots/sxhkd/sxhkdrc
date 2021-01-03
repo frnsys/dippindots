@@ -164,9 +164,6 @@ super + semicolon
 super + minus
     task
 
-super + shift + minus
-    if pgrep -x panel > /dev/null; then pkill panel; else panel; fi;
-
 super + backslash
     togglewin Signal
 
@@ -199,3 +196,6 @@ super + u
 # make sxhkd reload its configuration files:
 super + Escape
     pkill -USR1 -x sxhkd; notify-send "sxhkd config reloaded"
+
+Print
+    if pgrep -x panel > /dev/null; then pkill panel; else panel; fi;

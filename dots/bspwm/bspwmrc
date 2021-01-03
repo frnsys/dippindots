@@ -36,5 +36,4 @@ if [ -e "$BSPWM_TREE" ] ; then
 	rm "$BSPWM_TREE" "$BSPWM_HISTORY" "$BSPWM_STACK"
 fi
 
-# Using panel auto-hide
-# panel &
+panel &

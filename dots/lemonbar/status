@@ -1,54 +1,34 @@
 #!/bin/bash
-
 source ~/.config/lemonbar/colors
 
 UPDATE_INTERVAL=3
 
 IFACE=wlan0
-H_ICON="~ "
-M_ICON="- "
-L_ICON="_ "
 VPN_CONFIG=/home/ftseng/docs/vpn/active/airvpn-ssl.ovpn
-
-CHARGE_ICON="BAT"
-PLUGGED_ICON="AC"
-
 
 wifi() {
     if [[ "$(/usr/bin/wifi)" == *"= on" ]]; then
         SSID=$(iwconfig $IFACE | sed -rn 's/.+ESSID:"(.+)"/\1/p')
         if [ -z "$SSID" ]; then
-            TETHER=$(route | grep '^default' | grep -o '[^ ]*$' | grep -E 'enp0s20u2|usb0')
-            ETHERNET=$(route | grep '^default' | grep -o '[^ ]*$' | grep -E 'eth0')
-            if [ ! -z "$TETHER" ]; then
-                status="TETHERED"
-            elif [ ! -z "$ETHERNET" ]; then
-                status="WIRED"
+            ROUTE=$(route | grep '^default' | grep -o '[^ ]*$')
+            if [ ! -z "$(echo "$ROUTE" | grep -E 'enp0s20u2|usb0')" ]; then
+                # Tethered
+                color="$COLOR_URGENT"
+            elif [ ! -z "$(echo "$ROUTE" | grep -E 'eth0')" ]; then
+                # Wired
+                color="$COLOR_URGENT"
             else
-                status="offline"
+                # Offline
+                color="#878787"
             fi
         else
-            QUAL_RAW=$(iwconfig $IFACE | grep "Link Quality" | awk '{print $2}' | cut -d'=' -f2)
-            QUAL_PERCENT=$(bc <<< "scale=2; ${QUAL_RAW}")
-
-            if (( $(echo "$QUAL_PERCENT >= 0.9" | bc -l) )); then
-                ICON=$H_ICON
-            elif (( $(echo "$QUAL_PERCENT >= 0.6" | bc -l) )); then
-                ICON=$M_ICON
-            else
-                ICON=$L_ICON
-            fi
-            status="${ICON}${SSID}"
+            color="$COLOR_URGENT"
         fi
     else
-        status="off"
+        # Interface off
+        color="#000000"
     fi
 
-    # change fg based on vpn status
-    # bg=$COLOR_URGENT
-    # fg=$COLOR_BACKGROUND
-    bg=$COLOR_BACKGROUND
-    fg=$COLOR_FOREGROUND
     if pgrep openvpn > /dev/null; then
         # first check that openvpn is running,
         # then check that we are routed through the vpn gateway
@@ -56,82 +36,114 @@ wifi() {
         vpn_gateway=$(cat $VPN_CONFIG | grep net_gateway | cut -d' ' -f2)
         vpn_gateway_rev=$(echo $vpn_gateway | sed -r 's/^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})/\4.\3.\2.\1/')
         if route | grep -q "$vpn_gateway\|$vpn_gateway_rev"; then
-            fg="#43cc70"
+            color="#43cc70"
         fi
     fi
-    echo "%{B$bg}%{F$fg} ${status} %{F-}%{B-}"
+    echo "%{B$color}        %{B-}"
 }
 
 
 volume() {
     STATUS=$(amixer -D pulse get -M Master)
-    LEVEL=$(echo $STATUS | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p' | uniq)
-    STATE=$(echo $STATUS | sed -n 's/^.*\[\(o[nf]\+\)]$/\1/p' | uniq)
 
-    bg=$COLOR_BACKGROUND
-    fg=$COLOR_FOREGROUND
+    BACKGROUND_COLOR="#555555"
+    STATE=$(echo $STATUS | sed -n 's/^.*\[\(o[nf]\+\)]$/\1/p' | uniq)
     if [[ $STATE != "on" ]]; then
-        ICON="MUTE"
+        # Muted
+        BAR_COLOR="#878787"
     else
-        ICON="V$LEVEL"
+        # Active
+        BAR_COLOR="#6096E8"
     fi
-    echo "%{B$bg}%{F$fg}${ICON}%{F-}%{B-}"
+
+    LEVEL=$(echo $STATUS | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p' | uniq)
+    if [ $LEVEL -le 0 ]; then
+        echo "%{B$BAR_COLOR}%{B$BACKGROUND_COLOR}          %{B-}"
+    elif [ $LEVEL -le 10 ]; then
+        echo "%{B$BAR_COLOR} %{B$BACKGROUND_COLOR}         %{B-}"
+    elif [ $LEVEL -le 20 ]; then
+        echo "%{B$BAR_COLOR}  %{B$BACKGROUND_COLOR}        %{B-}"
+    elif [ $LEVEL -le 30 ]; then
+        echo "%{B$BAR_COLOR}   %{B$BACKGROUND_COLOR}       %{B-}"
+    elif [ $LEVEL -le 40 ]; then
+        echo "%{B$BAR_COLOR}    %{B$BACKGROUND_COLOR}      %{B-}"
+    elif [ $LEVEL -le 50 ]; then
+        echo "%{B$BAR_COLOR}     %{B$BACKGROUND_COLOR}     %{B-}"
+    elif [ $LEVEL -le 60 ]; then
+        echo "%{B$BAR_COLOR}      %{B$BACKGROUND_COLOR}    %{B-}"
+    elif [ $LEVEL -le 70 ]; then
+        echo "%{B$BAR_COLOR}       %{B$BACKGROUND_COLOR}   %{B-}"
+    elif [ $LEVEL -le 80 ]; then
+        echo "%{B$BAR_COLOR}        %{B$BACKGROUND_COLOR}  %{B-}"
+    elif [ $LEVEL -le 90 ]; then
+        echo "%{B$BAR_COLOR}         %{B$BACKGROUND_COLOR} %{B-}"
+    elif [ $LEVEL -le 100 ]; then
+        echo "%{B$BAR_COLOR}          %{B$BACKGROUND_COLOR}%{B-}"
+    fi
 }
 
 
 bluetooth() {
     if [[ "$(bt)" == "on" ]]; then
-        ICON="B"
+        echo "%{B#0370FE}  %{B-}"
     else
-        ICON=""
+        echo=""
     fi
-    echo "$ICON"
 }
 
 
 battery() {
     PERCENT=$(batt percent)
-
+    BACKGROUND_COLOR="#555555"
     if [[ $(batt status) = *"Discharging"* ]]; then
-        HOURS_LEFT=$(batt duration)
+        BAR_COLOR="#dddddd"
         if [ $PERCENT -le 10 ]; then
-            echo "%{B$COLOR_URGENT} |::: ${HOURS_LEFT} %{B-}"
-        elif [ $PERCENT -le 50 ]; then
-            echo "%{B$COLOR_BACKGROUND}%{F$COLOR_FOREGROUND}||:: ${HOURS_LEFT}%{F-}%{B-}"
-        elif [ $PERCENT -le 75 ]; then
-            echo "%{B$COLOR_BACKGROUND}%{F$COLOR_FOREGROUND}|||: ${HOURS_LEFT}%{F-}%{B-}"
-        else
-            echo "%{B$COLOR_BACKGROUND}%{F$COLOR_FOREGROUND}|||| ${HOURS_LEFT}%{F-}%{B-}"
+            BACKGROUND_COLOR="$COLOR_URGENT"
         fi
     else
-        echo "${PLUGGED_ICON}:${PERCENT}% "
+        BAR_COLOR="#43CC70"
+    fi
+
+    if [ $PERCENT -le 0 ]; then
+        echo "%{B$BAR_COLOR}%{B$BACKGROUND_COLOR}          %{B-}"
+    elif [ $PERCENT -le 10 ]; then
+        echo "%{B$BAR_COLOR} %{B$BACKGROUND_COLOR}         %{B-}"
+    elif [ $PERCENT -le 20 ]; then
+        echo "%{B$BAR_COLOR}  %{B$BACKGROUND_COLOR}        %{B-}"
+    elif [ $PERCENT -le 30 ]; then
+        echo "%{B$BAR_COLOR}   %{B$BACKGROUND_COLOR}       %{B-}"
+    elif [ $PERCENT -le 40 ]; then
+        echo "%{B$BAR_COLOR}    %{B$BACKGROUND_COLOR}      %{B-}"
+    elif [ $PERCENT -le 50 ]; then
+        echo "%{B$BAR_COLOR}     %{B$BACKGROUND_COLOR}     %{B-}"
+    elif [ $PERCENT -le 60 ]; then
+        echo "%{B$BAR_COLOR}      %{B$BACKGROUND_COLOR}    %{B-}"
+    elif [ $PERCENT -le 70 ]; then
+        echo "%{B$BAR_COLOR}       %{B$BACKGROUND_COLOR}   %{B-}"
+    elif [ $PERCENT -le 80 ]; then
+        echo "%{B$BAR_COLOR}        %{B$BACKGROUND_COLOR}  %{B-}"
+    elif [ $PERCENT -le 90 ]; then
+        echo "%{B$BAR_COLOR}         %{B$BACKGROUND_COLOR} %{B-}"
+    elif [ $PERCENT -le 100 ]; then
+        echo "%{B$BAR_COLOR}          %{B$BACKGROUND_COLOR}%{B-}"
     fi
 }
 
 email() {
-    INBOX=$(notmuch count "folder:INBOX")
     UNREAD=$(notmuch count "tag:unread AND folder:INBOX")
     bg=$COLOR_BACKGROUND
     if (( $UNREAD > 0 )); then
-        fg="#FFCC4D"
+        color="#f9d909"
     else
-        fg="$COLOR_FOREGROUND"
+        color="#555555"
     fi
-    echo "%{B$bg}%{F$fg}M${INBOX}%{F-}%{B-}"
-}
-
-notifications() {
-    if [ -f /tmp/dunst_paused ]; then
-        echo "S"
-    else
-        echo ""
-    fi
+    echo "%{B$color}  %{B-}"
 }
 
 tasks() {
     TASK="$(task status)"
     if [ ! -z "$TASK" ]; then
-        echo "T:[$TASK]"
+        echo " %{B#f9b109}        %{B-} "
     else
         echo ""
     fi
@@ -139,9 +151,8 @@ tasks() {
 
 streaming() {
     STREAMING=$(ps -a | grep twitch)
-    bg=$COLOR_URGENT
     if [ -n "$STREAMING" ]; then
-        echo "%{B$bg} LIVE %{B-}"
+        echo " %{B$COLOR_URGENT}        %{B-} "
     else
         echo ""
     fi
@@ -149,11 +160,14 @@ streaming() {
 
 muted() {
     if [[ $(mute status) = "yes" ]]; then
-        echo "% "
+        color="#878787"
+    else
+        color="#EF3838"
     fi
+    echo "%{B$color} %{B-}"
 }
 
 while true; do
-    echo 'S'$(notifications)$(tasks) $(streaming) $(bluetooth) $(battery) $(email) $(muted)$(volume)$(wifi)
+    echo "S$(streaming)$(tasks)$(email) $(battery) $(bluetooth)$(muted)$(volume) $(wifi)"
     sleep $UPDATE_INTERVAL
 done

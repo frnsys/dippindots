@@ -25,10 +25,10 @@ maw ~/notes/web/annos.jsonl ~/notes/web/assets &
 # Properly set DBUS_SESSION_BUS_ADDRESS
 source /etc/X11/Xsession.d/20dbus_xdg-runtime
 
-# Show panel when cursor is at bottom of screen
-# This leaves behind a lot of zombie processes ("[panel_autohide] <defunct>")
+# Show status info in top-right corner
+# This leaves behind a lot of zombie processes ("[notify-send] <defunct>")
 # which is annoying but shouldn't impact system resources
-xdotool behave_screen_edge bottom exec panel_autohide &
+xdotool behave_screen_edge top-right exec status notify &
 
 # Bluetooth off by default
 bt toggle

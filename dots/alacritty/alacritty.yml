@@ -21,9 +21,9 @@ font:
     family: Roboto Mono
     style: Light
   # size: 12.0 # Source Code Pro, terminus
-  size: 10.0 # Roboto Mono
+  size: 9.0 # Roboto Mono
   offset:
-      y: 4 # line height
+      y: 2 # line height
 
 colors:
   primary:

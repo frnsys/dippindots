@@ -1,0 +1,150 @@
+#!/bin/bash
+
+IFACE=wlan0
+H_ICON="~ "
+M_ICON="- "
+L_ICON="_ "
+VPN_CONFIG=/home/ftseng/docs/vpn/active/airvpn-ssl.ovpn
+
+CHARGE_ICON="BAT"
+PLUGGED_ICON="AC"
+
+if [[ $1 == 'tmux' ]]; then
+    VPN_FG="#[fg=colour10]"
+    RESET_FG="#[fg=colour245]"
+    ALERT_FG="#[fg=colour222]"
+    URGENT_FG="#[fg=colour196]"
+fi
+
+wifi() {
+    if [[ "$(/usr/bin/wifi)" == *"= on" ]]; then
+        SSID=$(iwconfig $IFACE | sed -rn 's/.+ESSID:"(.+)"/\1/p' | sed 's/\s*$//g')
+        if [ -z "$SSID" ]; then
+            ROUTE=$(route | grep '^default' | grep -o '[^ ]*$')
+            if [ ! -z "$(echo "$ROUTE" | grep -E 'enp0s20u2|usb0')" ]; then
+                status="TETHERED"
+            elif [ ! -z "$(echo "$ROUTE" | grep -E 'eth0')" ]; then
+                status="WIRED"
+            else
+                status="offline"
+            fi
+        else
+            # QUAL_RAW=$(iwconfig $IFACE | grep "Link Quality" | awk '{print $2}' | cut -d'=' -f2)
+            # QUAL_PERCENT=$(bc <<< "scale=2; ${QUAL_RAW}")
+
+            # if (( $(echo "$QUAL_PERCENT >= 0.9" | bc -l) )); then
+            #     ICON=$H_ICON
+            # elif (( $(echo "$QUAL_PERCENT >= 0.6" | bc -l) )); then
+            #     ICON=$M_ICON
+            # else
+            #     ICON=$L_ICON
+            # fi
+            # status="${ICON}${SSID}"
+            status="${SSID}"
+        fi
+    else
+        status="off"
+    fi
+
+    # change fg based on vpn status
+    fg="$RESET_FG"
+    if pgrep openvpn > /dev/null; then
+        # first check that openvpn is running,
+        # then check that we are routed through the vpn gateway
+        # sometimes the vpn gateway ip shows up reverse in route (not sure why)
+        vpn_gateway=$(cat $VPN_CONFIG | grep net_gateway | cut -d' ' -f2)
+        vpn_gateway_rev=$(echo $vpn_gateway | sed -r 's/^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})/\4.\3.\2.\1/')
+        if route | grep -q "$vpn_gateway\|$vpn_gateway_rev"; then
+            fg="$VPN_FG"
+        fi
+    fi
+    echo "${fg}${status}${RESET_FG}"
+}
+
+
+volume() {
+    STATUS=$(amixer -D pulse get -M Master)
+    LEVEL=$(echo $STATUS | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p' | uniq)
+    STATE=$(echo $STATUS | sed -n 's/^.*\[\(o[nf]\+\)]$/\1/p' | uniq)
+    if [[ $STATE != "on" ]]; then
+        ICON="MUTE"
+    else
+        ICON="V$LEVEL"
+    fi
+    echo "${ICON}"
+}
+
+
+bluetooth() {
+    if [[ "$(bt)" == "on" ]]; then
+        ICON="B"
+    else
+        ICON=""
+    fi
+    echo "$ICON"
+}
+
+
+battery() {
+    PERCENT=$(batt percent)
+
+    if [[ $(batt status) = *"Discharging"* ]]; then
+        HOURS_LEFT=$(batt duration)
+        if [ $PERCENT -le 10 ]; then
+            echo "${URGENT_FG}|=···|${HOURS_LEFT}${RESET_FG}"
+        elif [ $PERCENT -le 50 ]; then
+            echo "|==··|${HOURS_LEFT}"
+        elif [ $PERCENT -le 75 ]; then
+            echo "|===·|${HOURS_LEFT}"
+        else
+            echo "|====|${HOURS_LEFT}"
+        fi
+    else
+        echo "${PLUGGED_ICON}:${PERCENT}%"
+    fi
+}
+
+email() {
+    INBOX=$(notmuch count "folder:INBOX")
+    UNREAD=$(notmuch count "tag:unread AND folder:INBOX")
+    if (( $UNREAD > 0 )); then
+        fg="$ALERT_FG"
+    else
+        fg="$RESET_FG"
+    fi
+    echo "${fg}M${INBOX}${RESET_FG}"
+}
+
+tasks() {
+    TASK="$(task status)"
+    if [ ! -z "$TASK" ]; then
+        echo "T:[$TASK]"
+    else
+        echo ""
+    fi
+}
+
+streaming() {
+    STREAMING=$(ps -a | grep twitch)
+    if [ -n "$STREAMING" ]; then
+        echo "${URGENT_FG} LIVE ${RESET_FG}"
+    else
+        echo ""
+    fi
+}
+
+muted() {
+    if [[ $(mute status) = "yes" ]]; then
+        echo "% "
+    fi
+}
+
+datetime() {
+    echo $(clock -f '%m/%d %H:%M')
+}
+
+if [[ $1 == 'tmux' ]]; then
+    echo "$(datetime)$(tasks)$(streaming)$(bluetooth) $(battery) $(email) $(muted)$(volume) $(wifi)"
+else
+    notify-send "$(echo -e "$(datetime)\n$(tasks)$(streaming)$(bluetooth)$(email) $(muted)$(volume)\n$(battery)\n$(wifi)")"
+fi

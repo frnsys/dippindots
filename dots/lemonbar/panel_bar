@@ -50,5 +50,5 @@ while read -r line ; do
 			done
 			;;
 	esac
-	printf "%s\n" "%{l} ${wm_infos}%{c}${clock}%{r}${status}"
+	printf "%s\n" "%{l}${wm_infos}%{c}${clock}%{r}${status}"
 done
