@@ -90,9 +90,9 @@ battery() {
     if [[ $(batt status) = *"Discharging"* ]]; then
         HOURS_LEFT=$(batt duration)
         if [ $PERCENT -le 10 ]; then
-            echo "${URGENT_FG}$PERCENT%~${HOURS_LEFT}${RESET_FG}"
+            echo "${URGENT_FG}$PERCENT%${HOURS_LEFT}${RESET_FG}"
         else
-            echo "$PERCENT%~${HOURS_LEFT}"
+            echo "$PERCENT%${HOURS_LEFT}"
         fi
     else
         echo "${PLUGGED_ICON}:${PERCENT}%"

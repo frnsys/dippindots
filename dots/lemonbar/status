@@ -1,7 +1,7 @@
 #!/bin/bash
 source ~/.config/lemonbar/colors
 
-UPDATE_INTERVAL=3
+UPDATE_INTERVAL=1
 
 IFACE=wlan0
 VPN_CONFIG=/home/ftseng/docs/vpn/active/airvpn-ssl.ovpn
@@ -96,7 +96,8 @@ battery() {
     PERCENT=$(batt percent)
     BACKGROUND_COLOR="#555555"
     if [[ $(batt status) = *"Discharging"* ]]; then
-        BAR_COLOR="#dddddd"
+        # BAR_COLOR="#dddddd"
+        BAR_COLOR="#FBC011"
         if [ $PERCENT -le 10 ]; then
             BACKGROUND_COLOR="$COLOR_URGENT"
         fi
@@ -134,10 +135,10 @@ email() {
     bg=$COLOR_BACKGROUND
     if (( $UNREAD > 0 )); then
         color="#f9d909"
+        echo "%{B$color}  %{B-}"
     else
         color="#555555"
     fi
-    echo "%{B$color}  %{B-}"
 }
 
 tasks() {
