@@ -95,11 +95,6 @@ super + shift + w
 super + slash
     daemon
 
-# https://github.com/soimort/translate-shell
-super + apostrophe
-    notify-send "$(xsel | trans -brief)"
-    # notify-send "Now: $(date '+%m/%d %H:%M')"
-
 # ~~screenshots/recordings~~
 
 # region
@@ -199,3 +194,6 @@ super + Escape
 
 Print
     if pgrep -x panel > /dev/null; then pkill panel; else panel; fi;
+
+alt + space
+    notify-send "$(date '+%m/%d %H:%M')"
