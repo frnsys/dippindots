@@ -16,7 +16,7 @@ trap cleanup EXIT
 
 PANEL_PADDING=0
 PANEL_Y_OFFSET=0
-PANEL_HEIGHT=1
+PANEL_HEIGHT=3
 PANEL_NAME="wm_panel"
 
 FONT1="Roboto Mono Light:size=7"                                   # western
@@ -39,14 +39,14 @@ while read -r mon; do
         while read line; do echo W$line; done \
             > "$PANEL_FIFO$mon" &
 
-    ~/.config/lemonbar/status > "$PANEL_FIFO$mon" &
+    ~/.bin/status bar > "$PANEL_FIFO$mon" &
 
     # Grep out current monitor width
     CUR_MON_WIDTH=$(bspc query -T -m $mon | grep -oE "width\":[0-9]{2,6}" | head -n 1 | grep -oE "[0-9]{2,6}")
 
     # Create the panel with the proper geometry/positioning
     # -b flag docks the bar at the bottom of the screen
-    cat "$PANEL_FIFO$mon" | panel_bar | lemonbar -n "$PANEL_NAME" -b -g $((${CUR_MON_WIDTH} - $PANEL_PADDING*2))x${PANEL_HEIGHT}+${CUR_X_OFFSET}+$((${PANEL_PADDING} + ${PANEL_Y_OFFSET})) -f "$FONT1" -f "$FONT2" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" &
+    cat "$PANEL_FIFO$mon" | panel_bar | lemonbar -n "$PANEL_NAME" -b -g $((${CUR_MON_WIDTH} - $PANEL_PADDING*2))x${PANEL_HEIGHT}+${CUR_X_OFFSET}+$((${PANEL_PADDING} + ${PANEL_Y_OFFSET})) -f "$FONT1" -f "$FONT2" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" | bash &
 
     # Update the offset
     CUR_X_OFFSET=$(($CUR_X_OFFSET + $CUR_MON_WIDTH))

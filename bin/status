@@ -1,64 +1,84 @@
 #!/bin/bash
 
+CMD=$1
 IFACE=wlan0
-H_ICON="~ "
-M_ICON="- "
-L_ICON="_ "
 VPN_CONFIG=/home/ftseng/docs/vpn/active/airvpn-ssl.ovpn
 
-CHARGE_ICON="BAT"
-PLUGGED_ICON="AC"
-
-if [[ $1 == 'tmux' ]]; then
+if [[ $CMD == 'tmux' ]]; then
     VPN_FG="#[fg=colour10]"
+    NO_VPN_FG="#[fg=colour245]"
+    NO_NETWORK_FG="#[fg=colour245]"
+    RESET_FG="#[fg=colour245]"
+    ALERT_FG="#[fg=colour222]"
+    URGENT_FG="#[fg=colour196]"
+elif [[ $CMD == 'bar' ]]; then
+    VPN_FG="#43cc70"
+    NO_VPN_FG="#ff4040"
+    NO_NETWORK_FG="#878787"
     RESET_FG="#[fg=colour245]"
     ALERT_FG="#[fg=colour222]"
     URGENT_FG="#[fg=colour196]"
 fi
 
+_bar() {
+    PERCENT=$1
+    BACK_COLOR=$2
+    FILL_COLOR=$3
+    HEAD_COLOR=$4
+    n=$(echo "($PERCENT + 10 - 1)/10" | bc)
+    bar="%{B$FILL_COLOR}"
+    for i in {1..10}; do
+        if [ $n -eq $(($i-1)) ]; then
+            bar="${bar}%{B$BACK_COLOR}"
+        elif [ $n -eq $i ]; then
+            bar="${bar}%{B$HEAD_COLOR}"
+        fi
+        bar="${bar} "
+    done
+    bar="${bar}%{B-}"
+    echo "$bar"
+}
+
 wifi() {
+    color="$NO_NETWORK_FG";
     if [[ "$(/usr/bin/wifi)" == *"= on" ]]; then
         SSID=$(iwconfig $IFACE | sed -rn 's/.+ESSID:"(.+)"/\1/p' | sed 's/\s*$//g')
         if [ -z "$SSID" ]; then
             ROUTE=$(route | grep '^default' | grep -o '[^ ]*$')
             if [ ! -z "$(echo "$ROUTE" | grep -E 'enp0s20u2|usb0')" ]; then
                 status="TETHERED"
+                color="$NO_VPN_FG"
             elif [ ! -z "$(echo "$ROUTE" | grep -E 'eth0')" ]; then
                 status="WIRED"
+                color="$NO_VPN_FG"
             else
                 status="offline"
             fi
         else
-            # QUAL_RAW=$(iwconfig $IFACE | grep "Link Quality" | awk '{print $2}' | cut -d'=' -f2)
-            # QUAL_PERCENT=$(bc <<< "scale=2; ${QUAL_RAW}")
-
-            # if (( $(echo "$QUAL_PERCENT >= 0.9" | bc -l) )); then
-            #     ICON=$H_ICON
-            # elif (( $(echo "$QUAL_PERCENT >= 0.6" | bc -l) )); then
-            #     ICON=$M_ICON
-            # else
-            #     ICON=$L_ICON
-            # fi
-            # status="${ICON}${SSID}"
             status="${SSID}"
+            color="$NO_VPN_FG"
         fi
     else
         status="off"
     fi
 
     # change fg based on vpn status
-    fg="$RESET_FG"
-    if pgrep openvpn > /dev/null; then
+    if [[ $(ps -e | grep openvpn) ]]; then
         # first check that openvpn is running,
         # then check that we are routed through the vpn gateway
         # sometimes the vpn gateway ip shows up reverse in route (not sure why)
         vpn_gateway=$(cat $VPN_CONFIG | grep net_gateway | cut -d' ' -f2)
         vpn_gateway_rev=$(echo $vpn_gateway | sed -r 's/^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})/\4.\3.\2.\1/')
         if route | grep -q "$vpn_gateway\|$vpn_gateway_rev"; then
-            fg="$VPN_FG"
+            color="$VPN_FG"
         fi
     fi
-    echo "${fg}${status}${RESET_FG}"
+
+    if [[ $CMD == 'bar' ]]; then
+        echo "%{B$color}  %{B-}"
+    else
+        echo "${color}${status}${RESET_FG}"
+    fi
 }
 
 
@@ -66,71 +86,127 @@ volume() {
     STATUS=$(amixer -D pulse get -M Master)
     LEVEL=$(echo $STATUS | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p' | uniq)
     STATE=$(echo $STATUS | sed -n 's/^.*\[\(o[nf]\+\)]$/\1/p' | uniq)
-    if [[ $STATE != "on" ]]; then
-        ICON="MUTE"
+
+    if [[ $CMD == 'bar' ]]; then
+        BACK_COLOR="#555555"
+        if [[ $STATE != "on" ]]; then
+            # Muted
+            FILL_COLOR="#878787"
+            HEAD_COLOR="#878787"
+        else
+            # Active
+            FILL_COLOR="#6096E8"
+            HEAD_COLOR="#9ec5ff"
+            BACK_COLOR="#37588c"
+        fi
+        echo "$(_bar $LEVEL $BACK_COLOR $FILL_COLOR $HEAD_COLOR)"
     else
-        ICON="V$LEVEL"
+        if [[ $STATE != "on" ]]; then
+            echo "MUTE"
+        else
+            echo "V$LEVEL"
+        fi
     fi
-    echo "${ICON}"
 }
-
-
-bluetooth() {
-    if [[ "$(bt)" == "on" ]]; then
-        ICON="B"
-    else
-        ICON=""
-    fi
-    echo "$ICON"
-}
-
 
 battery() {
     PERCENT=$(batt percent)
-    if [[ $(batt status) = *"Discharging"* ]]; then
-        HOURS_LEFT=$(batt duration)
-        if [ $PERCENT -le 10 ]; then
-            echo "${URGENT_FG}$PERCENT%${HOURS_LEFT}${RESET_FG}"
+    if [[ $CMD == 'bar' ]]; then
+        if [[ $(batt status) = *"Discharging"* ]]; then
+            if [ $PERCENT -le 10 ]; then
+                FILL_COLOR="#ff4040"
+                HEAD_COLOR="#ff4040"
+                BACK_COLOR="#990c0c"
+            else
+                FILL_COLOR="#FBC011"
+                HEAD_COLOR="#fce8a9"
+                BACK_COLOR="#8c742c"
+            fi
         else
-            echo "$PERCENT%${HOURS_LEFT}"
+            FILL_COLOR="#43CC70"
+            HEAD_COLOR="#a5fac1"
+            BACK_COLOR="#568565"
         fi
+        echo "$(_bar $PERCENT $BACK_COLOR $FILL_COLOR $HEAD_COLOR)"
     else
-        echo "${PLUGGED_ICON}:${PERCENT}%"
+        if [[ $(batt status) = *"Discharging"* ]]; then
+            HOURS_LEFT=$(batt duration)
+            if [ $PERCENT -le 10 ]; then
+                echo "${URGENT_FG}$PERCENT%${HOURS_LEFT}${RESET_FG}"
+            else
+                echo "$PERCENT%${HOURS_LEFT}"
+            fi
+        else
+            echo "AC:${PERCENT}%"
+        fi
+    fi
+}
+
+bluetooth() {
+    if [[ $CMD == 'bar' ]]; then
+        if [[ "$(bt)" == "on" ]]; then
+            color="#0370FE"
+        else
+            color="#555555"
+        fi
+        echo "%{B$color} %{B-}"
+    else
+        if [[ "$(bt)" == "on" ]]; then
+            echo "B"
+        fi
     fi
 }
 
 email() {
     INBOX=$(notmuch count "folder:INBOX")
     UNREAD=$(notmuch count "tag:unread AND folder:INBOX")
-    if (( $UNREAD > 0 )); then
-        fg="$ALERT_FG"
+
+    if [[ $CMD == 'bar' ]]; then
+        if (( $UNREAD > 0 )); then
+            color="#ff9e3d"
+        else
+            color="#555555"
+        fi
+        echo "%{B$color} %{B-}"
     else
-        fg="$RESET_FG"
+        if (( $UNREAD > 0 )); then
+            fg="$ALERT_FG"
+        else
+            fg="$RESET_FG"
+        fi
+        echo "${fg}M${INBOX}${RESET_FG}"
     fi
-    echo "${fg}M${INBOX}${RESET_FG}"
 }
 
 tasks() {
     TASK="$(task status)"
-    if [ ! -z "$TASK" ]; then
-        echo "T:[$TASK]"
-    else
-        echo ""
-    fi
-}
 
-streaming() {
-    STREAMING=$(ps -a | grep twitch)
-    if [ -n "$STREAMING" ]; then
-        echo "${URGENT_FG}LIVE${RESET_FG}"
+    if [[ $CMD == 'bar' ]]; then
+        if [ ! -z "$TASK" ]; then
+            color="#FF2F6D"
+        else
+            color="#555555"
+        fi
+        echo "%{B$color} %{B-}"
     else
-        echo ""
+        if [ ! -z "$TASK" ]; then
+            echo "[${TASK}]"
+        fi
     fi
 }
 
 muted() {
-    if [[ $(mute status) = "yes" ]]; then
-        echo "% "
+    if [[ $CMD == 'bar' ]]; then
+        if [[ $(mute status) = "yes" ]]; then
+            color="#555555"
+        else
+            color="#EF3838"
+        fi
+        echo "%{B$color} %{B-}"
+    else
+        if [[ $(mute status) = "yes" ]]; then
+            echo "% "
+        fi
     fi
 }
 
@@ -138,8 +214,13 @@ datetime() {
     echo $(clock -f '%m/%d·%H:%M')
 }
 
-if [[ $1 == 'tmux' ]]; then
-    echo "$(datetime)$(tasks)$(streaming)$(bluetooth) $(battery) $(email) $(muted)$(volume) $(wifi)"
-else
-    notify-send "$(echo -e "$(datetime)\n$(tasks)$(streaming)$(bluetooth)$(email) $(muted)$(volume)\n$(battery)\n$(wifi)")"
+if [[ $CMD == 'tmux' ]]; then
+    echo "$(tasks)$(bluetooth) $(battery) $(email) $(muted)$(volume) $(wifi) [$(datetime)]"
+elif [[ $CMD == 'bar' ]]; then
+    while true; do
+        echo "S$(tasks)$(email) $(battery) $(bluetooth)$(muted)$(volume) $(wifi)"
+        sleep 3
+    done
+elif [[ $CMD == 'notify' ]]; then
+    notify-send -t 5000 "$(echo -e "$(datetime)\n$(tasks)$(bluetooth)$(email) $(muted)$(volume)\n$(battery)\n$(wifi)")"
 fi
