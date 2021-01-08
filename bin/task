@@ -91,7 +91,7 @@ if [ -f $TASK_FILE ]; then
         ((m=ELAPSED_SEC%3600/60))
         ((s=ELAPSED_SEC%60))
         if [ $TASK == 'status' ]; then
-            echo -e "$LAST_TASK\t$h:$m:$s"
+            echo -e "$LAST_TASK $h:$m:$s"
         else
             printf "\t${ELAPSED_SEC}\n" >> $TASK_FILE
             notify-send "${LAST_TASK} lasted $h:$m:$s"
