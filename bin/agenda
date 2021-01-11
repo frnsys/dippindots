@@ -441,6 +441,7 @@ parse_events() {
 
 iterate_upcoming() {
     handle_event=$1
+    [[ -f $UPCOMING_FILE ]] && FILE="$UPCOMING_FILE" || FILE="${UPCOMING_FILE}.old"
     while IFS= read -r line; do
         line=$line$DELIMITER
         event=()
@@ -453,7 +454,7 @@ iterate_upcoming() {
         location=${event[2]}
         description=${event[3]}
         $handle_event $start_ts "$summary" "$location" "$description"
-    done < "$UPCOMING_FILE"
+    done < "$FILE"
 }
 
 # Check if an event is upcoming,
@@ -563,7 +564,8 @@ decide_remind() {
 # Check the reminder file,
 # create a notification for upcoming events
 remind() {
-    if [ -f "$UPCOMING_FILE" ]; then
+    [[ -f $UPCOMING_FILE ]] && FILE="$UPCOMING_FILE" || FILE="${UPCOMING_FILE}.old"
+    if [ -f "$FILE" ]; then
         iterate_upcoming decide_remind
     fi
 }
@@ -583,7 +585,7 @@ update() {
             now_hour=$(date +%H)
             last_modified_hour=$(date +%H -r "$UPCOMING_FILE")
             if [[ "$last_modified_hour" != "$now_hour" ]]; then
-                rm "$UPCOMING_FILE"
+                mv "$UPCOMING_FILE" "${UPCOMING_FILE}.old"
                 last_updated=0
             fi
         fi
