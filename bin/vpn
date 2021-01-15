@@ -38,7 +38,9 @@ elif [[ $1 == 'switch' ]]; then
     fi
     rm -rf $VPN_DIR/active
     ln -s $VPN_DIR/$CHOICE $VPN_DIR/active
-    notify-send "Active VPN is now $CHOICE"
+    notify-send "Active VPN is now $CHOICE. Restarting..."
+    vpn down
+    vpn up
 
 elif [[ $1 == 'best' ]]; then
     BEST=""
