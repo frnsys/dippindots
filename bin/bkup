@@ -58,24 +58,28 @@ if [[ $1 == 'remote' ]]; then
 elif [[ $1 == 'home' ]]; then
     for dest in \
         pi@svalbard.local:/media/shuttle\
-        pi@svalbard.local:/media/outerspace/francis; do
+        pi@svalbard.local:/media/outerspace/francis\
+        pi@svalbard.local:/media/backup\
+        ftseng@hubble.local:/mnt/library/backup; do
+        # pi@turtle.local:/media/backpack/backup; do
         localSync $dest
     done
-    for dest in \
-        10022:ftseng:/mnt/library/backup; do
-        remoteSync $dest
-    done
+    # for dest in \
+    #     10022:ftseng:/mnt/library/backup; do
+    #     remoteSync $dest
+    # done
 elif [[ $1 == 'studio' ]]; then
-    for dest in \
-        ftseng@hubble.local:/mnt/library/backup\
-        pi@turtle.local:/media/backpack/backup; do
-        localSync $dest
-    done
-    for dest in \
-        10023:pi:/media/shuttle\
-        10023:pi:/media/outerspace/francis; do
-        remoteSync $dest
-    done
+    echo "no studio right now"
+    # for dest in \
+    #     ftseng@hubble.local:/mnt/library/backup\
+    #     pi@turtle.local:/media/backpack/backup; do
+    #     localSync $dest
+    # done
+    # for dest in \
+    #     10023:pi:/media/shuttle\
+    #     10023:pi:/media/outerspace/francis; do
+    #     remoteSync $dest
+    # done
 elif [[ $1 == 'cloud' ]]; then
     for dest in \
         ftseng@starbase.in:/mnt/backup; do
