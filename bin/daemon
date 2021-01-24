@@ -3,19 +3,36 @@
 # and parses them to a file
 
 OUTPUT_FILE=~/notes/memos.md
+OUTPUT_DIR=~/notes/memos/
+ATTACHMENT_DIR=~/.local/share/signal-cli/attachments/
 NEW_NOTES=0
 
 # this is a little messy b/c bash isn't really
 # meant for parsing csvs, and so it doesn't handle quoted
 # csv rows well, so we have to strip off the quotes ourselves
 notify-send "Fetching memos..."
-while IFS=, read -r timestamp body; do
-    if [[ "$body" != "\"" ]]; then
-        dt=$(date -d @${timestamp:1:10})
-        echo -e "# $dt\n" >> $OUTPUT_FILE
-        printf "${body:2:${#body}-5}" | sed "s/\"\"/\"/g" >> $OUTPUT_FILE
-        echo -e "\n\n---\n" >> $OUTPUT_FILE
-        NEW_NOTES=$((NEW_NOTES+1))
-    fi
-done < <(signal-cli -u ${DAEMONSIGNALNUM} receive --json | jq '[.envelope.timestamp,.envelope.dataMessage.message] | @csv')
+while IFS=, read -r timestamp body attachments; do
+    dt=$(date -d @${timestamp:1:10})
+    echo -e "# $dt\n" >> $OUTPUT_FILE
+    printf "${body:2:${#body}-4}" | sed "s/\"\"/\"/g" >> $OUTPUT_FILE
+
+    # get attachments
+    attachments="${attachments:2:${#attachments}-5}"
+    atts=(${attachments//;/ })
+    for att in "${atts[@]}"; do
+        # copy to memos directory
+        id=$(echo "$att" | sed -r 's/:.+//')
+        fname=$(echo "$att" | sed -r 's/:.+\//./')
+        fpath="${OUTPUT_DIR}/${fname}"
+        cp "${ATTACHMENT_DIR}/${id}" "${fpath}"
+
+        # add markdown with relative path to attachment
+        fdir=$(dirname "$OUTPUT_FILE")
+        rel_fpath=$(realpath --relative-to="${fdir}" "${fpath}")
+        printf "\n\n![]($rel_fpath)" >> $OUTPUT_FILE
+    done
+    echo -e "\n\n---\n" >> $OUTPUT_FILE
+    NEW_NOTES=$((NEW_NOTES+1))
+done < <(signal-cli -u ${DAEMONSIGNALNUM} receive --json | \
+    jq '[.envelope.timestamp,.envelope.dataMessage.message,(.envelope.dataMessage.attachments | map([.id, .contentType] | join(":")) | join(";"))] | @csv')
 notify-send "${NEW_NOTES} new memos"
