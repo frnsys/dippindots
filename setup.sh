@@ -199,7 +199,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo sed -i 's/FONTFACE=.*/FONTFACE="Terminus"/' /etc/default/console-setup
     sudo sed -i 's/FONTSIZE=.*/FONTSIZE="14x28"/' /etc/default/console-setup
 
-    # lid close/switch behavior
+    # lid close/switch and idle behavior
     # to enable `systemctl hybrid-sleep`,
     # which is durable to power loss,
     # you must disable secure boot in the BIOS.
@@ -208,6 +208,8 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     # sudo vi /etc/systemd/logind.conf
     # add:
     # HandleLidSwitch=hybrid-sleep
+    # IdleAction=hybrid-sleep
+    # IdleActionSec=1800
     # systemctl restart systemd-logind.service
 
     # don't automatically kill user processes
