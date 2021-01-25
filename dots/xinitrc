@@ -16,7 +16,7 @@ dunst &
 agenda daemon &
 
 # for web highlighting
-maw ~/notes/web/annos.jsonl ~/notes/web/assets &
+maw ~/notes/annos/web/annos.jsonl ~/notes/annos/web/assets &
 
 # Input selection
 # Hit CTRL+SPACE+LEFT_SHIFT, in that order

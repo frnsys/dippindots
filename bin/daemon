@@ -2,8 +2,8 @@
 # this pulls new messages sent to my daemon signal number
 # and parses them to a file
 
-OUTPUT_FILE=~/notes/memos.md
-OUTPUT_DIR=~/notes/memos/
+OUTPUT_FILE=~/notes/memos/memos.md
+ASSETS_DIR=~/notes/memos/assets/
 ATTACHMENT_DIR=~/.local/share/signal-cli/attachments/
 NEW_NOTES=0
 
@@ -23,7 +23,7 @@ while IFS=, read -r timestamp body attachments; do
         # copy to memos directory
         id=$(echo "$att" | sed -r 's/:.+//')
         fname=$(echo "$att" | sed -r 's/:.+\//./')
-        fpath="${OUTPUT_DIR}/${fname}"
+        fpath="${ASSETS_DIR}/${fname}"
         cp "${ATTACHMENT_DIR}/${id}" "${fpath}"
 
         # add markdown with relative path to attachment
