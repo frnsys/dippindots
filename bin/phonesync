@@ -3,8 +3,8 @@
 # requires adb-sync
 
 # sync directories TO the phone
-cp ~/docs/pass.kdbx ~/deaddrop/
-adb-sync --delete --force --copy-links ~/deaddrop/ /sdcard/deaddrop
+cp ~/docs/pass.kdbx ~/docs/deaddrop/
+adb-sync --delete --force --copy-links ~/docs/deaddrop/ /sdcard/deaddrop
 
 declare -A backups
 backups[DCIM/Camera]=~/photos/phone/dcim
