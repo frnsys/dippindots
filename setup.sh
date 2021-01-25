@@ -199,18 +199,18 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo sed -i 's/FONTFACE=.*/FONTFACE="Terminus"/' /etc/default/console-setup
     sudo sed -i 's/FONTSIZE=.*/FONTSIZE="14x28"/' /etc/default/console-setup
 
-    # lid close/switch and idle behavior
+    # lid close/switch
     # to enable `systemctl hybrid-sleep`,
     # which is durable to power loss,
     # you must disable secure boot in the BIOS.
-    sudo apt install -y pm-utils
+    sudo apt install -y pm-utils xautolock
     # TODO auto replace?
     # sudo vi /etc/systemd/logind.conf
     # add:
     # HandleLidSwitch=hybrid-sleep
-    # IdleAction=hybrid-sleep
-    # IdleActionSec=1800
     # systemctl restart systemd-logind.service
+    # Note that idle detection doesn't work w/o a DE
+    # Instead using xautolock, see ~/.xinitrc
 
     # don't automatically kill user processes
     # like tmux on logout
