@@ -2,8 +2,8 @@
 # this pulls new messages sent to my daemon signal number
 # and parses them to a file
 
-OUTPUT_FILE=~/notes/memos/memos.md
-ASSETS_DIR=~/notes/memos/assets/
+OUTPUT_FILE=~/notes/logs/memos.md
+ASSETS_DIR=~/notes/logs/assets/
 ATTACHMENT_DIR=~/.local/share/signal-cli/attachments/
 NEW_NOTES=0
 
