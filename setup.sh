@@ -63,7 +63,8 @@ rustup toolchain add nightly
 # dependencies for rust features in vim/ale
 rustup component add rust-src --toolchain nightly
 rustup component add clippy-preview --toolchain nightly
-sudo curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux -o /usr/local/bin/rust-analyzer
+sudo curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux -o /tmp/rust-analyzer
+sudo mv /tmp/rust-analyzer /usr/local/bin/rust-analyzer
 sudo chmod +x /usr/local/bin/rust-analyzer
 
 echo "Installing math libs..."
