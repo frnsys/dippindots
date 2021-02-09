@@ -6,6 +6,9 @@ command! -bang -nargs=* Rg
   \   <bang>0)
 nnoremap <C-c> :Rg 
 
+" Search for word under cursor
+nnoremap <silent> <Leader>g :Rg <C-R><C-W><CR>
+
 nnoremap <C-b> :Buffers<cr>
 nnoremap <C-p> :Files .<cr>
 nnoremap <C-l> :Lines<cr>

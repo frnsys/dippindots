@@ -63,3 +63,6 @@ map <leader>h /{.\+}<CR>
 
 " make footnote from selected text
 vnoremap <C-f> y:! cite "<C-r>0" \| xsel -b<cr>
+
+" compile and open in browser
+nnoremap <leader>v :r !nom view "%:p"<cr>
