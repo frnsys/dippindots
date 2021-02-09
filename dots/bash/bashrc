@@ -1,9 +1,3 @@
-# Initialize fzf
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-export FZF_CTRL_T_COMMAND="fd . $HOME"
-export FZF_ALT_C_COMMAND="fd -t d . $HOME"
-export FZF_DEFAULT_COMMAND='rg --files --follow --glob "!.git/*"'
-
 # Bash completion
 [ -f /etc/bash_completion ] && source /etc/bash_completion
 
@@ -21,6 +15,12 @@ shopt -s cdspell
 
 # for racer rust source code lookup
 export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
+
+# Initialize fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_CTRL_T_COMMAND="fd . $HOME"
+export FZF_ALT_C_COMMAND="fd -t d . $HOME"
+export FZF_DEFAULT_COMMAND='rg --files --follow --glob "!.git/*"'
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
