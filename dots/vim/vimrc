@@ -151,6 +151,10 @@ if has("autocmd")
     \| exe "normal! g`\"" | endif
 endif
 
+" Per default, netrw leaves unmodified buffers open. This autocommand
+" deletes netrw's buffer once it's hidden (using ':q', for example)
+autocmd FileType netrw setl bufhidden=delete
+
 " map the arrow keys to be based on display lines, not physical lines
 map <Down> gj
 map <Up> gk
