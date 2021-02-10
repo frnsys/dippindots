@@ -107,7 +107,7 @@ sudo apt install -y \
     libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev
 
 mkdir /tmp/vim && cd $_
-wget https://github.com/vim/vim/archive/v8.2.1119.zip
+wget https://github.com/vim/vim/archive/v8.2.2488.zip
 unzip v*.zip
 cd vim*
 ./configure --with-features=huge --enable-luainterp=yes --enable-pythoninterp=yes --enable-python3interp=yes --enable-gui=no --with-x --with-lua-prefix=/usr

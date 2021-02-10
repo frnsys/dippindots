@@ -178,8 +178,9 @@ nnoremap [b :bprevious<cr>
 nnoremap ]b :bnext<cr>
 
 " quickfix nav
-nnoremap [c :cprev<cr>
-nnoremap ]c :cnext<cr>
+" cant use <c-[> b/c it's equivalent to <esc>
+nnoremap <c-]> :cprev<cr>
+nnoremap <c-\> :cnext<cr>
 
 " quickly fix the closest previous spelling error.
 imap <c-f> <c-g>u<Esc>[s1z=`]a<c-g>u

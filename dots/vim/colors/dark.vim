@@ -4,15 +4,15 @@
 " or :h hi
 
 hi Normal       ctermfg=255
-hi Visual       ctermbg=227
+hi Visual       ctermbg=221 ctermfg=16
 hi ModeMsg      ctermfg=1
 hi ErrorMsg     ctermbg=196 ctermfg=230
 hi StatusLine   ctermbg=238 ctermfg=233
 hi StatusLineNC ctermbg=238 ctermfg=233
 
-hi LineNr       ctermfg=238
+hi LineNr       ctermfg=238 cterm=none
 hi CursorLine   ctermbg=none cterm=none
-hi CursorLineNr ctermbg=236 ctermfg=255
+hi CursorLineNr ctermbg=236 ctermfg=255 cterm=none
 hi CursorColumn ctermbg=237
 hi ColorColumn  ctermbg=237
 hi SignColumn   ctermbg=none
@@ -26,6 +26,7 @@ hi PMenu        ctermbg=229 ctermfg=235
 hi PMenuSel     cterm=reverse
 hi Search       ctermbg=9 ctermfg=230
 hi Folded       ctermbg=3 ctermfg=8
+hi QuickFixLine ctermbg=221 ctermfg=16
 
 hi DiffAdd      ctermfg=42
 hi DiffDelete   ctermfg=196

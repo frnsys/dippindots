@@ -21,6 +21,7 @@ export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
 export FZF_CTRL_T_COMMAND="fd . $HOME"
 export FZF_ALT_C_COMMAND="fd -t d . $HOME"
 export FZF_DEFAULT_COMMAND='rg --files --follow --glob "!.git/*"'
+export FZF_DEFAULT_OPTS="--history=$HOME/.fzf_history"
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.

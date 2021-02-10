@@ -1,4 +1,8 @@
 # https://github.com/alacritty/alacritty/blob/master/alacritty.yml
+env:
+  # Needed to fix an issue with vim opening in replace mode
+  #  if TERM=alacritty
+  TERM: screen-256color-s
 
 window:
   title: alacritty
