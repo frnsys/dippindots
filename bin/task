@@ -44,7 +44,7 @@ elif [ $TASK == 'months' ]; then
         ((H=TOTAL_SEC/3600))
         ((M=TOTAL_SEC%3600/60))
         ((S=TOTAL_SEC%60))
-        MONTH=$(date --date="$MONTH" +'%m/%y')
+        MONTH=$(date --date="$MONTH" +'%m/%Y')
         echo -e "${TASK}\t${MONTH}\t$H:$M:$S"
 
         DAY_START=$MONTH_START
