@@ -9,7 +9,7 @@
       - "Enable browser chrome and add-on debugging toolboxes"
       - "Enable remote debugging"
     - Hit Ctrl+Shift+Alt+I to open the browser inspector
-    - User the Inspector (look under the `deck` element) and edit this file in the Style Editor. You can save changes directly there.
+    - Use the Inspector (look under the `deck` element) and edit this file in the Style Editor. You can save changes directly there.
 */
 
 
@@ -111,5 +111,9 @@
     panel, panel[type="autocomplete"], panel[type="autocomplete-richlistbox"], .autocomplete-history-popup {
         background: var(--bg-dark) !important;
         color: var(--fg-light) !important;
+    }
+    .urlbarView-url {
+        padding-left: 6px !important;
+        text-align: left !important;
     }
 /* } */
