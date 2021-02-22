@@ -22,7 +22,7 @@ hi TabLineSel   ctermbg=none ctermfg=248
 hi TabLineFill  cterm=none ctermbg=none
 hi Directory    ctermfg=12
 
-hi PMenu        ctermbg=229 ctermfg=235
+hi PMenu        ctermbg=3 ctermfg=233
 hi PMenuSel     cterm=reverse
 hi Search       ctermbg=9 ctermfg=230
 hi Folded       ctermbg=3 ctermfg=8

@@ -1,0 +1,1 @@
+map  / <Plug>(easymotion-sn)
