@@ -204,7 +204,7 @@ nmap - :Explore<cr>
 nnoremap <C-h> :f<cr>
 
 " for inline mathjax
-imap <leader>b ¦
+imap <leader>b ¦¦<esc>i
 
 " command flubs
 command WQ wq

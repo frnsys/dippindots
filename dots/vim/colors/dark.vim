@@ -22,7 +22,7 @@ hi TabLineSel   ctermbg=none ctermfg=248
 hi TabLineFill  cterm=none ctermbg=none
 hi Directory    ctermfg=12
 
-hi PMenu        ctermbg=3 ctermfg=233
+hi PMenu        ctermbg=250 ctermfg=233
 hi PMenuSel     cterm=reverse
 hi Search       ctermbg=9 ctermfg=230
 hi Folded       ctermbg=3 ctermfg=8
@@ -32,18 +32,18 @@ hi DiffAdd      ctermfg=42
 hi DiffDelete   ctermfg=196
 hi DiffChange   ctermfg=61
 
-hi MatchParen   ctermbg=234 ctermfg=2
+hi MatchParen   ctermbg=234 ctermfg=220
 hi Comment      ctermfg=240
 hi Todo         ctermbg=none ctermfg=1
-hi String       ctermfg=14
-hi Function     ctermfg=15
+hi String       ctermfg=15
+hi Function     ctermfg=14
 hi Conditional  ctermfg=13
 hi Repeat       ctermfg=13
 hi Operator     ctermfg=13
 hi Include      ctermfg=10
 hi Constant     ctermfg=9
 hi Define       ctermfg=11
-hi Special      ctermfg=14
+hi Special      ctermfg=12
 hi Statement    ctermfg=1
 hi Identifier   ctermfg=9
 hi Type         ctermfg=9
@@ -51,7 +51,7 @@ hi Character    ctermfg=11
 hi Number       ctermfg=11
 hi Boolean      ctermfg=11
 hi Float        ctermfg=11
-hi Keyword      ctermfg=14
+hi Keyword      ctermfg=67
 hi Error        ctermbg=196 ctermfg=255
 hi Structure    ctermfg=3
 
