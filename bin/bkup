@@ -82,9 +82,9 @@ elif [[ $1 == 'studio' ]]; then
     # done
 elif [[ $1 == 'cloud' ]]; then
     for dest in \
-        ftseng@starbase.in:/mnt/backup; do
+        ftseng@starbase:/mnt/silo; do
         for d in ${REPOS[@]}; do
-            rsync -azvu --progress $d $dest/repos --delete --delete-excluded --exclude={.git/lfs,node_modules}
+            rsync -azvu --progress $d $dest/repos --delete --delete-excluded --exclude={.git/lfs,node_modules,target/release,target/debug}
         done
         # rsync -azvu --progress ~/downloads $dest/repos --delete --delete-excluded --progress --exclude=torrents
     done
