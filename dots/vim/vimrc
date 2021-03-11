@@ -173,7 +173,7 @@ xnoremap jk <Esc>
 imap <C-o> <esc>o
 
 " easily paste in current datetime
-nnoremap <leader>t "=strftime("%m.%d.%Y %H:%M")<CR>P
+nnoremap <leader>t "=strftime("%m.%d.%Y %H:%M")<CR>p
 
 " quick buffer nav
 nnoremap [b :bprevious<cr>
@@ -185,7 +185,7 @@ nnoremap ]c :cnext<cr>
 
 " quickly fix the closest previous spelling error.
 imap <c-f> <c-g>u<Esc>[s1z=`]a<c-g>u
-nmap <c-f> [s1z=<c-o>
+nmap <c-f> [s1z=``
 
 " bind | and _ to vertical and horizontal splits
 nnoremap <expr><silent> \| !v:count ? "<C-W>v<C-W><Right>" : '\|'
@@ -202,9 +202,6 @@ nmap - :Explore<cr>
 
 " show current filename
 nnoremap <C-h> :f<cr>
-
-" for inline mathjax
-imap <leader>b ¦¦<esc>i
 
 " command flubs
 command WQ wq

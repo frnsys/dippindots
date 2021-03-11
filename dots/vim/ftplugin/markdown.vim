@@ -2,6 +2,7 @@
 set nocursorcolumn
 setlocal spell
 set complete+=kspell
+setlocal linebreak
 
 let g:vimfootnotelinebreak = 0
 " let g:markdown_fenced_languages = ['css', 'javascript', 'js=javascript', 'json=javascript', 'sass', 'xml', 'html', 'python']
@@ -67,3 +68,22 @@ vnoremap <C-f> y:! cite "<C-r>0" \| xsel -b<cr>
 
 " compile and open in browser
 nnoremap <leader>v :r !nom view "%:p"<cr>
+
+" for inline mathjax
+imap <leader>b ¦¦<esc>i
+
+" writing mode
+" <https://stackoverflow.com/a/59955784>
+function! ToggleWriteMode()
+  let l:name = '_writeroom_'
+  if bufwinnr(l:name) > 0
+    colorscheme dark
+    wincmd o
+  else
+    colorscheme light
+    let l:width = (&columns - &textwidth) / 5
+    silent! execute 'topleft' l:width . 'vsplit +setlocal\ nobuflisted' l:name | wincmd p
+    silent! execute 'botright' l:width . 'vsplit +setlocal\ nobuflisted' l:name | wincmd p
+    endif
+endfunction
+nnoremap <silent> <leader>w :call ToggleWriteMode()<cr>

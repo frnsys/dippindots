@@ -57,6 +57,6 @@ nmap gd <Plug>(ale_go_to_definition)
 " Use the ruler to indicate linting status
 augroup ALEProgress
     autocmd!
-    autocmd User ALELintPre  set rulerformat=%l,%c:%P%=Linting
+    autocmd User ALELintPre  set rulerformat=%l,%c:%P%=🚧
     autocmd User ALELintPost set rulerformat=%l,%c:%P
 augroup END

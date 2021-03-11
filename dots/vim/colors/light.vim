@@ -10,7 +10,7 @@ hi ErrorMsg     ctermbg=196 ctermfg=230
 hi StatusLine   ctermbg=234 ctermfg=255
 hi StatusLineNC ctermbg=252 ctermfg=255
 
-hi LineNr       ctermfg=235
+hi LineNr       ctermfg=248
 hi CursorLine   ctermbg=254 cterm=none
 hi CursorLineNr ctermbg=254 ctermfg=235
 hi CursorColumn ctermbg=237
@@ -76,7 +76,7 @@ hi markdownEqnDelimiter       ctermfg=27
 hi markdownCode               ctermfg=27
 hi markdownCodeDelimiter      ctermfg=27
 hi markdownBold               ctermfg=232 cterm=bold
-hi markdownItalic             ctermfg=232 cterm=italic ctermbg=none
+hi markdownItalic             ctermfg=8 cterm=italic ctermbg=230
 hi markdownUrl                ctermfg=196
 hi markdownRule               ctermfg=196
 hi markdownLinkText           ctermfg=27 cterm=underline
