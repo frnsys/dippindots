@@ -1,10 +1,47 @@
 #!/bin/bash
 # sync data between phone and laptop over USB
-# requires adb-sync
+# requires adb-sync for mode=usb
+# requires sshhelper running on the phone for mode=ssh
+#
+# Usage:
+#   phonesync usb
+#   phonesync ssh admin@192.168.68.102:2222
+
+MODE=$1 # "usb" or "ssh"
+HOST=$2 # e.g. admin@191.168.68.102:2222
+
+if [[ $MODE == 'ssh' ]]; then
+    if [[ -z $HOST ]]; then
+        echo "If using ssh mode, must specify host"
+        exit 1
+    else
+        PORT=$(echo $HOST | cut -f2 -d:)
+        HOST=$(echo $HOST | cut -f1 -d:)
+    fi
+fi
+
+function sync() {
+    SRC="$1"
+    DEST="$2"
+    shift 2
+    if [[ $MODE == 'ssh' ]]; then
+        if [[ "$SRC" == /sdcard/* ]]; then
+            rsync -ravu --progress $@ -e 'ssh -p '$PORT $HOST:"$SRC" "$DEST"
+        else
+            rsync -ravu --progress $@ -e 'ssh -p '$PORT "$SRC" $HOST:"$DEST"
+        fi
+    else
+        if [[ "$SRC" == /sdcard/* ]]; then
+            adb-sync --reverse $@ "$SRC" "$DEST"
+        else
+            adb-sync $@ "$SRC" "$DEST"
+        fi
+    fi
+}
 
 # sync directories TO the phone
 cp ~/docs/pass.kdbx ~/docs/deaddrop/
-adb-sync --delete --force --copy-links ~/docs/deaddrop/ /sdcard/deaddrop
+sync ~/docs/deaddrop/ /sdcard/deaddrop --delete --force --copy-links
 
 declare -A backups
 backups[DCIM/Camera]=~/photos/phone/dcim
@@ -15,7 +52,7 @@ backups[tencent/MicroMsg/WeChat]=~/photos/phone/wechat
 # directories FROM the phone
 for DIR in "${!backups[@]}"; do
     echo "Backing up /sdcard/${DIR} -> ${backups[$DIR]}"
-    adb-sync --reverse "/sdcard/${DIR}/" "${backups[$DIR]}"
+    sync "/sdcard/${DIR}/" "${backups[$DIR]}"
 done
 
 # sync select music TO the phone
@@ -33,5 +70,5 @@ function parse_songs() {
 rm -rf /tmp/musics
 mkdir /tmp/musics
 parse_songs | xargs -0 -d '\n' -I {} cp {} /tmp/musics/
-adb-sync --delete /tmp/musics/ /sdcard/Music/musics
+sync /tmp/musics/ /sdcard/Music/musics --delete
 rm -rf /tmp/musics
