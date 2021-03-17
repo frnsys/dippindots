@@ -5,6 +5,8 @@ Please feel free to use/modify them as you like!
 
 They may be slightly tailored to ThinkPads.
 
+If you're curious, I wrote about some of the scripts I use (in `bin/`) here: <https://spaceandtim.es/projects/scripts/>
+
 You should also have your Github SSH keys (`id_rsa` and `id_rsa.pub`) in
 `~/.ssh/` so login-less (SSH) Github access can be setup. You may need
 to set proper permissions:
