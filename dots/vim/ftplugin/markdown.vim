@@ -70,7 +70,7 @@ map <leader>h /{.\+}<CR>
 vnoremap <silent> <C-f> y:! cite "<C-r>0" \| xsel -b<cr>
 
 " compile and open in browser
-nnoremap <leader>v :r !nom view "%:p"<cr>
+nnoremap <leader>v :call jobstart('nom view -w '.expand('%:p'))<cr>
 
 " for inline mathjax
 imap <leader>b ¦¦<esc>i
