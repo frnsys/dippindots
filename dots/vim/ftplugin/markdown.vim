@@ -1,4 +1,3 @@
-" colorscheme light
 set nocursorcolumn
 setlocal spell
 set complete+=kspell
@@ -59,12 +58,16 @@ nnoremap <leader>s "=system("fpath=$(shot region <bar> tail -n 1); [ ! -z $fpath
 map J gj
 map K gk
 
+" quickly fix the closest previous spelling error.
+imap <c-f> <c-g>u<Esc>[s1z=`]a<c-g>u
+nmap <c-f> [s1z=``
+
 " assuming inline annotations are demarcated
 " by {...}, this highlights those annotations
 map <leader>h /{.\+}<CR>
 
 " make footnote from selected text
-vnoremap <C-f> y:! cite "<C-r>0" \| xsel -b<cr>
+vnoremap <silent> <C-f> y:! cite "<C-r>0" \| xsel -b<cr>
 
 " compile and open in browser
 nnoremap <leader>v :r !nom view "%:p"<cr>
@@ -78,12 +81,24 @@ function! ToggleWriteMode()
   let l:name = '_writeroom_'
   if bufwinnr(l:name) > 0
     colorscheme dark
-    wincmd o
+    :bwipeout _writeroom_
   else
     colorscheme light
-    let l:width = (&columns - &textwidth) / 5
+
+    " hide vertical split
+    hi VertSplit ctermfg=bg ctermbg=NONE cterm=NONE
+
+    " auto-close writeroom buffers when the text buffer closes
+    autocmd QuitPre <buffer> :bwipeout _writeroom_
+
+    " target column width
+    let l:target = 90
+    let l:width = (&columns - l:target) / 2
     silent! execute 'topleft' l:width . 'vsplit +setlocal\ nobuflisted' l:name | wincmd p
     silent! execute 'botright' l:width . 'vsplit +setlocal\ nobuflisted' l:name | wincmd p
     endif
 endfunction
 nnoremap <silent> <leader>w :call ToggleWriteMode()<cr>
+
+" easily paste in current datetime
+nnoremap <leader>t "=strftime("%m.%d.%Y %H:%M")<CR>p
