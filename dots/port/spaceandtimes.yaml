@@ -3,8 +3,11 @@ SITE_DESC: francis tseng's blog
 SITE_DIR: ~/notes/blog
 SITE_NAME: space and times
 SITE_URL: https://spaceandtim.es
+SITE_IMAGE: assets/banner.png
 THEME: spaceandtimes
 links:
+    - url: https://weirder.earth/@potaotau
+      name: mastodon
     - url: https://www.are.na/francis-tseng
       name: are.na
     - url: https://github.com/frnsys
@@ -12,5 +15,7 @@ links:
     - url: https://twitter.com/frnsys
       name: twitter
     - url: http://frnsys.com
-      name: about
+      name: me
+    - url: /rss/rss.xml
+      name: rss
 title: space & times
