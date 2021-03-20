@@ -72,3 +72,12 @@ mkdir /tmp/musics
 parse_songs | xargs -0 -d '\n' -I {} cp {} /tmp/musics/
 sync /tmp/musics/ /sdcard/Music/musics --delete
 rm -rf /tmp/musics
+
+# get epub highlights/quotes
+# note: to get the latest, you need to first create a backup in readera
+# it does auto-backups too though
+sync "/sdcard/ReadEra/Backups" "/tmp/readera"
+cd /tmp/readera
+latest=$(ls | sort | tail -1)
+unzip "$latest"
+cat library.json | jq -r '[.docs[] | select((.citations | length) > 0)]' > ~/notes/annos/phone.json
