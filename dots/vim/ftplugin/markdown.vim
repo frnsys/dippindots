@@ -45,6 +45,15 @@ function! OpenUrlUnderCursor()
 endfunction
 nnoremap gx :call OpenUrlUnderCursor()<cr>
 
+" download the file at the specified to the "assets/"
+" folder, then add markdown reference
+" optionally specify filename as second argument
+function! DownloadUrlToAssets(url, ...)
+    let l:filename = get(a:, 1, split(a:url, "/")[-1])
+    silent exec "!wget ".a:url." -O assets/".l:filename
+    call append(line('.'), "![](assets/".l:filename.")")
+endfunction
+
 " easily paste html clipboard content as quoted markdown
 nnoremap <leader>c :r !nom clip <bar> sed 's/^/> /'<cr>
 
