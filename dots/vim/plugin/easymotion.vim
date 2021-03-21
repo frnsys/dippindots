@@ -1,1 +1,1 @@
-map m <Plug>(easymotion-sn)
+map <leader>m <Plug>(easymotion-sn)
