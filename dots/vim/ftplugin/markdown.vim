@@ -5,7 +5,7 @@ setlocal linebreak
 
 let g:vimfootnotelinebreak = 0
 " let g:markdown_fenced_languages = ['css', 'javascript', 'js=javascript', 'json=javascript', 'sass', 'xml', 'html', 'python']
-let g:markdown_fenced_languages = ['python']
+let g:markdown_fenced_languages = ['python', 'rust']
 
 
 " open markdown syntax urls
@@ -51,7 +51,7 @@ nnoremap gx :call OpenUrlUnderCursor()<cr>
 function! DownloadUrlToAssets(url, ...)
     let l:filename = get(a:, 1, split(a:url, "/")[-1])
     silent exec "!wget ".a:url." -O assets/".l:filename
-    call append(line('.'), "![](assets/".l:filename.")")
+    call append(line('.'), "![".l.filename."](assets/".l:filename.")")
 endfunction
 
 " easily paste html clipboard content as quoted markdown
