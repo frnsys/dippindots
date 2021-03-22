@@ -51,7 +51,7 @@ nnoremap gx :call OpenUrlUnderCursor()<cr>
 function! DownloadUrlToAssets(url, ...)
     let l:filename = get(a:, 1, split(a:url, "/")[-1])
     silent exec "!wget ".a:url." -O assets/".l:filename
-    call append(line('.'), "![".l.filename."](assets/".l:filename.")")
+    call append(line('.'), "![".l:filename."](assets/".l:filename.")")
 endfunction
 
 " easily paste html clipboard content as quoted markdown
