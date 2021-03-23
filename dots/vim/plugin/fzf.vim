@@ -50,3 +50,6 @@ command! -bang -complete=dir -nargs=? TOC
     \}, <bang>0))
 
 nnoremap <leader>e :TOC<cr>
+
+" File path completion with tab
+imap <c-s> <plug>(fzf-complete-path)
