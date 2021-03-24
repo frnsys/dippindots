@@ -49,9 +49,27 @@ nnoremap gx :call OpenUrlUnderCursor()<cr>
 " folder, then add markdown reference
 " optionally specify filename as second argument
 function! DownloadUrlToAssets(url, ...)
-    let l:filename = get(a:, 1, split(a:url, "/")[-1])
+    " Get remote filename (removing any query params)
+    let l:remotename = split(split(a:url, "/")[-1], "?")[0]
+
+    " Get specified filename, defaulting to remote name if none
+    let l:filename = get(a:, 1, l:remotename)
+
+    " If the filename is a directory (i.e. if it ends with '/')
+    " then use the remote filename and save to that directory
+    if l:filename =~ '/$'
+        let l:filename = l:filename.l:remotename
+    endif
+
+    " Download the file
     silent exec "!wget ".a:url." -O assets/".l:filename
-    call append(line('.'), "![".l:filename."](assets/".l:filename.")")
+
+    " Insert the image markdown
+    call append(line('.'), "![](assets/".l:filename.")")
+
+    " Go to insert the caption
+    execute "normal! j0f[l"
+    startinsert
 endfunction
 
 " easily paste html clipboard content as quoted markdown
