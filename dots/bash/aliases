@@ -37,6 +37,7 @@ alias r="ranger"
 alias cb="cargo build"
 alias cr="cargo run"
 alias publish="port build spaceandtimes; port sync spaceandtimes ftseng@starbase.in:/srv/spaceandtimes"
+alias b="cd ~/notes/blog/log; vi $(ls ~/notes/blog/log | tail -n 1)"
 
 # Always use color output for `ls`
 alias ls="command ls --color"

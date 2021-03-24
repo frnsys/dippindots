@@ -73,6 +73,7 @@ function rand() {
     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
 }
 
+# get pull request by number
 function gpr() {
     git fetch origin pull/$1/head:pr$1; git checkout pr$1
 }
@@ -83,8 +84,22 @@ function shrinkvid() {
     ffmpeg -i "$1" -filter:v scale="trunc(oh*a/2)*2:720" -vcodec libx264 -crf 28 -preset veryfast -c:a aac "sm/${1%.*}.mp4"
 }
 
-function giftomp4() {
+function gif2mp4() {
     ffmpeg -i "$1" -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" "${1%.gif}.mp4"
+}
+
+function mkv2mp4() {
+    ffmpeg -i "$1" -preset veryfast -c:v libx264 -c:a aac "${1%.*}.mp4"
+}
+
+function ytdl2gif() {
+    URL=$1
+    youtube-dl "$1"
+    FNAME=$(youtube-dl --get-filename "$1")
+    GIFNAME="${FNAME%.*}.gif"
+    vid2gif -f 12 "$FNAME" "$GIFNAME"
+    rm "$FNAME"
+    echo "$GIFNAME"
 }
 
 function clipvid() {
