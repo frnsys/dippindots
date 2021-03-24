@@ -45,6 +45,7 @@ function! OpenUrlUnderCursor()
 endfunction
 nnoremap gx :call OpenUrlUnderCursor()<cr>
 
+
 " download the file at the specified to the "assets/"
 " folder, then add markdown reference
 " optionally specify filename as second argument
@@ -61,8 +62,11 @@ function! DownloadUrlToAssets(url, ...)
         let l:filename = l:filename.l:remotename
     endif
 
+    " Remove parentheses
+    let l:filename = substitute(l:filename, '[()]', '', 'g')
+
     " Download the file
-    silent exec "!wget ".a:url." -O assets/".l:filename
+    silent exec "!wget \"".a:url."\" -O \"assets/".l:filename."\""
 
     " Insert the image markdown
     call append(line('.'), "![](assets/".l:filename.")")
@@ -71,6 +75,37 @@ function! DownloadUrlToAssets(url, ...)
     execute "normal! j0f[l"
     startinsert
 endfunction
+
+" download a video from a url using youtube-dl
+" then convert to gif and insert image markdown
+function! DownloadUrlToAssetsGif(url, ...)
+    " Get remote filename (removing any query params)
+    let l:remotename = split(split(a:url, "/")[-1], "?")[0]
+
+    " Get specified directory
+    let l:dir = "assets/".get(a:, 1, "")
+
+    " Download the file
+    echo "Downloading..."
+    silent exec "!cd ".l:dir."; youtube-dl \"".a:url."\""
+    let l:filename = system("youtube-dl --get-filename \"".a:url."\"")
+    let l:filename = substitute(l:filename, '\n$', '', '')
+
+    " Create the gif
+    echo "Creating gif..."
+    let l:gifname = substitute(l:filename, '.[A-Za-z0-9]\+$', '.gif', '')
+    let l:gifname = substitute(l:gifname, '[()]', '', 'g') " Remove parentheses
+    silent exec "!cd ".l:dir."; vid2gif -f 12 \"".l:filename."\" \"".l:gifname."\""
+    silent exec "!cd ".l:dir."; rm \"".l:filename."\""
+
+    " Insert the image markdown
+    call append(line('.'), "![](".l:dir.l:gifname.")")
+
+    " Go to insert the caption
+    execute "normal! j0f[l"
+    startinsert
+endfunction
+
 
 " easily paste html clipboard content as quoted markdown
 nnoremap <leader>c :r !nom clip <bar> sed 's/^/> /'<cr>
