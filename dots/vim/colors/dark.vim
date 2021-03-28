@@ -76,8 +76,8 @@ hi markdownUnchecked          ctermfg=none
 hi markdownChecked            ctermfg=60
 hi markdownEqnIn              ctermfg=14
 hi markdownEqnDelimiter       ctermfg=11
-hi markdownCode               ctermfg=250
-hi markdownCodeDelimiter      ctermfg=12
+hi markdownCode               ctermfg=10
+hi markdownCodeDelimiter      ctermfg=250
 hi markdownCodeBlock          ctermfg=4
 hi markdownBold               ctermfg=216 ctermbg=none cterm=bold
 hi markdownItalic             ctermfg=216 ctermbg=none cterm=italic
