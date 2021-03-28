@@ -159,11 +159,14 @@ super + semicolon
 super + minus
     task
 
+super + w
+    win go
+
 super + backslash
-    togglewin Signal
+    win toggle Signal
 
 super + equal
-    togglewin Ripcord
+    win toggle Ripcord
 
 super + e
     emo
