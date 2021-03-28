@@ -1,0 +1,52 @@
+#!/bin/bash
+
+QUERY=$(dmenu -p 'Query')
+SOURCE=$(echo "$QUERY" | awk '{print $1}')
+QUERY=$(echo "$QUERY" | sed 's/[^ ]* //')
+if [ -z "$QUERY" ]; then
+    exit
+fi
+
+function search_notes {
+    # Search hili
+    ag --nonumbers --nofilename "$1" ~/notes/annos/web/annos.jsonl | jq -r '"## [\(.title)](\(.href))\n\(.html)\n"'
+
+    # Search kobo
+    ag --nonumbers --nofilename "$1" ~/notes/annos/kobo.jsonl | jq -r '"## _\(.title)_\n\(.text)\n"'
+
+    # Search phone reader
+    cat ~/notes/annos/phone.json | jq -r '.[] | select(any(.citations[] | .note_body; test("'"$1"'"; "i")))
+        | "_\(.data.doc_title)_, \(.data.doc_authors)\n\(.citations[] | select(.note_body | test("'"$1"'"; "i")) | .note_body)\n"'
+
+    # Search markdown notes
+    ag --nonumbers "$1" ~/notes/research | sed 's/^/`/' | awk '{print $0,"\n"}' | sed 's/:/`\n/'
+}
+
+if [[ $SOURCE == 'yt' ]]; then
+    TYPE=$(echo "$QUERY" | cut -f1 -d:)
+    if [ $TYPE == 'user' ]; then
+        QUERY=$(echo "$QUERY" | cut -f2 -d:)
+        URL="https://www.youtube.com/c/$QUERY/videos"
+    else
+        URL="https://www.youtube.com/results?search_query=$QUERY"
+    fi
+    firefox -private-window "$URL"
+
+elif [[ $SOURCE == 'g' ]]; then
+    firefox "https://duckduckgo.com/?q=g!+$QUERY"
+
+elif [[ $SOURCE == 'notes' ]]; then
+    notify-send "Searching..."
+
+    # Output to markdown file
+    search_notes "$QUERY" > /tmp/results.md
+
+    # Javascript snippet to highlight matches
+    echo "<script>const r = new RegExp('${1}', 'gi'); [...document.querySelectorAll('p')].forEach((p) => {p.innerHTML = p.innerHTML.replace(r, '<b style=\"color:#000;background:#e3c109;\">$&</b>');});</script>" >> /tmp/results.md
+
+    # View compiled markdown
+    nom view /tmp/results.md
+
+else
+    notify-send "Unknown source '$SOURCE'"
+fi

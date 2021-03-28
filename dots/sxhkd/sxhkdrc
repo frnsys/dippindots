@@ -147,8 +147,11 @@ super + t
 super + p
     bspc rule -a alacritty -o state=floating && alacritty -e ~/.bin/keepass
 
+super + d
+    browse
+
 super + q
-    q
+    search
 
 super + a
     bspc rule -a alacritty -o state=floating && alacritty -e ~/.bin/2fa
