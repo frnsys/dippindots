@@ -1,17 +1,20 @@
-mpd_host = "~/.mpd/socket"
-mpd_port = "6600"
 mpd_music_dir = "~/musics"
 
-now_playing_prefix = "~> $b"
-now_playing_suffix = "$/b"
 playlist_display_mode = "columns" # classic/columns
 browser_display_mode = "columns" # classic/columns
 autocenter_mode = "yes"
 cyclic_scrolling = "yes"
 jump_to_now_playing_song_at_start = "yes"
 allow_for_physical_item_deletion = "yes"
+
+main_window_color = 254
+colors_enabled = "yes"
 song_columns_list_format = (20)[]{a} (50)[]{t|f:Title} (20)[]{b} (7f)[]{l}
-colors_enabled = "no"
+progressbar_elapsed_color = "217"
+now_playing_prefix = "~> $b"
+now_playing_suffix = "$/b"
+current_item_prefix = "$(217_234)$r"
+current_item_suffix = "$/r$(end)"
 
 visualizer_fifo_path = "/tmp/mpd.fifo"
 visualizer_output_name = "visualizer"

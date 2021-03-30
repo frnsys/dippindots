@@ -259,10 +259,10 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo apt install -y libboost-all-dev libfftw3-dev doxygen libncursesw5-dev libtag1-dev libcurl4-openssl-dev libmpdclient-dev libtool
     git clone https://github.com/arybczak/ncmpcpp.git /tmp/ncmpcpp
     cd /tmp/ncmpcpp
-    git checkout 0.7.7
+    git checkout 0.9.2
     ./autogen.sh
     autoreconf --force --install
-    BOOST_LIB_SUFFIX="" ./configure --enable-visualizer --enable-outputs --enable-unicode --with-taglib --with-fftw
+    BOOST_LIB_SUFFIX="" ./configure --enable-visualizer --enable-outputs --with-taglib --with-fftw
     make
     sudo make install
     cd $DIR
