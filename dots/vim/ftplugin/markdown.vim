@@ -28,16 +28,16 @@ function! OpenUrlUnderCursor()
 
     let l:obj = l:line[l:lcol + 1: l:rcol - 1]
     let l:url = matchstr(l:obj, '\(http\|https\):\/\/[^ >,;]*')
-    let l:img = matchstr(l:obj, '[^<>()]\+\.\(jpg\|jpeg\|png\|gif\|mp4\)')
+    let l:img = matchstr(l:obj, '[^<>()]\+\.\(jpg\|jpeg\|png\|gif\|mp4\|webm\)')
     if l:url != ''
         call netrw#BrowseX(l:url, 0)
     elseif l:img != ''
         if matchend(l:img, 'gif') >= 0
-            silent exec "!gifview -a '".expand('%:p:h')."/".l:img."'" | redraw!
-        elseif matchend(l:img, 'mp4') >= 0
-            silent exec "!mpv '".expand('%:p:h')."/".l:img."'" | redraw!
+            call jobstart("gifview -a '".expand('%:p:h')."/".l:img."'")
+        elseif matchend(l:img, 'mp4') >= 0 || matchend(l:img, 'webm') >= 0
+            call jobstart("mpv '".expand('%:p:h')."/".l:img."'")
         else
-            silent exec "!feh --scale-down '".expand('%:p:h')."/".l:img."'" | redraw!
+            call jobstart("feh --scale-down '".expand('%:p:h')."/".l:img."'")
         endif
     else
         echomsg 'The cursor is not on a link.'
