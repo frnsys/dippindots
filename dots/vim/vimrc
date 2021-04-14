@@ -31,6 +31,7 @@ call minpac#add('mxw/vim-jsx')
 call minpac#add('lepture/vim-jinja')
 call minpac#add('pangloss/vim-javascript')
 call minpac#add('sirtaj/vim-openscad')
+call minpac#add('habamax/vim-godot')
 
 " Markdown
 call minpac#add('dhruvasagar/vim-table-mode')
