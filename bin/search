@@ -1,8 +1,12 @@
 #!/bin/bash
 
+SOURCES="yt\ng\nnotes\npdimg"
+SOURCE=$(echo -e "$SOURCES" | dmenu -i -l 10 -p 'Source')
+if [ -z "$SOURCE" ]; then
+    exit
+fi
+
 QUERY=$(dmenu -p 'Query')
-SOURCE=$(echo "$QUERY" | awk '{print $1}')
-QUERY=$(echo "$QUERY" | sed 's/[^ ]* //')
 if [ -z "$QUERY" ]; then
     exit
 fi
@@ -35,6 +39,13 @@ if [[ $SOURCE == 'yt' ]]; then
 elif [[ $SOURCE == 'g' ]]; then
     firefox "https://duckduckgo.com/?q=g!+$QUERY"
 
+elif [[ $SOURCE == 'pdimg' ]]; then
+    firefox "https://www.pexels.com/search/$QUERY/"
+    firefox "https://pixabay.com/images/search/$QUERY/"
+    firefox "https://unsplash.com/s/photos/$QUERY"
+    firefox "https://free-images.com/search/?q=$QUERY&cat=st"
+    firefox "https://search.creativecommons.org/search?q=$QUERY&license=cc0,pdm,by&license_type=commercial,modification"
+
 elif [[ $SOURCE == 'notes' ]]; then
     notify-send "Searching..."
 
@@ -42,7 +53,7 @@ elif [[ $SOURCE == 'notes' ]]; then
     search_notes "$QUERY" > /tmp/results.md
 
     # Javascript snippet to highlight matches
-    echo "<script>const r = new RegExp('${1}', 'gi'); [...document.querySelectorAll('p')].forEach((p) => {p.innerHTML = p.innerHTML.replace(r, '<b style=\"color:#000;background:#e3c109;\">$&</b>');});</script>" >> /tmp/results.md
+    echo "<script>const r = new RegExp('${QUERY}', 'gi'); [...document.querySelectorAll('p')].forEach((p) => {p.innerHTML = p.innerHTML.replace(r, '<b style=\"color:#000;background:#e3c109;\">$&</b>');});</script>" >> /tmp/results.md
 
     # View compiled markdown
     nom view /tmp/results.md

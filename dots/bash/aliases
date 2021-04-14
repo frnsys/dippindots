@@ -24,6 +24,7 @@ alias gsu="git submodule foreach git pull origin master"
 # Shortcuts
 alias vn="cd ~/notes; vi ."
 alias n="cd ~/notes"
+alias m="vi ~/notes/logs/memos.md"
 alias w="cd ~/work"
 alias p="cd ~/projects"
 alias dl="cd ~/downloads"
