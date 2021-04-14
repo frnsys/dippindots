@@ -22,10 +22,16 @@ TIME=$(date +%F-%T)
 VID=/tmp/recording_${TIME}.ogv
 recordmydesktop $OPTS -o $VID --overwrite --fps 24
 
+# Trim the last half second (it catches the recording notification)
+DURATION=$(ffprobe -v 0 -show_entries format=duration -of compact=p=0:nk=1 "$VID")
+TRIMMED_DURATION=$(echo "scale=4;$DURATION-0.5" | bc)
+TRIMMED_VID="${VID%.ogv}.trimmed.ogv"
+ffmpeg -i "$VID" -t $TRIMMED_DURATION -c copy "$TRIMMED_VID"
+
 if [[ $2 != '--no-gif' ]]; then
     OUT=~/docs/shots/${TIME}.gif
     notify-send "[rec] converting to gif..."
-    vid2gif -f 12 $VID $OUT
+    vid2gif -f 12 "$TRIMMED_VID" "$OUT"
 
     echo ${OUT} | xsel -b
     notify-send "[rec] finished: ${OUT}"
