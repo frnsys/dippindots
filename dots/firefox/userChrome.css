@@ -18,7 +18,7 @@
     --bg-light: #202020; --bg-dark: #202020;
     --fg-light: #CECFD1; --fg-dark: #AAABAD;
     --tab-fonts: "Roboto Mono", "Source Code Pro", "Noto Sans", "Helvetica"; --tab-font-size: 9px;
-    --tab-min-height: 22px !important;
+    --tab-min-height: 16px !important;
     --toolbar-bgcolor: #303030 !important;
     --toolbar-color: #AAABAD !important;
 }
@@ -116,4 +116,7 @@
         padding-left: 6px !important;
         text-align: left !important;
     }
+  #TabsToolbar:not([brighttext]) #tabbrowser-tabs:not([noshadowfortests]) .tabbrowser-tab:is([visuallyselected="true"], [multiselected]) > .tab-stack > .tab-background {
+    box-shadow: none !important;
+  }
 /* } */
