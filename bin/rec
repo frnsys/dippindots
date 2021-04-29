@@ -22,11 +22,11 @@ TIME=$(date +%F-%T)
 VID=/tmp/recording_${TIME}.ogv
 recordmydesktop $OPTS -o $VID --overwrite --fps 24
 
-# Trim the last half second (it catches the recording notification)
+# Trim the last bit (it catches the recording notification)
 DURATION=$(ffprobe -v 0 -show_entries format=duration -of compact=p=0:nk=1 "$VID")
-TRIMMED_DURATION=$(echo "scale=4;$DURATION-0.5" | bc)
-TRIMMED_VID="${VID%.ogv}.trimmed.ogv"
-ffmpeg -i "$VID" -t $TRIMMED_DURATION -c copy "$TRIMMED_VID"
+TRIMMED_DURATION=$(echo "scale=4;$DURATION-1" | bc)
+TRIMMED_VID="${VID%.ogv}.trimmed.mp4"
+ffmpeg -i "$VID" -t $TRIMMED_DURATION -filter:v "crop=iw-4:ih-4" -c:v libx264 -crf 18 -c:a copy "$TRIMMED_VID"
 
 if [[ $2 != '--no-gif' ]]; then
     OUT=~/docs/shots/${TIME}.gif
