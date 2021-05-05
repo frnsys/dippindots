@@ -10,7 +10,7 @@ if [[ -z $(bt | grep on) ]]; then
     notify-send "Bluetooth is off"
 fi
 
-HEADSET=$(echo -e "EP650\nNC50\nJLab BT\nFiiO μBTR" | dmenu -i -p "headset")
+HEADSET=$(echo -e "EP650\nNC50\nJLab BT\nFiiO μBTR\nJBL Clip 3" | dmenu -i -p "headset")
 HEADSET_MAC=$(bt-device -l | grep "$HEADSET" | cut -d "(" -f2 | cut -d ")" -f1)
 
 choice=$(echo -e "connect\ndisconnect" | dmenu -i -p "headset")

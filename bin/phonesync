@@ -78,7 +78,7 @@ rm -rf /tmp/musics
 # get epub highlights/quotes
 # note: to get the latest, you need to first create a backup in readera
 # it does auto-backups too though
-rm -r /tmp/readera
+if [ -d "/tmp/readera" ]; then rm -r /tmp/readera; fi
 mkdir /tmp/readera
 sync "/sdcard/ReadEra/Backups" "/tmp/readera"
 cd /tmp/readera/Backups
