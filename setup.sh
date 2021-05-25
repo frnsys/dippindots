@@ -400,10 +400,24 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     # pavucontrol   -- for managing sound
     sudo apt install -y --no-install-recommends android-tools-adb ncdu keepassx xournal pavucontrol firefox chromium-browser
 
-    # zathura
-    sudo add-apt-repository -y ppa:spvkgn/zathura-mupdf
-    sudo apt install zathura zathura-pdf-mupdf
-    ln -sf $DIR/dots/misc/zathurarc ~/.config/zathura/zathurarc
+    # mupdf-gl
+    wget https://www.mupdf.com/downloads/archive/mupdf-1.18.0-source.tar.xz -O /tmp/mupdf.tar.xz
+    cd /tmp
+    tar -xf mupdf.tar.xz
+    cd mupdf-*
+    # change background color
+    sed -i 's/glClearColor(0.3f, 0.3f, 0.3f, 1);/glClearColor(0.125f, 0.125f, 0.125f, 1);/' platform/gl/gl-main.c
+    # change keybindings
+    sed -i "s/case 'j'/case 'foo'/" platform/gl/gl-main.c # j: scroll down
+    sed -i "s/case ' '/case 'j'/" platform/gl/gl-main.c
+    sed -i "s/case 'foo'/case ' '/" platform/gl/gl-main.c
+    sed -i "s/case 'k'/case 'foo'/" platform/gl/gl-main.c # k: scroll up
+    sed -i "s/case 'b'/case 'k'/" platform/gl/gl-main.c
+    sed -i "s/case 'foo'/case 'b'/" platform/gl/gl-main.c
+    sed -i "s/case '\.'/case 'J'/" platform/gl/gl-main.c  # J: page down
+    sed -i "s/case ','/case 'K'/" platform/gl/gl-main.c   # K: page up
+    make && sudo make prefix=/usr/local install
+    cd $DIR
 
     # for scripts that watch filesystem for changes
     cargo install watchexec
