@@ -215,7 +215,7 @@ datetime() {
 }
 
 if [[ $CMD == 'tmux' ]]; then
-    echo "$(tasks)$(bluetooth) $(battery) $(email) $(muted)$(volume) $(wifi) [$(datetime)]"
+    echo "$(tasks)$(bluetooth) $(battery) $(email) $(muted)$(volume) $(wifi) $(datetime)"
 elif [[ $CMD == 'bar' ]]; then
     while true; do
         echo "S$(tasks)$(email) $(battery) $(bluetooth)$(muted)$(volume) $(wifi)"

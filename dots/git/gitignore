@@ -11,6 +11,5 @@ bundle.js*
 dist
 env
 secret
-**/static/css/style.css
 build.js
 dump.rdb

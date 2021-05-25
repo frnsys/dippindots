@@ -31,6 +31,7 @@ function hubble() {
 
 # Activate a Python virtualenv by name.
 function aa() {
+    eval "$(pyenv init - --no-rehash bash)"
     pyenv activate $1
 }
 
@@ -81,7 +82,7 @@ function gpr() {
 # compress video
 function shrinkvid() {
     # libx264 is way faster than libx265 but maybe doesn't get as small
-    ffmpeg -i "$1" -filter:v scale="trunc(oh*a/2)*2:720" -vcodec libx264 -crf 28 -preset veryfast -c:a aac "sm/${1%.*}.mp4"
+    ffmpeg -i "$1" -filter:v scale="trunc(oh*a/2)*2:720" -vcodec libx264 -crf 17 -preset veryfast -c:a aac "sm/${1%.*}.mp4"
 }
 
 function gif2mp4() {
@@ -103,7 +104,7 @@ function ytdl2gif() {
 }
 
 function clipvid() {
-    ffmpeg -ss "$1" -to "$2" -i "$3" "$4"
+    ffmpeg -ss "$1" -to "$2" -i "$3" -c copy "$4"
 }
 
 function pdfpages() {

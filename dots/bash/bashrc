@@ -1,5 +1,5 @@
 # Bash completion
-[ -f /etc/bash_completion ] && source /etc/bash_completion
+# [ -f /etc/bash_completion ] && source /etc/bash_completion
 
 # nvm, lazy loaded
 export NVM_DIR="$HOME/.nvm"
@@ -8,10 +8,9 @@ alias node='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && node'
 alias npm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && npm'
 
 # pyenv
-eval "$(pyenv init - bash --no-rehash)"
-
-# Autocorrect typos in path names when using `cd`
-shopt -s cdspell
+# Slows bash startup a bit...
+# called in the `aa` function instead
+# eval "$(pyenv init - bash --no-rehash)"
 
 # for racer rust source code lookup
 export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
@@ -25,7 +24,6 @@ export FZF_DEFAULT_OPTS="--history=$HOME/.fzf_history"
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don’t want to commit.
 for file in ~/.dippindots/dots/bash/{path,prompt,aliases,functions}; do
 	[ -r "$file" ] && source "$file"
 done

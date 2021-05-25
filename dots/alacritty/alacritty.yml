@@ -10,9 +10,8 @@ window:
     lines: 24
   dynamic_title: false
 
-mouse:
-    url:
-        launcher: None
+hints:
+  enabled: []
 
 font:
   normal:

@@ -40,6 +40,11 @@
     #tabbrowser-tabs tab[first-visible-tab="true"][last-visible-tab='true'] { display:none !important; }
     tab { min-height: var(--tab-min-height); }
 
+    .tabbrowser-tab:hover:not(:focus) > .tab-stack > .tab-background:not(:-moz-lwtheme),
+    .tabbrowser-tab:not(:focus) > .tab-stack > .tab-background:is([selected], [multiselected]):not(:-moz-lwtheme) {
+      outline: 0 !important;
+    }
+
     #nav-bar {
         background: var(--bg-dark) !important;
         padding: 0 !important;
