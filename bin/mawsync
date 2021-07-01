@@ -1,0 +1,9 @@
+#!/bin/bash
+# HILI_REMOTE and HILI_LOCAL defined in /etc/environment
+
+# Append new lines to local annotation file
+scp "${HILI_REMOTE}/annos.jsonl" /tmp/annos.jsonl
+grep -F -x -v -f "${HILI_LOCAL}/annos.jsonl" /tmp/annos.jsonl >> "${HILI_LOCAL}/annos.jsonl"
+
+# Copy any new assets
+rsync -ravu --progress "${HILI_REMOTE}/assets/" "${HILI_LOCAL}/assets"
