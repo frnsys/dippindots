@@ -119,6 +119,18 @@ sudo ln -sf /usr/local/bin/vim /usr/bin/vi
 sudo ln -sf /usr/local/bin/vim /usr/bin/vim
 sudo ln -sf /usr/bin/vim /etc/alternatives/editor
 
+# TODO replace vi with nvim
+wget https://github.com/neovim/neovim/archive/refs/tags/v0.4.4.tar.gz -O /tmp/neovim.tar.gz
+cd /tmp
+tar -xzvf neovim.tar.gz
+cd neovim*
+make CMAKE_BUILD_TYPE=RelWithDebInfo
+sudo make install
+sudo ln -sf /usr/local/bin/nvim /usr/bin/vi
+sudo ln -sf /usr/local/bin/nvim /usr/bin/vim
+sudo ln -sf /usr/bin/vim /etc/alternatives/editor
+cd $DIR
+
 # mypy for python type annotations
 sudo pip3 install mypy
 
@@ -126,6 +138,7 @@ sudo pip3 install mypy
 rm -rf ~/.vim
 ln -sf $DIR/dots/vim ~/.vim
 ln -sf $DIR/dots/vim/vimrc ~/.vimrc
+ln -sf $DIR/dots/vim/init.vim ~/.config/nvim/init.vim
 
 # minpac for plugin management
 # in vim, call:
