@@ -28,6 +28,7 @@ call minpac#add('easymotion/vim-easymotion')
 
 " Syntax
 call minpac#add('mxw/vim-jsx')
+call minpac#add('tikhomirov/vim-glsl')
 call minpac#add('lepture/vim-jinja')
 call minpac#add('pangloss/vim-javascript')
 call minpac#add('sirtaj/vim-openscad')
