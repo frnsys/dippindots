@@ -118,6 +118,7 @@ cd $DIR
 sudo ln -sf /usr/local/bin/vim /usr/bin/vi
 sudo ln -sf /usr/local/bin/vim /usr/bin/vim
 sudo ln -sf /usr/bin/vim /etc/alternatives/editor
+mkdir ~/.vim/.backup
 
 # TODO replace vi with nvim
 wget https://github.com/neovim/neovim/archive/refs/tags/v0.4.4.tar.gz -O /tmp/neovim.tar.gz
