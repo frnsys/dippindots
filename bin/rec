@@ -32,7 +32,9 @@ if [[ $2 != '--no-gif' ]]; then
     OUT=~/docs/shots/${TIME}.gif
     notify-send "[rec] converting to gif..."
     vid2gif -f 12 "$TRIMMED_VID" "$OUT"
-
-    echo ${OUT} | xsel -b
-    notify-send "[rec] finished: ${OUT}"
+else
+    OUT="$TRIMMED_VID"
 fi
+
+echo ${OUT} | xsel -b
+notify-send "[rec] finished: ${OUT}"

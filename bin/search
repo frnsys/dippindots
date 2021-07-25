@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SOURCES="yt\ng\nnotes\npdimg"
+SOURCES="yt\ng\nscholar\nnotes\npdimg"
 SOURCE=$(echo -e "$SOURCES" | dmenu -i -l 10 -p 'Source')
 if [ -z "$SOURCE" ]; then
     exit
@@ -38,6 +38,9 @@ if [[ $SOURCE == 'yt' ]]; then
 
 elif [[ $SOURCE == 'g' ]]; then
     firefox "https://duckduckgo.com/?q=g!+$QUERY"
+
+elif [[ $SOURCE == 'scholar' ]]; then
+    firefox "https://scholar.google.com/scholar?q=$QUERY"
 
 elif [[ $SOURCE == 'pdimg' ]]; then
     firefox "https://www.pexels.com/search/$QUERY/"
