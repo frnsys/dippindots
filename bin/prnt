@@ -3,7 +3,7 @@
 #   sudo apt install cups printer-driver-hpcups hplip hplip-gui
 # setup the printer (defaults ok):
 #   hp-setup -i
-# see ~/notes/linux/printing.md
+# see ~/notes/computers/linux/printing.md
 
 args=()
 while [[ "$#" -gt 0 ]]; do

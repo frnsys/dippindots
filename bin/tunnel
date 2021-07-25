@@ -77,9 +77,9 @@ elif [ $CMD == 'pull' ]; then
 
 # rsync via a bridge server
 # e.g.
-#   tunnel sync foo ftseng@starbase.in:10023:pi:~/
+#   tunnel sync foo ftseng@starbase:10023:pi:~/
 # will rsync the `foo` directory
-# to the server tunneled to starbase.in:10023
+# to the server tunneled to starbase:10023
 # connecting as the user `pi` to the tunneled server
 elif [ $CMD == 'sync' ]; then
     INPUT=$1
