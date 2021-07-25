@@ -121,10 +121,10 @@ sudo ln -sf /usr/bin/vim /etc/alternatives/editor
 mkdir ~/.vim/.backup
 
 # TODO replace vi with nvim
-wget https://github.com/neovim/neovim/archive/refs/tags/v0.4.4.tar.gz -O /tmp/neovim.tar.gz
+wget https://github.com/neovim/neovim/archive/refs/tags/v0.5.0.tar.gz -O /tmp/neovim.tar.gz
 cd /tmp
 tar -xzvf neovim.tar.gz
-cd neovim*
+cd neovim-*
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 sudo ln -sf /usr/local/bin/nvim /usr/bin/vi
