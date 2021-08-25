@@ -124,6 +124,12 @@ class JSONRequestHandler(BaseHTTPRequestHandler):
                             html {
                                 overflow-x: hidden;
                             }
+                            input {
+                                width: 100%;
+                                max-width: 720px;
+                                margin: 1em auto;
+                                display: block;
+                            }
                             article {
                                 margin: 4em auto;
                                 max-width: 720px;
@@ -148,7 +154,9 @@ class JSONRequestHandler(BaseHTTPRequestHandler):
                             }
                         </style>
                     </head>
-                    <body>''']
+                    <body>
+                        <input type="text" placeholder="Filter by tags (comma-separated)" id="filter" />
+                    ''']
 
             grouped = defaultdict(list)
             for d in items:
@@ -184,6 +192,42 @@ class JSONRequestHandler(BaseHTTPRequestHandler):
                             tags=', '.join(d['tags'])
                         ))
                 html.append('</article>')
+
+            html.append('''
+                <script>
+                    const input = document.getElementById('filter');
+                    const articles = [...document.querySelectorAll('article')];
+                    input.addEventListener('input', () => {
+                        if (!input.value) {
+                            articles.forEach((el) => {
+                                el.style.display = 'block';
+                                [...el.querySelectorAll('.highlight')].forEach((h) => {
+                                    h.style.display = 'block';
+                                });
+                            });
+                        } else {
+                            let vals = input.value.split(',').map((v) => v.trim());
+                            articles.forEach((el) => {
+                                let matches = 0;
+                                [...el.querySelectorAll('.highlight')].forEach((h) => {
+                                    let tags = h.querySelector('.tags').innerText.split(',').map((t) => t.trim());
+                                    if (vals.every((v) => tags.includes(v))) {
+                                        h.style.display = 'block';
+                                        matches++;
+                                    } else {
+                                        h.style.display = 'none';
+                                    }
+                                });
+                                if (matches == 0) {
+                                    el.style.display = 'none';
+                                } else {
+                                    el.style.display = 'block';
+                                }
+                            });
+                        }
+                    });
+                </script>
+            ''')
 
             html.append('</body></html>')
 
