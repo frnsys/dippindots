@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SOURCES="yt\ng\nscholar\nnotes\npdimg"
+SOURCES="yt\nmaps\ng\nscholar\nnotes\npdimg"
 SOURCE=$(echo -e "$SOURCES" | dmenu -i -l 10 -p 'Source')
 if [ -z "$SOURCE" ]; then
     exit
@@ -35,7 +35,8 @@ if [[ $SOURCE == 'yt' ]]; then
         URL="https://www.youtube.com/results?search_query=$QUERY"
     fi
     firefox -private-window "$URL"
-
+elif [[ $SOURCE == 'maps' ]]; then
+    firefox "https://www.google.com/maps/search/$QUERY"
 elif [[ $SOURCE == 'g' ]]; then
     firefox "https://duckduckgo.com/?q=g!+$QUERY"
 

@@ -6,6 +6,8 @@
 #   sudo systemctl status tunnel@ftseng.service
 # to run on boot:
 #   sudo systemctl enable tunnel@ftseng.service
+#
+# NOTE: This reqiures that ~/.ssh/config has starbase added as a host
 
 [Unit]
 Description=setup ssh tunnel

@@ -449,7 +449,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo cp /tmp/adb-sync/adb-sync /usr/local/bin/
 
     # for ~/.bin/keepass
-    sudo pip2 install pykeepass
+    sudo pip install pykeepass
     sudo apt install -y python-gtk2
 
     # vpn
@@ -511,7 +511,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     # for easily updating system time to current time zone
     # to preview, run `tzupdate -p`
     # to make the change, run `sudo tzupdate`
-    sudo pip2 install git+https://github.com/cdown/tzupdate
+    sudo pip3 install tzupdate
 
     # TODO remove?
     # this was necessary to get sound and video working on the C720 (sound and video was only playable by root)

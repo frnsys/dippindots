@@ -146,6 +146,7 @@ if has("autocmd")
   au FileType css setlocal tabstop=2 shiftwidth=2
   au FileType sass setlocal tabstop=2 shiftwidth=2
   au FileType javascript setlocal tabstop=2 shiftwidth=2
+  au FileType vue setlocal tabstop=2 shiftwidth=2
 
   " for text
   au FileType text setlocal nocursorcolumn spell complete+=kspell
