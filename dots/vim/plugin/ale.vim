@@ -43,6 +43,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 nmap <silent> <leader>m <Plug>(ale_detail)
 
 " use ale for omnicompletion
+" use ctrl+m to select
 set omnifunc=ale#completion#OmniFunc
 
 " go to documentation
