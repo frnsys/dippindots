@@ -1,6 +1,6 @@
 " Futora
 " Francis Tseng (@frnsys)
-" ref: <http://vimdoc.sourceforge.net/htmldoc/syntax.html>
+" <http://vimdoc.sourceforge.net/htmldoc/syntax.html>
 " or :h hi
 
 hi Normal       ctermfg=255 ctermbg=none
@@ -22,7 +22,8 @@ hi TabLineSel   ctermbg=none ctermfg=248
 hi TabLineFill  cterm=none ctermbg=none
 hi Directory    ctermfg=12
 
-hi PMenu        ctermbg=250 ctermfg=233
+" Popups
+hi PMenu        ctermbg=236 ctermfg=251
 hi PMenuSel     cterm=reverse
 hi Search       ctermbg=9 ctermfg=230
 hi Folded       ctermbg=3 ctermfg=8
@@ -67,8 +68,8 @@ hi Conceal      ctermfg=4 ctermbg=none
 hi Ignore       ctermbg=33
 hi WarningMsg   ctermbg=196
 
-" markdown
-" ref: <https://github.com/tpope/vim-markdown/blob/master/syntax/markdown.vim>
+" Markdown
+" <https://github.com/tpope/vim-markdown/blob/master/syntax/markdown.vim>
 hi markdownQuestion           ctermfg=221
 hi markdownCheckboxUnchecked  ctermfg=196
 hi markdownCheckboxChecked    ctermfg=35
@@ -86,5 +87,10 @@ hi markdownRule               ctermfg=105
 hi markdownLinkText           ctermfg=105 cterm=underline
 hi Title                      ctermfg=216
 
-" custom
+" Custom
 hi Note         ctermbg=none ctermfg=3
+
+" nvim-lsp
+" <https://neovim.io/doc/user/lsp.html#lsp-highlight-diagnostics>
+hi LspDiagnosticsDefaultError ctermfg=203
+hi LspDiagnosticsDefaultWarning ctermfg=221

@@ -6,13 +6,6 @@ set wildignore+=*/.bundle/*,*/.sass-cache/*,node_modules
 set wildignore+=*.swp,*~,._*
 set wildignore+=*.pyc,*.egg-info,__pycache__
 
-" has to be set before the plugin loads
-" have to use the nightly toolchain for some reason
-" or autocomplete doesn't work
-let g:ale_completion_enabled = 1
-let g:ale_completion_autoimport = 1
-let g:ale_rust_rls_toolchain = 'nightly'
-
 " to install new plugins,
 " add them here and then run the command:
 " call minpac#update()
@@ -23,8 +16,10 @@ set rtp+=~/.fzf
 call minpac#add('junegunn/fzf')
 call minpac#add('junegunn/fzf.vim')
 call minpac#add('tpope/vim-commentary')
-call minpac#add('dense-analysis/ale')
 call minpac#add('easymotion/vim-easymotion')
+
+call minpac#add('neovim/nvim-lspconfig')
+call minpac#add('nvim-lua/completion-nvim')
 
 " Syntax
 call minpac#add('mxw/vim-jsx')
@@ -182,6 +177,7 @@ nnoremap ]b :bnext<cr>
 " quickfix nav
 nnoremap [c :cprev<cr>
 nnoremap ]c :cnext<cr>
+nnoremap xc :cclose<cr>
 
 " bind | and _ to vertical and horizontal splits
 nnoremap <expr><silent> \| !v:count ? "<C-W>v<C-W><Right>" : '\|'
