@@ -187,7 +187,7 @@ super + shift + t
     timeshift
 
 super + c
-    bspc rule -a alacritty -o state=floating && alacritty -e agenda view
+    bspc rule -a alacritty -o state=floating && alacritty -e bash -c 'agenda view | less -R'
 
 # weather
 super + u
