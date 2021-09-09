@@ -82,6 +82,7 @@ function gpr() {
 # compress video
 function shrinkvid() {
     # libx264 is way faster than libx265 but maybe doesn't get as small
+    # higher crf -> lower quality
     ffmpeg -i "$1" -filter:v scale="trunc(oh*a/2)*2:720" -vcodec libx264 -crf 23 -preset slower -c:a aac "sm/${1%.*}.mp4"
 }
 
