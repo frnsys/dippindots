@@ -521,12 +521,12 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo adduser ftseng video
 
     # firefox config
-    # Make sure to disable `media.peerconnection.enabled` in about:config
-    # to prevent WebRTC IP leaks
-    # Also disabled hardware acceleration,
-    # had issues with slow painting otherwise
-    # You also need to set `toolkit.legacyUserProfileCustomizations.stylesheets` to true in about:config
-    # Also set: `browser.fullscreen.autohide` to false.
+    # In `about:config`, set:
+    #   - `media.peerconnection.enabled` to false to prevent WebRTC IP leaks
+    #   - `toolkit.legacyUserProfileCustomizations.stylesheets` to true
+    #   - `browser.fullscreen.autohide` to false
+    #   - `ui.systemUsesDarkTheme` to 1 (you may have to manually add this preference)
+    # Also disabled hardware acceleration, had issues with slow painting otherwise
     mkdir -p ~/.mozilla/firefox/profile.default/chrome
     ln -sf $DIR/dots/firefox/userChrome.css ~/.mozilla/firefox/profile.default/chrome/userChrome.css
     ln -sf $DIR/dots/firefox/userContent.css ~/.mozilla/firefox/profile.default/chrome/userContent.css
