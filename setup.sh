@@ -480,6 +480,8 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     cd $DIR
 
     # GTK/QT themeing
+    # Note that the font defined here is
+    # what sets the `system-ui` font in browsers
     sudo apt install -y gnome-accessibility-themes
     rm -rf ~/.icons
     ln -sf $DIR/assets/icons ~/.icons
