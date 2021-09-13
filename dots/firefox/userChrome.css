@@ -17,10 +17,12 @@
     /* TAB VARIABLES */
     --bg-light: #202020; --bg-dark: #202020;
     --fg-light: #CECFD1; --fg-dark: #AAABAD;
-    --tab-fonts: "Source Code Pro", "Noto Sans", "Helvetica"; --tab-font-size: 9px;
+    --tab-fonts: "Inter Light", "Noto Sans", "Helvetica"; --tab-font-size: 10px;
     --tab-min-height: 16px !important;
     --toolbar-bgcolor: #303030 !important;
     --toolbar-color: #AAABAD !important;
+
+    --urlbar-popup-url-color: #5865F4 !important;
 }
 
 /* @-moz-document url(chrome://browser/content/browser.xul) { */
@@ -58,7 +60,7 @@
         text-align: center;
         border: none !important;
         font-family: var(--tab-fonts) !important;
-        font-size: 10px !important;
+        font-size: 12px !important;
     }
     #urlbar-input {
       text-align: center;

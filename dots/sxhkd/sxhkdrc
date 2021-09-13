@@ -202,4 +202,4 @@ Print
     if pgrep -x panel > /dev/null; then pkill panel; else panel; fi;
 
 alt + space
-    notify-send "$(date '+%m/%d %H:%M')"
+    notify-send "$(date '+%m/%d %H:%M')" "$(batt percent)% $(batt duration)h"
