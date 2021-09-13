@@ -13,7 +13,7 @@ batt mon &
 sxhkd &
 redshift &
 dunst &
-agenda remind &
+agenda remind 5 &
 
 # for web highlighting
 maw ~/notes/annos/web/annos.jsonl ~/notes/annos/web/assets &
