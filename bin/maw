@@ -136,7 +136,7 @@ class JSONRequestHandler(BaseHTTPRequestHandler):
                                 line-height: 1.4;
                                 padding-bottom: 4em;
                                 border-bottom: 2px solid black;
-                                font-family: sans-serif;
+                                font-family: system-ui, sans-serif;
                             }
                             .highlight {
                                 margin: 2em 0;
