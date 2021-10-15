@@ -87,6 +87,10 @@ hi markdownRule               ctermfg=105
 hi markdownLinkText           ctermfg=105 cterm=underline
 hi Title                      ctermfg=216
 
+" Rust
+" hi rustCommentLineDoc ctermbg=222 ctermfg=232
+hi rustCommentLineDoc ctermfg=222 ctermbg=235
+
 " Custom
 hi Note         ctermbg=none ctermfg=3
 

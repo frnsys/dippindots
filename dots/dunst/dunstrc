@@ -41,7 +41,7 @@
     icon_position = left
     max_icon_size = 128
     frame_width = 1
-    frame_color = "#1cbc5f"
+    frame_color = "#d0d0d0"
 
     # auto/foreground/frame/a color
     separator_color = "#303030"

@@ -28,7 +28,7 @@ sudo apt install -y --no-install-recommends python3 python3-pip gcc gfortran bui
 
 echo "Installing nvm/node..."
 sudo pip install libsass
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.0/install.sh | bash
 nvm install node
 
 echo "Installing git..."
@@ -75,7 +75,7 @@ echo "Installing Python3..."
 sudo apt -y install python3 python3-setuptools python3-pip
 
 # pyenv for easier version management
-sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git --no-install-recommends
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
 
@@ -89,8 +89,8 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 # install python
-env PYTHON_CFLAGS=-fPIC PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.6.6
-pyenv global 3.6.6
+env PYTHON_CFLAGS=-fPIC PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.10.0
+pyenv global 3.10.0
 
 # for vim syntax checking
 # make sure this installs under the installed pyenv
@@ -119,9 +119,9 @@ cd $DIR
 sudo ln -sf /usr/local/bin/vim /usr/bin/vi
 sudo ln -sf /usr/local/bin/vim /usr/bin/vim
 sudo ln -sf /usr/bin/vim /etc/alternatives/editor
-mkdir ~/.vim/.backup
 
 # TODO replace vi with nvim
+sudo apt install gettext
 wget https://github.com/neovim/neovim/archive/refs/tags/v0.5.0.tar.gz -O /tmp/neovim.tar.gz
 cd /tmp
 tar -xzvf neovim.tar.gz
@@ -140,7 +140,9 @@ sudo pip3 install mypy
 rm -rf ~/.vim
 ln -sf $DIR/dots/vim ~/.vim
 ln -sf $DIR/dots/vim/vimrc ~/.vimrc
+mkdir ~/.config/nvim
 ln -sf $DIR/dots/vim/init.vim ~/.config/nvim/init.vim
+mkdir -p ~/.vim/.backup
 
 # minpac for plugin management
 # in vim, call:
@@ -289,7 +291,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     ln -sf $DIR/dots/mpd/mpd.conf ~/.mpd/mpd.conf
 
     # build latest libass for ffmpeg and mpv
-    sudo apt install -y libfribidi-dev libfontconfig1-dev
+    sudo apt install -y libfribidi-dev libfontconfig1-dev libharfbuzz-dev
     git clone --depth=1 https://github.com/libass/libass.git /tmp/libass
     cd /tmp/libass
     ./autogen.sh

@@ -32,6 +32,11 @@ call minpac#add('habamax/vim-godot')
 " Markdown
 call minpac#add('dhruvasagar/vim-table-mode')
 
+" Trying to break bad habits
+call minpac#add('takac/vim-hardtime')
+" let g:hardtime_default_on = 1
+" use :HardTimeToggle
+
 packloadall
 
 colorscheme dark
@@ -141,6 +146,7 @@ if has("autocmd")
   au FileType css setlocal tabstop=2 shiftwidth=2
   au FileType sass setlocal tabstop=2 shiftwidth=2
   au FileType javascript setlocal tabstop=2 shiftwidth=2
+  au FileType typescript setlocal tabstop=2 shiftwidth=2
   au FileType vue setlocal tabstop=2 shiftwidth=2
 
   " for text
@@ -201,6 +207,9 @@ command Wq wq
 command W w
 command Q q
 
+" disable ex mode
+noremap Q <Nop>
+
 " custom syntax
 augroup customSyntax
     autocmd!
@@ -208,7 +217,7 @@ augroup customSyntax
 augroup END
 
 " don't automatically insert first omnicompletion match
-set completeopt=noinsert,menuone
+set completeopt=menuone
 
 " map omnicompletion to ctrl+n in insert mode
 inoremap <c-n> <c-x><c-o>
