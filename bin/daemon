@@ -2,6 +2,7 @@
 # this pulls new messages sent to my daemon signal number
 # and parses them to a file
 
+RAW_FILE=~/notes/logs/memos.jsonl
 OUTPUT_FILE=~/notes/logs/memos.md
 ASSETS_DIR=~/notes/logs/assets/memos/
 ATTACHMENT_DIR=~/.local/share/signal-cli/attachments/
@@ -12,30 +13,38 @@ NEW_NOTES=0
 # csv rows well, so we have to strip off the quotes ourselves
 notify-send "Fetching memos..."
 while IFS="" read -r line || [ -n "$line" ]; do
+    echo "$line" >> $RAW_FILE
+
     timestamp=$(echo "$line" | jq .envelope.timestamp)
     dt=$(date -d @${timestamp:0:10})
-    echo -e "# $dt\n" >> $OUTPUT_FILE
-
     body=$(echo "$line" | jq .envelope.dataMessage.message)
+    if [ "$body" == "null" ]; then
+        continue
+    fi
+
+    echo -e "# $dt\n" >> $OUTPUT_FILE
     printf "${body:1:${#body}-2}" | sed "s/\"\"/\"/g" >> $OUTPUT_FILE
 
     # get attachments
-    attachments=$(echo "$line" | jq '(.envelope.dataMessage.attachments | map([.id, .contentType] | join(":")) | join(";"))')
-    attachments="${attachments:1:${#attachments}-2}"
-    atts=(${attachments//;/ })
-    for att in "${atts[@]}"; do
-        id=$(echo "$att" | sed -r 's/:.+//')
-        fname=$(echo "$att" | sed -r 's/:.+\//./')
-        fpath="${ASSETS_DIR}/${fname}"
-        cp "${ATTACHMENT_DIR}/${id}" "${fpath}"
+    has_attachments=$(echo "$line" | jq 'has("envelope.dataMessage.attachments")')
+    if [ "$has_attachments" == "true" ]; then
+        attachments=$(echo "$line" | jq '(.envelope.dataMessage.attachments | map([.id, .contentType] | join(":")) | join(";"))')
+        attachments="${attachments:1:${#attachments}-2}"
+        atts=(${attachments//;/ })
+        for att in "${atts[@]}"; do
+            id=$(echo "$att" | sed -r 's/:.+//')
+            fname=$(echo "$att" | sed -r 's/:.+\//./')
+            fpath="${ASSETS_DIR}/${fname}"
+            cp "${ATTACHMENT_DIR}/${id}" "${fpath}"
 
-        # add markdown with relative path to attachment
-        fdir=$(dirname "$OUTPUT_FILE")
-        rel_fpath=$(realpath --relative-to="${fdir}" "${fpath}")
-        printf "\n\n![]($rel_fpath)" >> $OUTPUT_FILE
-    done
+            # add markdown with relative path to attachment
+            fdir=$(dirname "$OUTPUT_FILE")
+            rel_fpath=$(realpath --relative-to="${fdir}" "${fpath}")
+            printf "\n\n![]($rel_fpath)" >> $OUTPUT_FILE
+        done
+    fi
     echo -e "\n\n---\n" >> $OUTPUT_FILE
 
     NEW_NOTES=$((NEW_NOTES+1))
-done < <(signal-cli -u ${DAEMONSIGNALNUM} receive --json)
+done < <(signal-cli -u ${DAEMONSIGNALNUM} -o json receive)
 notify-send "${NEW_NOTES} new memos"
