@@ -471,13 +471,11 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
 
     # signal-cli
     # used by daemon script
-    # has to be built from source at the moment
-    sudo apt install -y openjdk-8-jre openjdk-8-jdk gradle
-    git clone https://github.com/AsamK/signal-cli.git /tmp/signal-cli
-    cd /tmp/signal-cli
-    ./gradlew build
-    ./gradlew installDist
-    sudo cp -r build/install/signal-cli /opt/signal-cli
+    sudo apt install -y openjdk-17-jre
+    wget "https://github.com/AsamK/signal-cli/releases/download/v0.10.0/signal-cli-0.10.0.tar.gz" -O /tmp/signal-cli.tar.gz
+    cd /tmp
+    tar -xzvf signal-cli.tar.gz
+    sudo mv signal-cli-* /opt/signal-cli
     sudo ln -sf /opt/signal-cli/bin/signal-cli /usr/local/bin/signal-cli
     cd $DIR
 
