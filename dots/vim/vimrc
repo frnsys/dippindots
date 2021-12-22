@@ -148,6 +148,7 @@ if has("autocmd")
   au FileType javascript setlocal tabstop=2 shiftwidth=2
   au FileType typescript setlocal tabstop=2 shiftwidth=2
   au FileType vue setlocal tabstop=2 shiftwidth=2
+  au FileType vue syntax sync fromstart
 
   " for text
   au FileType text setlocal nocursorcolumn spell complete+=kspell

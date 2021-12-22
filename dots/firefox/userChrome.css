@@ -35,6 +35,7 @@
     #customizableui-special-spring2,
     .titlebar-placeholder, .search-one-offs, #new-tab-button,
     .tabs-newtab-button, .tab-close-button, #tabs-newtab-button,
+    .titlebar-buttonbox-container,
     #alltabs-button, #tracking-protection-icon-container { display: none !important; }
 
     /* Hide tab bar if only one tab */

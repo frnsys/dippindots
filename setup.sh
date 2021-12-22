@@ -120,9 +120,9 @@ sudo ln -sf /usr/local/bin/vim /usr/bin/vi
 sudo ln -sf /usr/local/bin/vim /usr/bin/vim
 sudo ln -sf /usr/bin/vim /etc/alternatives/editor
 
-# TODO replace vi with nvim
+# Replace vi with nvim
 sudo apt install gettext
-wget https://github.com/neovim/neovim/archive/refs/tags/v0.5.0.tar.gz -O /tmp/neovim.tar.gz
+wget https://github.com/neovim/neovim/archive/refs/tags/v0.6.0.tar.gz -O /tmp/neovim.tar.gz
 cd /tmp
 tar -xzvf neovim.tar.gz
 cd neovim-*

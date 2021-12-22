@@ -59,19 +59,18 @@ sync "/sdcard/Backups/" ~/docs/backups/phone
 
 # sync select music TO the phone
 MUSIC_BASE_DIR=~/musics/
-MUSIC_PLAYLIST=~/musics/_playlists/music.m3u
 
 # parse a m3u playlist
 function parse_songs() {
     while read line; do
         echo "${MUSIC_BASE_DIR}${line}"
-    done <$MUSIC_PLAYLIST
+    done <"$1"
 }
 
 # create temporary directory for songs
 rm -rf /tmp/musics
 mkdir /tmp/musics
-parse_songs | xargs -0 -d '\n' -I {} cp {} /tmp/musics/
+parse_songs ~/musics/_playlists/car.m3u | xargs -0 -d '\n' -I {} cp {} /tmp/musics/
 sync /tmp/musics/ /sdcard/Music/musics --delete
 rm -rf /tmp/musics
 

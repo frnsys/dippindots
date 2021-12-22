@@ -5,7 +5,7 @@
 #
 
 # switch focus to left/right monitor
-super + alt + {h,l}
+super + shift + bracket{left,right}
     bspc monitor -f {L,R}
 
 # move window/desktop to left/right monitor
@@ -37,7 +37,7 @@ super + {h,j,k,l}
 #     bspc desktop -l next
 
 # switch between nodes in monocle
-super + shift + bracket{left,right}
+super + alt + {h,l}
     bspc node -f {next,prev}.local
 
 # swap windows
@@ -143,6 +143,9 @@ super + shift + alt + {F6, XF86MonBrightnessDown}
 
 super + t
     bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes -e vi todo.md
+
+super + quoteright
+    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/logs -e vi log.md
 
 super + p
     bspc rule -a alacritty -o state=floating && alacritty -e ~/.bin/keepass
