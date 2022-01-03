@@ -172,7 +172,8 @@ super + backslash
     win toggle Signal
 
 super + equal
-    win toggle Ripcord
+    mpc toggle
+    # win toggle Ripcord
 
 super + e
     emo

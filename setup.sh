@@ -162,7 +162,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
 
     # utils
     sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick silversearcher-ag tree
-    sudo pip install youtube-dl
+    sudo pip install -U yt-dlp
 
     # xsel - clipboard
     # xclip - clipboard, used by imgclip script
@@ -300,16 +300,23 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo make install
 
     # ffmpeg
-    sudo apt install -y autoconf automake build-essential libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev libx264-dev libmp3lame-dev libfdk-aac-dev libvpx-dev libopus-dev libpulse-dev yasm
+    sudo apt install -y autoconf automake build-essential libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev libx264-dev libmp3lame-dev libfdk-aac-dev libvpx-dev libopus-dev libpulse-dev yasm libvidstab-dev
     git clone --depth=1 --branch n4.3.1 git://source.ffmpeg.org/ffmpeg.git /tmp/ffmpeg
     cd /tmp/ffmpeg
 
-    # a detour for x265
+    # x265
     wget https://bitbucket.org/multicoreware/x265_git/downloads/x265_3.3.tar.gz -O /tmp/ffmpeg/x265.tar.gz
     cd /tmp/ffmpeg
     tar -xzvf x265.tar.gz
     cd x265_*/build/linux
     CFLAGS=-fPIC PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="/usr/local/ffmpeg" -DENABLE_SHARED:bool=on ../../source
+    make
+    sudo make install
+
+    # vidstab
+    git clone https://github.com/georgmartius/vid.stab.git /tmp/ffmpeg/vid.stab
+    cd /tmp/ffmpeg/vid.stab
+    cmake .
     make
     sudo make install
 
@@ -337,7 +344,8 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
       --enable-libpulse \
       --enable-nonfree \
       --enable-openssl \
-      --enable-shared
+      --enable-shared \
+      --enable-libvidstab # video stabilization filter
     make
     sudo make install
     sudo sh -c "echo '/usr/local/ffmpeg/lib' > /etc/ld.so.conf.d/ffmpeg.conf"
