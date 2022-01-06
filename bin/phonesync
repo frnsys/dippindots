@@ -70,7 +70,7 @@ function parse_songs() {
 # create temporary directory for songs
 rm -rf /tmp/musics
 mkdir /tmp/musics
-parse_songs ~/musics/_playlists/car.m3u | xargs -0 -d '\n' -I {} cp {} /tmp/musics/
+parse_songs ~/musics/_playlists/phone.m3u | xargs -0 -d '\n' -I {} cp {} /tmp/musics/
 sync /tmp/musics/ /sdcard/Music/musics --delete
 rm -rf /tmp/musics
 

@@ -289,6 +289,8 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     mkdir ~/.mpd/
     touch ~/.mpd/{mpd.db,mpd.log,mpd.pid,mpd.state}
     ln -sf $DIR/dots/mpd/mpd.conf ~/.mpd/mpd.conf
+    sudo systemctl disable --now mpd # prevent conflicts with user instance
+    sudo systemctl stop mpd.socket
 
     # build latest libass for ffmpeg and mpv
     sudo apt install -y libfribidi-dev libfontconfig1-dev libharfbuzz-dev
