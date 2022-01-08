@@ -117,14 +117,17 @@ super + slash
 # these are prefixed with `super`
 # so they also can work as regular function keys
 
+# Device 0 is the Built-in Audio Analog Stereo
 super + {F10, XF86AudioRaiseVolume}
-    amixer -D pulse set -M Master 5%+
+    pactl -- set-sink-volume 0 +5%
 
+# Device 0 is the Built-in Audio Analog Stereo
 super + {F9, XF86AudioLowerVolume}
-    amixer -D pulse set -M Master 5%-
+    pactl -- set-sink-volume 0 -5%
 
+# Device 0 is the Built-in Audio Analog Stereo
 super + {F8, XF86AudioMute}
-    notify-send "volume $(amixer -D pulse set -M Master toggle | sed -n 's/^.*\[\([a-z]*\)\]/\1/p' | head -n 1)"
+    pactl set-sink-mute 0 toggle
 
 super + {F7, XF86MonBrightnessUp}
     sudo glow +50

@@ -160,6 +160,9 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo apt install -y bluez libbluetooth3 libbluetooth-dev blueman pulseaudio-module-bluetooth bluez-tools
     pactl load-module module-bluetooth-discover
 
+    # jack audio for bitwig
+    sudo apt install -y jackd pulseaudio-module-jack
+
     # utils
     sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick silversearcher-ag tree
     sudo pip install -U yt-dlp

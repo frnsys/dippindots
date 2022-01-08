@@ -83,13 +83,13 @@ wifi() {
 
 
 volume() {
-    STATUS=$(amixer -D pulse get -M Master)
-    LEVEL=$(echo $STATUS | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p' | uniq)
-    STATE=$(echo $STATUS | sed -n 's/^.*\[\(o[nf]\+\)]$/\1/p' | uniq)
+    SINK=0
+    LEVEL=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+    MUTED=$(pactl list sinks | grep '^[[:space:]]Mute:' | head -n $(( $SINK + 1 )) | cut -d' ' -f 2)
 
     if [[ $CMD == 'bar' ]]; then
         BACK_COLOR="#555555"
-        if [[ $STATE != "on" ]]; then
+        if [[ $MUTED != "no" ]]; then
             # Muted
             FILL_COLOR="#878787"
             HEAD_COLOR="#878787"
@@ -101,7 +101,7 @@ volume() {
         fi
         echo "$(_bar $LEVEL $BACK_COLOR $FILL_COLOR $HEAD_COLOR)"
     else
-        if [[ $STATE != "on" ]]; then
+        if [[ $MUTED != "no" ]]; then
             echo "MUTE"
         else
             echo "V$LEVEL"
