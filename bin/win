@@ -32,7 +32,7 @@ if [[ $1 == 'toggle' ]]; then
     bspc node $match_id --flag hidden
     bspc node -f $match_id
 elif [[ $1 == 'go' ]]; then
-    win_ids=($(bspc query -N -n '.window.!hidden'))
+    win_ids=($(bspc query -N -n '.window'))
     win=$(
         xtitle "${win_ids[@]}" | awk '{ print ++i": "$0 }' |\
         dmenu -i -l 10 -p 'Jump to'
@@ -43,5 +43,5 @@ elif [[ $1 == 'go' ]]; then
     fi
     idx=$(echo $win | cut -d: -f1)
 
-    bspc node "${win_ids[$((idx - 1))]}" -f
+    bspc node "${win_ids[$((idx - 1))]}" -g hidden=off -f
 fi
