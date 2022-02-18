@@ -26,6 +26,9 @@ export FZF_ALT_C_COMMAND="fd -t d . $HOME"
 export FZF_DEFAULT_COMMAND='rg --files --follow --glob "!.git/*"'
 export FZF_DEFAULT_OPTS="--history=$HOME/.fzf_history"
 
+# Add yabridge
+export PATH="$PATH:$HOME/.local/share/yabridge"
+
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 for file in ~/.dippindots/dots/bash/{path,prompt,aliases,functions}; do

@@ -165,6 +165,9 @@ super + a
 super + semicolon
     bspc rule -a alacritty -o state=floating && alacritty -e ncmpcpp
 
+super + shift + p
+    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/projects/music/bitwig/previews -e ranger .
+
 super + minus
     task
 

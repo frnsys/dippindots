@@ -2,6 +2,9 @@ export BSPWM_TREE=/tmp/bspwm.tree
 export BSPWM_HISTORY=/tmp/bspwm.history
 export BSPWM_STACK=/tmp/bspwm.stack
 
+# Enable esync for wine
+export WINEESYNC=1
+
 xrdb -merge -I$HOME ~/.Xresources
 xset +fp ~/.fonts/
 xset fp rehash
@@ -34,7 +37,11 @@ xautolock -time 30 -locker "sudo systemctl suspend" -detectsleep &
 bt toggle
 
 # Start jackd for bitwig
-/usr/bin/jackd -T -ndefault -dalsa -dhw:0 -r44100 -p1024 -n2 &
+# Use aplay -l to see sound devices
+# Then set -dhw:X,Y to the first non-loopback device and subdevice
+# The -p parameter is the buffer size (default 1024).
+# Decrease for lower latency; increase if too many xruns/audio popping
+/usr/bin/jackd -ndefault -dalsa -dhw:2,0 -r44100 -p2048 -n2 &
 sleep 1 # wait for jackd, hacky...
 pactl load-module module-jack-sink
 pactl load-module module-jack-source
