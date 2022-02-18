@@ -44,3 +44,5 @@ alias ls="command ls --color"
 
 # enable aliases to be sudo’ed
 alias sudo='sudo '
+
+alias ytdl="yt-dlp -f 'best[ext=mp4][height<=720]'"

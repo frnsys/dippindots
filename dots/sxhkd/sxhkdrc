@@ -171,6 +171,9 @@ super + shift + p
 super + minus
     task
 
+# super + shift + w
+# 	bspc node focused -g hidden=on
+
 super + w
     win go
 

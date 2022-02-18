@@ -122,7 +122,7 @@ sudo ln -sf /usr/bin/vim /etc/alternatives/editor
 
 # Replace vi with nvim
 sudo apt install gettext
-wget https://github.com/neovim/neovim/archive/refs/tags/v0.6.0.tar.gz -O /tmp/neovim.tar.gz
+wget https://github.com/neovim/neovim/archive/refs/tags/v0.6.1.tar.gz -O /tmp/neovim.tar.gz
 cd /tmp
 tar -xzvf neovim.tar.gz
 cd neovim-*
@@ -214,7 +214,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     ln -sf $DIR/dots/misc/redshift.conf ~/.config/redshift.conf
 
     # pandoc
-    sudo apt install -y --no-install-recommends texlive lmodern texlive-latex-extra texlive-fonts-extra cm-super texlive-generic-recommended
+    sudo apt install -y --no-install-recommends texlive lmodern cm-super texlive-generic-recommended texlive-latex-extra
     wget https://github.com/jgm/pandoc/releases/download/2.7.1/pandoc-2.7.1-1-amd64.deb -O /tmp/pandoc.deb
     sudo gdebi --n /tmp/pandoc.deb
 

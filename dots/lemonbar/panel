@@ -25,8 +25,7 @@ FONT2="-misc-fixed-medium-r-normal-ja-16-0-75-75-c-0-iso10646-1"   # characters
 # For determining individual monitor bar geometries (positioning)
 CUR_X_OFFSET=$((0 + $PANEL_PADDING))
 
-# -2 to slightly fix padding
-# bspc config bottom_padding $(($PANEL_HEIGHT + $PANEL_PADDING - 2))
+bspc config bottom_padding $(($PANEL_HEIGHT + $PANEL_PADDING))
 
 while read -r mon; do
     # Remove existing panel fifos and create new ones
