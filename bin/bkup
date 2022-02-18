@@ -9,8 +9,9 @@
 
 cp ~/.ssh/config ~/docs/backups/ssh_config
 
-# gpg --export-secret-keys f@frnsys.com > ~/docs/backups/secret.key
-
+# gpg --export-secret-keys --armor f@frnsys.com > ~/docs/backups/keys/f@frnsys.com.asc
+# gpg --export-secret-keys --armor francis@anarres > ~/docs/backups/keys/francis@anarres.asc
+# gpg --export-ownertrust > ~/docs/backups/keys/trustdb-backup.txt
 
 REPOS=(~/projects ~/docs ~/notes ~/photos ~/work)
 OTHER=(~/archives ~/musics)

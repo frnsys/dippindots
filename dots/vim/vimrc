@@ -26,16 +26,13 @@ call minpac#add('mxw/vim-jsx')
 call minpac#add('tikhomirov/vim-glsl')
 call minpac#add('lepture/vim-jinja')
 call minpac#add('pangloss/vim-javascript')
-call minpac#add('sirtaj/vim-openscad')
 call minpac#add('habamax/vim-godot')
 
 " Markdown
 call minpac#add('dhruvasagar/vim-table-mode')
 
-" Trying to break bad habits
-call minpac#add('takac/vim-hardtime')
-" let g:hardtime_default_on = 1
-" use :HardTimeToggle
+" Encryption
+call minpac#add('jamessan/vim-gnupg')
 
 packloadall
 

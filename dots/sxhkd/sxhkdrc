@@ -148,7 +148,7 @@ super + t
     bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes -e vi todo.md
 
 super + quoteright
-    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/logs -e vi log.md
+    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/logs -e vi log.gpg
 
 super + p
     bspc rule -a alacritty -o state=floating && alacritty -e ~/.bin/keepass

@@ -1,6 +1,10 @@
 # Bash completion
 # [ -f /etc/bash_completion ] && source /etc/bash_completion
 
+# For GPG agent
+GPG_TTY=`tty`
+export GPG_TTY
+
 # nvm, lazy loaded
 export NVM_DIR="$HOME/.nvm"
 alias nvm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && nvm'
