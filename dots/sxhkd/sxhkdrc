@@ -184,8 +184,8 @@ super + equal
 super + e
     emo
 
-super + m
-    bspc rule -a alacritty -o state=floating && alacritty -e mutt
+# super + m
+#     bspc rule -a alacritty -o state=floating && alacritty -e mutt
 
 super + shift + m
     mute toggle

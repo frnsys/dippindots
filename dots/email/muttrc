@@ -3,7 +3,7 @@ set mbox_type=Maildir
 set folder=~/.mail/
 set record=+Sent
 set postponed=+Drafts
-set trash=+Trash
+# set trash=+Trash
 set mail_check=2 # seconds
 
 # to use notmuch's tagging features,
@@ -14,7 +14,7 @@ set virtual_spoolfile # use first defined virtual-mailbox as spool
 virtual-mailboxes "INBOX" "notmuch://?query=folder:INBOX"
 virtual-mailboxes "Archive" "notmuch://?query=folder:Archive"
 virtual-mailboxes "Sent" "notmuch://?query=folder:Sent"
-virtual-mailboxes "Trash" "notmuch://?query=folder:Trash"
+# virtual-mailboxes "Trash" "notmuch://?query=folder:Trash"
 
 # smtp
 source ~/docs/keys/mail

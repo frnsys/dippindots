@@ -39,11 +39,11 @@ Slave :main-local:Sent
 Create Both
 Expunge Both
 
-Channel main-trash
-Master :main-remote:"Trash"
-Slave :main-local:Trash
-Create Both
-Expunge Both
+# Channel main-trash
+# Master :main-remote:"Trash"
+# Slave :main-local:Trash
+# Create Both
+# Expunge Both
 
 Group main
 Channel main-inbox
