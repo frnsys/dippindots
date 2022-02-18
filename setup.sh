@@ -175,9 +175,12 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     # unclutter - hide cursor after inactivity
     # gdebi - easier installation of deb packages
     sudo apt install -y --no-install-recommends xorg
-    sudo apt install -y xsel xclip xdotool i3lock libnotify-bin unclutter gdebi deluged deluge-console oathtool avahi-daemon redshift
+    sudo apt install -y xsel xclip xdotool i3lock libnotify-bin unclutter gdebi oathtool avahi-daemon redshift
 
-    # deluged config
+    # deluged
+    sudo add-apt-repository ppa:deluge-team/stable
+    sudo apt update
+    sudo apt install -y deluged deluge-console
     ln -sf $DIR/dots/misc/deluged.conf ~/.config/deluge/core.conf
 
     # latest libinput
