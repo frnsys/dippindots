@@ -185,15 +185,18 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
 
     # latest libinput
     # trackpad config
-    git clone https://gitlab.freedesktop.org/libinput/libinput /tmp/libinput
-    cd /tmp/libinput/
-    sudo apt install -y meson ninja-build
-    sudo apt install -y libmtdev-dev libevdev-dev
-    meson --prefix=/usr -Ddocumentation=false -Ddebug-gui=false -Dlibwacom=false -Dtests=false builddir/
-    ninja -C builddir/
-    sudo ninja -C builddir/ install
-    sudo cp $DIR/dots/misc/01-libinput.conf /usr/share/X11/xorg.conf.d/
-    cd $DIR
+    # git clone https://gitlab.freedesktop.org/libinput/libinput /tmp/libinput
+    # cd /tmp/libinput/
+    # sudo apt install -y meson ninja-build
+    # sudo apt install -y libmtdev-dev libevdev-dev
+    # meson --prefix=/usr -Ddocumentation=false -Ddebug-gui=false -Dlibwacom=false -Dtests=false builddir/
+    # ninja -C builddir/
+    # sudo ninja -C builddir/ install
+    # sudo cp $DIR/dots/misc/01-libinput.conf /usr/share/X11/xorg.conf.d/
+    # cd $DIR
+
+    # synaptics for touchpad
+    sudo apt install -y xserver-xorg-input-synaptics
 
     # picom compositor
     # sudo apt install -y libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-

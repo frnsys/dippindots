@@ -40,4 +40,14 @@ pactl load-module module-jack-sink
 pactl load-module module-jack-source
 pacmd set-default-sink jack_out
 
+# Touchpad tweaks
+DEVICE=11
+xinput --set-prop "$DEVICE" "Synaptics Noise Cancellation" 0 0
+xinput --set-prop "$DEVICE" "Device Accel Profile" 6
+xinput --set-prop "$DEVICE" "Device Accel Velocity Scaling" 50
+xinput --set-prop "$DEVICE" "Device Accel Constant Deceleration" 12
+xinput --set-prop "$DEVICE" "Synaptics Two-Finger Scrolling" 1 1
+# Disable touchpad tapping/scrolling while typing, re-enable 0.5s after
+syndaemon -t -i 0.5
+
 exec ~/.config/bspwm/wm
