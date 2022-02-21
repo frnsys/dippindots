@@ -99,6 +99,8 @@
     }
     .tabbrowser-tab * {
         background: none !important;
+        box-shadow: none !important;
+        border: none !important;
     }
     .tabbrowser-tab[selected="true"] .tab-stack {
         background: var(--fg-light) !important;
