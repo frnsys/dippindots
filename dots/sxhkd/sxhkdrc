@@ -148,7 +148,7 @@ super + t
     bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes -e vi todo.md
 
 super + quoteright
-    export GPG_TTY=$(tty); bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/logs -e vi log.gpg
+    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/logs -e bash -c 'export GPG_TTY=$(tty); gpg --decrypt log.gpg > /dev/null; vi log.gpg'
 
 super + shift + quoteright
     bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/music -e vi scratch.md
