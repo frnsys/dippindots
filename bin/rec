@@ -20,7 +20,7 @@ fi
 # https://github.com/lolilolicon/xrectsel
 TIME=$(date +%F-%T)
 VID=/tmp/recording_${TIME}.ogv
-recordmydesktop $OPTS -o $VID --overwrite --fps 24
+recordmydesktop $OPTS -o $VID --overwrite --fps 24 --no-frame
 
 # Trim the last bit (it catches the recording notification)
 DURATION=$(ffprobe -v 0 -show_entries format=duration -of compact=p=0:nk=1 "$VID")
@@ -28,7 +28,7 @@ TRIMMED_DURATION=$(echo "scale=4;$DURATION-1" | bc)
 TRIMMED_VID="${VID%.ogv}.trimmed.mp4"
 ffmpeg -i "$VID" -t $TRIMMED_DURATION -filter:v "crop=iw-4:ih-4" -c:v libx264 -crf 18 -c:a copy "$TRIMMED_VID"
 
-if [[ $2 != '--no-gif' ]]; then
+if [[ $2 == '--gif' ]]; then
     OUT=~/docs/shots/${TIME}.gif
     notify-send "[rec] converting to gif..."
     vid2gif -f 12 "$TRIMMED_VID" "$OUT"
