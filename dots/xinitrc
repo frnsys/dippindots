@@ -11,7 +11,7 @@ xset fp rehash
 fc-cache -fv &
 unclutter -root -visible -idle 5 -jitter 5 &
 feh --bg-fill ~/.wall.jpg &
-# picom --config ~/.config/picom.conf &
+picom --config ~/.config/picom.conf &
 batt mon &
 sxhkd &
 redshift &
@@ -41,14 +41,19 @@ bt toggle
 # Then set -dhw:X,Y to the first non-loopback device and subdevice
 # The -p parameter is the buffer size (default 1024).
 # Decrease for lower latency; increase if too many xruns/audio popping
+# This volume setting thing is a trick to get jackd to have the proper output level
+# to match the pulseaudio sources.
+VOLUME=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+pactl -- set-sink-volume 0 100%
 /usr/bin/jackd -ndefault -dalsa -dhw:2,0 -r44100 -p2048 -n2 &
 sleep 1 # wait for jackd, hacky...
 pactl load-module module-jack-sink
 pactl load-module module-jack-source
 pacmd set-default-sink jack_out
+pactl -- set-sink-volume 0 ${VOLUME}%
 
 # Touchpad tweaks
-DEVICE=11
+DEVICE=$(xinput list | grep Synaptics | cut -f 2 | cut -f 2 -d=)
 xinput --set-prop "$DEVICE" "Synaptics Noise Cancellation" 0 0
 xinput --set-prop "$DEVICE" "Device Accel Profile" 6
 xinput --set-prop "$DEVICE" "Device Accel Velocity Scaling" 50
@@ -56,5 +61,9 @@ xinput --set-prop "$DEVICE" "Device Accel Constant Deceleration" 12
 xinput --set-prop "$DEVICE" "Synaptics Two-Finger Scrolling" 1 1
 # Disable touchpad tapping/scrolling while typing, re-enable 0.5s after
 syndaemon -t -i 0.5 &
+
+# Trackpoint tweaks
+DEVICE=$(xinput list | grep TrackPoint | cut -f 2 | cut -f 2 -d=)
+xinput --set-prop "$DEVICE" "libinput Accel Speed" 0.1
 
 exec ~/.config/bspwm/wm

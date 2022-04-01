@@ -105,7 +105,7 @@ function ytdl2gif() {
 }
 
 function clipvid() {
-    ffmpeg -ss "$1" -to "$2" -i "$3" -c copy "$4"
+    ffmpeg -ss "$2" -to "$3" -i "$1" -c copy "$4"
 }
 
 function pdfpages() {

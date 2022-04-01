@@ -18,14 +18,14 @@ nnoremap <silent> <Leader>g :Rg <C-R><C-W><CR>
 
 command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview('up:60%'), 1)
 command! -bang -nargs=? -complete=dir Buffers call fzf#vim#buffers(fzf#vim#with_preview('up:60%'), 1)
-command! -bang -nargs=? -complete=dir Notes call fzf#vim#files('~/notes', fzf#vim#with_preview('up:60%'), 1)
+" command! -bang -nargs=? -complete=dir Notes call fzf#vim#files('~/notes', fzf#vim#with_preview('up:60%'), 1)
 
 nnoremap <C-b> :Buffers<cr>
 nnoremap <C-p> :Files .<cr>
 nnoremap <C-l> :Lines<cr>
-nnoremap <C-n> :Notes<cr>
+" nnoremap <C-n> :Notes<cr>
 
-" Table of Contents (for markdown files)
+" Table of Contents (for markdown files, see binding below)
 " Jump to line match from ripgrep
 " Expects that the line is delimited with ':'
 " and the first field is the line number.
@@ -49,7 +49,7 @@ command! -bang -complete=dir -nargs=? TOC
         \'options': '--reverse --delimiter=: --with-nth=2..'
     \}, <bang>0))
 
-nnoremap <leader>e :TOC<cr>
+nnoremap <C-n> :TOC<cr>
 
 " File path completion with tab
 imap <c-s> <plug>(fzf-complete-path)

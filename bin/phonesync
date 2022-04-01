@@ -47,6 +47,8 @@ declare -A backups
 backups[DCIM/Camera]=~/photos/phone/dcim
 backups[Pictures]=~/photos/phone/misc
 backups[tencent/MicroMsg/WeChat]=~/photos/phone/wechat
+backups[Recordings]=~/projects/music/sounds/recordings
+backups[Download/Splice/Samples]=~/projects/music/sounds/samples/Splice
 
 # backup (i.e. don't delete)
 # directories FROM the phone

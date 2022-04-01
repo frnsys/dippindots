@@ -52,14 +52,12 @@ if [[ $1 == 'remote' ]]; then
     # when we should sync to one drive then rsync locally to the other.
     for dest in \
         10023:pi:/media/shuttle\
-        10023:pi:/media/outerspace/francis\
         10022:ftseng:/mnt/library/backup; do
         remoteSync $dest
     done
 elif [[ $1 == 'home' ]]; then
     for dest in \
         pi@svalbard.local:/media/shuttle\
-        pi@svalbard.local:/media/outerspace/francis\
         pi@svalbard.local:/media/backup\
         ftseng@hubble.local:/mnt/library/backup; do
         # pi@turtle.local:/media/backpack/backup; do
