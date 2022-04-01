@@ -1,0 +1,18 @@
+#!/bin/bash
+
+CMD=$1
+
+if [[ $CMD == "toggle" ]]; then
+    TARGETS="sleep.target suspend.target hibernate.target hybrid-sleep.target"
+    if [[ $(systemctl status sleep.target | grep masked) ]]; then
+        systemctl unmask $TARGETS
+    else
+        systemctl mask $TARGETS
+    fi
+else
+    if [[ $(systemctl status sleep.target | grep masked) ]]; then
+        echo "on"
+    else
+        echo "off"
+    fi
+fi
