@@ -547,6 +547,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     #   - `toolkit.legacyUserProfileCustomizations.stylesheets` to true
     #   - `browser.fullscreen.autohide` to false
     #   - `ui.systemUsesDarkTheme` to 1 (you may have to manually add this preference)
+    #   - `dom.input.fallbackUploadDir` to `~/downloads` to stop it from trying to upload from `~/Desktop`
     # Also disabled hardware acceleration, had issues with slow painting otherwise
     mkdir -p ~/.mozilla/firefox/profile.default/chrome
     ln -sf $DIR/dots/firefox/userChrome.css ~/.mozilla/firefox/profile.default/chrome/userChrome.css
