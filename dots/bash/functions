@@ -31,7 +31,7 @@ function hubble() {
 
 # Activate a Python virtualenv by name.
 function aa() {
-    eval "$(pyenv init - --no-rehash bash)"
+    eval "$(pyenv init -)"
     pyenv activate $1
 }
 

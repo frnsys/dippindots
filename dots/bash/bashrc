@@ -12,7 +12,7 @@ alias npm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && npm'
 # pyenv
 # Slows bash startup a bit...
 # called in the `aa` function instead
-# eval "$(pyenv init - bash --no-rehash)"
+# eval "$(pyenv init -)"
 
 # for racer rust source code lookup
 export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library

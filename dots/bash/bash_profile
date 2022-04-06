@@ -41,13 +41,11 @@ done
 set -o vi
 
 # Setup pyenv
-# Actual initialization necessary for
-# virtualenvs is handled (lazily)
-# in bash/functions#aa
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="$PYENV_ROOT/shims:$PATH"
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+eval "$(pyenv init --path)"
 
 # Setup GDAL for GIS stuff
 export GDAL_DATA=/usr/share/gdal
