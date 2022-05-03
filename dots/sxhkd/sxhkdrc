@@ -6,7 +6,7 @@
 
 # switch focus to left/right monitor
 super + shift + bracket{left,right}
-    bspc monitor -f {L,R}
+    bspc monitor -f {prev,next}
 
 # move window/desktop to left/right monitor
 super + {shift,ctrl} + alt + {h,l,k,j}
