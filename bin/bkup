@@ -76,7 +76,6 @@ elif [[ $1 == 'studio' ]]; then
     # done
     # for dest in \
     #     10023:pi:/media/shuttle\
-    #     10023:pi:/media/outerspace/francis; do
     #     remoteSync $dest
     # done
 elif [[ $1 == 'cloud' ]]; then

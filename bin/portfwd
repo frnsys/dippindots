@@ -20,7 +20,7 @@
 #     sudo ufw allow 8080
 
 LOCALRE='^[0-9]+$' # just check if looks like a port
-REMOTERE='^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-.]+:[0-9]+$'
+REMOTERE='^[a-zA-Z0-9_-]+@[a-zA-Z0-9_.]+:[0-9]+$'
 
 is_local() {
     if [[ $1 =~ $LOCALRE ]]; then
