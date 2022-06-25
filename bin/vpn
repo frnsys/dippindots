@@ -1,42 +1,27 @@
 #!/bin/bash
 # for this to work w/o entering a sudo password,
 # add the following to /etc/sudoers.d/00_anarres:
-#   ftseng  ALL = NOPASSWD: /usr/bin/pkill
-#   ftseng  ALL = NOPASSWD: /usr/sbin/openvpn
-#   ftseng  ALL = NOPASSWD: /usr/local/sbin/openvpn
-#   ftseng  ALL = NOPASSWD: /usr/sbin/service stunnel4 *
-# Logs for stunnel and openvpn both go to /var/log/syslog
+#   ftseng  ALL = NOPASSWD: /usr/bin/wg, /usr/bin/wg-quick
 
 VPN_DIR=/home/ftseng/docs/vpn
 ACTIVE=$(basename $(readlink $VPN_DIR/active))
 
 if [[ $1 == 'up' ]]; then
-    # kill all existing stunnel4 processes to avoid this error:
-    # Error binding service [openvpn] to 127.0.0.1:1413
-    # bind: Address already in use (98)
-    # sudo killall stunnel4
-
     # to set active vpn server, symlink its folder, i.e.:
-    # ln -s ~/docs/vpn/<server name> ~/docs/vpn/active
-    cd $VPN_DIR/active
-
-    sudo service stunnel4 restart
-    stunnel4 airvpn.ssl # make sure this does not have `foreground = yes` in it
-    sudo openvpn --config airvpn-ssl.ovpn --daemon
+    # rm ~/docs/vpn/active; ln -s ~/docs/vpn/<name>.conf ~/docs/vpn/active
+    sudo wg-quick up active
     notify-send "VPN active ($ACTIVE)"
 
 elif [[ $1 == 'down' ]]; then
-    sudo service stunnel4 stop
-    sudo pkill openvpn
-    sudo pkill stunnel4
+    sudo wg-quick down active
     notify-send "VPN deactivated"
 
 elif [[ $1 == 'switch' ]]; then
-    CHOICE=$(find $VPN_DIR -mindepth 1 -type d -printf "%f\n" | dmenu)
+    CHOICE=$(find "$VPN_DIR" -type f -printf '%P\n' | dmenu)
     if [ -z "$CHOICE" ]; then
         exit
     fi
-    rm -rf $VPN_DIR/active
+    rm $VPN_DIR/active
     ln -s $VPN_DIR/$CHOICE $VPN_DIR/active
     notify-send "Active VPN is now $CHOICE. Restarting..."
     vpn down
@@ -46,11 +31,10 @@ elif [[ $1 == 'best' ]]; then
     BEST=""
     BEST_VPN=""
     notify-send "Pinging servers..."
-    for f in $VPN_DIR/**/airvpn-ssl.ovpn; do
+    for f in $VPN_DIR/*.conf; do
         VPN=$(echo $f | cut -d'/' -f6)
-        [[ $VPN == "active" ]] && continue
-        IP=$(cat $f | grep net_gateway | cut -d' ' -f2)
-        PING=$(ping -c 1 -W 2 $IP | grep time= | cut -f4 -d'=' | cut -f1 -d' ')
+        REMOTE=$(cat $f | grep "Address" | cut -d' ' -f3 | cut -d'/' -f1)
+        PING=$(ping -c 1 -W 2 $REMOTE | grep time= | cut -f4 -d'=' | cut -f1 -d' ')
         if [ -z "$PING" ]; then
             echo "$VPN: No response"
         else

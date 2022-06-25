@@ -474,14 +474,13 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo pip install pykeepass
     sudo apt install -y python-gtk2
 
-    # vpn
-    sudo apt install -y openvpn stunnel4 resolvconf
-    sudo sed -i "s/ENABLED=0/ENABLED=1/" /etc/default/stunnel4
-    sudo service stunnel4 start
+    # vpn (wireguard)
+    sudo apt install -y wireguard resolvconf
+    sudo ln -s ~/docs/vpn/active /etc/wireguard/active.conf
 
     # autostart/stop vpn on wifi up/down
-    sudo cp $DIR/dots/services/network/airvpn_up /etc/networkd-dispatcher/routable.d/airvpn
-    sudo cp $DIR/dots/services/network/airvpn_down  /etc/networkd-dispatcher/no-carrier.d/airvpn
+    sudo cp $DIR/dots/services/network/vpn_up /etc/networkd-dispatcher/routable.d/vpn
+    sudo cp $DIR/dots/services/network/vpn_down  /etc/networkd-dispatcher/no-carrier.d/vpn
 
     # signal desktop client
     curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -

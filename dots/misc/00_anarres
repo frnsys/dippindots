@@ -1,7 +1,4 @@
-ftseng  ALL = NOPASSWD: /usr/bin/pkill
-ftseng  ALL = NOPASSWD: /usr/sbin/openvpn
-ftseng  ALL = NOPASSWD: /usr/local/sbin/openvpn
-ftseng  ALL = NOPASSWD: /usr/sbin/service stunnel4 *
+ftseng  ALL = NOPASSWD: /usr/bin/wg, /usr/bin/wg-quick
 
 ftseng  ALL = NOPASSWD: /usr/bin/bluetooth
 ftseng  ALL = NOPASSWD: /bin/systemctl start bluetooth
