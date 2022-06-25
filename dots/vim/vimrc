@@ -145,6 +145,7 @@ if has("autocmd")
   au FileType sass setlocal tabstop=2 shiftwidth=2
   au FileType javascript setlocal tabstop=2 shiftwidth=2
   au FileType typescript setlocal tabstop=2 shiftwidth=2
+  au FileType typescriptreact setlocal tabstop=2 shiftwidth=2
   au FileType vue setlocal tabstop=2 shiftwidth=2
   au FileType vue syntax sync fromstart
 
@@ -194,6 +195,7 @@ nmap <S-t> :tabnew<cr>
 " netrw
 let g:netrw_banner=0
 let g:netrw_liststyle=3
+let g:netrw_fastbrowse=0
 let g:netrw_list_hide= '.*\.swp$,.*\.pyc,\.tags,\.git,\.sass-cache,node_modules'
 nmap - :Explore<cr>
 
@@ -224,3 +226,9 @@ inoremap <c-n> <c-x><c-o>
 " auto-close quickfix window if it's the only one left
 " this makes it easier to :q quit with a file has e.g. syntactic errors
 autocmd WinEnter * if &buftype ==# 'quickfix' && winnr('$') == 1 | quit | endif
+
+" usage: execute "call SynGroup()" with the cursor over something
+function! SynGroup()
+    let l:s = synID(line('.'), col('.'), 1)
+    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfun

@@ -160,7 +160,7 @@ function! ToggleWriteMode()
     silent! execute 'botright' l:width . 'vsplit +setlocal\ nobuflisted' l:name | wincmd p
     endif
 endfunction
-nnoremap <silent> <leader>w :call ToggleWriteMode()<cr>
+" nnoremap <silent> <leader>w :call ToggleWriteMode()<cr>
 
 " easily paste in current datetime
 nnoremap <leader>t "=strftime("%m.%d.%Y %H:%M")<CR>p

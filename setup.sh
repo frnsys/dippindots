@@ -108,7 +108,7 @@ sudo apt install -y \
     libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev
 
 mkdir /tmp/vim && cd $_
-wget https://github.com/vim/vim/archive/v8.2.2488.zip
+wget https://github.com/vim/vim/archive/v8.2.4979.zip
 unzip v*.zip
 cd vim*
 ./configure --with-features=huge --enable-luainterp=yes --enable-pythoninterp=yes --enable-python3interp=yes --enable-gui=no --with-x --with-lua-prefix=/usr
@@ -132,6 +132,10 @@ sudo ln -sf /usr/local/bin/nvim /usr/bin/vi
 sudo ln -sf /usr/local/bin/nvim /usr/bin/vim
 sudo ln -sf /usr/bin/vim /etc/alternatives/editor
 cd $DIR
+
+# typescript language server for nvim
+npm install -g typescript-language-server typescript
+sudo chmod +x $(which typescript-language-server)
 
 # mypy for python type annotations
 sudo pip3 install mypy
