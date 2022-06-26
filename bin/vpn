@@ -9,11 +9,16 @@ ACTIVE=$(basename $(readlink $VPN_DIR/active))
 if [[ $1 == 'up' ]]; then
     # to set active vpn server, symlink its folder, i.e.:
     # rm ~/docs/vpn/active; ln -s ~/docs/vpn/<name>.conf ~/docs/vpn/active
+    if [[ $(sudo wg show | grep active) ]]; then
+        sudo wg-quick down active
+    fi
     sudo wg-quick up active
     notify-send "VPN active ($ACTIVE)"
 
 elif [[ $1 == 'down' ]]; then
-    sudo wg-quick down active
+    if [[ $(sudo wg show | grep active) ]]; then
+        sudo wg-quick down active
+    fi
     notify-send "VPN deactivated"
 
 elif [[ $1 == 'switch' ]]; then
