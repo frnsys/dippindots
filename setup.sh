@@ -187,6 +187,11 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo apt install -y deluged deluge-console
     ln -sf $DIR/dots/misc/deluged.conf ~/.config/deluge/core.conf
 
+    # trans for translations
+    wget git.io/trans -O /tmp/trans
+    chmod +x /tmp/trans
+    sudo mv /tmp/trans /usr/local/bin/trans
+
     # latest libinput
     # trackpad config
     # git clone https://gitlab.freedesktop.org/libinput/libinput /tmp/libinput
