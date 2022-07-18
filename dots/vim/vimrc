@@ -15,6 +15,7 @@ call minpac#init()
 set rtp+=~/.fzf
 call minpac#add('junegunn/fzf')
 call minpac#add('junegunn/fzf.vim')
+call minpac#add('tpope/vim-surround')
 call minpac#add('tpope/vim-commentary')
 call minpac#add('easymotion/vim-easymotion')
 

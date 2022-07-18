@@ -83,7 +83,7 @@ function gpr() {
 function shrinkvid() {
     # libx264 is way faster than libx265 but maybe doesn't get as small
     # higher crf -> lower quality
-    ffmpeg -i "$1" -filter:v scale="trunc(oh*a/2)*2:720" -vcodec libx264 -crf 23 -preset slower -c:a aac "sm/${1%.*}.mp4"
+    ffmpeg -i "$1" -filter:v scale="trunc(oh*a/2)*2:720" -vcodec libx264 -crf 23 -preset fast -c:a aac "sm/${1%.*}.mp4"
 }
 
 function gif2mp4() {
@@ -112,4 +112,14 @@ function pdfpages() {
     for pdf in *.pdf; do
         echo "[$(pdfinfo "$pdf" | grep Pages | awk '{print $2}')] $pdf"
     done
+}
+
+function md2pdf() {
+    FILENAME="$2"
+    if [ -z ${FILENAME} ]; then
+        FILENAME="${1%.md}.pdf"
+    fi
+    # Or TimesTen for the font
+    pandoc --pdf-engine xelatex -V geometry:margin=0.5in -V documentclass=extarticle -V fontsize=14pt -V mainfont:"Source Sans Pro" -o "$FILENAME" "$1"
+    echo "$FILENAME"
 }

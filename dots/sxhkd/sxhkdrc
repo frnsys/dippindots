@@ -84,6 +84,10 @@ super + alt + k
 super + z
     pkill -USR1 redshift
 
+# translate
+super + x
+    tl "$(echo "" | dmenu -p 'text:')"
+
 # toggle bluetooth
 super + shift + b
     bt toggle; notify-send "toggling bluetooth"
@@ -146,6 +150,12 @@ super + shift + alt + {F6, XF86MonBrightnessDown}
 
 super + t
     bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes -e vi todo.md
+
+super + shift + f
+    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/projects/fugue -e vi .
+
+super + shift + s
+    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/projects/french/verbs -e ~/.pyenv/versions/data/bin/python3 main.py
 
 super + quoteright
     bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/logs -e bash -c 'export GPG_TTY=$(tty); gpg --decrypt log.gpg > /dev/null; vi -p log.gpg prompts.md; gpgconf --kill gpg-agent'
