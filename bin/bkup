@@ -13,6 +13,14 @@ cp ~/.ssh/config ~/docs/backups/ssh_config
 # gpg --export-secret-keys --armor francis@anarres > ~/docs/backups/keys/francis@anarres.asc
 # gpg --export-ownertrust > ~/docs/backups/keys/trustdb-backup.txt
 
+echo "wine
+build
+.git/lfs
+node_modules
+target/release
+target/debug
+deaddrop/vids" > /tmp/bkup.exclude
+
 REPOS=(~/projects ~/docs ~/notes ~/photos ~/work)
 OTHER=(~/archives ~/musics)
 BRIDGE=ftseng@starbase
@@ -21,11 +29,11 @@ function localSync() {
     dest=$1
     echo $dest
     for d in ${REPOS[@]}; do
-        rsync -azvu --progress "$d" "$dest/repos" --delete --delete-excluded --exclude={.git/lfs,node_modules,target/release,target/debug,deaddrop/vids}
+        rsync -azvu --progress "$d" "$dest/repos" --delete --delete-excluded --exclude-from=/tmp/bkup.exclude
     done
     for d in ${OTHER[@]}; do
         # NOTE can't use `--delete-excluded` because it also implies `--delete`
-        rsync -azvu --progress "$d" "$dest" --exclude={.git/lfs,node_modules,target/release,target/debug}
+        rsync -azvu --progress "$d" "$dest" --exclude-from=/tmp/bkup.exclude
     done
     rsync -azvu --progress ~/downloads "$dest/repos" --delete --delete-excluded --progress --exclude=torrents
     date > /tmp/last_updated
@@ -36,10 +44,10 @@ function remoteSync() {
     dest=$1
     echo $dest
     for d in ${REPOS[@]}; do
-        tunnel sync $d $BRIDGE:$dest/repos --delete --progress --exclude={.git/lfs,node_modules,target/release,target/debug,deaddrop/vids}
+        tunnel sync $d $BRIDGE:$dest/repos --delete --progress --exclude-from=/tmp/bkup.exclude
     done
     for d in ${OTHER[@]}; do
-        tunnel sync $d $BRIDGE:$dest --progress --exclude={.git/lfs,node_modules,target/release,target/debug}
+        tunnel sync $d $BRIDGE:$dest --progress --exclude-from=/tmp/bkup.exclude
     done
     tunnel sync ~/downloads $BRIDGE:$dest/repos --delete --progress --exclude=torrents
     date > /tmp/last_updated
@@ -82,7 +90,7 @@ elif [[ $1 == 'cloud' ]]; then
     for dest in \
         ftseng@starbase:/mnt/silo; do
         for d in ${REPOS[@]}; do
-            rsync -azvu --progress $d $dest/repos --delete --delete-excluded --exclude={.git/lfs,node_modules,target/release,target/debug,deaddrop/vids}
+            rsync -azvu --progress $d $dest/repos --delete --delete-excluded --exclude-from=/tmp/bkup.exclude
         done
         # rsync -azvu --progress ~/downloads $dest/repos --delete --delete-excluded --progress --exclude=torrents
     done
