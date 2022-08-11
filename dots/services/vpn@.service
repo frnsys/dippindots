@@ -6,7 +6,7 @@ After=network.target network-online.target
 [Service]
 Type=forking
 User=%I
-Restart=always
+Restart=on-failure
 RestartSec=3
 ExecStart=/home/ftseng/.bin/vpn up
 

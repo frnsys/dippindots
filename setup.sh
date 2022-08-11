@@ -325,7 +325,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     cd /tmp/ffmpeg
 
     # x265
-    wget https://bitbucket.org/multicoreware/x265_git/downloads/x265_3.3.tar.gz -O /tmp/ffmpeg/x265.tar.gz
+    wget https://bitbucket.org/multicoreware/x265_git/downloads/x265_3.5.tar.gz -O /tmp/ffmpeg/x265.tar.gz
     cd /tmp/ffmpeg
     tar -xzvf x265.tar.gz
     cd x265_*/build/linux

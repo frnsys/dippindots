@@ -74,7 +74,7 @@ function get_output_string(dir, format, input, extension, title, from, to, profi
     end
     local i = 1
     while true do
-        local potential_name = string.gsub(output, "$n", tostring(i))
+        local potential_name = string.gsub(output, "$n", string.format("%02d", i))
         if not files[potential_name] then
             return potential_name
         end
@@ -114,7 +114,8 @@ end
 function get_input_info(default_path, only_active)
     local accepted = {
         video = true,
-        audio = not mp.get_property_bool("mute"),
+        -- audio = not mp.get_property_bool("mute"),
+        audio = true,
         sub = mp.get_property_bool("sub-visibility")
     }
     local ret = {}
@@ -145,6 +146,13 @@ function seconds_to_time_string(seconds, full)
 end
 
 function start_encoding(from, to, settings)
+    ov = mp.create_osd_overlay("ass-events")
+    ov.data = string.format("Encoding from %s to %s"
+        , seconds_to_time_string(from, false)
+        , seconds_to_time_string(to, false)
+    )
+    ov:update()
+
     local args = {
         settings.ffmpeg_command,
         "-loglevel", "panic", "-hide_banner",
@@ -170,7 +178,7 @@ function start_encoding(from, to, settings)
                 track_args = append_table(track_args, { "-map", string.format("%d:%d", input_index, track_index)})
             end
         else
-            track_args = append_table(track_args, { "-map", tostring(input_index)})
+            -- track_args = append_table(track_args, { "-map", tostring(input_index)})
         end
         input_index = input_index + 1
     end
@@ -236,11 +244,18 @@ function start_encoding(from, to, settings)
     end
     if settings.detached then
         utils.subprocess_detached({ args = args })
+        ov:remove()
     else
         local res = utils.subprocess({ args = args, max_size = 0, cancellable = false })
         if res.status == 0 then
+            ov:remove()
             mp.osd_message("Finished encoding succesfully")
+            local args = {
+                "notify-send", "Finished encoding successfully"
+            }
+            utils.subprocess_detached({ args = args })
         else
+            ov:remove()
             mp.osd_message("Failed to encode, check the log")
         end
     end
@@ -288,17 +303,13 @@ function set_timestamp(profile)
             return
         end
         clear_timestamp()
-        mp.osd_message(string.format("Encoding from %s to %s"
-            , seconds_to_time_string(from, false)
-            , seconds_to_time_string(to, false)
-        ), timer_duration)
         -- include the current frame into the extract
         local fps = mp.get_property_number("container-fps") or 30
         to = to + 1 / fps / 2
         local settings = {
             detached = false,
             container = "",
-            only_active_tracks = false,
+            only_active_tracks = true,
             preserve_filters = true,
             append_filter = "",
             codec = "-c copy -avoid_negative_ts make_zero",
