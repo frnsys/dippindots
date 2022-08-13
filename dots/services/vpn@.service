@@ -4,10 +4,9 @@ Wants=network-online.target
 After=network.target network-online.target
 
 [Service]
-Type=forking
+Type=simple
 User=%I
-Restart=on-failure
-RestartSec=3
+Restart=no
 ExecStart=/home/ftseng/.bin/vpn up
 
 [Install]

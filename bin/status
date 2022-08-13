@@ -41,29 +41,31 @@ _bar() {
 wifi() {
     color="$NO_NETWORK_FG";
     if [[ "$(/usr/bin/wifi)" == *"= on" ]]; then
+        # change fg based on vpn status
+        if [[ $(sudo wg show | grep active) ]]; then
+            conn_color="$VPN_FG"
+        else
+            conn_color="$NO_VPN_FG"
+        fi
+
         SSID=$(iwconfig $IFACE | sed -rn 's/.+ESSID:"(.+)"/\1/p' | sed 's/\s*$//g')
         if [ -z "$SSID" ]; then
             ROUTE=$(route | grep '^default' | grep -o '[^ ]*$')
             if [ ! -z "$(echo "$ROUTE" | grep -E 'enp0s20u2|usb0')" ]; then
                 status="TETHERED"
-                color="$NO_VPN_FG"
+                color="$conn_color"
             elif [ ! -z "$(echo "$ROUTE" | grep -E 'eth0')" ]; then
                 status="WIRED"
-                color="$NO_VPN_FG"
+                color="$conn_color"
             else
                 status="offline"
             fi
         else
             status="${SSID}"
-            color="$NO_VPN_FG"
+            color="$conn_color"
         fi
     else
         status="off"
-    fi
-
-    # change fg based on vpn status
-    if [[ $(sudo wg show | grep active) ]]; then
-        color="$VPN_FG"
     fi
 
     if [[ $CMD == 'bar' ]]; then
