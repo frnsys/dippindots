@@ -66,9 +66,8 @@ if [[ $1 == 'remote' ]]; then
 elif [[ $1 == 'home' ]]; then
     for dest in \
         pi@svalbard.local:/media/shuttle\
-        pi@svalbard.local:/media/backup\
+        ftseng@turtle.local:/media/backup\
         ftseng@hubble.local:/mnt/library/backup; do
-        # pi@turtle.local:/media/backpack/backup; do
         localSync $dest
     done
     # for dest in \
@@ -79,7 +78,6 @@ elif [[ $1 == 'studio' ]]; then
     echo "no studio right now"
     # for dest in \
     #     ftseng@hubble.local:/mnt/library/backup\
-    #     pi@turtle.local:/media/backpack/backup; do
     #     localSync $dest
     # done
     # for dest in \

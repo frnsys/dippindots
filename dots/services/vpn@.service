@@ -1,7 +1,7 @@
 [Unit]
 Description=start vpn
 Wants=network-online.target
-After=network.target network-online.target
+After=network-online.target
 
 [Service]
 Type=simple

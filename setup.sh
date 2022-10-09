@@ -168,7 +168,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo apt install -y jackd pulseaudio-module-jack
 
     # utils
-    sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick silversearcher-ag tree
+    sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick silversearcher-ag tree sqlitebrowser
     sudo pip install -U yt-dlp
 
     # xsel - clipboard
@@ -502,7 +502,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     # signal-cli
     # used by daemon script
     sudo apt install -y openjdk-17-jre
-    wget "https://github.com/AsamK/signal-cli/releases/download/v0.10.0/signal-cli-0.10.0.tar.gz" -O /tmp/signal-cli.tar.gz
+    wget "https://github.com/AsamK/signal-cli/releases/download/v0.11.3/signal-cli-0.11.3-Linux.tar.gz" -O /tmp/signal-cli.tar.gz
     cd /tmp
     tar -xzvf signal-cli.tar.gz
     sudo mv signal-cli-* /opt/signal-cli
