@@ -228,8 +228,8 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo gdebi --n /tmp/pandoc.deb
 
     # map capslock to super
-    # use right alt as compose key
-    sudo sed -i 's/XKBOPTIONS=""/XKBOPTIONS="compose:ralt,caps:super"/' /etc/default/keyboard
+    # use right alt and right control as compose keys
+    sudo sed -i 's/XKBOPTIONS=""/XKBOPTIONS="compose:ralt,compose:rctrl,caps:super"/' /etc/default/keyboard
 
     # larger font for boot tty
     sudo sed -i 's/FONTFACE=.*/FONTFACE="Terminus"/' /etc/default/console-setup
