@@ -181,6 +181,11 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo apt install -y --no-install-recommends xorg
     sudo apt install -y xsel xclip xdotool i3lock libnotify-bin unclutter gdebi oathtool avahi-daemon redshift
 
+    # screenkey
+    # press shift+shift to temporarily disable/renable
+    pip3 install python-dbus
+    pip3 install pip install git+https://gitlab.com/screenkey/screenkey
+
     # deluged
     sudo add-apt-repository ppa:deluge-team/stable
     sudo apt update

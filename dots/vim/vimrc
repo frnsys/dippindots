@@ -17,11 +17,15 @@ call minpac#add('junegunn/fzf')
 call minpac#add('junegunn/fzf.vim')
 call minpac#add('tpope/vim-surround')
 call minpac#add('tpope/vim-commentary')
-call minpac#add('easymotion/vim-easymotion')
+call minpac#add('ggandor/leap.nvim')
 
 " IDE features
 call minpac#add('neovim/nvim-lspconfig')
 call minpac#add('nvim-lua/completion-nvim')
+
+" Shows LSP server progress,
+" e.g. rust-analyzer indexing progress
+call minpac#add('j-hui/fidget.nvim')
 
 " Syntax
 call minpac#add('mxw/vim-jsx')
@@ -37,6 +41,9 @@ call minpac#add('dhruvasagar/vim-table-mode')
 call minpac#add('jamessan/vim-gnupg')
 
 packloadall
+
+lua require('leap').add_default_mappings()
+lua require('fidget').setup{}
 
 colorscheme dark
 
