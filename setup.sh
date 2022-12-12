@@ -367,6 +367,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
       --enable-libx264 \
       --enable-libx265 \
       --enable-libpulse \
+      --enable-libwebp \
       --enable-nonfree \
       --enable-openssl \
       --enable-shared \
@@ -586,8 +587,46 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo make install
     cd $DIR
 
+    # compile imagemagick with AVIF support
+    # first compile libaom and libheif (HEIC)
+    cd /tmp/
+    git clone https://aomedia.googlesource.com/aom
+    cd aom
+    git checkout tags/v3.5.0
+    cd ..
+    mkdir aom_build
+    cd aom_build
+    cmake ../aom
+    make
+    sudo make install
+
+    sudo apt install -y libde265-dev
+    wget "https://github.com/strukturag/libheif/archive/refs/tags/v1.14.0.tar.gz" -O /tmp/libheif.tar.gz
+    cd /tmp/
+    tar -xzvf libheif.tar.gz
+    mv libheif-* libheif
+    cd libheif
+    cd third-party
+    bash aom.cmd
+    cd ..
+    ./autogen.sh
+    ./configure
+    make
+    sudo make install
+
+    # now we can compile imagemagick
+    wget "https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.0-53.tar.gz" -O /tmp/imagemagick.tar.gz
+    cd /tmp/
+    tar -xzvf imagemagick.tar.gz
+    cd ImageMagick-*
+    ./configure --with-heic=yes
+    make
+    sudo make install
+    sudo ldconfig
+    cd $DIR
+
     # for screen recordings
-    sudo apt install -y imagemagick recordmydesktop gifsicle
+    sudo apt install -y recordmydesktop gifsicle
 
     # symlink notes and sites
     ln -sf $DIR/dots/port ~/.port
