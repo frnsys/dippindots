@@ -437,7 +437,8 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
 
     # ranger
     sudo apt install -y --no-install-recommends highlight atool caca-utils w3m w3m-img poppler-utils ffmpegthumbnailer
-    pip3 install ueberzug ranger-fm
+    pip3 install git+https://github.com/seebye/ueberzug.git@18.1.9
+    pip3 install ranger-fm
     ln -sf $DIR/dots/ranger/rc.conf ~/.config/ranger/rc.conf
     ln -sf $DIR/dots/ranger/rifle.conf ~/.config/ranger/rifle.conf
     ln -sf $DIR/dots/ranger/scope.sh ~/.config/ranger/scope.sh
@@ -500,8 +501,10 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo systemctl start vpn@ftseng.service
 
     # signal desktop client
-    curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
-    echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+    wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
+    cat signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+    echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
+        sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
     sudo apt update && sudo apt install -y signal-desktop
 
     # signal-cli
