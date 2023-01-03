@@ -9,11 +9,6 @@ alias nvm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && nvm'
 alias node='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && node'
 alias npm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && npm'
 
-# pyenv
-# Slows bash startup a bit...
-# called in the `aa` function instead
-# eval "$(pyenv init -)"
-
 # for racer rust source code lookup
 export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
 
@@ -33,3 +28,6 @@ for file in ~/.dippindots/dots/bash/{path,prompt,aliases,functions}; do
 	[ -r "$file" ] && source "$file"
 done
 unset file
+
+# pyenv
+eval "$(pyenv init --path)"

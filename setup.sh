@@ -161,7 +161,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
 
     # bluetooth
     # see ~/notes/linux/bluetooth.md
-    sudo apt install -y bluez libbluetooth3 libbluetooth-dev blueman pulseaudio-module-bluetooth bluez-tools
+    sudo apt install -y bluez libbluetooth3 libbluetooth-dev pulseaudio-module-bluetooth bluez-tools
     pactl load-module module-bluetooth-discover
 
     # jack audio for bitwig
@@ -378,7 +378,6 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo ldconfig
     cd $DIR
 
-    sudo add-apt-repository -y ppa:mc3man/mpv-tests
     sudo apt install -y mpc mpv
     ln -sf $DIR/dots/mpv ~/.config/mpv
 
@@ -413,7 +412,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     cd $DIR
 
     # alacritty - terminal
-    sudo add-apt-repository -y ppa:mmstick76/alacritty
+    sudo add-apt-repository -y ppa:aslatter/ppa
     sudo apt install -y alacritty
     ln -sf $DIR/dots/alacritty ~/.config/alacritty
     cd $DIR
@@ -700,6 +699,10 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     git clone https://github.com/teleshoes/tpacpi-bat /tmp/tpacpi-bat
     cd /tmp/tpacpi-bat
     ./install.pl
+
+    # Disable these for faster startup time
+    sudo systemctl disable apt-daily.service
+    sudo systemctl disable apt-daily-upgrade.service
 
     # Use more familiar network interface names (wlan0, eth0)
     # Some parts of the dotfiles expect names like wlan0

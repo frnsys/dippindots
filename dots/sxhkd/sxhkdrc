@@ -152,13 +152,13 @@ super + t
     bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes -e vi todo.md
 
 super + shift + f
-    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/projects/fugue -e vi .
+    bspc rule -a alacritty -o state=floating && obsidian ~/projects/fugue/fugue/content/notes
 
 super + shift + s
     bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/projects/french/verbs -e ~/.pyenv/versions/data/bin/python3 main.py
 
 super + quoteright
-    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/logs -e bash -c 'export GPG_TTY=$(tty); gpg --decrypt log.gpg > /dev/null; vi -p log.gpg prompts.md; gpgconf --kill gpg-agent'
+    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/logs -e ~/.bin/log
 
 super + shift + quoteright
     bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/music -e vi scratch.md

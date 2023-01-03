@@ -27,6 +27,9 @@ call minpac#add('nvim-lua/completion-nvim')
 " e.g. rust-analyzer indexing progress
 call minpac#add('j-hui/fidget.nvim')
 
+" Better file nav/management
+call minpac#add('nvim-tree/nvim-tree.lua')
+
 " Syntax
 call minpac#add('mxw/vim-jsx')
 call minpac#add('tikhomirov/vim-glsl')
@@ -44,6 +47,11 @@ packloadall
 
 lua require('leap').add_default_mappings()
 lua require('fidget').setup{}
+
+" nvim-tree
+let loaded_netrw = 1
+let loaded_netrwPlugin = 1
+lua require("nvim-tree").setup()
 
 colorscheme dark
 
@@ -165,10 +173,6 @@ if has("autocmd")
     \| exe "normal! g`\"" | endif
 endif
 
-" Per default, netrw leaves unmodified buffers open. This autocommand
-" deletes netrw's buffer once it's hidden (using ':q', for example)
-autocmd FileType netrw setl bufhidden=delete
-
 " map the arrow keys to be based on display lines, not physical lines
 map <Down> gj
 map <Up> gk
@@ -199,13 +203,6 @@ nnoremap <expr><silent> _  !v:count ? "<C-W>s<C-W><Down>"  : '_'
 
 " new tab
 nmap <S-t> :tabnew<cr>
-
-" netrw
-let g:netrw_banner=0
-let g:netrw_liststyle=3
-let g:netrw_fastbrowse=0
-let g:netrw_list_hide= '.*\.swp$,.*\.pyc,\.tags,\.git,\.sass-cache,node_modules'
-nmap - :Explore<cr>
 
 " show current filename
 nnoremap <C-h> :f<cr>
