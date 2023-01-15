@@ -7,43 +7,37 @@ set wildignore+=*.swp,*~,._*
 set wildignore+=*.pyc,*.egg-info,__pycache__
 
 " to install new plugins,
-" add them here and then run the command:
-" call minpac#update()
-packadd minpac
-call minpac#init()
+call plug#begin()
 
 set rtp+=~/.fzf
-call minpac#add('junegunn/fzf')
-call minpac#add('junegunn/fzf.vim')
-call minpac#add('tpope/vim-surround')
-call minpac#add('tpope/vim-commentary')
-call minpac#add('ggandor/leap.nvim')
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'ggandor/leap.nvim'
 
 " IDE features
-call minpac#add('neovim/nvim-lspconfig')
-call minpac#add('nvim-lua/completion-nvim')
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
 
 " Shows LSP server progress,
 " e.g. rust-analyzer indexing progress
-call minpac#add('j-hui/fidget.nvim')
+Plug 'j-hui/fidget.nvim'
 
 " Better file nav/management
-call minpac#add('nvim-tree/nvim-tree.lua')
+Plug 'nvim-tree/nvim-tree.lua'
 
 " Syntax
-call minpac#add('mxw/vim-jsx')
-call minpac#add('tikhomirov/vim-glsl')
-call minpac#add('lepture/vim-jinja')
-call minpac#add('pangloss/vim-javascript')
-call minpac#add('habamax/vim-godot')
+Plug 'mxw/vim-jsx'
+Plug 'tikhomirov/vim-glsl'
+Plug 'lepture/vim-jinja'
+Plug 'pangloss/vim-javascript'
+Plug 'habamax/vim-godot'
 
 " Markdown
-call minpac#add('dhruvasagar/vim-table-mode')
+Plug 'dhruvasagar/vim-table-mode'
 
-" Encryption
-call minpac#add('jamessan/vim-gnupg')
-
-packloadall
+call plug#end()
 
 lua require('leap').add_default_mappings()
 lua require('fidget').setup{}

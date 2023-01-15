@@ -1,4 +1,5 @@
 #!/bin/bash
-# sudo apt install -y gpick
+# cargo install xcolor
 
-gpick -so --no-newline | xsel -b
+# Strip newlines
+xcolor | tr -d '\n' | xsel -b

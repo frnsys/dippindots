@@ -122,7 +122,7 @@ sudo ln -sf /usr/bin/vim /etc/alternatives/editor
 
 # Replace vi with nvim
 sudo apt install gettext
-wget https://github.com/neovim/neovim/archive/refs/tags/v0.6.1.tar.gz -O /tmp/neovim.tar.gz
+wget https://github.com/neovim/neovim/archive/refs/tags/v0.8.2.tar.gz -O /tmp/neovim.tar.gz
 cd /tmp
 tar -xzvf neovim.tar.gz
 cd neovim-*
@@ -148,11 +148,9 @@ mkdir ~/.config/nvim
 ln -sf $DIR/dots/vim/init.vim ~/.config/nvim/init.vim
 mkdir -p ~/.vim/.backup
 
-# minpac for plugin management
-# in vim, call:
-# call minpac#update()
-mkdir -p ~/.vim/pack/minpac/opt
-git clone https://github.com/k-takata/minpac.git ~/.vim/pack/minpac/opt/minpac
+# vim-plug for plugin management
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 
 # ===============  APPS  ================================
@@ -180,6 +178,9 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     # gdebi - easier installation of deb packages
     sudo apt install -y --no-install-recommends xorg
     sudo apt install -y xsel xclip xdotool i3lock libnotify-bin unclutter gdebi oathtool avahi-daemon redshift
+
+    # Color picking
+    cargo install xcolor
 
     # screenkey
     # press shift+shift to temporarily disable/renable

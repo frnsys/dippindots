@@ -9,6 +9,6 @@ cache/
 dots/vim/.undo/*
 dots/vim/.backup/*
 dots/vim/.temp/*
-dots/vim/pack
+dots/vim/autoload
 assets/fonts
 watch_later

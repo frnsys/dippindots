@@ -66,4 +66,9 @@ syndaemon -t -i 0.5 &
 DEVICE=$(xinput list | grep TrackPoint | cut -f 2 | cut -f 2 -d=)
 xinput --set-prop "$DEVICE" "libinput Accel Speed" 0.1
 
+# Fix for xdg-desktop-portal failing,
+# causing slow GTK application start ups
+# <https://github.com/swaywm/sway/issues/5732>
+systemctl --user import-environment
+
 exec ~/.config/bspwm/wm
