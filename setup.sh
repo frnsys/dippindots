@@ -166,7 +166,7 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     sudo apt install -y jackd pulseaudio-module-jack
 
     # utils
-    sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick silversearcher-ag tree sqlitebrowser
+    sudo apt install -y --no-install-recommends alsa-utils acpi bc cryptsetup dhcpcd5 dos2unix curl jq gnupg htop wget dnsutils imagemagick silversearcher-ag tree sqlitebrowser rclone
     sudo pip install -U yt-dlp
 
     # xsel - clipboard
@@ -181,6 +181,9 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
 
     # Color picking
     cargo install xcolor
+
+    # Viewing CSVs
+    cargo install csvlens
 
     # screenkey
     # press shift+shift to temporarily disable/renable
@@ -381,6 +384,12 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
 
     sudo apt install -y mpc mpv
     ln -sf $DIR/dots/mpv ~/.config/mpv
+
+    # mpvc for controlling mpv
+    git clone --depth 1 https://github.com/lwilletts/mpvc.git /tmp/mpvc
+    cd /tmp/mpvc
+    sudo make
+    cd $DIR
 
     # for mpv hardware acceleration
     sudo apt install i965-va-driver

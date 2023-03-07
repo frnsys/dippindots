@@ -47,3 +47,5 @@ alias sudo='sudo '
 
 alias ytdl="yt-dlp -f 'best[ext=mp4][height<=720]'"
 alias ytdlmp3="yt-dlp --extract-audio --audio-format mp3"
+
+alias count-filetypes="find . -type f -name '*.*' | sed 's|.*\.||' | sort | uniq -c"

@@ -25,6 +25,19 @@ Plug 'nvim-lua/completion-nvim'
 Plug 'j-hui/fidget.nvim'
 
 " Better file nav/management
+" a - add file
+" r or <c-r> - rename file
+" d - delete file
+" P - jump to parent directory
+" x - cut
+" c - copy
+" p - paste
+" <c-v> and <c-x> - open in new v/h split
+" <c-t> - open in new tab
+" H - toggle hidden
+" W - collapse all
+" m - mark file
+" bmv - move marked files to specified location
 Plug 'nvim-tree/nvim-tree.lua'
 
 " Syntax

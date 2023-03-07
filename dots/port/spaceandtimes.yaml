@@ -6,8 +6,9 @@ SITE_URL: https://spaceandtim.es
 SITE_IMAGE: assets/banner.png
 THEME: spaceandtimes
 links:
-    - url: https://weirder.earth/@potaotau
+    - url: https://outer.spaceandtim.es/@francis
       name: mastodon
+      rel: me
     - url: https://www.are.na/francis-tseng
       name: are.na
     - url: https://github.com/frnsys

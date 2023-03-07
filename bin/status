@@ -208,11 +208,28 @@ datetime() {
     echo $(clock -f '%m/%d·%H:%M')
 }
 
+syncthing() {
+    if [[ $CMD == 'bar' ]]; then
+        if pgrep -x "syncthing" > /dev/null; then
+            color="#e5cf2b"
+        else
+            color="#555555"
+        fi
+        echo "%{B$color} %{B-}"
+    else
+        if pgrep -x "syncthing" > /dev/null; then
+            echo "␖"
+        else
+            echo ""
+        fi
+    fi
+}
+
 if [[ $CMD == 'tmux' ]]; then
-    echo "$(tasks)$(bluetooth) $(battery) $(email) $(muted)$(volume) $(wifi) $(datetime)"
+    echo "$(syncthing)$(tasks)$(bluetooth) $(battery) $(email) $(muted)$(volume) $(wifi) $(datetime)"
 elif [[ $CMD == 'bar' ]]; then
     while true; do
-        echo "S$(tasks)$(email) $(battery) $(bluetooth)$(muted)$(volume) $(wifi)"
+        echo "S$(syncthing)$(tasks)$(email) $(battery) $(bluetooth)$(muted)$(volume) $(wifi)"
         sleep 3
     done
 elif [[ $CMD == 'notify' ]]; then

@@ -60,6 +60,11 @@ super + bracket{left,right}
 super + ctrl + {h,j,k,l}
     bspc node -p {west,south,north,east}
 
+# place focused floating window
+# at the preselected position
+super + shift + s
+    bspc node -n last.\!automatic -t tiled
+
 # move window to desktop
 super + shift + {1-9,0}
     bspc node -d ^{1-9,10}
@@ -154,9 +159,6 @@ super + t
 super + shift + f
     bspc rule -a alacritty -o state=floating && obsidian ~/projects/fugue/fugue/content/notes
 
-super + shift + s
-    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/projects/french/verbs -e ~/.pyenv/versions/data/bin/python3 main.py
-
 super + quoteright
     bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/logs -e ~/.bin/log
 
@@ -181,9 +183,6 @@ super + semicolon
 super + shift + p
     bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/projects/music/bitwig/previews -e ranger .
 
-super + minus
-    task
-
 # super + shift + w
 # 	bspc node focused -g hidden=on
 
@@ -196,6 +195,12 @@ super + backslash
 super + equal
     mpc toggle
     # win toggle Ripcord
+
+super + plus
+    mpvc toggle
+
+super + minus
+    task
 
 super + e
     emo

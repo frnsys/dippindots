@@ -3,7 +3,7 @@
 # usage: shot [select|focused] [path|data]
 
 OPTS=""
-FNAME=$(date +%F-%T)
+FNAME=$(date +%F-%H-%M-%S)
 FPATH=~/docs/shots/$FNAME.png
 
 # if nothing specified, assume dmenu
