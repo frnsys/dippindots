@@ -64,6 +64,7 @@ if [[ $1 == 'remote' ]]; then
         10022:ftseng:/mnt/library/backup; do
         remoteSync $dest
     done
+
 elif [[ $1 == 'home' ]]; then
     for dest in \
         pi@svalbard.local:/media/shuttle\
@@ -71,12 +72,17 @@ elif [[ $1 == 'home' ]]; then
         ftseng@hubble.local:/mnt/library/backup; do
         localSync $dest
     done
+
+# Backblaze B2
 elif [[ $1 == 'cloud' ]]; then
     for d in ${REPOS[@]}; do
+        echo -e "\n\e[0;33m$d\e[0m"
         rclone sync -q -P $d backup-crypt:repos/$(basename $d) --exclude-from /tmp/bkup.exclude
     done
-    rclone sync -q -P ~/downloads backup-crypt:repos/downloads --exclude torrents/
-    rclone sync -q -P ~/music backup-crypt:repos/music
+    echo -e "\n\e[0;33m~/downloads\e[0m" && rclone sync -q -P ~/downloads backup-crypt:repos/downloads --exclude torrents/
+    echo -e "\n\e[0;33m~/musics\e[0m" && rclone sync -q -P ~/musics backup-crypt:repos/musics
+    date > /tmp/last_updated
+    rclone copy -q /tmp/last_updated backup-crypt:repos/last_updated
 
 elif [[ $1 == 'usb' ]]; then
     dest=/media/usb/backup
