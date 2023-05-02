@@ -1,0 +1,143 @@
+" Has to be defined first
+let mapleader=";"
+
+lua require('plugins')
+
+" navigation
+set number            			" Show line numbers
+set nostartofline 				" Don't reset cursor to start of line when moving
+set cursorline 				    " Highlight current line
+set scrolloff=3 				" Start scrolling three lines before border
+set showmatch 					" Show matching brackets
+let &showbreak='↳ '             " Show this at the start of wrapped lines
+set laststatus=0                " Never show the status bar
+set relativenumber 			    " Use relative line numbering
+
+" whitespace
+set wrap                          " Wrap lines
+set tabstop=4                     " Set tab spaces
+set shiftwidth=4                  " Set autoindent (with <<) spaces
+set expandtab                     " Use spaces, not tabs
+set list                          " Show invisible characters
+set backspace=indent,eol,start    " Backspace through everything in insert mode
+
+" indentation
+set smartindent
+set autoindent
+
+" search
+set incsearch   " Search as pattern is typed
+set ignorecase  " Case insensitive searches...
+set smartcase   " Unless they contain 1+ capital letters
+set hlsearch    " Highlight search matches
+set gdefault 	" Global search/replace by default
+
+" misc config
+set conceallevel=1
+set noerrorbells 				" Disable error bells
+set novisualbell                " Disable visual bells
+set showmode 					" Show the current mode
+set timeoutlen=100              " Short timeout to avoid lag
+set showcmd 					" Show the command as it's typed
+set shortmess=atI 				" Hide Vim intro message
+set wrap
+set textwidth=0 wrapmargin=0 formatoptions=cq
+set display+=lastline
+set hidden
+set updatetime=750
+set clipboard^=unnamed,unnamedplus " Use OS clipboard
+set completeopt=menuone,noselect   " Autocomplete settings
+
+" list chars (i.e. hidden characters)
+set listchars=""                  " Reset the listchars
+set listchars=tab:\ \             " A tab should display as "  "
+set listchars+=trail:.            " Show trailing spaces as dots
+set listchars+=extends:>          " The character to show in the last column when wrap is
+                                  " off and the line continues beyond the right of the screen
+set listchars+=precedes:<         " The character to show in the last column when wrap is
+                                  " off and the line continues beyond the right of the screen
+
+
+" webbrowser for `gx`
+let g:netrw_browsex_viewer='firefox'
+
+" don’t add empty newlines at the end of files
+set binary
+set noeol
+
+" specify how vim saves files
+" so it works better with processes
+" that watch files for changes
+set backupcopy=yes
+
+" automatically trim trailing whitespace on save.
+autocmd BufWritePre * :%s/\s\+$//e
+
+" bind return to clear last search highlight.
+nnoremap <CR> :noh<CR><CR>
+
+" map the arrow keys to be based on display lines, not physical lines
+map <Down> gj
+map <Up> gk
+
+map gr gT
+nnoremap [t :tabprevious<cr>
+nnoremap ]t :tabnext<cr>
+
+" bind jk to escape
+imap jk <Esc>
+xnoremap jk <Esc>
+
+" open new line from insert mode
+imap <C-o> <esc>o
+
+" quick buffer nav
+nnoremap [b :bprevious<cr>
+nnoremap ]b :bnext<cr>
+
+" quickfix nav
+nnoremap [c :cprev<cr>
+nnoremap ]c :cnext<cr>
+nnoremap xc :cclose<cr>
+
+" bind | and _ to vertical and horizontal splits
+nnoremap <expr><silent> \| !v:count ? "<C-W>v<C-W><Right>" : '\|'
+nnoremap <expr><silent> _  !v:count ? "<C-W>s<C-W><Down>"  : '_'
+
+" new tab
+nmap <S-t> :tabnew<cr>
+
+" show current filename
+nnoremap <C-h> :f<cr>
+
+" command flubs
+command WQ wq
+command Wq wq
+command W w
+command Q q
+
+" filetypes
+filetype plugin indent on " Turn on filetype plugins (:help filetype-plugin)
+if has("autocmd")
+  " make Python follow PEP8 for whitespace (http://www.python.org/dev/peps/pep-0008/)
+  au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4
+
+  " other filetype specific settings
+  au FileType crontab setlocal backupcopy=yes
+  au FileType css setlocal tabstop=2 shiftwidth=2
+  au FileType sass setlocal tabstop=2 shiftwidth=2
+  au FileType javascript setlocal tabstop=2 shiftwidth=2
+  au FileType typescript setlocal tabstop=2 shiftwidth=2
+  au FileType typescriptreact setlocal tabstop=2 shiftwidth=2
+
+  " for text
+  au FileType text setlocal nocursorcolumn spell complete+=kspell
+
+  " remember last location in file, but not for commit messages.
+  au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g`\"" | endif
+endif
+
+" auto-close quickfix window if it's the only one left
+" this makes it easier to :q quit with a file has e.g. syntactic errors
+autocmd WinEnter * if &buftype ==# 'quickfix' && winnr('$') == 1 | quit | endif

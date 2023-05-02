@@ -4,9 +4,6 @@ set complete+=kspell
 setlocal linebreak
 
 let g:vimfootnotelinebreak = 0
-" let g:markdown_fenced_languages = ['css', 'javascript', 'js=javascript', 'json=javascript', 'sass', 'xml', 'html', 'python']
-let g:markdown_fenced_languages = ['python', 'rust']
-
 
 " open markdown syntax urls
 " open local images with feh
