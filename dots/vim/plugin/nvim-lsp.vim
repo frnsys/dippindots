@@ -21,6 +21,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<C-i>', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
@@ -35,5 +36,17 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
+
+-- Omnisharp/C#/Unity
+local pid = vim.fn.getpid()
+local omnisharp_bin = "/opt/omnisharp-roslyn/run"
+require'lspconfig'.omnisharp.setup{
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    },
+    cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
+}
+
 EOF
 

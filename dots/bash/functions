@@ -2,7 +2,7 @@ function wakehubble() {
     # svalbard
     # make sure wakeonlan is installed: apt install wakeonlan
     # make sure there's a user on svalbard named ftseng
-    tunnel go starbase 10023 'wakeonlan '$HUBBLE
+    tunnel go starbase 10023 'wakeonlan -i 192.168.1.255 '$HUBBLE
 }
 
 function pushhubble() {
@@ -16,7 +16,7 @@ function pushhubble() {
 function pullhubble() {
     # pull a local file from hubble
     # $1 = remote file
-    # $2 = local path (optoinal)
+    # $2 = local path (optional)
 
     TO=${2:-"."}
     if [[ -d $TO ]]; then

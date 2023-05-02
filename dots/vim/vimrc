@@ -7,6 +7,7 @@ set wildignore+=*.swp,*~,._*
 set wildignore+=*.pyc,*.egg-info,__pycache__
 
 " to install new plugins,
+" use PlugInstall
 call plug#begin()
 
 set rtp+=~/.fzf
@@ -19,6 +20,7 @@ Plug 'ggandor/leap.nvim'
 " IDE features
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
+Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 
 " Shows LSP server progress,
 " e.g. rust-analyzer indexing progress
@@ -54,6 +56,10 @@ call plug#end()
 
 lua require('leap').add_default_mappings()
 lua require('fidget').setup{}
+lua require("lsp_lines").setup()
+" Disable virtual text diagnostics since we're using
+" lsp_lines instead
+lua vim.diagnostic.config({ virtual_text = false })
 
 " nvim-tree
 let loaded_netrw = 1
