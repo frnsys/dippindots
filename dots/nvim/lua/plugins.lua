@@ -28,11 +28,15 @@ require('lazy').setup({
 
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+    dependencies = {
+        'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-nvim-lsp-signature-help',
+        'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
   },
 
-  -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
+  { -- Fuzzy Finder (files, lsp, etc)
+    'nvim-telescope/telescope.nvim',
+    branch = "0.1.x",
+    dependencies = { 'nvim-lua/plenary.nvim' } },
 
   -- Build fzf; requires `make`
   {
@@ -55,10 +59,10 @@ require('lazy').setup({
   { 'numToStr/Comment.nvim', opts = {} },
 
   -- Faster movement
-  { 'ggandor/leap.nvim', opts = {} },
+  { 'phaazon/hop.nvim', opts = {} },
 
   -- File navigation
-  { 'nvim-tree/nvim-tree.lua', },
+  { 'stevearc/oil.nvim', },
 
   -- Colorscheming
   { 'rktjmp/lush.nvim', },

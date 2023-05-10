@@ -10,14 +10,19 @@ cmp.setup {
     end,
   },
   mapping = cmp.mapping.preset.insert {
-    ['<c-n>'] = cmp.mapping.select_next_item(),
     ['<c-p>'] = cmp.mapping.select_prev_item(),
     ['<c-d>'] = cmp.mapping.scroll_docs(-4),
     ['<c-f>'] = cmp.mapping.scroll_docs(4),
-    ['<c-space>'] = cmp.mapping.complete {},
+    ['<c-n>'] = cmp.mapping(function(fallback)
+		if cmp.visible() then
+			cmp.select_next_item()
+		else
+			cmp.complete {}
+		end
+	end, {"i","s" }),
     ['<cr>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
+      select = false,
     },
     ['<tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -41,5 +46,6 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'nvim_lsp_signature_help' },
   },
 }

@@ -2,6 +2,7 @@
 let mapleader=";"
 
 lua require('plugins')
+lua require('verses')
 
 " navigation
 set number            			" Show line numbers
@@ -19,11 +20,9 @@ set tabstop=4                     " Set tab spaces
 set shiftwidth=4                  " Set autoindent (with <<) spaces
 set expandtab                     " Use spaces, not tabs
 set list                          " Show invisible characters
-set backspace=indent,eol,start    " Backspace through everything in insert mode
-
-" indentation
 set smartindent
 set autoindent
+set backspace=indent,eol,start    " Backspace through everything in insert mode
 
 " search
 set incsearch   " Search as pattern is typed
@@ -57,12 +56,20 @@ set listchars+=extends:>          " The character to show in the last column whe
 set listchars+=precedes:<         " The character to show in the last column when wrap is
                                   " off and the line continues beyond the right of the screen
 
+" centralize backup, swap, & undo files
+set backupdir^=~/.vim/.backup// 	" Backup files
+set directory^=~/.vim/.temp// 		" Swap files
+if exists("&undodir")
+	set undodir=~/.vim/.undo 		" Undo files
+    set undofile
+    set undolevels=500
+    set undoreload=500
+endif
 
 " webbrowser for `gx`
 let g:netrw_browsex_viewer='firefox'
 
 " don’t add empty newlines at the end of files
-set binary
 set noeol
 
 " specify how vim saves files
@@ -136,6 +143,10 @@ if has("autocmd")
   " remember last location in file, but not for commit messages.
   au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal! g`\"" | endif
+
+  " gliss scripts
+  autocmd BufNewFile,BufRead *.script set filetype=script
+  au FileType script setlocal tabstop=2 shiftwidth=2
 endif
 
 " auto-close quickfix window if it's the only one left
