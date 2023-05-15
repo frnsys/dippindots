@@ -3,8 +3,6 @@ setlocal spell
 set complete+=kspell
 setlocal linebreak
 
-let g:vimfootnotelinebreak = 0
-
 " open markdown syntax urls
 " open local images with feh
 " open local gifs with gifview
@@ -41,7 +39,6 @@ function! OpenUrlUnderCursor()
     endif
 endfunction
 nnoremap gx :call OpenUrlUnderCursor()<cr>
-
 
 " download the file at the specified to the "assets/"
 " folder, then add markdown reference

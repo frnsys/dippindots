@@ -36,16 +36,21 @@ set conceallevel=1
 set noerrorbells 				" Disable error bells
 set novisualbell                " Disable visual bells
 set showmode 					" Show the current mode
-set timeoutlen=100              " Short timeout to avoid lag
 set showcmd 					" Show the command as it's typed
 set shortmess=atI 				" Hide Vim intro message
 set wrap
+set hidden
 set textwidth=0 wrapmargin=0 formatoptions=cq
 set display+=lastline
-set hidden
 set updatetime=750
 set clipboard^=unnamed,unnamedplus " Use OS clipboard
 set completeopt=menuone,noselect   " Autocomplete settings
+
+" Shorter timeout to avoid lag,
+" this is used for multi-key bindings,
+" e.g. how long to wait to see if another key is coming
+" for bindings like `<leader>db`.
+set timeoutlen=250
 
 " list chars (i.e. hidden characters)
 set listchars=""                  " Reset the listchars
@@ -83,10 +88,7 @@ autocmd BufWritePre * :%s/\s\+$//e
 " bind return to clear last search highlight.
 nnoremap <CR> :noh<CR><CR>
 
-" map the arrow keys to be based on display lines, not physical lines
-map <Down> gj
-map <Up> gk
-
+" tabs
 map gr gT
 nnoremap [t :tabprevious<cr>
 nnoremap ]t :tabnext<cr>
@@ -105,7 +107,8 @@ nnoremap ]b :bnext<cr>
 " quickfix nav
 nnoremap [c :cprev<cr>
 nnoremap ]c :cnext<cr>
-nnoremap xc :cclose<cr>
+" close quickfix/location list
+nnoremap <leader>q :ccl <bar> lcl<cr>
 
 " bind | and _ to vertical and horizontal splits
 nnoremap <expr><silent> \| !v:count ? "<C-W>v<C-W><Right>" : '\|'
@@ -123,8 +126,14 @@ command Wq wq
 command W w
 command Q q
 
+" more convenient 'anchoring'
+" hit `mm` to drop a mark named 'A'
+" hit `;m` to return to that mark
+nnoremap mm mA
+nnoremap <leader>m 'A
+
 " filetypes
-filetype plugin indent on " Turn on filetype plugins (:help filetype-plugin)
+filetype plugin indent on
 if has("autocmd")
   " make Python follow PEP8 for whitespace (http://www.python.org/dev/peps/pep-0008/)
   au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4
@@ -149,6 +158,20 @@ if has("autocmd")
   au FileType script setlocal tabstop=2 shiftwidth=2
 endif
 
-" auto-close quickfix window if it's the only one left
-" this makes it easier to :q quit with a file has e.g. syntactic errors
-autocmd WinEnter * if &buftype ==# 'quickfix' && winnr('$') == 1 | quit | endif
+" ctrl-w + o to toggle maximizing a window
+function! MaximizeToggle()
+  if exists("s:maximize_session")
+    exec "source " . s:maximize_session
+    call delete(s:maximize_session)
+    unlet s:maximize_session
+    let &hidden=s:maximize_hidden_save
+    unlet s:maximize_hidden_save
+  else
+    let s:maximize_hidden_save = &hidden
+    let s:maximize_session = tempname()
+    set hidden
+    exec "mksession! " . s:maximize_session
+    only
+  endif
+endfunction
+nnoremap <c-w>o :call MaximizeToggle()<CR>

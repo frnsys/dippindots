@@ -1,9 +1,9 @@
-local cmp = require 'cmp'
-local luasnip = require 'luasnip'
+local cmp = require('cmp')
+local luasnip = require('luasnip')
 
-luasnip.config.setup {}
+luasnip.config.setup({})
 
-cmp.setup {
+cmp.setup({
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -48,4 +48,4 @@ cmp.setup {
     { name = 'luasnip' },
     { name = 'nvim_lsp_signature_help' },
   },
-}
+})

@@ -1,3 +1,4 @@
+" Gliss scripts
 syntax on
 
 syntax match action '^\s*\(Set\|Move\|Look\|Anim\|AddItem\|SkillCheck\):'

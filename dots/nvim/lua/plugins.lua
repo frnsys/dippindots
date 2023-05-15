@@ -33,6 +33,22 @@ require('lazy').setup({
         'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
   },
 
+  { -- Debugging, breakpoints, etc
+    -- sudo apt install lldb
+    'mfussenegger/nvim-dap',
+    dependencies = {
+        'rcarriga/nvim-dap-ui',
+    }
+  },
+
+  { -- Testing
+    'nvim-neotest/neotest',
+    dependencies = {
+        'rouge8/neotest-rust',
+        'nvim-neotest/neotest-python',
+    }
+  },
+
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     branch = "0.1.x",
@@ -63,6 +79,8 @@ require('lazy').setup({
 
   -- File navigation
   { 'stevearc/oil.nvim', },
+
+  --{ 'ThePrimeagen/harpoon', },
 
   -- Colorscheming
   { 'rktjmp/lush.nvim', },
