@@ -100,29 +100,16 @@ pip install pyflakes
 mkdir -p ~/.ipython/profile_default
 ln -sf $DIR/dots/python/ipython_config.py ~/.ipython/profile_default/ipython_config.py
 
-echo "Installing Vim..."
+echo "Installing Neovim..."
 # Lua, python interps, and X11/system clipboard support
 sudo apt install -y \
     lua5.1 liblua5.1-dev \
     python-dev python3-dev \
     libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev
 
-mkdir /tmp/vim && cd $_
-wget https://github.com/vim/vim/archive/v8.2.4979.zip
-unzip v*.zip
-cd vim*
-./configure --with-features=huge --enable-luainterp=yes --enable-pythoninterp=yes --enable-python3interp=yes --enable-gui=no --with-x --with-lua-prefix=/usr
-make -s && sudo make install
-cd $DIR
-
-# Overwrite vi
-sudo ln -sf /usr/local/bin/vim /usr/bin/vi
-sudo ln -sf /usr/local/bin/vim /usr/bin/vim
-sudo ln -sf /usr/bin/vim /etc/alternatives/editor
-
 # Replace vi with nvim
 sudo apt install gettext
-wget https://github.com/neovim/neovim/archive/refs/tags/v0.8.2.tar.gz -O /tmp/neovim.tar.gz
+wget https://github.com/neovim/neovim/archive/refs/tags/v0.9.0.tar.gz -O /tmp/neovim.tar.gz
 cd /tmp
 tar -xzvf neovim.tar.gz
 cd neovim-*
@@ -133,25 +120,12 @@ sudo ln -sf /usr/local/bin/nvim /usr/bin/vim
 sudo ln -sf /usr/bin/vim /etc/alternatives/editor
 cd $DIR
 
-# typescript language server for nvim
-npm install -g typescript-language-server typescript
-sudo chmod +x $(which typescript-language-server)
-
 # mypy for python type annotations
 sudo pip3 install mypy
 
 # config
 rm -rf ~/.vim
-ln -sf $DIR/dots/vim ~/.vim
-ln -sf $DIR/dots/vim/vimrc ~/.vimrc
-mkdir ~/.config/nvim
-ln -sf $DIR/dots/vim/init.vim ~/.config/nvim/init.vim
-mkdir -p ~/.vim/.backup
-
-# vim-plug for plugin management
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
+ln -sf $DIR/dots/nvim ~/.config/nvim
 
 # ===============  APPS  ================================
 if [[ ! $APPS =~ ^[Yy]$ ]]; then
