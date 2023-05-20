@@ -3,6 +3,9 @@
 edit_file_ignore_patterns = {
     "%.png",
     "%.jpg",
+    "%.gif",
+    "%.wav",
+    "%.lock",
 
     -- Unity
     "%.meta",

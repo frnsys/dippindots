@@ -28,7 +28,7 @@ require("oil").setup({
             end
           return false
         end,
-    }
+    },
 })
 
 vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })

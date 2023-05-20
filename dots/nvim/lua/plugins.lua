@@ -29,8 +29,11 @@ require('lazy').setup({
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
-        'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-nvim-lsp-signature-help',
-        'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+        'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/cmp-nvim-lsp-signature-help',
+        'L3MON4D3/LuaSnip',
+        'saadparwaiz1/cmp_luasnip'
+    },
   },
 
   { -- Debugging, breakpoints, etc
@@ -51,7 +54,6 @@ require('lazy').setup({
 
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
-    branch = "0.1.x",
     dependencies = { 'nvim-lua/plenary.nvim' } },
 
   -- Build fzf; requires `make`
@@ -65,22 +67,22 @@ require('lazy').setup({
 
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
     build = ":TSUpdate",
   },
 
-  -- "gc" to comment visual regions/lines
+  -- "gc" to comment visual regions
+  -- "gcc" to comment line
   { 'numToStr/Comment.nvim', opts = {} },
 
   -- Faster movement
   { 'phaazon/hop.nvim', opts = {} },
 
+  -- Better text objects/motions
+  { 'kylechui/nvim-surround', opts = {} },
+  { 'wellle/targets.vim' },
+
   -- File navigation
   { 'stevearc/oil.nvim', },
-
-  --{ 'ThePrimeagen/harpoon', },
 
   -- Colorscheming
   { 'rktjmp/lush.nvim', },

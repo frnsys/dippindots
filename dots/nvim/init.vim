@@ -43,8 +43,9 @@ set hidden
 set textwidth=0 wrapmargin=0 formatoptions=cq
 set display+=lastline
 set updatetime=750
+set switchbuf+=usetab
 set clipboard^=unnamed,unnamedplus " Use OS clipboard
-set completeopt=menuone,noselect   " Autocomplete settings
+set completeopt=menu,menuone,noselect   " Autocomplete settings
 
 " Shorter timeout to avoid lag,
 " this is used for multi-key bindings,
@@ -130,7 +131,7 @@ command Q q
 " hit `mm` to drop a mark named 'A'
 " hit `;m` to return to that mark
 nnoremap mm mA
-nnoremap <leader>m 'A
+nnoremap <leader>m `A
 
 " filetypes
 filetype plugin indent on
@@ -175,3 +176,13 @@ function! MaximizeToggle()
   endif
 endfunction
 nnoremap <c-w>o :call MaximizeToggle()<CR>
+
+" Delete no name, empty buffers when leaving a buffer
+" to keep the buffer list clean
+function! CleanNoNameEmptyBuffers()
+    let buffers = filter(range(1, bufnr('$')), 'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val) < 0 && (getbufline(v:val, 1, "$") == [""])')
+    if !empty(buffers)
+        exe 'bd '.join(buffers, ' ')
+    endif
+endfunction
+autocmd BufLeave * :call CleanNoNameEmptyBuffers()

@@ -1,6 +1,8 @@
 -- Adapted from <https://stackoverflow.com/a/75240496>
 
 local buf = -1
+local ns = vim.api.nvim_create_namespace("verses")
+local config_path = "/home/ftseng/.config/hundun/sequences/config.yml"
 
 local function open_buffer()
     local buffer_visible = vim.api.nvim_call_function("bufwinnr", { buf }) ~= -1
@@ -44,7 +46,7 @@ local function display(_, output, name)
     vim.api.nvim_win_set_cursor(buffer_window, { buffer_line_count, 0 })
 end
 
-local function execute(command)
+local function execute(command, on_output)
     local type = vim.bo.filetype
     if type ~= 'script' then
         vim.notify("File is not a script!", vim.log.levels.ERROR)
@@ -56,8 +58,8 @@ local function execute(command)
         {
             stdout_buffered = true,
             stderr_buffered = true,
-            on_stdout = display,
-            on_stderr = display,
+            on_stdout = on_output,
+            on_stderr = on_output,
         }
     )
 
@@ -65,12 +67,32 @@ end
 
 local function parse()
     local path = vim.api.nvim_buf_get_name(0)
-    execute({'verses', 'parse', path})
+    execute({'verses', 'parse', path}, display)
+end
+
+local function get_refs()
+    local path = vim.api.nvim_buf_get_name(0)
+    execute({'verses', 'refs', path, config_path}, display)
+end
+
+local function set_diagnostics(_, output, name)
+    local diagnostics = {}
+    for _, line in ipairs(output) do
+        -- "27:3 Variable 'foo' does not exist"
+        local pattern = "^(%d+):(%d+) (.+)$"
+        local groups = { "lnum", "col", "message" }
+        local diagnostic = vim.diagnostic.match(line, pattern, groups)
+        table.insert(diagnostics, diagnostic)
+    end
+
+    vim.diagnostic.set(ns, 0, diagnostics)
 end
 
 local function validate()
     local path = vim.api.nvim_buf_get_name(0)
-    execute({'verses', 'validate', path, "/home/ftseng/.config/hundun/sequences/config.yml"})
+    execute(
+        {'verses', 'validate', path, config_path},
+        set_diagnostics)
 end
 
 vim.api.nvim_create_autocmd('FileType', {
@@ -78,6 +100,9 @@ vim.api.nvim_create_autocmd('FileType', {
 	pattern = 'script',
 	callback = function(opts)
         vim.keymap.set('n', '<leader>c', parse, { silent = true, buffer = opts['buffer'] })
-        vim.keymap.set('n', '<leader>v', validate, { silent = true, buffer = opts['buffer'] })
+        vim.keymap.set('n', '<leader>r', get_refs, { silent = true, buffer = opts['buffer'] })
 	end,
 })
+
+vim.api.nvim_create_autocmd('BufEnter', { pattern = '*.script', callback = function() validate() end });
+vim.api.nvim_create_autocmd('BufWritePost', { pattern = '*.script', callback = function() validate() end });

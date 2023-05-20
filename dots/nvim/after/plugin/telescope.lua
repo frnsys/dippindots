@@ -12,36 +12,95 @@ require("telescope").setup({
             i = {
 				-- exit on first esc
                 ["<esc>"] = actions.close,
+                ["<C-j>"] = {
+                  actions.move_selection_next, type = "action",
+                  opts = { nowait = true, silent = true }
+                },
+                ["<C-k>"] = {
+                  actions.move_selection_previous, type = "action",
+                  opts = { nowait = true, silent = true }
+                },
             },
         },
+        file_ignore_patterns = edit_file_ignore_patterns,
     },
     pickers = {
         current_buffer_fuzzy_find = common_config,
-        find_files = common_config,
-        buffers = common_config,
+        find_files = {
+            mappings = {
+                i = {
+                    -- If file is already open,
+                    -- switch to its window.
+                    -- Otherwise replace the current window
+                    -- with the selected file.
+                    ["<CR>"] = actions.select_drop,
+
+                    -- If file is already open,
+                    -- switch to its window.
+                    -- Otherwise open the selected file
+                    -- in a new tab.
+                    ["<c-t>"] = actions.select_tab_drop,
+                },
+            },
+            theme = "dropdown",
+            previewer = false,
+
+        },
+        buffers = {
+            mappings = {
+                i = {
+                    ["<c-t>"] = actions.select_tab_drop,
+                    ["<c-x>"] = "delete_buffer",
+                },
+            },
+            theme = "dropdown",
+            previewer = false,
+        },
         commands = common_config,
+        grep_string = common_config,
         live_grep = { theme = "ivy", },
-        diagnostics = { theme = "ivy" },
-        lsp_workspace_symbols = { theme = "ivy" }
-    }
+        diagnostics = {
+            theme = "dropdown",
+            previewer = false,
+            layout_config = {
+                width = 0.9,
+            }
+        },
+        lsp_workspace_symbols = { theme = "ivy" },
+    },
 })
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
--- Bindings
+-- Bindin
 vim.keymap.set({'n', 'i'}, '<C-p>', function()
   require('telescope.builtin').find_files({
-    find_command = { "fd", "-t=f" },
-    file_ignore_patterns = edit_file_ignore_patterns,
+      find_command = { "fd", "-t=f" },
   })
 end, { desc = 'Search files' })
 
+vim.keymap.set({'n', 'i'}, '<leader>t', function()
+  require('telescope.builtin').grep_string({
+      search = "TODO",
+  })
+end, { desc = 'Search TODO items' })
+
+local function list_buffers()
+    require('telescope.builtin').buffers({
+        show_all_buffers = false,
+
+        -- So the previously used buffer
+        -- is always at top
+        ignore_current_buffer = true,
+        sort_mru = true,
+    })
+end
+
 vim.keymap.set('n', '<C-l>', require('telescope.builtin').current_buffer_fuzzy_find, { desc = 'Fuzzily search in current buffer' })
 vim.keymap.set('n', '<C-c>', require('telescope.builtin').live_grep, { desc = 'Search by grep' })
-vim.keymap.set('n', '<C-b>', require('telescope.builtin').buffers, { desc = '[ ] Find existing [B]uffers' })
 vim.keymap.set('n', '<C-x>', require('telescope.builtin').commands, { desc = 'Run a command' })
-vim.keymap.set('n', '<leader><leader>', require('telescope.builtin').marks, { desc = 'Search [M]arks' })
+vim.keymap.set('n', '<leader><leader>', list_buffers, { desc = '[ ] Find existing [B]uffers' })
 -- builtin.jumplist
 -- builtin.loclist
 -- builtin.quickfix
@@ -59,8 +118,8 @@ local function insert_selection(prompt_bufnr, map)
     local cursor_pos_visual_start = vim.api.nvim_win_get_cursor(0)
     local line = vim.api.nvim_get_current_line()
     local new_line
-    local text_before = line:sub(1, cursor_pos_visual_start[2] + 1)
-    new_line = text_before .. path .. line:sub(cursor_pos_visual_start[2] + 2)
+    local text_before = line:sub(1, cursor_pos_visual_start[2])
+    new_line = text_before .. path .. line:sub(cursor_pos_visual_start[2] + 1)
     cursor_pos_visual_start[2] = text_before:len()
     vim.api.nvim_set_current_line(new_line)
 
