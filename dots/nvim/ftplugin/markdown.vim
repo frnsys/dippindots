@@ -122,9 +122,6 @@ nmap <c-f> [s1z=``
 " by {...}, this highlights those annotations
 map <leader>h /{.\+}<CR>
 
-" make footnote from selected text
-vnoremap <silent> <C-f> y:! cite "<C-r>0" \| xsel -b<cr>
-
 " compile and open in browser
 nnoremap <leader>v :call jobstart('nom view -w '.expand('%:p'))<cr>
 
@@ -156,5 +153,15 @@ function! ToggleWriteMode()
 endfunction
 " nnoremap <silent> <leader>w :call ToggleWriteMode()<cr>
 
-" easily paste in current datetime
-nnoremap <leader>t "=strftime("%m.%d.%Y %H:%M")<CR>p
+
+function! ToggleCheckbox()
+  let line = getline('.')
+  if line =~ '- \[ \]'
+    call setline('.', substitute(line, '- \[ \]', '- \[x\]', ''))
+  elseif line =~ '- \[x\]'
+    call setline('.', substitute(line, '- \[x\]', '- \[ \]', ''))
+  elseif line =~ '- '
+    call setline('.', substitute(line, '- ', '- \[ \] ', ''))
+  endif
+endf
+nnoremap <leader>x :call ToggleCheckbox()<CR>

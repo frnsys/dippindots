@@ -38,7 +38,7 @@ set novisualbell                " Disable visual bells
 set showmode 					" Show the current mode
 set showcmd 					" Show the command as it's typed
 set shortmess=atI 				" Hide Vim intro message
-set wrap
+set wrap                        " Wrap long lines
 set hidden
 set textwidth=0 wrapmargin=0 formatoptions=cq
 set display+=lastline
@@ -46,6 +46,7 @@ set updatetime=750
 set switchbuf+=usetab
 set clipboard^=unnamed,unnamedplus " Use OS clipboard
 set completeopt=menu,menuone,noselect   " Autocomplete settings
+set noeol " Don’t add empty newlines at the end of files
 
 " Shorter timeout to avoid lag,
 " this is used for multi-key bindings,
@@ -75,9 +76,6 @@ endif
 " webbrowser for `gx`
 let g:netrw_browsex_viewer='firefox'
 
-" don’t add empty newlines at the end of files
-set noeol
-
 " specify how vim saves files
 " so it works better with processes
 " that watch files for changes
@@ -101,25 +99,9 @@ xnoremap jk <Esc>
 " open new line from insert mode
 imap <C-o> <esc>o
 
-" quick buffer nav
-nnoremap [b :bprevious<cr>
-nnoremap ]b :bnext<cr>
-
-" quickfix nav
-nnoremap [c :cprev<cr>
-nnoremap ]c :cnext<cr>
-" close quickfix/location list
-nnoremap <leader>q :ccl <bar> lcl<cr>
-
 " bind | and _ to vertical and horizontal splits
 nnoremap <expr><silent> \| !v:count ? "<C-W>v<C-W><Right>" : '\|'
 nnoremap <expr><silent> _  !v:count ? "<C-W>s<C-W><Down>"  : '_'
-
-" new tab
-nmap <S-t> :tabnew<cr>
-
-" show current filename
-nnoremap <C-h> :f<cr>
 
 " command flubs
 command WQ wq
@@ -159,24 +141,6 @@ if has("autocmd")
   au FileType script setlocal tabstop=2 shiftwidth=2
 endif
 
-" ctrl-w + o to toggle maximizing a window
-function! MaximizeToggle()
-  if exists("s:maximize_session")
-    exec "source " . s:maximize_session
-    call delete(s:maximize_session)
-    unlet s:maximize_session
-    let &hidden=s:maximize_hidden_save
-    unlet s:maximize_hidden_save
-  else
-    let s:maximize_hidden_save = &hidden
-    let s:maximize_session = tempname()
-    set hidden
-    exec "mksession! " . s:maximize_session
-    only
-  endif
-endfunction
-nnoremap <c-w>o :call MaximizeToggle()<CR>
-
 " Delete no name, empty buffers when leaving a buffer
 " to keep the buffer list clean
 function! CleanNoNameEmptyBuffers()
@@ -186,3 +150,34 @@ function! CleanNoNameEmptyBuffers()
     endif
 endfunction
 autocmd BufLeave * :call CleanNoNameEmptyBuffers()
+
+" When using c/C don't copy
+" to the system clipboard,
+" but to the black hole register instead
+nnoremap c "_c
+nnoremap C "_C
+
+" Configure vimdiff
+" to force line-by-line comparison,
+" instead of trying to figure out
+" what lines should go together.
+set diffexpr=LineDiff()
+function LineDiff()
+   let opt = ""
+   if &diffopt =~ "icase"
+     let opt = opt .. "-i "
+   endif
+   if &diffopt =~ "iwhite"
+     let opt = opt .. "-b "
+   endif
+   silent execute "!diff <(nl -ba " .. v:fname_in .. ") <(nl -ba " .. v:fname_new .. ") > " .. v:fname_out
+   redraw!
+endfunction
+set diffopt+=followwrap " Preserve line-wrapping settings when using vimdiff
+
+" Jump to after the next closing delimiter
+func! AutoPairsJump()
+  call search('["\]'')}]','W')
+endf
+inoremap <silent> <c-l> <ESC>:call AutoPairsJump()<CR>a
+noremap <silent> <c-l> :call AutoPairsJump()<CR>

@@ -5,9 +5,32 @@ local common_config = {
     theme = "dropdown",
     previewer = false,
 }
+local common_files_config = {
+    mappings = {
+        i = {
+            -- If file is already open,
+            -- switch to its window.
+            -- Otherwise replace the current window
+            -- with the selected file.
+            ["<CR>"] = actions.select_drop,
+
+            -- If file is already open,
+            -- switch to its window.
+            -- Otherwise open the selected file
+            -- in a new tab.
+            ["<c-t>"] = actions.select_tab_drop,
+        },
+    },
+    theme = "dropdown",
+    previewer = false,
+}
 
 require("telescope").setup({
     defaults = {
+        path_display = function(opts, path)
+          local tail = require("telescope.utils").path_tail(path)
+          return string.format("%s (%s)", tail, path)
+        end,
         mappings = {
             i = {
 				-- exit on first esc
@@ -26,26 +49,8 @@ require("telescope").setup({
     },
     pickers = {
         current_buffer_fuzzy_find = common_config,
-        find_files = {
-            mappings = {
-                i = {
-                    -- If file is already open,
-                    -- switch to its window.
-                    -- Otherwise replace the current window
-                    -- with the selected file.
-                    ["<CR>"] = actions.select_drop,
-
-                    -- If file is already open,
-                    -- switch to its window.
-                    -- Otherwise open the selected file
-                    -- in a new tab.
-                    ["<c-t>"] = actions.select_tab_drop,
-                },
-            },
-            theme = "dropdown",
-            previewer = false,
-
-        },
+        oldfiles = common_files_config,
+        find_files = common_files_config,
         buffers = {
             mappings = {
                 i = {
@@ -56,9 +61,8 @@ require("telescope").setup({
             theme = "dropdown",
             previewer = false,
         },
-        commands = common_config,
         grep_string = common_config,
-        live_grep = { theme = "ivy", },
+        live_grep = { theme = "dropdown", },
         diagnostics = {
             theme = "dropdown",
             previewer = false,
@@ -68,12 +72,27 @@ require("telescope").setup({
         },
         lsp_workspace_symbols = { theme = "ivy" },
     },
+    extensions = {
+        fzf = {
+          fuzzy = true,                    -- false will only do exact matching
+          override_generic_sorter = true,  -- override the generic sorter
+          override_file_sorter = true,     -- override the file sorter
+          case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+        },
+    }
 })
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
--- Bindin
+vim.keymap.set({'n', 'i'}, '<leader><leader>', function()
+    require('telescope.builtin').oldfiles({
+        prompt_title = "Recent Files",
+        cwd_only = true,
+        include_current_session = true,
+    })
+end, { desc = 'Search files' })
+
 vim.keymap.set({'n', 'i'}, '<C-p>', function()
   require('telescope.builtin').find_files({
       find_command = { "fd", "-t=f" },
@@ -86,24 +105,19 @@ vim.keymap.set({'n', 'i'}, '<leader>t', function()
   })
 end, { desc = 'Search TODO items' })
 
-local function list_buffers()
-    require('telescope.builtin').buffers({
-        show_all_buffers = false,
+-- vim.keymap.set({'n'}, '<leader><leader>', function()
+--     require('telescope.builtin').buffers({
+--         show_all_buffers = false,
+--
+--         -- So the previously used buffer
+--         -- is always at top
+--         ignore_current_buffer = true,
+--         sort_mru = true,
+--     })
+-- end, { desc = '[ ] Find existing [B]uffers' })
 
-        -- So the previously used buffer
-        -- is always at top
-        ignore_current_buffer = true,
-        sort_mru = true,
-    })
-end
-
-vim.keymap.set('n', '<C-l>', require('telescope.builtin').current_buffer_fuzzy_find, { desc = 'Fuzzily search in current buffer' })
+vim.keymap.set('n', '<C-h>', require('telescope.builtin').current_buffer_fuzzy_find, { desc = 'Fuzzily search in current buffer' })
 vim.keymap.set('n', '<C-c>', require('telescope.builtin').live_grep, { desc = 'Search by grep' })
-vim.keymap.set('n', '<C-x>', require('telescope.builtin').commands, { desc = 'Run a command' })
-vim.keymap.set('n', '<leader><leader>', list_buffers, { desc = '[ ] Find existing [B]uffers' })
--- builtin.jumplist
--- builtin.loclist
--- builtin.quickfix
 
 -- Insert file path
 local action_state = require("telescope.actions.state")

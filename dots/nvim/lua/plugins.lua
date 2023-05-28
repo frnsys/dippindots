@@ -72,14 +72,27 @@ require('lazy').setup({
 
   -- "gc" to comment visual regions
   -- "gcc" to comment line
-  { 'numToStr/Comment.nvim', opts = {} },
+  -- "gc" comment text object
+  { 'echasnovski/mini.comment', opts = {} },
 
-  -- Faster movement
-  { 'phaazon/hop.nvim', opts = {} },
+  -- Faster "movement"
+  -- `mini.jump` modifies how f/F/t/T
+  -- work to repeat on subsequent presses
+  -- and across multiple lines
+  { 'echasnovski/mini.jump', opts = {} },
+  { 'echasnovski/mini.jump2d', opts = {
+    mappings = {
+        start_jumping = '<c-f>',
+    },
+  } },
 
   -- Better text objects/motions
-  { 'kylechui/nvim-surround', opts = {} },
-  { 'wellle/targets.vim' },
+  { 'echasnovski/mini.ai', opts = {} },
+  { 'echasnovski/mini.surround', opts = {} },
+  { 'gbprod/substitute.nvim', opts = {} },
+
+  -- Auto-closing pairs
+  { 'echasnovski/mini.pairs', opts = {} },
 
   -- File navigation
   { 'stevearc/oil.nvim', },

@@ -48,7 +48,6 @@ local servers = {
   rust_analyzer = {},
   tsserver = {},
   cssls = {},
-  bashls = {},
 }
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
