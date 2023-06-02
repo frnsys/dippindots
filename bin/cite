@@ -1,4 +1,0 @@
-#!/bin/bash
-
-fnid=$(echo "$1" | md5sum | base64 | head -c 6)
-echo "[^${fnid}]: ${1}"

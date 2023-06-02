@@ -1,8 +1,0 @@
-# ~/.pypirc
-
-[distutils]
-index-servers =
-  pypi
-
-[pypi]
-username: frnsys

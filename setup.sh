@@ -92,14 +92,6 @@ fi
 env PYTHON_CFLAGS=-fPIC PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.10.0
 pyenv global 3.10.0
 
-# for vim syntax checking
-# make sure this installs under the installed pyenv
-pip install pyflakes
-
-# ipython config
-mkdir -p ~/.ipython/profile_default
-ln -sf $DIR/dots/python/ipython_config.py ~/.ipython/profile_default/ipython_config.py
-
 echo "Installing Neovim..."
 # Lua, python interps, and X11/system clipboard support
 sudo apt install -y \
@@ -189,17 +181,6 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
 
     # synaptics for touchpad
     sudo apt install -y xserver-xorg-input-synaptics
-
-    # picom compositor
-    # sudo apt install -y libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-
-    # render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev  libevdev-dev uthash-dev libev-dev libx11-xcb-dev
-    # git clone https://github.com/yshui/picom /tmp/picom
-    # cd /tmp/picom
-    # git checkout v8
-    # meson --buildtype=release . build
-    # ninja -C build
-    # sudo ninja -C build install
-    # ln -sf $DIR/dots/misc/picom.conf ~/.config/picom.conf
 
     # backlight
     sudo cp $DIR/bin/glow /usr/bin/glow
@@ -658,9 +639,6 @@ if [[ ! $APPS =~ ^[Yy]$ ]]; then
     systemctl --user enable vdirsyncer.timer
     systemctl --user start vdirsyncer.timer
     # check timers with `systemctl list-timers --all --user`
-
-    # for pypi
-    ln -sf $DIR/dots/python/pypirc ~/.pypirc
 
     # better chinese character support
     sudo apt install -y fonts-noto-cjk

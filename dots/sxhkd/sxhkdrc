@@ -91,7 +91,7 @@ super + z
 
 # translate
 super + x
-    tl "$(echo "" | dmenu -p 'text:')"
+    tl "$(echo "" | dmenu -p 'translate:')"
 
 # toggle bluetooth
 super + shift + b
@@ -189,12 +189,8 @@ super + shift + p
 super + w
     win go
 
-super + backslash
-    win toggle Signal
-
 super + equal
     mpc toggle
-    # win toggle Ripcord
 
 super + plus
     mpvc toggle

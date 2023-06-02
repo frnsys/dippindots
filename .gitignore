@@ -6,9 +6,8 @@
 *.spl
 logs/
 cache/
-dots/vim/.undo/*
-dots/vim/.backup/*
-dots/vim/.temp/*
-dots/vim/autoload
+dots/nvim/.undo/*
+dots/nvim/.backup/*
+dots/nvim/.temp/*
 assets/fonts
 watch_later
