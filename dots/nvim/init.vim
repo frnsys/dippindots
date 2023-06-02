@@ -3,6 +3,8 @@ let mapleader=";"
 
 lua require('plugins')
 lua require('verses')
+lua require('motion')
+lua require('breakout')
 
 " navigation
 set number            			" Show line numbers
@@ -81,27 +83,16 @@ let g:netrw_browsex_viewer='firefox'
 " that watch files for changes
 set backupcopy=yes
 
-" automatically trim trailing whitespace on save.
-autocmd BufWritePre * :%s/\s\+$//e
-
 " bind return to clear last search highlight.
 nnoremap <CR> :noh<CR><CR>
 
 " tabs
-map gr gT
-nnoremap [t :tabprevious<cr>
-nnoremap ]t :tabnext<cr>
+nnoremap <silent> <s-tab> :tabprevious<cr>
+nnoremap <silent> <tab> :tabnext<cr>
 
 " bind jk to escape
 imap jk <Esc>
 xnoremap jk <Esc>
-
-" open new line from insert mode
-imap <C-o> <esc>o
-
-" bind | and _ to vertical and horizontal splits
-nnoremap <expr><silent> \| !v:count ? "<C-W>v<C-W><Right>" : '\|'
-nnoremap <expr><silent> _  !v:count ? "<C-W>s<C-W><Down>"  : '_'
 
 " command flubs
 command WQ wq
@@ -109,37 +100,49 @@ command Wq wq
 command W w
 command Q q
 
-" more convenient 'anchoring'
-" hit `mm` to drop a mark named 'A'
-" hit `;m` to return to that mark
-nnoremap mm mA
-nnoremap <leader>m `A
+" don't really use `.`;
+" it causes mostly trouble for me
+map . <Nop>
+
+" bind | and _ to vertical and horizontal splits
+nnoremap <expr><silent> \| !v:count ? "<C-W>v<C-W><Right>" : '\|'
+nnoremap <expr><silent> _  !v:count ? "<C-W>s<C-W><Down>"  : '_'
+set splitright " open vsplits on the right by default
+
+" When using c/C don't copy
+" to the system clipboard,
+" but to the black hole register instead
+nnoremap c "_c
+nnoremap C "_C
 
 " filetypes
 filetype plugin indent on
-if has("autocmd")
-  " make Python follow PEP8 for whitespace (http://www.python.org/dev/peps/pep-0008/)
-  au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4
+au FileType crontab setlocal backupcopy=yes
+au FileType css setlocal tabstop=2 shiftwidth=2
+au FileType sass setlocal tabstop=2 shiftwidth=2
+au FileType javascript setlocal tabstop=2 shiftwidth=2
+au FileType typescript setlocal tabstop=2 shiftwidth=2
+au FileType typescriptreact setlocal tabstop=2 shiftwidth=2
+au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4
+au FileType lua setlocal softtabstop=2 tabstop=2 shiftwidth=2
 
-  " other filetype specific settings
-  au FileType crontab setlocal backupcopy=yes
-  au FileType css setlocal tabstop=2 shiftwidth=2
-  au FileType sass setlocal tabstop=2 shiftwidth=2
-  au FileType javascript setlocal tabstop=2 shiftwidth=2
-  au FileType typescript setlocal tabstop=2 shiftwidth=2
-  au FileType typescriptreact setlocal tabstop=2 shiftwidth=2
+" for text
+au FileType text setlocal spell complete+=kspell
 
-  " for text
-  au FileType text setlocal nocursorcolumn spell complete+=kspell
+" gliss scripts
+au BufNewFile,BufRead *.script set filetype=script
+au FileType script setlocal tabstop=2 shiftwidth=2
 
-  " remember last location in file, but not for commit messages.
-  au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
-    \| exe "normal! g`\"" | endif
+" Unity USS/UXML files
+au BufNewFile,BufRead *.uss set filetype=css
+au BufNewFile,BufRead *.uxml set filetype=html
 
-  " gliss scripts
-  autocmd BufNewFile,BufRead *.script set filetype=script
-  au FileType script setlocal tabstop=2 shiftwidth=2
-endif
+" Automatically trim trailing whitespace on save.
+au BufWritePre * :%s/\s\+$//e
+
+" Remember last location in file, but not for commit messages.
+au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
+\| exe "normal! g`\"" | endif
 
 " Delete no name, empty buffers when leaving a buffer
 " to keep the buffer list clean
@@ -150,34 +153,3 @@ function! CleanNoNameEmptyBuffers()
     endif
 endfunction
 autocmd BufLeave * :call CleanNoNameEmptyBuffers()
-
-" When using c/C don't copy
-" to the system clipboard,
-" but to the black hole register instead
-nnoremap c "_c
-nnoremap C "_C
-
-" Configure vimdiff
-" to force line-by-line comparison,
-" instead of trying to figure out
-" what lines should go together.
-set diffexpr=LineDiff()
-function LineDiff()
-   let opt = ""
-   if &diffopt =~ "icase"
-     let opt = opt .. "-i "
-   endif
-   if &diffopt =~ "iwhite"
-     let opt = opt .. "-b "
-   endif
-   silent execute "!diff <(nl -ba " .. v:fname_in .. ") <(nl -ba " .. v:fname_new .. ") > " .. v:fname_out
-   redraw!
-endfunction
-set diffopt+=followwrap " Preserve line-wrapping settings when using vimdiff
-
-" Jump to after the next closing delimiter
-func! AutoPairsJump()
-  call search('["\]'')}]','W')
-endf
-inoremap <silent> <c-l> <ESC>:call AutoPairsJump()<CR>a
-noremap <silent> <c-l> :call AutoPairsJump()<CR>

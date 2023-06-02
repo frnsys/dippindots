@@ -38,7 +38,7 @@ local function display(_, output, name)
     -- and not modified, so it doesn't interrupt quitting
     vim.api.nvim_buf_set_option(buf, "readonly", true)
     vim.api.nvim_buf_set_option(buf, "modified", false)
-    vim.api.nvim_buf_set_option(buf, "filetype", "json")
+    vim.api.nvim_buf_set_option(buf, "filetype", "yaml")
 
     -- Get the window the buffer is in and set the cursor position to the bottom.
     local buffer_window = vim.api.nvim_call_function("bufwinid", { buf })
@@ -99,8 +99,8 @@ vim.api.nvim_create_autocmd('FileType', {
 	desc = 'Bind keymaps for verses scripts',
 	pattern = 'script',
 	callback = function(opts)
-        vim.keymap.set('n', '<leader>c', parse, { silent = true, buffer = opts['buffer'] })
-        vim.keymap.set('n', '<leader>r', get_refs, { silent = true, buffer = opts['buffer'] })
+    vim.keymap.set('n', '<leader>c', parse, { silent = true, buffer = opts['buffer'] })
+    vim.keymap.set('n', '<leader>r', get_refs, { silent = true, buffer = opts['buffer'] })
 	end,
 })
 

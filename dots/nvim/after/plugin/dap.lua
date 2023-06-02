@@ -35,7 +35,7 @@ dap.configurations.python = {
         type = 'python',
         request = 'launch',
         cwd = '${workspaceFolder}',
-        pythonPath = "~/.pyenv/shims/python",
+        pythonPath = "/home/ftseng/.pyenv/shims/python",
         program = get_program,
         args = get_args
     }

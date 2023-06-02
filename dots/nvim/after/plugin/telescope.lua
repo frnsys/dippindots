@@ -1,125 +1,95 @@
 require("ignore")
 local actions = require("telescope.actions")
+local builtin = require("telescope.builtin")
 
-local common_config = {
-    theme = "dropdown",
-    previewer = false,
-}
-local common_files_config = {
-    mappings = {
-        i = {
-            -- If file is already open,
-            -- switch to its window.
-            -- Otherwise replace the current window
-            -- with the selected file.
-            ["<CR>"] = actions.select_drop,
-
-            -- If file is already open,
-            -- switch to its window.
-            -- Otherwise open the selected file
-            -- in a new tab.
-            ["<c-t>"] = actions.select_tab_drop,
-        },
-    },
-    theme = "dropdown",
-    previewer = false,
-}
+local function bind(desc, keys, func, modes)
+  vim.keymap.set(modes or {'n'}, keys, func, {desc=desc})
+end
 
 require("telescope").setup({
-    defaults = {
-        path_display = function(opts, path)
-          local tail = require("telescope.utils").path_tail(path)
-          return string.format("%s (%s)", tail, path)
-        end,
-        mappings = {
-            i = {
-				-- exit on first esc
-                ["<esc>"] = actions.close,
-                ["<C-j>"] = {
-                  actions.move_selection_next, type = "action",
-                  opts = { nowait = true, silent = true }
-                },
-                ["<C-k>"] = {
-                  actions.move_selection_previous, type = "action",
-                  opts = { nowait = true, silent = true }
-                },
-            },
+    defaults = require('telescope.themes').get_dropdown({
+      previewer = false,
+      mappings = {
+        i = {
+          -- exit on first esc
+          ["<esc>"] = actions.close,
+          ["<C-j>"] = {
+            actions.move_selection_next, type = "action",
+            opts = { nowait = true, silent = true }
+          },
+          ["<C-k>"] = {
+            actions.move_selection_previous, type = "action",
+            opts = { nowait = true, silent = true }
+          },
+
+          -- If file is already open,
+          -- switch to its window.
+          -- Otherwise open the selected file
+          -- in a new tab.
+          ["<c-t>"] = actions.select_tab_drop,
+
+          -- If file is already open,
+          -- switch to its window.
+          -- Otherwise replace the current window
+          -- with the selected file.
+          ["<CR>"] = actions.select_drop,
         },
-        file_ignore_patterns = edit_file_ignore_patterns,
-    },
+      },
+      file_ignore_patterns = edit_file_ignore_patterns,
+    }),
     pickers = {
-        current_buffer_fuzzy_find = common_config,
-        oldfiles = common_files_config,
-        find_files = common_files_config,
-        buffers = {
-            mappings = {
-                i = {
-                    ["<c-t>"] = actions.select_tab_drop,
-                    ["<c-x>"] = "delete_buffer",
-                },
-            },
-            theme = "dropdown",
-            previewer = false,
+      current_buffer_fuzzy_find = {
+        previewer = false,
+      },
+      find_files = {
+        previewer = false,
+        find_command = { "fd", "-t=f" },
+      },
+      live_grep = {
+        disable_coordinates = true,
+      },
+      buffers = {
+        previewer = false,
+        mappings = {
+          i = {
+            ["<c-x>"] = "delete_buffer",
+          },
         },
-        grep_string = common_config,
-        live_grep = { theme = "dropdown", },
-        diagnostics = {
-            theme = "dropdown",
-            previewer = false,
-            layout_config = {
-                width = 0.9,
-            }
-        },
-        lsp_workspace_symbols = { theme = "ivy" },
+        show_all_buffers = false,
+
+        -- So the previously used buffer
+        -- is always at top
+        ignore_current_buffer = true,
+        sort_mru = true,
+      },
+      diagnostics = {
+        previewer = false,
+        layout_config = {
+          width = 0.9,
+        }
+      },
     },
     extensions = {
-        fzf = {
-          fuzzy = true,                    -- false will only do exact matching
-          override_generic_sorter = true,  -- override the generic sorter
-          override_file_sorter = true,     -- override the file sorter
-          case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-        },
+      fzf = {
+        fuzzy = true,                    -- false will only do exact matching
+        override_generic_sorter = true,  -- override the generic sorter
+        override_file_sorter = true,     -- override the file sorter
+        case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+      },
+      aerial = {
+        show_lines = false,
+        show_nesting = {
+          ['_'] = true, -- This key will be the default
+        }
+      }
     }
-})
+  })
 
--- Enable telescope fzf native, if installed
+-- Extensions
 pcall(require('telescope').load_extension, 'fzf')
+pcall(require('telescope').load_extension, 'aerial')
 
-vim.keymap.set({'n', 'i'}, '<leader><leader>', function()
-    require('telescope.builtin').oldfiles({
-        prompt_title = "Recent Files",
-        cwd_only = true,
-        include_current_session = true,
-    })
-end, { desc = 'Search files' })
-
-vim.keymap.set({'n', 'i'}, '<C-p>', function()
-  require('telescope.builtin').find_files({
-      find_command = { "fd", "-t=f" },
-  })
-end, { desc = 'Search files' })
-
-vim.keymap.set({'n', 'i'}, '<leader>t', function()
-  require('telescope.builtin').grep_string({
-      search = "TODO",
-  })
-end, { desc = 'Search TODO items' })
-
--- vim.keymap.set({'n'}, '<leader><leader>', function()
---     require('telescope.builtin').buffers({
---         show_all_buffers = false,
---
---         -- So the previously used buffer
---         -- is always at top
---         ignore_current_buffer = true,
---         sort_mru = true,
---     })
--- end, { desc = '[ ] Find existing [B]uffers' })
-
-vim.keymap.set('n', '<C-h>', require('telescope.builtin').current_buffer_fuzzy_find, { desc = 'Fuzzily search in current buffer' })
-vim.keymap.set('n', '<C-c>', require('telescope.builtin').live_grep, { desc = 'Search by grep' })
-
--- Insert file path
+--- Insert file path
 local action_state = require("telescope.actions.state")
 local function insert_selection(prompt_bufnr, map)
   actions.select_default:replace(function()
@@ -147,9 +117,40 @@ local function insert_selection(prompt_bufnr, map)
   return true
 end
 
-vim.keymap.set({'n', 'i'}, '<C-s>', function()
-  require('telescope.builtin').find_files({
-    find_command = { "fd", "-t=f" },
-    attach_mappings = insert_selection,
-  })
-end, { desc = 'Search and insert filepath' })
+--- Keybindings
+bind('Search and insert filepath',
+  '<c-s>', function()
+    builtin.find_files({
+      attach_mappings = insert_selection,
+    })
+  end, {'n', 'i'})
+
+bind('Search files',
+  '<c-p>', builtin.find_files)
+
+bind('Search TODO items',
+  '<leader>t', function()
+    builtin.grep_string({
+      search = "TODO",
+    })
+  end)
+
+bind('List buffers',
+  '<leader><leader>', builtin.buffers)
+
+bind('Fuzzily search in current buffer',
+  '<leader>b', builtin.current_buffer_fuzzy_find)
+
+bind('Find references for word under cursor',
+  '<leader>r', builtin.lsp_references)
+
+bind('Search by grep',
+  '<c-c>', builtin.live_grep)
+
+bind('Search local symbols',
+  '<leader>l', function()
+    require("telescope").extensions.aerial.aerial(require('telescope.themes').get_dropdown({
+      previewer = false,
+      sorting_strategy = "descending",
+    }))
+  end)

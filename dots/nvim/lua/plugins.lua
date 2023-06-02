@@ -32,7 +32,7 @@ require('lazy').setup({
         'hrsh7th/cmp-nvim-lsp',
         'hrsh7th/cmp-nvim-lsp-signature-help',
         'L3MON4D3/LuaSnip',
-        'saadparwaiz1/cmp_luasnip'
+        'saadparwaiz1/cmp_luasnip',
     },
   },
 
@@ -68,34 +68,33 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ":TSUpdate",
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
   },
 
   -- "gc" to comment visual regions
   -- "gcc" to comment line
   -- "gc" comment text object
-  { 'echasnovski/mini.comment', opts = {} },
+  { 'numToStr/Comment.nvim', opts = {} },
 
   -- Faster "movement"
   -- `mini.jump` modifies how f/F/t/T
   -- work to repeat on subsequent presses
   -- and across multiple lines
-  { 'echasnovski/mini.jump', opts = {} },
-  { 'echasnovski/mini.jump2d', opts = {
-    mappings = {
-        start_jumping = '<c-f>',
-    },
-  } },
+  { 'echasnovski/mini.jump' },
+  { 'echasnovski/mini.jump2d' },
+  { 'cbochs/portal.nvim' },
 
   -- Better text objects/motions
-  { 'echasnovski/mini.ai', opts = {} },
+  { 'echasnovski/mini.ai' },
   { 'echasnovski/mini.surround', opts = {} },
   { 'gbprod/substitute.nvim', opts = {} },
 
-  -- Auto-closing pairs
-  { 'echasnovski/mini.pairs', opts = {} },
-
   -- File navigation
   { 'stevearc/oil.nvim', },
+  --{ 'stevearc/aerial.nvim' },
+  { dir = "~/downloads/aerial.nvim" },
 
   -- Colorscheming
   { 'rktjmp/lush.nvim', },
@@ -107,12 +106,12 @@ require('lazy').setup({
   },
   {
 	'frnsys/futora',
-	dev = true,
+ 	  dev = true,
   	lazy = false,
-	priority=1000,
-	dependencies = {
+	  priority=1000,
+    dependencies = {
       "rktjmp/lush.nvim",
-	},
+    },
   },
 }, {})
 

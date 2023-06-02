@@ -1,5 +1,5 @@
--- What files to ignore when searching
--- for files to edit/open within vim.
+--- What files to ignore when searching
+--- for files to edit/open within vim.
 edit_file_ignore_patterns = {
     "%.png",
     "%.jpg",
@@ -17,6 +17,7 @@ edit_file_ignore_patterns = {
     "%.asset",
     "%.asmdef",
     "%.prefab",
+    "%.unity",
     "%.mat",
 
     -- Python
