@@ -22,7 +22,9 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',
+        branch = "legacy",
+        opts = {} },
     },
   },
 
@@ -54,7 +56,8 @@ require('lazy').setup({
 
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' } },
+    dependencies = { 'nvim-lua/plenary.nvim' }
+  },
 
   -- Build fzf; requires `make`
   {
@@ -76,14 +79,10 @@ require('lazy').setup({
   -- "gc" to comment visual regions
   -- "gcc" to comment line
   -- "gc" comment text object
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim' },
 
   -- Faster "movement"
-  -- `mini.jump` modifies how f/F/t/T
-  -- work to repeat on subsequent presses
-  -- and across multiple lines
-  { 'echasnovski/mini.jump' },
-  { 'echasnovski/mini.jump2d' },
+  { 'phaazon/hop.nvim', opts = {} },
   { 'cbochs/portal.nvim' },
 
   -- Better text objects/motions
@@ -93,17 +92,19 @@ require('lazy').setup({
 
   -- File navigation
   { 'stevearc/oil.nvim', },
-  --{ 'stevearc/aerial.nvim' },
-  { dir = "~/downloads/aerial.nvim" },
+  { 'stevearc/aerial.nvim' },
+
+  -- Zen mode
+  { "folke/zen-mode.nvim", },
 
   -- Colorscheming
   { 'rktjmp/lush.nvim', },
-  {
-	'nvim-treesitter/playground',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-    },
-  },
+ --  {
+	-- 'nvim-treesitter/playground',
+ --    dependencies = {
+ --      'nvim-treesitter/nvim-treesitter',
+ --    },
+ --  },
   {
 	'frnsys/futora',
  	  dev = true,

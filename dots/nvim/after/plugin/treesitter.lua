@@ -1,8 +1,3 @@
-local variable_query = {
-    query = "@variable",
-    query_group = "highlights"
-}
-
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = {
@@ -17,6 +12,15 @@ require('nvim-treesitter.configs').setup {
   highlight = { enable = true },
   indent = { enable = false },
   textobjects = {
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader>a"] = "@parameter.inner",
+      },
+      swap_previous = {
+        ["<leader>A"] = "@parameter.inner",
+      },
+    },
     select = {
       enable = true,
       lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
@@ -26,12 +30,11 @@ require('nvim-treesitter.configs').setup {
         ['ia'] = '@parameter.inner',
         ['aF'] = '@function.outer',
         ['iF'] = '@function.inner',
-        ['ac'] = '@class.outer',
-        ['ic'] = '@class.inner',
-        ["iv"] = variable_query,
-        ['iR'] = '@assignment.rhs',
-        ['iL'] = '@assignment.lhs',
+        ['ar'] = '@assignment.rhs',
+        ['al'] = '@assignment.lhs',
         ['in'] = '@number.inner',
+        ['ik'] = '@block.inner',
+        ['ak'] = '@block.outer',
       },
     },
     move = {
@@ -39,20 +42,24 @@ require('nvim-treesitter.configs').setup {
       set_jumps = true, -- whether to set jumps in the jumplist
       goto_next_start = {
         [']f'] = '@function.outer',
-        [']]'] = '@class.outer',
-        ["]v"] = variable_query,
+        [']a'] = '@parameter.inner',
+        [']r'] = '@assignment.rhs',
+        [']e'] = '@assignment.lhs',
+        [']]'] = { query = "@scope", query_group = "locals" },
       },
       goto_next_end = {
-        [']F'] = '@function.outer',
-        [']['] = '@class.outer',
+        ['}f'] = '@function.outer',
+        [']['] = '@block.outer',
       },
       goto_previous_start = {
         ['[f'] = '@function.outer',
-        ['[['] = '@class.outer',
-        ["[v"] = variable_query,
+        ['[a'] = '@parameter.inner',
+        ['[r'] = '@assignment.rhs',
+        ['[e'] = '@assignment.lhs',
+        ['[['] = { query = "@scope", query_group = "locals" },
       },
       goto_previous_end = {
-        ['[F'] = '@function.outer',
+        ['{f'] = '@function.outer',
         ['[]'] = '@class.outer',
       },
     },

@@ -8,7 +8,8 @@ luasnip.setup({
 
 cmp.setup({
   performance = {
-    throttle = 0
+    throttle = 0,
+    debounce = 0,
   },
   snippet = {
     expand = function(args)
@@ -20,29 +21,40 @@ cmp.setup({
     ['<c-d>'] = cmp.mapping.scroll_docs(-4),
     ['<c-f>'] = cmp.mapping.scroll_docs(4),
 
-    -- Confirm the currently selected completion item
-    ['<cr>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = false,
-    },
-
     -- Select and confirm the first completion item
     ['<leader><leader>'] = cmp.mapping(function(fallback)
+      if not cmp.visible() then
+        cmp.complete()
+      end
+      if not cmp.get_selected_entry() then
+        cmp.select_next_item()
+      end
+      cmp.confirm()
+    end, { 'i', 's' }),
+
+    -- Select prev item or start completion
+    ['<c-k>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        if not cmp.get_selected_entry() then
-            cmp.select_next_item()
-        end
-        cmp.confirm()
+        cmp.select_prev_item()
+      else
+        cmp.complete()
+      end
+    end, { 'i', 's' }),
+
+    -- Select next completion option
+    ['<c-j>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
       else
         fallback()
       end
     end, { 'i', 's' }),
 
-    -- Either select next previous completion option
-    -- or jump to next position in snippet
-    ['<c-k>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
+    -- If an entry is selected, complete
+    -- otherwise jump to next snippet position
+    ['<c-l>'] = cmp.mapping(function(fallback)
+      if cmp.get_selected_entry() then
+        cmp.confirm()
       elseif luasnip.jumpable(1) then
         luasnip.jump(1)
       else
@@ -50,17 +62,15 @@ cmp.setup({
       end
     end, { 'i', 's' }),
 
-    -- Either select previous completion option
-    -- or jump to previous position in snippet
-    ['<c-j>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
+    -- Jump to previous snippet position
+    ['<c-h>'] = cmp.mapping(function(fallback)
+      if luasnip.jumpable(-1) then
         luasnip.jump(-1)
       else
         fallback()
       end
-    end, { 'i', 's' }),
+    end, { 'i', 's' })
+
   },
   sources = {
     { name = 'luasnip' },

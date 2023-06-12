@@ -1,6 +1,6 @@
----- Motion
+---- Objects
 -------------------------------------
---- Makes it easier to define new motions
+--- Makes it easier to define new text objects
 --- based on Lua patterns.
 
 --- Construct a lua pattern from a specification,

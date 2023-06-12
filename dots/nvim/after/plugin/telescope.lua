@@ -1,4 +1,3 @@
-require("ignore")
 local actions = require("telescope.actions")
 local builtin = require("telescope.builtin")
 
@@ -50,6 +49,7 @@ require("telescope").setup({
       },
       buffers = {
         previewer = false,
+        path_display = { "tail" },
         mappings = {
           i = {
             ["<c-x>"] = "delete_buffer",
@@ -92,7 +92,7 @@ pcall(require('telescope').load_extension, 'aerial')
 --- Insert file path
 local action_state = require("telescope.actions.state")
 local function insert_selection(prompt_bufnr, map)
-  actions.select_default:replace(function()
+  map({"i", "n"}, "<CR>", function()
     actions.close(prompt_bufnr)
 
     local selection = action_state.get_selected_entry()
@@ -119,18 +119,23 @@ end
 
 --- Keybindings
 bind('Search and insert filepath',
-  '<c-s>', function()
+  '<c-y>', function()
     builtin.find_files({
+      prompt_title = "Insert Path",
       attach_mappings = insert_selection,
     })
-  end, {'n', 'i'})
+  end, {'i'})
 
-bind('Search files',
+bind('Search files by name',
   '<c-p>', builtin.find_files)
+
+bind('Search by grep',
+  '<c-c>', builtin.live_grep)
 
 bind('Search TODO items',
   '<leader>t', function()
     builtin.grep_string({
+      prompt_title = "TODO Items",
       search = "TODO",
     })
   end)
@@ -141,16 +146,31 @@ bind('List buffers',
 bind('Fuzzily search in current buffer',
   '<leader>b', builtin.current_buffer_fuzzy_find)
 
+bind('Search by grep in buffers',
+  '<leader>f', function()
+    builtin.live_grep({
+      prompt_title = "Search in Buffers",
+      grep_open_files = true,
+    })
+  end)
+
 bind('Find references for word under cursor',
   '<leader>r', builtin.lsp_references)
 
-bind('Search by grep',
-  '<c-c>', builtin.live_grep)
+bind('List diagnostics',
+  '<leader>d', function()
+    builtin.diagnostics({
+        line_width = 120,
+        no_sign = true,
+        severity = 'error', -- Only show errors
+    })
+    end)
 
 bind('Search local symbols',
-  '<leader>l', function()
-    require("telescope").extensions.aerial.aerial(require('telescope.themes').get_dropdown({
-      previewer = false,
-      sorting_strategy = "descending",
-    }))
+  '<leader>s', function()
+    require("telescope").extensions.aerial.aerial(
+      require('telescope.themes').get_dropdown({
+        previewer = false,
+        sorting_strategy = "descending",
+      }))
   end)

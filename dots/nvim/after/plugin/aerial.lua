@@ -3,10 +3,12 @@ require('aerial').setup({
     default_direction = "prefer_left",
   }
 })
-vim.keymap.set({'n', 'i'}, '<C-j>', require('aerial').toggle,
+
+--- `q is already mapped to close the panel
+vim.keymap.set({'n'}, '<leader>j', require('aerial').toggle,
   { desc = 'Open symbol navigation' })
 
--- Use <esc> to jump back to the previous window
+--- Use <esc> to jump back to the previous window
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'aerial',
 	callback = function(opts)

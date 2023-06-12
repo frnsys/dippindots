@@ -1,10 +1,14 @@
 " Has to be defined first
 let mapleader=";"
 
+lua require('ignore')
 lua require('plugins')
-lua require('verses')
-lua require('motion')
-lua require('breakout')
+lua require('objects')
+" lua require('breakout')
+
+" gliss tooling
+lua require('gliss/verses')
+lua require('gliss/loom')
 
 " navigation
 set number            			" Show line numbers
@@ -12,8 +16,7 @@ set nostartofline 				" Don't reset cursor to start of line when moving
 set cursorline 				    " Highlight current line
 set scrolloff=3 				" Start scrolling three lines before border
 set showmatch 					" Show matching brackets
-let &showbreak='↳ '             " Show this at the start of wrapped lines
-set laststatus=0                " Never show the status bar
+let &showbreak=' '             " Show this at the start of wrapped lines
 set relativenumber 			    " Use relative line numbering
 
 " whitespace
@@ -39,7 +42,6 @@ set noerrorbells 				" Disable error bells
 set novisualbell                " Disable visual bells
 set showmode 					" Show the current mode
 set showcmd 					" Show the command as it's typed
-set shortmess=atI 				" Hide Vim intro message
 set wrap                        " Wrap long lines
 set hidden
 set textwidth=0 wrapmargin=0 formatoptions=cq
@@ -54,7 +56,9 @@ set noeol " Don’t add empty newlines at the end of files
 " this is used for multi-key bindings,
 " e.g. how long to wait to see if another key is coming
 " for bindings like `<leader>db`.
-set timeoutlen=250
+" 200 feels like a good value;
+" 100 is too fast.
+set timeoutlen=200
 
 " list chars (i.e. hidden characters)
 set listchars=""                  " Reset the listchars
@@ -84,21 +88,20 @@ let g:netrw_browsex_viewer='firefox'
 set backupcopy=yes
 
 " bind return to clear last search highlight.
-nnoremap <CR> :noh<CR><CR>
+nnoremap <CR> <cmd>noh<CR><CR>
+
+" buffer switching;
+" bit of a hack to have it immediately show
+" the buffer's filename upon switching
+nnoremap <silent> <s-tab> <cmd>bprev<cr>
+nnoremap <silent> <tab> <cmd>bnext<cr>
 
 " tabs
-nnoremap <silent> <s-tab> :tabprevious<cr>
-nnoremap <silent> <tab> :tabnext<cr>
+nnoremap <silent> gr <cmd>tabprevious<cr>
 
 " bind jk to escape
 imap jk <Esc>
 xnoremap jk <Esc>
-
-" command flubs
-command WQ wq
-command Wq wq
-command W w
-command Q q
 
 " don't really use `.`;
 " it causes mostly trouble for me
@@ -115,6 +118,24 @@ set splitright " open vsplits on the right by default
 nnoremap c "_c
 nnoremap C "_C
 
+" Hide the command line, use the status line instead
+" The downside with this is frequent "ENTER to continue" prompts
+" This is a hack that sets the `cmdheight=1` when entering a command,
+" then right after leaving, sets it back to 0, thus avoiding the ENTER prompt.
+set cmdheight=0
+au CmdlineEnter * setlocal cmdheight=1 laststatus=0
+au CmdlineLeave * call timer_start(1, { tid -> execute('setlocal cmdheight=0 laststatus=2')})
+set shortmess=WnoOcIatTF " Limit command line messaging
+
+" Command flubs
+" and a hack to suppress the ENTER prompt
+" when writing a file.
+cnoreabbrev w silent write
+command WQ wq
+command Wq wq
+command W silent write
+command Q q
+
 " filetypes
 filetype plugin indent on
 au FileType crontab setlocal backupcopy=yes
@@ -128,10 +149,6 @@ au FileType lua setlocal softtabstop=2 tabstop=2 shiftwidth=2
 
 " for text
 au FileType text setlocal spell complete+=kspell
-
-" gliss scripts
-au BufNewFile,BufRead *.script set filetype=script
-au FileType script setlocal tabstop=2 shiftwidth=2
 
 " Unity USS/UXML files
 au BufNewFile,BufRead *.uss set filetype=css

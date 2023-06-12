@@ -38,7 +38,7 @@ function! OpenUrlUnderCursor()
         echomsg 'The cursor is not on a link.'
     endif
 endfunction
-nnoremap gx :call OpenUrlUnderCursor()<cr>
+nnoremap <buffer> gx <cmd>call OpenUrlUnderCursor()<cr>
 
 " download the file at the specified to the "assets/"
 " folder, then add markdown reference
@@ -102,57 +102,27 @@ endfunction
 
 
 " easily paste html clipboard content as quoted markdown
-nnoremap <leader>c :r !nom clip <bar> sed 's/^/> /'<cr>
+nnoremap <buffer> <leader>c :r !nom clip <bar> sed 's/^/> /'<cr>
 
 " easily paste pdf clipboard content as quoted markdown
-nnoremap <leader>d :r !pdfpaste <bar> sed 's/^/> /'<cr>
+nnoremap <buffer> <leader>d :r !pdfpaste <bar> sed 's/^/> /'<cr>
 
 " screenshot, move to assets folder, paste in markdown
-nnoremap <leader>s "=system("fpath=$(shot region <bar> tail -n 1); [ ! -z $fpath ] && (fname=$(basename $fpath); [ -f $fpath ] && (mv $fpath ".expand('%:p:h')."/assets/$fname; echo '![](assets/'$fname')'))")<CR>P
+nnoremap <buffer> <leader>s "=system("fpath=$(shot region <bar> tail -n 1); [ ! -z $fpath ] && (fname=$(basename $fpath); [ -f $fpath ] && (mv $fpath ".expand('%:p:h')."/assets/$fname; echo '![](assets/'$fname')'))")<CR>P
 
 " use J/K to move up/down visual (wrapped) lines
 map J gj
 map K gk
 
 " quickly fix the closest previous spelling error.
-imap <c-f> <c-g>u<Esc>[s1z=`]a<c-g>u
-nmap <c-f> [s1z=``
-
-" assuming inline annotations are demarcated
-" by {...}, this highlights those annotations
-map <leader>h /{.\+}<CR>
+imap <buffer> <c-v> <c-g>u<Esc>[s1z=`]a<c-g>u
+nmap <buffer> <c-v> [s1z=``
 
 " compile and open in browser
-nnoremap <leader>v :call jobstart('nom view -w '.expand('%:p'))<cr>
+nnoremap <buffer> <leader>v <cmd>call jobstart('nom view -w '.expand('%:p'))<cr>
 
 " for inline mathjax
-imap <leader>b ¦¦<esc>i
-
-" writing mode
-" <https://stackoverflow.com/a/59955784>
-function! ToggleWriteMode()
-  let l:name = '_writeroom_'
-  if bufwinnr(l:name) > 0
-    colorscheme dark
-    :bwipeout _writeroom_
-  else
-    colorscheme light
-
-    " hide vertical split
-    hi VertSplit ctermfg=bg ctermbg=NONE cterm=NONE
-
-    " auto-close writeroom buffers when the text buffer closes
-    autocmd QuitPre <buffer> :bwipeout _writeroom_
-
-    " target column width
-    let l:target = 90
-    let l:width = (&columns - l:target) / 2
-    silent! execute 'topleft' l:width . 'vsplit +setlocal\ nobuflisted' l:name | wincmd p
-    silent! execute 'botright' l:width . 'vsplit +setlocal\ nobuflisted' l:name | wincmd p
-    endif
-endfunction
-" nnoremap <silent> <leader>w :call ToggleWriteMode()<cr>
-
+imap <buffer> <leader>b ¦¦<esc>i
 
 function! ToggleCheckbox()
   let line = getline('.')
@@ -164,4 +134,4 @@ function! ToggleCheckbox()
     call setline('.', substitute(line, '- ', '- \[ \] ', ''))
   endif
 endf
-nnoremap <leader>x :call ToggleCheckbox()<CR>
+nnoremap <buffer> <leader>x <cmd>call ToggleCheckbox()<CR>

@@ -1,15 +1,3 @@
-require('mini.jump').setup({
-  delay = {
-    highlight = 0
-  }
-})
-
-require('mini.jump2d').setup({
-  mappings = {
-    start_jumping = '<c-f>',
-  },
-})
-
 -- Two new text objects by default:
 -- - `a`: argument
 -- - `f`: function call (name and args)
@@ -29,11 +17,6 @@ require('mini.ai').setup({
   },
 })
 
--- Treat underscore as a word delimiter,
--- so `w` doesn't skip over them.
--- Makes dealing with snake case way easier
-vim.api.nvim_command("set iskeyword-=_")
-
 -- substitute
 vim.keymap.set("n", "s", require('substitute').operator, { noremap = true })
 vim.keymap.set("n", "ss", require('substitute').line, { noremap = true })
@@ -48,3 +31,9 @@ require('portal').setup({
 })
 vim.keymap.set("n", "<leader>o", "<cmd>Portal jumplist backward<cr>")
 vim.keymap.set("n", "<leader>i", "<cmd>Portal jumplist forward<cr>")
+
+-- hopping
+local hop = require('hop')
+vim.keymap.set('n', 'f', function()
+  hop.hint_char1({ direction = nil, current_line_only = false })
+end)

@@ -8,6 +8,8 @@ edit_file_ignore_patterns = {
     "%.ttf",
     "%.lock",
     "%.zip",
+    "%.svg",
+    "%.icon",
     "%.tar.gz",
 
     -- Unity

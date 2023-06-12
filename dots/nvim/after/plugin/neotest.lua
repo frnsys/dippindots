@@ -67,15 +67,22 @@ function run_file_tests()
     neotest.summary.open()
 end
 
--- Keybindings
+--- Keybindings
 -- See `:h neotest.run.run()`
-vim.keymap.set('n', '<leader>tn', neotest.run.run, { desc = 'Run the nearest test' })
-vim.keymap.set('n', '<leader>td', function() neotest.run.run({strategy = "dap"}) end, { desc = 'Run and debug nearest test' })
-vim.keymap.set('n', '<leader>tf', run_file_tests, { desc = 'Run all tests in file' })
-vim.keymap.set('n', '<leader>ta', run_all_tests, { desc = 'Run all tests in working dir' })
-vim.keymap.set('n', '<leader>tl', neotest.run.run_last, { desc = 'Run the last run test' })
-vim.keymap.set('n', '<leader>ts', neotest.summary.toggle, { desc = 'Toggle the test summary window' })
-vim.keymap.set('n', '<leader>tt', neotest.output_panel.toggle, { desc = 'Toggle the test output panel' })
+vim.keymap.set('n', '<leader>tn', neotest.run.run,
+  { desc = 'Run the nearest test' })
+vim.keymap.set('n', '<leader>td', function() neotest.run.run({strategy = "dap"}) end,
+  { desc = 'Run and debug nearest test' })
+vim.keymap.set('n', '<leader>tf', run_file_tests,
+  { desc = 'Run all tests in file' })
+vim.keymap.set('n', '<leader>ta', run_all_tests,
+  { desc = 'Run all tests in working dir' })
+vim.keymap.set('n', '<leader>tl', neotest.run.run_last,
+  { desc = 'Run the last run test' })
+vim.keymap.set('n', '<leader>ts', neotest.summary.toggle,
+  { desc = 'Toggle the test summary window' })
+vim.keymap.set('n', '<leader>to', neotest.output_panel.toggle,
+  { desc = 'Toggle the test output panel' })
 
 vim.api.nvim_create_autocmd('FileType', {
 	desc = 'Close neotest output panel on q',

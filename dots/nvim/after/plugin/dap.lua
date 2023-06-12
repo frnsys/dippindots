@@ -1,6 +1,6 @@
--- With Mason install:
--- - codelldb
--- - debugpy
+--- With Mason install:
+--- - codelldb
+--- - debugpy
 
 local dap = require('dap')
 local mason_registry = require("mason-registry")
@@ -53,7 +53,7 @@ dap.configurations.rust = {
     }
 }
 
--- Auto-open/close DAP UI
+--- Auto-open/close DAP UI
 local dapui = require('dapui')
 dapui.setup({
     controls = {
@@ -70,7 +70,7 @@ dap.listeners.before.event_exited["dap_config"] = function()
     dapui.close()
 end
 
--- Keybindings
+--- Keybindings
 vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, { desc = 'Toggle DAP breakpoint' })
 vim.keymap.set('n', '<leader>dc', dap.continue, { desc = 'DAP continue' })
 vim.keymap.set('n', '<leader>dn', dap.continue, { desc = 'DAP step over' })
