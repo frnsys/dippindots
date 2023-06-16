@@ -6,6 +6,9 @@ lua require('plugins')
 lua require('objects')
 " lua require('breakout')
 
+" francais
+lua require('francais')
+
 " gliss tooling
 lua require('gliss/verses')
 lua require('gliss/loom')
@@ -135,6 +138,9 @@ command WQ wq
 command Wq wq
 command W silent write
 command Q q
+
+" <c-s> to write
+nnoremap <c-s> :w<cr><cr>
 
 " filetypes
 filetype plugin indent on
