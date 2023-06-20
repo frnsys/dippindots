@@ -3,8 +3,7 @@ let mapleader=";"
 
 lua require('ignore')
 lua require('plugins')
-lua require('objects')
-" lua require('breakout')
+lua require('sights')
 
 " francais
 lua require('francais')

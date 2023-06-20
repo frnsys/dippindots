@@ -81,9 +81,12 @@ require('lazy').setup({
   -- "gc" comment text object
   { 'numToStr/Comment.nvim' },
 
-  -- Faster "movement"
+  -- Faster movement
   { 'phaazon/hop.nvim', opts = {} },
   { 'cbochs/portal.nvim' },
+
+  -- Smarter selection
+  { 'mfussenegger/nvim-treehopper' },
 
   -- Better text objects/motions
   { 'echasnovski/mini.ai' },
@@ -99,12 +102,12 @@ require('lazy').setup({
 
   -- Colorscheming
   { 'rktjmp/lush.nvim', },
- --  {
-	-- 'nvim-treesitter/playground',
- --    dependencies = {
- --      'nvim-treesitter/nvim-treesitter',
- --    },
- --  },
+  {
+	'nvim-treesitter/playground',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+    },
+  },
   {
 	'frnsys/futora',
  	  dev = true,
@@ -114,7 +117,11 @@ require('lazy').setup({
       "rktjmp/lush.nvim",
     },
   },
-}, {})
+}, {
+  ui = {
+    border = "single"
+  }
+})
 
 vim.opt.termguicolors = true
 vim.cmd('colorscheme futora')

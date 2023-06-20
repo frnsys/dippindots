@@ -37,3 +37,7 @@ local hop = require('hop')
 vim.keymap.set('n', 'f', function()
   hop.hint_char1({ direction = nil, current_line_only = false })
 end)
+
+-- smarter visual selection
+local treehopper = require('tsht')
+vim.keymap.set('n', 'vv', treehopper.nodes)
