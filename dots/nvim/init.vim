@@ -1,16 +1,38 @@
 " Has to be defined first
 let mapleader=";"
 
+lua <<EOF
+-- Automatically install Lazy plugin manager
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system {
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
+    lazypath,
+  }
+end
+vim.opt.rtp:prepend(lazypath)
+
+require('lazy').setup('plugins', {
+  ui = { border = "single" }
+})
+EOF
+
+set termguicolors
+colorscheme futora
+
 lua require('ignore')
-lua require('plugins')
 lua require('sights')
 
 " francais
-lua require('francais')
+au BufNewFile,BufRead *.fr lua require('francais')
 
 " gliss tooling
-lua require('gliss/verses')
-lua require('gliss/loom')
+au BufNewFile,BufRead *.script lua require('gliss/verses')
+au BufNewFile,BufRead *.loom lua require('gliss/loom')
 
 " navigation
 set number            			" Show line numbers

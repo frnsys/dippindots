@@ -1,23 +1,4 @@
---- This uses `hop`, `nvim-treesitter`, and `nvim-treesitter-textobjects`.
-local hop = require("hop")
-local queries = require "nvim-treesitter.query"
-local ns = vim.api.nvim_create_namespace("sights")
-
---- Highlight group for visualizing the target regions.
-vim.api.nvim_command('highlight default SightsPreview guibg=#262626 guifg=#888888')
-
---- TODO need a better solution here.
---- When hop quits without making a selection,
---- the SightsPreview highlight group isn't cleared.
---- There's no event or callback for when hop quits.
---- This is an inadequate hack to clear the SightsPreview
---- highlight group on `<esc>`, which is hop's default
---- quit button. The problems it that hop captures
---- the quit button, so you have to press `<esc>` twice:
---- once to quit hop, and once to clear the SightsPreview highlighting.
-vim.keymap.set('n', '<esc>', function()
-  vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
-end, {})
+--- This uses `flash`, `nvim-treesitter`, and `nvim-treesitter-textobjects`.
 
 --- Get the range of visible lines.
 local function visible_line_range()
@@ -37,48 +18,46 @@ local function contains(table, val)
 end
 
 --- Takes a table of sight targets and
---- uses hop to handle them.
+--- uses flash to handle them.
 local function handle_targets(targets, key)
   -- Add highlights for the node ranges.
-  for _, target in ipairs(targets) do
-    vim.api.nvim_buf_set_extmark(0, ns,
-      target['line'],
-      target['column'], {
-        hl_group = "SightsPreview",
-        end_row = target['node_end']['row'],
-        end_col = target['node_end']['col'],
-        priority = 65534, -- High priority so it's drawn over hop
-      })
-  end
+  -- for _, target in ipairs(targets) do
+  --   vim.api.nvim_buf_set_extmark(0, ns,
+  --     target['pos'][1],
+  --     target['pos'][2], {
+  --       hl_group = "SightsPreview",
+  --       end_row = target['end_pos'][1],
+  --       end_col = target['end_pos'][2],
+  --       priority = 65534, -- High priority so it's drawn over flash
+  --     })
+  -- end
 
-  -- Pass the targets to hop.
-  local gen = function(opts)
-    return {
-      jump_targets = targets
-    }
-  end
-  hop.hint_with_callback(gen, nil, function(t)
-    -- On selection, visually select the region
-    -- and clear highlighting.
-    vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
-    vim.api.nvim_win_set_cursor(0, {t['line'] + 1, t['column'] - 1})
-    vim.cmd.normal { 'v', bang = true }
-    vim.api.nvim_win_set_cursor(0, {t['node_end']['row'] + 1, t['node_end']['col'] - 1})
+  -- Pass the targets to flash.
+  require('flash').jump({
+    matcher = function(win)
+      return targets
+    end,
+    action = function(match, state)
+      -- On selection, visually select the region
+      vim.api.nvim_win_set_cursor(0, {match['pos'][1], match['pos'][2]})
+      vim.cmd.normal { 'v', bang = true }
+      vim.api.nvim_win_set_cursor(0, {match['end_pos'][1], match['end_pos'][2]})
 
-    -- For visual selection (`v`), don't pass the key,
-    -- since we're already selecting the region.
-    -- Otherwise pass the key on.
-    if key ~= 'v' then
-      local keys = vim.api.nvim_replace_termcodes(
+      -- For visual selection (`v`), don't pass the key,
+      -- since we're already selecting the region.
+      -- Otherwise pass the key on.
+      if key ~= 'v' then
+        local keys = vim.api.nvim_replace_termcodes(
         key, true, false, true)
-      vim.api.nvim_feedkeys(keys, 'n', false)
+        vim.api.nvim_feedkeys(keys, 'n', false)
+      end
     end
-  end)
+  })
 end
 
 --- Find all matches of pattern in a string.
 --- Set `around` true to get the ranges of the entire match,
---- otherwise only the inner capture is considered (assuming
+--- otherwise only the inner capture is considered, assuming
 --- a lua pattern of the form `foo()(main capture)()bar`.
 local function find_all(str, pattern, around)
   local results = {}
@@ -105,9 +84,6 @@ end
 --- applying the provided action key, e.g. `c` for "change".
 --- `around=true` is the `a` match, otherwise it's `i`.
 local function sights_pattern(patterns, key, around)
-  -- Reset highlights.
-  vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
-
   -- Get visible line range.
   local start_lnum, end_lnum = visible_line_range()
 
@@ -119,15 +95,10 @@ local function sights_pattern(patterns, key, around)
       for _, indices in ipairs(results) do
         local start_idx = indices[1]
         local end_idx = indices[2]
-        -- Save the targets to pass to hop.
+        -- Save the targets to pass to flash.
         table.insert(targets, {
-          line = start_lnum + i - 1,
-          column = start_idx,
-          window = 0,
-          node_end = {
-            row = start_lnum + i - 1,
-            col = end_idx,
-          }
+          pos = { start_lnum + i, start_idx - 1 },
+          end_pos = { start_lnum + i, end_idx - 1 }
         })
       end
     end
@@ -143,14 +114,11 @@ end
 --- the braces around a block/scope for example, if you just
 --- want the interior contents.
 local function sights_treesitter(textobj_name, key, shrink)
-  -- Reset highlights.
-  vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
-
   -- Get visible line range.
   local start_lnum, end_lnum = visible_line_range()
 
   -- Query for the text object in the current buffer
-  local results = queries.get_capture_matches_recursively(
+  local results = require('nvim-treesitter.query').get_capture_matches_recursively(
     0, textobj_name, "textobjects")
 
   -- Iterate over matches
@@ -167,15 +135,10 @@ local function sights_treesitter(textobj_name, key, shrink)
         end_col = #vim.fn.getline(end_row + 1)
       end
 
-      -- Save the targets to pass to hop.
+      -- Save the targets to pass to flash.
       table.insert(targets, {
-        line = start_row,
-        column = start_col + 1,
-        window = 0,
-        node_end = {
-          row = end_row,
-          col = end_col,
-        }
+        pos = { start_row + 1, start_col },
+        end_pos = { end_row + 1, end_col - 1 }
       })
     end
   end
