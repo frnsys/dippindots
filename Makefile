@@ -165,7 +165,7 @@ ffmpeg:
 		&& make && sudo make install
 
 	sudo apt install -y autoconf automake build-essential libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev libx264-dev libmp3lame-dev libfdk-aac-dev libvpx-dev libopus-dev libpulse-dev yasm libvidstab-dev
-git clone --depth=1 --branch n4.3.1 git://source.ffmpeg.org/ffmpeg.git /tmp/ffmpeg
+	git clone --depth=1 --branch n4.3.1 git://source.ffmpeg.org/ffmpeg.git /tmp/ffmpeg
 
 	# x265
 	wget https://bitbucket.org/multicoreware/x265_git/downloads/x265_3.5.tar.gz -O /tmp/ffmpeg/x265.tar.gz
