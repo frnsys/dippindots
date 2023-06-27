@@ -207,30 +207,14 @@ datetime() {
     echo $(clock -f '%m/%d·%H:%M')
 }
 
-syncthing() {
-    if [[ $CMD == 'bar' ]]; then
-        if pgrep -x "syncthing" > /dev/null; then
-            color="#e5cf2b"
-        else
-            color="#555555"
-        fi
-        echo "%{B$color} %{B-}"
-    else
-        if pgrep -x "syncthing" > /dev/null; then
-            echo "␖"
-        else
-            echo ""
-        fi
-    fi
-}
-
 if [[ $CMD == 'tmux' ]]; then
-    echo "$(syncthing)$(tasks)$(bluetooth) $(battery) $(email) $(muted)$(volume) $(wifi) $(datetime)"
+    # echo "$(syncthing)$(tasks)$(bluetooth) $(battery) $(email) $(muted)$(volume) $(wifi) $(datetime)"
+    echo "$(syncthing)$(tasks)$(bluetooth) $(battery) $(muted)$(volume) $(wifi) $(datetime)"
 elif [[ $CMD == 'bar' ]]; then
     while true; do
-        echo "S$(syncthing)$(tasks)$(email) $(battery) $(bluetooth)$(muted)$(volume) $(wifi)"
+        echo "S$(tasks) $(battery) $(bluetooth)$(muted)$(volume) $(wifi)"
         sleep 3
     done
 elif [[ $CMD == 'notify' ]]; then
-    notify-send -t 5000 "$(echo -e "$(datetime)\n$(tasks)$(bluetooth)$(email) $(muted)$(volume)\n$(battery)\n$(wifi)")"
+    notify-send -t 5000 "$(echo -e "$(datetime)\n$(tasks)$(bluetooth) $(muted)$(volume)\n$(battery)\n$(wifi)")"
 fi

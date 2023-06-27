@@ -1,4 +1,4 @@
-highlight Normal guifg=#eeeeee guibg=#202020 guisp=NONE blend=NONE gui=NONE
+highlight Normal guifg=#eeeeee guibg=#161616 guisp=NONE blend=NONE gui=NONE
 highlight Boolean guifg=#ffaf87 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Character guifg=#ffaf87 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight ColorColumn guifg=NONE guibg=#3a3a3a guisp=NONE blend=NONE gui=NONE
@@ -34,7 +34,7 @@ highlight Directory guifg=#2c84fc guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight EndOfBuffer guifg=#626262 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Exception guifg=#ff2f6d guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Float guifg=#ffaf87 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight FloatBorder guifg=#ffaf87 guibg=#1c1c1c guisp=NONE blend=NONE gui=NONE
+highlight FloatBorder guifg=#ffaf87 guibg=#161616 guisp=NONE blend=NONE gui=NONE
 highlight Function guifg=#67a2fd guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight HopNextKey guifg=#f8aa01 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight Identifier guifg=#f0f0f0 guibg=NONE guisp=NONE blend=NONE gui=NONE
@@ -45,7 +45,7 @@ highlight LineNr guifg=#444444 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight MatchParen guifg=#f8aa01 guibg=#282828 guisp=NONE blend=NONE gui=NONE
 highlight ModeMsg guifg=#f8aa01 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight NonText guifg=#626262 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight NormalFloat guifg=#eeeeee guibg=#1c1c1c guisp=NONE blend=NONE gui=NONE
+highlight NormalFloat guifg=#eeeeee guibg=#161616 guisp=NONE blend=NONE gui=NONE
 highlight Number guifg=#ffaf87 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight OilDir guifg=#7fb1f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Operator guifg=#67a2fd guibg=NONE guisp=NONE blend=NONE gui=NONE

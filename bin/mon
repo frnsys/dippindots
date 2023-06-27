@@ -3,7 +3,7 @@
 
 PLACE=$1
 INMON=eDP-1
-EXMON=HDMI-2
+EXMON=DP-2
 MON_ICON="∙"
 
 function restart_panel {
