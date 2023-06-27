@@ -124,15 +124,18 @@ super + slash
 
 # Device 0 is the Built-in Audio Analog Stereo
 super + {F10, XF86AudioRaiseVolume}
-    pactl -- set-sink-volume 0 +5%
+    pactl -- set-sink-volume @DEFAULT_SINK@ +5%
 
 # Device 0 is the Built-in Audio Analog Stereo
 super + {F9, XF86AudioLowerVolume}
-    pactl -- set-sink-volume 0 -5%
+    pactl -- set-sink-volume @DEFAULT_SINK@ -5%
 
 # Device 0 is the Built-in Audio Analog Stereo
 super + {F8, XF86AudioMute}
-    pactl set-sink-mute 0 toggle
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+super + {F4, XF86AudioMicMute}
+    mute toggle
 
 super + {F7, XF86MonBrightnessUp}
     sudo glow +50
@@ -176,9 +179,6 @@ super + a
 super + semicolon
     bspc rule -a alacritty -o state=floating && alacritty -e ncmpcpp
 
-super + shift + p
-    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/projects/music/bitwig/previews -e ranger .
-
 # super + shift + w
 # 	bspc node focused -g hidden=on
 
@@ -199,9 +199,6 @@ super + e
 
 # super + m
 #     bspc rule -a alacritty -o state=floating && alacritty -e mutt
-
-super + shift + m
-    mute toggle
 
 super + g
     pickcolor

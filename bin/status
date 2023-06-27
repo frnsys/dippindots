@@ -77,9 +77,8 @@ wifi() {
 
 
 volume() {
-    SINK=0
-    LEVEL=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
-    MUTED=$(pactl list sinks | grep '^[[:space:]]Mute:' | head -n $(( $SINK + 1 )) | cut -d' ' -f 2)
+    LEVEL=$(pactl -- get-sink-volume @DEFAULT_SINK@ | head -n1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+    MUTED=$(pactl -- get-sink-mute @DEFAULT_SINK@ | cut -d' ' -f 2)
 
     if [[ $CMD == 'bar' ]]; then
         BACK_COLOR="#555555"
