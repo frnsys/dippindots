@@ -1,4 +1,5 @@
 return {
+  --- Faster movement
   {
     "folke/flash.nvim",
     event = "VeryLazy",
@@ -68,7 +69,7 @@ return {
     }
   },
 
-  -- Better text objects/motions
+  --- Better text objects/motions
   { 'echasnovski/mini.ai',
     event = 'VeryLazy',
     -- Two new text objects by default:
@@ -90,9 +91,13 @@ return {
       },
     }
   },
+
+  --- Surround motion
   { 'echasnovski/mini.surround',
     event = 'VeryLazy',
     opts = {} },
+
+  --- Substitute motion
   { 'gbprod/substitute.nvim',
     opts = {},
     keys = {
@@ -114,7 +119,7 @@ return {
     },
   },
 
-  -- Symbol navigation
+  --- Symbol navigation
   { 'stevearc/aerial.nvim',
     keys = {
       {'<leader>j', function()

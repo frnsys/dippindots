@@ -20,18 +20,6 @@ end
 --- Takes a table of sight targets and
 --- uses flash to handle them.
 local function handle_targets(targets, key)
-  -- Add highlights for the node ranges.
-  -- for _, target in ipairs(targets) do
-  --   vim.api.nvim_buf_set_extmark(0, ns,
-  --     target['pos'][1],
-  --     target['pos'][2], {
-  --       hl_group = "SightsPreview",
-  --       end_row = target['end_pos'][1],
-  --       end_col = target['end_pos'][2],
-  --       priority = 65534, -- High priority so it's drawn over flash
-  --     })
-  -- end
-
   -- Pass the targets to flash.
   require('flash').jump({
     matcher = function(win)

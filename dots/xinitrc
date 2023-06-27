@@ -18,6 +18,10 @@ redshift &
 dunst &
 agenda remind 5 &
 
+# This messes up the X startup,
+# so start this manually elsewhere
+# syncthing --no-browser &
+
 # for web highlighting
 maw ~/notes/annos/web/annos.jsonl ~/notes/annos/web/assets &
 

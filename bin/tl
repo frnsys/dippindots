@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# Set the timeout to 0
-# so the result stays up until you dismiss it.
-notify-send "$1" "$(trans -brief "$1")" -t 0

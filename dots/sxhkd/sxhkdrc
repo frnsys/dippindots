@@ -89,10 +89,6 @@ super + alt + k
 super + z
     pkill -USR1 redshift
 
-# translate
-super + x
-    tl "$(echo "" | dmenu -p 'translate:')"
-
 # toggle bluetooth
 super + shift + b
     bt toggle; notify-send "toggling bluetooth"

@@ -20,7 +20,7 @@ fi
 # https://github.com/lolilolicon/xrectsel
 TIME=$(date +%F-%T)
 VID=/tmp/recording_${TIME}.ogv
-recordmydesktop $OPTS -o $VID --overwrite --fps 24 --no-frame --no-cursor
+recordmydesktop $OPTS -o $VID --overwrite --fps 24 --no-frame #--no-cursor
 
 # Trim the last bit (it catches the recording notification)
 DURATION=$(ffprobe -v 0 -show_entries format=duration -of compact=p=0:nk=1 "$VID")

@@ -18,8 +18,8 @@ echo "wine/
 build/
 .git/lfs/
 node_modules/
-target/release/
-target/debug/
+target/*
+dist/*
 deaddrop/vids/" > /tmp/bkup.exclude
 
 REPOS=(~/projects ~/docs ~/notes ~/photos ~/work)

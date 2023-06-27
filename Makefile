@@ -65,7 +65,7 @@ gui-tools:
     # unclutter - hide cursor after inactivity
     # gdebi - easier installation of deb packages
 	sudo apt install -y xsel xclip xdotool i3lock libnotify-bin unclutter gdebi
-	sudo apt install -y --no-install-recommends acpi bc dos2unix imagemagick sqlitebrowser rclone
+	sudo apt install -y --no-install-recommends dos2unix imagemagick sqlitebrowser rclone
 	sudo pip3 install -U yt-dlp
 	cargo install xcolor # color picking
 
