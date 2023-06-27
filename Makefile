@@ -57,13 +57,13 @@ headless-tools:
 	cargo install watchexec # for scripts that watch filesystem for changes
 
 gui-tools:
-    # xsel - clipboard
-    # xclip - clipboard, used by imgclip script
-    # xdotool - simulating interactions with the GUI
-    # i3lock - locking the screen
-    # libnotify-bin - for `notify-send` to create notifications
-    # unclutter - hide cursor after inactivity
-    # gdebi - easier installation of deb packages
+	# xsel - clipboard
+	# xclip - clipboard, used by imgclip script
+	# xdotool - simulating interactions with the GUI
+	# i3lock - locking the screen
+	# libnotify-bin - for `notify-send` to create notifications
+	# unclutter - hide cursor after inactivity
+	# gdebi - easier installation of deb packages
 	sudo apt install -y xsel xclip xdotool i3lock libnotify-bin unclutter gdebi
 	sudo apt install -y --no-install-recommends dos2unix imagemagick sqlitebrowser rclone
 	sudo pip3 install -U yt-dlp
@@ -252,8 +252,8 @@ scrots:
 	# for screen recordings
 	sudo apt install -y recordmydesktop gifsicle
 
-    # screenkey
-    # press shift+shift to temporarily disable/renable
+	# screenkey
+	# press shift+shift to temporarily disable/renable
 	pip3 install python-dbus
 	pip3 install pip install git+https://gitlab.com/screenkey/screenkey
 
@@ -408,7 +408,7 @@ vpn: # wireguard
 	sudo apt install -y wireguard resolvconf
 	sudo ln -s ~/docs/vpn/active /etc/wireguard/active.conf
 
-    # autostart/stop vpn on wifi up/down
+	# autostart/stop vpn on wifi up/down
 	sudo cp $(dir)/dots/services/network/vpn_down  /etc/networkd-dispatcher/no-carrier.d/vpn
 	sudo cp $(dir)/dots/services/vpn@.service /etc/systemd/system/vpn@.service
 	sudo systemctl daemon-reload
@@ -587,7 +587,7 @@ signal:
 	wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > /tmp/signal-desktop-keyring.gpg
 	cat /tmp/signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
 	echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
-	    sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+		sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
 	sudo apt update && sudo apt install -y signal-desktop
 
 	# signal-cli
@@ -608,8 +608,8 @@ misc-dots:
 	# Check for environment file
 	# NOTE: I have mine backed up in ~/docs
 	if [ ! -f /etc/environment ]; then \
-	    echo "Creating an empty environment variables file at /etc/environment..." \
-	    sudo touch /etc/environment \
+		echo "Creating an empty environment variables file at /etc/environment..." \
+		touch /etc/environment \
 	fi
 
 	# other defaults
