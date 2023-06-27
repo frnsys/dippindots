@@ -1,30 +1,4 @@
-199
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-adobe-standard
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-ascii-0
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-ibm-cp437
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-ibm-cp850
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-ibm-cp852
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-ibm-cp866
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-iso10646-1
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-iso8859-1
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-iso8859-10
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-iso8859-13
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-iso8859-15
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-iso8859-16
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-iso8859-2
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-iso8859-3
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-iso8859-4
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-iso8859-5
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-iso8859-8
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-iso8859-9
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-koi8-e
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-koi8-r
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-koi8-ru
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-koi8-u
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-koi8-uni
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-microsoft-cp1252
-Cousine-Regular.ttf -misc-cousine-medium-r-normal--0-0-0-0-m-0-suneu-greek
-EmojiOneColor-SVGinOT.ttf -misc-emojione color-medium-r-normal--0-0-0-0-p-0-iso10646-1
+41
 FantasqueSansMono-Bold.ttf -misc-fantasque sans mono-bold-r-normal--0-0-0-0-m-0-ascii-0
 FantasqueSansMono-Bold.ttf -misc-fantasque sans mono-bold-r-normal--0-0-0-0-m-0-ibm-cp850
 FantasqueSansMono-Bold.ttf -misc-fantasque sans mono-bold-r-normal--0-0-0-0-m-0-iso10646-1
@@ -33,6 +7,7 @@ FantasqueSansMono-Bold.ttf -misc-fantasque sans mono-bold-r-normal--0-0-0-0-m-0-
 FantasqueSansMono-Bold.ttf -misc-fantasque sans mono-bold-r-normal--0-0-0-0-m-0-iso8859-13
 FantasqueSansMono-Bold.ttf -misc-fantasque sans mono-bold-r-normal--0-0-0-0-m-0-iso8859-15
 FantasqueSansMono-Bold.ttf -misc-fantasque sans mono-bold-r-normal--0-0-0-0-m-0-iso8859-16
+FantasqueSansMono-Bold.ttf -misc-fantasque sans mono-bold-r-normal--0-0-0-0-m-0-iso8859-7
 FantasqueSansMono-Bold.ttf -misc-fantasque sans mono-bold-r-normal--0-0-0-0-m-0-iso8859-9
 FantasqueSansMono-BoldItalic.ttf -misc-fantasque sans mono-bold-i-normal--0-0-0-0-m-0-ascii-0
 FantasqueSansMono-BoldItalic.ttf -misc-fantasque sans mono-bold-i-normal--0-0-0-0-m-0-ibm-cp850
@@ -42,6 +17,7 @@ FantasqueSansMono-BoldItalic.ttf -misc-fantasque sans mono-bold-i-normal--0-0-0-
 FantasqueSansMono-BoldItalic.ttf -misc-fantasque sans mono-bold-i-normal--0-0-0-0-m-0-iso8859-13
 FantasqueSansMono-BoldItalic.ttf -misc-fantasque sans mono-bold-i-normal--0-0-0-0-m-0-iso8859-15
 FantasqueSansMono-BoldItalic.ttf -misc-fantasque sans mono-bold-i-normal--0-0-0-0-m-0-iso8859-16
+FantasqueSansMono-BoldItalic.ttf -misc-fantasque sans mono-bold-i-normal--0-0-0-0-m-0-iso8859-7
 FantasqueSansMono-BoldItalic.ttf -misc-fantasque sans mono-bold-i-normal--0-0-0-0-m-0-iso8859-9
 FantasqueSansMono-RegItalic.ttf -misc-fantasque sans mono-medium-i-normal--0-0-0-0-m-0-ascii-0
 FantasqueSansMono-RegItalic.ttf -misc-fantasque sans mono-medium-i-normal--0-0-0-0-m-0-ibm-cp850
@@ -51,6 +27,7 @@ FantasqueSansMono-RegItalic.ttf -misc-fantasque sans mono-medium-i-normal--0-0-0
 FantasqueSansMono-RegItalic.ttf -misc-fantasque sans mono-medium-i-normal--0-0-0-0-m-0-iso8859-13
 FantasqueSansMono-RegItalic.ttf -misc-fantasque sans mono-medium-i-normal--0-0-0-0-m-0-iso8859-15
 FantasqueSansMono-RegItalic.ttf -misc-fantasque sans mono-medium-i-normal--0-0-0-0-m-0-iso8859-16
+FantasqueSansMono-RegItalic.ttf -misc-fantasque sans mono-medium-i-normal--0-0-0-0-m-0-iso8859-7
 FantasqueSansMono-RegItalic.ttf -misc-fantasque sans mono-medium-i-normal--0-0-0-0-m-0-iso8859-9
 FantasqueSansMono-Regular.ttf -misc-fantasque sans mono-medium-r-normal--0-0-0-0-m-0-ascii-0
 FantasqueSansMono-Regular.ttf -misc-fantasque sans mono-medium-r-normal--0-0-0-0-m-0-ibm-cp850
@@ -60,141 +37,6 @@ FantasqueSansMono-Regular.ttf -misc-fantasque sans mono-medium-r-normal--0-0-0-0
 FantasqueSansMono-Regular.ttf -misc-fantasque sans mono-medium-r-normal--0-0-0-0-m-0-iso8859-13
 FantasqueSansMono-Regular.ttf -misc-fantasque sans mono-medium-r-normal--0-0-0-0-m-0-iso8859-15
 FantasqueSansMono-Regular.ttf -misc-fantasque sans mono-medium-r-normal--0-0-0-0-m-0-iso8859-16
+FantasqueSansMono-Regular.ttf -misc-fantasque sans mono-medium-r-normal--0-0-0-0-m-0-iso8859-7
 FantasqueSansMono-Regular.ttf -misc-fantasque sans mono-medium-r-normal--0-0-0-0-m-0-iso8859-9
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-ascii-0
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-ibm-cp850
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-ibm-cp852
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-ibm-cp866
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-iso10646-1
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-iso8859-1
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-iso8859-10
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-iso8859-13
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-iso8859-15
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-iso8859-16
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-iso8859-2
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-iso8859-3
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-iso8859-4
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-iso8859-5
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-iso8859-9
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-koi8-e
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-koi8-r
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-koi8-ru
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-koi8-u
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-koi8-uni
-FiraCode-Regular.otf -misc-fira code-medium-r-normal--0-0-0-0-m-0-microsoft-cp1252
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-adobe-standard
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-ascii-0
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-ibm-cp850
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-ibm-cp852
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-ibm-cp866
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-iso10646-1
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-iso8859-1
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-iso8859-10
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-iso8859-13
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-iso8859-15
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-iso8859-16
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-iso8859-2
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-iso8859-3
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-iso8859-4
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-iso8859-5
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-iso8859-9
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-koi8-e
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-koi8-r
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-koi8-ru
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-koi8-u
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-koi8-uni
-Input-BoldItalic_(InputSansNarrow-MediumItalic).ttf -misc-input-bold-i-semicondensed--0-0-0-0-p-0-microsoft-cp1252
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-adobe-standard
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-ascii-0
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-ibm-cp850
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-ibm-cp852
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-ibm-cp866
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-iso10646-1
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-iso8859-1
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-iso8859-10
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-iso8859-13
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-iso8859-15
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-iso8859-16
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-iso8859-2
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-iso8859-3
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-iso8859-4
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-iso8859-5
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-iso8859-9
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-koi8-e
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-koi8-r
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-koi8-ru
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-koi8-u
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-koi8-uni
-Input-Bold_(InputSansNarrow-Medium).ttf -misc-input-bold-r-semicondensed--0-0-0-0-p-0-microsoft-cp1252
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-adobe-standard
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-ascii-0
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-ibm-cp850
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-ibm-cp852
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-ibm-cp866
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-iso10646-1
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-iso8859-1
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-iso8859-10
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-iso8859-13
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-iso8859-15
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-iso8859-16
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-iso8859-2
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-iso8859-3
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-iso8859-4
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-iso8859-5
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-iso8859-9
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-koi8-e
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-koi8-r
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-koi8-ru
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-koi8-u
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-koi8-uni
-Input-Italic_(InputSansNarrow-LightItalic).ttf -misc-input-medium-i-semicondensed--0-0-0-0-p-0-microsoft-cp1252
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-adobe-standard
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-ascii-0
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-ibm-cp850
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-ibm-cp852
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-ibm-cp866
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-iso10646-1
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-iso8859-1
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-iso8859-10
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-iso8859-13
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-iso8859-15
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-iso8859-16
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-iso8859-2
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-iso8859-3
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-iso8859-4
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-iso8859-5
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-iso8859-9
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-koi8-e
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-koi8-r
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-koi8-ru
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-koi8-u
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-koi8-uni
-Input-Regular_(InputSansNarrow-Light).ttf -misc-input-medium-r-semicondensed--0-0-0-0-p-0-microsoft-cp1252
-KochGeometric-Bold.otf -misc-koch geometric medium-bold-r-normal--0-0-0-0-p-0-adobe-standard
-KochGeometric-Bold.otf -misc-koch geometric medium-bold-r-normal--0-0-0-0-p-0-ascii-0
-KochGeometric-Bold.otf -misc-koch geometric medium-bold-r-normal--0-0-0-0-p-0-iso10646-1
-KochGeometric-Bold.otf -misc-koch geometric medium-bold-r-normal--0-0-0-0-p-0-iso8859-1
-KochGeometric-Bold.otf -misc-koch geometric medium-bold-r-normal--0-0-0-0-p-0-iso8859-13
-KochGeometric-Bold.otf -misc-koch geometric medium-bold-r-normal--0-0-0-0-p-0-iso8859-15
-KochGeometric-Bold.otf -misc-koch geometric medium-bold-r-normal--0-0-0-0-p-0-iso8859-16
-KochGeometric-Bold.otf -misc-koch geometric medium-bold-r-normal--0-0-0-0-p-0-iso8859-2
-KochGeometric-Bold.otf -misc-koch geometric medium-bold-r-normal--0-0-0-0-p-0-iso8859-9
-KochGeometric-Bold.otf -misc-koch geometric medium-bold-r-normal--0-0-0-0-p-0-microsoft-cp1252
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-adobe-standard
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-ascii-0
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-ibm-cp437
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-ibm-cp850
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-ibm-cp852
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-iso10646-1
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-iso8859-1
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-iso8859-10
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-iso8859-13
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-iso8859-2
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-iso8859-3
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-iso8859-4
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-iso8859-9
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-jisx0201.1976-0
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-jisx0208.1983-0
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-jisx0208.1990-0
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-jisx0212.1990-0
-kochi-gothic-subst.ttf -misc-kochi gothic-medium-r-normal--0-0-0-0-p-0-koi8-r
+TwitterColorEmoji-SVGinOT.ttf -misc-twitter color emoji-medium-r-normal--0-0-0-0-p-0-iso10646-1
