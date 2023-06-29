@@ -57,12 +57,19 @@ return {
         client.server_capabilities.semanticTokensProvider = nil
       end
 
-      --- Create a command to run rust-analyzer cargo check
-      --- manually, for if checkOnSave is disabled (see below).
-      vim.api.nvim_create_user_command("Check", function()
-        vim.lsp.buf_notify(0, "rust-analyzer/runFlycheck", {
-          textDocument = vim.lsp.util.make_text_document_params()
-        })
+      --- Create a command to open docs for thing under cursor
+      --- in rust.
+      vim.api.nvim_create_user_command("OpenDocs", function()
+        vim.lsp.buf_request(vim.api.nvim_get_current_buf(),
+          'experimental/externalDocs',
+          vim.lsp.util.make_position_params(),
+          function(err, url)
+            if err then
+              error(tostring(err))
+            else
+              vim.fn['netrw#BrowseX'](url, 0)
+            end
+          end)
       end, {})
 
       --- Enable the following language servers
@@ -91,8 +98,7 @@ return {
 
             -- Disable check on save,
             -- instead trigger manually
-            checkOnSave = false,
-            check = {
+            checkOnSave = {
               command = "clippy",
               extraArgs = {
                 "--target-dir=target/analyzer"

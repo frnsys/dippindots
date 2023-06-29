@@ -208,11 +208,10 @@ datetime() {
 }
 
 if [[ $CMD == 'tmux' ]]; then
-    # echo "$(syncthing)$(tasks)$(bluetooth) $(battery) $(email) $(muted)$(volume) $(wifi) $(datetime)"
-    echo "$(syncthing)$(tasks)$(bluetooth) $(battery) $(muted)$(volume) $(wifi) $(datetime)"
+    echo "$(bluetooth) $(battery) $(muted)$(volume) $(wifi) $(datetime)"
 elif [[ $CMD == 'bar' ]]; then
     while true; do
-        echo "S$(tasks) $(battery) $(bluetooth)$(muted)$(volume) $(wifi)"
+        echo "S$(battery) $(bluetooth)$(muted)$(volume) $(wifi)"
         sleep 3
     done
 elif [[ $CMD == 'notify' ]]; then

@@ -103,6 +103,7 @@ bspc monitor primary -n "$INMON"
 # place the external monitor to the specified position
 if [[ $PLACE == 'mirror' ]]; then
     RES=$(xrandr | grep \* | awk '{print $1}')
+    # --scale 1.25x1.25 instead?
     xrandr --output "$EXMON" --auto --scale-from $RES --output "$INMON"
 else
     # if external monitor is 4k, use `--scale 0.5x0.5`

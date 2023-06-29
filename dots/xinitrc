@@ -18,12 +18,8 @@ redshift &
 dunst &
 agenda remind 5 &
 
-# This messes up the X startup,
-# so start this manually elsewhere
-# syncthing --no-browser &
-
 # for web highlighting
-maw ~/notes/annos/web/annos.jsonl ~/notes/annos/web/assets &
+# maw ~/notes/annos/web/annos.jsonl ~/notes/annos/web/assets &
 
 # Input selection
 # Hit CTRL+SPACE+LEFT_SHIFT, in that order
@@ -39,22 +35,6 @@ xautolock -time 30 -locker "sudo systemctl suspend" -detectsleep &
 
 # Bluetooth off by default
 bt toggle
-
-# Start jackd for bitwig
-# Use aplay -l to see sound devices
-# Then set -dhw:X,Y to the first non-loopback device and subdevice
-# The -p parameter is the buffer size (default 1024).
-# Decrease for lower latency; increase if too many xruns/audio popping
-# This volume setting thing is a trick to get jackd to have the proper output level
-# to match the pulseaudio sources.
-VOLUME=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
-pactl -- set-sink-volume 0 100%
-/usr/bin/jackd -ndefault -dalsa -dhw:2,0 -r44100 -p2048 -n2 &
-sleep 1 # wait for jackd, hacky...
-pactl load-module module-jack-sink
-pactl load-module module-jack-source
-pacmd set-default-sink jack_out
-pactl -- set-sink-volume 0 ${VOLUME}%
 
 # Touchpad tweaks
 DEVICE=$(xinput list | grep Synaptics | cut -f 2 | cut -f 2 -d=)

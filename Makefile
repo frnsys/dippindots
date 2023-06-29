@@ -47,6 +47,9 @@ prereqs:
 	echo "Package: snapd\nPin: release a=*\nPin-Priority: -10" | sudo tee -a /etc/apt/preferences.d/nosnap.pref
 	sudo apt update
 
+	# Get rid of some other unnecessary ubuntu server stuff
+	sudo apt uninstall -y mdadm multipath-tools cloud-init
+
 node:
 	@echo "Installing nvm/node..."
 	sudo pip install libsass
@@ -59,7 +62,7 @@ headless-tools:
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 	~/.fzf/install
 
-	sudo apt install -y --no-install-recommends wget curl jq htop tree cryptsetup silversearcher-ag dhcpcd5 gnupg dnsutils ncdu net-tools iw wireless-tools tmux powertop
+	sudo apt install -y --no-install-recommends wget curl jq htop tree cryptsetup silversearcher-ag dhcpcd5 gnupg dnsutils ncdu net-tools iw wireless-tools tmux powertop dfc
 	cargo install fd-find ripgrep
 
 	# For LAN/local hostname resolution
@@ -77,6 +80,7 @@ gui-tools:
 	sudo apt install -y --no-install-recommends dos2unix imagemagick sqlitebrowser rclone
 	sudo pip3 install -U yt-dlp
 	cargo install xcolor # color picking
+	cargo install pastel
 
 	# for easily updating system time to current time zone
 	# to preview, run `tzupdate -p`
@@ -225,18 +229,13 @@ mpv:
 	cd /tmp/mpvc && sudo make
 
 audio:
-	sudo apt install -y alsa-utils pulseaudio pavucontrol
-
-	sudo touch /usr/share/pipewire/media-session.d/with-pulseaudio
-	systemctl --user restart pipewire-session-manager
+	# Use pipewire. `pavucontrol` still works with pipewire.
+	sudo apt install -y --no-install-recommends alsa-utils pavucontrol pulseaudio-utils pipewire pipewire-pulse pipewire-audio-client-libraries
+	sudo touch /usr/share/pipewire/media-session.d/with-pulseaudio # Use pipewire as pulseaudio
 
 	# bluetooth
 	# see ~/notes/linux/bluetooth.md
-	sudo apt install -y bluez libbluetooth3 libbluetooth-dev pulseaudio-module-bluetooth bluez-tools
-	pactl load-module module-bluetooth-discover
-
-	# jack audio for live
-	sudo apt install -y jackd pulseaudio-module-jack
+	sudo apt install -y bluez libbluetooth3 libbluetooth-dev bluez-tools blueman
 
 dmenu:
 	git clone https://github.com/Cloudef/dmenu-pango-imlib /tmp/dmenu
@@ -483,6 +482,8 @@ thinkpad: # thinkpad-specific stuff
 	git clone https://github.com/teleshoes/tpacpi-bat /tmp/tpacpi-bat
 	cd /tmp/tpacpi-bat && ./install.pl
 
+	sudo systemctl enable tlp.service
+
 	# synaptics for touchpad
 	sudo apt install -y xserver-xorg-input-synaptics
 
@@ -543,6 +544,9 @@ tweaks:
 	# Note that idle detection doesn't work w/o a DE
 	# Instead using xautolock, see ~/.xinitrc
 
+	# For xautolock, need to do `visudo` and add:
+	# ftseng  ALL = NOPASSWD: /bin/systemctl suspend
+
 	# don't automatically kill user processes
 	# like tmux on logout
 	sudo sed -i 's/#KillUserProcesses=no/KillUserProcesses=no/' /etc/systemd/logind.conf
@@ -556,6 +560,14 @@ tweaks:
 
 	# In `~/.Xresources` you can specify the DPI with a line, e.g. `Xft.dpi: 166`
 	# Look up the DPI here: <http://dpi.lv/>
+
+	# For for X1 Nano G1
+	# where there is crackling/static
+	# when headphones are plguged in.
+	sudo apt install -y alsa-tools
+	# sudo hda-verb /dev/snd/hwC0D0 0x1d SET_PIN_WIDGET_CONTROL 0x0
+	sudo cp $(dir)/dots/services/audio_fix.service /etc/systemd/system/hdaverb.service
+	sudo systemctl enable hdaverb
 
 	# for USB input devices
 	sudo apt install linux-image-generic
@@ -654,4 +666,7 @@ misc-dots:
 screen:
 	sudo apt install -y redshift
 	sudo cp $(dir)/bin/glow /usr/bin/glow
-	ln -sf $(dir)/dots/misc/redshift.conf ~/.config/redshift.conf
+	mkdir ~/.config/redshift
+
+	# doesn't work as a symlink
+	cp $(dir)/dots/misc/redshift.conf ~/.config/redshift/redshift.conf
