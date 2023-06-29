@@ -2,8 +2,8 @@
 # Toggle input muting
 
 if [[ $1 == 'toggle' ]]; then
-    pacmd list-sources | grep -oP 'index: \d+' | awk '{ print $2 }' | xargs -I{} pactl set-source-mute {} toggle
-    notify-send "muted: $(mute status)"
+    pactl list short sources | grep source | cut -f1 | xargs -I{} pactl set-source-mute {} toggle
+    notify-send "Muted: $(mute status)"
 elif [[ $1 == 'status' ]]; then
-    pacmd list-sources | grep -oP 'muted: \w+' | awk '{ print $2 }' | tail -n 1
+    pactl list short sources | grep source | cut -f1 | xargs -I{} pactl get-source-mute {} | uniq | cut -f2 -d' '
 fi

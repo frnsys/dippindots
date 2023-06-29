@@ -138,16 +138,16 @@ super + {F4, XF86AudioMicMute}
     mute toggle
 
 super + {F7, XF86MonBrightnessUp}
-    sudo glow +50
-
-super + shift + {F7, XF86MonBrightnessUp}
     sudo glow +200
 
+super + shift + {F7, XF86MonBrightnessUp}
+    sudo glow +500
+
 super + {F6, XF86MonBrightnessDown}
-    sudo glow -50
+    sudo glow -200
 
 super + shift + {F6, XF86MonBrightnessDown}
-    sudo glow -200
+    sudo glow -500
 
 super + shift + alt + {F6, XF86MonBrightnessDown}
     sudo glow -1
