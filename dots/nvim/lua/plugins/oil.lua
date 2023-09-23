@@ -6,11 +6,11 @@ return {
       keymaps = {
         ["g?"] = "actions.show_help",
         ["<CR>"] = "actions.select",
-        ["<C-s>"] = "actions.select_vsplit",
-        ["<C-h>"] = "actions.select_split",
+        ["<C-v>"] = "actions.select_vsplit",
+        ["<C-s>"] = "actions.select_split",
         ["<C-t>"] = "actions.select_tab",
         ["q"] = "actions.close",
-        ["<C-l>"] = "actions.refresh",
+        ["<C-r>"] = "actions.refresh",
         ["-"] = "actions.parent",
         ["_"] = "actions.open_cwd",
         ["g."] = "actions.toggle_hidden",
@@ -33,9 +33,13 @@ return {
       },
     },
     keys = {
-      {"-", function()
-        require("oil").open()
-      end, desc = "Open parent directory"}
+      {
+        "-",
+        function()
+          require("oil").open()
+        end,
+        desc = "Open parent directory"
+      }
     }
   },
 }

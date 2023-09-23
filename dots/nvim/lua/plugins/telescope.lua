@@ -1,3 +1,5 @@
+--- Keymap prefix: '
+
 return {
   {
     'nvim-telescope/telescope.nvim',
@@ -14,95 +16,153 @@ return {
       },
     },
     keys = {
-      {'<c-p>', function()
-        require('telescope.builtin').find_files()
-      end, desc = 'Search files by name'},
+      { "'m", function()
+        require('cairns').telescope_marks()
+      end },
 
-      {'<c-c>', function()
-        require('telescope.builtin').live_grep()
-      end, desc = 'Search by grep'},
+      {
+        "'f",
+        function()
+          require('telescope.builtin').find_files()
+        end,
+        desc = 'Search files by name'
+      },
 
-      {'<leader>t', function()
-        require('telescope.builtin').grep_string({
-          prompt_title = "TODO Items",
-          search = "TODO",
-        })
-      end, desc = 'Search TODO items'},
+      {
+        "'s",
+        function()
+          require('telescope.builtin').live_grep()
+        end,
+        desc = 'Search by grep'
+      },
 
-      {'<leader><leader>', function()
-        require('telescope.builtin').buffers()
-      end, desc = 'List buffers'},
+      {
+        "'t",
+        function()
+          require('telescope.builtin').grep_string({
+            prompt_title = "TODO Items",
+            search = "TODO",
+          })
+        end,
+        desc = 'Search TODO items'
+      },
 
-      {'<leader>b', function()
-        require('telescope.builtin').current_buffer_fuzzy_find()
-      end, desc = 'Fuzzily search in current buffer'},
+      {
+        "''",
+        function()
+          require('telescope.builtin').buffers()
+        end,
+        desc = 'List buffers'
+      },
 
-      {'<leader>f', function()
-        require('telescope.builtin').live_grep({
-          prompt_title = "Search in Buffers",
-          grep_open_files = true,
-        })
-      end, desc = 'Search by grep in buffers'},
+      {
+        "'b",
+        function()
+          require('telescope.builtin').current_buffer_fuzzy_find()
+        end,
+        desc = 'Fuzzily search in current buffer'
+      },
 
-      {'<leader>r', function()
-        require('telescope.builtin').lsp_references()
-      end, desc = 'Find references for word under cursor'},
+      {
+        "'r",
+        function()
+          require('telescope.builtin').lsp_references()
+        end,
+        desc = 'Find references for word under cursor'
+      },
 
-      {'<leader>d', function()
-        require('telescope.builtin').diagnostics({
-          line_width = 120,
-          no_sign = true,
-          severity = 'error', -- Only show errors
-        })
-      end, desc = 'List diagnostics'},
+      {
+        "'d",
+        function()
+          require('telescope.builtin').diagnostics({
+            line_width = 120,
+            no_sign = true,
+            severity = 'error', -- Only show errors
+          })
+        end,
+        desc = 'List diagnostics'
+      },
 
-      {'<leader>s', function()
-        require("telescope").extensions.aerial.aerial(
-        require('telescope.themes').get_dropdown({
-          previewer = false,
-          sorting_strategy = "descending",
-        }))
-      end, desc = 'Search local symbols'},
+      {
+        "'z",
+        function()
+          require("telescope").extensions.aerial.aerial({
+            sorting_strategy = "descending",
+          })
+        end,
+        desc = 'Search local symbols'
+      },
 
       --- Keybindings
-      {'<c-y>', function()
-        require('telescope.builtin').find_files({
-          prompt_title = "Insert Path",
-          attach_mappings = function(prompt_bufnr, map)
-            local actions = require("telescope.actions")
-            local action_state = require("telescope.actions.state")
-            map({"i", "n"}, "<CR>", function()
-              actions.close(prompt_bufnr)
+      {
+        "'a",
+        function()
+          require('telescope.builtin').find_files({
+            prompt_title = "Insert Path",
+            attach_mappings = function(prompt_bufnr, map)
+              local actions = require("telescope.actions")
+              local action_state = require("telescope.actions.state")
+              map({ "i", "n" }, "<CR>", function()
+                actions.close(prompt_bufnr)
 
-              local selection = action_state.get_selected_entry()
-              local path = selection[1]
+                local selection = action_state.get_selected_entry()
+                local path = selection[1]
 
-              -- Insert the path
-              local cursor_pos_visual_start = vim.api.nvim_win_get_cursor(0)
-              local line = vim.api.nvim_get_current_line()
-              local new_line
-              local text_before = line:sub(1, cursor_pos_visual_start[2])
-              new_line = text_before .. path .. line:sub(cursor_pos_visual_start[2] + 1)
-              cursor_pos_visual_start[2] = text_before:len()
-              vim.api.nvim_set_current_line(new_line)
+                -- Insert the path
+                local cursor_pos_visual_start = vim.api.nvim_win_get_cursor(0)
+                local line = vim.api.nvim_get_current_line()
+                local new_line
+                local text_before = line:sub(1, cursor_pos_visual_start[2])
+                new_line = text_before .. path .. line:sub(cursor_pos_visual_start[2] + 1)
+                cursor_pos_visual_start[2] = text_before:len()
+                vim.api.nvim_set_current_line(new_line)
 
-              -- Position the cursor at the end of the path
-              local cursor_pos_visual_end = { cursor_pos_visual_start[1], cursor_pos_visual_start[2] + path:len() }
-              vim.api.nvim_win_set_cursor(0, cursor_pos_visual_end)
+                -- Position the cursor at the end of the path
+                local cursor_pos_visual_end = { cursor_pos_visual_start[1], cursor_pos_visual_start[2] + path:len() }
+                vim.api.nvim_win_set_cursor(0, cursor_pos_visual_end)
 
-              -- Go to insert mode after the path
-              vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('a',true,false,true),'m',true)
-            end)
-            return true
-          end
-        })
-      end, {'i'}, desc = 'Search and insert filepath'},
+                -- Go to insert mode after the path
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('a', true, false, true), 'm', true)
+              end)
+              return true
+            end
+          })
+        end,
+        { 'i' },
+        desc = 'Search and insert filepath'
+      },
     },
     config = function()
       local actions = require("telescope.actions")
+
+      --- Use flash to jump to telescope resluts
+      local function flash(prompt_bufnr)
+        require("flash").jump({
+          pattern = "^",
+          label = { after = { 0, 0 } },
+          search = {
+            mode = "search",
+            multi_window = true,
+            exclude = {
+              function(win)
+                return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "TelescopeResults"
+              end,
+            },
+          },
+          action = function(match)
+            local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+            picker:set_selection(match.pos[1] - 1)
+          end,
+        })
+      end
+
       require("telescope").setup({
-        defaults = require('telescope.themes').get_dropdown({
-          previewer = false,
+        defaults = {
+          layout_config = {
+            mirror = true,
+            width = 0.95,
+            preview_width = 0.5,
+          },
           mappings = {
             i = {
               -- exit on first esc
@@ -127,23 +187,25 @@ return {
               -- Otherwise replace the current window
               -- with the selected file.
               ["<CR>"] = actions.select_drop,
+
+              -- Open the selected file
+              -- in a new tab.
+              ["<c-n>"] = actions.select_tab,
+
+              -- Use flash to jump to telescope resluts
+              ["''"] = flash,
             },
           },
           file_ignore_patterns = edit_file_ignore_patterns,
-        }),
+        },
         pickers = {
-          current_buffer_fuzzy_find = {
-            previewer = false,
-          },
           find_files = {
-            previewer = false,
             find_command = { "fd", "-t=f" },
           },
           live_grep = {
             disable_coordinates = true,
           },
           buffers = {
-            previewer = false,
             path_display = { "tail" },
             mappings = {
               i = {
@@ -158,7 +220,6 @@ return {
             sort_mru = true,
           },
           diagnostics = {
-            previewer = false,
             layout_config = {
               width = 0.9,
             }
@@ -166,10 +227,10 @@ return {
         },
         extensions = {
           fzf = {
-            fuzzy = true,                    -- false will only do exact matching
-            override_generic_sorter = true,  -- override the generic sorter
-            override_file_sorter = true,     -- override the file sorter
-            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+            fuzzy = true,                   -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true,    -- override the file sorter
+            case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
           },
           aerial = {
             show_lines = false,

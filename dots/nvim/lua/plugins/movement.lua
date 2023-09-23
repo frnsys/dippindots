@@ -1,5 +1,5 @@
 return {
-  --- Faster movement
+  --- Faster movement within buffers
   {
     "folke/flash.nvim",
     event = "VeryLazy",
@@ -8,29 +8,31 @@ return {
         multi_window = false,
         mode = 'fuzzy',
       },
-      highlight = {
-        label = {
-          after = true,
-          before = true,
+      label = {
+        after = true,
+        before = true,
+        rainbow = {
+          enabled = true
         }
       },
       modes = {
         char = {
           enabled = false,
         }
+      },
+      prompt = {
+        enabled = false,
       }
     },
     keys = {
       {
-        "f",
-        mode = { "n", "x", "o" },
+        "<c-space>",
+        mode = { "n" },
         function()
           require("flash").jump({
-            highlight = {
-              label = {
-                before = false,
-                after = true,
-              },
+            label = {
+              before = false,
+              after = true,
             },
             mode = "char",
             search = {
@@ -40,95 +42,80 @@ return {
             }
           })
         end,
-        desc = "Flash",
+        desc = "Flash jump visible buffer",
       },
       {
-        "vv",
+        "<space><space>",
         mode = { "n", "o", "x" },
         function()
           require("flash").treesitter()
         end,
         desc = "Flash Treesitter",
       },
-      { -- Chain this with operators like "y", "d", etc, e.g. "dr"
-        "r",
-        mode = "o",
-        function()
-          require("flash").remote()
-        end,
-        desc = "Remote Flash",
-      },
     },
   },
 
-  { 'cbochs/portal.nvim',
+  --- Faster movement through jumplist
+  {
+    'cbochs/portal.nvim',
     keys = {
-      {'<leader>o', '<cmd>Portal jumplist backward<cr>'},
-      {'<leader>i', '<cmd>Portal jumplist forward<cr>'},
+      { 'K', '<cmd>Portal jumplist backward<cr>' },
+      { 'J', '<cmd>Portal jumplist forward<cr>' },
     },
     opts = {
       window_options = {
-        height = 5,
-      },
-    }
-  },
-
-  --- Better text objects/motions
-  { 'echasnovski/mini.ai',
-    event = 'VeryLazy',
-    -- Two new text objects by default:
-    -- - `a`: argument
-    -- - `f`: function call (name and args)
-    opts = {
-      -- Note: "|" indicates cursor position
-      -- See: <https://github.com/echasnovski/mini.nvim/blob/main/doc/mini-ai.txt#L225>
-      custom_textobjects = {
-        -- CamelCase or pascalCase subword
-        -- e.g. fo|oBar
-        -- e.g. Fo|oBar
-        -- "ciS" will change "foo" and "Foo" respectively
-        S = { {
-          '^()%u?[%l%d]+()',
-          '[%s%p]()%u?[%l%d]+()',
-          '[%l%u]()%u+[%l%d]+()'
-        } },
+        relative = "cursor",
+        width = 80,
+        height = 6,
+        col = 2,
+        focusable = false,
+        border = "single",
+        noautocmd = true,
       },
     }
   },
 
   --- Surround motion
-  { 'echasnovski/mini.surround',
+  {
+    'echasnovski/mini.surround',
     event = 'VeryLazy',
-    opts = {} },
+    opts = {}
+  },
 
   --- Substitute motion
-  { 'gbprod/substitute.nvim',
+  {
+    'gbprod/substitute.nvim',
     opts = {},
     keys = {
-      {'s', function()
+      { 's', function()
         require('substitute').operator()
-      end},
+      end },
 
-      {'ss', function()
+      { 'ss', function()
         require('substitute').line()
-      end},
+      end },
 
-      {'ss', function()
+      { 'ss', function()
         require('substitute').line()
-      end},
+      end },
 
-      {'s', function()
+      { 's', function()
         require('substitute').visual()
-      end, {'x'}}
+      end, { 'x' } }
     },
   },
 
   --- Symbol navigation
-  { 'stevearc/aerial.nvim',
+  {
+    'stevearc/aerial.nvim',
     keys = {
-      {'<leader>j', function()
-        require('aerial').toggle()
-      end, desc = 'Open symbol navigation'},
+      {
+        '<leader>s',
+        function()
+          require('aerial').toggle()
+        end,
+        desc = 'Open symbol navigation'
+      },
     },
     opts = {
       layout = {
@@ -147,11 +134,22 @@ return {
             local win_id = vim.fn.win_getid(prev_window)
             vim.api.nvim_set_current_win(win_id)
           end, {
-          silent = true,
-          buffer = opts['buffer']
-        })
-      end
-    });
+            silent = true,
+            buffer = opts['buffer']
+          })
+        end
+      });
     end
   },
+
+  {
+    'jinh0/eyeliner.nvim',
+    config = function()
+      require("eyeliner").setup({ highlight_on_key = true, dim = true })
+      vim.api.nvim_set_hl(0, 'EyelinerPrimary',
+        { fg = "#da9604", bold = true, underline = true })
+      vim.api.nvim_set_hl(0, 'EyelinerSecondary',
+        { fg = "#3d3d3d" })
+    end
+  }
 }

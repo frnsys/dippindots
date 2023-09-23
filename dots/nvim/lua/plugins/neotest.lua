@@ -1,3 +1,5 @@
+--- Keymap prefix: t ([t]est)
+
 return {
   {
     'nvim-neotest/neotest',
@@ -6,37 +8,65 @@ return {
       'nvim-neotest/neotest-python',
     },
     keys = {
-      {'<leader>tn', function()
-        require('neotest').run.run()
-      end, desc = 'Run the nearest test'},
+      {
+        'tn',
+        function()
+          require('neotest').run.run()
+        end,
+        desc = 'Run the nearest test'
+      },
 
-      {'<leader>td', function()
-        require('neotest').run.run({strategy = "dap"})
-      end, desc = 'Run and debug nearest test'},
+      {
+        'td',
+        function()
+          require('neotest').run.run({ strategy = "dap" })
+        end,
+        desc = 'Run and debug nearest test'
+      },
 
-      {'<leader>tf', function()
-        local neotest = require('neotest')
-        neotest.run.run(vim.fn.expand("%"))
-        neotest.summary.open()
-      end, desc = 'Run all tests in file'},
+      {
+        'tf',
+        function()
+          local neotest = require('neotest')
+          neotest.run.run(vim.fn.expand("%"))
+          neotest.summary.open()
+        end,
+        desc = 'Run all tests in file'
+      },
 
-      {'<leader>ta', function()
-        local neotest = require('neotest')
-        neotest.run.run(vim.fn.getcwd())
-        neotest.summary.open()
-      end, desc = 'Run all tests in working dir'},
+      {
+        'ta',
+        function()
+          local neotest = require('neotest')
+          neotest.run.run(vim.fn.getcwd())
+          neotest.summary.open()
+        end,
+        desc = 'Run all tests in working dir'
+      },
 
-      {'<leader>tl', function()
-        require('neotest').run.run_last()
-      end, desc = 'Run the last run test'},
+      {
+        'tl',
+        function()
+          require('neotest').run.run_last()
+        end,
+        desc = 'Run the last run test'
+      },
 
-      {'<leader>ts', function()
-        require('neotest').summary.toggle()
-      end, desc = 'Toggle the test summary window'},
+      {
+        'ts',
+        function()
+          require('neotest').summary.toggle()
+        end,
+        desc = 'Toggle the test summary window'
+      },
 
-      {'<leader>to', function()
-        require('neotest').output_panel.toggle()
-      end, desc = 'Toggle the test output panel'},
+      {
+        'to',
+        function()
+          require('neotest').output_panel.toggle()
+        end,
+        desc = 'Toggle the test output panel'
+      },
     },
     config = function()
       local neotest = require('neotest')
@@ -49,14 +79,15 @@ return {
           unknown = "?",
         },
         adapters = {
-          -- Requires cargo-nexttest
+          -- Requires cargo-nextest
+          -- cargo install cargo-nextest
           require("neotest-rust") {
             args = { "--no-capture" },
             dap_adapter = "codelldb",
           },
           require("neotest-python")({
             runner = "pytest",
-            args = {"--log-level", "DEBUG"},
+            args = { "--log-level", "DEBUG" },
             python = vim.fn.expand("$HOME/.pyenv/shims/python"),
             is_test_file = function(file_path)
               return string.find(file_path, "test")

@@ -3,6 +3,7 @@ return {
     build = ":TSUpdate",
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
+      'nvim-treesitter/playground',
     },
     main = 'nvim-treesitter.configs',
     opts = {
@@ -21,8 +22,6 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<space>",
-          scope_incremental = "<space>",
           node_incremental = "<tab>",
           node_decremental = "<s-tab>",
         },
@@ -31,10 +30,10 @@ return {
         swap = {
           enable = true,
           swap_next = {
-            ["<leader>a"] = "@parameter.inner",
+            ["<leader>]"] = "@parameter.inner",
           },
           swap_previous = {
-            ["<leader>A"] = "@parameter.inner",
+            ["<leader>["] = "@parameter.inner",
           },
         },
         select = {
@@ -44,8 +43,8 @@ return {
             -- You can use the capture groups defined in textobjects.scm
             ['aa'] = '@parameter.outer',
             ['ia'] = '@parameter.inner',
-            ['aF'] = '@function.outer',
-            ['iF'] = '@function.inner',
+            ['af'] = '@function.outer',
+            ['if'] = '@function.inner',
             ['ar'] = '@assignment.rhs',
             ['al'] = '@assignment.lhs',
             ['in'] = '@number.inner',
@@ -59,24 +58,10 @@ return {
           goto_next_start = {
             [']f'] = '@function.outer',
             [']a'] = '@parameter.inner',
-            [']r'] = '@assignment.rhs',
-            [']e'] = '@assignment.lhs',
-            [']]'] = { query = "@scope", query_group = "locals" },
-          },
-          goto_next_end = {
-            ['}f'] = '@function.outer',
-            [']['] = '@block.outer',
           },
           goto_previous_start = {
             ['[f'] = '@function.outer',
             ['[a'] = '@parameter.inner',
-            ['[r'] = '@assignment.rhs',
-            ['[e'] = '@assignment.lhs',
-            ['[['] = { query = "@scope", query_group = "locals" },
-          },
-          goto_previous_end = {
-            ['{f'] = '@function.outer',
-            ['[]'] = '@class.outer',
           },
         },
       },

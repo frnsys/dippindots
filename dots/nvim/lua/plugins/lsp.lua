@@ -1,3 +1,5 @@
+--- Keymap prefix: g
+
 return {
   {
     'neovim/nvim-lspconfig',
@@ -8,9 +10,11 @@ return {
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim',
-      branch = "legacy",
-      opts = {} },
+      {
+        'j-hui/fidget.nvim',
+        branch = "legacy",
+        opts = {}
+      },
     },
     config = function()
       vim.diagnostic.config({
@@ -18,39 +22,47 @@ return {
           border = "single"
         }
       })
-      local handlers =  {
-        ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, {border = 'single'}),
-        ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = 'single'}),
+      local handlers = {
+        ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' }),
+        ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' }),
       }
 
       --- Diagnostic keymaps
-      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev,
-      { desc = "Go to previous diagnostic message" })
-      vim.keymap.set('n', ']d', vim.diagnostic.goto_next,
-      { desc = "Go to next diagnostic message" })
-      vim.keymap.set('n', '<leader>e', function()
-        vim.diagnostic.open_float({ scope = "cursor" })
-      end,
-      { desc = "Open floating diagnostic message" })
+      vim.keymap.set('n', 'd[', vim.diagnostic.goto_prev,
+        { desc = "Go to previous diagnostic message" })
+      vim.keymap.set('n', 'd]', vim.diagnostic.goto_next,
+        { desc = "Go to next diagnostic message" })
+      vim.keymap.set('n', 'dm', function()
+          vim.diagnostic.open_float({ scope = "cursor" })
+        end,
+        { desc = "Open floating diagnostic message" })
 
       --- LSP settings.
       --- This function gets run when an LSP connects to a particular buffer.
       local on_attach = function(client, bufnr)
         local bind = function(desc, keys, func)
           vim.keymap.set('n', keys, func,
-          { buffer = bufnr, desc = desc })
+            { buffer = bufnr, desc = desc })
         end
 
         bind('Rename symbol',
-        '<leader>rn', vim.lsp.buf.rename)
+          'gr', vim.lsp.buf.rename)
         bind('Code action',
-        '<leader>aa', vim.lsp.buf.code_action)
-        bind('Go to definiton',
-        'gd', vim.lsp.buf.definition)
+          'ga', vim.lsp.buf.code_action)
         bind('Hover documentation',
-        'K', vim.lsp.buf.hover)
+          'gw', vim.lsp.buf.hover)
         bind('Signature documentation',
-        '<C-k>', vim.lsp.buf.signature_help)
+          'gs', vim.lsp.buf.signature_help)
+        bind('Go to definition',
+          'gd', vim.lsp.buf.definition)
+
+        --- Format on write
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          buffer = bufnr,
+          callback = function()
+            vim.lsp.buf.format()
+          end
+        })
 
         -- Semantic tokens not well supported,
         -- suggested to have it disabled for now.
@@ -66,15 +78,21 @@ return {
           function(err, url)
             if err then
               error(tostring(err))
+            elseif url['local'] ~= nil then
+              vim.fn['netrw#BrowseX'](url['local'], 0)
             else
-              vim.fn['netrw#BrowseX'](url, 0)
+              vim.print('No documentation found')
             end
           end)
       end, {})
+      vim.keymap.set('n',
+        'gh', function() vim.cmd('OpenDocs') end,
+        { desc = "Open rust docs" })
 
       --- Enable the following language servers
       local servers = {
         pyright = {},
+        marksman = {},
         rust_analyzer = {
           ["rust-analyzer"] = {
             completion = {
@@ -110,10 +128,6 @@ return {
         cssls = {},
       }
 
-      --- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
       --- Ensure the servers above are installed
       local mason_lspconfig = require 'mason-lspconfig'
       mason_lspconfig.setup {
@@ -122,6 +136,15 @@ return {
 
       mason_lspconfig.setup_handlers {
         function(server_name)
+          --- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+          --- Open local docs instead of internet docs
+          if server_name == "rust_analyzer" then
+            capabilities['experimental'] = { ['localDocs'] = true }
+          end
+
           require('lspconfig')[server_name].setup {
             capabilities = capabilities,
             on_attach = on_attach,
@@ -134,13 +157,13 @@ return {
       --- Omnisharp/C#/Unity
       local pid = vim.fn.getpid()
       local omnisharp_bin = "/opt/omnisharp-roslyn/run"
-      require('lspconfig').omnisharp.setup{
+      require('lspconfig').omnisharp.setup {
         on_attach = on_attach,
         handlers = handlers,
         flags = {
           debounce_text_changes = 150,
         },
-        cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
+        cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
       }
     end
   }

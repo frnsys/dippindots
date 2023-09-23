@@ -110,13 +110,9 @@ nnoremap <buffer> <leader>d :r !pdfpaste <bar> sed 's/^/> /'<cr>
 " screenshot, move to assets folder, paste in markdown
 nnoremap <buffer> <leader>s "=system("fpath=$(shot region <bar> tail -n 1); [ ! -z $fpath ] && (fname=$(basename $fpath); [ -f $fpath ] && (mv $fpath ".expand('%:p:h')."/assets/$fname; echo '![](assets/'$fname')'))")<CR>P
 
-" use J/K to move up/down visual (wrapped) lines
-map J gj
-map K gk
-
 " quickly fix the closest previous spelling error.
-imap <buffer> <c-v> <c-g>u<Esc>[s1z=`]a<c-g>u
-nmap <buffer> <c-v> [s1z=``
+imap <buffer> <c-k> <c-g>u<Esc>[s1z=`]a<c-g>u
+nmap <buffer> <c-k> [s1z=``
 
 " compile and open in browser
 nnoremap <buffer> <leader>v <cmd>call jobstart('nom view -w '.expand('%:p'))<cr>
@@ -135,3 +131,48 @@ function! ToggleCheckbox()
   endif
 endf
 nnoremap <buffer> <leader>x <cmd>call ToggleCheckbox()<CR>
+
+
+" When the cursor enters a markdown image,
+" this shows the image in the upper-right corner of the desktop.
+let preview_path = ''
+let preview_jobid = ''
+function! AutoPreviewImage()
+    let l:lnum = line('.')
+    let l:line = getline(l:lnum)
+    let l:coln = col('.')
+
+    let l:lcol = l:coln
+    while l:line[l:lcol] != '(' && l:line[l:lcol] != '<' && l:lcol >= 0
+        let l:lcol -= 1
+    endwhile
+
+    let l:rcol = l:coln
+    while l:line[l:rcol] != ')' && l:line[l:rcol] != '>' && l:rcol <= col("$")-1
+        let l:rcol += 1
+    endwhile
+
+    let l:obj = l:line[l:lcol + 1: l:rcol - 1]
+    let l:img = matchstr(l:obj, '[^<>()]\+\.\(jpg\|jpeg\|png\|gif\)')
+    if l:img != ''
+        if l:img != g:preview_path
+            call ClosePreviewImage()
+            if matchend(l:img, 'gif') >= 0
+                let g:preview_jobid = jobstart("gifview -a '".expand('%:p:h')."/".l:img."'")
+            else
+                let g:preview_jobid = jobstart("bspc rule -a feh -o focus=off && feh --scale-down -g 640x480-0+0 -B \"#161616\" '".expand('%:p:h')."/".l:img."'")
+            endif
+            let g:preview_path = l:img
+        endif
+    else
+        call ClosePreviewImage()
+    endif
+endfunction
+function! ClosePreviewImage()
+    if g:preview_jobid != ''
+        call jobstop(g:preview_jobid)
+        let g:preview_jobid = ''
+        let g:preview_path = ''
+    endif
+endfunction
+au CursorMoved *.md call AutoPreviewImage()

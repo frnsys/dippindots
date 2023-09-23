@@ -17,7 +17,7 @@ ls.add_snippets("all", {
 
 --- HTML
 local html_snippets = {
-  s("<a>", fmt("<a href=\"{}\">{}</a>", { i(1), i(2) } ))
+  s("<a>", fmt("<a href=\"{}\">{}</a>", { i(1), i(2) }))
 }
 ls.add_snippets("html", html_snippets);
 ls.add_snippets("typescriptreact", html_snippets);
@@ -25,7 +25,7 @@ ls.add_snippets("typescriptreact", html_snippets);
 --- Markdown
 ls.add_snippets("markdown", {
   -- To do item
-  s("o", fmt("- [ ] {}", { i(1) } ))
+  s("o", fmt("- [ ] {}", { i(1) }))
 })
 
 --- Python
@@ -43,19 +43,19 @@ ls.add_snippets("cs", {
   -- Function/method definitions
   s("void", fmt([[
   {} {}({}) {{
-    {}
+      {}
   }}
   ]], { i(1, "void"), i(2, "Function"), i(3), i(4) })),
   s("pub", fmt([[
   public {} {}({}) {{
-    {}
+      {}
   }}
   ]], { i(1, "void"), i(2, "Function"), i(3), i(4) })),
 
   -- Loops
   s("foreach", fmt([[
   foreach (var {} in {}) {{
-    {}
+      {}
   }}
   ]], { i(1), i(2), i(3) })),
 
@@ -64,21 +64,21 @@ ls.add_snippets("cs", {
   if ({} == null) return;
     ]], { i(1) })),
 
-    s("if", fmt([[
+  s("if", fmt([[
     if ({}) {{
-      {}
+        {}
     }}
     ]], { i(1), i(2) })),
 
-    s("elif", fmt([[
+  s("elif", fmt([[
   else if ({}) {{
-    {}
+      {}
   }}
   ]], { i(1), i(2) })),
 
   s("else", fmt([[
 else {{
-  {}
+    {}
 }}
 ]], { i(1) }))
 })
@@ -87,26 +87,26 @@ else {{
 ls.add_snippets("rust", {
   s("l", fmt("println!(\"{}\");", { i(1) })),
   s("ld", fmt("println!(\"{{}}\", {});", { i(1) })),
-  s("lv", fmt("println!(\"{} {{:?}}\", {});", { i(1), i(0) })),
+  s("lv", fmt("println!(\"{} {{:?}}\", {});", { i(1), rep(1) })),
 
   s("readfile", fmt([[
   let {} = fs::read_to_string({})
-      .expect(&format!("Couldn't read file: {{:?}}", {}));
-  ]], { i(1, "contents"), i(2, "path"), rep(2) } )),
+      .unwrap_or_else(|_| format!("Couldn't read file: {{:?}}", {}));
+  ]], { i(1, "contents"), i(2, "path"), rep(2) })),
 
   s("tests", fmt([[
   #[cfg(test)]
   mod tests {{
-    use super::*;
+      use super::*;
 
-    {}
+      {}
   }}
-  ]], { i(0) } )),
+  ]], { i(0) })),
 
   s("test", fmt([[
   #[test]
   fn test_{}() {{
-    {}
+      {}
   }}
   ]], { i(1), i(0) }))
 })

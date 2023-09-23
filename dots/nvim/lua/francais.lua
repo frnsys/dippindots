@@ -1,1 +1,0 @@
-/home/ftseng/projects/francais/outils/nvim.lua

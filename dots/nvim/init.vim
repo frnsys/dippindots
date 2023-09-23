@@ -26,9 +26,9 @@ colorscheme futora
 
 lua require('ignore')
 lua require('sights')
-
-" francais
-au BufNewFile,BufRead *.fr lua require('francais')
+lua require('breeze')
+lua require('cairns')
+lua require('bindings')
 
 " gliss tooling
 au BufNewFile,BufRead *.script lua require('gliss/verses')
@@ -75,6 +75,7 @@ set switchbuf+=usetab
 set clipboard^=unnamed,unnamedplus " Use OS clipboard
 set completeopt=menu,menuone,noselect   " Autocomplete settings
 set noeol " Don’t add empty newlines at the end of files
+set mouse= " Disable mouse
 
 " Shorter timeout to avoid lag,
 " this is used for multi-key bindings,
@@ -114,22 +115,36 @@ set backupcopy=yes
 " bind return to clear last search highlight.
 nnoremap <CR> <cmd>noh<CR><CR>
 
-" buffer switching;
-" bit of a hack to have it immediately show
-" the buffer's filename upon switching
-nnoremap <silent> <s-tab> <cmd>bprev<cr>
-nnoremap <silent> <tab> <cmd>bnext<cr>
-
 " tabs
-nnoremap <silent> gr <cmd>tabprevious<cr>
+nnoremap <silent> H <cmd>tabprevious<cr>
+nnoremap <silent> L <cmd>tabnext<cr>
 
-" bind jk to escape
+" jump to tabs by 1-index
+nnoremap <silent> '1 1gt
+nnoremap <silent> '2 2gt
+nnoremap <silent> '3 3gt
+nnoremap <silent> '4 4gt
+nnoremap <silent> '5 5gt
+
+" Toggle b/w alternative buffer
+nnoremap <bs> <c-^>
+
+" bind jk/kj to escape
 imap jk <Esc>
-xnoremap jk <Esc>
+imap kj <Esc>
+imap <C-space> <Esc>
 
 " don't really use `.`;
 " it causes mostly trouble for me
 map . <Nop>
+
+" Don't leave visual mode when changing indent
+xnoremap > >gv
+xnoremap < <gv
+
+" Keep search results in the screen center
+nnoremap n nzz
+nnoremap N Nzz
 
 " bind | and _ to vertical and horizontal splits
 nnoremap <expr><silent> \| !v:count ? "<C-W>v<C-W><Right>" : '\|'
@@ -162,6 +177,7 @@ command Q q
 
 " <c-s> to write
 nnoremap <c-s> :w<cr><cr>
+inoremap <c-s> <esc>:w<cr><cr>a
 
 " filetypes
 filetype plugin indent on
@@ -197,3 +213,7 @@ function! CleanNoNameEmptyBuffers()
     endif
 endfunction
 autocmd BufLeave * :call CleanNoNameEmptyBuffers()
+
+" Use this to enable syntax highlighting for markdown files
+" so our custom conceals in `after/syntax/markdown.vim` work.
+au BufNewFile,BufRead *.md set syntax=on

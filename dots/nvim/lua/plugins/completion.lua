@@ -27,12 +27,12 @@ return {
           }
         },
         preselect = cmp.PreselectMode.None, -- Don't preselect items
-        mapping = cmp.mapping.preset.insert {
+        mapping = {
           ['<c-d>'] = cmp.mapping.scroll_docs(-4),
           ['<c-f>'] = cmp.mapping.scroll_docs(4),
 
           -- Select and confirm the first completion item
-          ['<leader><leader>'] = cmp.mapping(function(fallback)
+          [";;"] = cmp.mapping(function(fallback)
             if not cmp.visible() then
               cmp.complete()
             end
@@ -43,7 +43,7 @@ return {
           end, { 'i', 's' }),
 
           -- Select prev item or start completion
-          ['<c-k>'] = cmp.mapping(function(fallback)
+          ['<c-p>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
             else
@@ -51,12 +51,12 @@ return {
             end
           end, { 'i', 's' }),
 
-          -- Select next completion option
-          ['<c-j>'] = cmp.mapping(function(fallback)
+          -- Select next completion option or start completion
+          ['<c-n>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
             else
-              fallback()
+              cmp.complete()
             end
           end, { 'i', 's' }),
 
@@ -68,7 +68,7 @@ return {
             elseif luasnip.jumpable(1) then
               luasnip.jump(1)
             else
-              fallback()
+              cmp.complete()
             end
           end, { 'i', 's' }),
 
@@ -86,7 +86,7 @@ return {
           { name = 'luasnip' },
           { name = 'nvim_lsp' },
           { name = 'nvim_lsp_signature_help' },
-          { name = 'buffer', keyword_length = 3 },
+          { name = 'buffer',                 keyword_length = 3 },
         },
       }
 
