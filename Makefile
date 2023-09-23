@@ -21,7 +21,7 @@ laptop:\
 
 	# apps
 	headless-tools gui-tools neovim\
-		alacritty browser ranger vpn\
+		kitty browser vpn\
 		signal torrents keepass android\
 		documents calendar neomutt\
 
@@ -62,8 +62,8 @@ headless-tools:
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 	~/.fzf/install
 
-	sudo apt install -y --no-install-recommends wget curl jq htop tree cryptsetup silversearcher-ag dhcpcd5 gnupg dnsutils ncdu net-tools iw wireless-tools tmux powertop dfc
-	cargo install fd-find ripgrep
+	sudo apt install -y --no-install-recommends wget curl jq htop tree cryptsetup silversearcher-ag dhcpcd5 gnupg dnsutils ncdu net-tools iw wireless-tools powertop dfc rename
+	cargo install fd-find ripgrep jless
 
 	# For LAN/local hostname resolution
 	sudo apt install -y avahi-daemon libnss-mdns
@@ -168,7 +168,7 @@ ncmpcpp:
 	sudo systemctl stop mpd.socket
 
 ffmpeg:
-	sudo apt install -y autoconf automake build-essential libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev libx264-dev libmp3lame-dev libfdk-aac-dev libvpx-dev libopus-dev libpulse-dev yasm libvidstab-dev libtool libwepb-dev libssl-dev
+	sudo apt install -y autoconf automake build-essential libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev libx264-dev libmp3lame-dev libfdk-aac-dev libvpx-dev libopus-dev libpulse-dev yasm libvidstab-dev libtool libwebp-dev libssl-dev
 
 	# libass
 	sudo apt install -y libfribidi-dev libfontconfig1-dev libharfbuzz-dev
@@ -176,7 +176,9 @@ ffmpeg:
 	cd /tmp/libass && ./autogen.sh && ./configure --enable-shared\
 		&& make && sudo make install
 
-	git clone --depth=1 --branch n4.3.1 git://source.ffmpeg.org/ffmpeg.git /tmp/ffmpeg
+	# NOTE: you need to make sure your ffmpeg included libs (e.g. livavutil)
+	# match those needed by mpv.
+	git clone --depth=1 --branch n4.4.4 git://source.ffmpeg.org/ffmpeg.git /tmp/ffmpeg
 
 	# x265
 	wget https://bitbucket.org/multicoreware/x265_git/downloads/x265_3.5.tar.gz -O /tmp/ffmpeg/x265.tar.gz
@@ -286,10 +288,7 @@ ranger:
 	sudo apt install -y --no-install-recommends highlight atool caca-utils w3m w3m-img poppler-utils ffmpegthumbnailer
 	pip3 install git+https://github.com/seebye/ueberzug.git@18.1.9
 	pip3 install ranger-fm
-	mkdir ~/.config/ranger
-	ln -sf $(dir)/dots/ranger/rc.conf ~/.config/ranger/rc.conf
-	ln -sf $(dir)/dots/ranger/rifle.conf ~/.config/ranger/rifle.conf
-	ln -sf $(dir)/dots/ranger/scope.sh ~/.config/ranger/scope.sh
+	ln -sf $(dir)/dots/ranger ~/.config/ranger
 
 bspwm: # window manager
 	sudo apt install -y --no-install-recommends xorg
@@ -324,10 +323,9 @@ dunst: # notifications
 		&& make && sudo make install
 	ln -sf $(dir)/dots/dunst  ~/.config/dunst
 
-alacritty: # terminal
-	sudo add-apt-repository -y ppa:aslatter/ppa
-	sudo apt install -y alacritty
-	ln -sf $(dir)/dots/alacritty ~/.config/alacritty
+kitty: # terminal
+	curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+	ln -sf $(dir)/dots/kitty/kitty.conf ~/.config/kitty/kitty.conf
 
 imagemagick: # imagemagick with AVIF support
 	git clone https://aomedia.googlesource.com/aom /tmp/aom
@@ -547,10 +545,6 @@ tweaks:
 	# For xautolock, need to do `visudo` and add:
 	# ftseng  ALL = NOPASSWD: /bin/systemctl suspend
 
-	# don't automatically kill user processes
-	# like tmux on logout
-	sudo sed -i 's/#KillUserProcesses=no/KillUserProcesses=no/' /etc/systemd/logind.conf
-
 	# auto-lock screen on sleep
 	# https://wiki.archlinux.org/index.php/Power_management#Suspend.2Fresume_service_files
 	sudo cp $(dir)/bin/lock /usr/bin/lock
@@ -588,9 +582,12 @@ torrents:
 
 documents:
 	# pandoc
-	sudo apt install -y --no-install-recommends texlive lmodern cm-super texlive-latex-recommended texlive-latex-extra
+	sudo apt install -y --no-install-recommends texlive lmodern cm-super texlive-latex-recommended texlive-latex-extra texlive-plain-generic texlive-xetex
 	wget https://github.com/jgm/pandoc/releases/download/3.1.4/pandoc-3.1.4-1-amd64.deb -O /tmp/pandoc.deb
 	sudo gdebi --n /tmp/pandoc.deb
+
+	# Fix soul.sty so it can be used with xelatex/unicode
+	sudo sed -i 's/\\newfont\\SOUL@tt{ectt1000}/\\font\\SOUL@tt=[RobotoMono-Regular.ttf]/' /usr/share/texlive/texmf-dist/tex/generic/soul/soul.sty
 
 	# for annotating pdfs
 	sudo apt install -y --no-install-recommends xournal
@@ -598,6 +595,9 @@ documents:
 	# mupdf-gl
 	wget https://www.mupdf.com/downloads/archive/mupdf-1.22.2-source.tar.gz -O /tmp/mupdf.tar.gz
 	cd /tmp && tar -xf mupdf.tar.gz
+
+	# zathura and suckless tabbed
+	sudo apt install zathura zathura-pdf-poppler suckless-tools
 
 	# change background color
 	# change keybindings
@@ -616,6 +616,8 @@ documents:
 		&& sed -i "s/case '\.'/case 'J'/" platform/gl/gl-main.c\
 		&& sed -i "s/case ','/case 'K'/" platform/gl/gl-main.c\
 		&& make && sudo make prefix=/usr/local install
+
+	sudo apt install -y libreoffice libreoffice-writer
 
 keepass:
 	# for ~/.bin/keepass
@@ -654,7 +656,6 @@ misc-dots:
 	ln -sf $(dir)/dots/bash/bashrc ~/.bashrc
 	ln -sf $(dir)/dots/bash/inputrc ~/.inputrc
 	ln -sf $(dir)/bin ~/.bin
-	ln -sf $(dir)/dots/tmux/tmux.conf ~/.tmux.conf
 
 	# other defaults
 	ln -sf $(dir)/dots/xinitrc ~/.xinitrc

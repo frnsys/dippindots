@@ -3,14 +3,7 @@
 CMD=$1
 IFACE=wlan0
 
-if [[ $CMD == 'tmux' ]]; then
-    VPN_FG="#[fg=colour10]"
-    NO_VPN_FG="#[fg=colour245]"
-    NO_NETWORK_FG="#[fg=colour245]"
-    RESET_FG="#[fg=colour245]"
-    ALERT_FG="#[fg=colour222]"
-    URGENT_FG="#[fg=colour196]"
-elif [[ $CMD == 'bar' ]]; then
+if [[ $CMD == 'bar' ]]; then
     VPN_FG="#43cc70"
     NO_VPN_FG="#ff4040"
     NO_NETWORK_FG="#878787"
@@ -207,13 +200,11 @@ datetime() {
     echo $(clock -f '%m/%d·%H:%M')
 }
 
-if [[ $CMD == 'tmux' ]]; then
-    echo "$(bluetooth) $(battery) $(muted)$(volume) $(wifi) $(datetime)"
-elif [[ $CMD == 'bar' ]]; then
+if [[ $CMD == 'bar' ]]; then
     while true; do
         echo "S$(battery) $(bluetooth)$(muted)$(volume) $(wifi)"
         sleep 3
     done
 elif [[ $CMD == 'notify' ]]; then
-    notify-send -t 5000 "$(echo -e "$(datetime)\n$(tasks)$(bluetooth) $(muted)$(volume)\n$(battery)\n$(wifi)")"
+    notify-send -t 5000 "$(date '+%m/%d %H:%M')" "$(batt percent)% $(batt duration)h\n\n$(wifi)\n\nMonth Est: $(vnstat -m -s | sed -n 4p | cut -d/ -f 4)\nDay Est: $(vnstat -m -s | tail -n 2 | cut -d/ -f 4)"
 fi
