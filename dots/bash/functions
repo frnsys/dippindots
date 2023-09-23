@@ -121,6 +121,20 @@ function md2pdf() {
         FILENAME="${1%.md}.pdf"
     fi
     # Or TimesTen for the font
-    pandoc --pdf-engine xelatex -V geometry:margin=0.5in -V documentclass=extarticle -V fontsize=14pt -V mainfont:"Source Sans Pro" -o "$FILENAME" "$1"
+    pandoc --pdf-engine xelatex -V geometry:margin=0.5in -V documentclass=extarticle -V fontsize=14pt -V mainfont:"Source Sans 3" -o "$FILENAME" "$1"
     echo "$FILENAME"
+}
+
+function sizes_by_ext() {
+    LC_ALL=C find . -name '?*.*' -type f -print0 |   perl -0ne '
+        if (@s = lstat$_){
+          ($ext = $_) =~ s/.*\.//s;
+          $s{$ext} += $s[12];
+          $n{$ext}++;
+        }
+        END {
+          for (sort{$s{$a} <=> $s{$b}} keys %s) {
+            printf "%15d %4d %s\n",  $s{$_}<<9, $n{$_}, $_;
+          }
+        }' | numfmt --to=iec-i --suffix=B
 }
