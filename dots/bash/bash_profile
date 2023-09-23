@@ -51,3 +51,5 @@ export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 export GDAL_DATA=/usr/share/gdal
 
 [[ -r ~/.bashrc ]] && . ~/.bashrc
+
+source /home/ftseng/.config/broot/launcher/bash/br

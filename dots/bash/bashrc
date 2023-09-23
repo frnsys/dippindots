@@ -25,3 +25,6 @@ unset file
 
 # pyenv
 eval "$(pyenv init --path)"
+
+source /home/ftseng/.config/broot/launcher/bash/br
+eval "$(zoxide init bash)"

@@ -283,12 +283,9 @@ feh:
 	# feh - image viewer/wallpaper manager
 	sudo apt install -y feh
 
-ranger:
-	# ranger
-	sudo apt install -y --no-install-recommends highlight atool caca-utils w3m w3m-img poppler-utils ffmpegthumbnailer
-	pip3 install git+https://github.com/seebye/ueberzug.git@18.1.9
-	pip3 install ranger-fm
-	ln -sf $(dir)/dots/ranger ~/.config/ranger
+yazi:
+	cargo install --git https://github.com/sxyazi/yazi
+	ln -sf $(dir)/dots/yazi  ~/.config/yazi
 
 bspwm: # window manager
 	sudo apt install -y --no-install-recommends xorg
