@@ -74,7 +74,7 @@ super + {1-9,0}
     bspc desktop -f ^{1-9,10}
 
 super + Return
-    alacritty
+    kitty
 
 super + n
     connect
@@ -153,19 +153,16 @@ super + shift + alt + {F6, XF86MonBrightnessDown}
     sudo glow -1
 
 super + t
-    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes -e vi todo.md
-
-super + shift + f
-    bspc rule -a alacritty -o state=floating && obsidian ~/projects/fugue/fugue/content/notes
+    bspc rule -a kitty -o state=floating && kitty --working-directory ~/notes -e vi todo.md
 
 super + quoteright
-    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/logs -e ~/.bin/log
+    bspc rule -a kitty -o state=floating && kitty --working-directory ~/notes/logs -e ~/.bin/log
 
 super + shift + quoteright
-    bspc rule -a alacritty -o state=floating && alacritty --working-directory ~/notes/music -e vi scratch.md
+    bspc rule -a kitty -o state=floating && kitty --working-directory ~/notes/music -e vi scratch.md
 
 super + p
-    bspc rule -a alacritty -o state=floating && alacritty -e ~/.bin/keepass
+    bspc rule -a kitty -o state=floating && kitty -e ~/.bin/keepass
 
 super + d
     browse
@@ -174,10 +171,10 @@ super + q
     search
 
 super + a
-    bspc rule -a alacritty -o state=floating && alacritty -e ~/.bin/2fa
+    bspc rule -a kitty -o state=floating && kitty -e ~/.bin/2fa
 
 super + semicolon
-    bspc rule -a alacritty -o state=floating && alacritty -e ncmpcpp
+    bspc rule -a kitty -o state=floating && kitty -e ncmpcpp
 
 # super + shift + w
 # 	bspc node focused -g hidden=on
@@ -198,7 +195,7 @@ super + e
     emo
 
 # super + m
-#     bspc rule -a alacritty -o state=floating && alacritty -e mutt
+#     bspc rule -a kitty -o state=floating && kitty -e mutt
 
 super + g
     pickcolor
@@ -207,11 +204,11 @@ super + shift + t
     timeshift
 
 super + c
-    bspc rule -a alacritty -o state=floating && alacritty -e bash -c 'agenda view | less -R'
+    bspc rule -a kitty -o state=floating && kitty -e bash -c 'agenda view | less -R'
 
 # weather
 super + u
-    bspc rule -a alacritty -o state=floating && alacritty -e bash -c 'curl -s "https://wttr.in/New York?m2n" | less -R'
+    bspc rule -a kitty -o state=floating && kitty -e bash -c 'curl -s "https://wttr.in/New York?m2n" | less -R'
     # notify-send "$(curl "https://wttr.in/New York?m&format=%l:+%C+%t+%w+%o")"
 
 # make sxhkd reload its configuration files:
@@ -222,4 +219,4 @@ Print
     if pgrep -x panel > /dev/null; then pkill panel; else panel; fi;
 
 alt + space
-    notify-send "$(date '+%m/%d %H:%M')" "$(batt percent)% $(batt duration)h"
+    status notify
