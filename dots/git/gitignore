@@ -13,3 +13,4 @@ env
 secret
 build.js
 dump.rdb
+target/doc

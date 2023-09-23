@@ -81,7 +81,7 @@ elif [[ $CMD == 'mount' || $CMD == 'umount' ]]; then
         fi
         sudo cryptsetup luksOpen $DISK $ENC_VOL
         sudo mount /dev/mapper/$ENC_VOL $MNT_DIR
-        echo "mounted to /media/usb"
+        echo "mounted to $MNT_DIR"
     elif [[ $CMD == 'umount' ]]; then
         sudo umount $MNT_DIR
         sudo cryptsetup luksClose $ENC_VOL

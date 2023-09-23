@@ -55,4 +55,7 @@ xinput --set-prop "$DEVICE" "libinput Accel Speed" 0.1
 # <https://github.com/swaywm/sway/issues/5732>
 systemctl --user import-environment
 
+# Start mics as muted
+pactl list short sources | grep source | cut -f1 | xargs -I{} pactl set-source-mute {} 1
+
 exec ~/.config/bspwm/wm

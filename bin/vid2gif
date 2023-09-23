@@ -27,4 +27,5 @@ FILTERS="fps=$FPS$SCALE"
 
 ffmpeg -y -i "$INP" -vf "$FILTERS,palettegen=stats_mode=$MODE" "$PAL"
 ffmpeg -y -i "$INP" -i "$PAL" -lavfi "$FILTERS [x]; [x][1:v] paletteuse=dither=$DITHER" "$TMP"
+echo "Saving to $OUT"
 gifsicle -O3 "$TMP" > "$OUT"
