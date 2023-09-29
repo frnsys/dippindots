@@ -10,15 +10,24 @@
 # - \C-u: clears the current input
 # - \r: return to run the command
 
+# For colorschemes
+# - <https://github.com/junegunn/fzf/wiki/Color-schemes>
+# - <https://minsw.github.io/fzf-color-picker/>
+# Bindings:
+#   alt-p: move up
+#   alt-n: move down
+#   alt-': enable jump
 _fzf() {
-    fzf --info=inline --color=bg+:#262626,fg+:#f9d284,bg:#1b1b1b,hl:#f55151,hl+:#f55151,gutter:#202020,info:#00af87,pointer:#00af87
+    fzf --info=inline \
+        --color=bg+:#262626,fg+:#f9d284,bg:#121212,hl:#00af87,hl+:#00af87,gutter:#121212,info:#00af87,pointer:#00af87,prompt:#ff2f6d \
+        --bind=alt-p:up,alt-n:down,alt-\':jump-accept
 }
 
 # cd from directory history
 📜() {
     CHOICE=$(zoxide query -l | _fzf) && z ${CHOICE}
 }
-bind '"\e;": "\C-u📜\r"'
+bind "\"\e'\": \"\C-u📜\r\""
 
 # cd from current dir
 ⤵️() {
@@ -26,7 +35,7 @@ bind '"\e;": "\C-u📜\r"'
     # -d 3: max depth 3
     CHOICE=$(fd -t d -d 3 . | _fzf) && z ${CHOICE}
 }
-bind '"\ep": "\C-u⤵️\r"'
+bind '"\e;": "\C-u⤵️\r"'
 
 # cd from home
 ⛺️() {
@@ -34,7 +43,7 @@ bind '"\ep": "\C-u⤵️\r"'
     # -d 5: max depth 5
     CHOICE=$(fd -t d -d 3 . ~ | _fzf) && z ${CHOICE}
 }
-bind '"\eP": "\C-u⛺️\r"'
+bind '"\e\"": "\C-u⛺️\r"'
 
 
 # https://stackoverflow.com/a/76799272
