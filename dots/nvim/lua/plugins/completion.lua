@@ -32,7 +32,7 @@ return {
           ['<c-f>'] = cmp.mapping.scroll_docs(4),
 
           -- Select and confirm the first completion item
-          [";;"] = cmp.mapping(function(fallback)
+          ["''"] = cmp.mapping(function(fallback)
             if not cmp.visible() then
               cmp.complete()
             end

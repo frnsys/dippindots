@@ -90,6 +90,7 @@ highlight @text.literal.block guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui
 highlight @text.emphasis guifg=#000000 guibg=#00af87 guisp=NONE blend=NONE gui=bold
 highlight @text.reference guifg=#f55151 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight @text.strong guifg=#f8aa01 guibg=NONE guisp=NONE blend=NONE gui=bold
+highlight @text.list_marker guifg=#dab874 guibg=none guisp=NONE blend=NONE gui=NONE
 highlight @text.todo.checked guifg=#00af87 guibg=none guisp=NONE blend=NONE gui=NONE
 highlight @text.todo.checked.text guifg=#5f5f87 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @text.todo.unchecked guifg=#ff2f6d guibg=none guisp=NONE blend=NONE gui=NONE
