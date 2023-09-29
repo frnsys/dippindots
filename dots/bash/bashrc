@@ -6,19 +6,12 @@ alias nvm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && nvm'
 alias node='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && node'
 alias npm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && npm'
 
-# Initialize fzf
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-export FZF_CTRL_T_COMMAND="fd . $HOME"
-export FZF_ALT_C_COMMAND="fd -t d . $HOME"
-export FZF_DEFAULT_COMMAND='rg --files --follow --glob "!.git/*"'
-export FZF_DEFAULT_OPTS="--history=$HOME/.fzf_history"
-
 # Add yabridge
 # export PATH="$PATH:$HOME/.local/share/yabridge"
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
-for file in ~/.dippindots/dots/bash/{path,prompt,aliases,functions}; do
+for file in ~/.dippindots/dots/bash/{path,prompt,aliases,functions,keys}; do
 	[ -r "$file" ] && source "$file"
 done
 unset file

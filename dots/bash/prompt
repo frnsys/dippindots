@@ -1,38 +1,13 @@
-if tput setaf 1 &> /dev/null; then
-	tput sgr0
-	if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
-		BG=$(tput setab 4)
-		RED=$(tput setaf 1)
-		YELLOW=$(tput setaf 3)
-		GREEN=$(tput setaf 10)
-		BLUE=$(tput setaf 33)
-		FORE=$(tput setaf 9)
-	else
-		RED=$(tput setaf 1)
-		YELLOW=$(tput setaf 3)
-		GREEN=$(tput setaf 2)
-		BLUE=$(tput setaf 33)
-		FORE=$(tput setaf 9)
-	fi
-	BOLD=$(tput bold)
-	RESET=$(tput sgr0)
-else
-	RED="\033[1;31m"
-	YELLOW="\033[1;33m"
-	GREEN="\033[1;32m"
-	BLUE="\033[1;34m;"
-	FORE="\033[1;37m"
-	BOLD=""
-	RESET="\033[m"
-fi
-
-export RED
-export YELLOW
-export GREEN
-export BLUE
-export FORE
-export BOLD
-export RESET
+tput sgr0
+RED=$(tput setaf 1)
+YELLOW=$(tput setaf 3)
+GREEN=$(tput setaf 2)
+BLUE=$(tput setaf 4)
+FORE=$(tput setaf 9)
+DARK=$(tput setaf 0)
+PURPLE=$(tput setaf 5)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
 
 function parse_git_dirty() {
 	[[ $(git status 2> /dev/null | tail -n1) != *"working"*"clean"* ]] && echo "*"
@@ -56,7 +31,7 @@ function update_prompt() {
     # \h = host
     # \w = cwd (full path)
     # \W = cwd (current dir only)
-    export PS1="\[$GREEN\]$(parse_venv)\[$RESET\]\[$BG\]\h\[$RESET\]:\[$BLUE\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \":\")\[$BLUE\]\$(parse_git_branch)\[$RESET\] > \[$RESET\]"
+    export PS1="\[$GREEN\]$(parse_venv)\[$RESET\]\[$BLUE\]\h\[$RESET\]:\[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \":\")\[$PURPLE\]\$(parse_git_branch)\[$RESET\] > \[$RESET\]"
 }
 export -f update_prompt
 export PROMPT_COMMAND='update_prompt'

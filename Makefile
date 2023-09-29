@@ -445,7 +445,7 @@ theme: # wallpaper, fonts, etc
 
 	# setup fonts
 	sudo ln -sf /etc/fonts/conf.avail/50-user.conf /etc/fonts/conf.d/50-user.conf
-	sudo apt install -y fonts-inconsolata xfonts-terminus ttf-mscorefonts-installer
+	sudo apt install -y fonts-inconsolata xfonts-terminus ttf-mscorefonts-installer fonts-noto-color-emoji
 	mkdir -p ~/.config/fontconfig
 	ln -sf $(dir)/assets/fonts ~/.fonts
 	ln -sf $(dir)/dots/misc/fonts.conf ~/.fonts.conf

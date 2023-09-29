@@ -1,0 +1,67 @@
+# Keybindings
+
+# Requires:
+# - fzf
+# - fd
+# - zoxide
+
+# Notes on the bind commands:
+# - \e is "alt", thus e.g. "\e;" is <alt+;>
+# - \C-u: clears the current input
+# - \r: return to run the command
+
+_fzf() {
+    fzf --info=inline --color=bg+:#262626,fg+:#f9d284,bg:#1b1b1b,hl:#f55151,hl+:#f55151,gutter:#202020,info:#00af87,pointer:#00af87
+}
+
+# cd from directory history
+📜() {
+    CHOICE=$(zoxide query -l | _fzf) && z ${CHOICE}
+}
+bind '"\e;": "\C-u📜\r"'
+
+# cd from current dir
+⤵️() {
+    # -t d: directories only
+    # -d 3: max depth 3
+    CHOICE=$(fd -t d -d 3 . | _fzf) && z ${CHOICE}
+}
+bind '"\ep": "\C-u⤵️\r"'
+
+# cd from home
+⛺️() {
+    # -t d: directories only
+    # -d 5: max depth 5
+    CHOICE=$(fd -t d -d 3 . ~ | _fzf) && z ${CHOICE}
+}
+bind '"\eP": "\C-u⛺️\r"'
+
+
+# https://stackoverflow.com/a/76799272
+__pick_and_insert() {
+    local path
+    path=$(fd . "$1" | _fzf)
+    if [ -n "$path" ]; then
+        file=$(printf "%q" "$path") # escape special characters
+        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$file${READLINE_LINE:$READLINE_POINT}"
+        READLINE_POINT=$((READLINE_POINT + ${#file}))
+    fi
+}
+
+# Insert file/dir from current dir
+bind -x '"\ei": "__pick_and_insert ."'
+
+# Insert file/dir from home
+bind -x '"\eI": "__pick_and_insert ~"'
+
+# Search command history
+__command_history() {
+    local cmd
+    cmd=$(cat ~/.bash_history | sort | uniq | _fzf)
+    if [ -n "$cmd" ]; then
+        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$cmd${READLINE_LINE:$READLINE_POINT}"
+        READLINE_POINT=$((READLINE_POINT + ${#cmd}))
+    fi
+}
+bind -x '"\er": "__command_history"'
+bind -x '"\C-r": "__command_history"'
