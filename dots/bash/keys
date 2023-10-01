@@ -30,18 +30,18 @@ _fzf() {
 bind "\"\e'\": \"\C-u📜\r\""
 
 # cd from current dir
-⤵️() {
+🍥() {
     # -t d: directories only
     # -d 3: max depth 3
     CHOICE=$(fd -t d -d 3 . | _fzf) && z ${CHOICE}
 }
-bind '"\e;": "\C-u⤵️\r"'
+bind '"\e;": "\C-u🍥\r"'
 
 # cd from home
 ⛺️() {
     # -t d: directories only
     # -d 5: max depth 5
-    CHOICE=$(fd -t d -d 3 . ~ | _fzf) && z ${CHOICE}
+    CHOICE=$(fd -t d -d 3 --exclude musics . ~ | _fzf) && z ${CHOICE}
 }
 bind '"\e\"": "\C-u⛺️\r"'
 
@@ -66,7 +66,9 @@ bind -x '"\eI": "__pick_and_insert ~"'
 # Search command history
 __command_history() {
     local cmd
-    cmd=$(cat ~/.bash_history | sort | uniq | _fzf)
+    # Reverse order, so most recent is at the bottom
+    # and the `awk` bit removes duplicates while preserving the order
+    cmd=$(tac ~/.bash_history | awk '!visited[$0]++' | _fzf)
     if [ -n "$cmd" ]; then
         READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$cmd${READLINE_LINE:$READLINE_POINT}"
         READLINE_POINT=$((READLINE_POINT + ${#cmd}))
