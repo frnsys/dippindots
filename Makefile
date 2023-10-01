@@ -168,7 +168,7 @@ ncmpcpp:
 	sudo systemctl stop mpd.socket
 
 ffmpeg:
-	sudo apt install -y autoconf automake build-essential libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev libx264-dev libmp3lame-dev libfdk-aac-dev libvpx-dev libopus-dev libpulse-dev yasm libvidstab-dev libtool libwebp-dev libssl-dev
+	sudo apt install -y autoconf automake build-essential libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev libx264-dev libmp3lame-dev libfdk-aac-dev libvpx-dev libopus-dev libpulse-dev yasm libvidstab-dev libtool libwebp-dev libssl-dev libdav1d-dev
 
 	# libass
 	sudo apt install -y libfribidi-dev libfontconfig1-dev libharfbuzz-dev
@@ -214,6 +214,7 @@ ffmpeg:
 		--enable-libx265 \
 		--enable-libpulse \
 		--enable-libwebp \
+		--enable-libdav1d \
 		--enable-nonfree \
 		--enable-openssl \
 		--enable-shared \
