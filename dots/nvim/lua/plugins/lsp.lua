@@ -79,7 +79,7 @@ return {
             if err then
               error(tostring(err))
             elseif url['local'] ~= nil then
-              vim.fn['netrw#BrowseX'](url['local'], 0)
+              vim.cmd([[!firefox ]] .. vim.fn.fnameescape(url['local']))
             else
               vim.print('No documentation found')
             end

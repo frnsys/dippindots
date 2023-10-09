@@ -95,10 +95,6 @@ return {
         require('substitute').line()
       end },
 
-      { 'ss', function()
-        require('substitute').line()
-      end },
-
       { 's', function()
         require('substitute').visual()
       end, { 'x' } }

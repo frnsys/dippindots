@@ -21,7 +21,7 @@ return {
       end },
 
       {
-        "'f",
+        "'s",
         function()
           require('telescope.builtin').find_files()
         end,
@@ -29,7 +29,7 @@ return {
       },
 
       {
-        "'s",
+        "'f",
         function()
           require('telescope.builtin').live_grep()
         end,
@@ -91,6 +91,16 @@ return {
           })
         end,
         desc = 'Search local symbols'
+      },
+
+      {
+        "'g",
+        function()
+          require('telescope.builtin').lsp_workspace_symbols({
+            fname_width = 0,
+          })
+        end,
+        desc = 'Search workspace symbols'
       },
 
       --- Keybindings

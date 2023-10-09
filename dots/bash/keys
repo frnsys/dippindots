@@ -18,7 +18,7 @@
 #   alt-n: move down
 #   alt-': enable jump
 _fzf() {
-    fzf --info=inline \
+    fzf --exact --info=inline \
         --color=bg+:#262626,fg+:#f9d284,bg:#121212,hl:#00af87,hl+:#00af87,gutter:#121212,info:#00af87,pointer:#00af87,prompt:#ff2f6d \
         --bind=alt-p:up,alt-n:down,alt-\':jump-accept
 }
@@ -66,9 +66,12 @@ bind -x '"\eI": "__pick_and_insert ~"'
 # Search command history
 __command_history() {
     local cmd
-    # Reverse order, so most recent is at the bottom
-    # and the `awk` bit removes duplicates while preserving the order
-    cmd=$(tac ~/.bash_history | awk '!visited[$0]++' | _fzf)
+    # 1. Removes trailing whitespace
+    # 2. Removes commands <=5 in length
+    # 3. Sorts and then counts occurrences
+    # 4. Sorts by counts
+    # 5. Removes the counts so we're just left with the command
+    cmd=$(cat ~/.bash_history | awk '{$1=$1};1' | awk 'length($0)>5' | sort | uniq -c | sort -nr | sed 's/\s*[0-9]* //' | _fzf)
     if [ -n "$cmd" ]; then
         READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$cmd${READLINE_LINE:$READLINE_POINT}"
         READLINE_POINT=$((READLINE_POINT + ${#cmd}))
@@ -76,3 +79,9 @@ __command_history() {
 }
 bind -x '"\er": "__command_history"'
 bind -x '"\C-r": "__command_history"'
+
+# Open file or directory in neovim
+bind -x '"\ev": "nvim $(fd . | _fzf)"'
+
+# Shortcuts
+bind -x '"\C-t": "cargo test"'

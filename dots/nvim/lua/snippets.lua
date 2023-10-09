@@ -91,8 +91,13 @@ ls.add_snippets("rust", {
 
   s("readfile", fmt([[
   let {} = fs::read_to_string({})
-      .unwrap_or_else(|_| format!("Couldn't read file: {{:?}}", {}));
-  ]], { i(1, "contents"), i(2, "path"), rep(2) })),
+      .unwrap_or_else(|_| panic!("Couldn't read file: {{:?}}", {}));
+  ]], { i(1, "contents"), i(2, "&path"), rep(2) })),
+
+  s("writefile", fmt([[
+    fs::write({}, {})
+      .unwrap_or_else(|_| panic!("Couldn't write file: {{:?}}", {}));
+  ]], { i(2, "&path"), i(1, "data"), rep(2) })),
 
   s("tests", fmt([[
   #[cfg(test)]

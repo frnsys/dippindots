@@ -4,6 +4,8 @@ return {
     event = "InsertEnter",
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
@@ -82,12 +84,11 @@ return {
           end, { 'i', 's' })
 
         },
-        sources = {
+        sources = cmp.config.sources({
           { name = 'luasnip' },
           { name = 'nvim_lsp' },
           { name = 'nvim_lsp_signature_help' },
-          { name = 'buffer',                 keyword_length = 3 },
-        },
+        }),
       }
 
       require('luasnip').setup({
@@ -96,6 +97,13 @@ return {
       })
       require('cmp').setup(opts)
       require('snippets')
+
+      cmp.setup.cmdline({ '/', '?' }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' }
+        }
+      })
     end
   }
 }

@@ -25,7 +25,7 @@ function! OpenUrlUnderCursor()
     let l:url = matchstr(l:obj, '\(http\|https\):\/\/[^ >,;]*')
     let l:img = matchstr(l:obj, '[^<>()]\+\.\(jpg\|jpeg\|png\|gif\|mp4\|webm\)')
     if l:url != ''
-        call netrw#BrowseX(l:url, 0)
+        execute '!firefox ' fnameescape(l:url)
     elseif l:img != ''
         if matchend(l:img, 'gif') >= 0
             call jobstart("gifview -a '".expand('%:p:h')."/".l:img."'")
@@ -147,22 +147,35 @@ function! AutoPreviewImage()
         let l:lcol -= 1
     endwhile
 
+    " Handle potentially nested parentheses
+    let l:open_parens = 0
     let l:rcol = l:coln
-    while l:line[l:rcol] != ')' && l:line[l:rcol] != '>' && l:rcol <= col("$")-1
+    while l:line[l:rcol] != '>' && l:rcol <= col("$")-1
+        if l:line[l:rcol] == '('
+            let l:open_parens += 1
+        endif
+        if l:line[l:rcol] == ')'
+            if l:open_parens == 0
+                break
+            endif
+            let l:open_parens -= 1
+        endif
         let l:rcol += 1
     endwhile
 
     let l:obj = l:line[l:lcol + 1: l:rcol - 1]
-    let l:img = matchstr(l:obj, '[^<>()]\+\.\(jpg\|jpeg\|png\|gif\)')
+    let l:caption = matchstr(l:obj, '!\[[^\]]\+\]')
+    let l:path = l:obj[len(l:caption) + 1:len(l:obj) - 2]
+    let l:img = matchstr(l:path, '\.\(jpg\|jpeg\|png\|gif\)$')
     if l:img != ''
-        if l:img != g:preview_path
+        if l:path != g:preview_path
             call ClosePreviewImage()
             if matchend(l:img, 'gif') >= 0
-                let g:preview_jobid = jobstart("gifview -a '".expand('%:p:h')."/".l:img."'")
+                let g:preview_jobid = jobstart("gifview -a '".expand('%:p:h')."/".l:path."'")
             else
-                let g:preview_jobid = jobstart("bspc rule -a feh -o focus=off && feh --scale-down -g 640x480-0+0 -B \"#161616\" '".expand('%:p:h')."/".l:img."'")
+                let g:preview_jobid = jobstart("bspc rule -a feh -o focus=off && feh --scale-down -g 640x480-0+0 -B \"#161616\" '".expand('%:p:h')."/".l:path."'")
             endif
-            let g:preview_path = l:img
+            let g:preview_path = l:path
         endif
     else
         call ClosePreviewImage()

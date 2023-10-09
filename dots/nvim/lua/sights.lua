@@ -157,6 +157,7 @@ end
 --- Patterns should be defined like so: `foo()(main capture)()bar`.
 --- The inner selection will be "main capture";
 --- otherwise (i.e. for around) the full match is selected.
+--- Patterns reference: <https://www.lua.org/manual/5.3/manual.html#6.4.1>
 local mappings = {
   treesitter = {
     ['a'] = {
@@ -230,6 +231,13 @@ local mappings = {
         [[%(()([^%)]+)()%)]],
         "%[()([^%]]+)()%]]",
         [[<()([^>]+)()>]]
+      }
+    },
+    ['u'] = {
+      label = '[u]rl',
+      patterns = {
+        [[()(https?://%g+)()$]],
+        [[()(https?://%g+)()%s]]
       }
     },
 
