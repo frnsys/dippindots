@@ -35,7 +35,7 @@ wifi() {
     color="$NO_NETWORK_FG";
     if [[ "$(/usr/bin/wifi)" == *"= on" ]]; then
         # change fg based on vpn status
-        if [[ $(sudo wg show | grep active) ]]; then
+        if [[ $(mullvad status | grep Connected) ]]; then
             conn_color="$VPN_FG"
         else
             conn_color="$NO_VPN_FG"
