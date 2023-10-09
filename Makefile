@@ -423,14 +423,11 @@ calendar:
 	systemctl --user start vdirsyncer.timer
 	# check timers with `systemctl list-timers --all --user`
 
-vpn: # wireguard
+vpn: # wireguard & mullvad
 	sudo apt install -y wireguard resolvconf
-	sudo ln -s ~/docs/vpn/active /etc/wireguard/active.conf
-
-	sudo cp $(dir)/dots/services/vpn@.service /etc/systemd/system/vpn@.service
-	sudo systemctl daemon-reload
-	sudo systemctl enable vpn@ftseng.service
-	sudo systemctl start vpn@ftseng.service
+	wget "https://mullvad.net/fr/download/app/deb/latest" -O /tmp/mullvad.deb
+	sudo gdebi /tmp/mullvad.deb
+	ln -s "/opt/Mullvad VPN/mullvad-gui" /usr/local/bin/vpn
 
 theme: # wallpaper, fonts, etc
 	# GTK/QT themeing
