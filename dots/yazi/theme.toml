@@ -34,11 +34,16 @@ syntect_theme = "~/.config/bat/themes/Catppuccin-macchiato.tmTheme"
 
 rules = [
 	# Images
-	{ mime = "image/*", fg = "#7AD9E5" },
+	{ mime = "image/*", fg = "#a694f2" },
 
 	# Videos
 	{ mime = "video/*", fg = "#F3D398" },
 	{ mime = "audio/*", fg = "#F3D398" },
+
+    # Docs
+	{ mime = "application/pdf", fg = "#57a5e5" },
+	{ name = "*.md", fg = "#e75a7c" },
+    { name = "*.url", fg = "#0370fe" },
 
 	# Archives
 	{ mime = "application/zip", fg = "#CD9EFC" },
@@ -51,7 +56,7 @@ rules = [
 
 	# Fallback
 	{ name = "*", fg = "#C8D3F8" },
-	{ name = "*/", fg = "#80AEFA" }
+	{ name = "*/", fg = "#089372" }
 ]
 
 [icons]

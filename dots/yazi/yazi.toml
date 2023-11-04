@@ -22,7 +22,7 @@ archive = [
 	{ exec = 'unar "$1"', display_name = "Extract here" },
 ]
 text = [
-	{ exec = '$EDITOR "$@"', block = true },
+	{ exec = '$EDITOR "$@"', block = true, display_name = "Editor" },
 ]
 pdf = [
 	{ exec = 'okular "$@"', block = false },
@@ -48,6 +48,9 @@ url = [
 csv = [
     { exec = 'bspc rule -a kitty -o state=floating && kitty -e csvlens "$@"' },
 ]
+markdown = [
+    { exec = 'nom view "$@"', display_name = "Nom" },
+]
 fallback = [
 	{ exec = 'open "$@"', display_name = "Open" },
 	{ exec = 'open -R "$@"', display_name = "Reveal in Finder" },
@@ -60,6 +63,7 @@ rules = [
 	{ name = "*.url", use = "url" },
 	{ name = "*.gif", use = "gif" },
 	{ name = "*.csv", use = "csv" },
+	{ name = "*.md", use = ["text", "markdown"] },
 
 	{ mime = "text/*", use = "text" },
 	{ mime = "image/*", use = "image" },
