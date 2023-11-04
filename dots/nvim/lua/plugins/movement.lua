@@ -82,6 +82,22 @@ return {
     opts = {}
   },
 
+  {
+    'echasnovski/mini.clue',
+    opts = {},
+    config = function(_, opts)
+      require('mini.clue').setup({
+        triggers = {
+          { mode = 'n', keys = '<Leader>d' },
+          { mode = 'n', keys = '<space>' }
+        },
+        window = {
+          delay = 10,
+        }
+      })
+    end
+  },
+
   --- Substitute motion
   {
     'gbprod/substitute.nvim',

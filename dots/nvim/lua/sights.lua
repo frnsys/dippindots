@@ -161,32 +161,32 @@ end
 local mappings = {
   treesitter = {
     ['a'] = {
-      label = '[a]rg',
+      label = 'arg',
       inner = '@parameter.inner',
       outer = '@parameter.outer',
     },
     ['f'] = {
-      label = '[f]unc',
+      label = 'func',
       inner = '@function.inner',
       outer = '@function.outer',
     },
     ['c'] = {
-      label = '[c]all',
+      label = 'call',
       inner = '@call.inner',
       outer = '@call.outer',
     },
     ['e'] = {
-      label = 'd[e]fine',
+      label = 'assignment',
       inner = '@assignment.inner',
       outer = '@assignment.outer',
     },
     ['k'] = {
-      label = 'bloc[k]',
+      label = 'block',
       inner = '@block.inner',
       outer = '@block.outer',
     },
     ['v'] = {
-      label = '[v]ar',
+      label = 'var',
       inner = {
         {
           query = "@field", -- property
@@ -199,11 +199,11 @@ local mappings = {
       }
     },
     ['n'] = {
-      label = '[n]um',
+      label = 'num',
       inner = '@number.inner'
     },
     ['t'] = {
-      label = '[t]ype',
+      label = 'type',
       inner = {
         {
           query = "@type",
@@ -218,14 +218,14 @@ local mappings = {
   },
   pattern = {
     ['q'] = {
-      label = '[q]uote',
+      label = 'quote',
       patterns = {
         [["()([^"]+)()"]],
         [['()([^']+)()']],
       }
     },
     ['b'] = {
-      label = '[b]race',
+      label = 'brace',
       patterns = {
         [[{()([^}]+)()}]],
         [[%(()([^%)]+)()%)]],
@@ -234,7 +234,7 @@ local mappings = {
       }
     },
     ['u'] = {
-      label = '[u]rl',
+      label = 'url',
       patterns = {
         [[()(https?://%g+)()$]],
         [[()(https?://%g+)()%s]]
@@ -242,13 +242,13 @@ local mappings = {
     },
 
     -- TODO this leads to too many options
-    ['w'] = {
-      label = '[w]ord',
-      patterns = {
-        [[%s()(%S+)()%s]],
-        [[%s()(%S+)()$]],
-      }
-    }
+    -- ['w'] = {
+    --   label = 'word',
+    --   patterns = {
+    --     [[%s()(%S+)()%s]],
+    --     [[%s()(%S+)()$]],
+    --   }
+    -- }
   },
   shrink = {
     '@block.inner',
@@ -273,57 +273,48 @@ local function to_query(t_obj)
   end
 end
 
-vim.keymap.set({ 'n' }, '<space>', function()
-  -- Display hints for possible objects
-  -- local keys = {}
-  -- for key, spec in pairs(mappings['treesitter']) do
-  --   table.insert(keys, spec.label)
-  -- end
-  -- for key, spec in pairs(mappings['pattern']) do
-  --   table.insert(keys, spec.label)
-  -- end
-  -- print(table.concat(keys, " "))
-
-  -- Wait for a character input to figure out
-  -- what we're looking for.
-  local ok, char = pcall(vim.fn.getcharstr)
-  if not ok or char == '\27' then return nil end
-
-  -- Uppercase input is considered "around"
-  local around = is_upper(char)
-  char = vim.fn.tolower(char)
-
-  -- See if any defined object matches this character.
-  if mappings['treesitter'][char] ~= nil then
-    local textobjs = mappings['treesitter'][char]
-
-    -- Either use the "inner" or "around" definition.
-    local t_obj
-    if around then
-      t_obj = textobjs.outer
-    else
-      t_obj = textobjs.inner
-    end
-    if t_obj == nil then return end
-
-    local queries = {}
-    if type(t_obj) == "table" then
-      -- Array
-      if t_obj[1] ~= nil then
-        for _, to in ipairs(t_obj) do
-          table.insert(queries, to_query(to))
-        end
-      else
-        table.insert(queries, t_obj)
+-- Handle the provided treesitter text object
+local function handle_treesitter_obj(t_obj)
+  local queries = {}
+  if type(t_obj) == "table" then
+    -- Array
+    if t_obj[1] ~= nil then
+      for _, to in ipairs(t_obj) do
+        table.insert(queries, to_query(to))
       end
     else
-      table.insert(queries, to_query(t_obj))
+      table.insert(queries, t_obj)
     end
-
-    local shrink = contains(mappings['shrink'], t_obj)
-    sights_treesitter(queries, shrink)
-  elseif mappings['pattern'][char] ~= nil then
-    local spec = mappings['pattern'][char]
-    sights_pattern(spec.patterns, around)
+  else
+    table.insert(queries, to_query(t_obj))
   end
-end)
+
+  local shrink = contains(mappings['shrink'], t_obj)
+  sights_treesitter(queries, shrink)
+end
+
+-- Setup keymaps
+for char, textobjs in pairs(mappings['treesitter']) do
+  -- Inner
+  vim.keymap.set({ 'n' }, '<space>' .. char, function()
+    handle_treesitter_obj(textobjs.inner)
+  end, { desc = textobjs.label .. ' inner' })
+
+  -- Around
+  if textobjs.outer ~= nil then
+    vim.keymap.set({ 'n' }, '<space>' .. vim.fn.toupper(char), function()
+      handle_treesitter_obj(textobjs.outer)
+    end, { desc = textobjs.label .. ' outer' })
+  end
+end
+for char, spec in pairs(mappings['pattern']) do
+  -- Inner
+  vim.keymap.set({ 'n' }, '<space>' .. char, function()
+    sights_pattern(spec.patterns, false)
+  end, { desc = spec.label .. ' inner' })
+
+  -- Around
+  vim.keymap.set({ 'n' }, '<space>' .. vim.fn.toupper(char), function()
+    sights_pattern(spec.patterns, true)
+  end, { desc = spec.label .. ' outer' })
+end
