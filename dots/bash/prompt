@@ -32,6 +32,13 @@ function update_prompt() {
     # \w = cwd (full path)
     # \W = cwd (current dir only)
     export PS1="\[$GREEN\]$(parse_venv)\[$RESET\]\[$BLUE\]\h\[$RESET\]:\[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \":\")\[$PURPLE\]\$(parse_git_branch)\[$RESET\] > \[$RESET\]"
+
+    # Only write successful (non-zero exit code)
+    # commands to history
+    exit_status=$?
+    if ((!exit_status)); then
+       history 1 >> /tmp/history.txt
+    fi
 }
 export -f update_prompt
 export PROMPT_COMMAND='update_prompt'

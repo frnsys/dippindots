@@ -22,6 +22,7 @@ alias gds="git diff --staged"
 alias gsu="git submodule foreach git pull origin master"
 
 # Shortcuts
+alias v="vi ."
 alias y="yazi"
 alias f="br"
 alias envim="cd ~/.dippindots/dots/nvim; vi ."

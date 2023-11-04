@@ -9,6 +9,9 @@ alias npm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && npm'
 # Add yabridge
 # export PATH="$PATH:$HOME/.local/share/yabridge"
 
+# fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 for file in ~/.dippindots/dots/bash/{path,prompt,aliases,functions,keys}; do

@@ -20,6 +20,7 @@ build/
 node_modules/
 target/
 dist/
+torrents/
 deaddrop/vids/" > /tmp/bkup.exclude
 
 REPOS=(~/projects ~/docs ~/notes ~/photos ~/work)
@@ -36,7 +37,7 @@ function localSync() {
         # NOTE can't use `--delete-excluded` because it also implies `--delete`
         rsync -azvu --progress "$d" "$dest" --exclude-from=/tmp/bkup.exclude
     done
-    rsync -azvu --progress ~/downloads "$dest/repos" --delete --delete-excluded --progress --exclude=torrents
+    rsync -azvu --progress ~/downloads "$dest/repos" --delete --delete-excluded --progress --exclude-from=/tmp/bkup.exclude
     date > /tmp/last_updated
     scp /tmp/last_updated $dest/last_updated
 }

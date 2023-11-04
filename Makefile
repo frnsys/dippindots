@@ -233,7 +233,10 @@ mpv:
 
 audio:
 	# Use pipewire. `pavucontrol` still works with pipewire.
-	sudo apt install -y --no-install-recommends alsa-utils pavucontrol pulseaudio-utils pipewire pipewire-pulse pipewire-audio-client-libraries
+	# Get a version of pipewire with support for the AAC bluetooth codec
+	sudo add-apt-repository ppa:aglasgall/pipewire-extra-bt-codecs
+	sudo apt update
+	sudo apt install -y --no-install-recommends alsa-utils pavucontrol pulseaudio-utils pipewire pipewire-pulse wireplumber pipewire-audio-client-libraries libspa-0.2-bluetooth
 	sudo touch /usr/share/pipewire/media-session.d/with-pulseaudio # Use pipewire as pulseaudio
 
 	# bluetooth
@@ -440,6 +443,7 @@ theme: # wallpaper, fonts, etc
 	ln -sf $(dir)/dots/misc/gtkrc ~/.gtkrc-2.0
 	ln -sf $(dir)/dots/misc/gtkrc  ~/.config/gtk-3.0/settings.ini
 	echo -e "[Qt]\nstyle=GTK+" >> ~/.config/Trolltech.conf
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
 	# setup fonts
 	sudo ln -sf /etc/fonts/conf.avail/50-user.conf /etc/fonts/conf.d/50-user.conf

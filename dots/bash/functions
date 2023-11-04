@@ -121,7 +121,16 @@ function md2pdf() {
         FILENAME="${1%.md}.pdf"
     fi
     # Or TimesTen for the font
-    pandoc --pdf-engine xelatex -V geometry:margin=0.5in -V documentclass=extarticle -V fontsize=14pt -V mainfont:"Source Sans 3" -o "$FILENAME" "$1"
+    pandoc --pdf-engine xelatex -V geometry:margin=0.5in -V documentclass=extarticle -V fontsize=10pt -V mainfont:"Times Ten" -o "$FILENAME" "$1"
+    echo "$FILENAME"
+}
+
+function flac2mp3() {
+    FILENAME="$2"
+    if [ -z ${FILENAME} ]; then
+        FILENAME="${1%.flac}.mp3"
+    fi
+    ffmpeg -i "$1" -ab 320k -map_metadata 0 -id3v2_version 3 "$FILENAME"
     echo "$FILENAME"
 }
 
