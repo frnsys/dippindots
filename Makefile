@@ -114,7 +114,7 @@ neovim:
 		libsm-dev libxpm-dev \
 		gettext
 
-	wget https://github.com/neovim/neovim/archive/refs/tags/v0.9.1.tar.gz -O /tmp/neovim.tar.gz
+	wget https://github.com/neovim/neovim/archive/refs/tags/v0.9.4.tar.gz -O /tmp/neovim.tar.gz
 	cd /tmp; tar -xzvf neovim.tar.gz; \
 		cd neovim-*; make CMAKE_BUILD_TYPE=RelWithDebInfo && sudo make install \
 			&& sudo ln -sf /usr/local/bin/nvim /usr/bin/vi \
@@ -282,7 +282,8 @@ feh:
 	cd /tmp/webp && make && sudo make install
 
 	# for viewing svgs
-	sudo apt install -y librsvg2-bin
+	# inkscape needed to convert svg to png, for some reason
+	sudo apt install -y librsvg2-bin inkscape
 
 	# feh - image viewer/wallpaper manager
 	sudo apt install -y feh
@@ -616,7 +617,8 @@ documents:
 		&& sed -i "s/case ','/case 'K'/" platform/gl/gl-main.c\
 		&& make && sudo make prefix=/usr/local install
 
-	sudo apt install -y libreoffice libreoffice-writer
+	# flatpak run org.onlyoffice.desktopeditors
+	flatpak install flathub org.onlyoffice.desktopeditors
 
 keepass:
 	# for ~/.bin/keepass

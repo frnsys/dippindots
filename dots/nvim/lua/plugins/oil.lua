@@ -23,6 +23,9 @@ return {
           if vim.startswith(name, ".") then
             return true
           end
+          if name == "target" then
+            return true
+          end
           for _, pat in ipairs(edit_file_ignore_patterns) do
             if name:match(pat) then
               return true

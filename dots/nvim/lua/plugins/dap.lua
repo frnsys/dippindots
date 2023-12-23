@@ -92,8 +92,10 @@ return {
           type = "codelldb",
           request = "launch",
           program = function()
+            vim.fn.system('cargo build')
             local crate_name = vim.trim(vim.fn.system('cargo read-manifest | jq -r .name'))
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/' .. crate_name, 'file')
+            local target_dir = vim.trim(vim.fn.system('cargo metadata --format-version 1 | jq -r .target_directory'))
+            return vim.fn.input('Path to executable: ', target_dir .. '/debug/' .. crate_name, 'file')
           end,
           cwd = "${workspaceFolder}",
           stopOnEntry = false,

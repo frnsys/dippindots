@@ -26,7 +26,7 @@ return {
     },
     keys = {
       {
-        "<c-space>",
+        "<c-f>",
         mode = { "n" },
         function()
           require("flash").jump({
@@ -44,35 +44,7 @@ return {
         end,
         desc = "Flash jump visible buffer",
       },
-      {
-        "<space><space>",
-        mode = { "n", "o", "x" },
-        function()
-          require("flash").treesitter()
-        end,
-        desc = "Flash Treesitter",
-      },
     },
-  },
-
-  --- Faster movement through jumplist
-  {
-    'cbochs/portal.nvim',
-    keys = {
-      { 'K', '<cmd>Portal jumplist backward<cr>' },
-      { 'J', '<cmd>Portal jumplist forward<cr>' },
-    },
-    opts = {
-      window_options = {
-        relative = "cursor",
-        width = 80,
-        height = 6,
-        col = 2,
-        focusable = false,
-        border = "single",
-        noautocmd = true,
-      },
-    }
   },
 
   --- Surround motion
@@ -80,22 +52,6 @@ return {
     'echasnovski/mini.surround',
     event = 'VeryLazy',
     opts = {}
-  },
-
-  {
-    'echasnovski/mini.clue',
-    opts = {},
-    config = function(_, opts)
-      require('mini.clue').setup({
-        triggers = {
-          { mode = 'n', keys = '<Leader>d' },
-          { mode = 'n', keys = '<space>' }
-        },
-        window = {
-          delay = 10,
-        }
-      })
-    end
   },
 
   --- Substitute motion
@@ -115,43 +71,6 @@ return {
         require('substitute').visual()
       end, { 'x' } }
     },
-  },
-
-  --- Symbol navigation
-  {
-    'stevearc/aerial.nvim',
-    keys = {
-      {
-        '<leader>s',
-        function()
-          require('aerial').toggle()
-        end,
-        desc = 'Open symbol navigation'
-      },
-    },
-    opts = {
-      layout = {
-        default_direction = "prefer_left",
-      }
-    },
-    config = function(_, opts)
-      require('aerial').setup(opts)
-
-      --- Use <esc> to jump back to the previous window
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = 'aerial',
-        callback = function(opts)
-          vim.keymap.set('n', '<esc>', function()
-            local prev_window = vim.fn.winnr('#')
-            local win_id = vim.fn.win_getid(prev_window)
-            vim.api.nvim_set_current_win(win_id)
-          end, {
-            silent = true,
-            buffer = opts['buffer']
-          })
-        end
-      });
-    end
   },
 
   {

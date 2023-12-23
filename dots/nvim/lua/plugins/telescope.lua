@@ -21,7 +21,7 @@ return {
       end },
 
       {
-        "'s",
+        "'f",
         function()
           require('telescope.builtin').find_files()
         end,
@@ -29,7 +29,7 @@ return {
       },
 
       {
-        "'f",
+        "'s",
         function()
           require('telescope.builtin').live_grep()
         end,
@@ -96,7 +96,7 @@ return {
       {
         "'g",
         function()
-          require('telescope.builtin').lsp_workspace_symbols({
+          require('telescope.builtin').lsp_dynamic_workspace_symbols({
             fname_width = 0,
           })
         end,
@@ -168,10 +168,16 @@ return {
 
       require("telescope").setup({
         defaults = {
+          layout_strategy = "bottom_pane",
           layout_config = {
             mirror = true,
             width = 0.95,
-            preview_width = 0.5,
+            preview_width = 0.4,
+          },
+          borderchars = {
+            prompt = { "-", " ", " ", " ", "-", "-", " ", " " },
+            results = { " " },
+            preview = { " ", " ", " ", " ", " ", " ", " ", " " },
           },
           mappings = {
             i = {
@@ -216,7 +222,7 @@ return {
             disable_coordinates = true,
           },
           buffers = {
-            path_display = { "tail" },
+            path_display = { "smart" },
             mappings = {
               i = {
                 ["<c-x>"] = "delete_buffer",

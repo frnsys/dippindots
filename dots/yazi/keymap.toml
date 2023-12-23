@@ -200,6 +200,7 @@ keymap = [
 	{ on = [ "c" ], exec = "delete --cut --insert",                     desc = "Cut the selected characters, and enter insert mode" },
 	{ on = [ "C" ], exec = [ "delete --cut --insert", "move 999" ],     desc = "Cut until the EOL, and enter insert mode" },
 	{ on = [ "x" ], exec = [ "delete --cut", "move 1 --in-operating" ], desc = "Cut the current character" },
+    { on = [ "<Backspace>" ], exec = "backspace" },
 
 	# Yank/Paste
 	{ on = [ "y" ], exec = "yank",           desc = "Copy the selected characters" },

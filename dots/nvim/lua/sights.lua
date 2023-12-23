@@ -185,6 +185,16 @@ local mappings = {
       inner = '@block.inner',
       outer = '@block.outer',
     },
+    ['i'] = {
+      label = 'conditional',
+      inner = '@conditional.inner',
+      outer = '@conditional.outer',
+    },
+    ['/'] = {
+      label = 'comment',
+      inner = '@comment.inner',
+      outer = '@comment.outer',
+    },
     ['v'] = {
       label = 'var',
       inner = {

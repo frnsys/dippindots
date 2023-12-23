@@ -13,45 +13,19 @@ return {
       },
     }
   },
-
   {
-    "folke/zen-mode.nvim",
-    cmd = 'ZenMode',
-    opts = {
-      window = {
-        width = 80,
-        backdrop = 1.0,
-      }
-    }
-  },
-
-  {
-    "luckasRanarison/nvim-devdocs",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    keys = {
-      { '\'h',
-        function()
-          require('nvim-devdocs').open_doc_current_file(true)
-        end
-      },
-    },
-    config = function()
-      require("nvim-devdocs").setup({
-        ensure_installed = { 'rust' },
-        telescope = {
-          attach_mappings = function(_, map)
-            map('i', "<CR>", require("telescope.actions").select_default)
-            return true
-          end
+    'echasnovski/mini.clue',
+    opts = {},
+    config = function(_, opts)
+      require('mini.clue').setup({
+        triggers = {
+          { mode = 'n', keys = '<Leader>d' },
+          { mode = 'n', keys = '<space>' }
         },
-        after_open = function(bufnr)
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', 'q', ':close<CR><CR>', {})
-        end
+        window = {
+          delay = 10,
+        }
       })
     end
-  }
+  },
 }

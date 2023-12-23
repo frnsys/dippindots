@@ -15,14 +15,14 @@ cache_dir  = ""
 
 [opener]
 folder = [
-	{ exec = 'open -R "$@"', display_name = "Reveal in Finder" },
+	{ exec = 'open -R "$@"', desc = "Reveal in Finder" },
 	{ exec = '$EDITOR "$@"' },
 ]
 archive = [
-	{ exec = 'unar "$1"', display_name = "Extract here" },
+	{ exec = 'unar "$1"', desc = "Extract here" },
 ]
 text = [
-	{ exec = '$EDITOR "$@"', block = true, display_name = "Editor" },
+	{ exec = '$EDITOR "$@"', block = true, desc = "Editor" },
 ]
 pdf = [
 	{ exec = 'okular "$@"', block = false },
@@ -31,16 +31,16 @@ gif = [
 	{ exec = 'gifview --bg=#ffffff -a "$@"', block = false },
 ]
 image = [
-	{ exec = 'feh --scale-down --magick-timeout 1 --', display_name = "Open" },
-	{ exec = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, display_name = "Show EXIF" },
+	{ exec = 'feh --scale-down --magick-timeout 1 --', desc = "Open" },
+	{ exec = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF" },
 ]
 video = [
 	{ exec = 'mpv "$@"' },
-	{ exec = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, display_name = "Show media info" },
+	{ exec = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info" },
 ]
 audio = [
 	{ exec = 'mpv --no-audio-display "$@"' },
-	{ exec = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, display_name = "Show media info" },
+	{ exec = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info" },
 ]
 url = [
 	{ exec = 'firefox $(cat "$@")' },
@@ -49,11 +49,11 @@ csv = [
     { exec = 'bspc rule -a kitty -o state=floating && kitty -e csvlens "$@"' },
 ]
 markdown = [
-    { exec = 'nom view "$@"', display_name = "Nom" },
+    { exec = 'nom view "$@"', desc = "Nom" },
 ]
 fallback = [
-	{ exec = 'open "$@"', display_name = "Open" },
-	{ exec = 'open -R "$@"', display_name = "Reveal in Finder" },
+	{ exec = 'open "$@"', desc = "Open" },
+	{ exec = 'open -R "$@"', desc = "Reveal in Finder" },
 ]
 
 [open]

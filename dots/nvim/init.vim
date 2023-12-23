@@ -135,12 +135,17 @@ imap kj <Esc>
 imap <C-space> <Esc>
 
 " don't really use `.`;
-" it causes mostly trouble for me
+" it causes mostly trouble for me.
+" instead use it to jump to next `f` match.
 map . <Nop>
+nnoremap . ;
 
 " Don't leave visual mode when changing indent
 xnoremap > >gv
 xnoremap < <gv
+
+" Easily restore last visual selection with `vv`
+nnoremap vv gv
 
 " Keep search results in the screen center
 nnoremap n nzz
@@ -189,6 +194,7 @@ au FileType typescript setlocal tabstop=2 shiftwidth=2
 au FileType typescriptreact setlocal tabstop=2 shiftwidth=2
 au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4
 au FileType lua setlocal softtabstop=2 tabstop=2 shiftwidth=2
+au FileType markdown setlocal softtabstop=2 tabstop=2 shiftwidth=2
 
 " for text
 au FileType text setlocal spell complete+=kspell

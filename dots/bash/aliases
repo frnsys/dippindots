@@ -33,7 +33,7 @@ alias w="cd ~/work"
 alias p="cd ~/projects"
 alias dl="cd ~/downloads"
 alias ipy="ipython"
-alias mu="mupdf-gl"
+alias mu="mupdftp-gl"
 alias h="hubble"
 alias cb="cargo build"
 alias cr="cargo run"
@@ -41,6 +41,7 @@ alias publish="port build spaceandtimes; port sync spaceandtimes ftseng@starbase
 # alias b="cd ~/notes/blog/log; vi $(ls ~/notes/blog/log | tail -n 1)"
 # alias fb="cd ~/notes/blog/projects/fugue; vi $(ls -v ~/notes/blog/projects/fugue | tail -n 1)"
 alias fw="cd ~/notes/projects/fugue; vi world.md"
+alias office="flatpak run org.onlyoffice.desktopeditors"
 
 # Always use color output for `ls`
 alias ls="command ls --color"
