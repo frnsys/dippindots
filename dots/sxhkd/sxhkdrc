@@ -191,9 +191,6 @@ super + plus
 super + minus
     task
 
-super + e
-    emo
-
 # super + m
 #     bspc rule -a kitty -o state=floating && kitty -e mutt
 
@@ -205,11 +202,6 @@ super + shift + t
 
 super + c
     bspc rule -a kitty -o state=floating && kitty -e bash -c 'agenda view | less -R'
-
-# weather
-super + u
-    bspc rule -a kitty -o state=floating && kitty -e bash -c 'curl -s "https://wttr.in/New York?m2n" | less -R'
-    # notify-send "$(curl "https://wttr.in/New York?m&format=%l:+%C+%t+%w+%o")"
 
 # make sxhkd reload its configuration files:
 super + Escape

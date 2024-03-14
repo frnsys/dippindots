@@ -51,10 +51,10 @@ prereqs:
 	sudo apt uninstall -y mdadm multipath-tools cloud-init
 
 node:
-	@echo "Installing nvm/node..."
+	@echo "Installing fnm/node..."
 	sudo pip install libsass
-	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.3/install.sh | bash
-	nvm install node
+	curl -fsSL https://fnm.vercel.app/install | bash
+	fnm install --lts
 
 headless-tools:
 	@echo "Installing fzf..."
@@ -112,9 +112,10 @@ neovim:
 		python3-dev \
 		libx11-dev libxtst-dev libxt-dev \
 		libsm-dev libxpm-dev \
-		gettext
+		gettext fswatch
 
-	wget https://github.com/neovim/neovim/archive/refs/tags/v0.9.4.tar.gz -O /tmp/neovim.tar.gz
+	# wget https://github.com/neovim/neovim/archive/refs/tags/v0.9.4.tar.gz -O /tmp/neovim.tar.gz
+	wget https://github.com/neovim/neovim/archive/refs/tags/nightly.tar.gz -O /tmp/neovim.tar.gz
 	cd /tmp; tar -xzvf neovim.tar.gz; \
 		cd neovim-*; make CMAKE_BUILD_TYPE=RelWithDebInfo && sudo make install \
 			&& sudo ln -sf /usr/local/bin/nvim /usr/bin/vi \
@@ -234,7 +235,7 @@ mpv:
 audio:
 	# Use pipewire. `pavucontrol` still works with pipewire.
 	# Get a version of pipewire with support for the AAC bluetooth codec
-	sudo add-apt-repository ppa:aglasgall/pipewire-extra-bt-codecs
+	# sudo add-apt-repository ppa:aglasgall/pipewire-extra-bt-codecs
 	sudo apt update
 	sudo apt install -y --no-install-recommends alsa-utils pavucontrol pulseaudio-utils pipewire pipewire-pulse wireplumber pipewire-audio-client-libraries libspa-0.2-bluetooth
 	sudo touch /usr/share/pipewire/media-session.d/with-pulseaudio # Use pipewire as pulseaudio

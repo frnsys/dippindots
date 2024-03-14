@@ -1,11 +1,5 @@
 export GPG_TTY=$(tty)
 
-# nvm, lazy loaded
-export NVM_DIR="$HOME/.nvm"
-alias nvm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && nvm'
-alias node='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && node'
-alias npm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && npm'
-
 # Add yabridge
 # export PATH="$PATH:$HOME/.local/share/yabridge"
 
@@ -20,7 +14,8 @@ done
 unset file
 
 # pyenv
-eval "$(pyenv init --path)"
+# eval "$(pyenv init --path)"
 
-source /home/ftseng/.config/broot/launcher/bash/br
-eval "$(zoxide init bash)"
+# fnm
+# export PATH="/home/ftseng/.local/share/fnm:$PATH"
+# eval "`fnm env`"

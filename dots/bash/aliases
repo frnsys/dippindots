@@ -8,6 +8,9 @@ alias -- -="cd -"
 # To avoid accidentally overwriting files
 alias mv="mv -i"
 
+# To have kitty work well with ssh
+alias ssh="kitty +kitten ssh"
+
 # Git
 alias ga="git add"
 alias gaa="git add -A"

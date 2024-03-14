@@ -1,5 +1,5 @@
 [manager]
-layout         = [ 1, 4, 3 ]
+ratio         = [ 1, 4, 3 ]
 sort_by        = "natural"
 sort_sensitive = false
 sort_reverse   = false
@@ -31,7 +31,7 @@ gif = [
 	{ exec = 'gifview --bg=#ffffff -a "$@"', block = false },
 ]
 image = [
-	{ exec = 'feh --scale-down --magick-timeout 1 --', desc = "Open" },
+	{ exec = 'feh --scale-down --magick-timeout 1 -- "$@"', desc = "Open" },
 	{ exec = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF" },
 ]
 video = [
@@ -46,7 +46,7 @@ url = [
 	{ exec = 'firefox $(cat "$@")' },
 ]
 csv = [
-    { exec = 'bspc rule -a kitty -o state=floating && kitty -e csvlens "$@"' },
+    { exec = 'bspc rule -a kitty -o state=floating && kitty -e visidata "$@"' },
 ]
 markdown = [
     { exec = 'nom view "$@"', desc = "Nom" },

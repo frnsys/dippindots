@@ -9,6 +9,7 @@
 
 cp ~/.ssh/config ~/docs/backups/ssh_config
 cp ~/.config/rclone/rclone.conf ~/docs/backups/rclone.conf
+rsync -ravu --delete ~/.config/blender/ ~/docs/backups/blender
 
 # gpg --export-secret-keys --armor f@frnsys.com > ~/docs/backups/keys/f@frnsys.com.asc
 # gpg --export-secret-keys --armor francis@anarres > ~/docs/backups/keys/francis@anarres.asc

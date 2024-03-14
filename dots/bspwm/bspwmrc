@@ -1,11 +1,11 @@
 #! /bin/sh
 
-NORMAL_BORDER_COLOR="#4e4e4e"
+NORMAL_BORDER_COLOR="#202020"
 ACTIVE_BORDER_COLOR="#1a476b"
 FOCUSED_BORDER_COLOR="#1A73E8"
 PRESEL_FEEDBACK_COLOR="#8250DF"
 
-bspc config border_width        1
+bspc config border_width        3
 bspc config window_gap          0
 
 # Automatically use monocle when only one window
