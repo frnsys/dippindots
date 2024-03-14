@@ -72,7 +72,8 @@ highlight TelescopeMatching guifg=#ffaf87 guibg=NONE guisp=NONE blend=NONE gui=N
 highlight TelescopeSelection guifg=NONE guibg=#444444 guisp=NONE blend=NONE gui=NONE
 highlight Title guifg=#000000 guibg=#6767db guisp=NONE blend=NONE gui=bold
 " highlight Title guifg=#d4d4fa guibg=#4747ba guisp=NONE blend=NONE gui=bold
-highlight Todo guifg=#000000 guibg=#f8aa01 guisp=NONE blend=NONE gui=NONE
+highlight @comment.todo.comment guifg=#000000 guibg=#f8aa01 guisp=NONE blend=NONE gui=NONE
+highlight @comment.note.comment guifg=#000000 guibg=#96b9b9 guisp=NONE blend=NONE gui=NONE
 highlight Type guifg=#ff2f6d guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Underlined guifg=#2c84fc guibg=NONE guisp=NONE blend=NONE gui=underline
 highlight Visual guifg=#000000 guibg=#ffd75f guisp=NONE blend=NONE gui=NONE
@@ -89,12 +90,14 @@ highlight @text.code_block guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NO
 highlight @text.literal.block guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @text.emphasis guifg=#000000 guibg=#00af87 guisp=NONE blend=NONE gui=bold
 highlight @text.reference guifg=#f55151 guibg=NONE guisp=NONE blend=NONE gui=bold
+highlight @markup.link.url guifg=#2b81f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight @string.special.url.comment guifg=#2b81f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @text.strong guifg=#f8aa01 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight @text.list_marker guifg=#dab874 guibg=none guisp=NONE blend=NONE gui=NONE
-highlight @text.todo.checked guifg=#00af87 guibg=none guisp=NONE blend=NONE gui=NONE
+highlight @markup.list.checked.markdown guifg=#00af87 guibg=none guisp=NONE blend=NONE gui=NONE
+highlight @markup.list.unchecked.markdown guifg=#ff2f6d guibg=none guisp=NONE blend=NONE gui=NONE
+highlight @markup.quote.markdown guifg=#cec6c7 guibg=#191919 guisp=NONE blend=NONE gui=NONE
 highlight @text.todo.checked.text guifg=#5f5f87 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight @text.todo.unchecked guifg=#ff2f6d guibg=none guisp=NONE blend=NONE gui=NONE
-highlight @type.qualifier guifg=#4b76b8 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @variable.builtin guifg=#4b76b8 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight FlashMatch guibg=#262626 guifg=#ffd787
 highlight FlashCurrent guibg=#262626 guifg=#00af87 gui=bold

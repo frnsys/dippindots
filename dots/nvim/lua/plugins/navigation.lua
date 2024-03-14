@@ -1,8 +1,8 @@
 return {
   {
-    'kevinhwang91/nvim-bqf',
-  },
-  {
+    --- Like <c-i> and <c-o> but
+    --- goes across buffers instead of
+    --- within a buffer.
     'kwkarlwang/bufjump.nvim',
     config = function()
       require("bufjump").setup({
@@ -13,40 +13,37 @@ return {
     end,
   },
 
+  {
+    --- Like <c-i> and <c-o> but
+    --- moves through edit history
+    --- rather than the jump list.
+    'bloznelis/before.nvim',
+    config = function()
+      local before = require('before')
+      before.setup()
+
+      -- Jump to previous entry in the edit history
+      vim.keymap.set('n', '<C-o>', before.jump_to_last_edit, {})
+
+      -- Jump to next entry in the edit history
+      vim.keymap.set('n', '<C-i>', before.jump_to_next_edit, {})
+    end
+  },
+
   --- Symbol navigation
   {
     'stevearc/aerial.nvim',
-    keys = {
-      {
-        '<leader>s',
-        function()
-          require('aerial').toggle()
-        end,
-        desc = 'Open symbol navigation'
-      },
-    },
-    opts = {
-      layout = {
-        default_direction = "prefer_left",
-      }
-    },
     config = function(_, opts)
       require('aerial').setup(opts)
-
-      --- Use <esc> to jump back to the previous window
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = 'aerial',
-        callback = function(opts)
-          vim.keymap.set('n', '<esc>', function()
-            local prev_window = vim.fn.winnr('#')
-            local win_id = vim.fn.win_getid(prev_window)
-            vim.api.nvim_set_current_win(win_id)
-          end, {
-            silent = true,
-            buffer = opts['buffer']
-          })
-        end
-      });
     end
   },
+
+  {
+    --- For bookmarking files
+    'otavioschwanck/arrow.nvim',
+    opts = {
+      show_icons = false,
+      leader_key = '\\'
+    }
+  }
 }

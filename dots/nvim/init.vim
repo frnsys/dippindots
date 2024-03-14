@@ -16,19 +16,23 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+--- Note: must be loaded before plugins
+require('ignore')
+
 require('lazy').setup('plugins', {
   ui = { border = "single" }
 })
+
+require('sights')
+require('breeze')
+require('cairns')
+require('fnotes')
+require('bindings')
+
 EOF
 
 set termguicolors
 colorscheme futora
-
-lua require('ignore')
-lua require('sights')
-lua require('breeze')
-lua require('cairns')
-lua require('bindings')
 
 " gliss tooling
 au BufNewFile,BufRead *.script lua require('gliss/verses')
@@ -70,7 +74,6 @@ set wrap                        " Wrap long lines
 set hidden
 set textwidth=0 wrapmargin=0 formatoptions=cq
 set display+=lastline
-set updatetime=750
 set switchbuf+=usetab
 set clipboard^=unnamed,unnamedplus " Use OS clipboard
 set completeopt=menu,menuone,noselect   " Autocomplete settings
@@ -223,3 +226,18 @@ autocmd BufLeave * :call CleanNoNameEmptyBuffers()
 " Use this to enable syntax highlighting for markdown files
 " so our custom conceals in `after/syntax/markdown.vim` work.
 au BufNewFile,BufRead *.md set syntax=on
+
+lua <<EOF
+-- Show macro recording status when recording a macro
+vim.api.nvim_create_autocmd("RecordingEnter", {
+  callback = function(ctx)
+    vim.opt.cmdheight = 1
+  end
+})
+
+vim.api.nvim_create_autocmd("RecordingLeave", {
+  callback = function()
+    vim.opt.cmdheight = 0
+  end
+})
+EOF

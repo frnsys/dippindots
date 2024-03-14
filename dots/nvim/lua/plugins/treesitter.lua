@@ -4,6 +4,8 @@ return {
     build = ":TSUpdate",
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
+
+      -- Use the `Inspect` and `InspectTree` commands instead.
       -- 'nvim-treesitter/playground',
     },
     main = 'nvim-treesitter.configs',

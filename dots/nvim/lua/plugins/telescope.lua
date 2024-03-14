@@ -171,7 +171,6 @@ return {
           layout_strategy = "bottom_pane",
           layout_config = {
             mirror = true,
-            width = 0.95,
             preview_width = 0.4,
           },
           borderchars = {
@@ -184,11 +183,13 @@ return {
               -- exit on first esc
               ["<esc>"] = actions.close,
               ["<C-j>"] = {
-                actions.move_selection_next, type = "action",
+                actions.move_selection_next,
+                type = "action",
                 opts = { nowait = true, silent = true }
               },
               ["<C-k>"] = {
-                actions.move_selection_previous, type = "action",
+                actions.move_selection_previous,
+                type = "action",
                 opts = { nowait = true, silent = true }
               },
 
@@ -236,9 +237,6 @@ return {
             sort_mru = true,
           },
           diagnostics = {
-            layout_config = {
-              width = 0.9,
-            }
           },
         },
         extensions = {

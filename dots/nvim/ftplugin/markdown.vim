@@ -111,8 +111,8 @@ nnoremap <buffer> <leader>d :r !pdfpaste <bar> sed 's/^/> /'<cr>
 nnoremap <buffer> <leader>s "=system("fpath=$(shot region <bar> tail -n 1); [ ! -z $fpath ] && (fname=$(basename $fpath); [ -f $fpath ] && (mv $fpath ".expand('%:p:h')."/assets/$fname; echo '![](assets/'$fname')'))")<CR>P
 
 " quickly fix the closest previous spelling error.
-imap <buffer> <c-k> <c-g>u<Esc>[s1z=`]a<c-g>u
-nmap <buffer> <c-k> [s1z=``
+imap <buffer> <c-s-k> <c-g>u<Esc>[s1z=`]a<c-g>u
+nmap <buffer> <c-s-k> [s1z=``
 
 " compile and open in browser
 nnoremap <buffer> <leader>v <cmd>call jobstart('nom view -w '.expand('%:p'))<cr>

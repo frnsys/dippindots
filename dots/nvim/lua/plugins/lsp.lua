@@ -95,6 +95,8 @@ return {
         marksman = {},
         rust_analyzer = {
           ["rust-analyzer"] = {
+            numThreads = 4,
+
             completion = {
               limit = 50,
 
@@ -114,6 +116,10 @@ return {
               },
             },
 
+            cachePriming = {
+              enable = false,
+            },
+
             -- Disable check on save,
             -- instead trigger manually
             checkOnSave = {
@@ -128,6 +134,10 @@ return {
         cssls = {},
       }
 
+      require('lspconfig').rust_analyzer.setup({
+        cmd = { "rustup", "run", "nightly", "rust-analyzer" },
+      })
+
       --- Ensure the servers above are installed
       local mason_lspconfig = require 'mason-lspconfig'
       mason_lspconfig.setup {
@@ -141,9 +151,9 @@ return {
           capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
           --- Open local docs instead of internet docs
-          if server_name == "rust_analyzer" then
-            capabilities['experimental'] = { ['localDocs'] = true }
-          end
+          -- if server_name == "rust_analyzer" then
+          --   capabilities['experimental'] = { ['localDocs'] = true }
+          -- end
 
           require('lspconfig')[server_name].setup {
             capabilities = capabilities,

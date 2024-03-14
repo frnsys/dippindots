@@ -28,4 +28,14 @@ return {
       })
     end
   },
+  {
+    'lewis6991/gitsigns.nvim',
+    opts = {}
+  },
+  {
+    'dhruvasagar/vim-table-mode',
+  },
+  {
+    'rhaiscript/vim-rhai'
+  }
 }
