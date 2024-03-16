@@ -97,9 +97,6 @@ super + shift + b
 super + shift + w
     sudo wifi toggle; notify-send "$(wifi)"
 
-super + slash
-    daemon
-
 # ~~screenshots/recordings~~
 
 # region
@@ -158,9 +155,6 @@ super + t
 super + quoteright
     bspc rule -a kitty -o state=floating && kitty --working-directory ~/notes/logs -e ~/.bin/log
 
-super + shift + quoteright
-    bspc rule -a kitty -o state=floating && kitty --working-directory ~/notes/music -e vi scratch.md
-
 super + p
     bspc rule -a kitty -o state=floating && kitty -e ~/.bin/keepass
 
@@ -176,9 +170,6 @@ super + a
 super + semicolon
     bspc rule -a kitty -o state=floating && kitty -e ncmpcpp
 
-# super + shift + w
-# 	bspc node focused -g hidden=on
-
 super + w
     win go
 
@@ -188,17 +179,11 @@ super + equal
 super + plus
     mpvc toggle
 
-super + minus
-    task
-
 # super + m
 #     bspc rule -a kitty -o state=floating && kitty -e mutt
 
 super + g
     pickcolor
-
-super + shift + t
-    timeshift
 
 super + c
     bspc rule -a kitty -o state=floating && kitty -e bash -c 'agenda view | less -R'

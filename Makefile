@@ -23,7 +23,7 @@ laptop:\
 	headless-tools gui-tools neovim\
 		kitty browser vpn\
 		signal torrents keepass android\
-		documents calendar neomutt\
+		documents calendar\
 
 	# media
 	ffmpeg imagemagick audio feh mpv ncmpcpp scrots\
@@ -382,34 +382,6 @@ browser:
 	# Change default browser
 	sudo update-alternatives --config x-www-browser
 	sudo update-alternatives --config gnome-www-browser
-
-	# [REMOVAL CANDIDATE]
-	# flash player
-	# sudo apt install -y pepperflashplugin-nonfree
-	# sudo update-pepperflashplugin-nonfree --install
-
-neomutt:
-	sudo apt install -y xsltproc libidn11-dev libsasl2-dev libnotmuch-dev notmuch --no-install-recommends
-	sudo pip install isync urlscan # isync is mbsync
-	git clone https://github.com/neomutt/neomutt.git /tmp/neomutt
-	cd /tmp/neomutt && git checkout neomutt-20180716\
-		&& ./configure --disable-doc --ssl --sasl --notmuch\
-		&& make && sudo make install
-	sudo ln -s /usr/bin/neomutt /usr/bin/mutt
-	ln -sf $(dir)/dots/email/muttrc ~/.muttrc
-	ln -sf $(dir)/dots/email/mailcap ~/.mailcap
-	ln -sf $(dir)/dots/email/mbsyncrc ~/.mbsyncrc
-	ln -sf $(dir)/dots/email/notmuch-config ~/.notmuch-config
-	ln -sf $(dir)/dots/email/signature ~/.signature
-	sudo ln -sf $(dir)/dots/email/view_html.sh /usr/local/bin/view_html
-	sudo ln -sf $(dir)/dots/email/view_mht.py /usr/local/bin/view_mht
-	sudo ln -sf $(dir)/dots/email/update_nm.sh /usr/local/bin/update_nm
-
-	mkdir ~/.mail
-	sudo cp $(dir)/dots/email/mbsync.{service,timer} /etc/systemd/user/
-	systemctl --user daemon-reload
-	systemctl --user enable mbsync.timer
-	systemctl --user start mbsync.timer
 
 calendar:
 	pip3 install vdirsyncer[google]

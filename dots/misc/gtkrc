@@ -1,6 +1,5 @@
 [Settings]
 gtk-theme-name=HighContrastInverse
-gtk-icon-theme-name=Classic95
 gtk-font-name=Inter Light 9
 gtk-cursor-theme-name=DMZ-White
 gtk-cursor-theme-size=0

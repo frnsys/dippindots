@@ -17,9 +17,6 @@ redshift &
 dunst &
 agenda remind 5 &
 
-# for web highlighting
-# maw ~/notes/annos/web/annos.jsonl ~/notes/annos/web/assets &
-
 # Input selection
 # Hit CTRL+SPACE+LEFT_SHIFT, in that order
 # fcitx -d

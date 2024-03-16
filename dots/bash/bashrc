@@ -13,8 +13,10 @@ for file in ~/.dippindots/dots/bash/{path,prompt,aliases,functions,keys}; do
 done
 unset file
 
+eval "$(zoxide init bash)"
+
 # pyenv
-# eval "$(pyenv init --path)"
+eval "$(pyenv init --path)"
 
 # fnm
 # export PATH="/home/ftseng/.local/share/fnm:$PATH"

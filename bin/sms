@@ -1,6 +1,0 @@
-#!/bin/bash
-# see ~/notes/computers/linux/signal.md for setup instructions
-# to send an attachment, use `-a /path/to/file`
-
-MSG=${1:-$(</dev/stdin)}
-signal-cli -u ${DAEMONSIGNALNUM} send ${SIGNALNUM} -m "$MSG"
