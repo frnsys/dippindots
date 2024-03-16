@@ -6,14 +6,22 @@ edit_file_ignore_patterns = {
   "%.jpeg",
   "%.gif",
   "%.wav",
+  "%.mp4",
   "%.ttf",
   "%.lock",
   "%.zip",
   "%.svg",
   "%.ttf",
+  "%.woff2",
+  "%.woff",
+  "%.eot",
   "%.icon",
   "%.tab",
+  "%.json",
   "%.tar.gz",
+  "%.blend",
+  "%.blend1",
+  "%.min.js",
 
   -- Unity
   "%.meta",
@@ -23,6 +31,8 @@ edit_file_ignore_patterns = {
   "%.asmdef",
   "%.prefab",
   "%.unity",
+  "%.gltf",
+  "%.glb",
   "%.mat",
 
   -- Python

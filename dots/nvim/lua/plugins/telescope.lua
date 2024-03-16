@@ -5,7 +5,6 @@ return {
     'nvim-telescope/telescope.nvim',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      'stevearc/aerial.nvim',
 
       { -- Requires make
         'nvim-telescope/telescope-fzf-native.nvim',
@@ -81,16 +80,6 @@ return {
           })
         end,
         desc = 'List diagnostics'
-      },
-
-      {
-        "'z",
-        function()
-          require("telescope").extensions.aerial.aerial({
-            sorting_strategy = "descending",
-          })
-        end,
-        desc = 'Search local symbols'
       },
 
       {
@@ -246,18 +235,11 @@ return {
             override_file_sorter = true,    -- override the file sorter
             case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
           },
-          aerial = {
-            show_lines = false,
-            show_nesting = {
-              ['_'] = true, -- This key will be the default
-            }
-          }
         }
       })
 
       -- Extensions
       pcall(require('telescope').load_extension, 'fzf')
-      pcall(require('telescope').load_extension, 'aerial')
     end
   },
 }

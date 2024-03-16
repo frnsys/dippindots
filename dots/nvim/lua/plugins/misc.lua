@@ -35,7 +35,4 @@ return {
   {
     'dhruvasagar/vim-table-mode',
   },
-  {
-    'rhaiscript/vim-rhai'
-  }
 }

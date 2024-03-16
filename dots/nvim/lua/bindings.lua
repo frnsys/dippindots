@@ -18,23 +18,8 @@ vim.keymap.set('v', '<up>', 'j$ok0o')
 vim.keymap.set('v', '<down>', 'k$oj0o')
 
 --- Minor movements in insert mode
--- vim.keymap.set('i', '<c-l>', '<right>')
--- vim.keymap.set('i', '<c-h>', '<left>')
 vim.keymap.set('i', '<c-j>', '<down>')
 vim.keymap.set('i', '<c-k>', '<up>')
-
---- Toggle quickfix window
-local function toggle_quickfix()
-  local windows = vim.fn.getwininfo()
-  for _, win in pairs(windows) do
-    if win["quickfix"] == 1 then
-      vim.cmd.cclose()
-      return
-    end
-  end
-  vim.cmd.copen()
-end
-vim.keymap.set('n', '\'o', toggle_quickfix, { desc = "Toggle Quickfix Window" })
 
 --- Buffer navigation
 vim.keymap.set("n", "<c-'>", ":bn<cr><cr>")

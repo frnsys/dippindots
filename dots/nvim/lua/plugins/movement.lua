@@ -34,11 +34,51 @@ return {
               before = false,
               after = true,
             },
-            mode = "char",
             search = {
               wrap = true,
               mode = "exact",
+              multi_window = false,
+            }
+          })
+        end,
+        desc = "Flash jump visible buffer",
+      },
+
+      {
+        "f",
+        mode = { "n" },
+        function()
+          require("flash").jump({
+            label = {
+              before = false,
+              after = true,
+            },
+            mode = "char",
+            search = {
+              wrap = false,
+              mode = "exact",
               max_length = 1,
+              forward = true,
+            }
+          })
+        end,
+        desc = "Flash jump visible buffer",
+      },
+      {
+        "F",
+        mode = { "n" },
+        function()
+          require("flash").jump({
+            label = {
+              before = false,
+              after = true,
+            },
+            mode = "char",
+            search = {
+              wrap = false,
+              mode = "exact",
+              max_length = 1,
+              forward = false,
             }
           })
         end,
@@ -50,8 +90,13 @@ return {
   --- Surround motion
   {
     'echasnovski/mini.surround',
-    event = 'VeryLazy',
-    opts = {}
+    opts = {
+      mappings = {
+        add = 'sa',     -- e.g. sa'
+        delete = 'sd',  -- e.g. sd'
+        replace = 'sr', -- e.g. sr'"
+      }
+    }
   },
 
   --- Substitute motion
@@ -59,28 +104,28 @@ return {
     'gbprod/substitute.nvim',
     opts = {},
     keys = {
+      -- e.g. siw
       { 's', function()
         require('substitute').operator()
-      end },
+      end, { 'n' } },
 
       { 'ss', function()
         require('substitute').line()
       end },
-
-      { 's', function()
-        require('substitute').visual()
-      end, { 'x' } }
     },
   },
 
+  --- Like <c-i> and <c-o> but
+  --- goes across buffers instead of
+  --- within a buffer.
   {
-    'jinh0/eyeliner.nvim',
+    'kwkarlwang/bufjump.nvim',
     config = function()
-      require("eyeliner").setup({ highlight_on_key = true, dim = true })
-      vim.api.nvim_set_hl(0, 'EyelinerPrimary',
-        { fg = "#da9604", bold = true, underline = true })
-      vim.api.nvim_set_hl(0, 'EyelinerSecondary',
-        { fg = "#3d3d3d" })
-    end
-  }
+      require("bufjump").setup({
+        forward = "<S-j>",
+        backward = "<S-k>",
+        on_success = nil
+      })
+    end,
+  },
 }
