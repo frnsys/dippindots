@@ -156,7 +156,7 @@ super + quoteright
     bspc rule -a kitty -o state=floating && kitty --working-directory ~/notes/logs -e ~/.bin/log
 
 super + p
-    bspc rule -a kitty -o state=floating && kitty -e ~/.bin/keepass
+    bspc rule -a kitty -o state=floating && kitty -e ~/.bin/kpass
 
 super + d
     browse
