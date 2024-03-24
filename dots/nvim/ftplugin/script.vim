@@ -20,5 +20,5 @@ syntax match operator ':'
 syntax match operator '='
 highlight link operator Operator
 
-syntax match meta '\(Scene\|Tags\):.*'
+syntax match meta '\(Id\|Scene\|Tags\):.*'
 highlight link meta Comment

@@ -4,34 +4,20 @@ inactive  = { fg = "#C8D3F8", bg = "#484D66" }
 max_width = 1
 
 [status]
-primary	  = { normal = "#80AEFA", select = "#CD9EFC", unset = "#FFA577" }
-secondary = { normal = "#1E2031", select = "#23273B", unset = "#23273B" }
-tertiary  = { normal = "#6D738F", select = "#6D738F", unset = "#6D738F" }
-body      = { normal = "#484D66", select = "#484D66", unset = "#484D66" }
-emphasis  = { normal = "#C8D3F8", select = "#C8D3F8", unset = "#C8D3F8" }
-info      = { normal = "#7AD9E5", select = "#7AD9E5", unset = "#7AD9E5" }
-success   = { normal = "#97DC8D", select = "#97DC8D", unset = "#97DC8D" }
-warning   = { normal = "#F3D398", select = "#F3D398", unset = "#F3D398" }
-danger    = { normal = "#FA7F94", select = "#FA7F94", unset = "#FA7F94" }
-separator = { opening = "", closing = "" }
+separator_open  = ""
+separator_close = ""
+mode_normal = { bg = "#161616", bold = false }
+mode_select = { bg = "#202020", bold = false }
+mode_unset  = { bg = "#202020", bold = false }
 
-[progress]
-gauge = { fg = "#FFA577", bg = "#484D66" }
-label = { fg = "#FFFFFF", bold = true }
+progress_label  = { bold = false }
+progress_normal = { fg = "blue" }
+progress_error  = { fg = "red" }
 
-[selection]
-hovered = { fg = "#1E2031", bg = "#80AEFA" }
-
-[marker]
-selecting = { fg = "#97DC8D", bg = "#97DC8D" }
-selected  = { fg = "#F3D398", bg = "#F3D398" }
-
-[preview]
-hovered       = { underline = true }
-syntect_theme = "~/.config/bat/themes/Catppuccin-macchiato.tmTheme"
+[manager]
+border_style  = { fg = "#282828" }
 
 [filetype]
-
 rules = [
 	# Images
 	{ mime = "image/*", fg = "#a694f2" },
@@ -60,5 +46,7 @@ rules = [
 ]
 
 [icons]
-"*"  = ""
-"*/" = ""
+rules = [
+    { name = "*", text = "" },
+    { name = "*/", text = "" }
+]

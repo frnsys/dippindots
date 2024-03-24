@@ -71,18 +71,6 @@ return {
       },
 
       {
-        "'d",
-        function()
-          require('telescope.builtin').diagnostics({
-            line_width = 120,
-            no_sign = true,
-            severity = 'error', -- Only show errors
-          })
-        end,
-        desc = 'List diagnostics'
-      },
-
-      {
         "'g",
         function()
           require('telescope.builtin').lsp_dynamic_workspace_symbols({

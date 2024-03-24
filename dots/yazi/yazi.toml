@@ -15,45 +15,45 @@ cache_dir  = ""
 
 [opener]
 folder = [
-	{ exec = 'open -R "$@"', desc = "Reveal in Finder" },
-	{ exec = '$EDITOR "$@"' },
+	{ run = 'open -R "$@"', desc = "Reveal in Finder" },
+	{ run = '$EDITOR "$@"' },
 ]
 archive = [
-	{ exec = 'unar "$1"', desc = "Extract here" },
+	{ run = 'unar "$1"', desc = "Extract here" },
 ]
 text = [
-	{ exec = '$EDITOR "$@"', block = true, desc = "Editor" },
+	{ run = '$EDITOR "$@"', block = true, desc = "Editor" },
 ]
 pdf = [
-	{ exec = 'okular "$@"', block = false },
+	{ run = 'okular "$@"', block = false },
 ]
 gif = [
-	{ exec = 'gifview --bg=#ffffff -a "$@"', block = false },
+	{ run = 'gifview --bg=#ffffff -a "$@"', block = false },
 ]
 image = [
-	{ exec = 'feh --scale-down --magick-timeout 1 -- "$@"', desc = "Open" },
-	{ exec = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF" },
+	{ run = 'feh --scale-down --magick-timeout 1 -- "$@"', desc = "Open" },
+	{ run = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF" },
 ]
 video = [
-	{ exec = 'mpv "$@"' },
-	{ exec = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info" },
+	{ run = 'mpv "$@"' },
+	{ run = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info" },
 ]
 audio = [
-	{ exec = 'mpv --no-audio-display "$@"' },
-	{ exec = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info" },
+	{ run = 'mpv --no-audio-display "$@"' },
+	{ run = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info" },
 ]
 url = [
-	{ exec = 'firefox $(cat "$@")' },
+	{ run = 'firefox $(cat "$@")' },
 ]
 csv = [
-    { exec = 'bspc rule -a kitty -o state=floating && kitty -e visidata "$@"' },
+    { run = 'bspc rule -a kitty -o state=floating && kitty -e visidata "$@"' },
 ]
 markdown = [
-    { exec = 'nom view "$@"', desc = "Nom" },
+    { run = 'nom view "$@"', desc = "Nom" },
 ]
 fallback = [
-	{ exec = 'open "$@"', desc = "Open" },
-	{ exec = 'open -R "$@"', desc = "Reveal in Finder" },
+	{ run = 'open "$@"', desc = "Open" },
+	{ run = 'open -R "$@"', desc = "Reveal in Finder" },
 ]
 
 [open]

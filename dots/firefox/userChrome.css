@@ -130,4 +130,8 @@
   #TabsToolbar:not([brighttext]) #tabbrowser-tabs:not([noshadowfortests]) .tabbrowser-tab:is([visuallyselected="true"], [multiselected]) > .tab-stack > .tab-background {
     box-shadow: none !important;
   }
+
+  #TabsToolbar #firefox-view-button:is([open], :hover):not(:focus-visible) > .toolbarbutton-icon, .tab-background[selected], .tabbrowser-tab:hover > .tab-stack > .tab-background {
+    outline: none !important;
+  }
 /* } */

@@ -19,5 +19,5 @@ eval "$(zoxide init bash)"
 eval "$(pyenv init --path)"
 
 # fnm
-# export PATH="/home/ftseng/.local/share/fnm:$PATH"
-# eval "`fnm env`"
+export PATH="/home/ftseng/.local/share/fnm:$PATH"
+eval "`fnm env`"

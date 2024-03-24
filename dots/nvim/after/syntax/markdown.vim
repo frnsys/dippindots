@@ -3,4 +3,4 @@ syntax match mdHeader '\(#\)\@<=#' conceal cchar=▉
 syntax match mdDivider '^-\(--$\)\@=' conceal cchar=▰
 syntax match mdDivider '\(--\)\@<=-$' conceal cchar=▰
 syntax match mdDivider '\(-\)\@<=-\(-$\)\@=' conceal cchar=▰
-highlight Conceal guifg=#f55151
+highlight Conceal guifg=#6096e8
