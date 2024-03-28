@@ -140,7 +140,7 @@ def identity_authenticate(essid, identity, password, outfile, key_mgmt='WPA-EAP'
 
 
 def notify(msg):
-    subprocess.run(['notify-send', msg])
+    subprocess.run(['notify-send', msg, '-t', '5000'])
 
 
 if __name__ == '__main__':

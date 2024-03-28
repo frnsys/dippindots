@@ -300,7 +300,18 @@ fm:
 
 wm:
 	# swaybg and swaylock for background and lock screen
-	sudo apt install -y swaybg swaylock
+	sudo apt install -y swaybg
+
+	sudo apt install -y libgdk-pixbuf2.0-dev libxkbcommon-dev libpam0g-dev libcairo2-dev
+	git clone --depth 1 git@github.com:swaywm/swaylock.git /tmp/swaylock && \
+		cd /tmp/swaylock && \
+		meson build && \
+		ninja -C build && \
+		sudo ninja -C build install
+
+	# Monitor power state control
+	git clone 'https://git.sr.ht/~leon_plickat/wlopm' /tmp/wlopm && \
+		cd /tmp/wlopm && make && sudo make install
 
 	# Inhibit idle while audio is playing
 	git clone --depth 1 git@github.com:ErikReider/SwayAudioIdleInhibit.git /tmp/inhibit-idle && \

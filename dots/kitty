@@ -14,6 +14,7 @@ initial_window_height 640
 enabled_layouts splits,stack
 
 enable_audio_bell no
+shell_integration no-sudo
 
 # Use nvim as the scrollback pager
 # This command removes trailing blank lines

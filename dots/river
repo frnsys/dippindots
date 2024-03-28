@@ -212,10 +212,13 @@ gammastep &
 mako &
 sema &
 
-# Lock after 600s
+# Lock after 5min
+# Sleep after 15min
 swayidle -w \
-    timeout 600 ~/.bin/lock \
-    before-sleep ~/.bin/lock &
+    timeout 300 '~/.bin/lock' \
+    resume 'wlopm --on "*"' \
+    before-sleep '~/.bin/lock' \
+    timeout 900 'systemctl hybrid-sleep' &
 
 # Prevent sleep when audio is playing
 sway-audio-idle-inhibit &
