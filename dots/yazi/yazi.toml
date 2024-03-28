@@ -28,10 +28,10 @@ pdf = [
 	{ run = 'okular "$@"', block = false },
 ]
 gif = [
-	{ run = 'gifview --bg=#ffffff -a "$@"', block = false },
+	{ run = 'vu "$@"', block = false },
 ]
 image = [
-	{ run = 'imv -s shrink -- "$@"', desc = "Open" },
+	{ run = 'vu "$@"', desc = "Open" },
 	{ run = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF" },
 ]
 video = [

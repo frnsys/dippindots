@@ -18,22 +18,19 @@ fc-cache -fv &
 systemctl --user import-environment
 
 riverctl map normal Super Return spawn 'kitty'
-
 riverctl map normal Super N spawn 'connect'
-riverctl map normal Super Space spawn 'bemenu-run -l 10 -p ">"'
-riverctl map normal Super Z spawn 'pkill -USR1 gammastep'
-
 riverctl map normal Super Equal spawn 'mpc toggle'
 riverctl map normal Super Plus spawn 'mpvc toggle'
-riverctl map normal Super Tab spawn 'notify-send -t 5000 "$(date '\''+%m/%d %H:%M'\'')" "$(batt percent)% $(batt duration)h\n\n$(wifi)"'
-riverctl map normal Super X spawn 'makoctl mode -t do-not-disturb'
-
-riverctl map normal Super G spawn 'hyprpicker --autocopy'
 riverctl map normal Super Semicolon spawn 'kitty -e ncmpcpp'
-riverctl map normal Super P spawn 'kitty -e kpass --title kpass'
+riverctl map normal Super Space spawn 'bemenu-run -l 10 -p ">"'
+riverctl map normal Super Tab spawn 'notify-send -t 5000 "$(date '\''+%m/%d %H:%M'\'')" "$(batt percent)% $(batt duration)h"'
+riverctl map normal Super X spawn 'makoctl mode -t do-not-disturb'
+riverctl map normal Super P spawn 'kitty --title kpass -e kpass ~/docs/pass.kdbx'
 riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda view | less -R'\'''
-riverctl map normal Super D spawn '~/.bin/browse'
 riverctl map normal Super T spawn 'kitty --title todo --working-directory ~/notes -e vi todo.md'
+riverctl map normal Super B spawn 'kitty --title yazi --working-directory ~ -e yazi'
+riverctl map normal Super G spawn 'hyprpicker --autocopy'
+riverctl map normal Super Z spawn 'pkill -USR1 gammastep'
 
 # Force close a window
 riverctl map normal Super+Shift+Alt Q close
@@ -163,19 +160,21 @@ riverctl input $TOUCHPAD tap enabled
 float_these=(
     "ncmpcpp"
     "kpass"
-    "2fa"
     "agenda"
+    "yazi"
+    "sema",
     "todo")
 for title in "${float_these[@]}"
 do
     riverctl rule-add -title $title float
     riverctl rule-add -title $title dimensions 480 320
 done
-riverctl rule-add -title 'mpv' float
+riverctl rule-add -title '*mpv*' float
 riverctl rule-add -title 'vu' float
 riverctl rule-add -title 'md-vu-preview' float
 riverctl rule-add -title 'md-vu-preview' position 9999 0
 riverctl rule-add -title 'sema' position 9999 9999
+riverctl rule-add -title 'sema' tags $sticky_tag
 
 # Other daemons
 batt mon &
