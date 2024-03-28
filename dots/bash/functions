@@ -1,34 +1,3 @@
-function wakehubble() {
-    # svalbard
-    # make sure wakeonlan is installed: apt install wakeonlan
-    # make sure there's a user on svalbard named ftseng
-    tunnel go starbase 10023 'wakeonlan -i 192.168.1.255 '$HUBBLE
-}
-
-function pushhubble() {
-    # push a local file to hubble
-    # $1 = local file
-    # $2 = remote path (optional)
-    TO=${2:-"~/$(basename $1)"}
-    tunnel push "$1" ftseng@starbase:10022:ftseng:"$TO"
-}
-
-function pullhubble() {
-    # pull a local file from hubble
-    # $1 = remote file
-    # $2 = local path (optional)
-
-    TO=${2:-"."}
-    if [[ -d $TO ]]; then
-        TO=$TO/$(basename $1)
-    fi
-    tunnel pull ftseng@starbase:10022:ftseng:"$1" "$TO"
-}
-
-function hubble() {
-    ssh -Y hubble.local 2> /dev/null || tunnel go starbase 10022
-}
-
 # Activate a Python virtualenv by name.
 function aa() {
     eval "$(pyenv init -)"

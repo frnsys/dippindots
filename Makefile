@@ -260,7 +260,7 @@ menu:
 
 scrots:
 	# for screenshots
-	sudo apt install -y grimshot slurp
+	sudo apt install -y grim slurp
 
 	# for screen recordings
 	sudo apt install -y gifsicle

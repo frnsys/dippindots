@@ -43,31 +43,7 @@ function localSync() {
     scp /tmp/last_updated $dest/last_updated
 }
 
-function remoteSync() {
-    dest=$1
-    echo $dest
-    for d in ${REPOS[@]}; do
-        tunnel sync $d $BRIDGE:$dest/repos --delete --progress --exclude-from=/tmp/bkup.exclude
-    done
-    for d in ${OTHER[@]}; do
-        tunnel sync $d $BRIDGE:$dest --progress --exclude-from=/tmp/bkup.exclude
-    done
-    tunnel sync ~/downloads $BRIDGE:$dest/repos --delete --progress --exclude=torrents
-    date > /tmp/last_updated
-    tunnel push /tmp/last_updated $BRIDGE:$dest/last_updated
-}
-
-if [[ $1 == 'remote' ]]; then
-    # TODO this is wasteful since we sync
-    # identical stuff twice over the wire,
-    # when we should sync to one drive then rsync locally to the other.
-    for dest in \
-        10023:pi:/media/shuttle\
-        10022:ftseng:/mnt/library/backup; do
-        remoteSync $dest
-    done
-
-elif [[ $1 == 'home' ]]; then
+if [[ $1 == 'home' ]]; then
     for dest in \
         pi@svalbard.local:/media/shuttle\
         ftseng@turtle.local:/media/backup\
