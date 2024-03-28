@@ -28,7 +28,7 @@ if [ -n "$1" ]; then
     TEXT="$1"
 else
     # Get clipboard selection
-    TEXT=$(xsel -b)
+    TEXT=$(wl-paste)
 fi
 
 # In order:

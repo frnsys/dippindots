@@ -26,7 +26,7 @@ function get {
         else
             echo -ne "$D: $X\r"
         fi
-        echo -n $X | xsel -b
+        echo -n $X | wl-copy
         sleep 1
     done
 }

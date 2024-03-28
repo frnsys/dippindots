@@ -1,0 +1,13 @@
+font=Input Light 7
+layer=overlay
+background-color=#181818
+width=160
+height=120
+margin=5
+padding=0,5,10
+border-size=1
+border-color=#282828
+icons=0
+
+[mode=do-not-disturb]
+invisible=1

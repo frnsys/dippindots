@@ -92,8 +92,16 @@ return {
       --- Enable the following language servers
       local servers = {
         pyright = {},
-        marksman = {},
-        rust_analyzer = {
+      }
+
+      --- Use my copy of rust-analyzer, to ensure consistency
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+      require('lspconfig').rust_analyzer.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        cmd = { "rustup", "run", "nightly", "rust-analyzer" },
+        settings = {
           ["rust-analyzer"] = {
             numThreads = 4,
 
@@ -120,28 +128,28 @@ return {
               enable = false,
             },
 
-            -- Disable check on save,
-            -- instead trigger manually
             checkOnSave = {
               command = "clippy",
               extraArgs = {
                 "--target-dir=target/analyzer"
               }
             },
+
+            diagnostics = {
+              enable = true,
+              experimental = {
+                enable = true,
+              },
+            },
           },
         },
-        tsserver = {},
-        cssls = {},
-      }
-
-      require('lspconfig').rust_analyzer.setup({
-        cmd = { "rustup", "run", "nightly", "rust-analyzer" },
+        handlers = handlers,
       })
 
       --- Ensure the servers above are installed
       local mason_lspconfig = require 'mason-lspconfig'
       mason_lspconfig.setup {
-        ensure_installed = vim.tbl_keys(servers),
+        ensure_installed = { 'pyright' },
       }
 
       mason_lspconfig.setup_handlers {
@@ -149,11 +157,6 @@ return {
           --- nvim-cmp supports additional completion capabilities, so broadcast that to servers
           local capabilities = vim.lsp.protocol.make_client_capabilities()
           capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
-          --- Open local docs instead of internet docs
-          -- if server_name == "rust_analyzer" then
-          --   capabilities['experimental'] = { ['localDocs'] = true }
-          -- end
 
           require('lspconfig')[server_name].setup {
             capabilities = capabilities,

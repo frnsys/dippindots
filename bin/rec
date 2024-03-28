@@ -1,40 +1,15 @@
 #!/bin/bash
 
-# Records a region of the screen or a window to a gif
-# Adapted from <http://askubuntu.com/a/201018>
-# also see `man recordmydesktop` for more options
-# hit CTRL+C to stop recording
-# there's also a sxhkd binding to stop recording
-
-if [[ $1 == 'region' ]]; then
-    OPTS=$(xrectsel "-x=%x -y=%y --width=%w --height=%h")
-elif [[ $1 == 'window' ]]; then
-    OPTS="--windowid $(xwininfo | awk '/Window id:/ {print $4}')"
-elif [[ $1 == 'full' ]]; then
-    OPTS=""
-else
-    notify-send "Please specify 'full', 'region' or 'window'."
-    exit 0
-fi
-
-# https://github.com/lolilolicon/xrectsel
 TIME=$(date +%F-%T)
-VID=/tmp/recording_${TIME}.ogv
-recordmydesktop $OPTS -o $VID --overwrite --fps 24 --no-frame #--no-cursor
+VID=/tmp/recording_${TIME}.mp4
+wf-recorder -g "$(slurp)" -f $VID
 
 # Trim the last bit (it catches the recording notification)
 DURATION=$(ffprobe -v 0 -show_entries format=duration -of compact=p=0:nk=1 "$VID")
 TRIMMED_DURATION=$(echo "scale=4;$DURATION-1" | bc)
 TRIMMED_VID="${VID%.ogv}.trimmed.mp4"
 ffmpeg -i "$VID" -t $TRIMMED_DURATION -filter:v "crop=iw-4:ih-4" -c:v libx264 -crf 18 -c:a copy "$TRIMMED_VID"
+OUT="$TRIMMED_VID"
 
-if [[ $2 == '--gif' ]]; then
-    OUT=~/docs/shots/${TIME}.gif
-    notify-send "[rec] converting to gif..."
-    vid2gif -f 12 "$TRIMMED_VID" "$OUT"
-else
-    OUT="$TRIMMED_VID"
-fi
-
-echo ${OUT} | xsel -b
+echo ${OUT} | wl-copy
 notify-send "[rec] finished: ${OUT}"

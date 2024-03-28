@@ -2,9 +2,9 @@
 
 lockfi='/tmp/lock'
 lockbg='/tmp/lock.png'
-maim "$lockbg"
+grim "$lockbg"
 convert "$lockbg" -filter point -resize 5% -resize 2000% "$lockbg"
 touch "$lockfi"
-pkill -u "$USER" -USR1 dunst
-i3lock -u -i "$lockbg"
-trap "rm $lockfi; pkill -u $USER -USR2 dunst" EXIT
+makoctl mode -a do-not-disturb
+swaylock -u -i "$lockbg"
+trap "rm $lockfi; makoctl mode -r do-not-disturb" EXIT
