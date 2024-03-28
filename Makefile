@@ -457,7 +457,8 @@ vpn: # wireguard & mullvad
 	sudo apt install -y wireguard resolvconf
 	wget "https://mullvad.net/fr/download/app/deb/latest" -O /tmp/mullvad.deb
 	sudo gdebi /tmp/mullvad.deb
-	ln -s "/opt/Mullvad VPN/mullvad-gui" /usr/local/bin/vpn
+	echo -e '#!/bin/bash\n/opt/Mullvad\ VPN/mullvad-gui --ozone-platform=wayland --enable-features=WaylandWindowDecorations' | sudo tee /usr/local/bin/vpn
+	sudo chmod +x /usr/local/bin/vpn
 
 theme: # wallpaper, fonts, etc
 	# GTK/QT themeing
