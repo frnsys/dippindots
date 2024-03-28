@@ -50,4 +50,7 @@ export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 # Setup GDAL for GIS stuff
 export GDAL_DATA=/usr/share/gdal
 
+# Enable esync for wine
+export WINEESYNC=1
+
 [[ -r ~/.bashrc ]] && . ~/.bashrc

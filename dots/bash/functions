@@ -95,16 +95,6 @@ function mkv2mp4() {
     ffmpeg -i "$1" -preset veryfast -c:v libx264 -c:a aac "${1%.*}.mp4"
 }
 
-function ytdl2gif() {
-    URL=$1
-    youtube-dl "$1"
-    FNAME=$(youtube-dl --get-filename "$1")
-    GIFNAME="${FNAME%.*}.gif"
-    vid2gif -f 12 "$FNAME" "$GIFNAME"
-    rm "$FNAME"
-    echo "$GIFNAME"
-}
-
 function clipvid() {
     ffmpeg -ss "$2" -to "$3" -i "$1" -c copy "$4"
 }

@@ -4,8 +4,7 @@ set complete+=kspell
 setlocal linebreak
 
 " open markdown syntax urls
-" open local images with feh
-" open local gifs with gifview
+" open local images with vu
 function! OpenUrlUnderCursor()
     let l:lnum = line('.')
     let l:line = getline(l:lnum)
@@ -27,12 +26,10 @@ function! OpenUrlUnderCursor()
     if l:url != ''
         execute '!firefox ' fnameescape(l:url)
     elseif l:img != ''
-        if matchend(l:img, 'gif') >= 0
-            call jobstart("gifview -a '".expand('%:p:h')."/".l:img."'")
-        elseif matchend(l:img, 'mp4') >= 0 || matchend(l:img, 'webm') >= 0
+        seif matchend(l:img, 'mp4') >= 0 || matchend(l:img, 'webm') >= 0
             call jobstart("mpv '".expand('%:p:h')."/".l:img."'")
         else
-            call jobstart("feh --scale-down '".expand('%:p:h')."/".l:img."'")
+            call jobstart("vu '".expand('%:p:h')."/".l:img."'")
         endif
     else
         echomsg 'The cursor is not on a link.'
@@ -69,37 +66,6 @@ function! DownloadUrlToAssets(url, ...)
     execute "normal! j0f[l"
     startinsert
 endfunction
-
-" download a video from a url using youtube-dl
-" then convert to gif and insert image markdown
-function! DownloadUrlToAssetsGif(url, ...)
-    " Get remote filename (removing any query params)
-    let l:remotename = split(split(a:url, "/")[-1], "?")[0]
-
-    " Get specified directory
-    let l:dir = "assets/".get(a:, 1, "")
-
-    " Download the file
-    echo "Downloading..."
-    silent exec "!cd ".l:dir."; youtube-dl \"".a:url."\""
-    let l:filename = system("youtube-dl --get-filename \"".a:url."\"")
-    let l:filename = substitute(l:filename, '\n$', '', '')
-
-    " Create the gif
-    echo "Creating gif..."
-    let l:gifname = substitute(l:filename, '.[A-Za-z0-9]\+$', '.gif', '')
-    let l:gifname = substitute(l:gifname, '[()]', '', 'g') " Remove parentheses
-    silent exec "!cd ".l:dir."; vid2gif -f 12 \"".l:filename."\" \"".l:gifname."\""
-    silent exec "!cd ".l:dir."; rm \"".l:filename."\""
-
-    " Insert the image markdown
-    call append(line('.'), "![](".l:dir.l:gifname.")")
-
-    " Go to insert the caption
-    execute "normal! j0f[l"
-    startinsert
-endfunction
-
 
 " easily paste html clipboard content as quoted markdown
 nnoremap <buffer> <leader>c :r !nom clip <bar> sed 's/^/> /'<cr>
@@ -170,11 +136,7 @@ function! AutoPreviewImage()
     if l:img != ''
         if l:path != g:preview_path
             call ClosePreviewImage()
-            if matchend(l:img, 'gif') >= 0
-                let g:preview_jobid = jobstart("gifview -a '".expand('%:p:h')."/".l:path."'")
-            else
-                let g:preview_jobid = jobstart("bspc rule -a feh -o focus=off && feh --scale-down -g 640x480-0+0 -B \"#161616\" '".expand('%:p:h')."/".l:path."'")
-            endif
+            let g:preview_jobid = jobstart("vu '".expand('%:p:h')."/".l:path."' md-vu-preview")
             let g:preview_path = l:path
         endif
     else

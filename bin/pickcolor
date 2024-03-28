@@ -1,5 +1,0 @@
-#!/bin/bash
-# cargo install xcolor
-
-# Strip newlines
-xcolor | tr -d '\n' | xsel -b

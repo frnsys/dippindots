@@ -1,5 +1,0 @@
-#!/bin/bash
-# Copies an image file to the clipboard.
-# Usage: imgclip <path to image>
-
-xclip -selection clipboard -target image/png -i "$1"

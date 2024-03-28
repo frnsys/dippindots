@@ -31,7 +31,7 @@ gif = [
 	{ run = 'gifview --bg=#ffffff -a "$@"', block = false },
 ]
 image = [
-	{ run = 'feh --scale-down --magick-timeout 1 -- "$@"', desc = "Open" },
+	{ run = 'imv -s shrink -- "$@"', desc = "Open" },
 	{ run = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF" },
 ]
 video = [

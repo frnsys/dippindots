@@ -1,0 +1,200 @@
+#!/bin/bash
+# To debug, start `river` with:
+#   river -log-level debug > river.log 2>&1
+# You can also make changes then exit with `riverctl exit` and relaunch.
+
+# Wallpaper
+swaybg -o '*' -i ~/.wall.jpg -m fill &
+
+# Setup display management and scaling.
+kanshi &
+
+# Fonts
+fc-cache -fv &
+
+# Fix for xdg-desktop-portal failing,
+# causing slow GTK application start ups
+# <https://github.com/swaywm/sway/issues/5732>
+systemctl --user import-environment
+
+riverctl map normal Super Return spawn 'kitty'
+
+riverctl map normal Super N spawn 'connect'
+riverctl map normal Super Space spawn 'bemenu-run -l 10 -p ">"'
+riverctl map normal Super Z spawn 'pkill -USR1 gammastep'
+
+riverctl map normal Super Equal spawn 'mpc toggle'
+riverctl map normal Super Plus spawn 'mpvc toggle'
+riverctl map normal Super Tab spawn 'notify-send -t 5000 "$(date '\''+%m/%d %H:%M'\'')" "$(batt percent)% $(batt duration)h\n\n$(wifi)"'
+riverctl map normal Super X spawn 'makoctl mode -t do-not-disturb'
+
+riverctl map normal Super G spawn 'hyprpicker --autocopy'
+riverctl map normal Super Semicolon spawn 'kitty -e ncmpcpp'
+riverctl map normal Super P spawn 'kitty -e kpass --title kpass'
+riverctl map normal Super A spawn 'kitty -e ~/.bin/2fa --title 2fa'
+riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda view | less -R'\'''
+riverctl map normal Super D spawn '~/.bin/browse'
+riverctl map normal Super T spawn 'kitty --title todo --working-directory ~/notes -e vi todo.md'
+
+# Force close a window
+riverctl map normal Super+Shift+Alt Q close
+
+# Super+Shift+E to exit river
+# riverctl map normal Super+Shift E exit
+
+# Move focus across windows
+riverctl map normal Super H focus-view left
+riverctl map normal Super L focus-view right
+riverctl map normal Super J focus-view down
+riverctl map normal Super K focus-view up
+
+# Swap windows
+riverctl map normal Super+Shift H swap left
+riverctl map normal Super+Shift L swap right
+riverctl map normal Super+Shift J swap down
+riverctl map normal Super+Shift K swap up
+
+# Go to previously-focused workspace
+riverctl map normal Super Apostrophe focus-previous-tags
+
+# Change size of main tile
+riverctl map -repeat normal Shift+Alt H send-layout-cmd rivertile "main-ratio -0.05"
+riverctl map -repeat normal Shift+Alt L send-layout-cmd rivertile "main-ratio +0.05"
+
+# Note that this turns a tiled window into a floating window.
+riverctl map-pointer normal Super BTN_LEFT move-view
+riverctl map-pointer normal Super BTN_RIGHT resize-view
+
+# river doesn't support prev/next workspaces (or rather "tags")
+# but this script let's us essentially do that.
+cat << 'EOF' > "/tmp/ws_ctrl"
+#!/bin/bash
+input="$1"
+
+sticky_tag=$((1 << 31))
+
+function go_to_tag() {
+    echo $1 > "/tmp/ws_tag"
+    tags=$((1 << ($1 - 1)))
+    riverctl set-focused-tags $(($sticky_tag + $tags))
+}
+
+case "$input" in
+    1|2|3|4)
+        go_to_tag $input
+        ;;
+    next)
+        input=$(cat /tmp/ws_tag)
+        ((input++))
+        if [ "$input" -gt 4 ]; then
+            input=1
+        fi
+        go_to_tag $input
+        ;;
+    prev)
+        input=$(cat /tmp/ws_tag)
+        ((input--))
+        if [ "$input" -lt 1 ]; then
+            input=4
+        fi
+        go_to_tag $input
+        ;;
+
+    *)
+        echo "Input not recognized"
+        ;;
+esac
+EOF
+chmod +x "/tmp/ws_ctrl"
+
+all_tags=$(((1 << 32) - 1))
+sticky_tag=$((1 << 31))
+all_but_sticky_tag=$(( $all_tags ^ $sticky_tag ))
+
+riverctl map normal Super Y toggle-view-tags $sticky_tag
+riverctl spawn-tagmask ${all_but_sticky_tag}
+
+# Tags 1-4 (workspaces)
+for i in $(seq 1 4)
+do
+    tags=$((1 << ($i - 1)))
+    riverctl map normal Super $i spawn "/tmp/ws_ctrl $i"
+    riverctl map normal Super+Shift $i set-view-tags $tags
+done
+riverctl map normal Super BracketLeft spawn "/tmp/ws_ctrl prev"
+riverctl map normal Super BracketRight spawn "/tmp/ws_ctrl next"
+
+riverctl map normal Super S toggle-float
+riverctl map normal Super F toggle-fullscreen
+
+for mode in normal locked
+do
+    riverctl map $mode Super XF86AudioRaiseVolume spawn 'pactl -- set-sink-volume @DEFAULT_SINK@ +5%'
+    riverctl map $mode Super XF86AudioLowerVolume spawn 'pactl -- set-sink-volume @DEFAULT_SINK@ -5%'
+    riverctl map $mode Super XF86AudioMute spawn 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
+    riverctl map $mode Super XF86AudioMicMute spawn 'mute toggle'
+
+    riverctl map $mode Super XF86MonBrightnessUp spawn 'brightnessctl set +200'
+    riverctl map $mode Super+Shift XF86MonBrightnessUp spawn 'brightnessctl set +500'
+    riverctl map $mode Super XF86MonBrightnessDown spawn 'brightnessctl set 200-'
+    riverctl map $mode Super+Shift XF86MonBrightnessDown spawn 'brightnessctl set 500-'
+done
+
+# Set background and border color
+riverctl background-color 0x161616
+riverctl border-color-focused 0x507DC4
+riverctl border-color-unfocused 0x586e75
+riverctl border-width 0
+
+# Input settings
+riverctl set-repeat 25 250
+riverctl hide-cursor when-typing enabled
+riverctl hide-cursor timeout 3000
+riverctl focus-follows-cursor disabled
+
+# riverctl list-inputs
+TOUCHPAD=pointer-1267-12624-ELAN0670:00_04F3:3150_Touchpad
+riverctl input $TOUCHPAD accel-profile flat
+riverctl input $TOUCHPAD pointer-accel 0.4
+riverctl input $TOUCHPAD click-method clickfinger
+riverctl input $TOUCHPAD disable-while-typing enabled
+riverctl input $TOUCHPAD natural-scroll disabled
+riverctl input $TOUCHPAD tap enabled
+
+float_these=(
+    "ncmpcpp"
+    "kpass"
+    "2fa"
+    "agenda"
+    "todo")
+for title in "${float_these[@]}"
+do
+    riverctl rule-add -title $title float
+    riverctl rule-add -title $title dimensions 480 320
+done
+riverctl rule-add -title 'mpv' float
+riverctl rule-add -title 'vu' float
+riverctl rule-add -title 'md-vu-preview' float
+riverctl rule-add -title 'md-vu-preview' position 9999 0
+riverctl rule-add -title 'sema' position 9999 9999
+
+# Other daemons
+batt mon &
+agenda remind 5 &
+gammastep &
+mako &
+sema &
+
+
+# Lock after 600s
+swayidle -w \
+    timeout 600 ~/.bin/lock \
+    before-sleep ~/.bin/lock &
+
+# Prevent sleep when audio is playing
+sway-audio-idle-inhibit &
+
+# Set the default layout generator to be rivertile and start it.
+# River will send the process group of the init executable SIGTERM on exit.
+riverctl default-layout rivertile
+rivertile -view-padding 0 -outer-padding 0 &

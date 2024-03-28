@@ -17,16 +17,16 @@ laptop:\
 	prereqs git python rust node\
 
 	# desktop environment
-	bspwm lemonbar dunst dmenu theme\
+	wm bar notifications menu theme\
 
 	# apps
 	headless-tools gui-tools neovim\
-		kitty browser vpn\
+		terminal browser vpn\
 		signal torrents keepass android\
-		documents calendar\
+		documents \
 
 	# media
-	ffmpeg imagemagick audio feh mpv ncmpcpp scrots\
+	ffmpeg audio images mpv ncmpcpp scrots\
 
 	# system config
 	thinkpad tweaks screen language misc-dots
@@ -50,6 +50,10 @@ prereqs:
 	# Get rid of some other unnecessary ubuntu server stuff
 	sudo apt uninstall -y mdadm multipath-tools cloud-init
 
+	# necessary for installing from git with cargo
+	eval `ssh-agent -s`
+	ssh-add ~/.ssh/id_rsa
+
 node:
 	@echo "Installing fnm/node..."
 	sudo pip install libsass
@@ -69,23 +73,27 @@ headless-tools:
 	sudo apt install -y avahi-daemon libnss-mdns
 
 gui-tools:
-	# xsel - clipboard
-	# xclip - clipboard, used by imgclip script
-	# xdotool - simulating interactions with the GUI
-	# i3lock - locking the screen
 	# libnotify-bin - for `notify-send` to create notifications
-	# unclutter - hide cursor after inactivity
 	# gdebi - easier installation of deb packages
-	sudo apt install -y xsel xclip xdotool i3lock libnotify-bin unclutter gdebi
-	sudo apt install -y --no-install-recommends dos2unix imagemagick sqlitebrowser rclone
+	sudo apt install -y libnotify-bin gdebi wl-clipboard
+	sudo apt install -y --no-install-recommends dos2unix sqlitebrowser rclone
 	sudo pip3 install -U yt-dlp
-	cargo install xcolor # color picking
 	cargo install pastel
+
+	# Colorpicker
+	git clone --depth 1 git@github.com:hyprwm/hyprpicker.git /tmp/hyprpicker && \
+		cd /tmp/hyprpicker && \
+		cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build && \
+		cmake --build ./build --config Release --target hyprpicker -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF` && \
+		cmake --install ./build
 
 	# for easily updating system time to current time zone
 	# to preview, run `tzupdate -p`
 	# to make the change, run `sudo tzupdate`
 	sudo pip3 install -U tzupdate
+
+	cargo install --git ssh://git@github.com/frnsys/sema.git
+	cargo install --git ssh://git@github.com/frnsys/agenda.git
 
 git:
 	@echo "Installing git..."
@@ -164,7 +172,7 @@ ncmpcpp:
 	sudo apt install -y mpd mpc
 	mkdir ~/.mpd/
 	touch ~/.mpd/{mpd.db,mpd.log,mpd.pid,mpd.state}
-	ln -sf $(dir)/dots/mpd/mpd.conf ~/.mpd/mpd.conf
+	ln -sf $(dir)/dots/mpd ~/.mpd/mpd.conf
 	sudo systemctl disable --now mpd # prevent conflicts with user instance
 	sudo systemctl stop mpd.socket
 
@@ -244,93 +252,28 @@ audio:
 	# see ~/notes/linux/bluetooth.md
 	sudo apt install -y bluez libbluetooth3 libbluetooth-dev bluez-tools blueman
 
-dmenu:
-	git clone https://github.com/Cloudef/dmenu-pango-imlib /tmp/dmenu
-	sudo apt install -y libxinerama-dev libimlib2-dev libxcb-xinerama0-dev libxft-dev libpango1.0-dev libssl-dev
-	cd /tmp/dmenu && sudo make clean install
+menu:
+	sudo apt install scdoc wayland-protocols libcairo-dev libpango1.0-dev libxkbcommon-dev libwayland-dev
+	git clone --depth 1 git@github.com:Cloudef/bemenu.git /tmp/bemenu && \
+		cd /tmp/bemenu && \
+		make clients wayland && sudo make install PREFIX=/usr
 
 scrots:
-	# maim/slop (scrot replacement)
-	sudo apt install -y libglm-dev libgl1-mesa-dev libgles2-mesa-dev mesa-utils-extra \
-		libxrandr-dev libxcomposite-dev libglew-dev libpng-dev libjpeg-dev libwebp-dev
-	git clone https://github.com/naelstrof/slop.git /tmp/slop
-	cd /tmp/slop\
-		&& cmake -DCMAKE_OPENGL_SUPPORT=true -DSLOP_UNICODE=false ./\
-		&& make && sudo make install
-	git clone https://github.com/naelstrof/maim.git /tmp/maim
-	cd /tmp/maim\
-		&& cmake ./\
-		&& make && sudo make install
+	# for screenshots
+	sudo apt install -y grimshot slurp
 
 	# for screen recordings
-	sudo apt install -y recordmydesktop gifsicle
+	sudo apt install -y gifsicle
+	sudo apt install -y libavutil-dev libavcodec-dev libavformat-dev libswscale-dev libpulse-dev libavdevice-dev
+	git clone --depth 1 git@github.com:ammen99/wf-recorder.git  /tmp/wf-recorder && \
+		cd /tmp/wf-recorder && \
+		meson build --prefix=/usr --buildtype=release && \
+		ninja -C build && sudo ninja -C build install
 
-	# screenkey
-	# press shift+shift to temporarily disable/renable
-	pip3 install dbus-python
-	pip3 install pip install git+https://gitlab.com/screenkey/screenkey
+images:
+	cargo install --git ssh://git@github.com/frnsys/vu.git
 
-	# xrectsel for region selection (for recording regions)
-	git clone https://github.com/lolilolicon/xrectsel.git /tmp/xrectsel
-	cd /tmp/xrectsel && ./bootstrap\
-		&& ./configure --prefix /usr\
-		&& make && sudo make install
-
-feh:
-	# webp imlib2 loader
-	sudo apt install -y libimlib2-dev libwebp-dev pkg-config
-	git clone https://github.com/gawen947/imlib2-webp.git /tmp/webp
-	cd /tmp/webp && make && sudo make install
-
-	# for viewing svgs
-	# inkscape needed to convert svg to png, for some reason
-	sudo apt install -y librsvg2-bin inkscape
-
-	# feh - image viewer/wallpaper manager
-	sudo apt install -y feh
-
-yazi:
-	cargo install --git https://github.com/sxyazi/yazi
-	ln -sf $(dir)/dots/yazi  ~/.config/yazi
-
-bspwm: # window manager
-	sudo apt install -y --no-install-recommends xorg
-	sudo apt install -y xcb libxcb-util0-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev  libxcb-xtest0-dev libasound2-dev libxcb-ewmh-dev
-	git clone https://github.com/baskerville/xdo /tmp/xdo
-	git clone https://github.com/baskerville/bspwm.git /tmp/bspwm
-	git clone https://github.com/baskerville/sxhkd.git /tmp/sxhkd
-	cd /tmp/xdo && make && sudo make install
-	cd /tmp/bspwm && make && sudo make install
-	cd /tmp/sxhkd && make && sudo make install
-	ln -sf $(dir)/dots/bspwm  ~/.config/bspwm
-	ln -sf $(dir)/dots/sxhkd  ~/.config/sxhkd
-
-lemonbar: # status bar/panel
-	sudo apt install -y xcb libxcb-xkb-dev x11-xkb-utils libx11-xcb-dev libxkbcommon-x11-dev libxtst-dev
-	ln -sf $(dir)/dots/lemonbar  ~/.config/lemonbar
-	sudo ln -sf ~/.config/lemonbar/panel /usr/bin/panel
-	sudo ln -sf ~/.config/lemonbar/panel_bar /usr/bin/panel_bar
-	sudo ln -sf ~/.config/lemonbar/panel_autohide /usr/bin/panel_autohide
-	git clone https://github.com/baskerville/sutils.git /tmp/sutils
-	git clone https://github.com/baskerville/xtitle.git /tmp/xtitle
-	git clone https://github.com/drscream/lemonbar-xft /tmp/bar
-	cd /tmp/sutils && make && sudo make install
-	cd /tmp/xtitle && make && sudo make install
-	cd /tmp/bar && make && sudo make install
-	echo 'export PANEL_FIFO="/tmp/panel-fifo"' | sudo tee -a /etc/profile
-
-dunst: # notifications
-	sudo apt install -y libxss-dev libxdg-basedir-dev libxinerama-dev libxft-dev libcairo2-dev libdbusmenu-glib-dev libgtk2.0-dev
-	wget https://github.com/dunst-project/dunst/archive/v1.3.1.zip -O /tmp/dunst.zip
-	cd /tmp/ && unzip dunst.zip && cd dunst-*\
-		&& make && sudo make install
-	ln -sf $(dir)/dots/dunst  ~/.config/dunst
-
-kitty: # terminal
-	curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-	ln -sf $(dir)/dots/kitty/kitty.conf ~/.config/kitty/kitty.conf
-
-imagemagick: # imagemagick with AVIF support
+	# imagemagick with AVIF support
 	git clone https://aomedia.googlesource.com/aom /tmp/aom
 	cd /tmp/aom && git checkout tags/v3.5.0\
 		&& mkdir aom_build && cd aom_build\
@@ -349,6 +292,133 @@ imagemagick: # imagemagick with AVIF support
 		&& ./configure --with-heic=yes\
 		&& make && sudo make install
 	sudo ldconfig
+
+yazi:
+	cargo install --git https://github.com/sxyazi/yazi
+	ln -sf $(dir)/dots/yazi  ~/.config/yazi
+
+wm:
+	# swaybg and swaylock for background and lock screen
+	sudo apt install -y swaybg swaylock
+
+	# Inhibit idle while audio is playing
+	git clone --depth 1 git@github.com:ErikReider/SwayAudioIdleInhibit.git /tmp/inhibit-idle && \
+		cd /tmp/inhibit-idle && \
+		meson build && \
+		ninja -C build && \
+		sudo meson install -C build
+
+	# Build swayidle from source, the repo version is out-of-date.
+	git clone --depth 1 git@github.com:swaywm/swayidle.git /tmp/swayidle && \
+		cd /tmp/swayidle &&
+		meson build && \
+		ninja -C build && \
+		sudo ninja -C build install
+
+	# Need zig to build river
+	wget https://ziglang.org/download/0.11.0/zig-0.11.0.tar.xz -O /tmp/zig.tar.xz && \
+		cd /tmp/ && tar -xzvf zig.tar.xz && \
+		cd zig-*
+
+	# Dependencies for wlroots
+	sudo apt install -y check seatd libseat-dev udev libdrm-dev libgbm-dev libxkbcommon-dev
+	wget https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.25.0/libinput-1.25.0.tar.gz -O /tmp/libinput.tar.gz && \
+		cd /tmp/ && tar -xzvf libinput.tar.gz && \
+		cd libinput-* && \
+		meson setup build && \
+		ninja -C build && \
+		sudo ninja -C build install
+	wget https://www.cairographics.org/releases/pixman-0.43.4.tar.gz -O /tmp/pixman.tar.gz && \
+		cd /tmp/ && tar -xzvf pixman.tar.gz && \
+		cd pixman-* && \
+		meson setup build && \
+		ninja -C build && \
+		sudo ninja -C build install
+	wget https://gitlab.freedesktop.org/emersion/libdisplay-info/-/archive/0.1.1/libdisplay-info-0.1.1.tar.bz2 -O /tmp/libdisplay-info.tar.bz2 && \
+		cd /tmp/ && tar -xzvf libdisplay-info.tar.bz2 && \
+		cd libdisplay-info-* && \
+		meson setup build && \
+		ninja -C build && \
+		sudo ninja -C build install
+	wget https://gitlab.freedesktop.org/emersion/libliftoff/-/archive/v0.4.1/libliftoff-v0.4.1.tar.bz2 -O /tmp/libliftoff.tar.bz2 && \
+		cd /tmp/ && tar -xzvf libliftoff.tar.bz2 && \
+		cd libliftoff-* && \
+		meson setup build && \
+		ninja -C build && \
+		sudo ninja -C build install
+	git clone git@github.com:vcrhonek/hwdata.git /tmp/hwdata && \
+		cd /tmp/hwdata && ./configure && make download && sudo make install
+	wget https://gitlab.freedesktop.org/wlroots/wlroots/-/archive/0.17.2/wlroots-0.17.2.zip -O /tmp/wlroots.zip && \
+		cd /tmp/ && unzip wlroots.zip && \
+		cd wlroots-* && \
+		meson setup build && \
+		ninja -C build && \
+		sudo ninja -C build install
+
+	# Wayland
+	sudo apt install -y --no-install-recommends xsltproc xmlto libclang-cpp14 doxygen
+	wget https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.34/downloads/wayland-protocols-1.34.tar.xz -O /tmp/wayland-protocols.tar.xz && \
+		cd /tmp/ && tar -xzvf wayland-protocols.tar.xz && \
+		cd wayland-protocols-* && \
+		meson setup build && \
+		ninja -C build && \
+		sudo ninja -C build install
+	wget https://gitlab.freedesktop.org/wayland/wayland/-/archive/1.22.0/wayland-1.22.0.tar.gz -O /tmp/wayland.tar.gz && \
+		cd /tmp/ && tar -xzvf wayland.tar.gz && \
+		cd wayland-1.22.0 && \
+		meson setup build && \
+		ninja -C build && \
+		sudo ninja -C build install
+
+	# Build river
+	sudo apt install -y libevdev
+	git clone --depth 1 https://codeberg.org/river/river.git /tmp/river && \
+		cd /tmp/river && \
+		git submodule update --init && \
+		sudo /tmp/zig-*/zig build -Doptimize=ReleaseSafe --prefix /usr/local install
+
+	mkdir ~/.config/river
+	ln -s $(dir)/dots/river ~/.config/river/init
+
+	# kanshi for display management
+	# Get output/monitor connector names
+	# grep . /sys/class/drm/*/status
+	mkdir -p ~/.config/kanshi && touch ~/.config/kanshi/config
+	git clone --depth 1 git@github.com:varlink/libvarlink.git /tmp/libvarlink && \
+		cd /tmp/libvarlink && \
+		meson setup build && \
+		ninja -C build && \
+		sudo ninja -C build install
+	git clone --depth 1 'https://git.sr.ht/~emersion/libscfg' /tmp/libscfg && \
+		cd /tmp/libscfg && \
+		meson setup build && \
+		ninja -C build && \
+		sudo ninja -C build install
+	git clone --depth 1 'https://git.sr.ht/~emersion/kanshi' /tmp/kanshi && \
+		cd /tmp/kanshi && \
+		meson setup build && \
+		ninja -C build && \
+		sudo ninja -C build install
+
+bar:
+	echo TODO
+
+notifications:
+	git clone --depth 1 git@github.com:emersion/mako.git /tmp/mako &&\
+		cd /tmp/mako && \
+		meson build && \
+		ninja -C build && \
+		sudo meson install -C build
+
+	# https://github.com/emersion/mako/issues/257
+	sudo apt install apparmor-utils
+	sudo aa-disable /etc/apparmor.d/fr.emersion.Mako
+	mkdir ~/.config/mako
+	ln -s $(dir)/dots/mako ~/.config/mako/config
+
+terminal:
+	curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+	ln -sf $(dir)/dots/kitty ~/.config/kitty/kitty.conf
 
 browser:
 	# Firefox Nightly
@@ -383,23 +453,6 @@ browser:
 	sudo update-alternatives --config x-www-browser
 	sudo update-alternatives --config gnome-www-browser
 
-calendar:
-	pip3 install vdirsyncer[google]
-	mkdir -p ~/.config/vdirsyncer
-	mkdir -p ~/.config/vdirsyncer/tokens
-	sudo ln -sf $(shell which vdirsyncer) /usr/local/bin/vdirsyncer
-	ln -sf $(dir)/dots/calendar/vdirsyncer ~/.config/vdirsyncer/config
-
-	# NOTE: If you have issues here ("collection could not be created")
-	# make sure the correct calendars are checked here: <https://calendar.google.com/calendar/u/0/syncselect>
-	vdirsyncer discover
-
-	sudo cp $(dir)/dots/calendar/vdirsyncer.{service,timer} /etc/systemd/user/
-	systemctl --user daemon-reload
-	systemctl --user enable vdirsyncer.timer
-	systemctl --user start vdirsyncer.timer
-	# check timers with `systemctl list-timers --all --user`
-
 vpn: # wireguard & mullvad
 	sudo apt install -y wireguard resolvconf
 	wget "https://mullvad.net/fr/download/app/deb/latest" -O /tmp/mullvad.deb
@@ -416,6 +469,8 @@ theme: # wallpaper, fonts, etc
 	ln -sf $(dir)/assets/icons ~/.icons
 	ln -sf $(dir)/dots/misc/gtkrc ~/.gtkrc-2.0
 	ln -sf $(dir)/dots/misc/gtkrc  ~/.config/gtk-3.0/settings.ini
+	ln -sf $(dir)/dots/misc/gtk.css ~/.config/gtk-3.0/gtk.css
+	ln -sf $(dir)/dots/misc/gtkrc  ~/.config/gtk-4.0/settings.ini
 	echo -e "[Qt]\nstyle=GTK+" >> ~/.config/Trolltech.conf
 	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
@@ -428,8 +483,6 @@ theme: # wallpaper, fonts, etc
 	ln -sf $(dir)/dots/misc/fonts.conf ~/.config/fontconfig/fonts.conf
 	mkfontdir ~/.fonts
 	mkfontscale ~/.fonts
-	xset +fp ~/.fonts/
-	xset fp rehash
 	fc-cache -fv
 
 	sudo mkdir /usr/share/fonts/truetype/robotomono
@@ -454,9 +507,6 @@ thinkpad: # thinkpad-specific stuff
 	cd /tmp/tpacpi-bat && ./install.pl
 
 	sudo systemctl enable tlp.service
-
-	# synaptics for touchpad
-	sudo apt install -y xserver-xorg-input-synaptics
 
 tweaks:
 	# fixes for 5G wifi
@@ -489,51 +539,16 @@ tweaks:
 	# Remove default home directories ("Desktop", etc)
 	sudo sed -i 's/enabled=True/enabled=False/' /etc/xdg/user-dirs.conf
 
-	# Not sure why these lines are in startx,
-	# but they interfere with notifications for apps like Slack
-	sudo sed -i 's/unset DBUS_SESSION_BUS_ADDRESS/#unset DBUS_SESSION_BUS_ADDRESS/' /usr/bin/startx
-	sudo sed -i 's/unset SESSION_MANAGER/#unset SESSION_MANAGER/' /usr/bin/startx
-
-	# map capslock to super
-	# use right alt and right control as compose keys
-	sudo sed -i 's/XKBOPTIONS=""/XKBOPTIONS="compose:ralt,compose:rctrl,caps:super"/' /etc/default/keyboard
-
 	# larger font for boot tty
 	sudo sed -i 's/FONTFACE=.*/FONTFACE="Terminus"/' /etc/default/console-setup
 	sudo sed -i 's/FONTSIZE=.*/FONTSIZE="14x28"/' /etc/default/console-setup
 
-	# lid close/switch
-	# to enable `systemctl hybrid-sleep`,
-	# which is durable to power loss,
-	# you must disable secure boot in the BIOS.
-	sudo apt install -y pm-utils xautolock
-	# TODO auto replace?
-	# sudo vi /etc/systemd/logind.conf
-	# add:
-	# HandleLidSwitch=hybrid-sleep
-	# systemctl restart systemd-logind.service
-	# Note that idle detection doesn't work w/o a DE
-	# Instead using xautolock, see ~/.xinitrc
-
-	# For xautolock, need to do `visudo` and add:
-	# ftseng  ALL = NOPASSWD: /bin/systemctl suspend
-
-	# auto-lock screen on sleep
-	# https://wiki.archlinux.org/index.php/Power_management#Suspend.2Fresume_service_files
-	sudo cp $(dir)/bin/lock /usr/bin/lock
-	sudo cp $(dir)/dots/services/lock@.service /etc/systemd/system/lock@.service
-	sudo chown root:root /etc/systemd/system/lock@.service
-	systemctl enable lock@ftseng.service
-
-	# In `~/.Xresources` you can specify the DPI with a line, e.g. `Xft.dpi: 166`
-	# Look up the DPI here: <http://dpi.lv/>
-
 	# For for X1 Nano G1
 	# where there is crackling/static
-	# when headphones are plguged in.
+	# when headphones are plugged in in.
 	sudo apt install -y alsa-tools
 	# sudo hda-verb /dev/snd/hwC0D0 0x1d SET_PIN_WIDGET_CONTROL 0x0
-	sudo cp $(dir)/dots/services/audio_fix.service /etc/systemd/system/hdaverb.service
+	sudo cp $(dir)/dots/misc/audio_fix.service /etc/systemd/system/hdaverb.service
 	sudo systemctl enable hdaverb
 
 	# for USB input devices
@@ -561,9 +576,6 @@ documents:
 
 	# Fix soul.sty so it can be used with xelatex/unicode
 	sudo sed -i 's/\\newfont\\SOUL@tt{ectt1000}/\\font\\SOUL@tt=[RobotoMono-Regular.ttf]/' /usr/share/texlive/texmf-dist/tex/generic/soul/soul.sty
-
-	# for annotating pdfs
-	sudo apt install -y --no-install-recommends xournal
 
 	# mupdf-gl
 	wget https://www.mupdf.com/downloads/archive/mupdf-1.22.2-source.tar.gz -O /tmp/mupdf.tar.gz
@@ -594,12 +606,8 @@ documents:
 	flatpak install flathub org.onlyoffice.desktopeditors
 
 keepass:
-	# for ~/.bin/keepass
-	sudo apt install -y --no-install-recommends keepassx python3-gi
-	/usr/bin/pip3 install pykeepass
-
-	# for OTPs
-	sudo apt install -y oathtool
+	sudo apt install -y --no-install-recommends keepassx oathtool
+	cargo install --git ssh://git@github.com/frnsys/kpass.git
 
 language:
 	# better chinese character support
@@ -617,31 +625,19 @@ signal:
 		sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
 	sudo apt update && sudo apt install -y signal-desktop
 
-	# signal-cli
-	# used by daemon script
-	sudo apt install -y openjdk-17-jre
-	wget "https://github.com/AsamK/signal-cli/releases/download/v0.11.3/signal-cli-0.11.3-Linux.tar.gz" -O /tmp/signal-cli.tar.gz
-	cd /tmp && tar -xzvf signal-cli.tar.gz\
-		&& sudo mv signal-cli-* /opt/signal-cli\
-		&& sudo ln -sf /opt/signal-cli/bin/signal-cli /usr/local/bin/signal-cli
+screen:
+	sudo usermod -aG video ${USER}
+	git clone --depth 1 git@github.com:Hummer12007/brightnessctl.git /tmp/brightnessctl && \
+		cd /tmp/brightnessctl && \
+		./configure && make install
+	sudo apt install -y gammastep # redshift
 
 misc-dots:
 	ln -sf $(dir)/dots/bash/bash_profile ~/.bash_profile
 	ln -sf $(dir)/dots/bash/bashrc ~/.bashrc
 	ln -sf $(dir)/dots/bash/inputrc ~/.inputrc
 	ln -sf $(dir)/bin ~/.bin
-
-	# other defaults
-	ln -sf $(dir)/dots/xinitrc ~/.xinitrc
-	ln -sf $(dir)/dots/Xresources ~/.Xresources
+	ln -s $(dir)/dots/Xdefaults ~/.Xdefaults
 
 	# symlink notes and sites
 	ln -sf $(dir)/dots/port ~/.port
-
-screen:
-	sudo apt install -y redshift
-	sudo cp $(dir)/bin/glow /usr/bin/glow
-	mkdir ~/.config/redshift
-
-	# doesn't work as a symlink
-	cp $(dir)/dots/misc/redshift.conf ~/.config/redshift/redshift.conf

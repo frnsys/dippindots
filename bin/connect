@@ -104,7 +104,7 @@ def scan(iface='wlan0'):
 
 def dmenu(choices=None, prompt='>', n_lines=10, exit_on_none=True):
     choices = choices or []
-    cmd = ['dmenu', '-l', str(n_lines), '-p', prompt]
+    cmd = ['bemenu', '-i', '-l', str(n_lines), '-p', prompt]
     inp = '\n'.join(choices).encode('utf8')
     choice = run(cmd, inp)
     if exit_on_none and not choice: sys.exit(0)

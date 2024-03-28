@@ -1,0 +1,20 @@
+music_directory "~/musics"
+playlist_directory "~/musics/_playlists"
+db_file "~/.mpd/mpd.db"
+log_file "~/.mpd/mpd.log"
+pid_file "~/.mpd/mpd.pid"
+state_file "~/.mpd/mpd.state"
+restore_paused "yes"
+
+audio_output {
+    type "pulse"
+    name "pulseaudio output"
+    format "44100:16:2"
+}
+
+audio_output {
+    type "fifo"
+    name "FIFO"
+    path "/tmp/mpd.fifo"
+    format "44100:16:2"
+}

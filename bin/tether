@@ -1,4 +1,0 @@
-# TODO this may not be necessary anymore?
-# it may just work with `sudo ifconfig usb0 up`. Although I had an DNS issue and manually set the DNS server in /etc/resolv.conf to 8.8.8.8 (Google's, which is temporary)
-# turning on the VPN seems to work too (since it sets its own DNS), but doesn't work for sites that block it
-sudo dhcpcd usb0
