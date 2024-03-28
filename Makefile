@@ -20,7 +20,7 @@ laptop:\
 	wm bar notifications menu theme\
 
 	# apps
-	headless-tools gui-tools neovim\
+	headless-tools gui-tools fm neovim\
 		terminal browser vpn\
 		signal torrents keepass android\
 		documents \
@@ -293,7 +293,7 @@ images:
 		&& make && sudo make install
 	sudo ldconfig
 
-yazi:
+fm:
 	cargo install --git https://github.com/sxyazi/yazi
 	ln -sf $(dir)/dots/yazi  ~/.config/yazi
 
