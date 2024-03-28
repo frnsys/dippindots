@@ -39,6 +39,8 @@ prereqs:
 	sudo apt upgrade -y
 	sudo apt install -y --no-install-recommends python3 python3-pip python3-dev gcc gfortran build-essential g++ make cmake automake autoconf clang lld wget unzip git openssh-server software-properties-common libncurses5-dev libxml2-dev libxslt1-dev libyaml-dev bzip2 curl libsqlite3-dev gdebi libxcb-xinput-dev libxi-dev
 	sudo apt install -y libatlas-base-dev liblapack-dev libopenblas-dev libopenblas-base libatlas3-base
+	sudo apt install -y ninja-build
+ 	sudo pip3 install meson
 
 	# Get rid of snap
 	sudo rm -rf /var/cache/snapd/
@@ -92,7 +94,6 @@ gui-tools:
 	# to make the change, run `sudo tzupdate`
 	sudo pip3 install -U tzupdate
 
-	cargo install --git ssh://git@github.com/frnsys/sema.git
 	cargo install --git ssh://git@github.com/frnsys/agenda.git
 
 git:
@@ -407,7 +408,7 @@ wm:
 		sudo ninja -C build install
 
 bar:
-	echo TODO
+	cargo install --git ssh://git@github.com/frnsys/sema.git
 
 notifications:
 	git clone --depth 1 git@github.com:emersion/mako.git /tmp/mako &&\
@@ -582,30 +583,8 @@ documents:
 	# Fix soul.sty so it can be used with xelatex/unicode
 	sudo sed -i 's/\\newfont\\SOUL@tt{ectt1000}/\\font\\SOUL@tt=[RobotoMono-Regular.ttf]/' /usr/share/texlive/texmf-dist/tex/generic/soul/soul.sty
 
-	# mupdf-gl
-	wget https://www.mupdf.com/downloads/archive/mupdf-1.22.2-source.tar.gz -O /tmp/mupdf.tar.gz
-	cd /tmp && tar -xf mupdf.tar.gz
-
-	# zathura and suckless tabbed
+	# suckless tabbed
 	sudo apt install zathura zathura-pdf-poppler suckless-tools
-
-	# change background color
-	# change keybindings
-	# j: scroll down
-	# k: scroll up
-	# J: page down
-	# K: page up
-	cd /tmp/mupdf-* \
-		&& sed -i 's/glClearColor(0.3f, 0.3f, 0.3f, 1);/glClearColor(0.125f, 0.125f, 0.125f, 1);/' platform/gl/gl-main.c\
-		&& sed -i "s/case 'j'/case 'foo'/" platform/gl/gl-main.c\
-		&& sed -i "s/case ' '/case 'j'/" platform/gl/gl-main.c\
-		&& sed -i "s/case 'foo'/case ' '/" platform/gl/gl-main.c\
-		&& sed -i "s/case 'k'/case 'foo'/" platform/gl/gl-main.c\
-		&& sed -i "s/case 'b'/case 'k'/" platform/gl/gl-main.c\
-		&& sed -i "s/case 'foo'/case 'b'/" platform/gl/gl-main.c\
-		&& sed -i "s/case '\.'/case 'J'/" platform/gl/gl-main.c\
-		&& sed -i "s/case ','/case 'K'/" platform/gl/gl-main.c\
-		&& make && sudo make prefix=/usr/local install
 
 	# flatpak run org.onlyoffice.desktopeditors
 	flatpak install flathub org.onlyoffice.desktopeditors

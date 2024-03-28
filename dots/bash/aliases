@@ -37,6 +37,7 @@ alias cb="cargo build"
 alias cr="cargo run"
 alias publish="port build spaceandtimes; port sync spaceandtimes ftseng@starbase:/srv/spaceandtimes"
 alias office="flatpak run org.onlyoffice.desktopeditors"
+alias theater="google-chrome-stable --new-window --app=https://netflix.com"
 
 # Always use color output for `ls`
 alias ls="command ls --color"

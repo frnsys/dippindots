@@ -25,7 +25,7 @@ text = [
 	{ run = '$EDITOR "$@"', block = true, desc = "Editor" },
 ]
 pdf = [
-	{ run = 'okular "$@"', block = false },
+	{ run = 'zathura "$@"', block = false },
 ]
 gif = [
 	{ run = 'vu "$@"', block = false },

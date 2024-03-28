@@ -162,9 +162,9 @@ done
 
 # Set background and border color
 riverctl background-color 0x161616
-riverctl border-color-focused 0x507DC4
-riverctl border-color-unfocused 0x586e75
-riverctl border-width 0
+riverctl border-color-focused 0x1F6FEB
+riverctl border-color-unfocused 0x00000000
+riverctl border-width 1
 
 # Input settings
 riverctl set-repeat 25 250
@@ -201,6 +201,10 @@ riverctl rule-add -title 'md-vu-preview' position 9999 0
 riverctl rule-add -title 'sema' position 9999 9999
 riverctl rule-add -title 'sema' tags $sticky_tag
 
+# Use server-side decorations for consistency
+# in borders, etc.
+riverctl rule-add ssd
+
 # Other daemons
 batt mon &
 agenda remind 5 &
@@ -218,4 +222,4 @@ sway-audio-idle-inhibit &
 
 # Layout
 riverctl default-layout rivercarro
-exec rivercarro
+exec rivercarro -inner-gaps 3 -outer-gaps 3
