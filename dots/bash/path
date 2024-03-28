@@ -1,6 +1,3 @@
-# Add NPM
-export PATH="/usr/local/share/npm/bin:$PATH"
-
 # Add /usr/local/sbin to path.
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$PATH:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -8,9 +5,6 @@ export PATH="$PATH:/usr/sbin:/usr/bin:/sbin:/bin"
 # CUDA (only available on boxes w/ nvidia gfx)
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
 export CUDA_HOME="/usr/local/cuda"
-
-# texlive (for linux)
-export PATH=/usr/local/texlive/2015/bin/x86_64-linux:$PATH
 
 # cargo/rust
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -21,5 +15,3 @@ export PATH="/usr/local/bin:$PATH"
 
 # Add `~/.bin` to the `$PATH`
 export PATH="$HOME/.bin:$PATH"
-
-export PATH="/snap/bin:$PATH"

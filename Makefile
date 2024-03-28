@@ -316,8 +316,8 @@ wm:
 		sudo ninja -C build install
 
 	# Need zig to build river
-	wget https://ziglang.org/download/0.11.0/zig-0.11.0.tar.xz -O /tmp/zig.tar.xz && \
-		cd /tmp/ && tar -xzvf zig.tar.xz && \
+	wget https://ziglang.org/download/0.11.0/zig-linux-x86_64-0.11.0.tar.xz -O /tmp/zig.tar.xz && \
+		cd /tmp/ && tar -xJvf zig.tar.xz && \
 		cd zig-*
 
 	# Dependencies for wlroots
@@ -358,7 +358,7 @@ wm:
 	# Wayland
 	sudo apt install -y --no-install-recommends xsltproc xmlto libclang-cpp14 doxygen
 	wget https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.34/downloads/wayland-protocols-1.34.tar.xz -O /tmp/wayland-protocols.tar.xz && \
-		cd /tmp/ && tar -xzvf wayland-protocols.tar.xz && \
+		cd /tmp/ && tar -xJvf wayland-protocols.tar.xz && \
 		cd wayland-protocols-* && \
 		meson setup build && \
 		ninja -C build && \
@@ -374,6 +374,12 @@ wm:
 	sudo apt install -y libevdev
 	git clone --depth 1 https://codeberg.org/river/river.git /tmp/river && \
 		cd /tmp/river && \
+		git submodule update --init && \
+		sudo /tmp/zig-*/zig build -Doptimize=ReleaseSafe --prefix /usr/local install
+
+	# River layout system
+	git clone --depth 1 'https://git.sr.ht/~novakane/rivercarro' /tmp/rivercarro && \
+		cd /tmp/rivercarro && \
 		git submodule update --init && \
 		sudo /tmp/zig-*/zig build -Doptimize=ReleaseSafe --prefix /usr/local install
 
@@ -457,8 +463,6 @@ vpn: # wireguard & mullvad
 	sudo apt install -y wireguard resolvconf
 	wget "https://mullvad.net/fr/download/app/deb/latest" -O /tmp/mullvad.deb
 	sudo gdebi /tmp/mullvad.deb
-	echo -e '#!/bin/bash\n/opt/Mullvad\ VPN/mullvad-gui --ozone-platform=wayland --enable-features=WaylandWindowDecorations' | sudo tee /usr/local/bin/vpn
-	sudo chmod +x /usr/local/bin/vpn
 
 theme: # wallpaper, fonts, etc
 	# GTK/QT themeing

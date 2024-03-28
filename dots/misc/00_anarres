@@ -1,5 +1,4 @@
 ftseng  ALL = NOPASSWD: /usr/bin/wg, /usr/bin/wg-quick
-
 ftseng  ALL = NOPASSWD: /usr/bin/bluetooth
 ftseng  ALL = NOPASSWD: /bin/systemctl start bluetooth
 ftseng  ALL = NOPASSWD: /bin/systemctl stop bluetooth
@@ -8,5 +7,3 @@ ftseng  ALL = NOPASSWD: /usr/bin/pkill
 ftseng  ALL = NOPASSWD: /sbin/iw
 ftseng  ALL = NOPASSWD: /sbin/iwlist
 ftseng  ALL = NOPASSWD: /sbin/wpa_supplicant
-
-ftseng  ALL = NOPASSWD: /usr/bin/glow

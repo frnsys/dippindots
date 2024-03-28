@@ -27,23 +27,15 @@ alias gsu="git submodule foreach git pull origin master"
 # Shortcuts
 alias v="vi ."
 alias y="yazi"
-alias f="br"
 alias envim="cd ~/.dippindots/dots/nvim; vi ."
-alias vn="cd ~/notes; vi ."
 alias n="cd ~/notes"
-alias m="vi ~/notes/logs/memos.md"
 alias w="cd ~/work"
 alias p="cd ~/projects"
 alias dl="cd ~/downloads"
 alias ipy="ipython"
-alias mu="mupdftp-gl"
-alias h="hubble"
 alias cb="cargo build"
 alias cr="cargo run"
 alias publish="port build spaceandtimes; port sync spaceandtimes ftseng@starbase:/srv/spaceandtimes"
-# alias b="cd ~/notes/blog/log; vi $(ls ~/notes/blog/log | tail -n 1)"
-# alias fb="cd ~/notes/blog/projects/fugue; vi $(ls -v ~/notes/blog/projects/fugue | tail -n 1)"
-alias fw="cd ~/notes/projects/fugue; vi world.md"
 alias office="flatpak run org.onlyoffice.desktopeditors"
 
 # Always use color output for `ls`
@@ -54,5 +46,3 @@ alias sudo='sudo '
 
 alias ytdl="yt-dlp -f 'best[ext=mp4][height<=720]'"
 alias ytdlmp3="yt-dlp --extract-audio --audio-format mp3"
-
-alias count-filetypes="find . -type f -name '*.*' | sed 's|.*\.||' | sort | uniq -c"

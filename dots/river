@@ -23,7 +23,7 @@ riverctl map normal Super Equal spawn 'mpc toggle'
 riverctl map normal Super Plus spawn 'mpvc toggle'
 riverctl map normal Super Semicolon spawn 'kitty -e ncmpcpp'
 riverctl map normal Super Space spawn 'bemenu-run -l 10 -p ">"'
-riverctl map normal Super Tab spawn 'notify-send -t 5000 "$(date '\''+%m/%d %H:%M'\'')" "$(batt percent)% $(batt duration)h"'
+riverctl map normal Super E spawn 'notify-send -t 5000 "$(date '\''+%m/%d %H:%M'\'')" "$(batt percent)% $(batt duration)h"'
 riverctl map normal Super X spawn 'makoctl mode -t do-not-disturb'
 riverctl map normal Super P spawn 'kitty --title kpass -e kpass ~/docs/pass.kdbx'
 riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda view | less -R'\'''
@@ -43,6 +43,8 @@ riverctl map normal Super H focus-view left
 riverctl map normal Super L focus-view right
 riverctl map normal Super J focus-view down
 riverctl map normal Super K focus-view up
+riverctl map normal Super I focus-view next
+riverctl map normal Super O focus-view previous
 
 # Swap windows
 riverctl map normal Super+Shift H swap left
@@ -54,8 +56,8 @@ riverctl map normal Super+Shift K swap up
 riverctl map normal Super Apostrophe focus-previous-tags
 
 # Change size of main tile
-riverctl map -repeat normal Shift+Alt H send-layout-cmd rivertile "main-ratio -0.05"
-riverctl map -repeat normal Shift+Alt L send-layout-cmd rivertile "main-ratio +0.05"
+riverctl map -repeat normal Shift+Alt H send-layout-cmd rivercarro "main-ratio -0.05"
+riverctl map -repeat normal Shift+Alt L send-layout-cmd rivercarro "main-ratio +0.05"
 
 # Note that this turns a tiled window into a floating window.
 riverctl map-pointer normal Super BTN_LEFT move-view
@@ -121,7 +123,29 @@ riverctl map normal Super BracketLeft spawn "/tmp/ws_ctrl prev"
 riverctl map normal Super BracketRight spawn "/tmp/ws_ctrl next"
 
 riverctl map normal Super S toggle-float
-riverctl map normal Super F toggle-fullscreen
+# riverctl map normal Super F toggle-fullscreen
+
+# A fake fullscreen using monocle, which
+# keeps floating windows above and lets you
+# cycle through windows.
+# We don't need to keep track of the monocle on/off
+# state for each "workspace" individually because it's
+# a global setting.
+cat << 'EOF' > "/tmp/ws_fauxfs"
+#!/bin/bash
+
+status=$(</tmp/ws_fs)
+if [[ "$status" == "off" ]]; then
+    riverctl send-layout-cmd rivercarro "main-location monocle"
+    echo "on" > "/tmp/ws_fs"
+else
+    riverctl send-layout-cmd rivercarro "main-location left"
+    echo "off" > "/tmp/ws_fs"
+fi
+EOF
+chmod +x "/tmp/ws_fauxfs"
+echo "off" > "/tmp/ws_fs"
+riverctl map normal Super F spawn "/tmp/ws_fauxfs"
 
 for mode in normal locked
 do
@@ -157,8 +181,8 @@ riverctl input $TOUCHPAD disable-while-typing enabled
 riverctl input $TOUCHPAD natural-scroll disabled
 riverctl input $TOUCHPAD tap enabled
 
+# Rules
 float_these=(
-    "ncmpcpp"
     "kpass"
     "agenda"
     "yazi"
@@ -170,6 +194,7 @@ do
     riverctl rule-add -title $title dimensions 480 320
 done
 riverctl rule-add -title '*mpv*' float
+riverctl rule-add -title 'ncmpcpp' float
 riverctl rule-add -title 'vu' float
 riverctl rule-add -title 'md-vu-preview' float
 riverctl rule-add -title 'md-vu-preview' position 9999 0
@@ -183,7 +208,6 @@ gammastep &
 mako &
 sema &
 
-
 # Lock after 600s
 swayidle -w \
     timeout 600 ~/.bin/lock \
@@ -192,7 +216,6 @@ swayidle -w \
 # Prevent sleep when audio is playing
 sway-audio-idle-inhibit &
 
-# Set the default layout generator to be rivertile and start it.
-# River will send the process group of the init executable SIGTERM on exit.
-riverctl default-layout rivertile
-rivertile -view-padding 0 -outer-padding 0 &
+# Layout
+riverctl default-layout rivercarro
+exec rivercarro

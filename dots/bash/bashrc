@@ -4,9 +4,6 @@ export XKB_DEFAULT_OPTIONS=caps:super,compose:ralt,compose:rctrl
 export BEMENU_OPTS='-i --fn "Source Code Pro Light 9" -l 10 --hf "#598DDC" --tf "#079875" --cw 1'
 export MOZ_ENABLE_WAYLAND=1
 
-# Add yabridge
-# export PATH="$PATH:$HOME/.local/share/yabridge"
-
 # fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
