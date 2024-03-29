@@ -1,5 +1,20 @@
 * {
   border-radius: 0px;
+  font-family: "Inter Thin";
+  font-size: 4.5pt;
+  -gtk-dpi: 196;
+  -gtk-icon-size: 12px;
+}
+
+tab {
+  min-height: 0;
+}
+button {
+  min-height: 0;
+}
+
+image {
+ -gtk-icon-transform: scale(0.75);
 }
 
 headerbar.default-decoration {

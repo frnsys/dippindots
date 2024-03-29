@@ -248,6 +248,7 @@ audio:
 	sudo apt update
 	sudo apt install -y --no-install-recommends alsa-utils pavucontrol pulseaudio-utils pipewire pipewire-pulse wireplumber pipewire-audio-client-libraries libspa-0.2-bluetooth
 	sudo touch /usr/share/pipewire/media-session.d/with-pulseaudio # Use pipewire as pulseaudio
+	sudo apt install -y pulsemixer
 
 	# bluetooth
 	# see ~/notes/linux/bluetooth.md
@@ -481,13 +482,9 @@ theme: # wallpaper, fonts, etc
 	# Note that the font defined here is
 	# what sets the `system-ui` font in browsers
 	sudo apt install -y gnome-accessibility-themes
-	mkdir ~/.config/gtk-3.0
-	rm -rf ~/.icons
-	ln -sf $(dir)/assets/icons ~/.icons
-	ln -sf $(dir)/dots/misc/gtkrc ~/.gtkrc-2.0
-	ln -sf $(dir)/dots/misc/gtkrc  ~/.config/gtk-3.0/settings.ini
+	mkdir ~/.config/{gtk-3.0,gtk-4.0}
 	ln -sf $(dir)/dots/misc/gtk.css ~/.config/gtk-3.0/gtk.css
-	ln -sf $(dir)/dots/misc/gtkrc  ~/.config/gtk-4.0/settings.ini
+	ln -sf $(dir)/dots/misc/gtk.css ~/.config/gtk-4.0/gtk.css
 	echo -e "[Qt]\nstyle=GTK+" >> ~/.config/Trolltech.conf
 	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 

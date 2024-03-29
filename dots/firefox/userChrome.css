@@ -134,4 +134,6 @@
   #TabsToolbar #firefox-view-button:is([open], :hover):not(:focus-visible) > .toolbarbutton-icon, .tab-background[selected], .tabbrowser-tab:hover > .tab-stack > .tab-background {
     outline: none !important;
   }
+
+  .titlebar-spacer[type="pre-tabs"], .titlebar-spacer[type="post-tabs"] { width: 0px !important; }
 /* } */
