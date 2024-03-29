@@ -83,6 +83,3 @@ bind -x '"\C-r": "__command_history"'
 
 # Open file or directory in neovim
 bind -x '"\ev": "nvim $(fd . | _fzf)"'
-
-# Shortcuts
-bind -x '"\C-t": "cargo test"'

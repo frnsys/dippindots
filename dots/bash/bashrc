@@ -1,24 +1,86 @@
 export GPG_TTY=$(tty)
 
-export XKB_DEFAULT_OPTIONS=caps:super,compose:ralt,compose:rctrl
-export BEMENU_OPTS='-i --fn "Source Code Pro Light 9" -l 10 --hf "#598DDC" --tf "#079875" --cw 1'
-export MOZ_ENABLE_WAYLAND=1
-
 # fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-# Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-for file in ~/.dippindots/dots/bash/{path,prompt,aliases,functions,keys}; do
+# Load shell dotfiles
+for file in ~/.dippindots/dots/bash/{funcs,keys}; do
 	[ -r "$file" ] && source "$file"
 done
 unset file
 
+# Prompt
+tput sgr0
+GREEN=$(tput setaf 2)
+BLUE=$(tput setaf 4)
+PURPLE=$(tput setaf 5)
+RESET=$(tput sgr0)
+
+function parse_git_dirty() {
+	[[ $(git status 2> /dev/null | tail -n1) != *"working"*"clean"* ]] && echo "*"
+}
+
+function parse_git_branch() {
+	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
+}
+
+function update_prompt() {
+    export PS1="\[$BLUE\]\h\[$RESET\]:\[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \":\")\[$PURPLE\]\$(parse_git_branch)\[$RESET\] > \[$RESET\]"
+}
+export -f update_prompt
+export PROMPT_COMMAND='update_prompt'
+
+# Initialize tools
 eval "$(zoxide init bash)"
+eval "$(~/.local/bin/mise activate bash)"
 
-# pyenv
-eval "$(pyenv init --path)"
+# Aliases
 
-# fnm
-export PATH="/home/ftseng/.local/share/fnm:$PATH"
-eval "`fnm env`"
+# Easier navigation
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+# To avoid accidentally overwriting files
+alias mv="mv -i"
+
+# To have kitty work well with ssh
+alias ssh="kitty +kitten ssh"
+
+# Git
+alias ga="git add"
+alias gaa="git add -A"
+alias gcm="git commit -m"
+alias gp="git push"
+alias gpl="git pull"
+alias gcb="git checkout -b"
+alias gm="git merge --no-ff"
+alias gch="git checkout"
+alias gbd="git branch -d"
+alias gds="git diff --staged"
+alias gsu="git submodule foreach git pull origin master"
+
+# Shortcuts
+alias v="vi ."
+alias y="yazi"
+alias envim="cd ~/.dippindots/dots/nvim; vi ."
+alias n="cd ~/notes"
+alias w="cd ~/work"
+alias p="cd ~/projects"
+alias dl="cd ~/downloads"
+alias ipy="ipython"
+alias cb="cargo build"
+alias cr="cargo run"
+alias publish="port build spaceandtimes; port sync spaceandtimes ftseng@starbase:/srv/spaceandtimes"
+alias office="flatpak run org.onlyoffice.desktopeditors"
+alias theater="google-chrome-stable --new-window --app=https://netflix.com"
+
+# Always use color output for `ls`
+alias ls="command ls --color"
+
+# enable aliases to be sudo’ed
+alias sudo='sudo '
+
+alias ytdl="yt-dlp -f 'best[ext=mp4][height<=720]'"
+alias ytdlmp3="yt-dlp --extract-audio --audio-format mp3"

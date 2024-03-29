@@ -5,7 +5,7 @@ lockbg='/tmp/lock.png'
 grim "$lockbg"
 convert "$lockbg" -filter point -resize 5% -resize 2000% "$lockbg"
 touch "$lockfi"
-# wlopm --off '*'
+wlopm --off '*'
 makoctl mode -a do-not-disturb
 swaylock -f -u -i "$lockbg"
-trap "rm $lockfi; makoctl mode -r do-not-disturb; wlopm --on '*'; echo yoyo > /tmp/foo" EXIT
+trap "rm $lockfi; makoctl mode -r do-not-disturb; wlopm --on '*'" EXIT

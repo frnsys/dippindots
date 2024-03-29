@@ -10,11 +10,11 @@
 SHELL := /bin/bash
 dir = ~/.dippindots
 
-headless: prereqs git python rust headless-tools neovim misc-dots
+headless: prereqs git langs rust headless-tools neovim misc-dots
 
 laptop:\
 	# deps
-	prereqs git python rust node\
+	prereqs git langs rust\
 
 	# desktop environment
 	wm bar notifications menu theme\
@@ -55,12 +55,6 @@ prereqs:
 	# necessary for installing from git with cargo
 	eval `ssh-agent -s`
 	ssh-add ~/.ssh/id_rsa
-
-node:
-	@echo "Installing fnm/node..."
-	sudo pip install libsass
-	curl -fsSL https://fnm.vercel.app/install | bash
-	fnm install --lts
 
 headless-tools:
 	@echo "Installing fzf..."
@@ -145,18 +139,12 @@ rust:
 	sudo chmod +x /usr/local/bin/rust-analyzer
 	source ~/.cargo/env
 
-python:
-	@echo "Installing python..."
-	sudo apt -y install python3 python3-setuptools python3-pip
-
-	# pyenv for easier version management
-	sudo apt install -y --no-install-recommends build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git
-	git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-	git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
-
-	# install python
-	env PYTHON_CFLAGS=-fPIC PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.10.0
-	pyenv global 3.10.0
+langs:
+	@echo "Installing python & node..."
+	curl https://mise.run | sh
+	eval "$(~/.local/bin/mise activate bash)"
+	mise use --global node@20
+	mise use --global python@3.11
 
 ncmpcpp:
 	# build the latest ncmpcpp
