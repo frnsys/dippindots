@@ -426,6 +426,7 @@ notifications:
 terminal:
 	curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 	ln -sf $(dir)/dots/kitty ~/.config/kitty/kitty.conf
+	sudo apt install -y kitty-terminfo
 
 browser:
 	# Firefox Nightly
@@ -474,7 +475,6 @@ theme: # wallpaper, fonts, etc
 	ln -sf $(dir)/dots/misc/gtk.css ~/.config/gtk-3.0/gtk.css
 	ln -sf $(dir)/dots/misc/gtk.css ~/.config/gtk-4.0/gtk.css
 	echo -e "[Qt]\nstyle=GTK+" >> ~/.config/Trolltech.conf
-	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
 	# setup fonts
 	sudo ln -sf /etc/fonts/conf.avail/50-user.conf /etc/fonts/conf.d/50-user.conf
@@ -609,7 +609,7 @@ screen:
 	sudo usermod -aG video ${USER}
 	git clone --depth 1 git@github.com:Hummer12007/brightnessctl.git /tmp/brightnessctl && \
 		cd /tmp/brightnessctl && \
-		./configure && make install
+		UDEVDIR=/usr/lib/udev/rules.d ./configure && make install
 	sudo apt install -y gammastep # redshift
 
 misc-dots:

@@ -6,15 +6,10 @@ SITE_URL: https://spaceandtim.es
 SITE_IMAGE: assets/banner.png
 THEME: spaceandtimes
 links:
-    - url: https://outer.spaceandtim.es/@francis
-      name: mastodon
-      rel: me
     - url: https://www.are.na/francis-tseng
       name: are.na
     - url: https://github.com/frnsys
       name: github
-    - url: https://twitter.com/frnsys
-      name: twitter
     - url: http://frnsys.com
       name: me
     - url: /rss/rss.xml

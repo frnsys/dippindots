@@ -150,16 +150,20 @@ riverctl map normal Super F spawn "/tmp/ws_fauxfs"
 
 for mode in normal locked
 do
-    riverctl map $mode Super XF86AudioRaiseVolume spawn 'pactl -- set-sink-volume @DEFAULT_SINK@ +5%'
-    riverctl map $mode Super XF86AudioLowerVolume spawn 'pactl -- set-sink-volume @DEFAULT_SINK@ -5%'
+    riverctl map -repeat $mode Super XF86AudioRaiseVolume spawn 'pactl -- set-sink-volume @DEFAULT_SINK@ +5%'
+    riverctl map -repeat $mode Super XF86AudioLowerVolume spawn 'pactl -- set-sink-volume @DEFAULT_SINK@ -5%'
     riverctl map $mode Super XF86AudioMute spawn 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
     riverctl map $mode Super XF86AudioMicMute spawn 'mute toggle'
 
-    riverctl map $mode Super XF86MonBrightnessUp spawn 'brightnessctl set +200'
-    riverctl map $mode Super+Shift XF86MonBrightnessUp spawn 'brightnessctl set +500'
-    riverctl map $mode Super XF86MonBrightnessDown spawn 'brightnessctl set 200-'
-    riverctl map $mode Super+Shift XF86MonBrightnessDown spawn 'brightnessctl set 500-'
+    # For some reason modifiers don't work with these ones?
+    riverctl map -repeat $mode None XF86MonBrightnessUp spawn 'brightnessctl set +1000'
+    riverctl map -repeat $mode None XF86MonBrightnessDown spawn 'brightnessctl set 1000-'
+
+    # Wake the monitor.
+    # Seems to be the only way I can get it to wake when locking the system.
+    riverctl map $mode Super+Shift Return spawn 'wlopm --on "*"'
 done
+
 
 # Set background and border color
 riverctl background-color 0x161616
@@ -214,15 +218,16 @@ sema &
 
 # Lock after 5min
 # Sleep after 15min
+# To wake the monitor use `Super+Shift Return` (see below).
 swayidle -w \
     timeout 300 '~/.bin/lock' \
-    resume 'wlopm --on "*"' \
     before-sleep '~/.bin/lock' \
     timeout 900 'systemctl hybrid-sleep' &
+
 
 # Prevent sleep when audio is playing
 sway-audio-idle-inhibit &
 
 # Layout
 riverctl default-layout rivercarro
-exec rivercarro -inner-gaps 3 -outer-gaps 3
+exec rivercarro -inner-gaps 1 -outer-gaps 1

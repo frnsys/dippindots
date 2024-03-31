@@ -58,4 +58,6 @@ for dir in $HOME/.bin $HOME/.cargo/bin /usr/sbin; do
     export PATH="$dir:$PATH"
 done
 
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+
 [[ -r ~/.bashrc ]] && . ~/.bashrc

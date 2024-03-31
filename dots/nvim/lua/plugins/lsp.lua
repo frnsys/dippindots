@@ -1,5 +1,14 @@
 --- Keymap prefix: g
 
+-- https://github.com/neovim/neovim/issues/23725
+local ok, wf = pcall(require, "vim.lsp._watchfiles")
+if ok then
+  -- disable lsp watcher. Too slow on linux
+  wf._watchfunc = function()
+    return function() end
+  end
+end
+
 return {
   {
     'neovim/nvim-lspconfig',
@@ -105,6 +114,20 @@ return {
           ["rust-analyzer"] = {
             numThreads = 4,
 
+            cargo = {
+              extraArgs = { "--jobs", "4" },
+            },
+
+            files = {
+              excludeDirs = {
+                ".cargo",
+                ".direnv",
+                ".git",
+                "node_modules",
+                "target",
+              },
+            },
+
             completion = {
               limit = 50,
 
@@ -124,16 +147,13 @@ return {
               },
             },
 
-            cachePriming = {
-              enable = false,
-            },
-
-            checkOnSave = {
-              command = "clippy",
-              extraArgs = {
-                "--target-dir=target/analyzer"
-              }
-            },
+            checkOnSave = false,
+            -- checkOnSave = {
+            --   command = "clippy",
+            --   extraArgs = {
+            --     "--target-dir=target/analyzer"
+            --   }
+            -- },
 
             diagnostics = {
               enable = true,
