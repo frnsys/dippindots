@@ -31,7 +31,6 @@ export -f update_prompt
 export PROMPT_COMMAND='update_prompt'
 
 # Initialize tools
-eval "$(zoxide init bash)"
 eval "$(~/.local/bin/mise activate bash)"
 
 # Aliases

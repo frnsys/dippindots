@@ -3,7 +3,6 @@
 # Requires:
 # - fzf
 # - fd
-# - zoxide
 
 # Notes on the bind commands:
 # - \e is "alt", thus e.g. "\e;" is <alt+;>
@@ -23,28 +22,13 @@ _fzf() {
         --bind=alt-p:up,alt-n:down,alt-\':jump-accept
 }
 
-# cd from directory history
-📜() {
-    CHOICE=$(zoxide query -l | _fzf) && z ${CHOICE}
-}
-bind "\"\e'\": \"\C-u📜\r\""
-
-# cd from current dir
-🍥() {
-    # -t d: directories only
-    # -d 3: max depth 3
-    CHOICE=$(fd -t d -d 3 . | _fzf) && z ${CHOICE}
-}
-bind '"\e;": "\C-u🍥\r"'
-
 # cd from home
 ⛺️() {
     # -t d: directories only
     # -d 5: max depth 5
-    CHOICE=$(fd -t d -d 3 --exclude musics . ~ | _fzf) && z ${CHOICE}
+    CHOICE=$(fd -t d -d 5 --exclude musics . ~ | _fzf) && cd ${CHOICE}
 }
-bind '"\e\"": "\C-u⛺️\r"'
-
+bind "\"\e'\": \"\C-u⛺️\r\""
 
 # https://stackoverflow.com/a/76799272
 __pick_and_insert() {
@@ -58,10 +42,10 @@ __pick_and_insert() {
 }
 
 # Insert file/dir from current dir
-bind -x '"\ei": "__pick_and_insert ."'
+bind -x '"\e;": "__pick_and_insert ."'
 
 # Insert file/dir from home
-bind -x '"\eI": "__pick_and_insert ~"'
+bind -x '"\e:": "__pick_and_insert ~"'
 
 # Search command history
 __command_history() {
@@ -80,6 +64,3 @@ __command_history() {
 }
 bind -x '"\er": "__command_history"'
 bind -x '"\C-r": "__command_history"'
-
-# Open file or directory in neovim
-bind -x '"\ev": "nvim $(fd . | _fzf)"'

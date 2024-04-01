@@ -9,6 +9,18 @@ if ok then
   end
 end
 
+local function ra_flycheck()
+  local clients = vim.lsp.get_clients({
+    name = 'rust_analyzer',
+  })
+  for _, client in ipairs(clients) do
+    local params = vim.lsp.util.make_text_document_params()
+    client.notify('rust-analyzer/runFlycheck', params)
+    require("trouble").open()
+  end
+end
+vim.keymap.set({ 'n' }, ';d', ra_flycheck)
+
 return {
   {
     'neovim/nvim-lspconfig',
@@ -115,6 +127,7 @@ return {
             numThreads = 4,
 
             cargo = {
+              allFeatures = true,
               extraArgs = { "--jobs", "4" },
             },
 
