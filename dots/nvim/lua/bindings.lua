@@ -12,15 +12,10 @@ vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 
---- Use up/down arrows to expand/contract
---- visual selection symmetrically
-vim.keymap.set('v', '<up>', 'j$ok0o')
-vim.keymap.set('v', '<down>', 'k$oj0o')
+--- Expand/contract visual selection symmetrically
+vim.keymap.set('v', '<c-k>', 'j$ok0o')
+vim.keymap.set('v', '<c-j>', 'k$oj0o')
 
 --- Minor movements in insert mode
 vim.keymap.set('i', '<c-j>', '<down>')
 vim.keymap.set('i', '<c-k>', '<up>')
-
---- Buffer navigation
-vim.keymap.set("n", "<c-'>", ":bn<cr><cr>")
-vim.keymap.set("n", "<c-;>", ":bp<cr><cr>")

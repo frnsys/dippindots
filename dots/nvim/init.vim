@@ -23,7 +23,7 @@ require('lazy').setup('plugins', {
   ui = { border = "single" }
 })
 
-require('sights')
+-- require('sights')
 require('breeze')
 require('cairns')
 require('fnotes')

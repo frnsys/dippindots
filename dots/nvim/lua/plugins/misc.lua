@@ -14,21 +14,6 @@ return {
     }
   },
   {
-    'echasnovski/mini.clue',
-    opts = {},
-    config = function(_, opts)
-      require('mini.clue').setup({
-        triggers = {
-          { mode = 'n', keys = '<Leader>d' },
-          { mode = 'n', keys = '<space>' }
-        },
-        window = {
-          delay = 10,
-        }
-      })
-    end
-  },
-  {
     'lewis6991/gitsigns.nvim',
     opts = {}
   },
@@ -43,4 +28,18 @@ return {
       }
     }
   },
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    keys = {
+      {
+        "'t",
+        function()
+          require("trouble").toggle("todo")
+        end,
+        desc = 'Search TODO items'
+      },
+    },
+    opts = {}
+  }
 }

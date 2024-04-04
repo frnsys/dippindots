@@ -36,17 +36,6 @@ return {
       },
 
       {
-        "'t",
-        function()
-          require('telescope.builtin').grep_string({
-            prompt_title = "TODO Items",
-            search = "TODO",
-          })
-        end,
-        desc = 'Search TODO items'
-      },
-
-      {
         "''",
         function()
           require('telescope.builtin').buffers()

@@ -35,7 +35,7 @@ end
 
 --- Get current mark position
 local function get_mark_pos(mark)
-  local pos = vim.api.nvim_buf_get_extmark_by_id(0, ns, mark['id'], {})
+  local pos = vim.api.nvim_buf_get_extmark_by_id(mark['buf'], ns, mark['id'], {})
   -- row, col
   return pos[1], pos[2]
 end

@@ -580,7 +580,10 @@ documents:
 	sudo sed -i 's/\\newfont\\SOUL@tt{ectt1000}/\\font\\SOUL@tt=[RobotoMono-Regular.ttf]/' /usr/share/texlive/texmf-dist/tex/generic/soul/soul.sty
 
 	# suckless tabbed
-	sudo apt install zathura zathura-pdf-poppler suckless-tools
+	sudo apt install -y zathura zathura-pdf-poppler suckless-tools
+
+	# for signing pdfs
+	sudo apt install -y xournalpp
 
 	# flatpak run org.onlyoffice.desktopeditors
 	flatpak install flathub org.onlyoffice.desktopeditors

@@ -25,8 +25,10 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          node_incremental = "<tab>",
-          node_decremental = "<s-tab>",
+          init_selection = "<space>",
+          node_incremental = "<space>",
+          node_decremental = "<c-space>",
+          scope_incremental = "<tab>",
         },
       },
       textobjects = {
