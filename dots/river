@@ -222,7 +222,7 @@ sema &
 swayidle -w \
     timeout 300 '~/.bin/lock' \
     before-sleep '~/.bin/lock' \
-    timeout 900 'systemctl hybrid-sleep' &
+    timeout 900 'systemctl suspend' &
 
 
 # Prevent sleep when audio is playing

@@ -17,7 +17,7 @@ laptop:\
 	prereqs git langs rust\
 
 	# desktop environment
-	wm bar notifications menu theme\
+	wm bar notifications menu shell theme\
 
 	# apps
 	headless-tools gui-tools fm neovim\
@@ -50,7 +50,7 @@ prereqs:
 	sudo apt update
 
 	# Get rid of some other unnecessary ubuntu server stuff
-	sudo apt uninstall -y mdadm multipath-tools cloud-init
+	sudo apt uninstall -y mdadm multipath-tools cloud-init modemmanager
 
 	# necessary for installing from git with cargo
 	eval `ssh-agent -s`
@@ -185,10 +185,6 @@ ffmpeg:
 		&& CFLAGS=-fPIC cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="/usr/local/ffmpeg" -DENABLE_SHARED:bool=on ../../source\
 		&& make && sudo make install
 
-	# vidstab
-	git clone https://github.com/georgmartius/vid.stab.git /tmp/ffmpeg/vid.stab
-	cd /tmp/ffmpeg/vid.stab && cmake . && make && sudo make install
-
 	# compile ffmpeg
 	cd /tmp/ffmpeg && \
 	PKG_CONFIG_PATH="/usr/local/ffmpeg/lib/pkgconfig" ./configure \
@@ -241,6 +237,12 @@ audio:
 	# bluetooth
 	# see ~/notes/linux/bluetooth.md
 	sudo apt install -y bluez libbluetooth3 libbluetooth-dev bluez-tools blueman
+
+shell:
+	sudo apt-add-repository -y ppa:fish-shell/release-3
+	sudo apt update
+	sudo apt install -y fish
+	ln -s $(dir)/dots/fish ~/.config/fish/config.fish
 
 menu:
 	sudo apt install scdoc wayland-protocols libcairo-dev libpango1.0-dev libxkbcommon-dev libwayland-dev
@@ -589,7 +591,6 @@ documents:
 	flatpak install flathub org.onlyoffice.desktopeditors
 
 keepass:
-	sudo apt install -y --no-install-recommends keepassx oathtool
 	cargo install --git ssh://git@github.com/frnsys/kpass.git
 
 language:

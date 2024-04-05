@@ -1,0 +1,169 @@
+set -U EDITOR vim
+set -U VISUAL vim
+set -U LANG en_US
+set -U LC_ALL en_US.UTF-8
+
+set -U fish_greeting # Hide greeting
+fish_vi_key_bindings
+function fish_mode_prompt; end # Hide vi mode
+function fish_prompt -d "Custom prompt"
+    printf '%s%s%s:%s%s%s:%s%s%s > ' (set_color blue) $hostname (set_color normal) \
+        (set_color $fish_color_cwd) (prompt_pwd) (set_color normal) (set_color purple) (fish_git_prompt %s) (set_color normal)
+end
+
+# Setup GDAL for GIS stuff
+set -U GDAL_DATA /usr/share/gdal
+
+set -U XKB_DEFAULT_OPTIONS caps:super,compose:ralt,compose:rctrl
+set -U MOZ_ENABLE_WAYLAND 1
+set -U GTK_THEME Adwaita:dark
+set -U BEMENU_OPTS '-i --fn "Source Code Pro Light 9" -l 10 --hf "#598DDC" --tf "#079875" --cw 1'
+
+set PATH $HOME/.bin $HOME/.cargo/bin /usr/sbin $PATH
+
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+
+# node, python
+~/.local/bin/mise activate fish | source
+
+# fzf
+fzf --fish | source
+
+# Easier navigation
+abbr -a .. "cd .."
+abbr -a ... "cd ../.."
+abbr -a .... "cd ../../.."
+abbr -a ..... "cd ../../../.."
+
+# To avoid accidentally overwriting files
+abbr -a mv "mv -i"
+
+# Git
+abbr -a ga "git add"
+abbr -a gaa "git add -A"
+abbr -a gcm "git commit -m"
+abbr -a gp "git push"
+abbr -a gpl "git pull"
+abbr -a gcb "git checkout -b"
+abbr -a gm "git merge --no-ff"
+abbr -a gch "git checkout"
+abbr -a gbd "git branch -d"
+abbr -a gds "git diff --staged"
+abbr -a gsu "git submodule foreach git pull origin master"
+
+# Shortcuts
+abbr -a v "vi ."
+abbr -a y "yazi"
+abbr -a dots "cd ~/.dippindots"
+abbr -a envim "cd ~/.dippindots/dots/nvim; vi ."
+abbr -a n "cd ~/notes"
+abbr -a w "cd ~/work"
+abbr -a p "cd ~/projects"
+abbr -a dl "cd ~/downloads"
+abbr -a cb "cargo build"
+abbr -a cr "cargo run"
+abbr -a publish "port build spaceandtimes; port sync spaceandtimes ftseng@starbase:/srv/spaceandtimes"
+abbr -a office "flatpak run org.onlyoffice.desktopeditors"
+abbr -a theater "google-chrome-stable --new-window --app https://netflix.com"
+abbr -a ytdl "yt-dlp -f 'best[ext mp4][height< 720]'"
+abbr -a ytdlmp3 "yt-dlp --extract-audio --audio-format mp3"
+
+function rand -d "Generate random string"
+    cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
+end
+
+function extract -d "Archive extraction"
+    set --local f $argv[1]
+    if test -e $f
+        switch $f
+            case *.tar
+                tar xvf "$f"
+            case *.tar.xz *.txz
+                tar Jxvf "$f"
+            case *.tar.bz2 *.tbz2
+                tar xvjf "$f"
+            case *.tar.gz *.tgz
+                tar xvzf "$f"
+            case *.bz2
+                bunzip2 "$f"
+            case *.rar
+                unrar x "$f"
+            case *.gz
+                gunzip "$f"
+            case *.zip
+                unzip "$f"
+            case *.Z
+                uncompress "$f"
+            case *.7z
+                7z x "$f"
+            case *.xz
+                xz -d "$f"
+            case *
+                echo "'$f' cannot be extracted via >extract<"
+        end
+    else
+        echo "File doesn't exist"
+    end
+end
+
+function flac2mp3
+    set --local input $argv[1]
+    set --local output (path change-extension mp3 $input)
+    ffmpeg -i "$input" -ab 320k -map_metadata 0 -id3v2_version 3 "$output"
+    echo "$output"
+end
+
+function mkv2mp4
+    set --local input $argv[1]
+    set --local output (path change-extension mp4 $input)
+    ffmpeg -i "$input" -preset veryfast -c:v libx264 -c:a aac "$output"
+end
+
+function shrinkvid
+    # libx264 is way faster than libx265 but maybe doesn't get as small
+    # higher crf -> lower quality
+    set --local input $argv[1]
+    set --local output (path change-extension sm.mp4 $input)
+    ffmpeg -i "$input" -filter:v scale="trunc(oh*a/2)*2:720" -vcodec libx264 -crf 23 -preset fast -c:a aac "$output"
+end
+
+# For colorschemes
+# - <https://github.com/junegunn/fzf/wiki/Color-schemes>
+# - <https://minsw.github.io/fzf-color-picker/>
+# Bindings:
+#   alt-p: move up
+#   alt-n: move down
+#   alt-': enable jump
+function _fzf
+    fzf --exact --info=inline \
+        --color=bg+:#262626,fg+:#f9d284,bg:#121212,hl:#00af87,hl+:#00af87,gutter:#121212,info:#00af87,pointer:#00af87,prompt:#ff2f6d \
+        --bind=alt-p:up,alt-n:down,alt-\':jump-accept
+end
+
+function ⛺️
+    # -t d: directories only
+    # -d 5: max depth 5
+    set --local choice $(fd -t d -d 5 --exclude musics . ~ | _fzf); and cd $choice
+end
+bind -M insert \e\' '⛺️'
+bind -M default \e\' '⛺️'
+
+function _command_history
+    # 1. Removes trailing whitespace
+    # 2. Removes commands <=5 in length
+    # 3. Sorts and then counts occurrences
+    # 4. Remove commands with less than n counts (`awk '$1 >= n'`)
+    # 5. Sorts by counts
+    # 6. Removes the counts so we're just left with the command
+    set --local choice $(history | awk '{$1=$1};1' | awk 'length($0)>5' | sort | uniq -c | awk '$1 >= 0' | sort -nr | sed 's/\s*[0-9]* //' | _fzf);
+        and $choice
+end
+bind -M insert \er '_command_history'
+bind -M default \er '_command_history'
+
+# https://stackoverflow.com/a/76799272
+function _pick_and_insert
+    set --local path $(fd . . | _fzf); and commandline -i $path
+end
+bind -M insert \ei '_pick_and_insert'
+bind -M default \ei '_pick_and_insert'
