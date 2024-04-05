@@ -617,11 +617,8 @@ screen:
 	sudo apt install -y gammastep # redshift
 
 misc-dots:
-	ln -sf $(dir)/dots/bash/bash_profile ~/.bash_profile
-	ln -sf $(dir)/dots/bash/bashrc ~/.bashrc
-	ln -sf $(dir)/dots/bash/inputrc ~/.inputrc
+	ln -sf $(dir)/dots/bash ~/.bash_profile
 	ln -sf $(dir)/bin ~/.bin
-	ln -s $(dir)/dots/Xdefaults ~/.Xdefaults
 
 	# symlink notes and sites
 	ln -sf $(dir)/dots/port ~/.port
