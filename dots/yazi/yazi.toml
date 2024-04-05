@@ -16,13 +16,13 @@ cache_dir  = ""
 [opener]
 folder = [
 	{ run = 'open -R "$@"', desc = "Reveal in Finder" },
-	{ run = '$EDITOR "$@"' },
+	{ run = 'nvim "$@"' },
 ]
 archive = [
 	{ run = 'unar "$1"', desc = "Extract here" },
 ]
 text = [
-	{ run = '$EDITOR "$@"', block = true, desc = "Editor" },
+	{ run = 'nvim "$@"', block = true, desc = "Editor" },
 ]
 pdf = [
 	{ run = 'zathura "$@"', block = false },
