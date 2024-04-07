@@ -18,9 +18,6 @@ return {
     opts = {}
   },
   {
-    'dhruvasagar/vim-table-mode',
-  },
-  {
     'lukas-reineke/headlines.nvim',
     opts = {
       markdown = {

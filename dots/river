@@ -188,7 +188,6 @@ riverctl input $TOUCHPAD tap enabled
 
 # Rules
 float_these=(
-    "kpass"
     "agenda"
     "yazi"
     "todo")
@@ -204,6 +203,11 @@ riverctl rule-add -title 'vu' float
 riverctl rule-add -title 'md-vu-preview' float
 riverctl rule-add -title 'md-vu-preview' position 9999 0
 riverctl rule-add -title 'sema' tags $sticky_tag
+
+# Keepass anchored to bottom
+riverctl rule-add -title 'kpass' float
+riverctl rule-add -title 'kpass' position 0 9999
+riverctl rule-add -title 'kpass' dimensions 9999 160
 
 # Use server-side decorations for consistency
 # in borders, etc.

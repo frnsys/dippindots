@@ -323,6 +323,26 @@ wm:
 		cd /tmp/ && tar -xJvf zig.tar.xz && \
 		cd zig-*
 
+	# Build xwayland since many apps still don't support wayland (e.g. unity)
+	export WLD=/usr/local
+	sudo apt install -y libxcb1-dev libxcb-render-util0-dev libxcb-ewmh-dev libxcb-res0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-damage0-dev x11-apps libxfont-dev libxcvt-dev libbsd-dev
+	git clone --depth 1 https://github.com/anholt/libepoxy.git /tmp/libepoxy \
+		&& cd /tmp/libepoxy \
+		&& meson -Dprefix=$WLD build \
+		&& sudo ninja -C build/ install
+	git clone --depth 1 https://gitlab.freedesktop.org/xorg/proto/xorgproto /tmp/xorgproto \
+		&& cd /tmp/xorgproto \
+		&& meson -Dprefix=$WLD build \
+		&& sudo ninja -C build/ install
+	git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libxkbfile /tmp/libxkbfile \
+		&& cd /tmp/libxkbfile \
+		&& meson -Dprefix=$WLD build \
+		&& sudo ninja -C build/ install
+	git clone --depth 1 https://gitlab.freedesktop.org/xorg/xserver.git /tmp/xserver \
+		&& cd /tmp/xserver \
+		&& meson -Dprefix=$WLD -Dxorg=false -Dxwayland=true -Dxvfb=false -Dxnest=false -Dxquartz=false -Dxwin=false -Ddocs=false build \
+		&& sudo ninja -C build/ install
+
 	# Dependencies for wlroots
 	sudo apt install -y check seatd libseat-dev udev libdrm-dev libgbm-dev libxkbcommon-dev
 	wget https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.25.0/libinput-1.25.0.tar.gz -O /tmp/libinput.tar.gz && \
@@ -374,17 +394,17 @@ wm:
 		sudo ninja -C build install
 
 	# Build river
-	sudo apt install -y libevdev
+	sudo apt install -y libevdev-dev
 	git clone --depth 1 https://codeberg.org/river/river.git /tmp/river && \
 		cd /tmp/river && \
 		git submodule update --init && \
-		sudo /tmp/zig-*/zig build -Doptimize=ReleaseSafe --prefix /usr/local install
+		sudo /tmp/zig-*/zig build -Doptimize=ReleaseSafe --prefix /usr/local -Dxwayland install
 
 	# River layout system
 	git clone --depth 1 'https://git.sr.ht/~novakane/rivercarro' /tmp/rivercarro && \
 		cd /tmp/rivercarro && \
 		git submodule update --init && \
-		sudo /tmp/zig-*/zig build -Doptimize=ReleaseSafe --prefix /usr/local install
+		sudo /tmp/zig-*/zig build -Doptimize=ReleaseSafe --prefix /usr/local  install
 
 	mkdir ~/.config/river
 	ln -s $(dir)/dots/river ~/.config/river/init

@@ -19,3 +19,7 @@ vim.keymap.set('v', '<c-j>', 'k$oj0o')
 --- Minor movements in insert mode
 vim.keymap.set('i', '<c-j>', '<down>')
 vim.keymap.set('i', '<c-k>', '<up>')
+
+--- Move across buffers
+vim.keymap.set('n', '<S-j>', ':bnext<cr><cr>')
+vim.keymap.set('n', '<S-k>', ':bprev<cr><cr>')
