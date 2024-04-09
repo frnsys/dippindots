@@ -46,7 +46,7 @@ url = [
 	{ run = 'firefox $(cat "$@")' },
 ]
 csv = [
-    { run = 'bspc rule -a kitty -o state=floating && kitty -e visidata "$@"' },
+    { run = 'kitty --title visidata -e visidata "$@"' },
 ]
 markdown = [
     { run = 'nom view "$@"', desc = "Nom" },
