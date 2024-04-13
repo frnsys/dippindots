@@ -22,9 +22,10 @@ riverctl map normal Super N spawn 'connect'
 riverctl map normal Super Equal spawn 'mpc toggle'
 riverctl map normal Super Plus spawn 'mpvc toggle'
 riverctl map normal Super Semicolon spawn 'kitty -e ncmpcpp'
-riverctl map normal Super+Shift Semicolon spawn 'kitty -e pulsemixer'
+riverctl map normal Super+Shift Semicolon spawn 'kitty --title pulsemixer -e pulsemixer'
+riverctl map normal Super+Shift B spawn 'kitty --title bluetuith -e bluetuith'
 riverctl map normal Super Space spawn 'bemenu-run -l 10 -p ">"'
-riverctl map normal Super E spawn 'notify-send -t 5000 "$(date '\''+%m/%d %H:%M'\'')" "$(batt percent)% $(batt duration)h"'
+riverctl map normal Super E spawn 'notify-send -t 5000 "$(date '\''+%m/%d %H:%M'\'')" "$(acpi)"'
 riverctl map normal Super X spawn 'makoctl mode -t do-not-disturb'
 riverctl map normal Super P spawn 'kitty --title kpass -e kpass ~/docs/pass.kdbx'
 riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda view | less -R'\'''
@@ -153,7 +154,7 @@ do
     riverctl map -repeat $mode Super XF86AudioRaiseVolume spawn 'pactl -- set-sink-volume @DEFAULT_SINK@ +5%'
     riverctl map -repeat $mode Super XF86AudioLowerVolume spawn 'pactl -- set-sink-volume @DEFAULT_SINK@ -5%'
     riverctl map $mode Super XF86AudioMute spawn 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
-    riverctl map $mode Super XF86AudioMicMute spawn 'mute toggle'
+    riverctl map $mode Super XF86AudioMicMute spawn 'pactl set-source-mute @DEFAULT_SOURCE@ toggle'
 
     # For some reason modifiers don't work with these ones?
     riverctl map -repeat $mode None XF86MonBrightnessUp spawn 'brightnessctl set +1000'
@@ -191,6 +192,8 @@ float_these=(
     "visidata"
     "agenda"
     "yazi"
+    "bluetuith",
+    "pulsemixer",
     "todo")
 for title in "${float_these[@]}"
 do
@@ -199,7 +202,6 @@ do
 done
 riverctl rule-add -title '*mpv*' float
 riverctl rule-add -title 'ncmpcpp' float
-riverctl rule-add -title 'pulsemixer' float
 riverctl rule-add -title 'vu' float
 riverctl rule-add -title 'md-vu-preview' float
 riverctl rule-add -title 'md-vu-preview' position 9999 0

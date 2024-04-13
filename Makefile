@@ -71,7 +71,7 @@ headless-tools:
 gui-tools:
 	# libnotify-bin - for `notify-send` to create notifications
 	# gdebi - easier installation of deb packages
-	sudo apt install -y libnotify-bin gdebi wl-clipboard
+	sudo apt install -y libnotify-bin gdebi wl-clipboard acpi network-manager
 	sudo apt install -y --no-install-recommends dos2unix sqlitebrowser rclone
 	sudo pip3 install -U yt-dlp
 	cargo install pastel
@@ -240,6 +240,8 @@ audio:
 	# bluetooth
 	# see ~/notes/linux/bluetooth.md
 	sudo apt install -y bluez libbluetooth3 libbluetooth-dev bluez-tools blueman
+	wget https://github.com/darkhz/bluetuith/releases/download/v0.2.2/bluetuith_0.2.2_Linux_x86_64.tar.gz -O /tmp/bluetuith.tar.gz
+	cd /tmp && tar -xzvf bluetuith.tar.gz && sudo mv bluetuith /usr/local/bin/bluetuith
 
 shell:
 	sudo apt-add-repository -y ppa:fish-shell/release-3

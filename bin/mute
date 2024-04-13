@@ -1,9 +1,0 @@
-#!/bin/bash
-# Toggle input muting
-
-if [[ $1 == 'toggle' ]]; then
-    pactl list short sources | grep source | cut -f1 | xargs -I{} pactl set-source-mute {} toggle
-    notify-send "Muted: $(mute status)"
-elif [[ $1 == 'status' ]]; then
-    pactl list short sources | grep source | cut -f1 | xargs -I{} pactl get-source-mute {} | uniq | cut -f2 -d' '
-fi

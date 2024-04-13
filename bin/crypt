@@ -7,6 +7,11 @@ CMD=$1
 # do `gpg -K` to check that it's there; if not then
 # import it with `gpg --import ~/docs/keys/private.key`
 # see `~/docs/keys/note.md` for pw note
+#
+# Example usage:
+#
+# crypt en ~/docs/vault > /dev/null
+# crypt de ~/docs/vault > /dev/null
 if [[ $CMD == 'en' || $CMD == 'de' ]]; then
     KEYNAME="Francis Tseng"
     WRK=`dirname $2`
