@@ -37,6 +37,17 @@ return {
         desc = 'Search TODO items'
       },
     },
-    opts = {}
+    opts = {
+      keywords = {
+        TODO = { icon = " ", color = "warning" },
+      },
+      merge_keywords = false,
+      highlight = {
+        pattern = [[.*<(KEYWORDS)\s*]],
+      },
+      search = {
+        pattern = [[\b(KEYWORDS)\b]],
+      }
+    }
   }
 }

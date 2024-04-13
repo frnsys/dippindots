@@ -9,6 +9,13 @@ if ok then
   end
 end
 
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    client.server_capabilities.semanticTokensProvider = nil
+  end,
+});
+
 local function ra_flycheck()
   local clients = vim.lsp.get_clients({
     name = 'rust_analyzer',
@@ -76,10 +83,6 @@ return {
             vim.lsp.buf.format()
           end
         })
-
-        -- Semantic tokens not well supported,
-        -- suggested to have it disabled for now.
-        client.server_capabilities.semanticTokensProvider = nil
       end
 
       --- Create a command to open docs for thing under cursor

@@ -218,7 +218,10 @@ ffmpeg:
 		&& sudo ldconfig
 
 mpv:
-	sudo apt install -y mpc mpv
+	sudo apt install -y mpc
+
+	git clone https://github.com/mpv-player/mpv-build.git /tmp/mpv-build
+	cd /tmp/mpv-build && ./rebuild -j4 && sudo ./install
 	ln -sf $(dir)/dots/mpv ~/.config/mpv
 
 	# mpvc for controlling mpv
@@ -395,7 +398,7 @@ wm:
 
 	# Build river
 	sudo apt install -y libevdev-dev
-	git clone --depth 1 https://codeberg.org/river/river.git /tmp/river && \
+	git clone https://codeberg.org/river/river.git /tmp/river && \
 		cd /tmp/river && \
 		git submodule update --init && \
 		sudo /tmp/zig-*/zig build -Doptimize=ReleaseSafe --prefix /usr/local -Dxwayland install

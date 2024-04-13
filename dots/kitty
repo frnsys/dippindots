@@ -34,6 +34,7 @@ cursor_blink_interval 0
 tab_title_max_length 18
 tab_bar_style powerline
 tab_powerline_style slanted
+active_tab_title_template "{fmt.italic}{'ƒ ' if layout_name == 'stack' else ''}{fmt.noitalic}{title}"
 
 active_tab_font_style   bold
 active_tab_background   #00af87

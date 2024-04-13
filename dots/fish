@@ -16,11 +16,6 @@ end
 # Setup GDAL for GIS stuff
 set -U GDAL_DATA /usr/share/gdal
 
-set -U XKB_DEFAULT_OPTIONS caps:super,compose:ralt,compose:rctrl
-set -U MOZ_ENABLE_WAYLAND 1
-set -U GTK_THEME Adwaita:dark
-set -U BEMENU_OPTS '-i --fn "Source Code Pro Light 9" -l 10 --hf "#598DDC" --tf "#079875" --cw 1'
-
 set PATH $HOME/.bin $HOME/.cargo/bin /usr/sbin $PATH
 
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
