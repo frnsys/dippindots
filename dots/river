@@ -31,6 +31,7 @@ riverctl map normal Super P spawn 'kitty --title kpass -e kpass ~/docs/pass.kdbx
 riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda view | less -R'\'''
 riverctl map normal Super T spawn 'kitty --title todo --working-directory ~/notes -e vi todo.md'
 riverctl map normal Super B spawn 'kitty --title yazi --working-directory ~ -e yazi'
+riverctl map normal Super+Shift 0 spawn 'kitty --title yazi --working-directory ~/docs/shots -e yazi'
 riverctl map normal Super G spawn 'hyprpicker --autocopy'
 riverctl map normal Super Z spawn 'pkill -USR1 gammastep'
 
