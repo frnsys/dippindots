@@ -71,7 +71,7 @@ headless-tools:
 gui-tools:
 	# libnotify-bin - for `notify-send` to create notifications
 	# gdebi - easier installation of deb packages
-	sudo apt install -y libnotify-bin gdebi wl-clipboard acpi network-manager
+	sudo apt install -y libnotify-bin gdebi wl-clipboard acpi
 	sudo apt install -y --no-install-recommends dos2unix sqlitebrowser rclone
 	sudo pip3 install -U yt-dlp
 	cargo install pastel

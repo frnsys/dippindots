@@ -1,24 +1,42 @@
 #!/bin/bash
 
-NETWORK=$(nmcli -e no -f ssid,bssid --terse device wifi list | bemenu -i -l 10 -p 'network')
+# To allow running `wpa_cli` without `sudo` I edited:
+#
+#  /lib/systemd/system/wpa_supplicant.service
+#
+# To have the lines:
+#
+#  ExecStart=/sbin/wpa_supplicant -u -s -O /run/wpa_supplicant -G netdev
+#  ExecStartPre=/bin/chown -R root:netdev /var/run/wpa_supplicant
+#  ExecStartPre=/bin/chmod -R 770 /var/run/wpa_supplicant
+#
+# And ensure that my user is in the `netdev` group:
+#
+#  sudo usermod -aG netdev $USER
+
+IFACE=wlan0
+wpa_cli -i $IFACE SCAN
+sleep 1
+
+# Get SSIDs. This is already ordered by signal strength.
+NETWORKS=$(wpa_cli -i $IFACE SCAN_RESULTS | tail -n +2 | cut -f1,5 | awk '{print $2 "\t" $1}' | sed 's/\t/@/')
+NETWORK=$(echo -e "$NETWORKS" | bemenu -i -l 10 -p 'network')
 if [ -z "$NETWORK" ]; then
     exit
 fi
 
-# nmcli uses `:` as delimiters (no idea why as
-# the BSSIDs also use `:` as delimiters...) so here we
-# replace the `:` delimiter with `@` instead.
-# I'm not sure if ESSIDs can have `:` in them or not
-# but this should also handle that case.
-NETWORK=$(echo $NETWORK | rev | sed 's/:/@/6' | rev)
-ESSID=$(echo $NETWORK | cut -d'@' -f 1)
-BSSID=$(echo $NETWORK | cut -d'@' -f 2)
+ESSID=$(echo $NETWORK | cut -d'@' -f1)
+BSSID=$(echo $NETWORK | cut -d'@' -f2)
 
 CONF=~/docs/networks/"${NETWORK}"
 if [[ ! -f "$CONF" ]]; then
     echo "" | bemenu -l 0 -p "password" > "$CONF"
 fi
-
+#
 PASS=$(cat $CONF)
-nmcli device wifi connect $BSSID password ${PASS}
+wpa_cli -i $IFACE REMOVE_NETWORK 0
+wpa_cli -i $IFACE ADD_NETWORK
+wpa_cli -i $IFACE SET_NETWORK 0 ssid '"'$ESSID'"'
+wpa_cli -i $IFACE SET_NETWORK 0 psk '"'$PASS'"'
+wpa_cli -i $IFACE ENABLE_NETWORK 0
 notify-send -t 5000 "Connected to ${ESSID}."

@@ -193,8 +193,8 @@ float_these=(
     "visidata"
     "agenda"
     "yazi"
-    "bluetuith",
-    "pulsemixer",
+    "bluetuith"
+    "pulsemixer"
     "todo")
 for title in "${float_these[@]}"
 do
