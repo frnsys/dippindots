@@ -1,0 +1,4 @@
+set selection-clipboard clipboard
+set selection-notification false
+set highlight-color rgba(222,165,132,0.5)
+

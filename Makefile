@@ -537,6 +537,14 @@ thinkpad: # thinkpad-specific stuff
 
 	sudo systemctl enable tlp.service
 
+	# For for X1 Nano G1
+	# where there is crackling/static
+	# when headphones are plugged in in.
+	sudo apt install -y alsa-tools
+	# sudo hda-verb /dev/snd/hwC0D0 0x1d SET_PIN_WIDGET_CONTROL 0x0
+	sudo cp $(dir)/dots/misc/audio_fix.service /etc/systemd/system/hdaverb.service
+	sudo systemctl enable hdaverb
+
 tweaks:
 	# fixes for 5G wifi
 	# set networking card region
@@ -549,7 +557,7 @@ tweaks:
 
 	# Use more familiar network interface names (wlan0, eth0)
 	# Some parts of the dotfiles expect names like wlan0
-	sudo sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT=\"net.ifnames=0 biosdevname=0 acpi_osi=linux acpi_backlight=vendor\"/" /etc/default/grub
+	sudo sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT=\"net.ifnames=0 biosdevname=0 acpi_osi=linux acpi_backlight=native\"/" /etc/default/grub
 	sudo update-grub
 	sudo update-initramfs -u
 
@@ -572,13 +580,8 @@ tweaks:
 	sudo sed -i 's/FONTFACE=.*/FONTFACE="Terminus"/' /etc/default/console-setup
 	sudo sed -i 's/FONTSIZE=.*/FONTSIZE="14x28"/' /etc/default/console-setup
 
-	# For for X1 Nano G1
-	# where there is crackling/static
-	# when headphones are plugged in in.
-	sudo apt install -y alsa-tools
-	# sudo hda-verb /dev/snd/hwC0D0 0x1d SET_PIN_WIDGET_CONTROL 0x0
-	sudo cp $(dir)/dots/misc/audio_fix.service /etc/systemd/system/hdaverb.service
-	sudo systemctl enable hdaverb
+	# Lower swappiness to avoid disk thrashing
+	echo "vm.swappiness = 10" | sudo tee -a /etc/sysctl.conf
 
 	# for USB input devices
 	sudo apt install linux-image-generic
@@ -607,7 +610,27 @@ documents:
 	sudo sed -i 's/\\newfont\\SOUL@tt{ectt1000}/\\font\\SOUL@tt=[RobotoMono-Regular.ttf]/' /usr/share/texlive/texmf-dist/tex/generic/soul/soul.sty
 
 	# suckless tabbed
-	sudo apt install -y zathura zathura-pdf-poppler suckless-tools
+	sudo apt install -y suckless-tools
+
+	# poppler
+	wget https://poppler.freedesktop.org/poppler-24.04.0.tar.xz -O /tmp/poppler.tar.xz \
+		&& cd /tmp && tar -xJvf poppler.tar.xz \
+		&& cd poppler-* && mkdir build && cd build \
+		&& cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_NSS3=OFF -DENABLE_GPGME=OFF -DENABLE_QT6=OFF -DENABLE_LCMS=OFF .. \
+		&& make && sudo make install
+
+	# zathura
+	wget https://git.pwmt.org/pwmt/zathura/-/archive/0.5.5/zathura-0.5.5.zip -O /tmp/zathura.zip \
+		&& cd /tmp && unzip zathura.zip \
+		&& cd zathura-* \
+		&& meson setup build && cd build \
+		&& ninja && sudo ninja install
+	git clone https://git.pwmt.org/pwmt/zathura-pdf-poppler.git /tmp/zathura-poppler \
+		&& cd /tmp/zathura-poppler \
+		&& meson setup build && cd build \
+		&& ninja && sudo ninja install
+	mkdir ~/.config/zathura
+	ln -sf $(dir)/dots/zathura ~/.config/zathura/zathurarc
 
 	# for signing pdfs
 	sudo apt install -y xournalpp

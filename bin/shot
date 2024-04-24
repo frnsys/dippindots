@@ -1,10 +1,16 @@
 #!/bin/bash
 # take a screenshot
+# usage: shot [select|focused] [path|data]
 
 FNAME=$(date +%F-%H-%M-%S)
 FPATH=~/docs/shots/$FNAME.png
 
-choice=$(echo -e "full\nregion" | bemenu -p "shot")
+# if nothing specified, ask
+if [ -z $1 ]; then
+    choice=$(echo -e "full\nregion" | bemenu -p "shot")
+else
+    choice=$1
+fi
 
 case $choice in
     "region")
@@ -18,10 +24,16 @@ esac
 
 if [ -f $FPATH ]; then
     notify-send -t 5000 "screenshot saved to $FPATH"
-    choice=$(echo -e "path\ndata" | bemenu -i -p "copy")
+
+    if [ -z $2 ]; then
+        choice=$(echo -e "path\ndata" | bemenu -i -p "copy")
+    else
+        choice=$2
+    fi
     case $choice in
         "path") echo -n "$FPATH " | wl-copy;;
         "data") wl-copy < "$FPATH";;
         *) ;;
     esac
+    echo $FPATH
 fi

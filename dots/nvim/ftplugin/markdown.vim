@@ -67,18 +67,51 @@ function! DownloadUrlToAssets(url, ...)
     startinsert
 endfunction
 
-" easily paste html clipboard content as quoted markdown
-nnoremap <buffer> <leader>c :r !nom clip <bar> sed 's/^/> /'<cr>
+lua <<EOF
+local function insert_text_at_cursor(text)
+    local row, col = unpack(vim.api.nvim_win_get_cursor(0)) -- Get current cursor position
+    row = row - 1  -- Convert to zero-based indexing
 
-" screenshot, move to assets folder, paste in markdown
-nnoremap <buffer> <leader>s "=system("fpath=$(shot region <bar> tail -n 1); [ ! -z $fpath ] && (fname=$(basename $fpath); [ -f $fpath ] && (mv $fpath ".expand('%:p:h')."/assets/$fname; echo '![](assets/'$fname')'))")<CR>P
+    -- Ensure the buffer is not read-only
+    if vim.api.nvim_buf_get_option(0, 'modifiable') then
+        vim.api.nvim_buf_set_text(0, row, col, row, col, {text})
+    else
+        print("Buffer is read-only")
+    end
+end
+
+--- screenshot, move to assets folder, paste in markdown
+local function screenshot()
+  local fpath = vim.fn.system {
+    'shot',
+    'region',
+    'path',
+  }
+  fpath = fpath:gsub("\n", "")
+  if vim.fn.filereadable(fpath) == 1 then
+    local fname = vim.fs.basename(fpath)
+    local dir = vim.fn.expand('%:p:h')
+    local relpath = "assets/" .. fname
+    os.rename(fpath, dir .. "/" .. relpath)
+    local img_ref = "![screenshot](" .. relpath .. ")"
+    insert_text_at_cursor(img_ref)
+  end
+end
+
+vim.keymap.set('n', '<leader>s', screenshot)
+
+-- vim.api.nvim_create_autocmd('FileType', {
+--   desc = 'Bind keymaps for markdown files',
+--   pattern = 'markdown',
+--   callback = function(opts)
+--     vim.keymap.set('n', '<leader>s', screenshot, { silent = true, buffer = opts['buffer'] })
+--     end,
+-- })
+EOF
 
 " quickly fix the closest previous spelling error.
 imap <buffer> <c-s-k> <c-g>u<Esc>[s1z=`]a<c-g>u
 nmap <buffer> <c-s-k> [s1z=``
-
-" compile and open in browser
-nnoremap <buffer> <leader>v <cmd>call jobstart('nom view -w '.expand('%:p'))<cr>
 
 " for inline mathjax
 imap <buffer> <leader>b ¦¦<esc>i

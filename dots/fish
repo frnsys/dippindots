@@ -67,7 +67,7 @@ abbr -a ytdl "yt-dlp -f 'best[ext=mp4][height<=720]'"
 abbr -a ytdlmp3 "yt-dlp --extract-audio --audio-format mp3"
 
 # Web apps
-abbr -a notes "google-chrome-stable --new-window --app=https://app.notesnook.com"
+abbr -a notes "google-chrome-stable --new-window --app=https://app.notesnook.com --enable-features=UseOzonePlatform --ozone-platform=wayland"
 
 function rand -d "Generate random string"
     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1

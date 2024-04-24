@@ -46,6 +46,7 @@ function localSync() {
 if [[ $1 == 'home' ]]; then
     for dest in \
         pi@svalbard.local:/media/shuttle\
+        pi@svalbard.local:/media/usb\
         ftseng@turtle.local:/media/backup\
         ftseng@hubble.local:/mnt/library/backup; do
         localSync $dest
