@@ -561,6 +561,9 @@ tweaks:
 	sudo update-grub
 	sudo update-initramfs -u
 
+	# Firmware updates
+	fwupdmgr refresh && fwupdmgr update && fwupdmgr get-updates
+
 	# NOTE: You will need to edit `/etc/netplan/00-installer-config.wifi.yaml` and:
 	# - Change the interface name to `wlan0`
 	# - Add "optional: true" as part of its config, e.g.
