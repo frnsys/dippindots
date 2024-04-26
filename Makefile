@@ -50,7 +50,9 @@ rust:
 	rustup component add clippy --toolchain nightly
 	rustup component add rust-analyzer --toolchain nightly
 	rustup override set nightly
+	rustup default nightly
 	source ~/.cargo/env
+	sudo zypper in mold
 
 langs:
 	@echo "Installing python & node..."
@@ -116,6 +118,9 @@ music:
 	mkdir ~/.mpd/
 	touch ~/.mpd/{mpd.db,mpd.log,mpd.pid,mpd.state}
 	ln -sf $(dir)/dots/mpd ~/.mpd/mpd.conf
+
+	# disable as the system instance conflicts with the user instance
+	sudo systemctl disable --now mpd
 
 video:
 	sudo zypper in mpv
@@ -236,6 +241,7 @@ browser:
 
 vpn:
 	opi mullvadvpn
+	sudo systemctl enable --now mullvad-daemon.service
 
 theme:  # wallpaper, fonts, etc
 	# GTK/QT themeing
@@ -274,16 +280,7 @@ thinkpad: # thinkpad-specific stuff
 	# also provides utility commands `bluetooth` and `wifi`
 	# which are used elsewhere in scripts
 	sudo zypper in tlp tlpui tp_smapi-kmp-default
-	sudo systemctl enable tlp.service
-
-	# TODO maybe not necessary anymore?
-	# For for X1 Nano G1
-	# where there is crackling/static
-	# when headphones are plugged in in.
-	sudo apt install -y alsa-tools
-	# sudo hda-verb /dev/snd/hwC0D0 0x1d SET_PIN_WIDGET_CONTROL 0x0
-	sudo cp $(dir)/dots/misc/audio_fix.service /etc/systemd/system/hdaverb.service
-	sudo systemctl enable hdaverb
+	sudo systemctl enable --now tlp.service
 
 tweaks:
 	# Firmware updates
@@ -293,9 +290,6 @@ tweaks:
 	# Setup passwordless sudo/root for certain commands
 	# TODO still necessary?
 	# sudo cp $(dir)/dots/misc/00_anarres /etc/sudoers.d/
-
-	# TODO maybe not necessary Remove default home directories ("Desktop", etc)
-	# sudo sed -i 's/enabled=True/enabled=False/' /etc/xdg/user-dirs.conf
 
 	# TODO Lower swappiness to avoid disk thrashing
 	# echo "vm.swappiness = 10" | sudo tee -a /etc/sysctl.conf
@@ -315,10 +309,7 @@ documents:
 	sudo zypper in zathura zathura-plugin-pdf-poppler
 	mkdir ~/.config/zathura
 	ln -sf $(dir)/dots/zathura ~/.config/zathura/zathurarc
-
-	# TODO
-	# flatpak run org.onlyoffice.desktopeditors
-	# flatpak install flathub org.onlyoffice.desktopeditors
+	flatpak install flathub org.onlyoffice.desktopeditors
 
 keepass:
 	cargo install --git ssh://git@github.com/frnsys/kpass.git
