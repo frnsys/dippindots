@@ -16,7 +16,7 @@ end
 # Setup GDAL for GIS stuff
 set -U GDAL_DATA /usr/share/gdal
 
-set PATH $HOME/.bin $HOME/.cargo/bin /usr/sbin $PATH
+set PATH $HOME/.bin $HOME/.cargo/bin /usr/sbin /var/lib/flatpak/exports/bin/ $PATH
 
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
@@ -52,8 +52,8 @@ abbr -a gsu "git submodule foreach git pull origin master"
 # Shortcuts
 abbr -a v "vi ."
 abbr -a y "yazi"
-abbr -a dots "cd ~/.dippindots"
-abbr -a envim "cd ~/.dippindots/dots/nvim; vi ."
+abbr -a dots "cd ~/.dots"
+abbr -a envim "cd ~/.dots/dots/nvim; vi ."
 abbr -a n "cd ~/notes"
 abbr -a w "cd ~/work"
 abbr -a p "cd ~/projects"

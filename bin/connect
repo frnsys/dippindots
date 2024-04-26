@@ -14,7 +14,7 @@
 #
 #  sudo usermod -aG netdev $USER
 
-IFACE=wlan0
+IFACE=wlp0s20f3
 wpa_cli -i $IFACE SCAN
 sleep 1
 

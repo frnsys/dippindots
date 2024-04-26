@@ -64,6 +64,6 @@ elif [[ $1 == 'cloud' ]]; then
     rclone copy -q /tmp/last_updated backup-crypt:repos/last_updated
 
 elif [[ $1 == 'usb' ]]; then
-    dest=/media/usb/backup
+    dest=/mnt/usb/backup
     localSync $dest
 fi

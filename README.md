@@ -1,6 +1,6 @@
 # DippinDots
 
-These are my personal dotfiles for Linux (Ubuntu).
+These are my personal dotfiles for Linux (OpenSUSE Tumbleweed).
 Please feel free to use/modify them as you like!
 
 They may be slightly tailored to ThinkPads.
@@ -30,7 +30,7 @@ To transfer a GPG secret key:
 
 ## Usage
 
-    git clone https://github.com/frnsys/dippindots.git ~/.dippindots
+    git clone https://github.com/frnsys/dippindots.git ~/.dots
     make [laptop|headless]
 
 ## Screenshots

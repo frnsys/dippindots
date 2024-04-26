@@ -76,7 +76,7 @@ if [[ $CMD == 'en' || $CMD == 'de' ]]; then
 # - create the filesystem: `sudo mkfs.ext4 /dev/mapper/enc_vol`
 elif [[ $CMD == 'mount' || $CMD == 'umount' ]]; then
     DISK=$2 # e.g. /dev/sdb1
-    MNT_DIR=/media/usb
+    MNT_DIR=/mnt/usb
     ENC_VOL=enc_vol
 
     if [[ $CMD == 'mount' ]]; then
