@@ -1,25 +1,7 @@
 #!/bin/bash
 
-# To allow running `wpa_cli` without `sudo` I edited:
-#
-#  /lib/systemd/system/wpa_supplicant.service
-#
-# To have the lines:
-#
-#  ExecStart=/sbin/wpa_supplicant -u -s -O /run/wpa_supplicant -G netdev
-#  ExecStartPre=/bin/chown -R root:netdev /var/run/wpa_supplicant
-#  ExecStartPre=/bin/chmod -R 770 /var/run/wpa_supplicant
-#
-# And ensure that my user is in the `netdev` group:
-#
-#  sudo usermod -aG netdev $USER
-
-IFACE=wlp0s20f3
-wpa_cli -i $IFACE SCAN
-sleep 1
-
 # Get SSIDs. This is already ordered by signal strength.
-NETWORKS=$(wpa_cli -i $IFACE SCAN_RESULTS | tail -n +2 | cut -f1,5 | awk '{print $2 "\t" $1}' | sed 's/\t/@/')
+NETWORKS=$(nmcli -c no -m tabular -f BSSID,SSID device wifi list | tail -n +2 | awk '{print $2 "\t" $1}' | sed 's/\t/@/')
 NETWORK=$(echo -e "$NETWORKS" | bemenu -i -l 10 -p 'network')
 if [ -z "$NETWORK" ]; then
     exit
@@ -34,9 +16,5 @@ if [[ ! -f "$CONF" ]]; then
 fi
 #
 PASS=$(cat $CONF)
-wpa_cli -i $IFACE REMOVE_NETWORK 0
-wpa_cli -i $IFACE ADD_NETWORK
-wpa_cli -i $IFACE SET_NETWORK 0 ssid '"'$ESSID'"'
-wpa_cli -i $IFACE SET_NETWORK 0 psk '"'$PASS'"'
-wpa_cli -i $IFACE ENABLE_NETWORK 0
+nmcli device wifi connect "$BSSID" password "$PASS"
 notify-send -t 5000 "Connected to ${ESSID}."

@@ -139,8 +139,6 @@ video:
     	&& sudo ./Build install
 
 audio:
-	# TODO? sudo apt install -y --no-install-recommends alsa-utils pavucontrol pulseaudio-utils pipewire pipewire-pulse wireplumber pipewire-audio-client-libraries libspa-0.2-bluetooth
-	# TODO? sudo touch /usr/share/pipewire/media-session.d/with-pulseaudio # Use pipewire as pulseaudio
 	sudo zypper in python312-pulsemixer pavucontrol
 
 	# bluetooth
