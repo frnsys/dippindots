@@ -10,26 +10,12 @@
 SHELL := /bin/bash
 dir = ~/.dots
 
-headless: prereqs git langs rust headless-tools neovim misc-dots
-
-laptop:\
-	# deps
-	prereqs git langs rust\
-
-	# desktop environment
-	wm bar notifications menu shell theme\
-
-	# apps
-	headless-tools gui-tools apps fm neovim\
-		terminal browser vpn\
-		signal torrents keepass android\
-		documents \
-
-	# media
-	audio images video music scrots\
-
-	# system config
-	thinkpad tweaks screen misc-dots
+all: base de media apps laptop
+base: prereqs git langs rust shell tools editor other
+de: wm bar notifications menu theme terminal scrots fm
+media: audio images video music
+laptop: thinkpad tweaks screen
+apps: apps browser vpn torrents android documents
 
 # ---
 
@@ -73,7 +59,7 @@ git:
 	# ssh access
 	ssh -vT git@github.com
 
-headless-tools:
+tools:
 	@echo "Installing fzf..."
 	@echo "Say NO to auto-completion for performance"
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -83,9 +69,8 @@ headless-tools:
 
 	cargo install fd-find ripgrep
 
-gui-tools:
-	opi codecs
-	sudo zypper in wl-clipboard acpi sqlitebrowser rclone yt-dlp
+apps:
+	sudo zypper in wl-clipboard sqlitebrowser rclone yt-dlp
 	cargo install pastel
 
 	# Colorpicker
@@ -98,11 +83,13 @@ gui-tools:
 
 	cargo install --git ssh://git@github.com/frnsys/agenda.git
 
-apps:
+	opi signal-desktop
+	cargo install --git ssh://git@github.com/frnsys/kpass.git
+
 	sudo zypper in flatpak
 	flatpak install flathub com.unity.UnityHub
 
-neovim:
+editor:
 	@echo "Installing neovim..."
 	wget https://github.com/neovim/neovim/archive/refs/tags/nightly.tar.gz -O /tmp/neovim.tar.gz
 	cd /tmp; tar -xzvf neovim.tar.gz; \
@@ -123,6 +110,8 @@ music:
 	sudo systemctl disable --now mpd
 
 video:
+	opi codecs
+
 	sudo zypper in mpv
 	ln -sf $(dir)/dots/mpv ~/.config/mpv
 
@@ -144,6 +133,14 @@ audio:
 	# bluetooth
 	# see ~/notes/linux/bluetooth.md
 	sudo zypper in bluez bluetuith
+
+	# For for X1 Nano G1
+	# where there is crackling/static
+	# when headphones are plugged in in.
+	# sudo hda-verb /dev/snd/hwC0D0 0x1d SET_PIN_WIDGET_CONTROL 0x0
+	sudo zypper in hda-verb
+	sudo cp $(dir)/dots/misc/audio_fix.service /etc/systemd/system/hdaverb.service
+	sudo systemctl enable hdaverb
 
 shell:
 	sudo zypper in fish
@@ -273,11 +270,11 @@ theme:  # wallpaper, fonts, etc
 
 	sudo zypper rm plymouth-*
 
-thinkpad: # thinkpad-specific stuff
+thinkpad:
 	# tlp for better battery life
 	# also provides utility commands `bluetooth` and `wifi`
 	# which are used elsewhere in scripts
-	sudo zypper in tlp tlpui tp_smapi-kmp-default
+	sudo zypper in tlp tlpui tp_smapi-kmp-default acpi
 	sudo systemctl enable --now tlp.service
 
 tweaks:
@@ -309,17 +306,11 @@ documents:
 	ln -sf $(dir)/dots/zathura ~/.config/zathura/zathurarc
 	flatpak install flathub org.onlyoffice.desktopeditors
 
-keepass:
-	cargo install --git ssh://git@github.com/frnsys/kpass.git
-
-signal:
-	opi signal-dekstop
-
 screen:
 	sudo usermod -aG video ${USER}
 	sudo zypper in brightnessctl gammastep
 
-misc-dots:
+other:
 	ln -sf $(dir)/dots/bash ~/.bash_profile
 	ln -sf $(dir)/bin ~/.bin
 

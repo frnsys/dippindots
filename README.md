@@ -31,7 +31,7 @@ To transfer a GPG secret key:
 ## Usage
 
     git clone https://github.com/frnsys/dippindots.git ~/.dots
-    make [laptop|headless]
+    make
 
 ## Screenshots
 
