@@ -14,7 +14,7 @@ return {
       ensure_installed = {
         'c', 'cpp', 'python', 'rust', 'tsx',
         'typescript', 'c_sharp', 'css', 'toml',
-        'markdown', 'markdown_inline', 'bash',
+        'markdown', 'markdown_inline', 'bash', 'lua',
         'html', 'javascript', 'json', 'yaml', 'comment' },
 
       -- Autoinstall languages that are not installed.

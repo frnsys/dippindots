@@ -73,40 +73,6 @@ function rand -d "Generate random string"
     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
 end
 
-function extract -d "Archive extraction"
-    set --local f $argv[1]
-    if test -e $f
-        switch $f
-            case '*.tar'
-                tar xvf "$f"
-            case '*.tar.xz' '*.txz'
-                tar Jxvf "$f"
-            case '*.tar.bz2' '*.tbz2'
-                tar xvjf "$f"
-            case '*.tar.gz' '*.tgz'
-                tar xvzf "$f"
-            case '*.bz2'
-                bunzip2 "$f"
-            case '*.rar'
-                unrar x "$f"
-            case '*.gz'
-                gunzip "$f"
-            case '*.zip'
-                unzip "$f"
-            case '*.Z'
-                uncompress "$f"
-            case '*.7z'
-                7z x "$f"
-            case '*.xz'
-                xz -d "$f"
-            case '*'
-                echo "'$f' cannot be extracted via >extract<"
-        end
-    else
-        echo "File doesn't exist"
-    end
-end
-
 function flac2mp3
     set --local input $argv[1]
     set --local output (path change-extension mp3 $input)

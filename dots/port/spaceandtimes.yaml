@@ -1,10 +1,9 @@
-PER_PAGE: 5
-SITE_DESC: francis tseng's blog
-SITE_DIR: ~/notes/blog
-SITE_NAME: space and times
-SITE_URL: https://spaceandtim.es
-SITE_IMAGE: assets/banner.png
-THEME: spaceandtimes
+per_page: 5
+desc: francis tseng's blog
+root: ~/notes/blog
+name: space & times
+url: https://spaceandtim.es
+image: assets/banner.png
 links:
     - url: https://www.are.na/francis-tseng
       name: are.na
@@ -14,4 +13,3 @@ links:
       name: me
     - url: /rss/rss.xml
       name: rss
-title: space & times

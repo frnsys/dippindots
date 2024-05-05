@@ -24,7 +24,7 @@ require('lazy').setup('plugins', {
 })
 
 require('breeze')
-require('cairns')
+-- require('cairns')
 require('fnotes')
 require('bindings')
 

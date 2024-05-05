@@ -49,7 +49,7 @@ csv = [
     { run = 'kitty --title visidata -e visidata "$@"' },
 ]
 markdown = [
-    { run = 'nom view "$@"', desc = "Nom" },
+    { run = 'inlyne --theme dark "$@"', desc = "Inlyne" },
 ]
 fallback = [
 	{ run = 'open "$@"', desc = "Open" },

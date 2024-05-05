@@ -53,8 +53,6 @@ highlight Substitute guifg=#ffffff guibg=#2c84fc guisp=NONE blend=NONE gui=NONE
 highlight TabLine guifg=#444444 guibg=none guisp=NONE blend=NONE gui=NONE
 highlight TabLineFill guifg=NONE guibg=none guisp=NONE blend=NONE gui=NONE
 highlight TabLineSel guifg=#a8a8a8 guibg=none guisp=NONE blend=NONE gui=NONE
-highlight TelescopeMatching guifg=#ffaf87 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight TelescopeSelection guifg=NONE guibg=#444444 guisp=NONE blend=NONE gui=NONE
 highlight Title guifg=#000000 guibg=#6767db guisp=NONE blend=NONE gui=bold
 " highlight Title guifg=#d4d4fa guibg=#4747ba guisp=NONE blend=NONE gui=bold
 highlight @comment.todo.comment guifg=#000000 guibg=#f8aa01 guisp=NONE blend=NONE gui=NONE

@@ -21,7 +21,7 @@ apps: apps browser vpn torrents android documents
 
 prereqs:
 	@echo "Installing prereqs..."
-	sudo zypper in gcc make cmake automake autoconf clang lld wget unzip openssh-server bzip2 curl ninja meson opi
+	sudo zypper in gcc make cmake automake autoconf clang lld wget unzip openssh-server bzip2 curl ninja meson opi unar
 
 	# necessary for installing from git with cargo
 	eval `ssh-agent -s`
@@ -49,7 +49,7 @@ langs:
 
 git:
 	@echo "Installing git..."
-	sudo zypper in git git-lfs
+	sudo zypper in git git-lfs gitui
 	git lfs install
 
 	mkdir -p ~/.config/git
@@ -91,6 +91,7 @@ apps:
 
 editor:
 	@echo "Installing neovim..."
+	sudo zypper in bat
 	wget https://github.com/neovim/neovim/archive/refs/tags/nightly.tar.gz -O /tmp/neovim.tar.gz
 	cd /tmp; tar -xzvf neovim.tar.gz; \
 		cd neovim-*; make CMAKE_BUILD_TYPE=Release && sudo make install \
@@ -304,6 +305,7 @@ documents:
 	sudo zypper in zathura zathura-plugin-pdf-poppler
 	mkdir ~/.config/zathura
 	ln -sf $(dir)/dots/zathura ~/.config/zathura/zathurarc
+	cargo install inlyne
 	flatpak install flathub org.onlyoffice.desktopeditors
 
 screen:
