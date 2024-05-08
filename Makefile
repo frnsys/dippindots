@@ -211,11 +211,12 @@ terminal:
 	ln -sf $(dir)/dots/kitty ~/.config/kitty/kitty.conf
 
 browser:
-	# Firefox Nightly
-	wget "https://download.mozilla.org/?product=firefox-nightly-latest-ssl&os=linux64&lang=en-US" -O /tmp/firefox.tar.bz2
-	cd /tmp/ && tar -xvjf firefox.tar.bz2
-	sudo mv /tmp/firefox /opt/firefox
-	sudo ln -s /opt/firefox/firefox /usr/local/bin/firefox
+	sudo zypper in MozillaFirefox
+
+	# Fonts with better character support
+	# You may need to enable these as the default fonts
+	# in `about:preferences`.
+	sudo zypper in google-noto-fonts
 
 	# firefox config
 	# In `about:config`, set:

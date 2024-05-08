@@ -10,10 +10,28 @@ return {
         },
         files = {
           formatter = "path.filename_first",
+          no_header = true,
+          no_header_i = true,
+        },
+        grep = {
+          no_header = true,
+          no_header_i = true,
+        },
+        buffers = {
+          formatter = "path.filename_first",
+          no_header = true,
+          no_header_i = true,
+        },
+        previewers = {
+          bat = {
+            cmd   = "bat",
+            args  = "--color=always --style=numbers,changes",
+            theme = '1337',
+          },
         },
 
         -- Cherry-picking some config from the 'max-perf' profile.
-        winopts = { preview = { default = "bat" } },
+        winopts = { width = 0.5, preview = { default = "bat", layout = "vertical", vertical = 'down:70%' } },
         lsp = { code_actions = { previewer = "codeaction_native" } },
       })
     end,
@@ -61,7 +79,7 @@ return {
         desc = 'Search workspace symbols'
       },
       {
-        "'a",
+        "'i",
         mode = "i",
         function()
           require('fzf-lua').complete_path()

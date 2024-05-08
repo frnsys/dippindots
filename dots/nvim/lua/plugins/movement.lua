@@ -122,8 +122,8 @@ return {
     'kwkarlwang/bufjump.nvim',
     config = function()
       require("bufjump").setup({
-        forward = "<S-j>",
-        backward = "<S-k>",
+        forward_key = "<S-j>",
+        backward_key = "<S-k>",
         on_success = nil
       })
     end,
