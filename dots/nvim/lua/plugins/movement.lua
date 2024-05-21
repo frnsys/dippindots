@@ -16,6 +16,9 @@ return {
         }
       },
       modes = {
+        search = {
+          enabled = true,
+        },
         char = {
           enabled = false,
         }

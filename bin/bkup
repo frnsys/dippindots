@@ -32,7 +32,6 @@ deaddrop/vids/" > /tmp/bkup.exclude
 
 REPOS=(~/projects ~/docs ~/notes ~/photos ~/work ~/musics)
 OTHER=(~/archives)
-BRIDGE=ftseng@starbase
 
 function localSync() {
     dest=$1

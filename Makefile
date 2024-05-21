@@ -66,7 +66,6 @@ tools:
 	~/.fzf/install
 
 	sudo zypper in jq htop tree the_silver_searcher gnupg ncdu powertop dfc ffmpeg
-
 	cargo install fd-find ripgrep
 
 apps:
@@ -81,10 +80,9 @@ apps:
 	# to make the change, run `sudo tzupdate`
 	pip3 install -U tzupdate
 
-	cargo install --git ssh://git@github.com/frnsys/agenda.git
-
 	opi signal-desktop
 	cargo install --git ssh://git@github.com/frnsys/kpass.git
+	cargo install --git ssh://git@github.com/frnsys/agenda.git
 
 	sudo zypper in flatpak
 	flatpak install flathub com.unity.UnityHub
@@ -132,7 +130,6 @@ audio:
 	sudo zypper in python312-pulsemixer pavucontrol
 
 	# bluetooth
-	# see ~/notes/linux/bluetooth.md
 	sudo zypper in bluez bluetuith
 
 	# For for X1 Nano G1
@@ -160,6 +157,7 @@ images:
 	sudo zypper in ImageMagick ImageMagick-extra
 
 fm:
+	sudo zypper in poppler-tools ffmpegthumbnailer jq
 	cargo install --git https://github.com/sxyazi/yazi yazi-fm
 	ln -sf $(dir)/dots/yazi  ~/.config/yazi
 
@@ -270,7 +268,8 @@ theme:  # wallpaper, fonts, etc
 	ln -sf ~/.walls/1.jpg ~/.wall.jpg
 	chmod 644 ~/.wall.jpg
 
-	sudo zypper rm plymouth-*
+	sudo zypper rm --clean-deps plymouth
+	sudo zypper addlock plymouth
 
 thinkpad:
 	# tlp for better battery life
@@ -318,4 +317,4 @@ other:
 	ln -sf $(dir)/bin ~/.bin
 
 	# symlink notes and sites
-	ln -sf $(dir)/dots/port ~/.port
+	ln -sf $(dir)/dots/port ~/.config/port.yml
