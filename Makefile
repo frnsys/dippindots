@@ -23,6 +23,9 @@ prereqs:
 	@echo "Installing prereqs..."
 	sudo zypper in gcc make cmake automake autoconf clang lld wget unzip openssh-server bzip2 curl ninja meson opi unar
 
+	sudo zypper in avahi
+	sudo systemctl enable --now avahi-daemon
+
 	# necessary for installing from git with cargo
 	eval `ssh-agent -s`
 	ssh-add ~/.ssh/id_rsa
@@ -69,6 +72,7 @@ tools:
 	cargo install fd-find ripgrep
 
 apps:
+	sudo zypper in yast2-control-center-qt
 	sudo zypper in wl-clipboard sqlitebrowser rclone yt-dlp
 	cargo install pastel
 
@@ -85,7 +89,6 @@ apps:
 	cargo install --git ssh://git@github.com/frnsys/agenda.git
 
 	sudo zypper in flatpak
-	flatpak install flathub com.unity.UnityHub
 
 editor:
 	@echo "Installing neovim..."
@@ -260,7 +263,7 @@ theme:  # wallpaper, fonts, etc
 	fc-cache -fv
 
 	sudo mkdir /usr/share/fonts/truetype/robotomono
-	sudo wget --content-disposition -P /usr/share/fonts/truetype/robotomono https://github.com/googlefonts/RobotoMono/raw/main/fonts/ttf/RobotoMono-{Bold,BoldItalic,Italic,Light,LightItalic,Medium,MediumItalic,Regular,Thin,ThinItalic}.ttf?raw=true
+	sudo wget --content-disposition -P /usr/share/fonts/truetype/robotomono https://github.com/googlefonts/RobotoMono/raw/main/fonts/ttf/RobotoMono-{Bold,BoldItalic,Italic,Light,LightItalic,Medium,MediumItalic,Regular,Thin,ThinItalic}.ttf
 	sudo fc-cache -fv
 
 	# wallpapers
@@ -272,11 +275,7 @@ theme:  # wallpaper, fonts, etc
 	sudo zypper addlock plymouth
 
 thinkpad:
-	# tlp for better battery life
-	# also provides utility commands `bluetooth` and `wifi`
-	# which are used elsewhere in scripts
-	sudo zypper in tlp tlpui tp_smapi-kmp-default acpi
-	sudo systemctl enable --now tlp.service
+	sudo zypper in tuned tp_smapi-kmp-default acpi
 
 tweaks:
 	# Firmware updates

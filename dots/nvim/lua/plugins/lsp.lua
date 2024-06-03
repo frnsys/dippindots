@@ -190,14 +190,14 @@ return {
 
       --- Omnisharp/C#/Unity
       local pid = vim.fn.getpid()
-      -- local omnisharp_bin = "/opt/omnisharp-roslyn/run"
+      local omnisharp_bin = "/opt/omnisharp-roslyn/run"
       require('lspconfig').omnisharp_mono.setup {
         on_attach = on_attach,
         handlers = handlers,
         flags = {
           debounce_text_changes = 150,
         },
-        -- cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
+        cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
       }
     end
   },
