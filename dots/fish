@@ -39,6 +39,7 @@ abbr -a mv "mv -i"
 abbr -a gd "git diff"
 abbr -a ga "git add"
 abbr -a gaa "git add -A"
+abbr -a gc "git commit"
 abbr -a gcm "git commit -m"
 abbr -a gp "git push"
 abbr -a gpl "git pull"
@@ -104,7 +105,7 @@ end
 function _fzf
     fzf --exact --info=inline \
         --color=bg+:#262626,fg+:#f9d284,bg:#121212,hl:#00af87,hl+:#00af87,gutter:#121212,info:#00af87,pointer:#00af87,prompt:#ff2f6d \
-        --bind=alt-p:up,alt-n:down,alt-\':jump-accept
+        --bind=alt-\':jump-accept
 end
 
 function ⛺️

@@ -12,10 +12,12 @@ return {
           formatter = "path.filename_first",
           no_header = true,
           no_header_i = true,
+          actions = { ["ctrl-q"] = { fn = require"fzf-lua".actions.file_sel_to_qf, prefix = "select-all" } }
         },
         grep = {
           no_header = true,
           no_header_i = true,
+          actions = { ["ctrl-q"] = { fn = require"fzf-lua".actions.file_sel_to_qf, prefix = "select-all" } }
         },
         buffers = {
           formatter = "path.filename_first",
@@ -53,16 +55,9 @@ return {
       {
         "''",
         function()
-          require('fzf-lua').buffers()
+          require('fzf-lua').files()
         end,
-        desc = 'List buffers'
-      },
-      {
-        "'b",
-        function()
-          require('fzf-lua').lgrep_curbuf()
-        end,
-        desc = 'Fuzzily search in current buffer'
+        desc = 'Search files by name'
       },
       {
         "'r",

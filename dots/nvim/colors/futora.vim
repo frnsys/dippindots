@@ -73,6 +73,7 @@ highlight @text.code_block guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NO
 highlight @text.literal.block guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @text.emphasis guifg=#000000 guibg=#00af87 guisp=NONE blend=NONE gui=bold
 highlight @text.reference guifg=#f55151 guibg=NONE guisp=NONE blend=NONE gui=bold
+highlight @markup.italic guifg=#000000 guibg=#00af87 guisp=NONE blend=NONE gui=bold
 highlight @markup.link.url guifg=#00a0f8 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @markup.link.label.markdown_inline guifg=#f17694 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @markup.link.url.markdown_inline guifg=#00af87 guibg=NONE guisp=NONE blend=NONE gui=NONE

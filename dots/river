@@ -29,7 +29,7 @@ riverctl map normal Super E spawn 'notify-send -t 5000 "$(date '\''+%m/%d %H:%M'
 riverctl map normal Super X spawn 'makoctl mode -t do-not-disturb'
 riverctl map normal Super P spawn 'kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx'
 riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda view | less -R'\'''
-riverctl map normal Super T spawn 'kitty --title todo --working-directory ~/notes -e vi todo.md'
+riverctl map normal Super T spawn 'kitty --title todo --working-directory ~/notes -e nvim todo.md'
 riverctl map normal Super B spawn 'kitty --title yazi --working-directory ~ -e yazi'
 riverctl map normal Super+Shift 0 spawn 'kitty --title yazi --working-directory ~/docs/shots -e yazi'
 riverctl map normal Super G spawn 'hyprpicker --autocopy'
@@ -57,6 +57,11 @@ riverctl map normal Super+Shift K swap up
 
 # Go to previously-focused workspace
 riverctl map normal Super Apostrophe focus-previous-tags
+
+# Second monitor
+riverctl map normal Super+Control M send-to-output next
+riverctl map normal Super+Control J focus-output next
+riverctl map normal Super+Control K focus-output next
 
 # Change size of main tile
 riverctl map -repeat normal Shift+Alt H send-layout-cmd rivercarro "main-ratio -0.05"
@@ -233,7 +238,7 @@ swayidle -w \
     timeout 900 'systemctl suspend' &
 
 # Prevent sleep when audio is playing
-sway-audio-idle-inhibit &
+bash -c 'while true; do sway-audio-idle-inhibit; sleep 1; done' &
 
 # Layout
 riverctl default-layout rivercarro

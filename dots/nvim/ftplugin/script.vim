@@ -1,24 +1,22 @@
 " Gliss scripts
 syntax on
 
-syntax match action '^\s*\(Set\|Move\|Look\|Anim\|AddItem\|SkillCheck\):'
-highlight link action Keyword
+syntax match ScriptKeyword '\(Set\|Move\|Look\|Anim\|AddItem\|Branch\|SkillCheck\)' contained
+syntax match ScriptAction '^\s*.*:' contains=ScriptKeyword
+highlight ScriptKeyword guifg=#97A0C5
 
-syntax match condition 'If:'
-highlight link condition Exception
+syntax match ScriptCondition '^\s*If:'
+highlight ScriptCondition guifg=#494949
 
-syntax match verse '\(> \)\=@[a-zA-Z0-9_-]\+'
-highlight link verse Constant
+syntax match ScriptVerse '\(> \)\=@[a-zA-Z0-9_-]\+'
+highlight ScriptVerse guifg=#FA3E3E
 
-syntax match actor '\[[a-zA-Z0-9_-]\+\]'
-highlight link actor Character
-
-syntax match branch '^\s*>'
-highlight link branch Statement
+syntax match ScriptActor '\[[a-zA-Z0-9_-]\+\]'
+highlight ScriptActor guifg=#ffaf87 gui=italic
 
 syntax match operator ':'
 syntax match operator '='
 highlight link operator Operator
 
-syntax match meta '\(Id\|Scene\|Tags\):.*'
-highlight link meta Comment
+syntax match ScriptMeta '\(Id\|Scene\|Tags\):.*'
+highlight link ScriptMeta Comment

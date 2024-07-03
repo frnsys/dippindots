@@ -21,7 +21,7 @@ apps: apps browser vpn torrents android documents
 
 prereqs:
 	@echo "Installing prereqs..."
-	sudo zypper in gcc make cmake automake autoconf clang lld wget unzip openssh-server bzip2 curl ninja meson opi unar
+	sudo zypper in gcc gcc-c++ make cmake automake autoconf clang lld wget unzip openssh-server bzip2 curl ninja meson opi unar
 
 	sudo zypper in avahi
 	sudo systemctl enable --now avahi-daemon
@@ -77,7 +77,12 @@ apps:
 	cargo install pastel
 
 	# Colorpicker
-	opi hyprpicker
+	sudo zypper in Mesa-libGLESv3-devel
+	git clone --depth 1  git@github.com:hyprwm/hyprpicker.git /tmp/hyprpicker
+	cd /tmp/hyprpicker \
+		&& cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build \
+		&& cmake --build ./build --config Release --target hyprpicker \
+		&& sudo cmake --install ./build
 
 	# for easily updating system time to current time zone
 	# to preview, run `tzupdate -p`
@@ -93,7 +98,7 @@ apps:
 editor:
 	@echo "Installing neovim..."
 	sudo zypper in bat
-	wget https://github.com/neovim/neovim/archive/refs/tags/nightly.tar.gz -O /tmp/neovim.tar.gz
+	wget https://github.com/neovim/neovim/archive/refs/tags/v0.10.0.tar.gz -O /tmp/neovim.tar.gz
 	cd /tmp; tar -xzvf neovim.tar.gz; \
 		cd neovim-*; make CMAKE_BUILD_TYPE=Release && sudo make install \
 			&& sudo ln -sf /usr/local/bin/nvim /usr/bin/vi \
@@ -121,7 +126,7 @@ video:
 	git clone --depth 1 https://github.com/lwilletts/mpvc.git /tmp/mpvc
 	cd /tmp/mpvc && sudo make install
 
-	git clone git@github.com:trizen/pipe-viewer.git /tmp/pipe-viewer
+	git clone --depth 1 git@github.com:trizen/pipe-viewer.git /tmp/pipe-viewer
 	sudo zypper in perl-Module-Build perl-Data-Dump perl-File-ShareDir perl-Gtk3 perl-JSON
 	opi perl-LWP-UserAgent-Cached
   	cd /tmp/pipe-viewer \
@@ -217,7 +222,7 @@ browser:
 	# Fonts with better character support
 	# You may need to enable these as the default fonts
 	# in `about:preferences`.
-	sudo zypper in google-noto-fonts
+	sudo zypper in google-noto-fonts google-noto-sans-cjk-fonts
 
 	# firefox config
 	# In `about:config`, set:

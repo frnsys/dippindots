@@ -89,6 +89,19 @@ ls.add_snippets("rust", {
   s("ld", fmt("println!(\"{{}}\", {});", { i(1) })),
   s("lv", fmt("println!(\"{} {{:?}}\", {});", { i(1), rep(1) })),
 
+  s("lep", fmt([[
+  use leptos::*;
+
+  #[component]
+  pub fn {}() -> impl IntoView {{
+  }}
+  ]], { i(1, "Component") })),
+
+  s("cl", fmt([[
+  let {} = move || {{
+  }}
+  ]], { i(1, "func") })),
+
   s("readfile", fmt([[
   let {} = fs::read_to_string({})
       .unwrap_or_else(|_| panic!("Couldn't read file: {{:?}}", {}));

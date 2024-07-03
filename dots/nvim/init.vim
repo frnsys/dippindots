@@ -26,6 +26,7 @@ require('lazy').setup('plugins', {
 require('breeze')
 require('fnotes')
 require('bindings')
+require('notes')
 
 EOF
 

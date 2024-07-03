@@ -126,6 +126,11 @@ return {
               extraArgs = { "--jobs", "4" },
             },
 
+            -- Leptos `view!` macro formatting.
+            rustfmt = {
+              overrideCommand = { "leptosfmt", "-m", "64", "--stdin", "--rustfmt" }
+            },
+
             files = {
               excludeDirs = {
                 ".cargo",

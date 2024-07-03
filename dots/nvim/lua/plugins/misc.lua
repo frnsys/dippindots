@@ -19,10 +19,20 @@ return {
   },
   {
     'lukas-reineke/headlines.nvim',
+    dependencies = "nvim-treesitter/nvim-treesitter",
     opts = {
       markdown = {
         bullets = {},
       }
+    }
+  },
+  {
+    "folke/zen-mode.nvim",
+    opts = {
+      window = {
+        backdrop = 1,
+        width = 100,
+      },
     }
   },
   {

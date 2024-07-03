@@ -166,7 +166,7 @@ function! AutoPreviewImage()
     if l:img != ''
         if l:path != g:preview_path
             call ClosePreviewImage()
-            let g:preview_jobid = jobstart("vu '".expand('%:p:h')."/".l:path."' md-vu-preview")
+            let g:preview_jobid = jobstart("vu '".expand('%:p:h')."/".l:path."' --title md-vu-preview --no-focus")
             let g:preview_path = l:path
         endif
     else
