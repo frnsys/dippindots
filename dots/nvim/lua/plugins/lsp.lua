@@ -205,14 +205,8 @@ return {
     "folke/trouble.nvim",
     opts = {
       icons = {},
-      position = "top",
-      severity = vim.diagnostic.severity.ERROR,
-      signs = {
-        error = "(X)",
-        warning = "(!)",
-        hint = "(?)",
-        information = "(?)"
-      },
+      warn_no_results = false, -- show a warning when there are no results
+      open_no_results = true,  -- open the trouble window when there are no results
       action_keys = {
         close = "q",                   -- close the list
         cancel = "<esc>",              -- cancel the preview and get back to your last window / buffer / cursor
@@ -221,10 +215,8 @@ return {
         open_vsplit = { "|" },         -- open buffer in new vsplit
         open_tab = { "<c-t>" },        -- open buffer in new tab
         jump_close = { "o", "<cr>" },  -- jump to the diagnostic and close the list
-        toggle_mode = "m",             -- toggle between "workspace" and "document" diagnostics mode
         switch_severity = "s",         -- switch "diagnostics" severity filter level to HINT / INFO / WARN / ERROR
         toggle_preview = "P",          -- toggle auto_preview
-        hover = "K",                   -- opens a small popup with the full multiline message
         preview = "p",                 -- preview the diagnostic location
         open_code_href = "c",          -- if present, open a URI with more information about the diagnostic error
         previous = "k",                -- previous item
@@ -236,7 +228,15 @@ return {
       {
         "'d",
         function()
-          require("trouble").toggle()
+          require("trouble").toggle({
+            mode = "diagnostics",
+            filter = {
+              severity = vim.diagnostic.severity.ERROR
+            },
+            win = {
+              position = "bottom"
+            }
+          })
         end,
         desc = 'List diagnostics'
       },

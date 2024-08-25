@@ -53,7 +53,6 @@ return {
           actions = { ["ctrl-q"] = { fn = require("fzf-lua").actions.file_sel_to_qf, prefix = "select-all" } }
         },
         grep = {
-          resume = true,
           no_header = true,
           no_header_i = true,
           actions = {
@@ -88,11 +87,20 @@ return {
         desc = 'Search files by name'
       },
       {
-        "'s",
+        "'<space>",
         function()
           require('fzf-lua').live_grep_glob()
         end,
         desc = 'Search by grep'
+      },
+      {
+        "'s",
+        function()
+          require('fzf-lua').live_grep_glob({
+            resume = true
+          })
+        end,
+        desc = 'Search by grep (resume)'
       },
       {
         "''",
@@ -117,7 +125,6 @@ return {
       },
       {
         "'i",
-        mode = "i",
         function()
           require('fzf-lua').complete_path()
         end,

@@ -106,3 +106,5 @@ highlight TroubleSignHelp guifg=#a6dbff gui=bold
 highlight TroubleSignOther guifg=#a6dbff gui=bold
 highlight TroubleFile guifg=#757575
 highlight Delimiter guifg=#222222
+highlight @markup.heading.gitcommit guifg=#eeeeee guibg=NONE
+highlight @keyword.gitcommit guifg=#ff331f

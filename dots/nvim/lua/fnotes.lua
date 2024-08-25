@@ -1,4 +1,7 @@
 --- Make it easier to insert and move around footnotes in markdown files.
+---
+--- Usage:
+--- [<leader>f]: Insert footnote at the cursor's location.
 
 --- Get TS node text.
 local t = function(node)
