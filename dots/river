@@ -31,6 +31,7 @@ riverctl map normal Super Space spawn 'bemenu-run -l 10 -p ">"'
 riverctl map normal Super E spawn 'notify-send -t 5000 "$(date '\''+%m/%d %H:%M'\'')" "$(acpi)"'
 riverctl map normal Super X spawn 'makoctl mode -t do-not-disturb'
 riverctl map normal Super P spawn 'kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx'
+riverctl map normal Super O spawn 'kitty --title cotp -e cotp'
 riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda view | less -R'\'''
 riverctl map normal Super T spawn 'kitty --title todo --working-directory ~/notes -e nvim todo.md'
 riverctl map normal Super B spawn 'kitty --title yazi --working-directory ~ -e yazi'
@@ -49,8 +50,6 @@ riverctl map normal Super H focus-view left
 riverctl map normal Super L focus-view right
 riverctl map normal Super J focus-view down
 riverctl map normal Super K focus-view up
-riverctl map normal Super I focus-view next
-riverctl map normal Super O focus-view previous
 
 # Swap windows
 riverctl map normal Super+Shift H swap left
@@ -201,6 +200,7 @@ float_these=(
     "visidata"
     "agenda"
     "yazi"
+    "cotp",
     "bluetuith"
     "pulsemixer"
     "todo")
@@ -216,7 +216,7 @@ riverctl rule-add -title 'md-vu-preview' float
 riverctl rule-add -title 'md-vu-preview' position 9999 0
 riverctl rule-add -title 'sema' tags $sticky_tag
 
-# Keepass anchored to bottom
+# Keepass and OTP anchored to bottom
 riverctl rule-add -title 'kpass' float
 riverctl rule-add -title 'kpass' position 0 9999
 riverctl rule-add -title 'kpass' dimensions 320 360

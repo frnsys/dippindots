@@ -93,7 +93,11 @@ apps:
 	cargo install --git ssh://git@github.com/frnsys/kpass.git
 	cargo install --git ssh://git@github.com/frnsys/agenda.git
 
-	sudo zypper in flatpak
+	# OTPs
+	cargo install cotp
+	cotp import --path ~/docs/vault/otp/exported.cotp
+
+	sudo zypper in -y flatpak
 
 editor:
 	@echo "Installing neovim..."
