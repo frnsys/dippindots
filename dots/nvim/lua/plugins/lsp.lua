@@ -126,11 +126,6 @@ return {
               extraArgs = { "--jobs", "4" },
             },
 
-            -- Leptos `view!` macro formatting.
-            rustfmt = {
-              overrideCommand = { "leptosfmt", "-m", "64", "--stdin", "--rustfmt" }
-            },
-
             files = {
               excludeDirs = {
                 ".cargo",
@@ -209,7 +204,7 @@ return {
   {
     "folke/trouble.nvim",
     opts = {
-      icons = false,
+      icons = {},
       position = "top",
       severity = vim.diagnostic.severity.ERROR,
       signs = {

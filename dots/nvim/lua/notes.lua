@@ -7,7 +7,8 @@
 local note_dir = "/home/francis/notes"
 local note_paths = {
   "todo.md",
-  "fugue.md"
+  "fugue.md",
+  "foods.md"
 }
 
 --- Pull git changes, if any, on file open.

@@ -56,7 +56,10 @@ highlight TabLineSel guifg=#a8a8a8 guibg=none guisp=NONE blend=NONE gui=NONE
 highlight Title guifg=#000000 guibg=#6767db guisp=NONE blend=NONE gui=bold
 " highlight Title guifg=#d4d4fa guibg=#4747ba guisp=NONE blend=NONE gui=bold
 highlight @comment.todo.comment guifg=#000000 guibg=#f8aa01 guisp=NONE blend=NONE gui=NONE
-highlight @comment.note.comment guifg=#000000 guibg=#96b9b9 guisp=NONE blend=NONE gui=NONE
+highlight @comment.note.comment guifg=#2C84FC guibg=NONE guisp=NONE blend=NONE gui=bold
+highlight @comment.error.comment guifg=#FC392B guibg=NONE guisp=NONE blend=NONE gui=bold
+" highlight @comment.warning.comment guifg=#CC9937 guibg=NONE guisp=NONE blend=NONE gui=bold
+highlight @comment.warning.comment guifg=#e87f2e guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight Type guifg=#b8c4f0 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Underlined guifg=#2c84fc guibg=NONE guisp=NONE blend=NONE gui=underline
 highlight Visual guifg=#000000 guibg=#ffd75f guisp=NONE blend=NONE gui=NONE
@@ -102,3 +105,4 @@ highlight TroubleSignInformation guifg=#a6dbff gui=bold
 highlight TroubleSignHelp guifg=#a6dbff gui=bold
 highlight TroubleSignOther guifg=#a6dbff gui=bold
 highlight TroubleFile guifg=#757575
+highlight Delimiter guifg=#222222

@@ -43,7 +43,7 @@ set nostartofline 				" Don't reset cursor to start of line when moving
 set cursorline 				    " Highlight current line
 set scrolloff=3 				" Start scrolling three lines before border
 set showmatch 					" Show matching brackets
-let &showbreak=' '             " Show this at the start of wrapped lines
+let &showbreak=' '              " Show this at the start of wrapped lines
 set relativenumber 			    " Use relative line numbering
 
 " whitespace

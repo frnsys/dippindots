@@ -1,7 +1,45 @@
 --- Keymap prefix: '
 
 return {
-    {
+  --- Syntax highlighting in the quickfix window,
+  --- easy toggling, ...
+  {
+    "stevearc/quicker.nvim",
+    config = function()
+      vim.keymap.set("n", "'q", function()
+        require("quicker").toggle({
+          focus = true
+        })
+      end, {
+        desc = "Toggle quickfix",
+      })
+      require("quicker").setup()
+    end
+  },
+
+  --- Better quickfix preview and behaviors.
+  ---
+  --- Bindings:
+  ---
+  --- Default:
+  --- [o]: open item and close qf
+  --- [ctrl-p]: prev item
+  --- [ctrl-n]: next item
+  {
+    "kevinhwang91/nvim-bqf",
+    config = function()
+    end
+  },
+
+  --- Bindings:
+  ---
+  --- Custom:
+  --- [ctrl-q]: send results to quickfix list
+  ---
+  --- Default:
+  --- [ctrl-u]: clear search query
+  --- [ctrl-g]: fuzzy search results
+  {
     "ibhagwan/fzf-lua",
     config = function()
       require("fzf-lua").setup({
@@ -12,12 +50,17 @@ return {
           formatter = "path.filename_first",
           no_header = true,
           no_header_i = true,
-          actions = { ["ctrl-q"] = { fn = require"fzf-lua".actions.file_sel_to_qf, prefix = "select-all" } }
+          actions = { ["ctrl-q"] = { fn = require("fzf-lua").actions.file_sel_to_qf, prefix = "select-all" } }
         },
         grep = {
+          resume = true,
           no_header = true,
           no_header_i = true,
-          actions = { ["ctrl-q"] = { fn = require"fzf-lua".actions.file_sel_to_qf, prefix = "select-all" } }
+          actions = {
+            ["ctrl-q"] = {
+              fn = require("fzf-lua").actions.file_edit_or_qf, prefix = 'select-all+'
+            },
+          }
         },
         buffers = {
           formatter = "path.filename_first",
@@ -34,7 +77,6 @@ return {
 
         -- Cherry-picking some config from the 'max-perf' profile.
         winopts = { width = 0.5, preview = { default = "bat", layout = "vertical", vertical = 'down:70%' } },
-        lsp = { code_actions = { previewer = "codeaction_native" } },
       })
     end,
     keys = {
@@ -48,16 +90,16 @@ return {
       {
         "'s",
         function()
-          require('fzf-lua').live_grep_native()
+          require('fzf-lua').live_grep_glob()
         end,
         desc = 'Search by grep'
       },
       {
         "''",
         function()
-          require('fzf-lua').files()
+          require('fzf-lua').buffers()
         end,
-        desc = 'Search files by name'
+        desc = 'Search buffers by name'
       },
       {
         "'r",
