@@ -12,6 +12,9 @@ kanshi &
 # Fonts
 fc-cache -fv &
 
+# Audio crackling fix
+bash ~/.dots/dots/misc/audio.sh &
+
 # Fix for xdg-desktop-portal failing,
 # causing slow GTK application start ups
 # <https://github.com/swaywm/sway/issues/5732>

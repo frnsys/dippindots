@@ -143,10 +143,11 @@ audio:
 	# For for X1 Nano G1
 	# where there is crackling/static
 	# when headphones are plugged in in.
+	#
 	# sudo hda-verb /dev/snd/hwC0D0 0x1d SET_PIN_WIDGET_CONTROL 0x0
+	#
+	# This is run via `dots/misc/audio.sh`.
 	sudo zypper in hda-verb
-	sudo cp $(dir)/dots/misc/audio_fix.service /etc/systemd/system/hdaverb.service
-	sudo systemctl enable hdaverb
 
 shell:
 	sudo zypper in fish
