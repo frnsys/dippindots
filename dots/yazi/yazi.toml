@@ -6,6 +6,7 @@ sort_reverse   = false
 sort_dir_first = true
 show_hidden    = false
 show_symlink   = true
+linemode       = "size"
 
 [preview]
 tab_size   = 2
@@ -36,11 +37,11 @@ image = [
 	{ run = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF" },
 ]
 video = [
-	{ run = 'mpv "$@"' },
+	{ run = 'mpv "$@"', desc = "Play", orphan = true },
 	{ run = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info" },
 ]
 audio = [
-	{ run = 'mpv --no-audio-display "$@"' },
+	{ run = 'mpv --no-audio-display "$@"', desc = "Play", orphan = true },
 	{ run = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info" },
 ]
 url = [
@@ -48,6 +49,7 @@ url = [
 ]
 csv = [
     { run = 'kitty --title visidata -e visidata "$@"' },
+	{ run = 'nvim "$@"', block = true, desc = "Editor" },
 ]
 markdown = [
     { run = 'inlyne --theme dark "$@"', desc = "Inlyne" },

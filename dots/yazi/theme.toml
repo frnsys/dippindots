@@ -19,16 +19,13 @@ border_style  = { fg = "#282828" }
 
 [filetype]
 rules = [
-	# Images
 	{ mime = "image/*", fg = "#a694f2" },
-
-	# Videos
-	{ mime = "video/*", fg = "#F3D398" },
-	{ mime = "audio/*", fg = "#F3D398" },
+	{ mime = "video/*", fg = "#ffc870" },
+	{ mime = "audio/*", fg = "#ffc870" },
 
     # Docs
-	{ mime = "application/pdf", fg = "#57a5e5" },
-	{ name = "*.md", fg = "#e75a7c" },
+	# { mime = "application/pdf", fg = "#F3D398" },
+	# { name = "*.md", fg = "#F3D398" },
     { name = "*.url", fg = "#0370fe" },
 
 	# Archives
@@ -41,8 +38,8 @@ rules = [
 	{ mime = "application/x-rar", fg = "#CD9EFC" },
 
 	# Fallback
-	{ name = "*", fg = "#C8D3F8" },
-	{ name = "*/", fg = "#089372" }
+	{ name = "*", fg = "#fcf6f2" },
+	{ name = "*/", fg = "#AECBFA" }
 ]
 
 [icons]
