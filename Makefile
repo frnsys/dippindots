@@ -258,7 +258,27 @@ theme:  # wallpaper, fonts, etc
 
 	# setup fonts
 	sudo ln -sf /etc/fonts/conf.avail/50-user.conf /etc/fonts/conf.d/50-user.conf
-	sudo zypper in -y google-inconsolata-fonts google-noto-coloremoji-fonts terminus-bitmap-fonts
+	sudo zypper in -y \
+		saja-cascadia-code-fonts \
+		google-inconsolata-fonts \
+		google-noto-coloremoji-fonts \
+		terminus-bitmap-fonts \
+		inter-fonts \
+		fira-code-fonts \
+		adobe-sourcesans3-fonts \
+		adobe-sourcecodepro-fonts \
+		symbols-only-nerd-fonts
+
+	git clone --depth 1 git@github.com:alexmyczko/fnt.git /tmp/fnt
+	sudo zypper install -y lcdf-typetools chafa
+	cd /tmp/fnt && sudo make install
+	fnt update
+	fnt install google-dmmono
+	fnt install google-gabarito
+	fnt install google-ibmplexsans
+	fnt install google-nanummyeongjo
+	fnt install fonts-fantasque-sans
+
 	mkdir -p ~/.config/fontconfig
 	ln -sf $(dir)/assets/fonts ~/.fonts
 	ln -sf $(dir)/dots/misc/fonts.conf ~/.fonts.conf
