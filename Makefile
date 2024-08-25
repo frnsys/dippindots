@@ -102,7 +102,7 @@ apps:
 editor:
 	@echo "Installing neovim..."
 	sudo zypper in bat
-	wget https://github.com/neovim/neovim/archive/refs/tags/v0.10.0.tar.gz -O /tmp/neovim.tar.gz
+	wget https://github.com/neovim/neovim/archive/refs/tags/v0.10.1.tar.gz -O /tmp/neovim.tar.gz
 	cd /tmp; tar -xzvf neovim.tar.gz; \
 		cd neovim-*; make CMAKE_BUILD_TYPE=Release && sudo make install \
 			&& sudo ln -sf /usr/local/bin/nvim /usr/bin/vi \
