@@ -14,8 +14,6 @@ cp -r ~/.config/blender ~/docs/backups/config/blender
 cp -r ~/.config/kanshi ~/docs/backups/config/kanshi
 cp -r ~/.config/bacon ~/docs/backups/config/bacon
 rsync -ravu --delete ~/.config/blender/ ~/docs/backups/blender
-rsync -ravu --delete /opt/blender ~/docs/backups/opt/blender
-rsync -ravu --delete /opt/Unity ~/docs/backups/opt/Unity
 
 # gpg --export-secret-keys --armor f@frnsys.com > ~/docs/backups/keys/f@frnsys.com.asc
 # gpg --export-secret-keys --armor francis@anarres > ~/docs/backups/keys/francis@anarres.asc
@@ -30,8 +28,9 @@ dist/
 torrents/
 deaddrop/vids/" > /tmp/bkup.exclude
 
-REPOS=(~/projects ~/docs ~/notes ~/photos ~/work ~/musics)
 OTHER=(~/archives)
+REPOS=(~/projects ~/docs ~/notes ~/photos ~/work ~/musics)
+CLOUD_REPOS=(~/projects ~/docs ~/notes ~/photos ~/work)
 
 function localSync() {
     dest=$1
@@ -59,11 +58,11 @@ if [[ $1 == 'home' ]]; then
 
 # Backblaze B2
 elif [[ $1 == 'cloud' ]]; then
-    for d in ${REPOS[@]}; do
+    for d in ${CLOUD_REPOS[@]}; do
         echo -e "\n\e[0;33m$d\e[0m"
         rclone sync -q -P $d backup-crypt:repos/$(basename $d) --exclude-from /tmp/bkup.exclude
     done
-    echo -e "\n\e[0;33m~/downloads\e[0m" && rclone sync -q -P ~/downloads backup-crypt:repos/downloads --exclude torrents/ --exclude-from /tmp/bkup.exclude
+    # echo -e "\n\e[0;33m~/downloads\e[0m" && rclone sync -q -P ~/downloads backup-crypt:repos/downloads --exclude torrents/ --exclude-from /tmp/bkup.exclude
     date > /tmp/last_updated
     rclone copy -q /tmp/last_updated backup-crypt:repos/last_updated
 

@@ -15,7 +15,7 @@ base: prereqs git langs rust shell tools editor other
 de: wm bar notifications menu theme terminal scrots fm
 media: audio images video music
 laptop: thinkpad tweaks screen
-apps: apps browser vpn torrents android documents
+apps: apps browser vpn torrents android documents dev
 
 # ---
 
@@ -77,7 +77,7 @@ apps:
 	cargo install pastel
 
 	# Colorpicker
-	sudo zypper in Mesa-libGLESv3-devel
+	sudo zypper in Mesa-libGLESv3-devel xcursor-themes hyprutils-devel
 	git clone --depth 1  git@github.com:hyprwm/hyprpicker.git /tmp/hyprpicker
 	cd /tmp/hyprpicker \
 		&& cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build \
@@ -98,6 +98,10 @@ apps:
 	cotp import --path ~/docs/vault/otp/exported.cotp
 
 	sudo zypper in -y flatpak
+
+dev:
+	sudo zypper in -y podman # podman for docker
+	flatpak install flathub io.podman_desktop.PodmanDesktop
 
 editor:
 	@echo "Installing neovim..."

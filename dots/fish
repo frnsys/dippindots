@@ -64,7 +64,7 @@ abbr -a cr "cargo run"
 abbr -a publish "port build spaceandtimes; port sync spaceandtimes ftseng@starbase:/srv/spaceandtimes"
 abbr -a office "flatpak run org.onlyoffice.desktopeditors"
 abbr -a theater "google-chrome-stable --new-window --app https://netflix.com"
-abbr -a ytdl "yt-dlp -f 'best[ext=mp4][height<=720]'"
+abbr -a ytdl "yt-dlp -f 'bv[height<=1080]+ba'"
 abbr -a ytdlmp3 "yt-dlp --extract-audio --audio-format mp3"
 
 # Web apps
