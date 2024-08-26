@@ -13,10 +13,32 @@ return {
       },
     }
   },
+
+  --- Show git gutter signs,
+  --- and also populate qflist/trouble with changes using `:Gitsigns setqflist`.
   {
     'lewis6991/gitsigns.nvim',
-    opts = {}
+    opts = {},
+    keys = {
+      {
+        "gn",
+        function()
+          require("gitsigns").nav_hunk("next")
+        end,
+        desc = 'Jump to next git hunk'
+      },
+      {
+        "gp",
+        function()
+          require("gitsigns").nav_hunk("prev")
+        end,
+        desc = 'Jump to prev git hunk'
+      },
+
+    },
   },
+
+  --- Nicer markdown headings.
   {
     'lukas-reineke/headlines.nvim',
     dependencies = "nvim-treesitter/nvim-treesitter",
@@ -26,6 +48,8 @@ return {
       }
     }
   },
+
+  --- Zen mode for markdown editing.
   {
     "folke/zen-mode.nvim",
     opts = {
@@ -35,6 +59,7 @@ return {
       },
     }
   },
+
   {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
