@@ -117,12 +117,14 @@ return {
       require('lspconfig').rust_analyzer.setup({
         on_attach = on_attach,
         capabilities = capabilities,
+        cmd_env = { CARGO_TARGET_DIR = "/tmp/rust-analyzer-check" },
         cmd = { "rustup", "run", "nightly", "rust-analyzer" },
         settings = {
           ["rust-analyzer"] = {
             numThreads = 4,
             cargo = {
               allFeatures = true,
+              targetDir = "/tmp/rust-analyzer-check",
               extraArgs = { "--jobs", "4" },
             },
 
