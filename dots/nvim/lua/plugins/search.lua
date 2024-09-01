@@ -94,7 +94,7 @@ return {
         desc = 'Search by grep'
       },
       {
-        "'s",
+        "'<c-space>",
         function()
           require('fzf-lua').live_grep_glob({
             resume = true
@@ -117,7 +117,7 @@ return {
         desc = 'Find references for word under cursor'
       },
       {
-        "'g",
+        "'s",
         function()
           require('fzf-lua').lsp_live_workspace_symbols()
         end,

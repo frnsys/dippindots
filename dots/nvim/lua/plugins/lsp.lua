@@ -31,11 +31,6 @@ vim.keymap.set({ 'n' }, ';d', ra_flycheck)
 return {
   {
     'neovim/nvim-lspconfig',
-    dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
-      { 'williamboman/mason.nvim', config = true },
-      'williamboman/mason-lspconfig.nvim',
-    },
     config = function()
       vim.diagnostic.config({
         float = {
@@ -105,18 +100,15 @@ return {
         'gh', function() vim.cmd('OpenDocs') end,
         { desc = "Open rust docs" })
 
-      --- Enable the following language servers
-      local servers = {
-        pyright = {},
-      }
-
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
       --- Use my copy of rust-analyzer, to ensure consistency
       require('lspconfig').rust_analyzer.setup({
+        handlers = handlers,
         on_attach = on_attach,
         capabilities = capabilities,
+        filetypes = { 'rust' },
         cmd_env = { CARGO_TARGET_DIR = "/tmp/rust-analyzer-check" },
         cmd = { "rustup", "run", "nightly", "rust-analyzer" },
         settings = {
@@ -166,36 +158,16 @@ return {
             },
           },
         },
-        handlers = handlers,
       })
-
-      --- Ensure the servers above are installed
-      local mason_lspconfig = require 'mason-lspconfig'
-      mason_lspconfig.setup {
-        ensure_installed = { 'pyright' },
-      }
-
-      mason_lspconfig.setup_handlers {
-        function(server_name)
-          --- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-          local capabilities = vim.lsp.protocol.make_client_capabilities()
-          capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
-          require('lspconfig')[server_name].setup {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = servers[server_name],
-            handlers = handlers,
-          }
-        end,
-      }
 
       --- Omnisharp/C#/Unity
       local pid = vim.fn.getpid()
       local omnisharp_bin = "/opt/omnisharp-roslyn/run"
       require('lspconfig').omnisharp_mono.setup {
-        on_attach = on_attach,
         handlers = handlers,
+        on_attach = on_attach,
+        capabilities = capabilities,
+        filetypes = { 'cs' },
         flags = {
           debounce_text_changes = 150,
         },

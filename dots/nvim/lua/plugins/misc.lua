@@ -18,6 +18,7 @@ return {
   --- and also populate qflist/trouble with changes using `:Gitsigns setqflist`.
   {
     'lewis6991/gitsigns.nvim',
+    lazy = false,
     opts = {},
     keys = {
       {
@@ -42,6 +43,7 @@ return {
   {
     'lukas-reineke/headlines.nvim',
     dependencies = "nvim-treesitter/nvim-treesitter",
+    ft = { "markdown" },
     opts = {
       markdown = {
         bullets = {},
@@ -52,6 +54,7 @@ return {
   --- Zen mode for markdown editing.
   {
     "folke/zen-mode.nvim",
+    ft = { "markdown" },
     opts = {
       window = {
         backdrop = 1,

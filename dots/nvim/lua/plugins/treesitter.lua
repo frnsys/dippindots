@@ -32,15 +32,6 @@ return {
         },
       },
       textobjects = {
-        swap = {
-          enable = true,
-          swap_next = {
-            ["<leader>]"] = "@parameter.inner",
-          },
-          swap_previous = {
-            ["<leader>["] = "@parameter.inner",
-          },
-        },
         select = {
           enable = true,
           lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
