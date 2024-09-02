@@ -163,7 +163,7 @@ return {
       --- Omnisharp/C#/Unity
       local pid = vim.fn.getpid()
       local omnisharp_bin = "/opt/omnisharp-roslyn/run"
-      require('lspconfig').omnisharp_mono.setup {
+      require('lspconfig').omnisharp.setup {
         handlers = handlers,
         on_attach = on_attach,
         capabilities = capabilities,
