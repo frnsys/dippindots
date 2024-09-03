@@ -6,20 +6,16 @@ return {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-nvim-lsp-signature-help',
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
+      'dcampos/nvim-snippy',
+      'dcampos/cmp-snippy'
     },
     config = function(plugin, opts)
       local cmp = require('cmp')
-      local luasnip = require('luasnip')
+      local snippy = require('snippy')
       local opts = {
-        performance = {
-          throttle = 30,
-          debounce = 60,
-        },
         snippet = {
           expand = function(args)
-            luasnip.lsp_expand(args.body)
+            snippy.expand_snippet(args.body)
           end,
         },
         window = {
@@ -47,6 +43,8 @@ return {
           ['<c-p>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
+            elseif snippy.can_jump(-1) then
+              snippy.previous()
             else
               cmp.complete()
             end
@@ -56,50 +54,21 @@ return {
           ['<c-n>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
+            elseif snippy.can_jump(1) then
+              snippy.next()
             else
               cmp.complete()
             end
           end, { 'i', 's' }),
-
-          -- If an entry is selected, complete
-          -- otherwise jump to next snippet position
-          ['<c-l>'] = cmp.mapping(function(fallback)
-            if cmp.get_selected_entry() then
-              cmp.confirm()
-            elseif luasnip.jumpable(1) then
-              luasnip.jump(1)
-            else
-              cmp.complete()
-            end
-          end, { 'i', 's' }),
-
-          -- Jump to previous snippet position
-          ['<c-h>'] = cmp.mapping(function(fallback)
-            if luasnip.jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { 'i', 's' })
-
         },
         sources = cmp.config.sources({
-          { name = 'luasnip' },
-          {
-            name = 'nvim_lsp',
-            keyword_length = 3
-          },
+          { name = 'snippy' },
+          { name = 'nvim_lsp' },
           { name = 'nvim_lsp_signature_help' },
         }),
       }
 
-      require('luasnip').setup({
-        history = true,
-        update_events = "TextChanged,TextChangedI",
-      })
       require('cmp').setup(opts)
-      require('snippets')
-
       cmp.setup.cmdline({ '/', '?' }, {
         mapping = cmp.mapping.preset.cmdline(),
       })

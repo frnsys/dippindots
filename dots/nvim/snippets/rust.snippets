@@ -1,0 +1,36 @@
+snippet l
+    println!("${1}");
+
+snippet ld
+    println!("{}", ${1});
+
+snippet lv
+    println!("${1}: {:?}", ${2});
+
+snippet td
+    tracing::debug!("${1}");
+
+snippet tdd
+    tracing::debug!("{:?}", ${1});
+
+snippet readfile
+  let ${1} = std::fs::read_to_string(${2})
+      .unwrap_or_else(|_| panic!("Couldn't read file: {:?}", ${2}));
+
+snippet writefile
+    std::fs::write(${1}, ${2})
+      .unwrap_or_else(|_| panic!("Couldn't write file: {:?}", ${1}));
+
+snippet tests
+  #[cfg(test)]
+  mod tests {
+    use super::*;
+
+    ${1}
+  }
+
+snippet test
+  #[test]
+  fn test_${1}() {
+    ${2}
+  }

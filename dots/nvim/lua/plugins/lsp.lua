@@ -9,24 +9,25 @@ if ok then
   end
 end
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    client.server_capabilities.semanticTokensProvider = nil
-  end,
-});
-
-local function ra_flycheck()
+--- Show rust analyzer errors
+vim.keymap.set({ 'n' }, ';d', function()
   local clients = vim.lsp.get_clients({
     name = 'rust_analyzer',
   })
   for _, client in ipairs(clients) do
     local params = vim.lsp.util.make_text_document_params()
     client.notify('rust-analyzer/runFlycheck', params)
-    require("trouble").open()
+    require("trouble").open({
+      mode = "diagnostics",
+      filter = {
+        severity = vim.diagnostic.severity.ERROR
+      },
+      win = {
+        position = "bottom"
+      }
+    })
   end
-end
-vim.keymap.set({ 'n' }, ';d', ra_flycheck)
+end)
 
 return {
   {

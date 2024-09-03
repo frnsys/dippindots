@@ -2,7 +2,6 @@ highlight Normal guifg=#eeeeee guibg=#161616 guisp=NONE blend=NONE gui=NONE
 highlight Boolean guifg=#ffaf87 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Character guifg=#ffaf87 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight ColorColumn guifg=NONE guibg=#3a3a3a guisp=NONE blend=NONE gui=NONE
-highlight Comment guifg=#a8a8a8 guibg=#202020 guisp=NONE blend=NONE gui=NONE
 highlight Conceal guifg=#1e59aa guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Conditional guifg=#886efa guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Constant guifg=#edb140 guibg=NONE guisp=NONE blend=NONE gui=NONE
@@ -56,12 +55,12 @@ highlight Visual guifg=#000000 guibg=#ffd75f guisp=NONE blend=NONE gui=NONE
 highlight WildMenu guifg=#111111 guibg=#f8aa01 guisp=NONE blend=NONE gui=NONE
 highlight @field guifg=#00af87 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @namespace guifg=#7fb1f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight @property guifg=#00af87 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @punctuation guifg=#585858 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @punctuation.bracket guifg=#606060 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @punctuation.special guifg=#5858aa guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @variable.builtin guifg=#4b76b8 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight @variable.member guifg=#ea5261 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight @variable.member guifg=#ff5c5c guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight @property guifg=#ff5c5c guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Success guifg=#00af87 gui=bold
 highlight Headline guibg=#222222 guifg=#dddddd
 highlight CodeBlock guibg=#222222
@@ -83,6 +82,9 @@ highlight @markup.list.unchecked.markdown guifg=#ff2f6d guibg=none guisp=NONE bl
 highlight @markup.quote.markdown guifg=#cec6c7 guibg=#191919 guisp=NONE blend=NONE gui=NONE
 highlight @text.todo.checked.text guifg=#5f5f87 guibg=NONE guisp=NONE blend=NONE gui=NONE
 
+highlight link @lsp.typemod.enumMember.defaultLibrary.rust Special
+highlight @lsp.type.macro.rust guifg=#ff5c5c
+
 highlight FlashMatch guibg=#262626 guifg=#ffd787
 highlight FlashCurrent guibg=#262626 guifg=#00af87 gui=bold
 highlight FlashLabel guifg=#000000 guibg=#ffafaf gui=bold
@@ -101,12 +103,14 @@ highlight LeyFile guifg=#a7a7a7
 
 highlight Delimiter guifg=#222222
 
+highlight Comment guifg=#a8a8a8 guibg=#202020 guisp=NONE blend=NONE gui=italic
 highlight @comment.documentation guifg=#ffd787 guibg=#262626 guisp=NONE blend=NONE gui=NONE
 highlight @comment.todo.comment guifg=#000000 guibg=#f8aa01 guisp=NONE blend=NONE gui=NONE
 highlight @comment.note.comment guifg=#2C84FC guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight @comment.error.comment guifg=#FC392B guibg=NONE guisp=NONE blend=NONE gui=bold
 " highlight @comment.warning.comment guifg=#CC9937 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight @comment.warning.comment guifg=#e87f2e guibg=NONE guisp=NONE blend=NONE gui=bold
+highlight link @lsp.mod.documentation.rust @comment.documentation
 
 highlight @markup.heading.gitcommit guifg=#eeeeee guibg=NONE
 highlight @keyword.gitcommit guifg=#ff331f

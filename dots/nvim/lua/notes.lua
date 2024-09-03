@@ -7,6 +7,7 @@
 local note_dir = "/home/francis/notes"
 local note_paths = {
   "todo.md",
+  "misc.md",
   "fugue.md",
   "foods.md"
 }

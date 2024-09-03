@@ -4,11 +4,11 @@ return {
     keys = { { '<c-/>', mode = { 'n', 'v' } } },
     opts = {
       toggler = {
-        ---Line-comment toggle keymap
+        --- Line-comment toggle keymap
         line = '<c-/>',
       },
       opleader = {
-        ---Line-comment keymap (visual mode)
+        --- Line-comment keymap (visual mode)
         line = '<c-/>',
       },
     }
@@ -63,6 +63,7 @@ return {
     }
   },
 
+  --- ['t]: Show to do items
   {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },

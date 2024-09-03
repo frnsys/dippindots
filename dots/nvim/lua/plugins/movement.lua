@@ -95,7 +95,7 @@ return {
     'echasnovski/mini.surround',
     opts = {
       mappings = {
-        add = 'sa',     -- e.g. sa'
+        add = 'sa',     -- e.g. saw'
         delete = 'sd',  -- e.g. sd'
         replace = 'sr', -- e.g. sr'"
       }
