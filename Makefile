@@ -301,7 +301,7 @@ theme:  # wallpaper, fonts, etc
 	sudo fc-cache -fv
 
 	# wallpapers
-	ln -sf $(dir)/assets/walls ~/.walls
+	ln -sf $(dir)/walls ~/.walls
 	ln -sf ~/.walls/1.jpg ~/.wall.jpg
 	chmod 644 ~/.wall.jpg
 
