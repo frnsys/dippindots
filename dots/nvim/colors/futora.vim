@@ -65,6 +65,7 @@ highlight Success guifg=#00af87 gui=bold
 highlight Headline guibg=#222222 guifg=#dddddd
 highlight CodeBlock guibg=#222222
 
+highlight link markdownCode @text.code
 highlight @text.code guifg=#ffffff guibg=#222244 guisp=NONE blend=NONE gui=NONE
 highlight @text.code_block guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @text.literal.block guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NONE
@@ -81,6 +82,8 @@ highlight @markup.list.checked.markdown guifg=#00af87 guibg=none guisp=NONE blen
 highlight @markup.list.unchecked.markdown guifg=#ff2f6d guibg=none guisp=NONE blend=NONE gui=NONE
 highlight @markup.quote.markdown guifg=#cec6c7 guibg=#191919 guisp=NONE blend=NONE gui=NONE
 highlight @text.todo.checked.text guifg=#5f5f87 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight @markup.raw.markdown_inline guifg=#ffffff
+highlight link @markup.list.markdown @text.list_marker
 
 highlight link @lsp.typemod.enumMember.defaultLibrary.rust Special
 highlight @lsp.type.macro.rust guifg=#ff5c5c

@@ -15,14 +15,15 @@
 
 :root {
     /* TAB VARIABLES */
-    --bg-light: #202020; --bg-dark: #202020;
+    --bg-light: #181818; --bg-dark: #181818;
     --fg-light: #CECFD1; --fg-dark: #AAABAD;
-    --tab-fonts: "Inter Light", "Noto Sans", "Helvetica"; --tab-font-size: 10px;
-    --tab-min-height: 16px !important;
+    --tab-fonts: "Cascadia Code Light", "Noto Sans", "Helvetica"; --tab-font-size: 8px;
+    --tab-min-height: 14px !important;
     --toolbar-bgcolor: #303030 !important;
     --toolbar-color: #AAABAD !important;
 
     --urlbar-popup-url-color: #5865F4 !important;
+    --toolbarbutton-inner-padding: 4px !important;
 }
 
 /* @-moz-document url(chrome://browser/content/browser.xul) { */
@@ -62,7 +63,7 @@
         text-align: center;
         border: none !important;
         font-family: var(--tab-fonts) !important;
-        font-size: 12px !important;
+        font-size: 10px !important;
     }
     #urlbar-input {
       text-align: center;
@@ -78,12 +79,14 @@
         background: var(--bg-dark) !important;
         border: none !important;
     }
+    #urlbar-container {
+      --urlbar-container-height: 30px !important;
+    }
     #urlbar-container[breakout] {
-      min-height: 16px !important;
+      min-height: 14px !important;
     }
     #urlbar[breakout] {
-      height: 16px !important;
-      top: -2px !important;
+      height: 14px !important;
     }
     tab {
         font-family: var(--tab-fonts) !important;
@@ -94,6 +97,17 @@
     }
     #navigator-toolbox::after {
         display: none !important;
+    }
+    toolbar .toolbarbutton-1 {
+      & > .toolbarbutton-icon {
+        width: calc(2 * var(--toolbarbutton-inner-padding) + 12px);
+        height: calc(2 * var(--toolbarbutton-inner-padding) + 12px);
+      }
+    }
+    .tab-throbber, .tab-icon-pending, .tab-icon-image,
+    .tab-sharing-icon-overlay, .tab-icon-overlay {
+      width: 10px !important;
+      height: 10px !important;
     }
     #tabbrowser-tabs {
         background: var(--bg-dark);

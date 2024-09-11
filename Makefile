@@ -21,7 +21,7 @@ apps: apps browser vpn torrents android documents dev
 
 prereqs:
 	@echo "Installing prereqs..."
-	sudo zypper in gcc gcc-c++ make cmake automake autoconf clang lld wget unzip openssh-server bzip2 curl ninja meson opi unar
+	sudo zypper in gcc gcc-c++ make cmake automake autoconf clang lld wget zip unzip openssh-server bzip2 curl ninja meson opi unar
 
 	sudo zypper in avahi
 	sudo systemctl enable --now avahi-daemon
@@ -40,6 +40,7 @@ rust:
 	rustup component add rust-analyzer --toolchain nightly
 	rustup override set nightly
 	rustup default nightly
+	rustup target add wasm32-unknown-unknown
 	source ~/.cargo/env
 	sudo zypper in mold
 
@@ -102,6 +103,11 @@ apps:
 dev:
 	sudo zypper in -y podman # podman for docker
 	flatpak install flathub io.podman_desktop.PodmanDesktop
+	cargo install cross
+	cargo install bacon
+	cargo install wasm-pack wasm-bindgen-cli
+	cargo install cargo-expand cargo-machete
+	cargo install mdbook mdbook-tok
 
 editor:
 	@echo "Installing neovim..."
@@ -143,7 +149,7 @@ video:
     	&& sudo ./Build install
 
 audio:
-	sudo zypper in python312-pulsemixer pavucontrol
+	sudo zypper in python312-pulsemixer pavucontrol alsa-utils
 
 	# bluetooth
 	sudo zypper in bluez bluetuith
@@ -309,7 +315,7 @@ theme:  # wallpaper, fonts, etc
 	sudo zypper addlock plymouth
 
 thinkpad:
-	sudo zypper in tuned tp_smapi-kmp-default acpi
+	sudo zypper in tuned acpi
 
 tweaks:
 	# Firmware updates

@@ -68,7 +68,7 @@ return {
         }),
       }
 
-      require('cmp').setup(opts)
+      cmp.setup(opts)
       cmp.setup.cmdline({ '/', '?' }, {
         mapping = cmp.mapping.preset.cmdline(),
       })
