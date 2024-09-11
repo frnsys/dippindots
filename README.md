@@ -1,12 +1,20 @@
 # DippinDots
 
-These are my personal dotfiles for Linux (OpenSUSE Tumbleweed on a ThinkPad X1 Nano).
+These are my personal dotfiles for Linux (OpenSUSE Tumbleweed on a Tuxedo Pulse 14 Gen4).
 Please feel free to use/modify them as you like!
 
 ## Usage
 
+For a fresh Tumbleweed install I select the "server" preset.
+
+    sudo zypper install git-core make
     git clone https://github.com/frnsys/dippindots.git ~/.dots
     make
+
+Some things are best setup after everything else is installed and the system has been rebooted. Search for `POST-INSTALL` in `Makefile` for instructions.
+
+Other system settings (e.g. hiding the boot menu) can be accessed via `sudo -E yast2`.
+
 
 ## Screenshots
 

@@ -15,7 +15,7 @@ base: prereqs git langs rust shell tools editor other
 de: wm bar notifications menu theme terminal scrots fm
 media: audio images video music
 laptop: thinkpad tweaks screen
-apps: apps browser vpn torrents android documents dev
+apps: utils browser vpn torrents android documents dev
 
 # ---
 
@@ -27,13 +27,13 @@ prereqs:
 	sudo systemctl enable --now avahi-daemon
 
 	# necessary for installing from git with cargo
-	eval `ssh-agent -s`
-	ssh-add ~/.ssh/id_rsa
+	eval `ssh-agent -s` && ssh-add ~/.ssh/id_rsa
 
 rust:
 	@echo "Installing rust..."
 	curl -sf -L https://static.rust-lang.org/rustup.sh | sh
 	export PATH=$PATH:~/.cargo/bin
+	source ~/.cargo/env
 	rustup toolchain add nightly
 	rustup component add rust-src --toolchain nightly
 	rustup component add clippy --toolchain nightly
@@ -41,7 +41,6 @@ rust:
 	rustup override set nightly
 	rustup default nightly
 	rustup target add wasm32-unknown-unknown
-	source ~/.cargo/env
 	sudo zypper in mold
 
 langs:
@@ -72,7 +71,7 @@ tools:
 	sudo zypper in jq htop tree the_silver_searcher gnupg ncdu powertop dfc ffmpeg
 	cargo install fd-find ripgrep
 
-apps:
+utils:
 	sudo zypper in yast2-control-center-qt
 	sudo zypper in wl-clipboard sqlitebrowser rclone yt-dlp
 	cargo install pastel
@@ -85,29 +84,33 @@ apps:
 		&& cmake --build ./build --config Release --target hyprpicker \
 		&& sudo cmake --install ./build
 
-	# for easily updating system time to current time zone
-	# to preview, run `tzupdate -p`
-	# to make the change, run `sudo tzupdate`
-	pip3 install -U tzupdate
-
 	opi signal-desktop
 	cargo install --git ssh://git@github.com/frnsys/kpass.git
 	cargo install --git ssh://git@github.com/frnsys/agenda.git
 
 	# OTPs
 	cargo install cotp
-	cotp import --path ~/docs/vault/otp/exported.cotp
+
+	# POST-INSTALL:
+	# -------------
+	# cotp import --path ~/docs/vault/otp/exported.cotp --cotp
 
 	sudo zypper in -y flatpak
+
+	# for easily updating system time to current time zone
+	# to preview, run `tzupdate -p`
+	# to make the change, run `sudo tzupdate`
+	pip3 install -U tzupdate
 
 dev:
 	sudo zypper in -y podman # podman for docker
 	flatpak install flathub io.podman_desktop.PodmanDesktop
+	cargo install just
 	cargo install cross
 	cargo install bacon
 	cargo install wasm-pack wasm-bindgen-cli
 	cargo install cargo-expand cargo-machete
-	cargo install mdbook mdbook-tok
+	cargo install mdbook mdbook-toc
 
 editor:
 	@echo "Installing neovim..."
@@ -129,6 +132,7 @@ music:
 
 	# disable as the system instance conflicts with the user instance
 	sudo systemctl disable --now mpd
+	systemctl enable --now --user mpd
 
 video:
 	opi codecs
@@ -143,25 +147,16 @@ video:
 	git clone --depth 1 git@github.com:trizen/pipe-viewer.git /tmp/pipe-viewer
 	sudo zypper in perl-Module-Build perl-Data-Dump perl-File-ShareDir perl-Gtk3 perl-JSON
 	opi perl-LWP-UserAgent-Cached
-  	cd /tmp/pipe-viewer \
+	cd /tmp/pipe-viewer \
 		&& perl Build.PL --gtk \
-    	&& sudo ./Build installdeps \
-    	&& sudo ./Build install
+		&& sudo ./Build installdeps \
+		&& sudo ./Build install
 
 audio:
 	sudo zypper in python312-pulsemixer pavucontrol alsa-utils
 
 	# bluetooth
 	sudo zypper in bluez bluetuith
-
-	# For for X1 Nano G1
-	# where there is crackling/static
-	# when headphones are plugged in in.
-	#
-	# sudo hda-verb /dev/snd/hwC0D0 0x1d SET_PIN_WIDGET_CONTROL 0x0
-	#
-	# This is run via `dots/misc/audio.sh`.
-	sudo zypper in hda-verb
 
 shell:
 	sudo zypper in fish
@@ -178,6 +173,7 @@ scrots:
 images:
 	cargo install --git ssh://git@github.com/frnsys/vu.git
 	sudo zypper in ImageMagick ImageMagick-extra
+	sudo zypper in libwebpdecoder3 libwebp-devel libwebp-tools
 
 fm:
 	sudo zypper in poppler-tools ffmpegthumbnailer jq
@@ -195,7 +191,8 @@ wm:
 	# Get output/monitor connector names
 	# grep . /sys/class/drm/*/status
 	sudo zypper in kanshi
-	mkdir -p ~/.config/kanshi && touch ~/.config/kanshi/config
+	mkdir -p ~/.config/kanshi
+	ln -s $(dir)/dots/kanshi ~/.config/kanshi/config
 
 	sudo zypper in xwayland river xdg-desktop-portal-wlr
 
@@ -239,7 +236,9 @@ browser:
 	# in `about:preferences`.
 	sudo zypper in google-noto-fonts google-noto-sans-cjk-fonts
 
-	# firefox config
+	# POST-INSTALL:
+	# -------------
+	# Firefox config
 	# In `about:config`, set:
 	#   - `media.peerconnection.enabled` to false to prevent WebRTC IP leaks
 	#   - `toolkit.legacyUserProfileCustomizations.stylesheets` to true
@@ -250,14 +249,21 @@ browser:
 	mkdir -p ~/.mozilla/firefox/profile.default/chrome
 	ln -sf $(dir)/dots/firefox/userChrome.css ~/.mozilla/firefox/profile.default/chrome/userChrome.css
 	ln -sf $(dir)/dots/firefox/userContent.css ~/.mozilla/firefox/profile.default/chrome/userContent.css
-	sed -i 's/Path=.*/Path=profile.default/' ~/.mozilla/firefox/profiles.ini # NOTE this file might not exist until you launch firefox
-	# extensions
-	# - https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/
+
+	# POST-INSTALL:
+	# -------------
+	# NOTE this file might not exist until you launch firefox:
+	# sed -i 's/Path=.*/Path=profile.default/' ~/.mozilla/firefox/profiles.ini
+	# install extensions:
+	# 	- https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/
 
 	# Google Chrome
 	opi chrome
 
 vpn:
+	# POST-INSTALL:
+	# -------------
+	# mullvad account login
 	opi mullvadvpn
 	sudo systemctl enable --now mullvad-daemon.service
 
@@ -314,10 +320,9 @@ theme:  # wallpaper, fonts, etc
 	sudo zypper rm --clean-deps plymouth
 	sudo zypper addlock plymouth
 
-thinkpad:
-	sudo zypper in tuned acpi
-
 tweaks:
+	sudo zypper in tuned acpi libinput-tools
+
 	# Firmware updates
 	sudo zypper in fwupd
 	fwupdmgr refresh && fwupdmgr update && fwupdmgr get-updates

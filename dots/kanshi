@@ -1,0 +1,7 @@
+profile {
+    output eDP-1 enable scale 2.5
+}
+profile {
+    output DP-2 enable scale 1.5 position 0,0
+    output eDP-1 enable scale 2.5 position 0,720
+}

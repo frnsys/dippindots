@@ -26,8 +26,8 @@ elif [[ $1 == 'status' ]]; then
     echo $(cat $BATS/status | grep -E "Discharging|Charging|Full")
 
 elif [[ $1 == 'duration' ]]; then
-    POWER_NOW=$(query power_now)   # mW
-    ENERGY_NOW=$(query energy_now)   # mW
+    POWER_NOW=$(query current_now)   # mW
+    ENERGY_NOW=$(query charge_now)   # mW
     DURATION=$(echo "$ENERGY_NOW/$POWER_NOW" | bc -l)
     printf '%.2f\n' $DURATION # hours
 else
@@ -37,8 +37,8 @@ else
             printf "100"
         fi
     else
-        ENERGY_FULL=$(query energy_full) # mWh
-        ENERGY_NOW=$(query energy_now)   # mWh
+        ENERGY_FULL=$(query charge_full) # mWh
+        ENERGY_NOW=$(query charge_now)   # mWh
         if [[ $1 == 'percent' ]]; then
             PERCENT=$(echo "$ENERGY_NOW/$ENERGY_FULL * 100" | bc -l)
             printf '%.0f\n' $PERCENT

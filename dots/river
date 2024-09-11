@@ -187,13 +187,17 @@ riverctl hide-cursor timeout 3000
 riverctl focus-follows-cursor disabled
 
 # riverctl list-inputs
-TOUCHPAD=pointer-1267-12624-ELAN0670:00_04F3:3150_Touchpad
+TOUCHPAD=pointer-2362-597-PNP0C50:00_093A:0255_Touchpad
 riverctl input $TOUCHPAD accel-profile flat
-riverctl input $TOUCHPAD pointer-accel 0.4
+riverctl input $TOUCHPAD pointer-accel 0.5
 riverctl input $TOUCHPAD click-method clickfinger
 riverctl input $TOUCHPAD disable-while-typing enabled
 riverctl input $TOUCHPAD natural-scroll disabled
 riverctl input $TOUCHPAD tap enabled
+
+MOUSE=pointer-7119-5-USB_Optical_Mouse
+riverctl input $MOUSE accel-profile flat
+riverctl input $MOUSE pointer-accel 0.6
 
 # Rules
 float_these=(
