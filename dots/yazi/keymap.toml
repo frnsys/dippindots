@@ -65,7 +65,8 @@ keymap = [
 	{ on = [ "s" ],         run = "search fd",              desc = "Search files by name using fd" },
 	{ on = [ "S" ],         run = "search rg",              desc = "Search files by content using ripgrep" },
 	{ on = [ "<C-s>" ],     run = "search none",            desc = "Cancel the ongoing search" },
-	{ on = [ "z" ],         run = "jump fzf",               desc = "Jump to a directory, or reveal a file using fzf" },
+	{ on = [ "z" ],         run = "plugin zoxide",               desc = "ump to a directory using zoxide" },
+	{ on = [ "Z" ],         run = "plugin fzf",               desc = "Jump to a directory, or reveal a file using fzf" },
 
 	# Copy
 	{ on = [ "c", "c" ], run = "copy path",             desc = "Copy the absolute path" },
@@ -116,9 +117,13 @@ keymap = [
 	# Goto
 	{ on = [ "g", "h" ],       run = "cd ~",             desc = "Go to the home directory" },
 	{ on = [ "g", "c" ],       run = "cd ~/.config",     desc = "Go to the config directory" },
-	{ on = [ "g", "d" ],       run = "cd ~/Downloads",   desc = "Go to the downloads directory" },
+	{ on = [ "g", "d" ],       run = "cd ~/downloads",   desc = "Go to the downloads directory" },
+	{ on = [ "g", "w" ],       run = "cd ~/work",        desc = "Go to the work directory" },
+	{ on = [ "g", "p" ],       run = "cd ~/projects",    desc = "Go to the projects directory" },
 	{ on = [ "g", "t" ],       run = "cd /tmp",          desc = "Go to the temporary directory" },
 	{ on = [ "g", "<Space>" ], run = "cd --interactive", desc = "Go to a directory interactively" },
+
+	{ on = [ "g", "f" ],       run = "cd ~/projects/fugue",    desc = "Go to the fugue directory" },
 
 	# Help
 	{ on = [ "~" ], run = "help", desc = "Open help" },

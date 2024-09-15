@@ -28,7 +28,7 @@ riverctl map normal Super Semicolon spawn 'kitty --title ncmpcpp -e ncmpcpp'
 riverctl map normal Super+Shift Semicolon spawn 'kitty --title pulsemixer -e pulsemixer'
 riverctl map normal Super+Shift B spawn 'kitty --title bluetuith -e bluetuith'
 riverctl map normal Super Space spawn 'bemenu-run -l 10 -p ">"'
-riverctl map normal Super E spawn 'notify-send -t 5000 "$(date '\''+%m/%d %H:%M'\'')" "$(acpi)"'
+riverctl map normal Super E spawn 'notify-send -t 2000 "$(date '\''+%m/%d %H:%M'\'')" "$(acpi)"'
 riverctl map normal Super X spawn 'makoctl mode -t do-not-disturb'
 riverctl map normal Super P spawn 'kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx'
 riverctl map normal Super O spawn 'kitty --title cotp -e cotp'
@@ -133,46 +133,17 @@ riverctl map normal Super BracketLeft spawn "/tmp/ws_ctrl prev"
 riverctl map normal Super BracketRight spawn "/tmp/ws_ctrl next"
 
 riverctl map normal Super S toggle-float
-# riverctl map normal Super F toggle-fullscreen
-
-# A fake fullscreen using monocle, which
-# keeps floating windows above and lets you
-# cycle through windows.
-# We don't need to keep track of the monocle on/off
-# state for each "workspace" individually because it's
-# a global setting.
-cat << 'EOF' > "/tmp/ws_fauxfs"
-#!/bin/bash
-
-status=$(</tmp/ws_fs)
-if [[ "$status" == "off" ]]; then
-    riverctl send-layout-cmd rivercarro "main-location monocle"
-    echo "on" > "/tmp/ws_fs"
-else
-    riverctl send-layout-cmd rivercarro "main-location left"
-    echo "off" > "/tmp/ws_fs"
-fi
-EOF
-chmod +x "/tmp/ws_fauxfs"
-echo "off" > "/tmp/ws_fs"
-riverctl map normal Super F spawn "/tmp/ws_fauxfs"
+riverctl map normal Super F toggle-fullscreen
 
 for mode in normal locked
 do
-    riverctl map -repeat $mode Super XF86AudioRaiseVolume spawn 'pactl -- set-sink-volume @DEFAULT_SINK@ +5%'
-    riverctl map -repeat $mode Super XF86AudioLowerVolume spawn 'pactl -- set-sink-volume @DEFAULT_SINK@ -5%'
-    riverctl map $mode Super XF86AudioMute spawn 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
-    riverctl map $mode Super XF86AudioMicMute spawn 'pactl set-source-mute @DEFAULT_SOURCE@ toggle'
-
-    # For some reason modifiers don't work with these ones?
-    riverctl map -repeat $mode None XF86MonBrightnessUp spawn 'brightnessctl set +1000'
-    riverctl map -repeat $mode None XF86MonBrightnessDown spawn 'brightnessctl set 1000-'
-
-    # Wake the monitor.
-    # Seems to be the only way I can get it to wake when locking the system.
-    # riverctl map $mode Super+Shift Return spawn 'wlopm --on "*"'
+    riverctl map -repeat $mode None XF86AudioRaiseVolume spawn 'pactl -- set-sink-volume @DEFAULT_SINK@ +5%'
+    riverctl map -repeat $mode None XF86AudioLowerVolume spawn 'pactl -- set-sink-volume @DEFAULT_SINK@ -5%'
+    riverctl map $mode None XF86AudioMute spawn 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
+    riverctl map $mode None XF86AudioMicMute spawn 'pactl set-source-mute @DEFAULT_SOURCE@ toggle'
+    riverctl map -repeat $mode None XF86MonBrightnessUp spawn 'brightnessctl set +100'
+    riverctl map -repeat $mode None XF86MonBrightnessDown spawn 'brightnessctl set 100-'
 done
-
 
 # Set background and border color
 riverctl background-color 0x161616
@@ -204,7 +175,6 @@ float_these=(
     "visidata"
     "agenda"
     "yazi"
-    "cotp",
     "bluetuith"
     "pulsemixer"
     "todo")
@@ -224,6 +194,9 @@ riverctl rule-add -title 'sema' tags $sticky_tag
 riverctl rule-add -title 'kpass' float
 riverctl rule-add -title 'kpass' position 0 9999
 riverctl rule-add -title 'kpass' dimensions 320 360
+riverctl rule-add -title 'cotp' float
+riverctl rule-add -title 'cotp' position 0 9999
+riverctl rule-add -title 'cotp' dimensions 320 360
 
 # Use server-side decorations for consistency
 # in borders, etc.
@@ -248,5 +221,7 @@ swayidle -w \
 bash -c 'while true; do sway-audio-idle-inhibit; sleep 1; done' &
 
 # Layout
-riverctl default-layout rivercarro
-exec rivercarro -inner-gaps 1 -outer-gaps 1
+# riverctl default-layout rivercarro
+# exec rivercarro -inner-gaps 1 -outer-gaps 1
+riverctl default-layout bsp-layout
+river-bsp-layout --inner-gap 1 --outer-gap 0 --split-perc 0.5 &

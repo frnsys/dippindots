@@ -12,22 +12,4 @@ return {
       })
     end,
   },
-
-  {
-    'j-morano/buffer_manager.nvim',
-    config = function()
-      require("buffer_manager").setup({
-        short_file_names = true,
-      })
-    end,
-    keys = {
-      {
-        "''",
-        function()
-          require("buffer_manager.ui").toggle_quick_menu()
-        end,
-        desc = 'Jump to buffer'
-      },
-    }
-  }
 }

@@ -99,22 +99,11 @@ local function screenshot()
 end
 
 vim.keymap.set('n', '<leader>s', screenshot)
-
--- vim.api.nvim_create_autocmd('FileType', {
---   desc = 'Bind keymaps for markdown files',
---   pattern = 'markdown',
---   callback = function(opts)
---     vim.keymap.set('n', '<leader>s', screenshot, { silent = true, buffer = opts['buffer'] })
---     end,
--- })
 EOF
 
 " quickly fix the closest previous spelling error.
 imap <buffer> <c-s-k> <c-g>u<Esc>[s1z=`]a<c-g>u
 nmap <buffer> <c-s-k> [s1z=``
-
-" for inline mathjax
-imap <buffer> <leader>b ¦¦<esc>i
 
 function! ToggleCheckbox()
   let line = getline('.')

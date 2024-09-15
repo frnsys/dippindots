@@ -23,8 +23,9 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 # node, python
 ~/.local/bin/mise activate fish | source
 
-# fzf
+# fzf & zoxide
 fzf --fish | source
+zoxide init fish | source
 
 # Easier navigation
 abbr -a .. "cd .."
@@ -67,9 +68,6 @@ abbr -a theater "google-chrome-stable --new-window --app https://netflix.com"
 abbr -a ytdl "yt-dlp -f 'bv[height<=1080]+ba'"
 abbr -a ytdlmp3 "yt-dlp --extract-audio --audio-format mp3"
 
-# Web apps
-abbr -a notes "google-chrome-stable --new-window --app=https://app.notesnook.com --enable-features=UseOzonePlatform --ozone-platform=wayland"
-
 function rand -d "Generate random string"
     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
 end
@@ -92,7 +90,8 @@ function shrinkvid
     # higher crf -> lower quality
     set --local input $argv[1]
     set --local output (path change-extension sm.mp4 $input)
-    ffmpeg -i "$input" -filter:v scale="trunc(oh*a/2)*2:720" -vcodec libx264 -crf 23 -preset fast -c:a aac "$output"
+    ffmpeg -i "$input" -vf "scale='if(gt(ih,720),trunc(oh*a/2)*2,iw)':'if(gt(ih,720),720,ih)'" -vcodec libx264 -crf 23 -preset fast -c:a aac "$output"
+
 end
 
 # For colorschemes
@@ -108,16 +107,30 @@ function _fzf
         --bind=alt-\':jump-accept
 end
 
-function ⛺️
+# alt-"
+function _dive
+    # -t d: directories only
+    # -d 5: max depth 5
+    set --local choice $(fd -t d -d 5 . . | _fzf);
+        and cd $choice;
+        and commandline -f repaint
+end
+bind -M insert \e\" '_dive'
+bind -M default \e\" '_dive'
+
+# alt-'
+function _seek
     # -t d: directories only
     # -d 5: max depth 5
     set --local choice $(fd -t d -d 5 --exclude musics . ~ | _fzf);
         and cd $choice;
         and commandline -f repaint
 end
-bind -M insert \e\' '⛺️'
-bind -M default \e\' '⛺️'
+bind -M insert \e\' '_seek'
+bind -M default \e\' '_seek'
 
+
+# alt-r
 function _command_history
     # 1. Removes trailing whitespace
     # 2. Removes commands <=5 in length
@@ -132,6 +145,7 @@ end
 bind -M insert \er '_command_history'
 bind -M default \er '_command_history'
 
+# alt-i
 # https://stackoverflow.com/a/76799272
 function _pick_and_insert
     set --local path $(fd . . | _fzf); and commandline -i $path
@@ -159,3 +173,19 @@ function _down
 end
 bind -M insert \ck '_up'
 bind -M insert \cj '_down'
+
+# For sourcing .env files
+function envsource
+  set -f envfile "$argv"
+  if not test -f "$envfile"
+    echo "Unable to load $envfile"
+    return 1
+  end
+  while read line
+    if not string match -qr '^#|^$' "$line"
+      set item (string split -m 1 '=' $line)
+      set -gx $item[1] (echo $item[2] | sed -E 's/^"(.+)"$/\1/g')
+      echo "Exported key $item[1]"
+    end
+  end < "$envfile"
+end

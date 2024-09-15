@@ -63,7 +63,7 @@ set hlsearch    " Highlight search matches
 set gdefault 	" Global search/replace by default
 
 " misc config
-set conceallevel=1
+set conceallevel=0
 set noerrorbells 				" Disable error bells
 set novisualbell                " Disable visual bells
 set showmode 					" Show the current mode
@@ -220,10 +220,6 @@ function! CleanNoNameEmptyBuffers()
     endif
 endfunction
 autocmd BufLeave * :call CleanNoNameEmptyBuffers()
-
-" Use this to enable syntax highlighting for markdown files
-" so our custom conceals in `after/syntax/markdown.vim` work.
-au BufNewFile,BufRead *.md set syntax=on
 
 lua <<EOF
 -- Show macro recording status when recording a macro

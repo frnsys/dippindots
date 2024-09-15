@@ -63,7 +63,7 @@ highlight @variable.member guifg=#ff5c5c guibg=NONE guisp=NONE blend=NONE gui=NO
 highlight @property guifg=#ff5c5c guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Success guifg=#00af87 gui=bold
 highlight Headline guibg=#222222 guifg=#dddddd
-highlight CodeBlock guibg=#222222
+highlight CodeBlock guibg=#181818
 
 highlight link markdownCode @text.code
 highlight @text.code guifg=#ffffff guibg=#222244 guisp=NONE blend=NONE gui=NONE

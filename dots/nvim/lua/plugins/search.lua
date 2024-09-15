@@ -61,6 +61,11 @@ return {
             },
           }
         },
+        buffers = {
+          formatter = "path.filename_first",
+          no_header = true,
+          no_header_i = true,
+        },
         previewers = {
           bat = {
             cmd   = "bat",
@@ -96,6 +101,13 @@ return {
           })
         end,
         desc = 'Search by grep (resume)'
+      },
+      {
+        "''",
+        function()
+          require('fzf-lua').buffers()
+        end,
+        desc = 'Search buffers by name'
       },
       {
         "'r",

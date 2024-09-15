@@ -15,6 +15,8 @@ Some things are best setup after everything else is installed and the system has
 
 Other system settings (e.g. hiding the boot menu) can be accessed via `sudo -E yast2`.
 
+To preserve battery life, [it's suggested](https://www.tuxedocomputers.com/en/Infos/Help-Support/Frequently-asked-questions/What-is-Flexicharger-) to go into the BIOS (via `F2` or `Del`) and enable "FlexiCharger" (if available) and otherwise set the "start charge" to 40% and "stop charge" to 80%. When you need full battery power you can turn off FlexiCharger beforehand.
+
 
 ## Screenshots
 

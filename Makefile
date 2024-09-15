@@ -69,7 +69,7 @@ tools:
 	~/.fzf/install
 
 	sudo zypper in jq htop tree the_silver_searcher gnupg ncdu powertop dfc ffmpeg
-	cargo install fd-find ripgrep
+	cargo install fd-find ripgrep zoxide
 
 utils:
 	sudo zypper in yast2-control-center-qt
@@ -206,6 +206,7 @@ wm:
 
 	# River layout system
 	sudo zypper in zig wayland-devel wayland-protocols-devel
+	# cargo install river-bsp-layout --locked
 	git clone --depth 1 'https://git.sr.ht/~novakane/rivercarro' /tmp/rivercarro && \
 		cd /tmp/rivercarro && \
 		git submodule update --init && \
