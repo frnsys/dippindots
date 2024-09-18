@@ -2,6 +2,11 @@
 export XKB_DEFAULT_OPTIONS=caps:super,compose:ralt,compose:rctrl
 export MOZ_ENABLE_WAYLAND=1
 export GTK_THEME=Adwaita:dark
+
+# Necessary for screensharing etc to work.
+# See <https://github.com/emersion/xdg-desktop-portal-wlr/wiki/%22It-doesn't-work%22-Troubleshooting-Checklist>
+export XDG_CURRENT_DESKTOP=river
+
 export BEMENU_OPTS='-i --fn "Source Code Pro Light 9" -l 10 --hf "#598DDC" --tf "#079875" --cw 1'
 for dir in $HOME/.bin $HOME/.cargo/bin /usr/sbin /var/lib/flatpak/exports/bin/; do
     export PATH="$dir:$PATH"
