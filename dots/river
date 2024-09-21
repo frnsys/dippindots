@@ -65,10 +65,6 @@ riverctl map normal Super+Control M send-to-output next
 riverctl map normal Super+Control J focus-output next
 riverctl map normal Super+Control K focus-output next
 
-# Change size of main tile
-riverctl map -repeat normal Shift+Alt H send-layout-cmd rivercarro "main-ratio -0.05"
-riverctl map -repeat normal Shift+Alt L send-layout-cmd rivercarro "main-ratio +0.05"
-
 # Note that this turns a tiled window into a floating window.
 riverctl map-pointer normal Super BTN_LEFT move-view
 riverctl map-pointer normal Super BTN_RIGHT resize-view
@@ -133,7 +129,9 @@ riverctl map normal Super BracketLeft spawn "/tmp/ws_ctrl prev"
 riverctl map normal Super BracketRight spawn "/tmp/ws_ctrl next"
 
 riverctl map normal Super S toggle-float
-riverctl map normal Super F toggle-fullscreen
+# riverctl map normal Super F toggle-fullscreen
+riverctl map normal Super F send-layout-cmd filtile "monocle"
+riverctl map normal Super+Shift F send-layout-cmd filtile "flip"
 
 for mode in normal locked
 do
@@ -144,12 +142,6 @@ do
     riverctl map -repeat $mode None XF86MonBrightnessUp spawn 'brightnessctl set +100'
     riverctl map -repeat $mode None XF86MonBrightnessDown spawn 'brightnessctl set 100-'
 done
-
-# Set background and border color
-riverctl background-color 0x161616
-riverctl border-color-focused 0x1F6FEB
-riverctl border-color-unfocused 0x00000000
-riverctl border-width 1
 
 # Input settings
 riverctl set-repeat 25 250
@@ -221,7 +213,12 @@ swayidle -w \
 bash -c 'while true; do sway-audio-idle-inhibit; sleep 1; done' &
 
 # Layout
-# riverctl default-layout rivercarro
-# exec rivercarro -inner-gaps 1 -outer-gaps 1
-riverctl default-layout bsp-layout
-river-bsp-layout --inner-gap 1 --outer-gap 0 --split-perc 0.5 &
+riverctl default-layout filtile
+
+# Set background and border color
+riverctl background-color 0x161616
+riverctl border-color-focused 0x1F6FEB
+riverctl border-color-unfocused 0x00000000
+riverctl border-width 1
+
+filtile smart-padding 5, view-padding 0, outer-padding 0 &

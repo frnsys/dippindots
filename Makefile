@@ -206,11 +206,7 @@ wm:
 
 	# River layout system
 	sudo zypper in zig wayland-devel wayland-protocols-devel
-	# cargo install river-bsp-layout --locked
-	git clone --depth 1 'https://git.sr.ht/~novakane/rivercarro' /tmp/rivercarro && \
-		cd /tmp/rivercarro && \
-		git submodule update --init && \
-		sudo zig build -Doptimize=ReleaseSafe --prefix /usr/local install
+	cargo install --git https://github.com/pkulak/filtile
 
 	mkdir ~/.config/river
 	ln -s $(dir)/dots/river ~/.config/river/init
