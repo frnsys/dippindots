@@ -1,9 +1,11 @@
 --- Easier text objects
+vim.keymap.set("o", "ac", "a)") -- parentheses
 vim.keymap.set("o", "ar", "a]") -- [r]ectangular bracket
-vim.keymap.set("o", "ac", "a}") -- [c]urly brace
+vim.keymap.set("o", "ab", "a}") -- curly [b]race
 vim.keymap.set("o", "aq", 'a"') -- [q]uote
+vim.keymap.set("o", "ic", "i)") -- parentheses
 vim.keymap.set("o", "ir", "i]") -- [r]ectangular bracket
-vim.keymap.set("o", "ic", "i}") -- [c]urly brace
+vim.keymap.set("o", "ib", "i}") -- curly [b]race
 vim.keymap.set("o", "iq", 'i"') -- [q]uote
 
 --- Easier window navigation

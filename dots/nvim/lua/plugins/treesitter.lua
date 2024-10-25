@@ -13,7 +13,7 @@ return {
       -- Add languages to be installed here that you want installed for treesitter
       ensure_installed = {
         'c', 'cpp', 'python', 'rust', 'tsx',
-        'typescript', 'c_sharp', 'css', 'toml',
+        'typescript', 'c_sharp', 'css', 'scss', 'toml',
         'markdown', 'markdown_inline', 'bash', 'lua',
         'html', 'javascript', 'json', 'yaml', 'comment' },
 

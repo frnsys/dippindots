@@ -23,6 +23,8 @@ initial_window_height 640
 
 enabled_layouts splits,stack
 
+visual_window_select_characters asdfghjkl;
+
 enable_audio_bell no
 shell_integration no-sudo
 
@@ -42,7 +44,7 @@ cursor_blink_interval 0
 tab_title_max_length 18
 tab_bar_style powerline
 tab_powerline_style slanted
-active_tab_title_template "{fmt.italic}{'ƒ ' if layout_name == 'stack' else ''}{fmt.noitalic}{title}"
+active_tab_title_template "{fmt.italic}{'✱ ' if layout_name == 'stack' else ''}{fmt.noitalic}{title}"
 
 active_tab_font_style   bold
 active_tab_background   #00af87
@@ -73,22 +75,28 @@ color15 #fb89ad
 
 map alt+shift+c copy_to_clipboard
 map alt+shift+p paste_from_clipboard
-map alt+shift+equal change_font_size all +1.0
-map alt+shift+minus change_font_size all -1.0
+# map alt+shift+equal change_font_size all +1.0
+# map alt+shift+minus change_font_size all -1.0
 map alt+shift+backspace change_font_size all 0
 map alt+shift+e open_url_with_hints
-map alt+shift+o kitten hints --type path --program -
+map alt+shift+o kitten hints --type path --program @
+map alt+shift+f kitten hints --type word --program @
 map alt+t new_tab_with_cwd
 map alt+] next_tab
 map alt+[ previous_tab
 map alt+, set_tab_title " "
 map alt+\ launch --location=vsplit --cwd=current
 map alt+- launch --location=hsplit --cwd=current
+map alt+_ launch --location=hsplit --cwd=current
 map alt+w focus_visible_window
 map alt+h neighboring_window left
 map alt+j neighboring_window bottom
 map alt+k neighboring_window top
 map alt+l neighboring_window right
+map alt+up neighboring_window top
+map alt+left neighboring_window left
+map alt+right neighboring_window right
+map alt+down neighboring_window bottom
 map alt+1 goto_tab 1
 map alt+2 goto_tab 2
 map alt+3 goto_tab 3
@@ -98,8 +106,6 @@ map alt+6 goto_tab 6
 map alt+7 goto_tab 7
 map alt+8 goto_tab 8
 map alt+9 goto_tab 9
-map alt+left move_tab_backward
-map alt+right move_tab_forward
 map alt+m toggle_layout stack
 map alt+u scroll_page_up
 map alt+d scroll_page_down

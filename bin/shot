@@ -3,7 +3,8 @@
 # usage: shot [select|focused] [path|data]
 
 FNAME=$(date +%F-%H-%M-%S)
-FPATH=~/docs/shots/$FNAME.png
+TPATH=/tmp/$FNAME.png
+FPATH=~/docs/shots/$FNAME.webp
 
 # if nothing specified, ask
 if [ -z $1 ]; then
@@ -14,15 +15,17 @@ fi
 
 case $choice in
     "region")
-        grim -g "$(slurp)" $FPATH;;
+        grim -g "$(slurp)" $TPATH;;
 
     "full")
-        grim $FPATH;;
+        grim $TPATH;;
 
     *) exit 1;;
 esac
 
-if [ -f $FPATH ]; then
+if [ -f $TPATH ]; then
+    magick $TPATH $FPATH
+
     notify-send -t 5000 "screenshot saved to $FPATH"
 
     if [ -z $2 ]; then
@@ -32,7 +35,7 @@ if [ -f $FPATH ]; then
     fi
     case $choice in
         "path") echo -n "$FPATH " | wl-copy;;
-        "data") wl-copy < "$FPATH";;
+        "data") wl-copy < "$TPATH";;
         *) ;;
     esac
     echo $FPATH

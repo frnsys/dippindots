@@ -21,7 +21,6 @@ bash ~/.dots/dots/misc/audio.sh &
 systemctl --user import-environment
 
 riverctl map normal Super Return spawn 'kitty'
-riverctl map normal Super N spawn 'connect'
 riverctl map normal Super Equal spawn 'mpc toggle'
 riverctl map normal Super Plus spawn 'mpvc -S /tmp/mpvsocket toggle'
 riverctl map normal Super Semicolon spawn 'kitty --title ncmpcpp -e ncmpcpp'
@@ -34,10 +33,9 @@ riverctl map normal Super P spawn 'kitty --title kpass -o EDITOR=nvim -e kpass ~
 riverctl map normal Super O spawn 'kitty --title cotp -e cotp'
 riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda view | less -R'\'''
 riverctl map normal Super T spawn 'kitty --title todo --working-directory ~/notes -e nvim todo.md'
-riverctl map normal Super B spawn 'kitty --title yazi --working-directory ~ -e yazi'
-riverctl map normal Super+Shift 0 spawn 'kitty --title yazi --working-directory ~/docs/shots -e yazi'
 riverctl map normal Super G spawn 'hyprpicker --autocopy'
-riverctl map normal Super Z spawn 'pkill -USR1 gammastep'
+# riverctl map normal Super Z spawn 'pkill -USR1 gammastep'
+riverctl map normal Super B spawn 'exec warpd --hint --oneshot'
 
 # Force close a window
 riverctl map normal Super+Shift+Alt Q close
@@ -84,13 +82,13 @@ function go_to_tag() {
 }
 
 case "$input" in
-    1|2|3|4)
+    1|2|3)
         go_to_tag $input
         ;;
     next)
         input=$(cat /tmp/ws_tag)
         ((input++))
-        if [ "$input" -gt 4 ]; then
+        if [ "$input" -gt 3 ]; then
             input=1
         fi
         go_to_tag $input
@@ -99,7 +97,7 @@ case "$input" in
         input=$(cat /tmp/ws_tag)
         ((input--))
         if [ "$input" -lt 1 ]; then
-            input=4
+            input=3
         fi
         go_to_tag $input
         ;;
@@ -118,8 +116,8 @@ all_but_sticky_tag=$(( $all_tags ^ $sticky_tag ))
 riverctl map normal Super Y toggle-view-tags $sticky_tag
 riverctl spawn-tagmask ${all_but_sticky_tag}
 
-# Tags 1-4 (workspaces)
-for i in $(seq 1 4)
+# Tags 1-3 (workspaces)
+for i in $(seq 1 3)
 do
     tags=$((1 << ($i - 1)))
     riverctl map normal Super $i spawn "/tmp/ws_ctrl $i"
@@ -156,6 +154,7 @@ riverctl input $TOUCHPAD pointer-accel 0.5
 riverctl input $TOUCHPAD click-method clickfinger
 riverctl input $TOUCHPAD disable-while-typing enabled
 riverctl input $TOUCHPAD natural-scroll disabled
+riverctl input $TOUCHPAD scroll-method two-finger
 riverctl input $TOUCHPAD tap enabled
 
 MOUSE=pointer-7119-5-USB_Optical_Mouse

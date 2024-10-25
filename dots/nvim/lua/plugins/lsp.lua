@@ -102,7 +102,6 @@ return {
         { desc = "Open rust docs" })
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
       --- Use my copy of rust-analyzer, to ensure consistency
       require('lspconfig').rust_analyzer.setup({
@@ -132,8 +131,6 @@ return {
             },
 
             completion = {
-              limit = 50,
-
               -- Don't really use this;
               -- would use my own snippets instead
               postfix = {
@@ -174,6 +171,15 @@ return {
         },
         cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
       }
+
+
+      --- Python (basedpyright)
+      --- pip install basedpyright
+      require('lspconfig').basedpyright.setup({
+        on_attach = function(client, bufnr)
+          client.server_capabilities.semanticTokensProvider = nil
+        end
+      })
     end
   },
   {

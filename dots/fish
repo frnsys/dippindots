@@ -63,7 +63,6 @@ abbr -a dl "cd ~/downloads"
 abbr -a cb "cargo build"
 abbr -a cr "cargo run"
 abbr -a publish "port build spaceandtimes; port sync spaceandtimes ftseng@starbase:/srv/spaceandtimes"
-abbr -a office "flatpak run org.onlyoffice.desktopeditors"
 abbr -a theater "google-chrome-stable --new-window --app https://netflix.com"
 abbr -a ytdl "yt-dlp -f 'bv[height<=1080]+ba'"
 abbr -a ytdlmp3 "yt-dlp --extract-audio --audio-format mp3"
@@ -110,8 +109,8 @@ end
 # alt-"
 function _dive
     # -t d: directories only
-    # -d 5: max depth 5
-    set --local choice $(fd -t d -d 5 . . | _fzf);
+    # -d 5: max depth 8
+    set --local choice $(fd -t d -d 8 . . | _fzf);
         and cd $choice;
         and commandline -f repaint
 end
@@ -121,8 +120,8 @@ bind -M default \e\" '_dive'
 # alt-'
 function _seek
     # -t d: directories only
-    # -d 5: max depth 5
-    set --local choice $(fd -t d -d 5 --exclude musics . ~ | _fzf);
+    # -d 8: max depth 8
+    set --local choice $(fd -t d -d 8 --exclude musics . ~ | _fzf);
         and cd $choice;
         and commandline -f repaint
 end

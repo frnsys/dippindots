@@ -71,10 +71,10 @@ highlight @text.code_block guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NO
 highlight @text.literal.block guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @text.emphasis guifg=#000000 guibg=#00af87 guisp=NONE blend=NONE gui=bold
 highlight @text.reference guifg=#f55151 guibg=NONE guisp=NONE blend=NONE gui=bold
-highlight @markup.italic guifg=#000000 guibg=#00af87 guisp=NONE blend=NONE gui=bold
-highlight @markup.link.url guifg=#00a0f8 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight @markup.italic guifg=#000000 guibg=#00af87 guisp=NONE blend=NONE gui=italic
+highlight @markup.link.url guifg=#4287f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @markup.link.label.markdown_inline guifg=#f17694 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight @markup.link.url.markdown_inline guifg=#00af87 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight @markup.link.url.markdown_inline guifg=#4287f5 guibg=NONE guisp=NONE blend=NONE gui=underline
 highlight @string.special.url.comment guifg=#00a0f8 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @text.strong guifg=#f8aa01 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight @text.list_marker guifg=#f69d45 guibg=none guisp=NONE blend=NONE gui=NONE
@@ -82,7 +82,9 @@ highlight @markup.list.checked.markdown guifg=#00af87 guibg=none guisp=NONE blen
 highlight @markup.list.unchecked.markdown guifg=#ff2f6d guibg=none guisp=NONE blend=NONE gui=NONE
 highlight @markup.quote.markdown guifg=#cec6c7 guibg=#191919 guisp=NONE blend=NONE gui=NONE
 highlight @text.todo.checked.text guifg=#5f5f87 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight @markup.raw.markdown_inline guifg=#ffffff
+highlight @markup.raw.markdown_inline guifg=#ff4538 guibg=#1a1a1a guisp=NONE blend=NONE gui=italic
+highlight @conceal.markdown_inline guifg=#484848 guibg=NONE guisp=NONE blend=NONE gui=italic
+highlight @markup.raw.block.markdown guifg=#484848 guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight link @markup.list.markdown @text.list_marker
 
 highlight link @lsp.typemod.enumMember.defaultLibrary.rust Special
@@ -125,3 +127,7 @@ highlight DiffText guifg=#111111 guibg=#f8aa01 guisp=NONE blend=NONE gui=NONE
 highlight GitSignsAdd guifg=#08c97b guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight GitSignsDelete guifg=#ff331f guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight GitSignsChange guifg=#08c97b guibg=NONE guisp=NONE blend=NONE gui=NONE
+
+highlight BlinkCmpDoc guibg=#131313
+highlight BlinkCmpDocBorder guibg=#131313
+highlight BlinkCmpSignatureHelp guibg=#131313

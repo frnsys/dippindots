@@ -5,6 +5,7 @@ setlocal linebreak
 
 " open markdown syntax urls
 " open local images with vu
+" open local videos with mp4
 function! OpenUrlUnderCursor()
     let l:lnum = line('.')
     let l:line = getline(l:lnum)
@@ -24,9 +25,9 @@ function! OpenUrlUnderCursor()
     let l:url = matchstr(l:obj, '\(http\|https\):\/\/[^ >,;]*')
     let l:img = matchstr(l:obj, '[^<>()]\+\.\(jpg\|jpeg\|png\|gif\|mp4\|webm\)')
     if l:url != ''
-        execute '!firefox ' fnameescape(l:url)
+        silent execute '!firefox ' fnameescape(l:url)
     elseif l:img != ''
-        seif matchend(l:img, 'mp4') >= 0 || matchend(l:img, 'webm') >= 0
+        if matchend(l:img, 'mp4') >= 0 || matchend(l:img, 'webm') >= 0
             call jobstart("mpv '".expand('%:p:h')."/".l:img."'")
         else
             call jobstart("vu '".expand('%:p:h')."/".l:img."'")
@@ -36,36 +37,6 @@ function! OpenUrlUnderCursor()
     endif
 endfunction
 nnoremap <buffer> gx <cmd>call OpenUrlUnderCursor()<cr>
-
-" download the file at the specified to the "assets/"
-" folder, then add markdown reference
-" optionally specify filename as second argument
-function! DownloadUrlToAssets(url, ...)
-    " Get remote filename (removing any query params)
-    let l:remotename = split(split(a:url, "/")[-1], "?")[0]
-
-    " Get specified filename, defaulting to remote name if none
-    let l:filename = get(a:, 1, l:remotename)
-
-    " If the filename is a directory (i.e. if it ends with '/')
-    " then use the remote filename and save to that directory
-    if l:filename =~ '/$'
-        let l:filename = l:filename.l:remotename
-    endif
-
-    " Remove parentheses
-    let l:filename = substitute(l:filename, '[()]', '', 'g')
-
-    " Download the file
-    silent exec "!wget \"".a:url."\" -O \"assets/".l:filename."\""
-
-    " Insert the image markdown
-    call append(line('.'), "![](assets/".l:filename.")")
-
-    " Go to insert the caption
-    execute "normal! j0f[l"
-    startinsert
-endfunction
 
 lua <<EOF
 local function insert_text_at_cursor(text)
