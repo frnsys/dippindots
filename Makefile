@@ -347,7 +347,7 @@ documents:
 	mkdir ~/.config/zathura
 	ln -sf $(dir)/dots/zathura ~/.config/zathura/zathurarc
 	cargo install inlyne
-	flatpak install flathub org.onlyoffice.desktopeditors
+	sudo zypper in libreoffice-calc libreoffice-gtk3
 
 screen:
 	sudo usermod -aG video ${USER}
