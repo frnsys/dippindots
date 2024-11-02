@@ -70,7 +70,7 @@ return {
     lazy = false,
     keys = {
       {
-        "'t",
+        "<leader>t",
         function()
           require("trouble").toggle("todo")
         end,

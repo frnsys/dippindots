@@ -131,3 +131,4 @@ highlight GitSignsChange guifg=#08c97b guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight BlinkCmpDoc guibg=#131313
 highlight BlinkCmpDocBorder guibg=#131313
 highlight BlinkCmpSignatureHelp guibg=#131313
+highlight SnippetTabstop guifg=#ff5c5c guibg=#202020 gui=italic

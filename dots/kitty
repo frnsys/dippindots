@@ -35,19 +35,23 @@ shell_integration no-sudo
 scrollback_lines 5000
 scrollback_pager nvim --noplugin -n -c "set signcolumn=no showtabline=0" -c "%s#\($\n\s*\)\+\%$##e | silent write! /tmp/kitty_scrollback_buffer | terminal cat /tmp/kitty_scrollback_buffer -" -c "$"
 
-cursor          #00af87
+cursor          #FD453A
 cursor_text_color #000000
 cursor_shape    block
-cursor_beam_thickness 5
+cursor_shape_unfocused underline
 cursor_blink_interval 0
+cursor_underline_thickness 1.0
 
 tab_title_max_length 18
 tab_bar_style powerline
 tab_powerline_style slanted
-active_tab_title_template "{fmt.italic}{'✱ ' if layout_name == 'stack' else ''}{fmt.noitalic}{title}"
+active_tab_title_template "{'✱ ' if layout_name == 'stack' else ''}{title}"
 
-active_tab_font_style   bold
-active_tab_background   #00af87
+active_tab_font_style   italic
+active_tab_foreground   #FD453A
+active_tab_background   #161616
+# active_tab_background   #FD453A
+# active_tab_background   #00af87
 inactive_tab_background #202020
 inactive_tab_foreground #707070
 
@@ -55,6 +59,10 @@ foreground #eeeeee
 background #161616
 selection_foreground #000000
 selection_background #fffacd
+
+active_border_color #00AF87
+inactive_border_color #222222
+inactive_text_alpha 0.5
 
 color0  #1d2c47
 color1  #d2275a

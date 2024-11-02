@@ -44,8 +44,10 @@ riverctl map normal Super+Shift+Alt Q close
 # riverctl map normal Super+Shift E exit
 
 # Move focus across windows
-riverctl map normal Super H focus-view left
-riverctl map normal Super L focus-view right
+riverctl map normal Super H focus-view next
+riverctl map normal Super L focus-view next
+# riverctl map normal Super H focus-view left
+# riverctl map normal Super L focus-view right
 riverctl map normal Super J focus-view down
 riverctl map normal Super K focus-view up
 

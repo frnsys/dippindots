@@ -10,7 +10,7 @@ if ok then
 end
 
 --- Show rust analyzer errors
-vim.keymap.set({ 'n' }, ';d', function()
+vim.keymap.set({ 'n' }, '<leader>d', function()
   local clients = vim.lsp.get_clients({
     name = 'rust_analyzer',
   })
@@ -44,9 +44,9 @@ return {
       }
 
       --- Diagnostic keymaps
-      vim.keymap.set('n', 'd[', vim.diagnostic.goto_prev,
+      vim.keymap.set('n', ',d', vim.diagnostic.goto_prev,
         { desc = "Go to previous diagnostic message" })
-      vim.keymap.set('n', 'd]', vim.diagnostic.goto_next,
+      vim.keymap.set('n', '.d', vim.diagnostic.goto_next,
         { desc = "Go to next diagnostic message" })
       vim.keymap.set('n', 'dm', function()
           vim.diagnostic.open_float({ scope = "cursor" })
@@ -207,7 +207,7 @@ return {
     },
     keys = {
       {
-        "'d",
+        "<leader>d",
         function()
           require("trouble").toggle({
             mode = "diagnostics",

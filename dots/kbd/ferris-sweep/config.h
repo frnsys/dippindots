@@ -15,9 +15,11 @@
 // The default is 40
 #define MOUSEKEY_WHEEL_TIME_TO_MAX 100
 
-#define TAPPING_TERM 200
+#define TAPPING_TERM 150
 #define PERMISSIVE_HOLD
+// #define HOLD_ON_OTHER_KEY_PRESS
 #define QUICK_TAP_TERM 120
+#define RETRO_TAPPING
 
-#define COMBO_TERM 20  // Milliseconds allowed to press combo keys
+#define COMBO_TERM 30  // Milliseconds allowed to press combo keys
 #define COMBO_MUST_HOLD  // Require holding each combo key

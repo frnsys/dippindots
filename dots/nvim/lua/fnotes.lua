@@ -1,7 +1,7 @@
 --- Make it easier to insert and move around footnotes in markdown files.
 ---
 --- Usage:
---- [<leader>f]: Insert footnote at the cursor's location.
+--- [<leader>n]: Insert footnote at the cursor's location.
 
 --- Get TS node text.
 local t = function(node)
@@ -175,7 +175,7 @@ local function handle_footnote()
   end
 end
 
-vim.keymap.set("n", ";f", handle_footnote)
+vim.keymap.set("n", "<leader>n", handle_footnote)
 vim.api.nvim_create_autocmd("CursorMoved", {
   pattern = "*.md",
   callback = function()

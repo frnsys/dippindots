@@ -6,4 +6,5 @@ ftseng  ALL = NOPASSWD: /usr/bin/wifi
 ftseng  ALL = NOPASSWD: /usr/bin/pkill
 ftseng  ALL = NOPASSWD: /sbin/iw
 ftseng  ALL = NOPASSWD: /sbin/iwlist
+ftseng  ALL = NOPASSWD: /sbin/iwctl
 ftseng  ALL = NOPASSWD: /sbin/wpa_supplicant

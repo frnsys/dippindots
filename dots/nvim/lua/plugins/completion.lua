@@ -1,23 +1,21 @@
 return {
   {
+    -- NOTE: If something breaks with the binary, you can recompile it:
+    -- cd /home/francis/.local/share/nvim/lazy/blink.cmp
+    -- cargo build --release
     'saghen/blink.cmp',
     lazy = false, -- lazy loading handled internally
     version = 'v0.*',
     opts = {
       keymap = {
-        -- show = '<c-space>',
-        -- hide = '<c-e>',
-        accept = "''",
-        select_prev = { '<c-p>' },
-        select_next = { '<c-n>' },
-
-        show_documentation = {},
-        hide_documentation = {},
-        scroll_documentation_up = '<c-d>',
-        scroll_documentation_down = '<c-f>',
-
-        snippet_forward = '<Tab>',
-        snippet_backward = '<S-Tab>',
+        ['<c-x>'] = { 'show', 'hide' },
+        ['<c-space>'] = { 'accept' },
+        ['<c-p>'] = { 'select_prev' },
+        ['<c-n>'] = { 'select_next' },
+        ['<c-d>'] = { 'scroll_documentation_up' },
+        ['<c-f>'] = { 'scroll_documentation_down' },
+        ['<c-;>'] = { 'snippet_forward' },
+        ['<c-l>'] = { 'snippet_backward' },
       },
       accept = {
         auto_brackets = { enabled = true }

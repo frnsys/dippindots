@@ -6,7 +6,7 @@ return {
   {
     "stevearc/quicker.nvim",
     config = function()
-      vim.keymap.set("n", "'q", function()
+      vim.keymap.set("n", "<leader>q", function()
         require("quicker").toggle({
           focus = true
         })
@@ -80,21 +80,21 @@ return {
     end,
     keys = {
       {
-        "'f",
+        "<leader>f",
         function()
           require('fzf-lua').files()
         end,
         desc = 'Search files by name'
       },
       {
-        "'<space>",
+        "<leader><space>",
         function()
           require('fzf-lua').live_grep_glob()
         end,
         desc = 'Search by grep'
       },
       {
-        "'<c-space>",
+        "<leader><c-space>",
         function()
           require('fzf-lua').live_grep_glob({
             resume = true
@@ -103,28 +103,28 @@ return {
         desc = 'Search by grep (resume)'
       },
       {
-        "''",
+        "<leader><leader>",
         function()
           require('fzf-lua').buffers()
         end,
         desc = 'Search buffers by name'
       },
       {
-        "'r",
+        "<leader>r",
         function()
           require('fzf-lua').lsp_references()
         end,
         desc = 'Find references for word under cursor'
       },
       {
-        "'s",
+        "<leader>s",
         function()
           require('fzf-lua').lsp_live_workspace_symbols()
         end,
         desc = 'Search workspace symbols'
       },
       {
-        "'i",
+        "<leader>i",
         function()
           require('fzf-lua').complete_path()
         end,

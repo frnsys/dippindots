@@ -1,12 +1,43 @@
 --- Easier text objects
-vim.keymap.set("o", "ac", "a)") -- parentheses
-vim.keymap.set("o", "ar", "a]") -- [r]ectangular bracket
-vim.keymap.set("o", "ab", "a}") -- curly [b]race
-vim.keymap.set("o", "aq", 'a"') -- [q]uote
-vim.keymap.set("o", "ic", "i)") -- parentheses
-vim.keymap.set("o", "ir", "i]") -- [r]ectangular bracket
-vim.keymap.set("o", "ib", "i}") -- curly [b]race
-vim.keymap.set("o", "iq", 'i"') -- [q]uote
+---
+--- Notes:
+--- * Not using `p` b/c it's already "paragraph"
+--- * Not using `b` b/c it's already "block"
+--- * Make sure these don't conflict with the
+---   mappings in `plugins/treesitter.lua`
+local remappings = {
+  { "o", "(", ")" },
+  { ",", "[", "]" },
+  { "k", "{", "}" },
+  { "q", '"', '"' },
+  { "x", '<', ">" },
+}
+
+for _, map in ipairs(remappings) do
+  local key = map[1]
+  local target = map[2]
+  local target_close = map[3]
+
+  -- Around
+  vim.keymap.set({"o", "v"}, "a" .. key, "a" .. target)
+
+  -- Inside
+  vim.keymap.set({"o", "v"}, "i" .. key, "i" .. target)
+
+  -- To
+  vim.keymap.set({"o", "v"}, "t" .. key, "t" .. target_close)
+
+  -- Convenience binding that assumes "inside"
+  vim.keymap.set({"o", "v"}, key, "i" .. target)
+
+  -- Convenience jump to
+  vim.keymap.set("n", "." .. key, "f" .. target, { noremap = true })
+  vim.keymap.set("n", "," .. key, "F" .. target, { noremap = true })
+end
+
+--- Easier jumping between matching brackets
+vim.keymap.set({"n", "o"}, ",.", "%", { noremap = true })
+vim.keymap.set({"n", "o"}, ".,", "%", { noremap = true })
 
 --- Easier window navigation
 vim.keymap.set("n", "<C-j>", "<C-w>j")

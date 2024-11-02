@@ -9,8 +9,8 @@ set -U fish_greeting # Hide greeting
 fish_vi_key_bindings
 function fish_mode_prompt; end # Hide vi mode
 function fish_prompt -d "Custom prompt"
-    printf '%s%s%s:%s%s%s:%s%s%s > ' (set_color blue) $hostname (set_color normal) \
-        (set_color $fish_color_cwd) (prompt_pwd) (set_color normal) (set_color purple) (fish_git_prompt %s) (set_color normal)
+    printf '%s%s%s:%s%s%s > ' \
+        (set_color "#FD453A") (prompt_pwd) (set_color "#333333") (set_color "#484848") (fish_git_prompt %s) (set_color normal)
 end
 
 # Setup GDAL for GIS stuff

@@ -23,7 +23,7 @@ function! OpenUrlUnderCursor()
 
     let l:obj = l:line[l:lcol + 1: l:rcol - 1]
     let l:url = matchstr(l:obj, '\(http\|https\):\/\/[^ >,;]*')
-    let l:img = matchstr(l:obj, '[^<>()]\+\.\(jpg\|jpeg\|png\|gif\|mp4\|webm\)')
+    let l:img = matchstr(l:obj, '[^<>()]\+\.\(jpg\|jpeg\|png\|gif\|mp4\|webp\)')
     if l:url != ''
         silent execute '!firefox ' fnameescape(l:url)
     elseif l:img != ''
@@ -122,7 +122,7 @@ function! AutoPreviewImage()
     let l:obj = l:line[l:lcol + 1: l:rcol - 1]
     let l:caption = matchstr(l:obj, '!\[[^\]]\+\]')
     let l:path = l:obj[len(l:caption) + 1:len(l:obj) - 2]
-    let l:img = matchstr(l:path, '\.\(jpg\|jpeg\|png\|gif\)$')
+    let l:img = matchstr(l:path, '\.\(jpg\|jpeg\|png\|webp\|gif\)$')
     if l:img != ''
         if l:path != g:preview_path
             call ClosePreviewImage()
