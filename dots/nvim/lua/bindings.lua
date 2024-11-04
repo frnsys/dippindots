@@ -3,12 +3,13 @@
 --- Notes:
 --- * Not using `p` b/c it's already "paragraph"
 --- * Not using `b` b/c it's already "block"
+--- * Avoid `hjkl`
 --- * Make sure these don't conflict with the
 ---   mappings in `plugins/treesitter.lua`
 local remappings = {
   { "o", "(", ")" },
-  { ",", "[", "]" },
-  { "k", "{", "}" },
+  { "r", "[", "]" },
+  { "c", "{", "}" },
   { "q", '"', '"' },
   { "x", '<', ">" },
 }
@@ -34,6 +35,9 @@ for _, map in ipairs(remappings) do
   vim.keymap.set("n", "." .. key, "f" .. target, { noremap = true })
   vim.keymap.set("n", "," .. key, "F" .. target, { noremap = true })
 end
+
+--- To next empty line
+-- vim.keymap.set({"o", "v"}, "<space>", "}")
 
 --- Easier jumping between matching brackets
 vim.keymap.set({"n", "o"}, ",.", "%", { noremap = true })

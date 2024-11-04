@@ -43,6 +43,7 @@ enum layers {
 #define PPLAY LGUI(KC_EQL)
 #define BMENU LGUI(KC_SPACE)
 #define MAXIM LGUI(KC_F)       // Maximize window
+#define FLOAT LGUI(KC_S)       // Toggle floating window
 #define TODOS LGUI(KC_T)
 #define KPASS LGUI(KC_P)
 #define FOCWN LGUI(KC_H)       // Change window focus
@@ -64,6 +65,7 @@ enum layers {
 #define TLINK LSFT(LALT(KC_E)) // Terminal open link
 #define TPATH LSFT(LALT(KC_O)) // Terminal copy path
 #define TSEAR LALT(KC_QUOTE)   // Terminal search
+#define THIST LALT(KC_E)       // Terminal scrollback history
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_ALPHA] = LAYOUT(
@@ -81,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_NAVCTL] = LAYOUT(
         KC_VOLD, KC_VOLU, MUSIC, PPLAY,   BMENU,       HSPLT, LTTAB,   KC_UP,   RTTAB,   TCOPY,
         KC_LSFT, DESK1,   DESK2, DESK3,   FOCMN,       ____,  KC_LEFT, KC_DOWN, KC_RGHT, TPAST,
-        RCLIK,   FOCWN,   TODOS, LCLIK,   MAXIM,       SWARP, FOCUS,   MXPAN,   TSEAR,  TPATH,
+        RCLIK,   FOCWN,   TODOS, LCLIK,   MAXIM,       THIST, MXPAN,   FOCUS,   TSEAR,   TPATH,
                                  KC_WBAK, KC_WFWD,     ____,  SINFO
     ),
 };
@@ -110,6 +112,7 @@ const uint16_t PROGMEM term_new_tab[]  = {LTTAB, RTTAB, COMBO_END};
 
 // WM controls
 const uint16_t PROGMEM mute[] = {KC_VOLD, KC_VOLU, COMBO_END};
+const uint16_t PROGMEM warp[] = {LCLIK, RCLIK, COMBO_END};
 
 combo_t key_combos[] = {
     COMBO(tab, KC_TAB),
@@ -132,6 +135,7 @@ combo_t key_combos[] = {
     COMBO(term_new_tab, NTTAB),
 
     COMBO(mute, KC_MUTE),
+    COMBO(warp, SWARP),
 };
 
 const key_override_t wheel_up = ko_make_basic(MOD_MASK_SHIFT, KC_UP, MS_WHLU);
@@ -139,6 +143,7 @@ const key_override_t wheel_down = ko_make_basic(MOD_MASK_SHIFT, KC_DOWN, MS_WHLD
 const key_override_t next_browser_tab = ko_make_basic(MOD_MASK_SHIFT, RTTAB, LCTL(KC_TAB));
 const key_override_t prev_browser_tab = ko_make_basic(MOD_MASK_SHIFT, LTTAB, LCTL(LSFT(KC_TAB)));
 const key_override_t move_win_mon = ko_make_basic(MOD_MASK_SHIFT, FOCMN, TOMON);
+const key_override_t float_win = ko_make_basic(MOD_MASK_SHIFT, MAXIM, FLOAT);
 
 const key_override_t select_term_link = ko_make_basic(MOD_MASK_SHIFT, TPATH, TLINK);
 const key_override_t term_v_split = ko_make_basic(MOD_MASK_SHIFT, HSPLT, VSPLT);
@@ -151,4 +156,5 @@ const key_override_t *key_overrides[] = {
     &select_term_link,
     &term_v_split,
     &move_win_mon,
+    &float_win,
 };
