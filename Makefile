@@ -11,7 +11,7 @@ SHELL := /bin/bash
 dir = ~/.dots
 
 all: base de media apps laptop
-base: prereqs git langs rust shell tools editor other
+base: prereqs git langs rust shell tools editor network other
 de: wm bar notifications menu theme terminal scrots fm
 media: audio images video music
 laptop: thinkpad tweaks screen
@@ -122,6 +122,21 @@ editor:
 			&& sudo ln -sf /usr/local/bin/nvim /usr/bin/vim \
 			&& sudo ln -sf /usr/bin/vim /etc/alternatives/editor
 	ln -sf $(dir)/dots/nvim ~/.config/nvim
+
+network:
+	sudo zypper rm --clean-deps NetworkManager wpa_supplicant
+	sudo zypper install iwd dhcp-client
+	sudo bash -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
+	sudo bash -c 'echo -e "[General]\nEnableNetworkConfiguration=true" > /etc/iwd/main.conf'
+	sudo systemctl enable --now iwd
+
+	# Set group for access to iwd, etc.
+	# Requires logout/login for changes to take effect.
+	sudo groupadd netdev
+	sudo usermod -aG netdev francis
+
+	# iwd tui
+	cargo install impala
 
 music:
 	sudo zypper in ncmpcpp mpd mpclient
@@ -323,10 +338,6 @@ tweaks:
 	# Firmware updates
 	sudo zypper in fwupd
 	fwupdmgr refresh && fwupdmgr update && fwupdmgr get-updates
-
-	# Setup passwordless sudo/root for certain commands
-	# TODO still necessary?
-	# sudo cp $(dir)/dots/misc/00_anarres /etc/sudoers.d/
 
 	# TODO Lower swappiness to avoid disk thrashing
 	# echo "vm.swappiness = 10" | sudo tee -a /etc/sysctl.conf
