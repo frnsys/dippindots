@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<keyboard bottom_row="false" name="Custom Layout">
+  <row>
+    <key key0="w" e="q" n="esc" s="~"/>
+    <key key0="e" w="\\" n="|" s="`"/>
+    <key key0="r" ne="€" w="%" e="$" s="^"/>
+    <key key0="t" w="\#" n="1" s="\@"/>
+    <key key0="y" n="2"/>
+    <key key0="u" n="3" />
+    <key key0="i" w="left" e="right" n="up" s="down"/>
+    <key key0="o"/>
+  </row>
+  <row>
+    <key key0="a" />
+    <key key0="s" n="alt"/>
+    <key key0="d" e="&amp;"/>
+    <key key0="f" n="4" s="selectAll"/>
+    <key key0="g" s="copy" n="5"/>
+    <key key0="h" s="cut" n="6" w="&lt;" e=">"/>
+    <key key0="k" w="{" e="}" n="accent_circonflexe" s="paste" />
+    <key key0="l"/>
+  </row>
+  <row>
+    <key key0="x" e="z" n="switch_emoji" s="config" />
+    <key key0="c" n="ctrl" e="*"/>
+    <key key0="v" />
+    <key key0="b" n="7" />
+    <key key0="n" n="8" e="/" w="//" />
+    <key key0="m" n="9" w="(" e=")" />
+    <key key0="j" n="0" w="[" e="]" />
+    <key key0="p" nw="ç" w="accent_aigu" n="accent_grave"/>
+  </row>
+  <row>
+    <key key0="shift" />
+    <key key0=";" n=":" w="\?" e="!" />
+    <key key0="&quot;" n="'" w="_" e="-"/>
+    <key width="2" key0="space" n="tab" w="cursor_left" e="cursor_right" slider="true"/>
+    <key key0="." n="," w="+" e="="/>
+    <key key0="enter" n="switch_numeric" />
+    <key key0="backspace" />
+  </row>
+</keyboard>
