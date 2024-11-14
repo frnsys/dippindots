@@ -11,7 +11,7 @@ local remappings = {
   { "r", "[", "]" },
   { "c", "{", "}" },
   { "q", '"', '"' },
-  { "x", '<', ">" },
+  { "/", '<', ">" },
 }
 
 for _, map in ipairs(remappings) do

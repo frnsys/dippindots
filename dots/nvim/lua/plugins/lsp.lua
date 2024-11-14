@@ -175,11 +175,11 @@ return {
 
       --- Python (basedpyright)
       --- pip install basedpyright
-      require('lspconfig').basedpyright.setup({
-        on_attach = function(client, bufnr)
-          client.server_capabilities.semanticTokensProvider = nil
-        end
-      })
+      -- require('lspconfig').basedpyright.setup({
+      --   on_attach = function(client, bufnr)
+      --     client.server_capabilities.semanticTokensProvider = nil
+      --   end
+      -- })
     end
   },
   {

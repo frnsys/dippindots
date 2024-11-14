@@ -91,15 +91,14 @@ return {
   },
 
   --- Surround motion
+  ---
+  --- [S']: Add quotes around visual selection
   {
-    'echasnovski/mini.surround',
-    opts = {
-      mappings = {
-        add = 'sa',     -- e.g. saw'
-        delete = 'sd',  -- e.g. sd'
-        replace = 'sr', -- e.g. sr'"
-      }
-    }
+    'kylechui/nvim-surround',
+    event = "VeryLazy",
+    config = function()
+        require("nvim-surround").setup({})
+    end
   },
 
   --- Substitute motion
