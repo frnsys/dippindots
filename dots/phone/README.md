@@ -59,10 +59,9 @@ proot-distro login opensuse --shared-tmp -- /usr/bin/fish
 # so we only really need `kitty` as the "frontend", e.g. it's tab management.
 # We still need a WM to manage the `kitty` window (e.g. sizing); and because
 # `kitty` is GPU-accelerated we also installed `Mesa`.
-# `wireguard` is needed for connecting to the mothership.
 zypper refresh
 zypper dup
-zypper in Mesa openssh wireguard-tools fontconfig fish kitty kitty-terminfo neovim bspwm glibc libcanberra libxcursor adduser sudo caja-cascadia-code-fonts
+zypper in Mesa openssh fontconfig fish kitty kitty-terminfo neovim bspwm glibc libcanberra libxcursor adduser sudo caja-cascadia-code-fonts
 ```
 
 For the `bspwm` config:
@@ -90,3 +89,5 @@ env DISPLAY :=0 kitty
 ```
 
 Then you can launch the Termux X11 app.
+
+To connect to the mothership you also need the Wireguard Android app and to setup a cloud relay.
