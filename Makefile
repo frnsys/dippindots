@@ -125,9 +125,9 @@ editor:
 
 network:
 	sudo zypper rm --clean-deps NetworkManager wpa_supplicant
-	sudo zypper install iwd dhcp-client
-	sudo bash -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
+	sudo zypper install iwd dhcp-client systemd-network
 	sudo bash -c 'echo -e "[General]\nEnableNetworkConfiguration=true" > /etc/iwd/main.conf'
+	sudo systemctl enable --now systemd-resolved
 	sudo systemctl enable --now iwd
 
 	# Set group for access to iwd, etc.
