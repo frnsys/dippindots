@@ -3,7 +3,7 @@ shell fish
 # Use fc-list to see font names.
 font_size       8
 
-font_family     Cascadia Code PL ExtraLight
+font_family     Cascadia Code PL SemiLight
 bold_font       Cascadia Code PL Bold
 italic_font     Cascadia Code PL Light Italic
 bold_italic_font Cascadia Code PL Bold Italic

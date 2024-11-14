@@ -302,6 +302,11 @@ theme:  # wallpaper, fonts, etc
 		adobe-sourcecodepro-fonts \
 		symbols-only-nerd-fonts
 
+	mkdir -p ~/.config/fontconfig
+	ln -sf $(dir)/assets/fonts ~/.fonts
+	ln -sf $(dir)/dots/misc/fonts.conf ~/.fonts.conf
+	ln -sf $(dir)/dots/misc/fonts.conf ~/.config/fontconfig/fonts.conf
+
 	git clone --depth 1 git@github.com:alexmyczko/fnt.git /tmp/fnt
 	sudo zypper install -y lcdf-typetools chafa
 	cd /tmp/fnt && sudo make install
@@ -312,10 +317,6 @@ theme:  # wallpaper, fonts, etc
 	fnt install google-nanummyeongjo
 	fnt install fonts-fantasque-sans
 
-	mkdir -p ~/.config/fontconfig
-	ln -sf $(dir)/assets/fonts ~/.fonts
-	ln -sf $(dir)/dots/misc/fonts.conf ~/.fonts.conf
-	ln -sf $(dir)/dots/misc/fonts.conf ~/.config/fontconfig/fonts.conf
 	mkfontdir ~/.fonts
 	mkfontscale ~/.fonts
 	fc-cache -fv
