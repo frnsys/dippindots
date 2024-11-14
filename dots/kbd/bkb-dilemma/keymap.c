@@ -6,6 +6,8 @@ enum layers {
     _NAVCTL,
 };
 
+#define LAYOUT LAYOUT_split_3x5_3
+
 #define ____ KC_NO
 #define VVVV KC_TRNS
 
@@ -68,24 +70,30 @@ enum layers {
 #define TSEAR LALT(KC_QUOTE)   // Terminal search
 #define THIST LALT(KC_E)       // Terminal scrollback history
 
+
+// #        define SNIPING SNIPING_MODE
+// #        define SNP_TOG SNIPING_MODE_TOGGLE
+// #        define DRGSCRL DRAGSCROLL_MODE
+// #        define DRG_TOG DRAGSCROLL_MODE_TOGGLE
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-	[_ALPHA] = LAYOUT(
+    [_ALPHA] = LAYOUT(
         KC_Q, KC_W, KC_E, KC_R, KC_T,       KC_Y, KC_U, KC_I,    KC_O,   KC_P,
         KC_A, KC_S, KC_D, KC_F, KC_G,       KC_H, KC_J, KC_K,    KC_L,   KC_SCLN,
         KC_Z, KC_X, KC_C, KC_V, KC_B,       KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,
-                          TCR1, TCR0,       TCL0, TCL1
+                 SNP_TOG, TCR1, TCR0,       TCL0, TCL1, DRG_TOG
     ),
     [_NUMSYM] = LAYOUT(
         KC_GRV, KC_1, KC_2, KC_3, CARET,    OCTHRP,  ____,    L_PARN,  R_PARN,  TILDE,
         ____,   KC_4, KC_5, KC_6, DOLLAR,   AROBAS,  PERCENT, L_BRCE,  R_BRCE,  KC_EQUAL,
         ____,   KC_7, KC_8, KC_9, KC_0,     ____,    ____,    KC_LBRC, KC_RBRC, PLUS,
-                            VVVV, VVVV,     VVVV,    VVVV
+                      VVVV, VVVV, VVVV,     VVVV,    VVVV,    VVVV
     ),
     [_NAVCTL] = LAYOUT(
         KC_VOLD, KC_VOLU, MUSIC, PPLAY,   BMENU,       HSPLT, LTTAB,   KC_UP,   RTTAB,   TCOPY,
         KC_LSFT, DESK1,   DESK2, DESK3,   FOCMN,       ____,  KC_LEFT, KC_DOWN, KC_RGHT, TPAST,
         RCLIK,   FOCWN,   TODOS, LCLIK,   MAXIM,       THIST, MXPAN,   FOCUS,   TSEAR,   TPATH,
-                                 KC_WBAK, KC_WFWD,     ____,  SINFO
+                          VVVV,  KC_WBAK, KC_WFWD,     ____,  SINFO,   VVVV
     ),
 };
 
@@ -151,8 +159,8 @@ const key_override_t select_term_link = ko_make_basic(MOD_MASK_SHIFT, TPATH, TLI
 const key_override_t term_v_split = ko_make_basic(MOD_MASK_SHIFT, HSPLT, VSPLT);
 
 const key_override_t *key_overrides[] = {
-	&wheel_up,
-	&wheel_down,
+    &wheel_up,
+    &wheel_down,
     &next_browser_tab,
     &prev_browser_tab,
     &select_term_link,
