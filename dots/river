@@ -35,7 +35,6 @@ riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda vi
 riverctl map normal Super T spawn 'kitty --title todo --working-directory ~/notes -e nvim todo.md'
 riverctl map normal Super G spawn 'hyprpicker --autocopy'
 # riverctl map normal Super Z spawn 'pkill -USR1 gammastep'
-riverctl map normal Super B spawn 'exec warpd --hint --oneshot'
 
 # Force close a window
 riverctl map normal Super+Shift+Alt Q close
@@ -165,7 +164,7 @@ riverctl input $MOUSE pointer-accel 0.6
 
 # Rules
 float_these=(
-    "visidata"
+    "float"
     "agenda"
     "yazi"
     "bluetuith"

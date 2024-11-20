@@ -111,6 +111,7 @@ dev:
 	cargo install wasm-pack wasm-bindgen-cli
 	cargo install cargo-expand cargo-machete
 	cargo install mdbook mdbook-toc
+	cargo install tailspin # tspin; log viewer
 
 editor:
 	@echo "Installing neovim..."
