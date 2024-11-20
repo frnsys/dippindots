@@ -87,14 +87,14 @@ return {
         desc = 'Search files by name'
       },
       {
-        "<leader><space>",
+        "<leader>s",
         function()
           require('fzf-lua').live_grep_glob()
         end,
         desc = 'Search by grep'
       },
       {
-        "<leader><c-space>",
+        "<leader><c-s>",
         function()
           require('fzf-lua').live_grep_glob({
             resume = true
@@ -115,13 +115,6 @@ return {
           require('fzf-lua').lsp_references()
         end,
         desc = 'Find references for word under cursor'
-      },
-      {
-        "<leader>s",
-        function()
-          require('fzf-lua').lsp_live_workspace_symbols()
-        end,
-        desc = 'Search workspace symbols'
       },
       {
         "<leader>i",
