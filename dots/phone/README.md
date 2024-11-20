@@ -18,6 +18,9 @@ pkg install tur-repo
 
 # Copy the contents of `termux.properties` to `~/.termux/termux.properties`.
 
+# Setup file access
+termux-setup-storage
+
 # Setup for X11.
 pkg install x11-repo termux-x11-nightly
 
