@@ -64,22 +64,37 @@ active_border_color #00AF87
 inactive_border_color #222222
 inactive_text_alpha 0.5
 
-color0  #1d2c47
-color1  #d2275a
+# black
+color0  #282828
+color8  #585858
+
+# red
+color1  #FD453A
+color9  #ff5c5c
+
+# green
 color2  #00af87
-color3  #ffa500
-color4  #2b81f6
-color5  #7962df
-color6  #649ef7
-color7  #e95986
-color8  #1d2c47
-color9  #ff2f6d
-color10 #079875
-color11 #fb5f90
-color12 #2c84fc
-color13 #b56efa
-color14 #67a2fd
-color15 #fb89ad
+color10 #00af87
+
+# yellow
+color3  #ffd75f
+color11 #edb140
+
+# blue
+color4  #67a2fd
+color12 #2C84FC
+
+# magenta
+color5  #b8c4f0
+color13 #886efa
+
+# cyan
+color6  #4b76b8
+color14 #9ecede
+
+# white
+color7  #eeeeee
+color15 #ffc1a0
 
 map alt+shift+c copy_to_clipboard
 map alt+shift+p paste_from_clipboard

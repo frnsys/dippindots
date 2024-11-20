@@ -132,3 +132,5 @@ highlight BlinkCmpDoc guibg=#131313
 highlight BlinkCmpDocBorder guibg=#131313
 highlight BlinkCmpSignatureHelp guibg=#131313
 highlight SnippetTabstop guifg=#ff5c5c guibg=#202020 gui=italic
+
+highlight WindowTarget guibg=#ffd75f guifg=#161616 gui=bold
