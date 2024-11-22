@@ -1,11 +1,11 @@
 shell fish
 
 # Use fc-list to see font names.
-font_size       8
+font_size       9
 
-font_family     Cascadia Code PL SemiLight
+font_family     Cascadia Code PL ExtraLight
 bold_font       Cascadia Code PL Bold
-italic_font     Cascadia Code PL Light Italic
+italic_font     Cascadia Code PL ExtraLight Italic
 bold_italic_font Cascadia Code PL Bold Italic
 
 # font_family     DM Mono Light
@@ -27,6 +27,9 @@ visual_window_select_characters asdfghjkl;
 
 enable_audio_bell no
 shell_integration no-sudo
+
+allow_remote_control socket-only
+listen_on unix:/tmp/kitty
 
 # Use nvim as the scrollback pager
 # This command removes trailing blank lines
@@ -55,7 +58,7 @@ active_tab_background   #161616
 inactive_tab_background #202020
 inactive_tab_foreground #707070
 
-foreground #eeeeee
+foreground #ffffff
 background #161616
 selection_foreground #000000
 selection_background #fffacd
@@ -77,8 +80,8 @@ color2  #00af87
 color10 #00af87
 
 # yellow
-color3  #ffd75f
-color11 #edb140
+color3  #edb140
+color11 #ffd75f
 
 # blue
 color4  #67a2fd

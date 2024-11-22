@@ -39,30 +39,6 @@ return {
     },
   },
 
-  --- Nicer markdown headings.
-  {
-    'lukas-reineke/headlines.nvim',
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    ft = { "markdown" },
-    opts = {
-      markdown = {
-        bullets = {},
-      }
-    }
-  },
-
-  --- Zen mode for markdown editing.
-  {
-    "folke/zen-mode.nvim",
-    ft = { "markdown" },
-    opts = {
-      window = {
-        backdrop = 1,
-        width = 100,
-      },
-    }
-  },
-
   --- ['t]: Show to do items
   {
     "folke/todo-comments.nvim",

@@ -27,8 +27,16 @@ require('breeze')
 require('fnotes')
 require('abbrevs')
 require('bindings')
+require('markdown')
 
 EOF
+
+
+" Insert html footnote
+function! InsertFootnote(number)
+    execute "normal! i<a href=\"#fn-" . a:number . "\" id=\"fnl-" . a:number . "\" class=\"fn\">" . a:number . "</a>"
+endfunction
+command! -nargs=1 Footnote call InsertFootnote(<args>)
 
 set termguicolors
 colorscheme futora

@@ -57,6 +57,9 @@ csv = [
 markdown = [
     { run = 'inlyne --theme dark "$@"', desc = "Inlyne" },
 ]
+html = [
+    { run = 'firefox "$@"', desc = "Browser" },
+]
 fallback = [
 	{ run = 'open "$@"', desc = "Open" },
 	{ run = 'open -R "$@"', desc = "Reveal in Finder" },
@@ -69,6 +72,8 @@ rules = [
 	{ name = "*.url", use = "url" },
 	{ name = "*.gif", use = "gif" },
 	{ name = "*.csv", use = "csv" },
+	{ name = "*.tsv", use = "csv" },
+	{ name = "*.html", use = ["text", "html"] },
 	{ name = "*.md", use = ["text", "markdown"] },
 	{ name = "*.log", use = ["log"] },
 

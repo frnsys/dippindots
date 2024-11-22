@@ -54,8 +54,8 @@ vim.keymap.set('v', '<c-k>', 'j$ok0o')
 vim.keymap.set('v', '<c-j>', 'k$oj0o')
 
 --- Minor movements in insert mode
-vim.keymap.set('i', '<c-j>', '<down>')
-vim.keymap.set('i', '<c-k>', '<up>')
+-- vim.keymap.set('i', '<c-j>', '<down>')
+-- vim.keymap.set('i', '<c-k>', '<up>')
 
 --- Quickfix navigation
 vim.keymap.set("n", "<C-n>", ":cnext<cr><cr>")

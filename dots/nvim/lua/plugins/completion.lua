@@ -10,8 +10,8 @@ return {
       keymap = {
         ['<c-x>'] = { 'show', 'hide' },
         ['<c-space>'] = { 'accept' },
-        ['<c-p>'] = { 'select_prev' },
-        ['<c-n>'] = { 'select_next' },
+        ['<c-k>'] = { 'select_prev' },
+        ['<c-j>'] = { 'select_next' },
         ['<c-d>'] = { 'scroll_documentation_up' },
         ['<c-f>'] = { 'scroll_documentation_down' },
         ['<c-;>'] = { 'snippet_forward' },

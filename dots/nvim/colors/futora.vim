@@ -51,6 +51,7 @@ highlight Title guifg=#000000 guibg=#6767db guisp=NONE blend=NONE gui=bold
 " highlight Title guifg=#d4d4fa guibg=#4747ba guisp=NONE blend=NONE gui=bold
 highlight Type guifg=#b8c4f0 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Underlined guifg=#2c84fc guibg=NONE guisp=NONE blend=NONE gui=underline
+highlight WinSeparator guifg=#202020
 highlight Visual guifg=#000000 guibg=#ffd75f guisp=NONE blend=NONE gui=NONE
 highlight WildMenu guifg=#111111 guibg=#f8aa01 guisp=NONE blend=NONE gui=NONE
 highlight @field guifg=#00af87 guibg=NONE guisp=NONE blend=NONE gui=NONE
