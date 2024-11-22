@@ -20,8 +20,10 @@ set PATH $HOME/.bin $HOME/.cargo/bin /usr/sbin /var/lib/flatpak/exports/bin/ $PA
 
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
-# node, python
-~/.local/bin/mise activate fish | source
+if test -f ~/.local/bin/mise
+    # node, python
+    ~/.local/bin/mise activate fish | source
+end
 
 # fzf & zoxide
 fzf --fish | source
