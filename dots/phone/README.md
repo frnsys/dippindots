@@ -56,15 +56,38 @@ proot-distro login opensuse --shared-tmp
 # After fish is installed you can instead run:
 proot-distro login opensuse --shared-tmp -- /usr/bin/fish
 
+# Prepare to install packages
+zypper refresh
+zypper dup
+
+# Initial core requirements
+zypper in openssh neovim git fish
+
+# Note that I had a problem where git ssh would cause this error:
+# > Bad owner or permissions on /etc/crypto-policies/back-ends/openssh.config
+#
+# The only way around it was to create an empty ssh config file
+# and configure git to use that for its ssh command:
+touch ~/.ssh/config
+git config --global core.sshCommand "ssh -F ~/.ssh/config"
+
+# WM/graphics setup:
 # No Wayland support yet so can't exactly replicate the laptop setup,
 # so instead go for bspwm.
 # The idea is to just SSH into the main machine/dev environment (mothership),
 # so we only really need `kitty` as the "frontend", e.g. it's tab management.
 # We still need a WM to manage the `kitty` window (e.g. sizing); and because
 # `kitty` is GPU-accelerated we also installed `Mesa`.
-zypper refresh
-zypper dup
-zypper in Mesa openssh fontconfig fish kitty kitty-terminfo neovim bspwm glibc libcanberra libxcursor adduser sudo caja-cascadia-code-fonts
+zypper in Mesa glibc libcanberra0 libXcursor1 bspwm
+zypper in kitty kitty-terminfo fontconfig saja-cascadia-code-fonts
+
+# Misc other dependencies for neovim plugins, etc
+zypper in bat gcc gcc-c++ make cmake automake autoconf clang lld
+zypper in zoxide fzf yazi fd ripgrep the_silver_searcher
+
+# To change the termux font:
+# Note: Requires restarting termux to take effect.
+cp /usr/share/fonts/truetype/static/CascadiaCodePL-Light.ttf /data/data/com.termux/files/home/.termux/font.ttf
 ```
 
 For the `bspwm` config:
