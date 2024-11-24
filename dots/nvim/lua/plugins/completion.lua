@@ -32,7 +32,11 @@ return {
         },
         autocomplete = {
           selection = "auto_insert",
-          draw = "minimal",
+          draw = {
+            columns = {
+              { "label", "label_description", gap = 1 }
+            },
+      },
         },
       },
     }
