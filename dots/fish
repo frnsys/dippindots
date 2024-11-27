@@ -18,7 +18,9 @@ set -U GDAL_DATA /usr/share/gdal
 
 set PATH $HOME/.bin $HOME/.cargo/bin /usr/sbin /var/lib/flatpak/exports/bin/ $PATH
 
-gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+if type -q gsettings
+    gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+end
 
 if test -f ~/.local/bin/mise
     # node, python
