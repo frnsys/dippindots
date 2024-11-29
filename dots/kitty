@@ -26,17 +26,20 @@ enabled_layouts splits,stack
 visual_window_select_characters asdfghjkl;
 
 enable_audio_bell no
-shell_integration no-sudo
 
+# For kitty-scrollback.nvim
+# -------------------------
 allow_remote_control socket-only
 listen_on unix:/tmp/kitty
+shell_integration enabled
 
-# Use nvim as the scrollback pager
-# This command removes trailing blank lines
-# then opens the scrollback in the nvim terminal.
-# The "$" command jumps to the last line.
-scrollback_lines 5000
-scrollback_pager nvim --noplugin -n -c "set signcolumn=no showtabline=0" -c "%s#\($\n\s*\)\+\%$##e | silent write! /tmp/kitty_scrollback_buffer | terminal cat /tmp/kitty_scrollback_buffer -" -c "$"
+action_alias kitty_scrollback_nvim kitten /home/francis/.local/share/nvim/lazy/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py
+
+# Browse scrollback buffer in nvim
+map alt+e kitty_scrollback_nvim
+# Browse output of the last shell command in nvim
+map alt+shift+e kitty_scrollback_nvim --config ksb_builtin_last_cmd_output
+# -------------------------
 
 cursor          #FD453A
 cursor_text_color #000000
@@ -136,7 +139,6 @@ map alt+m toggle_layout stack
 map alt+u scroll_page_up
 map alt+d scroll_page_down
 map alt+g scroll_end
-map alt+e show_scrollback
 map alt+shift+r start_resizing_window
 
 mouse_map left click ungrabbed no-op

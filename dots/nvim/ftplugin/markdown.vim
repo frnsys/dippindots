@@ -69,7 +69,7 @@ local function screenshot()
   end
 end
 
-vim.keymap.set('n', '<leader>s', screenshot)
+vim.keymap.set('n', ',s', screenshot)
 EOF
 
 " quickly fix the closest previous spelling error.

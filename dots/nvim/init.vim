@@ -43,7 +43,7 @@ colorscheme futora
 
 " gliss tooling
 au BufNewFile,BufRead *.script lua require('gliss/verses')
-au BufNewFile,BufRead *.loom lua require('gliss/loom')
+au BufNewFile,BufRead *.md lua require('gliss/loom')
 
 " navigation
 set number            			" Show line numbers
