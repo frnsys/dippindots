@@ -3,13 +3,11 @@
 
 Using _Unexpected Keyboard_ with a custom layout, defined in `kb-layout.xml`. It's a version of QWERTY modified so that there are fewer keys per row (and thus wider keys) and to be more symbol-friendly than the default Android keyboard.
 
-## Linux VM
+## Termux
 
-Termux + Termux X11 + `proot-distro` + OpenSUSE Tumbleweed
+Install Termux from its GitHub releases.
 
-Install both _Termux_ and _Termux X11_ from GitHub releases. Note that they both must be installed from the same provider (e.g. GitHub or f-droid) to avoid compatibility problems.
-
-Then setup Termux:
+I setup a basic neovim environment for text editing; more complicated tasks can be done from a Linux VM, described in the next section.
 
 ```bash
 pkg update
@@ -21,6 +19,28 @@ pkg install tur-repo
 # Setup file access
 termux-setup-storage
 
+# To change the termux font:
+# Note: Requires restarting termux to take effect.
+cp /usr/share/fonts/truetype/static/CascadiaCodePL-Light.ttf /data/data/com.termux/files/home/.termux/font.ttf
+
+# Set up your git SSH keys as well.
+pkg install git
+
+# Install enough for a good neovim env.
+pkg install clang make cmake
+pkg install fzf ripgrep fd zoxide silversearcher-ag bat
+pkg install neovim
+pkg install fish
+pkg install yazi
+```
+
+### Linux VM
+
+Termux + Termux X11 + `proot-distro` + OpenSUSE Tumbleweed. This has more overhead than running programs directly in Termux (above) but is ofc more capable given that you're hosting an entire Linux environment.
+
+Install _Termux X11_ from its GitHub releases. Note that it must be installed from the same provider as Termux (e.g. GitHub or f-droid) to avoid compatibility problems.
+
+```bash
 # Setup for X11.
 pkg install x11-repo termux-x11-nightly
 
@@ -84,10 +104,6 @@ zypper in kitty kitty-terminfo fontconfig saja-cascadia-code-fonts
 # Misc other dependencies for neovim plugins, etc
 zypper in bat gcc gcc-c++ make cmake automake autoconf clang lld
 zypper in zoxide fzf yazi fd ripgrep the_silver_searcher
-
-# To change the termux font:
-# Note: Requires restarting termux to take effect.
-cp /usr/share/fonts/truetype/static/CascadiaCodePL-Light.ttf /data/data/com.termux/files/home/.termux/font.ttf
 ```
 
 For the `bspwm` config:
