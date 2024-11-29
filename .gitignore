@@ -9,5 +9,6 @@ cache/
 dots/nvim/.undo/*
 dots/nvim/.backup/*
 dots/nvim/.temp/*
+dots/nvim/lazy-lock.json
 assets/fonts
 watch_later
