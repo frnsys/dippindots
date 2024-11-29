@@ -9,9 +9,9 @@
 
 cp ~/.ssh/config ~/docs/backups/ssh_config
 cp ~/.config/rclone/rclone.conf ~/docs/backups/rclone.conf
-cp -r ~/.config/agenda ~/docs/backups/config/agenda
 cp -r ~/.config/blender ~/docs/backups/config/blender
 cp -r ~/.config/bacon ~/docs/backups/config/bacon
+rsync -ravu --delete ~/.config/agenda/ ~/docs/backups/config/agenda/
 rsync -ravu --delete ~/.config/blender/ ~/docs/backups/config/blender/
 
 # gpg --export-secret-keys --armor f@frnsys.com > ~/docs/backups/keys/f@frnsys.com.asc
@@ -48,10 +48,7 @@ function localSync() {
 
 if [[ $1 == 'home' ]]; then
     for dest in \
-        pi@svalbard.local:/media/shuttle\
-        pi@svalbard.local:/media/usb\
-        ftseng@turtle.local:/media/backup\
-        ftseng@hubble.local:/mnt/library/backup; do
+        ftseng@turtle.home:/media/usb; do
         localSync $dest
     done
 
