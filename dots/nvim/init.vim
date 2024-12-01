@@ -45,6 +45,19 @@ colorscheme futora
 au BufNewFile,BufRead *.script lua require('gliss/verses')
 au BufNewFile,BufRead *.md lua require('gliss/loom')
 
+" terminal
+set shell=/usr/bin/fish
+tnoremap <Esc> <C-\><C-n>
+augroup neovim_terminal
+    autocmd!
+    " Enter Terminal-mode (insert) automatically
+    autocmd TermOpen * startinsert
+    " Disables number lines on terminal buffers
+    autocmd TermOpen * :set nonumber norelativenumber
+    " allows you to use Ctrl-c on terminal window
+    autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
+augroup END
+
 " navigation
 set number            			" Show line numbers
 set nostartofline 				" Don't reset cursor to start of line when moving

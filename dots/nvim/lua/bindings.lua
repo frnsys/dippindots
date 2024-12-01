@@ -60,3 +60,17 @@ vim.keymap.set('v', '<c-j>', 'k$oj0o')
 --- Quickfix navigation
 vim.keymap.set("n", "<C-n>", ":cnext<cr><cr>")
 vim.keymap.set("n", "<C-p>", ":cprev<cr><cr>")
+
+--- Terminals
+vim.keymap.set(
+    'n',
+    '<leader>vt',
+    [[<cmd>vsplit | term<cr>]],
+    { desc = 'Open terminal in vertical split' }
+)
+vim.keymap.set(
+    'n',
+    '<leader>ht',
+    [[<cmd>belowright split | term<cr>]],
+    { desc = 'Open terminal in horizontal split' }
+)

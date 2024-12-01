@@ -9,8 +9,20 @@ set -U fish_greeting # Hide greeting
 fish_vi_key_bindings
 function fish_mode_prompt; end # Hide vi mode
 function fish_prompt -d "Custom prompt"
-    printf '%s%s%s:%s%s%s > ' \
-        (set_color "#FD453A") (prompt_pwd) (set_color "#333333") (set_color "#484848") (fish_git_prompt %s) (set_color normal)
+
+    # Define shorthands for hostnames.
+    set full_hostname (hostname)
+    switch $full_hostname
+        case "anarres"
+            set shorthand_name "@"
+        case "localhost"
+            set shorthand_name "⌘"
+        case '*'
+            set shorthand_name $full_hostname  # Fallback to full hostname
+    end
+
+    printf '%s%s%s:%s%s%s:%s%s%s > ' \
+        (set_color "#00af87") $shorthand_name (set_color "#333333") (set_color "#FD453A") (prompt_pwd) (set_color "#333333") (set_color "#484848") (fish_git_prompt %s) (set_color normal)
 end
 
 # Setup GDAL for GIS stuff
