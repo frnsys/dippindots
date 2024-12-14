@@ -5,7 +5,7 @@ Using _Unexpected Keyboard_ with a custom layout ("Tortoise"), defined in `kb-la
 
 ## Termux
 
-Install Termux from its GitHub releases.
+Install Termux and Termux-API from their GitHub releases.
 
 I setup a basic neovim environment for text editing; more complicated tasks can be done from a Linux VM, described in the next section.
 
@@ -13,6 +13,8 @@ I setup a basic neovim environment for text editing; more complicated tasks can 
 pkg update
 pkg upgrade
 pkg install tur-repo
+pkg install termux-api
+pkg install termux-exec
 
 # Copy the contents of `termux.properties` to `~/.termux/termux.properties`.
 
@@ -33,6 +35,14 @@ pkg install neovim
 pkg install fish
 pkg install yazi
 ```
+
+It's also worth running this command to disable the system "copied to clipboard" notification, which otherwise appears every time you e.g. copy something in `nvim`.
+
+```bash
+# Try "ignore" instead of "deny" if it doesn't work.
+adb shell appops set com.android.systemui READ_CLIPBOARD deny
+```
+
 
 ### Linux VM
 
