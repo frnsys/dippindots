@@ -64,6 +64,7 @@
         border: none !important;
         font-family: var(--tab-fonts) !important;
         font-size: 10px !important;
+        min-height: 0 !important;
     }
     #urlbar-input {
       text-align: center;
