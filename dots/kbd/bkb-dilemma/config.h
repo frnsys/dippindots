@@ -11,7 +11,10 @@
 //
 // Higher values mean it's harder to trigger
 // the hold function.
-#define TAPPING_TERM 165
+//
+// If you find yourself accidentally trigging
+// the hold function, you may want to increase this.
+#define TAPPING_TERM 175
 
 // Double-tap under this duration to trigger
 // hold-and-repeat.
@@ -22,6 +25,6 @@
 #define HOLD_ON_OTHER_KEYPRESS
 
 // Milliseconds allowed to press combo keys.
-// Lower if this if rolling keys often triggers combos.
+// Lower if this if rolling keys often triggers combos,
+// but then you have to be more precise when triggering them.
 #define COMBO_TERM 30
-#define COMBO_MUST_HOLD_MODS // Require holding each combo key for mods
