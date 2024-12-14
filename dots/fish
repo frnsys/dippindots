@@ -69,6 +69,7 @@ abbr -a gsu "git submodule foreach git pull origin master"
 
 # Shortcuts
 abbr -a v "vi ."
+abbr -a b "bat"
 abbr -a y "yazi"
 abbr -a dots "cd ~/.dots"
 abbr -a envim "cd ~/.dots/dots/nvim; vi ."
