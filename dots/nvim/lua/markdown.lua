@@ -1,7 +1,4 @@
--- Create an autocmd group for markdown-specific settings
 vim.api.nvim_create_augroup("MarkdownSettings", { clear = true })
-
--- Apply settings for markdown filetype
 vim.api.nvim_create_autocmd("FileType", {
     group = "MarkdownSettings",
     pattern = "markdown",

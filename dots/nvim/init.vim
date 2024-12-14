@@ -50,8 +50,11 @@ set shell=/usr/bin/fish
 tnoremap <Esc> <C-\><C-n>
 augroup neovim_terminal
     autocmd!
-    " Enter Terminal-mode (insert) automatically
-    autocmd TermOpen * startinsert
+    " Enter Terminal-mode (insert) automatically,
+    " but not if the terminal is opening from the kitty scrollback plugin.
+    if $KITTY_SCROLLBACK_NVIM != 'true'
+      autocmd TermOpen * startinsert
+    endif
     " Disables number lines on terminal buffers
     autocmd TermOpen * :set nonumber norelativenumber
     " allows you to use Ctrl-c on terminal window
@@ -106,7 +109,7 @@ set mouse= " Disable mouse
 " for bindings like `<leader>db`.
 " 200 feels like a good value;
 " 100 is too fast.
-set timeoutlen=200
+set timeoutlen=160
 
 " list chars (i.e. hidden characters)
 set listchars=""                  " Reset the listchars
@@ -141,13 +144,6 @@ nnoremap <CR> <cmd>noh<CR><CR>
 " tabs
 nnoremap <silent> H <cmd>tabprevious<cr>
 nnoremap <silent> L <cmd>tabnext<cr>
-
-" jump to tabs by 1-index
-nnoremap <silent> '1 1gt
-nnoremap <silent> '2 2gt
-nnoremap <silent> '3 3gt
-nnoremap <silent> '4 4gt
-nnoremap <silent> '5 5gt
 
 " Toggle b/w alternative buffer
 nnoremap <bs> <c-^>

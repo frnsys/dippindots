@@ -48,10 +48,8 @@ abbrev(';c', '(\\|\\| {<cr>})<Esc>O')
 abbrev(';o', 'Option<><Left>')
 
 -- Vec<..>
-abbrev(';v', 'Vec<><Left>')
+abbrev(';V', 'Vec<><Left>')
+abbrev(';v', 'vec![]<Left>')
 
 -- HashMap<..>
 abbrev(';h', 'HashMap<><Left>')
-
--- derive attribute
-abbrev(';#', '#[derive()]<Left><Left>')

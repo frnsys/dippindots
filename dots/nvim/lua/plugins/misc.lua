@@ -68,6 +68,21 @@ return {
   },
 
   {
+    'declancm/maximize.nvim',
+    config = true,
+    lazy = true,
+    keys = {
+      {
+        ";,",
+        function()
+          require('maximize').toggle()
+        end,
+        desc = 'Toggle maximize'
+      }
+    }
+  },
+
+  {
     'mikesmithgh/kitty-scrollback.nvim',
     enabled = true,
     lazy = true,
@@ -78,6 +93,7 @@ return {
     config = function()
       require('kitty-scrollback').setup({
         {
+          keymaps_enabled = false,
           status_window = {
             style_simple = true
           }

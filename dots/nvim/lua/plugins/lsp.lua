@@ -9,36 +9,16 @@ if ok then
   end
 end
 
---- Show rust analyzer errors
-vim.keymap.set({ 'n' }, '<leader>d', function()
-  local clients = vim.lsp.get_clients({
-    name = 'rust_analyzer',
-  })
-  for _, client in ipairs(clients) do
-    local params = vim.lsp.util.make_text_document_params()
-    client.notify('rust-analyzer/runFlycheck', params)
-    require("trouble").open({
-      mode = "diagnostics",
-      filter = {
-        severity = vim.diagnostic.severity.ERROR
-      },
-      win = {
-        position = "bottom"
-      }
-    })
-  end
-end)
-
 --- Temporary fix for: https://github.com/neovim/neovim/issues/30985
-for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
-    local default_diagnostic_handler = vim.lsp.handlers[method]
-    vim.lsp.handlers[method] = function(err, result, context, config)
-        if err ~= nil and err.code == -32802 then
-            return
-        end
-        return default_diagnostic_handler(err, result, context, config)
-    end
-end
+-- for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
+--     local default_diagnostic_handler = vim.lsp.handlers[method]
+--     vim.lsp.handlers[method] = function(err, result, context, config)
+--         if err ~= nil and err.code == -32802 then
+--             return
+--         end
+--         return default_diagnostic_handler(err, result, context, config)
+--     end
+-- end
 
 return {
   {
@@ -220,15 +200,27 @@ return {
       {
         "<leader>d",
         function()
-          require("trouble").toggle({
-            mode = "diagnostics",
-            filter = {
-              severity = vim.diagnostic.severity.ERROR
-            },
-            win = {
-              position = "bottom"
-            }
+          local clients = vim.lsp.get_clients({
+            name = 'rust_analyzer',
           })
+          for _, client in ipairs(clients) do
+            local trouble = require("trouble");
+            if trouble.is_open() then
+              trouble.close()
+            else
+              local params = vim.lsp.util.make_text_document_params()
+              client.notify('rust-analyzer/runFlycheck', params)
+              require("trouble").open({
+                mode = "diagnostics",
+                filter = {
+                  severity = vim.diagnostic.severity.ERROR
+                },
+                win = {
+                  position = "bottom"
+                }
+              })
+            end
+          end
         end,
         desc = 'List diagnostics'
       },
