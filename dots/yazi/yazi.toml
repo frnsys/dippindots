@@ -48,7 +48,7 @@ url = [
 	{ run = 'firefox $(cat "$@")' },
 ]
 log = [
-    { run = 'kitty --title float -e tspin --config-path ~/.config/tailspin/theme.toml $(readlink -f "$@")' },
+    { run = 'tspin --config-path ~/.config/tailspin/theme.toml $(readlink -f "$@")', block = true },
 ]
 csv = [
     { run = 'kitty --title float -e visidata "$@"' },
