@@ -1,6 +1,6 @@
 " Has to be defined first
 let mapleader=";"
-set shell=/usr/bin/fish
+set shell=fish
 
 lua <<EOF
 -- Automatically install Lazy plugin manager
