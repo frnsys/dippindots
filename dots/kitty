@@ -118,27 +118,7 @@ map alt+\ launch --location=vsplit --cwd=current
 map alt+- launch --location=hsplit --cwd=current
 map alt+_ launch --location=hsplit --cwd=current
 map alt+w focus_visible_window
-map alt+h neighboring_window left
-map alt+j neighboring_window bottom
-map alt+k neighboring_window top
-map alt+l neighboring_window right
-map alt+up neighboring_window top
-map alt+left neighboring_window left
-map alt+right neighboring_window right
-map alt+down neighboring_window bottom
-map alt+1 goto_tab 1
-map alt+2 goto_tab 2
-map alt+3 goto_tab 3
-map alt+4 goto_tab 4
-map alt+5 goto_tab 5
-map alt+6 goto_tab 6
-map alt+7 goto_tab 7
-map alt+8 goto_tab 8
-map alt+9 goto_tab 9
-map alt+m toggle_layout stack
-map alt+u scroll_page_up
-map alt+d scroll_page_down
-map alt+g scroll_end
 map alt+shift+r start_resizing_window
+map alt+m toggle_layout stack
 
 mouse_map left click ungrabbed no-op

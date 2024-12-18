@@ -65,13 +65,7 @@ vim.keymap.set("n", "<C-p>", ":cprev<cr><cr>")
 --- Terminals
 vim.keymap.set(
     'n',
-    '<leader>vt',
-    [[<cmd>vsplit | term<cr>]],
-    { desc = 'Open terminal in vertical split' }
-)
-vim.keymap.set(
-    'n',
-    '<leader>ht',
-    [[<cmd>belowright split | term<cr>]],
-    { desc = 'Open terminal in horizontal split' }
+    ',t',
+    ":ToggleTerm<cr><cr>",
+    { desc = 'Toggle terminal' }
 )

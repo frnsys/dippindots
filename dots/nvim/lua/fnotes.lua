@@ -145,8 +145,10 @@ local function show_float(title, lines)
   winid = win
 end
 
+local M = {}
+
 --- Preview the current footnote definition in a floating window.
-local function preview_footnote()
+function M.preview_footnote()
   local match = footnote_under_cursor()
   if not match or vim.endswith(match, ":") then
     if winid ~= nil then
@@ -168,17 +170,11 @@ end
 
 --- If we're on a footnote, jump to its reference/definition;
 --- otherwise insert a new footnote.
-local function handle_footnote()
+function M.handle_footnote()
   local jumped = jump_footnote()
   if not jumped then
     add_footnote()
   end
 end
 
-vim.keymap.set("n", "<leader>n", handle_footnote)
-vim.api.nvim_create_autocmd("CursorMoved", {
-  pattern = "*.md",
-  callback = function()
-    preview_footnote()
-  end
-})
+return M

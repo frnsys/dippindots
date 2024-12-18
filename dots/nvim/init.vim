@@ -1,5 +1,6 @@
 " Has to be defined first
 let mapleader=";"
+set shell=/usr/bin/fish
 
 lua <<EOF
 -- Automatically install Lazy plugin manager
@@ -24,13 +25,11 @@ require('lazy').setup('plugins', {
 })
 
 require('breeze')
-require('fnotes')
 require('abbrevs')
 require('bindings')
 require('markdown')
 
 EOF
-
 
 " Insert html footnote
 function! InsertFootnote(number)
@@ -46,7 +45,6 @@ au BufNewFile,BufRead *.script lua require('gliss/verses')
 au BufNewFile,BufRead *.md lua require('gliss/loom')
 
 " terminal
-set shell=/usr/bin/fish
 tnoremap <Esc> <C-\><C-n>
 augroup neovim_terminal
     autocmd!

@@ -41,5 +41,20 @@ return {
         border = 'none',
       })
     end,
-  }
+  },
+
+  {
+    'declancm/maximize.nvim',
+    config = true,
+    lazy = true,
+    keys = {
+      {
+        ";,",
+        function()
+          require('maximize').toggle()
+        end,
+        desc = 'Toggle maximize'
+      }
+    }
+  },
 }
