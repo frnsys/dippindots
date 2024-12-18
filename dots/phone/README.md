@@ -1,8 +1,4 @@
 # Android phone setup
-## Keyboard
-
-Using _Unexpected Keyboard_ with a custom layout ("Tortoise"), defined in `kb-layout.xml`. It's a version of QWERTY modified so that there are fewer keys per row (and thus wider keys) and to be more symbol-friendly than the default Android keyboard.
-
 ## Termux
 
 Install Termux and Termux-API from their GitHub releases.

@@ -93,10 +93,12 @@ return {
     config = function()
       require('kitty-scrollback').setup({
         {
-          keymaps_enabled = false,
           status_window = {
             style_simple = true
-          }
+          },
+          paste_window = {
+            yank_register_enabled = false,
+          },
         }
       })
     end,

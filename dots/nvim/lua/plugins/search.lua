@@ -105,9 +105,9 @@ return {
       {
         "<leader><leader>",
         function()
-          require('fzf-lua').buffers()
+          require('fzf-lua').lines()
         end,
-        desc = 'Search buffers by name'
+        desc = 'Search buffer lines'
       },
       {
         "<leader>r",
