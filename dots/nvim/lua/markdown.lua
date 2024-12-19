@@ -33,11 +33,11 @@ end
 function toggle_checkbox()
   local line = vim.fn.getline(".")
   if line:match("- %[ %]") then
-    vim.fn.setline(".", line:gsub("- %[ %]", "- [x]"))
+    local line = line:gsub("- %[ %]", "- [x]")
+    vim.fn.setline(".", line)
   elseif line:match("- %[x%]") then
-    vim.fn.setline(".", line:gsub("- %[x%]", "- [ ]"))
-  elseif line:match("- ") then
-    vim.fn.setline(".", line:gsub("- ", "- [ ] "))
+    local line = line:gsub("- %[x%]", "- [ ]")
+    vim.fn.setline(".", line)
   end
 end
 

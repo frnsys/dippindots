@@ -49,7 +49,7 @@ return {
     lazy = true,
     keys = {
       {
-        ";,",
+        ",m",
         function()
           require('maximize').toggle()
         end,

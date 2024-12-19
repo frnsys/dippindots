@@ -35,35 +35,6 @@ return {
         end,
         desc = 'Jump to prev git hunk'
       },
-
     },
-  },
-
-  --- ['t]: Show to do items
-  {
-    "folke/todo-comments.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    lazy = false,
-    keys = {
-      {
-        "<leader>t",
-        function()
-          require("trouble").toggle("todo")
-        end,
-        desc = 'Search TODO items'
-      },
-    },
-    opts = {
-      keywords = {
-        TODO = { icon = " ", color = "warning" },
-      },
-      merge_keywords = false,
-      highlight = {
-        pattern = [[.*<(KEYWORDS)\s*]],
-      },
-      search = {
-        pattern = [[\b(KEYWORDS)\b]],
-      }
-    }
-  },
+  }
 }

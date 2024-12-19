@@ -36,8 +36,9 @@ for _, map in ipairs(remappings) do
 end
 
 --- To next empty line
--- vim.keymap.set({"o", "v"}, "<space>", "}")
+vim.keymap.set({"o", "v", "n"}, "<space>", "}")
 
+--- New tab
 vim.keymap.set("n", "<S-t>", ":tabnew<cr><cr>")
 
 --- Easier jumping between matching brackets
@@ -53,10 +54,6 @@ vim.keymap.set("n", "<C-l>", "<C-w>l")
 --- Expand/contract visual selection symmetrically
 vim.keymap.set('v', '<c-k>', 'j$ok0o')
 vim.keymap.set('v', '<c-j>', 'k$oj0o')
-
---- Minor movements in insert mode
--- vim.keymap.set('i', '<c-j>', '<down>')
--- vim.keymap.set('i', '<c-k>', '<up>')
 
 --- Quickfix navigation
 vim.keymap.set("n", "<C-n>", ":cnext<cr><cr>")
