@@ -4,6 +4,7 @@ enum layers {
     _ALPHA,
     _NUMSYM,
     _NAVCTL,
+    _BLENDER,
 };
 
 #define LAYOUT LAYOUT_split_3x5_3
@@ -99,6 +100,8 @@ enum layers {
 #define T_NAME LALT(KC_COMMA)   // Terminal rename tab
 #define T_RSZE LSFT(LALT(KC_R)) // Terminal resize window
 
+#include "blender.c"
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ALPHA] = LAYOUT(
         KC_Q, KC_W, KC_E, KC_R, KC_T,     KC_Y, KC_U, KC_I,    KC_O,   KC_P,
@@ -108,9 +111,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_NUMSYM] = LAYOUT(
-        PERCENT, KC_1, KC_2, KC_3,   DOLLAR,   AROBAS, OCTHRP, L_BRAK, R_BRAK, COLON,
+        PERCENT, KC_1, KC_2, KC_3,   AROBAS,   DOLLAR, OCTHRP, L_BRAK, R_BRAK, COLON,
         CARET,   KC_4, KC_5, KC_6,   KC_0,     MINUS,  L_BRCE, L_PARN, R_PARN, R_BRCE,
-        BSLASH,  KC_7, KC_8, KC_9,   TILDE,    ASTRSK, QMARK,  L_THAN, G_THAN, ____,
+        BSLASH,  KC_7, KC_8, KC_9,   ASTRSK,   TILDE,  QMARK,  L_THAN, G_THAN, ____,
                        ____, KC_DOT, VVVV,     PLUS,   VVVV,   ____
     ),
 
@@ -121,12 +124,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         VOL_DN, VOL_UP, FOCWN,  B_BACK, B_FRWD,  T_COPY, T_FULL,  T_FOCU,  T_SRCH,  T_PSTE,
                         ____,   W_OPEN, PPLAY,   XXXX,  ____,   ____
     ),
+
+    [_BLENDER] = BLENDER_MAP,
 };
 
 // Symbol & special combos
 // -----------------------
 // Note: Try to avoid combos that are common rolls,
-// e.g. `re`, `ef`, `es`, `as`, etc,
+// e.g. `re`, `ef`, `es`, `as`, `io`, etc,
 // otherwise you may frequently accidentally trigger the combo.
 // This is less true for combos which are further apart and thus
 // harder to roll w/in the combo term, e.g. `af`.
@@ -134,28 +139,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Also avoid `jk` as I map this to escape in vim.
 //
 // Unused combos that feel ok:
-// - rs (though maybe a common roll)
-// - vc
-// - xv
-// - xc
-// - xb
-// - gd
-// - vs
-// - fx
-// - gx
-// - ,.
-// - ,m
+// - Left
+//   - rs (though maybe a common roll)
+//   - vc
+//   - xv
+//   - xc
+//   - xb
+//   - gd
+//   - vs
+//   - fx
+//   - gx
+// - Right
+//   - ,m
 
 const uint16_t PROGMEM tab[]      = {KC_A, KC_F, COMBO_END};
 const uint16_t PROGMEM escape[]   = {KC_S, KC_F, COMBO_END};
-const uint16_t PROGMEM minus[]    = {KC_U, KC_O, COMBO_END};
-const uint16_t PROGMEM unscore[]  = {KC_M, KC_DOT, COMBO_END};
+const uint16_t PROGMEM minus[]    = {KSYM, KC_H, COMBO_END};
+const uint16_t PROGMEM unscore[]  = {KSYM, KC_M, COMBO_END};
 const uint16_t PROGMEM colon[]    = {KSYM, KC_L, COMBO_END};
 const uint16_t PROGMEM quote[]    = {KC_O, KC_J, COMBO_END};
 const uint16_t PROGMEM dblquote[]    = {KC_J, KC_L, COMBO_END};
-const uint16_t PROGMEM question[]    = {KC_O, KC_I, COMBO_END};
+const uint16_t PROGMEM question[]    = {KC_L, KC_M, COMBO_END};
 const uint16_t PROGMEM equal[]       = {KC_J, KC_I, COMBO_END};
-const uint16_t PROGMEM pipe[]        = {KC_U, KC_I, COMBO_END};
+const uint16_t PROGMEM pipe[]        = {KC_COMMA, KC_DOT, COMBO_END};
 const uint16_t PROGMEM grave[]       = {KC_S, DSYM, COMBO_END};
 const uint16_t PROGMEM ampersand[]   = {DSYM, KC_F, COMBO_END};
 const uint16_t PROGMEM exclamation[] = {KC_F, KC_W, COMBO_END};
@@ -170,10 +176,14 @@ const uint16_t PROGMEM accent_cdill[]  = {KC_Z, KC_B, COMBO_END};
 const uint16_t PROGMEM mute[] = {KC_VOLD, KC_VOLU, COMBO_END};
 
 combo_t key_combos[] = {
-    COMBO(tab, KC_TAB),
-    COMBO(escape, KC_ESC),
-    COMBO(minus, KC_MINUS),
+    // HIGHER TERM----
     COMBO(unscore, USCR),
+    COMBO(exclamation, XMARK),
+    COMBO(escape, KC_ESC),
+    // ----END HIGHER TERM
+
+    COMBO(tab, KC_TAB),
+    COMBO(minus, KC_MINUS),
     COMBO(colon, LSFT(KC_SCLN)),
     COMBO(quote, QUOTE),
     COMBO(dblquote, DBLQT),
@@ -181,7 +191,6 @@ combo_t key_combos[] = {
     COMBO(pipe, PIPE),
     COMBO(ampersand, AMPSND),
     COMBO(question, QMARK),
-    COMBO(exclamation, XMARK),
     COMBO(grave, KC_GRAVE),
 
     COMBO(accent_aigu, RALT(KC_QUOTE)),
@@ -191,6 +200,16 @@ combo_t key_combos[] = {
 
     COMBO(mute, KC_MUTE),
 };
+
+// For combos that are infrequent rolls but trickier to fire
+// we can bump up the combo term so there are fewer misfires.
+uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
+    if (combo_index <=2) {
+        return 60;
+    } else {
+        return COMBO_TERM;
+    }
+}
 
 // System
 const key_override_t bright_up = ko_make_basic(MOD_MASK_SHIFT, KC_VOLU, KC_BRIGHTNESS_UP);

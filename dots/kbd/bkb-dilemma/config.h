@@ -28,3 +28,4 @@
 // Lower if this if rolling keys often triggers combos,
 // but then you have to be more precise when triggering them.
 #define COMBO_TERM 30
+#define COMBO_TERM_PER_COMBO
