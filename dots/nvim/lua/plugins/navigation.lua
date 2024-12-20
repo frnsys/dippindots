@@ -46,10 +46,9 @@ return {
   {
     'declancm/maximize.nvim',
     config = true,
-    lazy = true,
     keys = {
       {
-        ",m",
+        "mm",
         function()
           require('maximize').toggle()
         end,
