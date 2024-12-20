@@ -1,4 +1,19 @@
 return {
+  {
+    'numToStr/Comment.nvim',
+    keys = { { '<c-/>', mode = { 'n', 'v' } } },
+    opts = {
+      toggler = {
+        --- Line-comment toggle keymap
+        line = '<c-/>',
+      },
+      opleader = {
+        --- Line-comment keymap (visual mode)
+        line = '<c-/>',
+      },
+    }
+  },
+
   --- Surround motion
   ---
   --- [S']: Add quotes around visual selection

@@ -13,6 +13,36 @@ return {
     end,
   },
 
+  --- Syntax highlighting in the quickfix window,
+  --- easy toggling, ...
+  {
+    "stevearc/quicker.nvim",
+    config = function()
+      vim.keymap.set("n", "<leader>q", function()
+        require("quicker").toggle({
+          focus = true
+        })
+      end, {
+        desc = "Toggle quickfix",
+      })
+      require("quicker").setup()
+    end
+  },
+
+  --- Better quickfix preview and behaviors.
+  ---
+  --- Bindings:
+  ---
+  --- Default:
+  --- [o]: open item and close qf
+  --- [ctrl-p]: prev item
+  --- [ctrl-n]: next item
+  {
+    "kevinhwang91/nvim-bqf",
+    config = function()
+    end
+  },
+
   {
     "yorickpeterse/nvim-window",
     keys = {
