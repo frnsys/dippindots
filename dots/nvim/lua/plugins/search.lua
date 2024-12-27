@@ -15,37 +15,54 @@ return {
       require("fzf-lua").setup({
         defaults = {
           file_icons = false,
+          no_header = true,
+          no_header_i = true,
+
+          -- Required to use the fzf highlight
+          -- groups defined below.
+          fzf_colors = true,
         },
         files = {
           formatter = "path.filename_first",
-          no_header = true,
-          no_header_i = true,
-          actions = { ["ctrl-q"] = { fn = require("fzf-lua").actions.file_sel_to_qf, prefix = "select-all" } }
+          actions = { ["ctrl-q"] = { fn = require("fzf-lua").actions.file_sel_to_qf, prefix = "select-all" } },
         },
         grep = {
-          no_header = true,
-          no_header_i = true,
+          formatter = "path.filename_first",
+          rg_opts = "--no-heading --color=always --colors 'match:fg:0xff,0x5c,0x5c' --smart-case --max-columns=4096 -e",
           actions = {
             ["ctrl-q"] = {
               fn = require("fzf-lua").actions.file_edit_or_qf, prefix = 'select-all+'
             },
-          }
-        },
-        buffers = {
-          formatter = "path.filename_first",
-          no_header = true,
-          no_header_i = true,
+          },
         },
         previewers = {
           bat = {
             cmd   = "bat",
-            args  = "--color=always --style=numbers,changes",
+            args  = "--color=always --style=plain",
             theme = '1337',
           },
         },
-
-        -- Cherry-picking some config from the 'max-perf' profile.
-        winopts = { width = 0.5, preview = { default = "bat", layout = "vertical", vertical = 'down:70%' } },
+        winopts = {
+          width = 38,
+          preview = {
+            default = "bat",
+            layout = "vertical",
+            vertical = "down:70%",
+            border = "border-top",
+          },
+        },
+        hls = {
+          border = "Keyword",
+          fzf = {
+            info = "Special",
+            query = "Normal",
+            prompt = "Keyword",
+            pointer = "Function",
+            match = "@property",
+            separator = "Keyword",
+            border = "Keyword",
+          },
+        },
       })
     end,
     keys = {
@@ -62,15 +79,6 @@ return {
           require('fzf-lua').live_grep_glob()
         end,
         desc = 'Search by grep'
-      },
-      {
-        "<leader><c-s>",
-        function()
-          require('fzf-lua').live_grep_glob({
-            resume = true
-          })
-        end,
-        desc = 'Search by grep (resume)'
       },
       {
         "<leader><leader>",

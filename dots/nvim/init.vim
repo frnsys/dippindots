@@ -45,7 +45,6 @@ au BufNewFile,BufRead *.script lua require('gliss/verses')
 au BufNewFile,BufRead *.md lua require('gliss/loom')
 
 " terminal
-tnoremap <Esc> <C-\><C-n>
 augroup neovim_terminal
     autocmd!
     " Enter Terminal-mode (insert) automatically,
@@ -136,38 +135,6 @@ let g:netrw_browsex_viewer='firefox'
 " that watch files for changes
 set backupcopy=yes
 
-" bind return to clear last search highlight.
-nnoremap <CR> <cmd>noh<CR><CR>
-
-" tabs
-nnoremap <silent> H <cmd>tabprevious<cr>
-nnoremap <silent> L <cmd>tabnext<cr>
-
-" Toggle b/w alternative buffer
-nnoremap <bs> <c-^>
-
-" bind jk/kj to escape
-imap jk <Esc>
-imap kj <Esc>
-imap <C-space> <Esc>
-
-" don't really use `.`;
-" it causes mostly trouble for me.
-" instead use it to jump to next `f` match.
-map . <Nop>
-nnoremap . ;
-
-" Don't leave visual mode when changing indent
-xnoremap > >gv
-xnoremap < <gv
-
-" Easily restore last visual selection with `vv`
-nnoremap vv gv
-
-" Keep search results in the screen center
-nnoremap n nzz
-nnoremap N Nzz
-
 " bind | and _ to vertical and horizontal splits
 nnoremap <expr><silent> \| !v:count ? "<C-W>v<C-W><Right>" : '\|'
 nnoremap <expr><silent> _  !v:count ? "<C-W>s<C-W><Down>"  : '_'
@@ -188,18 +155,9 @@ au CmdlineEnter * setlocal cmdheight=1 laststatus=0
 au CmdlineLeave * call timer_start(1, { tid -> execute('setlocal cmdheight=0 laststatus=2')})
 set shortmess=WnoOcIatTF " Limit command line messaging
 
-" Command flubs
-" and a hack to suppress the ENTER prompt
+" Hack to suppress the ENTER prompt
 " when writing a file.
 cnoreabbrev w silent write
-command WQ wq
-command Wq wq
-command W silent write
-command Q q
-
-" <c-s> to write
-nnoremap <c-s> :w<cr><cr>
-inoremap <c-s> <esc>:w<cr><cr>a
 
 " filetypes
 filetype plugin indent on
@@ -212,8 +170,6 @@ au FileType typescriptreact setlocal tabstop=2 shiftwidth=2
 au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4
 au FileType lua setlocal softtabstop=2 tabstop=2 shiftwidth=2
 au FileType markdown setlocal softtabstop=2 tabstop=2 shiftwidth=2
-
-" for text
 au FileType text setlocal spell complete+=kspell
 
 " Unity USS/UXML files
@@ -236,6 +192,15 @@ function! CleanNoNameEmptyBuffers()
     endif
 endfunction
 autocmd BufLeave * :call CleanNoNameEmptyBuffers()
+
+lua <<EOF
+-- Android (Termux) specific configuration.
+local output = vim.fn.system("uname -r")
+if string.find(output, "android") then
+    vim.o.number = false
+    vim.o.relativenumber = false
+end
+EOF
 
 lua <<EOF
 -- Show macro recording status when recording a macro

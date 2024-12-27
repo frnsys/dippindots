@@ -1,68 +1,88 @@
+local function _(modes, key, cmd)
+  vim.keymap.set(modes, key, cmd, {
+    noremap = true,
+    silent = true,
+  })
+end
+
 --- Easier text objects
 ---
 --- Notes:
 --- * Not using `p` b/c it's already "paragraph"
 --- * Not using `b` b/c it's already "block"
+--- * Not using `s` b/c it's already "sentence"
 --- * Avoid `hjkl` and other operator keys, e.g. `t`, `/`
 --- * Make sure these don't conflict with the
 ---   mappings in `plugins/treesitter.lua`
 local remappings = {
-  { "o", "(", ")" },
+  { "c", "(", ")" },
   { "r", "[", "]" },
-  { "c", "{", "}" },
+  { "z", "{", "}" },
   { "q", '"', '"' },
 }
-
-for _, map in ipairs(remappings) do
+for i, map in ipairs(remappings) do
   local key = map[1]
   local target = map[2]
   local target_close = map[3]
 
   -- Around
-  vim.keymap.set({"o", "v"}, "a" .. key, "a" .. target)
+  _({"o", "v"}, "a" .. key, "a" .. target)
 
   -- Inside
-  vim.keymap.set({"o", "v"}, "i" .. key, "i" .. target)
+  _({"o", "v"}, "i" .. key, "i" .. target)
 
   -- To
-  vim.keymap.set({"o", "v"}, "t" .. key, "t" .. target_close)
+  _({"o", "v"}, "t" .. key, "t" .. target_close)
 
   -- Convenience binding that assumes "inside"
-  vim.keymap.set({"o", "v"}, key, "i" .. target)
+  _({"o", "v"}, key, "i" .. target)
 
   -- Convenience jump to
-  vim.keymap.set("n", "." .. key, "f" .. target, { noremap = true })
-  vim.keymap.set("n", "," .. key, "F" .. target, { noremap = true })
+  _("n", "." .. key, "/" .. target .. "<cr><cmd>noh<cr>")
+  _("n", "," .. key, "?" .. target .. "<cr><cmd>noh<cr>")
 end
 
 --- To next empty line
-vim.keymap.set({"o", "v", "n"}, "<space>", "}")
-
---- New tab
-vim.keymap.set("n", "<S-t>", ":tabnew<cr><cr>")
+_({"o", "v", "n"}, "<space>", "}")
 
 --- Easier jumping between matching brackets
-vim.keymap.set({"n", "o"}, ",.", "%", { noremap = true })
-vim.keymap.set({"n", "o"}, ".,", "%", { noremap = true })
+_({"n", "o"}, ",.", "%")
+_({"n", "o"}, ".,", "%")
 
---- Easier window navigation
-vim.keymap.set("n", "<C-j>", "<C-w>j")
-vim.keymap.set("n", "<C-k>", "<C-w>k")
-vim.keymap.set("n", "<C-h>", "<C-w>h")
-vim.keymap.set("n", "<C-l>", "<C-w>l")
+--- Tabs
+_("n", "T", ":tabnew<cr>")
+_("n", "L", ":tabnext<cr>")
+_("n", "H", ":tabprevious<cr>")
+
+--- Bind return to clear last search highlight.
+_("n", "<cr>", ":noh<cr>")
+
+--- Toggle b/w alternative buffer
+_("n", "<bs>", "<c-^>")
+
+--- Bind jk/kj to escape
+_("i", "jk", "<esc>")
+_("i", "jk", "<esc>")
+
+--- Don't leave visual mode when changing indent
+_("x", ">", ">gv")
+_("x", "<", "<gv")
 
 --- Expand/contract visual selection symmetrically
-vim.keymap.set('v', '<c-k>', 'j$ok0o')
-vim.keymap.set('v', '<c-j>', 'k$oj0o')
+_("v", "<c-k>", "j$ok0o")
+_("v", "<c-j>", "k$oj0o")
+
+--- Easily restore last visual selection with `vv`
+_("n", "vv", "gv")
+
+--- Keep search results in the screen center
+_("n", "n", "nzz")
+_("n", "N", "Nzz")
 
 --- Quickfix navigation
-vim.keymap.set("n", "<C-n>", ":cnext<cr><cr>")
-vim.keymap.set("n", "<C-p>", ":cprev<cr><cr>")
+_("n", "<c-n>", ":cnext<cr>")
+_("n", "<c-p>", ":cprev<cr>")
 
 --- Terminals
-vim.keymap.set(
-    'n',
-    ',t',
-    ":ToggleTerm<cr><cr>",
-    { desc = 'Toggle terminal' }
-)
+_("n", ",t", ":ToggleTerm<cr>")
+_("t", "<esc>", "<c-\\><c-n>")
