@@ -29,34 +29,12 @@ require('abbrevs')
 require('bindings')
 require('markdown')
 
+-- For nvim 0.11
+-- require('completion')
+
 EOF
 
-" Insert html footnote
-function! InsertFootnote(number)
-    execute "normal! i<a href=\"#fn-" . a:number . "\" id=\"fnl-" . a:number . "\" class=\"fn\">" . a:number . "</a>"
-endfunction
-command! -nargs=1 Footnote call InsertFootnote(<args>)
-
-set termguicolors
 colorscheme futora
-
-" gliss tooling
-au BufNewFile,BufRead *.script lua require('gliss/verses')
-au BufNewFile,BufRead *.md lua require('gliss/loom')
-
-" terminal
-augroup neovim_terminal
-    autocmd!
-    " Enter Terminal-mode (insert) automatically,
-    " but not if the terminal is opening from the kitty scrollback plugin.
-    if $KITTY_SCROLLBACK_NVIM != 'true'
-      autocmd TermOpen * startinsert
-    endif
-    " Disables number lines on terminal buffers
-    autocmd TermOpen * :set nonumber norelativenumber
-    " allows you to use Ctrl-c on terminal window
-    autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
-augroup END
 
 " navigation
 set number            			" Show line numbers
@@ -170,11 +148,16 @@ au FileType typescriptreact setlocal tabstop=2 shiftwidth=2
 au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4
 au FileType lua setlocal softtabstop=2 tabstop=2 shiftwidth=2
 au FileType markdown setlocal softtabstop=2 tabstop=2 shiftwidth=2
-au FileType text setlocal spell complete+=kspell
+au FileType markdown setlocal spell spelllang=fr,en_us complete+=kspell
+au FileType text setlocal spell spelllang=fr,en_us complete+=kspell
 
 " Unity USS/UXML files
 au BufNewFile,BufRead *.uss set filetype=css
 au BufNewFile,BufRead *.uxml set filetype=html
+
+" Gliss tooling
+au BufNewFile,BufRead *.script lua require('gliss/verses')
+au BufNewFile,BufRead *.md lua require('gliss/loom')
 
 " Automatically trim trailing whitespace on save.
 au BufWritePre * :%s/\s\+$//e

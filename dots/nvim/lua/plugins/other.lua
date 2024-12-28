@@ -36,4 +36,15 @@ return {
       }
     }
   },
+
+  {
+      "robitx/gp.nvim",
+      config = function()
+          local home = os.getenv("HOME")
+          local conf = {
+            openai_api_key = { "cat", home .. "/.openai" },
+          }
+          require("gp").setup(conf)
+      end,
+  },
 }

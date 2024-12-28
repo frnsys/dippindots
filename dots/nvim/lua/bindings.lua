@@ -1,4 +1,4 @@
-local function _(modes, key, cmd)
+local function _(key, cmd, modes)
   vim.keymap.set(modes, key, cmd, {
     noremap = true,
     silent = true,
@@ -26,63 +26,63 @@ for i, map in ipairs(remappings) do
   local target_close = map[3]
 
   -- Around
-  _({"o", "v"}, "a" .. key, "a" .. target)
+  _("a" .. key, "a" .. target, {"o", "v"})
 
   -- Inside
-  _({"o", "v"}, "i" .. key, "i" .. target)
+  _("i" .. key, "i" .. target, {"o", "v"})
 
   -- To
-  _({"o", "v"}, "t" .. key, "t" .. target_close)
+  _("t" .. key, "t" .. target_close, {"o", "v"})
 
   -- Convenience binding that assumes "inside"
-  _({"o", "v"}, key, "i" .. target)
+  _(key, "i" .. target, {"o", "v"})
 
   -- Convenience jump to
-  _("n", "." .. key, "/" .. target .. "<cr><cmd>noh<cr>")
-  _("n", "," .. key, "?" .. target .. "<cr><cmd>noh<cr>")
+  _("." .. key, "/" .. target .. "<cr><cmd>noh<cr>", "n")
+  _("," .. key, "?" .. target .. "<cr><cmd>noh<cr>", "n")
 end
 
 --- To next empty line
-_({"o", "v", "n"}, "<space>", "}")
+_("<space>", "}", {"o", "v", "n"})
 
 --- Easier jumping between matching brackets
-_({"n", "o"}, ",.", "%")
-_({"n", "o"}, ".,", "%")
+_(",.", "%", {"n", "o"})
+_(".,", "%", {"n", "o"})
 
 --- Tabs
-_("n", "T", ":tabnew<cr>")
-_("n", "L", ":tabnext<cr>")
-_("n", "H", ":tabprevious<cr>")
+_("T", ":tabnew<cr>", "n")
+_("L", ":tabnext<cr>", "n")
+_("H", ":tabprevious<cr>", "n")
 
 --- Bind return to clear last search highlight.
-_("n", "<cr>", ":noh<cr>")
+_("<cr>", ":noh<cr>", "n")
 
 --- Toggle b/w alternative buffer
-_("n", "<bs>", "<c-^>")
+_("<bs>", "<c-^>", "n")
 
 --- Bind jk/kj to escape
-_("i", "jk", "<esc>")
-_("i", "jk", "<esc>")
+_("jk", "<esc>", "i")
+_("jk", "<esc>", "i")
 
 --- Don't leave visual mode when changing indent
-_("x", ">", ">gv")
-_("x", "<", "<gv")
+_(">", ">gv", "x")
+_("<", "<gv", "x")
 
 --- Expand/contract visual selection symmetrically
-_("v", "<c-k>", "j$ok0o")
-_("v", "<c-j>", "k$oj0o")
+_("<c-k>", "j$ok0o", "v")
+_("<c-j>", "k$oj0o", "v")
 
 --- Easily restore last visual selection with `vv`
-_("n", "vv", "gv")
+_("vv", "gv", "n")
 
 --- Keep search results in the screen center
-_("n", "n", "nzz")
-_("n", "N", "Nzz")
+_("n", "nzz", "n")
+_("N", "Nzz", "n")
 
 --- Quickfix navigation
-_("n", "<c-n>", ":cnext<cr>")
-_("n", "<c-p>", ":cprev<cr>")
+_("<c-n>", ":cnext<cr>", "n")
+_("<c-p>", ":cprev<cr>", "n")
 
 --- Terminals
-_("n", ",t", ":ToggleTerm<cr>")
-_("t", "<esc>", "<c-\\><c-n>")
+_(",t", ":ToggleTerm<cr>", "n")
+_("<esc>", "<c-\\><c-n>", "t")

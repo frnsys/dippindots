@@ -28,7 +28,7 @@ end
 # Setup GDAL for GIS stuff
 set -U GDAL_DATA /usr/share/gdal
 
-set PATH $HOME/.bin $HOME/.cargo/bin /usr/sbin /var/lib/flatpak/exports/bin/ $PATH
+set PATH $HOME/.bin $HOME/.local/bin $HOME/.cargo/bin /usr/sbin /var/lib/flatpak/exports/bin/ $PATH
 
 if type -q gsettings
     gsettings set org.gnome.desktop.interface color-scheme prefer-dark

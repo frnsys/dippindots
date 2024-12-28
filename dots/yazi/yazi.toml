@@ -16,7 +16,6 @@ cache_dir  = ""
 
 [opener]
 folder = [
-	{ run = 'open -R "$@"', desc = "Reveal in Finder" },
 	{ run = 'nvim "$@"' },
 ]
 archive = [
@@ -60,10 +59,7 @@ markdown = [
 html = [
     { run = 'firefox "$@"', desc = "Browser" },
 ]
-fallback = [
-	{ run = 'open "$@"', desc = "Open" },
-	{ run = 'open -R "$@"', desc = "Reveal in Finder" },
-]
+fallback = []
 
 [open]
 rules = [

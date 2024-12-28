@@ -1,4 +1,27 @@
+// Design notes
+// ------------
+//
+// Symbols:
+// - Punctuation that is almost always followed by whitespace (space or enter): ,!?:;
+//  - `=` is kind of a special case, since it's frequently surrounded by spaces
+//  - As such these are ok for combos as long as it allows for easily following up with space or enter
+// - Punctuation that is often interleaved between other characters and/or repeated: -_/.'
+//  - We could also include the "surrounding puncutation" below here.
+//  - As such these are less ideal for combos, since combos are flow-interrupting and awkward ro repeat.
+// - Other punctuation that is relatively rare: @*\%~$#]^|
+// - Surrounding punctuation:
+//  - "'`
+//  - [](){}<>
+// - Used frequently with numbers: -+.*
+//
+// - Rare alpha keys: QZX, though often used in shortcuts
+//  - But their rarity means they are infrequent in bigrams and so they can be rolled with mods with less issue
+
 #include QMK_KEYBOARD_H
+
+// For accented characters
+#include "keymap_us_international.h"
+#include "sendstring_us_international.h"
 
 enum layers {
     _ALPHA,
@@ -9,7 +32,7 @@ enum layers {
 
 #define LAYOUT LAYOUT_split_3x5_3
 
-#define ____ KC_NO // Unused
+#define ____ KC_NO // An unused key
 #define XXXX KC_NO // Can't use; trigger for the current layer
 #define VVVV KC_TRNS // Passthrough
 
@@ -27,42 +50,44 @@ enum layers {
 #define KSYM LT(_NUMSYM, KC_K)
 
 // Mouse
-#define LCLK MS_BTN1
-#define RCLK MS_BTN2
-#define MCLK MS_BTN3
+#define L_CLK MS_BTN1
+#define R_CLK MS_BTN2
+#define M_CLK MS_BTN3
 #define MS_DN DPI_RMOD
 #define MS_UP DPI_MOD
-#define SNIPE SNP_TOG
 
 // Symbols
-#define L_BRAK KC_LBRC          // [
-#define R_BRAK KC_RBRC          // ]
-#define L_PARN LSFT(KC_9)       // (
-#define R_PARN LSFT(KC_0)       // )
-#define L_BRCE LSFT(KC_LBRC)    // {
-#define R_BRCE LSFT(KC_RBRC)    // }
-#define PLUS LSFT(KC_EQL)       // +
-#define MINUS KC_MINUS          // -
-#define EQUAL KC_EQL            // =
-#define TILDE LSFT(KC_GRV)      // ~
-#define XMARK LSFT(KC_1)        // !
-#define AROBAS LSFT(KC_2)       // @
-#define OCTHRP LSFT(KC_3)       // #
-#define DOLLAR LSFT(KC_4)       // $
-#define PERCENT LSFT(KC_5)      // %
-#define CARET LSFT(KC_6)        // ^
-#define AMPSND LSFT(KC_7)       // &
-#define ASTRSK LSFT(KC_8)       // *
-#define L_THAN LSFT(KC_COMMA)   // <
-#define G_THAN LSFT(KC_DOT)     // >
-#define QUOTE KC_QUOTE          // '
-#define DBLQT LSFT(KC_QUOTE)    // "
-#define QMARK LSFT(KC_SLSH)     // ?
-#define SCOLON KC_SCLN          // ;
-#define COLON LSFT(KC_SCLN)     // :
-#define USCR LSFT(KC_MINUS)     // _
-#define PIPE LSFT(KC_BACKSLASH) // |
-#define BSLASH KC_BACKSLASH
+#define L_BRK KC_LBRC        // [
+#define R_BRK KC_RBRC        // ]
+#define L_PAR LSFT(KC_9)     // (
+#define R_PAR LSFT(KC_0)     // )
+#define L_BRC LSFT(KC_LBRC)  // {
+#define R_BRC LSFT(KC_RBRC)  // }
+#define L_THN LSFT(KC_COMMA) // <
+#define G_THN LSFT(KC_DOT)   // >
+#define PLUS  LSFT(KC_EQL)   // +
+#define MINUS KC_MINUS       // -
+#define EQUAL KC_EQL         // =
+#define TILDE LSFT(KC_GRV)   // ~
+#define EXCLM LSFT(KC_1)     // !
+#define AROBA LSFT(KC_2)     // @
+#define OCTHP LSFT(KC_3)     // #
+#define DOLAR LSFT(KC_4)     // $
+#define PRCNT LSFT(KC_5)     // %
+#define CARET LSFT(KC_6)     // ^
+#define AMPER LSFT(KC_7)     // &
+#define ASTRK LSFT(KC_8)     // *
+#define QUOTE KC_QUOTE       // '
+#define DBLQT LSFT(KC_QUOTE) // "
+#define QMARK LSFT(KC_SLSH)  // ?
+#define SLASH KC_SLSH        // /
+#define SCOLN KC_SCOLN       // ;
+#define COLON LSFT(KC_SCLN)  // :
+#define USCOR LSFT(KC_MINUS) // _
+#define PIPE  LSFT(KC_BSLS)  // |
+#define COMMA KC_COMMA       // ,
+#define GRAVE KC_GRAVE       // `
+#define BSLSH KC_BACKSLASH
 
 // Window Manager
 #define DESK1 LGUI(KC_1)
@@ -71,7 +96,7 @@ enum layers {
 #define FOCWN LGUI(KC_H)       // Change window focus
 #define FOCMN LGUI(LCTL(KC_K)) // Change monitor focus
 #define TOMON LGUI(LCTL(KC_M)) // Move window to monitor
-#define W_OPEN LGUI(KC_SPACE)  // Launcher
+#define BMENU LGUI(KC_SPACE)   // Launcher
 #define CLOSE LGUI(LSFT(LALT(KC_Q))) // (Force) close window
 
 // Media
@@ -86,8 +111,8 @@ enum layers {
 #define B_NEXT LCTL(KC_TAB)       // Next tab
 
 // Terminal
-#define T_PREV LALT(KC_LBRC)    // Prev term tab
-#define T_NEXT LALT(KC_RBRC)    // Next term tab
+#define T_PREV LALT(KC_L_BRC)    // Prev term tab
+#define T_NEXT LALT(KC_R_BRC)    // Next term tab
 #define T_HSPL LALT(KC_MINS)    // Horizontal split
 #define T_VSPL LALT(KC_BSLS)    // Vertical split
 #define T_FOCU LALT(KC_W)       // Focus pane
@@ -104,32 +129,31 @@ enum layers {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ALPHA] = LAYOUT(
-        KC_Q, KC_W, KC_E, KC_R, KC_T,     KC_Y, KC_U, KC_I,    KC_O,   KC_P,
-        KC_A, KC_S, DSYM, KC_F, KC_G,     KC_H, KC_J, KSYM,    KC_L,   KC_SCLN,
-        KC_Z, KC_X, KC_C, KC_V, KC_B,     KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,
-                    LCLK, SHFT, BNAV,     ENAV, SCTL, META
+        KC_Q, KC_W, KC_E,  KC_R, KC_T,     KC_Y, KC_U, KC_I,  KC_O,   KC_P,
+        KC_A, KC_S, DSYM,  KC_F, KC_G,     KC_H, KC_J, KSYM,  KC_L,   SCOLN,
+        KC_Z, KC_X, KC_C,  KC_V, KC_B,     KC_N, KC_M, COMMA, KC_DOT, SLASH,
+                    L_CLK, SHFT, BNAV,     ENAV, SCTL, META
     ),
 
     [_NUMSYM] = LAYOUT(
-        PERCENT, KC_1, KC_2, KC_3,   AROBAS,   DOLLAR, OCTHRP, L_BRAK, R_BRAK, COLON,
-        CARET,   KC_4, KC_5, KC_6,   KC_0,     MINUS,  L_BRCE, L_PARN, R_PARN, R_BRCE,
-        BSLASH,  KC_7, KC_8, KC_9,   ASTRSK,   TILDE,  QMARK,  L_THAN, G_THAN, ____,
-                       ____, KC_DOT, VVVV,     PLUS,   VVVV,   ____
+        PLUS,  KC_1, KC_2, KC_3,   MINUS,   AROBA, OCTHP, L_BRK, R_BRK, ____,
+        ASTRK, KC_4, KC_5, KC_6,   KC_0,    PIPE,  L_BRC, L_PAR, R_PAR, R_BRC,
+        CARET, KC_7, KC_8, KC_9,   DOLAR,   TILDE, ____,  L_THN, G_THN, GRAVE,
+                    PRCNT, KC_DOT, VVVV,    ____,  VVVV,  BSLSH
     ),
 
     [_NAVCTL] = LAYOUT(
         // WM                                    // Terminal
-        META,   RCLK,   MCLK,   MS_DN,  LCLK,    T_HIST, T_PREV,  KC_UP,   T_NEXT,  T_NTAB,
+        META,   R_CLK,  M_CLK,  MS_DN,  L_CLK,   T_HIST, T_PREV,  KC_UP,   T_NEXT,  T_NTAB,
         SHFT,   DESK1,  DESK2,  DESK3,  FOCMN,   T_HSPL, KC_LEFT, KC_DOWN, KC_RGHT, T_VSPL,
         VOL_DN, VOL_UP, FOCWN,  B_BACK, B_FRWD,  T_COPY, T_FULL,  T_FOCU,  T_SRCH,  T_PSTE,
-                        ____,   W_OPEN, PPLAY,   XXXX,  ____,   ____
+                        ____,   BMENU,  PPLAY,   XXXX,  ____,   ____
     ),
 
     [_BLENDER] = BLENDER_MAP,
 };
 
-// Symbol & special combos
-// -----------------------
+// ----Combos-----------------------
 // Note: Try to avoid combos that are common rolls,
 // e.g. `re`, `ef`, `es`, `as`, `io`, etc,
 // otherwise you may frequently accidentally trigger the combo.
@@ -137,62 +161,47 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // harder to roll w/in the combo term, e.g. `af`.
 //
 // Also avoid `jk` as I map this to escape in vim.
-//
-// Unused combos that feel ok:
-// - Left
-//   - rs (though maybe a common roll)
-//   - vc
-//   - xv
-//   - xc
-//   - xb
-//   - gd
-//   - vs
-//   - fx
-//   - gx
-// - Right
-//   - ,m
-
 const uint16_t PROGMEM tab[]      = {KC_A, KC_F, COMBO_END};
 const uint16_t PROGMEM escape[]   = {KC_S, KC_F, COMBO_END};
 const uint16_t PROGMEM minus[]    = {KSYM, KC_H, COMBO_END};
 const uint16_t PROGMEM unscore[]  = {KSYM, KC_M, COMBO_END};
 const uint16_t PROGMEM colon[]    = {KSYM, KC_L, COMBO_END};
-const uint16_t PROGMEM quote[]    = {KC_O, KC_J, COMBO_END};
+// const uint16_t PROGMEM quote[]    = {KC_O, KC_J, COMBO_END};
 const uint16_t PROGMEM dblquote[]    = {KC_J, KC_L, COMBO_END};
 const uint16_t PROGMEM question[]    = {KC_L, KC_M, COMBO_END};
-const uint16_t PROGMEM equal[]       = {KC_J, KC_I, COMBO_END};
+// const uint16_t PROGMEM equal[]       = {KC_J, KC_I, COMBO_END};
+const uint16_t PROGMEM equal[]       = {KC_O, KC_J, COMBO_END};
 const uint16_t PROGMEM pipe[]        = {KC_COMMA, KC_DOT, COMBO_END};
 const uint16_t PROGMEM grave[]       = {KC_S, DSYM, COMBO_END};
 const uint16_t PROGMEM ampersand[]   = {DSYM, KC_F, COMBO_END};
 const uint16_t PROGMEM exclamation[] = {KC_F, KC_W, COMBO_END};
+const uint16_t PROGMEM mute[] = {KC_VOLD, KC_VOLU, COMBO_END};
 
-// Accented inputs
+// TODO try using dead keys from us intl layout
 const uint16_t PROGMEM accent_aigu[]   = {KC_Q, KC_T, COMBO_END};
 const uint16_t PROGMEM accent_grave[]  = {KC_Q, KC_G, COMBO_END};
 const uint16_t PROGMEM accent_cflex[]  = {KC_Z, KC_G, COMBO_END};
 const uint16_t PROGMEM accent_cdill[]  = {KC_Z, KC_B, COMBO_END};
 
-// WM controls
-const uint16_t PROGMEM mute[] = {KC_VOLD, KC_VOLU, COMBO_END};
-
 combo_t key_combos[] = {
     // HIGHER TERM----
-    COMBO(unscore, USCR),
-    COMBO(exclamation, XMARK),
+    // COMBO(unscore, USCOR),
+    COMBO(exclamation, EXCLM),
     COMBO(escape, KC_ESC),
     // ----END HIGHER TERM
 
     COMBO(tab, KC_TAB),
-    COMBO(minus, KC_MINUS),
+    // COMBO(minus, KC_MINUS),
     COMBO(colon, LSFT(KC_SCLN)),
-    COMBO(quote, QUOTE),
-    COMBO(dblquote, DBLQT),
+    // COMBO(quote, QUOTE),
+    // COMBO(dblquote, DBLQT),
     COMBO(equal, EQUAL),
-    COMBO(pipe, PIPE),
-    COMBO(ampersand, AMPSND),
+    // COMBO(pipe, PIPE),
+    COMBO(ampersand, AMPER),
     COMBO(question, QMARK),
-    COMBO(grave, KC_GRAVE),
+    // COMBO(grave, KC_GRAVE),
 
+    // TODO have a separate accent dead key layer?
     COMBO(accent_aigu, RALT(KC_QUOTE)),
     COMBO(accent_grave, RALT(KC_GRAVE)),
     COMBO(accent_cflex, RALT(CARET)),
@@ -211,15 +220,22 @@ uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
     }
 }
 
+
+// ----Shifts-----------------------
+// <s-;> -> '
+// <s-/> -> "
+// <s-,> -> -
+// <s-.> -> _
+const key_override_t s_minus = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, MINUS);
+const key_override_t s_uscore = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, USCOR);
+const key_override_t s_quote = ko_make_basic(MOD_MASK_SHIFT, KC_SCLN, QUOTE);
+const key_override_t s_dblquote = ko_make_basic(MOD_MASK_SHIFT, KC_SLSH, DBLQT);
+
 // System
 const key_override_t bright_up = ko_make_basic(MOD_MASK_SHIFT, KC_VOLU, KC_BRIGHTNESS_UP);
 const key_override_t bright_down = ko_make_basic(MOD_MASK_SHIFT, KC_VOLD, KC_BRIGHTNESS_DOWN);
 const key_override_t move_win_mon = ko_make_basic(MOD_MASK_SHIFT, FOCMN, TOMON);
 const key_override_t mouse_speed_up = ko_make_basic(MOD_MASK_SHIFT, MS_DN, MS_UP);
-
-// Alpha
-const key_override_t other_tab = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, KC_TAB); // maybe?
-const key_override_t other_other_tab = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_TAB);       // what should this be?
 
 // Terminal
 const key_override_t term_name_tab = ko_make_basic(MOD_MASK_SHIFT, T_FOCU, T_NAME);
@@ -229,15 +245,16 @@ const key_override_t term_resize_win = ko_make_basic(MOD_MASK_SHIFT, T_FULL, T_R
 const key_override_t next_browser_tab = ko_make_basic(MOD_MASK_SHIFT, T_NEXT, B_NEXT);
 const key_override_t prev_browser_tab = ko_make_basic(MOD_MASK_SHIFT, T_PREV, B_PREV);
 
-
 const key_override_t *key_overrides[] = {
     &bright_up,
     &bright_down,
 
     &move_win_mon,
 
-    &other_other_tab,
-    &other_tab,
+    &s_minus,
+    &s_uscore,
+    &s_quote,
+    &s_dblquote,
 
     &term_name_tab,
     &term_resize_win,

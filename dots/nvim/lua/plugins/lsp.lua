@@ -1,5 +1,3 @@
---- Keymap prefix: g
-
 -- https://github.com/neovim/neovim/issues/23725
 local ok, wf = pcall(require, "vim.lsp._watchfiles")
 if ok then
@@ -10,15 +8,15 @@ if ok then
 end
 
 --- Temporary fix for: https://github.com/neovim/neovim/issues/30985
-for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
-    local default_diagnostic_handler = vim.lsp.handlers[method]
-    vim.lsp.handlers[method] = function(err, result, context, config)
-        if err ~= nil and err.code == -32802 then
-            return
-        end
-        return default_diagnostic_handler(err, result, context, config)
-    end
-end
+-- for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
+--     local default_diagnostic_handler = vim.lsp.handlers[method]
+--     vim.lsp.handlers[method] = function(err, result, context, config)
+--         if err ~= nil and err.code == -32802 then
+--             return
+--         end
+--         return default_diagnostic_handler(err, result, context, config)
+--     end
+-- end
 
 return {
   {
@@ -162,17 +160,9 @@ return {
         },
         cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
       }
-
-
-      --- Python (basedpyright)
-      --- pip install basedpyright
-      -- require('lspconfig').basedpyright.setup({
-      --   on_attach = function(client, bufnr)
-      --     client.server_capabilities.semanticTokensProvider = nil
-      --   end
-      -- })
     end
   },
+
   {
     "folke/trouble.nvim",
     opts = {
@@ -225,5 +215,42 @@ return {
         desc = 'List diagnostics'
       },
     }
-  }
+  },
+
+  {
+    -- NOTE: If something breaks with the binary, you can recompile it:
+    -- cd /home/francis/.local/share/nvim/lazy/blink.cmp
+    -- cargo build --release
+    'saghen/blink.cmp',
+    enabled = false,
+    lazy = false, -- lazy loading handled internally
+    version = 'v0.*',
+    opts = {
+      keymap = {
+        ['<c-x>'] = { 'show', 'hide' },
+        ['<c-space>'] = { 'accept' },
+        ['<c-p>'] = { 'select_prev' },
+        ['<c-n>'] = { 'select_next' },
+        ['<c-d>'] = { 'scroll_documentation_up' },
+        ['<c-f>'] = { 'scroll_documentation_down' },
+        ['<c-;>'] = { 'snippet_forward' },
+        ['<c-l>'] = { 'snippet_backward' },
+      },
+      completion = {
+        list = {
+          selection = "auto_insert"
+        },
+        accept = {
+          auto_brackets = { enabled = true }
+        },
+        menu = {
+          draw = {
+            columns = {
+              { "label", "label_description", gap = 1 }
+            },
+          }
+        }
+      },
+    }
+  },
 }
