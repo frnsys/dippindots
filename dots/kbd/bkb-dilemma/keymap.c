@@ -19,10 +19,6 @@
 
 #include QMK_KEYBOARD_H
 
-// For accented characters
-#include "keymap_us_international.h"
-#include "sendstring_us_international.h"
-
 enum layers {
     _ALPHA,
     _NUMSYM,
@@ -48,6 +44,13 @@ enum layers {
 
 #define DSYM LT(_NUMSYM, KC_D)
 #define KSYM LT(_NUMSYM, KC_K)
+#define QGUI MT(MOD_LGUI, KC_Q)
+#define ZALT MT(MOD_RALT, KC_Z) // Use as AltGr for accents
+// RAlt+e -> aigu
+// RAlt+u -> umlaut
+// RAlt+i -> cironflex
+// RAlt+c -> ç
+// RAlt+` -> grave
 
 // Mouse
 #define L_CLK MS_BTN1
@@ -81,7 +84,7 @@ enum layers {
 #define DBLQT LSFT(KC_QUOTE) // "
 #define QMARK LSFT(KC_SLSH)  // ?
 #define SLASH KC_SLSH        // /
-#define SCOLN KC_SCOLN       // ;
+#define SCOLN KC_SCLN        // ;
 #define COLON LSFT(KC_SCLN)  // :
 #define USCOR LSFT(KC_MINUS) // _
 #define PIPE  LSFT(KC_BSLS)  // |
@@ -111,9 +114,9 @@ enum layers {
 #define B_NEXT LCTL(KC_TAB)       // Next tab
 
 // Terminal
-#define T_PREV LALT(KC_L_BRC)    // Prev term tab
-#define T_NEXT LALT(KC_R_BRC)    // Next term tab
-#define T_HSPL LALT(KC_MINS)    // Horizontal split
+#define T_PREV LALT(KC_LBRC)    // Prev term tab
+#define T_NEXT LALT(KC_RBRC)    // Next term tab
+#define T_HSPL LALT(KC_MINUS)    // Horizontal split
 #define T_VSPL LALT(KC_BSLS)    // Vertical split
 #define T_FOCU LALT(KC_W)       // Focus pane
 #define T_FULL LALT(KC_M)       // Maximize pane
@@ -129,10 +132,10 @@ enum layers {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ALPHA] = LAYOUT(
-        KC_Q, KC_W, KC_E,  KC_R, KC_T,     KC_Y, KC_U, KC_I,  KC_O,   KC_P,
+        QGUI, KC_W, KC_E,  KC_R, KC_T,     KC_Y, KC_U, KC_I,  KC_O,   KC_P,
         KC_A, KC_S, DSYM,  KC_F, KC_G,     KC_H, KC_J, KSYM,  KC_L,   SCOLN,
-        KC_Z, KC_X, KC_C,  KC_V, KC_B,     KC_N, KC_M, COMMA, KC_DOT, SLASH,
-                    L_CLK, SHFT, BNAV,     ENAV, SCTL, META
+        ZALT, KC_X, KC_C,  KC_V, KC_B,     KC_N, KC_M, COMMA, KC_DOT, SLASH,
+                    L_CLK, SHFT, BNAV,     ENAV, SCTL, QK_REP
     ),
 
     [_NUMSYM] = LAYOUT(
@@ -154,7 +157,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 // ----Combos-----------------------
-// Note: Try to avoid combos that are common rolls,
+// The downside of combos vs e.g. a layer or shift-modified key
+// is that they require more precise timing; that is, there's a
+// combo term that both keys must be pressed within, whereas with
+// e.g. Shift+Something you can be sloppier in the timing and so
+// it is less flow-interrupting.
+//
+// Try to avoid combos that are common rolls,
 // e.g. `re`, `ef`, `es`, `as`, `io`, etc,
 // otherwise you may frequently accidentally trigger the combo.
 // This is less true for combos which are further apart and thus
@@ -163,49 +172,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Also avoid `jk` as I map this to escape in vim.
 const uint16_t PROGMEM tab[]      = {KC_A, KC_F, COMBO_END};
 const uint16_t PROGMEM escape[]   = {KC_S, KC_F, COMBO_END};
-const uint16_t PROGMEM minus[]    = {KSYM, KC_H, COMBO_END};
-const uint16_t PROGMEM unscore[]  = {KSYM, KC_M, COMBO_END};
 const uint16_t PROGMEM colon[]    = {KSYM, KC_L, COMBO_END};
-// const uint16_t PROGMEM quote[]    = {KC_O, KC_J, COMBO_END};
-const uint16_t PROGMEM dblquote[]    = {KC_J, KC_L, COMBO_END};
 const uint16_t PROGMEM question[]    = {KC_L, KC_M, COMBO_END};
-// const uint16_t PROGMEM equal[]       = {KC_J, KC_I, COMBO_END};
-const uint16_t PROGMEM equal[]       = {KC_O, KC_J, COMBO_END};
-const uint16_t PROGMEM pipe[]        = {KC_COMMA, KC_DOT, COMBO_END};
-const uint16_t PROGMEM grave[]       = {KC_S, DSYM, COMBO_END};
+const uint16_t PROGMEM equal[]       = {KC_L, KC_J, COMBO_END};
 const uint16_t PROGMEM ampersand[]   = {DSYM, KC_F, COMBO_END};
 const uint16_t PROGMEM exclamation[] = {KC_F, KC_W, COMBO_END};
 const uint16_t PROGMEM mute[] = {KC_VOLD, KC_VOLU, COMBO_END};
 
-// TODO try using dead keys from us intl layout
-const uint16_t PROGMEM accent_aigu[]   = {KC_Q, KC_T, COMBO_END};
-const uint16_t PROGMEM accent_grave[]  = {KC_Q, KC_G, COMBO_END};
-const uint16_t PROGMEM accent_cflex[]  = {KC_Z, KC_G, COMBO_END};
-const uint16_t PROGMEM accent_cdill[]  = {KC_Z, KC_B, COMBO_END};
-
 combo_t key_combos[] = {
     // HIGHER TERM----
-    // COMBO(unscore, USCOR),
     COMBO(exclamation, EXCLM),
     COMBO(escape, KC_ESC),
+    COMBO(tab, KC_TAB),
     // ----END HIGHER TERM
 
-    COMBO(tab, KC_TAB),
-    // COMBO(minus, KC_MINUS),
     COMBO(colon, LSFT(KC_SCLN)),
-    // COMBO(quote, QUOTE),
-    // COMBO(dblquote, DBLQT),
     COMBO(equal, EQUAL),
-    // COMBO(pipe, PIPE),
     COMBO(ampersand, AMPER),
     COMBO(question, QMARK),
-    // COMBO(grave, KC_GRAVE),
-
-    // TODO have a separate accent dead key layer?
-    COMBO(accent_aigu, RALT(KC_QUOTE)),
-    COMBO(accent_grave, RALT(KC_GRAVE)),
-    COMBO(accent_cflex, RALT(CARET)),
-    COMBO(accent_cdill, RALT(KC_COMMA)),
 
     COMBO(mute, KC_MUTE),
 };

@@ -1,4 +1,9 @@
 # Android phone setup
+## Ad Blocking
+
+Set the private DNS to `dns.adguard-dns.com`.
+
+Check that ads are blocked at <https://d3ward.github.io/toolz/adblock>; make sure any browser ad-blockers are disables to test the DNS server.
 ## Termux
 
 Install Termux and Termux-API from their GitHub releases.
