@@ -154,6 +154,11 @@ riverctl input $TOUCHPAD natural-scroll disabled
 riverctl input $TOUCHPAD scroll-method two-finger
 riverctl input $TOUCHPAD tap enabled
 
+TOUCHSCREEN=touch-1539-61441-NVTK0603:00_0603:F001
+riverctl input $TOUCHSCREEN tap enabled
+riverctl input $TOUCHSCREEN drag enabled
+riverctl input $TOUCHSCREEN map-to-output eDP-1
+
 MOUSE=pointer-7119-5-USB_Optical_Mouse
 riverctl input $MOUSE accel-profile flat
 riverctl input $MOUSE pointer-accel 0.6

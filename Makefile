@@ -14,7 +14,7 @@ all: base de media apps laptop
 base: prereqs git langs rust shell tools editor network other
 de: wm bar notifications menu theme terminal scrots fm
 media: audio images video music
-laptop: thinkpad tweaks screen
+laptop: tweaks screen
 apps: utils browser vpn torrents android documents dev
 
 # ---
@@ -45,7 +45,7 @@ langs:
 	curl https://mise.run | sh
 	eval "$(~/.local/bin/mise activate bash)"
 	mise use --global node@20
-	mise use --global python@3.11
+	mise use --global python@3.12
 
 git:
 	@echo "Installing git..."
@@ -105,8 +105,8 @@ dev:
 
 editor:
 	@echo "Installing neovim..."
-	sudo zypper in bat
-	wget https://github.com/neovim/neovim/archive/refs/tags/v0.10.2.tar.gz -O /tmp/neovim.tar.gz
+	sudo zypper in bat wl-clibpoard
+	wget https://github.com/neovim/neovim/archive/refs/tags/v0.10.3.tar.gz -O /tmp/neovim.tar.gz
 	cd /tmp; tar -xzvf neovim.tar.gz; \
 		cd neovim-*; make CMAKE_BUILD_TYPE=Release && sudo make install \
 			&& sudo ln -sf /usr/local/bin/nvim /usr/bin/vi \
@@ -115,19 +115,22 @@ editor:
 	ln -sf $(dir)/dots/nvim ~/.config/nvim
 
 network:
-	sudo zypper rm --clean-deps NetworkManager wpa_supplicant
 	sudo zypper install iwd dhcp-client systemd-network
-	sudo bash -c 'echo -e "[General]\nEnableNetworkConfiguration=true" > /etc/iwd/main.conf'
-	sudo systemctl enable --now systemd-resolved
-	sudo systemctl enable --now iwd
+
+	# iwd tui
+	cargo install impala
 
 	# Set group for access to iwd, etc.
 	# Requires logout/login for changes to take effect.
 	sudo groupadd netdev
 	sudo usermod -aG netdev francis
 
-	# iwd tui
-	cargo install impala
+	sudo systemctl enable --now systemd-networkd
+	sudo systemctl enable --now systemd-resolved
+	sudo systemctl enable --now iwd
+	sudo bash -c 'echo -e "[General]\nEnableNetworkConfiguration=true" > /etc/iwd/main.conf'
+
+	sudo zypper rm --clean-deps NetworkManager wpa_supplicant
 
 music:
 	sudo zypper in ncmpcpp mpd mpclient
@@ -340,6 +343,7 @@ android:
 	sudo zypper in android-tools
 	git clone https://github.com/google/adb-sync /tmp/adb-sync
 	sudo cp /tmp/adb-sync/adb-sync /usr/local/bin/
+	flatpak install flathub org.localsend.localsend_app
 
 torrents:
 	sudo zypper in deluge
@@ -351,7 +355,6 @@ documents:
 	sudo zypper in zathura zathura-plugin-pdf-poppler
 	mkdir ~/.config/zathura
 	ln -sf $(dir)/dots/zathura ~/.config/zathura/zathurarc
-	cargo install inlyne
 	sudo zypper in libreoffice-calc libreoffice-gtk3
 
 screen:

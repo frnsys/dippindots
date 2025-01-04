@@ -74,7 +74,7 @@ set hidden
 set textwidth=0 wrapmargin=0 formatoptions=cq
 set display+=lastline
 set switchbuf+=usetab
-set clipboard^=unnamed,unnamedplus " Use OS clipboard
+set clipboard=unnamedplus " Use OS clipboard
 set completeopt=menu,menuone,noselect   " Autocomplete settings
 set noeol " Don’t add empty newlines at the end of files
 set mouse= " Disable mouse
