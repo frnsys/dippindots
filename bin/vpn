@@ -1,11 +1,20 @@
 #!/bin/bash
-# https://mullvad.net/fr/help/how-use-mullvad-cli
+# Note: Run `sudo visudo` add `francis ALL=NOPASSWD: /usr/bin/wg-quick`
+
+# Expects /etc/wireguard/airvpn-ch.conf
+CONFIG=airvpn-ch
 
 if [[ $1 == 'up' ]]; then
-    RELAY=$(mullvad relay list | grep WireGuard | cut -d' ' -f 1 | awk '{$1=$1};1' | bemenu -p "Relay")
-    mullvad relay set location $RELAY
-    mullvad connect
+    sudo wg-quick up $CONFIG
 
 elif [[ $1 == 'down' ]]; then
-    mullvad disconnect
+    sudo wg-quick down $CONFIG
+
+elif [[ $1 == 'status' ]]; then
+    if ip l | grep -q $CONFIG
+    then
+        echo 'on'
+    else
+        echo 'off'
+    fi
 fi

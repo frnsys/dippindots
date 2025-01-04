@@ -57,13 +57,7 @@ git:
 	ln -sf $(dir)/dots/git/gitconfig ~/.gitconfig
 
 tools:
-	# TODO install via zypper?
-	@echo "Installing fzf..."
-	@echo "Say NO to auto-completion for performance"
-	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-	~/.fzf/install
-
-	sudo zypper in jq htop tree the_silver_searcher gnupg ncdu powertop dfc ffmpeg
+	sudo zypper in fzf jq htop tree the_silver_searcher gnupg ncdu powertop dfc ffmpeg
 	cargo install fd-find ripgrep zoxide
 
 utils:
@@ -72,7 +66,7 @@ utils:
 	cargo install pastel
 
 	# Colorpicker
-	sudo zypper in Mesa-libGLESv3-devel xcursor-themes hyprutils-devel
+	sudo zypper in Mesa-libGLESv3-devel xcursor-themes hyprutils-devel hyprwayland-scanner
 	git clone --depth 1  git@github.com:hyprwm/hyprpicker.git /tmp/hyprpicker
 	cd /tmp/hyprpicker \
 		&& cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build \
@@ -237,6 +231,7 @@ terminal:
 	ln -sf $(dir)/dots/kitty ~/.config/kitty/kitty.conf
 
 browser:
+	sudo zypper in qutebrowser
 	sudo zypper in MozillaFirefox
 
 	# Fonts with better character support
@@ -274,6 +269,7 @@ vpn:
 	# mullvad account login
 	opi mullvadvpn
 	sudo systemctl enable --now mullvad-daemon.service
+	sudo zypper in wireguard-tools
 
 theme:  # wallpaper, fonts, etc
 	# GTK/QT themeing

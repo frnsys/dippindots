@@ -30,7 +30,6 @@ riverctl map normal Super Space spawn 'bemenu-run -l 10 -p ">"'
 riverctl map normal Super E spawn 'notify-send -t 2000 "$(date '\''+%m/%d %H:%M'\'')" "$(acpi)"'
 riverctl map normal Super X spawn 'makoctl mode -t do-not-disturb'
 riverctl map normal Super P spawn 'kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx'
-riverctl map normal Super O spawn 'kitty --title cotp -e cotp'
 riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda view | less -R'\'''
 riverctl map normal Super T spawn 'kitty --title todo --working-directory ~/notes -e nvim todo.md'
 riverctl map normal Super G spawn 'hyprpicker --autocopy'
@@ -174,7 +173,7 @@ float_these=(
 for title in "${float_these[@]}"
 do
     riverctl rule-add -title $title float
-    riverctl rule-add -title $title dimensions 720 480
+    riverctl rule-add -title $title dimensions 640 480
 done
 riverctl rule-add -title '*mpv*' float
 riverctl rule-add -title 'ncmpcpp' float
@@ -187,9 +186,6 @@ riverctl rule-add -title 'sema' tags $sticky_tag
 riverctl rule-add -title 'kpass' float
 riverctl rule-add -title 'kpass' position 0 9999
 riverctl rule-add -title 'kpass' dimensions 320 360
-riverctl rule-add -title 'cotp' float
-riverctl rule-add -title 'cotp' position 0 9999
-riverctl rule-add -title 'cotp' dimensions 320 360
 
 # Use server-side decorations for consistency
 # in borders, etc.
