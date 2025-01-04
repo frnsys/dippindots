@@ -1,12 +1,13 @@
 [user]
-	email = f+accounts@frnsys.com
-	name = Francis Tseng
+    email = f+accounts@frnsys.com
+    name = Francis Tseng
 [push]
-	default = simple
+    default = simple
+    autoSetupRemote = true
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	required = true
-	process = git-lfs filter-process
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    required = true
+    process = git-lfs filter-process
 [init]
-	defaultBranch = main
+    defaultBranch = main
