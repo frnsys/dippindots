@@ -46,8 +46,8 @@ vim.api.nvim_create_autocmd("FileType", {
   group = "MarkdownSettings",
   pattern = "markdown",
   callback = function()
-    local media = require("markdown/media")
-    local footnote = require("markdown/footnote")
+    local media = require("filetype/markdown/media")
+    local footnote = require("filetype/markdown/footnote")
 
     -- Disable line numbers
     vim.wo.number = false

@@ -25,7 +25,6 @@ highlight ModeMsg guifg=#f8aa01 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight NonText guifg=#626262 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight NormalFloat guifg=#eeeeee guibg=#161616 guisp=NONE blend=NONE gui=NONE
 highlight Number guifg=#ffaf87 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight OilDir guifg=#7fb1f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Operator guifg=#67a2fd guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Pmenu guifg=#eeeeee guibg=#242424 guisp=NONE blend=NONE gui=NONE
 highlight PmenuSbar guifg=NONE guibg=#808080 guisp=NONE blend=NONE gui=NONE
@@ -48,7 +47,6 @@ highlight TabLine guifg=#444444 guibg=none guisp=NONE blend=NONE gui=NONE
 highlight TabLineFill guifg=NONE guibg=none guisp=NONE blend=NONE gui=NONE
 highlight TabLineSel guifg=#a8a8a8 guibg=none guisp=NONE blend=NONE gui=NONE
 highlight Title guifg=#000000 guibg=#6767db guisp=NONE blend=NONE gui=bold
-" highlight Title guifg=#d4d4fa guibg=#4747ba guisp=NONE blend=NONE gui=bold
 highlight Type guifg=#b8c4f0 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Underlined guifg=#2c84fc guibg=NONE guisp=NONE blend=NONE gui=underline
 highlight WinSeparator guifg=#202020
@@ -95,6 +93,8 @@ highlight FlashMatch guibg=#262626 guifg=#ffd787
 highlight FlashCurrent guibg=#262626 guifg=#00af87 gui=bold
 highlight FlashLabel guifg=#000000 guibg=#ffafaf gui=bold
 
+highlight OilDir guifg=#7fb1f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
+
 highlight TroubleTextWarning guifg=#d9c17f
 highlight TroubleTextError guifg=#b7404c
 highlight TroubleSignWarning guifg=#d49e39 gui=bold
@@ -104,9 +104,6 @@ highlight TroubleSignHelp guifg=#a6dbff gui=bold
 highlight TroubleSignOther guifg=#a6dbff gui=bold
 highlight TroubleFile guifg=#757575
 
-highlight LeyMark guifg=#222222 guibg=#f4a801 gui=bold
-highlight LeyFile guifg=#a7a7a7
-
 highlight Delimiter guifg=#222222
 
 highlight Comment guifg=#a8a8a8 guibg=#202020 guisp=NONE blend=NONE gui=italic
@@ -114,7 +111,6 @@ highlight @comment.documentation guifg=#ffd787 guibg=#262626 guisp=NONE blend=NO
 highlight @comment.todo.comment guifg=#000000 guibg=#f8aa01 guisp=NONE blend=NONE gui=NONE
 highlight @comment.note.comment guifg=#2C84FC guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight @comment.error.comment guifg=#FC392B guibg=NONE guisp=NONE blend=NONE gui=bold
-" highlight @comment.warning.comment guifg=#CC9937 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight @comment.warning.comment guifg=#e87f2e guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight link @lsp.mod.documentation.rust @comment.documentation
 

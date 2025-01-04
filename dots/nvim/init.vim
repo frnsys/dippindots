@@ -27,7 +27,8 @@ require('lazy').setup('plugins', {
 require('breeze')
 require('abbrevs')
 require('bindings')
-require('markdown')
+require('filetype/markdown')
+require('filetype/rust')
 
 -- For nvim 0.11
 -- require('completion')

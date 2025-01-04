@@ -26,9 +26,6 @@ prereqs:
 	sudo zypper in avahi
 	sudo systemctl enable --now avahi-daemon
 
-	# necessary for installing from git with cargo
-	eval `ssh-agent -s` && ssh-add ~/.ssh/id_rsa
-
 rust:
 	@echo "Installing rust..."
 	curl -sf -L https://static.rust-lang.org/rustup.sh | sh
@@ -59,10 +56,8 @@ git:
 	ln -sf $(dir)/dots/git/gitignore ~/.config/git/ignore
 	ln -sf $(dir)/dots/git/gitconfig ~/.gitconfig
 
-	# ssh access
-	ssh -vT git@github.com
-
 tools:
+	# TODO install via zypper?
 	@echo "Installing fzf..."
 	@echo "Say NO to auto-completion for performance"
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -73,7 +68,7 @@ tools:
 
 utils:
 	sudo zypper in yast2-control-center-qt
-	sudo zypper in wl-clipboard sqlitebrowser rclone yt-dlp
+	sudo zypper in sqlitebrowser rclone yt-dlp
 	cargo install pastel
 
 	# Colorpicker
@@ -85,15 +80,10 @@ utils:
 		&& sudo cmake --install ./build
 
 	opi signal-desktop
+
+	eval `ssh-agent -s` && ssh-add
 	cargo install --git ssh://git@github.com/frnsys/kpass.git
 	cargo install --git ssh://git@github.com/frnsys/agenda.git
-
-	# OTPs
-	cargo install cotp
-
-	# POST-INSTALL:
-	# -------------
-	# cotp import --path ~/docs/vault/otp/exported.cotp --cotp
 
 	sudo zypper in -y flatpak
 
@@ -187,6 +177,7 @@ scrots:
 	sudo zypper in grim slurp gifsicle wf-recorder
 
 images:
+	eval `ssh-agent -s` && ssh-add
 	cargo install --git ssh://git@github.com/frnsys/vu.git
 	sudo zypper in ImageMagick ImageMagick-extra
 	sudo zypper in libwebpdecoder3 libwebp-devel libwebp-tools
@@ -228,6 +219,7 @@ wm:
 	ln -s $(dir)/dots/river ~/.config/river/init
 
 bar:
+	eval `ssh-agent -s` && ssh-add
 	sudo zypper in gtk3-devel gtk-layer-shell-devel atk
 	cargo +nightly install --git ssh://git@github.com/frnsys/sema.git
 
