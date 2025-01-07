@@ -116,7 +116,7 @@ enum layers {
 // Terminal
 #define T_PREV LALT(KC_LBRC)    // Prev term tab
 #define T_NEXT LALT(KC_RBRC)    // Next term tab
-#define T_HSPL LALT(KC_MINUS)    // Horizontal split
+#define T_HSPL LALT(KC_MINUS)   // Horizontal split
 #define T_VSPL LALT(KC_BSLS)    // Vertical split
 #define T_FOCU LALT(KC_W)       // Focus pane
 #define T_FULL LALT(KC_M)       // Maximize pane

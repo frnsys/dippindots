@@ -98,14 +98,12 @@ return {
         on_attach = on_attach,
         capabilities = capabilities,
         filetypes = { 'rust' },
-        cmd_env = { CARGO_TARGET_DIR = "/tmp/rust-analyzer-check" },
         cmd = { "rustup", "run", "nightly", "rust-analyzer" },
         settings = {
           ["rust-analyzer"] = {
             numThreads = 4,
             cargo = {
               allFeatures = true,
-              targetDir = "/tmp/rust-analyzer-check",
               extraArgs = { "--jobs", "4" },
             },
 
@@ -222,7 +220,7 @@ return {
     -- cd /home/francis/.local/share/nvim/lazy/blink.cmp
     -- cargo build --release
     'saghen/blink.cmp',
-    enabled = false,
+    enabled = true,
     lazy = false, -- lazy loading handled internally
     version = 'v0.*',
     opts = {

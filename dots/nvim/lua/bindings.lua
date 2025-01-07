@@ -18,7 +18,7 @@ local remappings = {
   { "c", "(", ")" },
   { "r", "[", "]" },
   { "z", "{", "}" },
-  { "q", '"', '"' },
+  { "i", '"', '"' },
 }
 for i, map in ipairs(remappings) do
   local key = map[1]
@@ -35,7 +35,7 @@ for i, map in ipairs(remappings) do
   _("t" .. key, "t" .. target_close, {"o", "v"})
 
   -- Convenience binding that assumes "inside"
-  _(key, "i" .. target, {"o", "v"})
+  -- _(key, "i" .. target, {"o", "v"})
 
   -- Convenience jump to
   _("." .. key, "/" .. target .. "<cr><cmd>noh<cr>", "n")

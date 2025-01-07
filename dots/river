@@ -25,9 +25,9 @@ riverctl map normal Super Equal spawn 'mpc toggle'
 riverctl map normal Super Plus spawn 'mpvc -S /tmp/mpvsocket toggle'
 riverctl map normal Super Semicolon spawn 'kitty --title ncmpcpp -e ncmpcpp'
 riverctl map normal Super+Shift Semicolon spawn 'kitty --title pulsemixer -e pulsemixer'
-riverctl map normal Super+Shift B spawn 'kitty --title bluetuith -e bluetuith'
 riverctl map normal Super Space spawn 'bemenu-run -l 10 -p ">"'
-riverctl map normal Super E spawn 'notify-send -t 2000 "$(date '\''+%m/%d %H:%M'\'')" "$(acpi)"'
+riverctl map normal Super B spawn 'kitty --title bluetuith -e bluetuith'
+riverctl map normal Super E spawn 'info'
 riverctl map normal Super X spawn 'makoctl mode -t do-not-disturb'
 riverctl map normal Super P spawn 'kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx'
 riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda view | less -R'\'''
@@ -62,6 +62,7 @@ riverctl map normal Super+Control K focus-output next
 # Note that this turns a tiled window into a floating window.
 riverctl map-pointer normal Super BTN_LEFT move-view
 riverctl map-pointer normal Super BTN_RIGHT resize-view
+riverctl map-pointer normal None BTN_TOUCH move-view # TODO doesnt work
 
 # river doesn't support prev/next workspaces (or rather "tags")
 # but this script let's us essentially do that.
@@ -142,6 +143,7 @@ riverctl set-repeat 25 250
 riverctl hide-cursor when-typing enabled
 riverctl hide-cursor timeout 3000
 riverctl focus-follows-cursor disabled
+riverctl xcursor-theme Adwaita 24
 
 # riverctl list-inputs
 TOUCHPAD=pointer-2362-597-PNP0C50:00_093A:0255_Touchpad

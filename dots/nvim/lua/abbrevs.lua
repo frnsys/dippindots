@@ -53,3 +53,6 @@ abbrev(';v', 'vec![]<Left>')
 
 -- HashMap<..>
 abbrev(';h', 'HashMap<><Left>')
+
+-- println!("...");
+abbrev(';g', 'println!("");<Left><Left><Left>')

@@ -81,11 +81,6 @@ utils:
 
 	sudo zypper in -y flatpak
 
-	# for easily updating system time to current time zone
-	# to preview, run `tzupdate -p`
-	# to make the change, run `sudo tzupdate`
-	pip3 install -U tzupdate
-
 dev:
 	sudo zypper in -y podman # podman for docker
 	flatpak install flathub io.podman_desktop.PodmanDesktop
@@ -231,7 +226,11 @@ terminal:
 	ln -sf $(dir)/dots/kitty ~/.config/kitty/kitty.conf
 
 browser:
+	sudo zypper in ca-certificates-steamtricks ca-certificates-cacert ca-certificates-mozilla ca-certificates-mozilla-prebuilt ca-certificates-letsencrypt ca-certificates
+
 	sudo zypper in qutebrowser
+	ln -sf $(dir)/dots/qutebrowser.yml ~/.config/qutebrowser/autoconfig.yml
+
 	sudo zypper in MozillaFirefox
 
 	# Fonts with better character support
@@ -295,7 +294,6 @@ theme:  # wallpaper, fonts, etc
 		symbols-only-nerd-fonts
 
 	mkdir -p ~/.config/fontconfig
-	ln -sf $(dir)/assets/fonts ~/.fonts
 	ln -sf $(dir)/dots/misc/fonts.conf ~/.fonts.conf
 	ln -sf $(dir)/dots/misc/fonts.conf ~/.config/fontconfig/fonts.conf
 
@@ -332,8 +330,9 @@ tweaks:
 	sudo zypper in fwupd
 	fwupdmgr refresh && fwupdmgr update && fwupdmgr get-updates
 
-	# TODO Lower swappiness to avoid disk thrashing
-	# echo "vm.swappiness = 10" | sudo tee -a /etc/sysctl.conf
+	# Lower swappiness to avoid disk thrashing
+	echo "vm.swappiness = 10" | sudo tee -a /etc/sysctl.conf
+	sudo sysctl -p
 
 android:
 	sudo zypper in android-tools

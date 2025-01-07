@@ -88,7 +88,7 @@ return {
           },
         },
         winopts = {
-          width = 38,
+          width = 64,
           preview = {
             default = "bat",
             layout = "vertical",
