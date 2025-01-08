@@ -25,6 +25,9 @@ prereqs:
 
 	sudo zypper in avahi
 	sudo systemctl enable --now avahi-daemon
+	sudo firewall-cmd --permanent --zone=public --add-port=5353/udp
+ 	sudo firewall-cmd --permanent --zone=public --add-protocol=igmp
+	sudo firewall-cmd --permanent --zone=public --add-service=ssdp
 
 rust:
 	@echo "Installing rust..."
@@ -338,7 +341,10 @@ android:
 	sudo zypper in android-tools
 	git clone https://github.com/google/adb-sync /tmp/adb-sync
 	sudo cp /tmp/adb-sync/adb-sync /usr/local/bin/
+
 	flatpak install flathub org.localsend.localsend_app
+	sudo firewall-cmd --permanent --zone=public --add-port=53317/udp
+    sudo firewall-cmd --permanent --zone=public --add-port=53317/tcp
 
 torrents:
 	sudo zypper in deluge
