@@ -21,7 +21,8 @@
 
 enum layers {
     _ALPHA,
-    _NUMSYM,
+    _SYMBOL,
+    _NUMBER,
     _NAVCTL,
     _BLENDER,
 };
@@ -42,8 +43,8 @@ enum layers {
 #define ENAV LT(_NAVCTL, KC_ENTER)
 #define SCTL MT(MOD_LCTL, KC_SPACE)
 
-#define DSYM LT(_NUMSYM, KC_D)
-#define KSYM LT(_NUMSYM, KC_K)
+#define DSYM LT(_SYMBOL, KC_D)
+#define KNUM LT(_NUMBER, KC_K)
 #define QGUI MT(MOD_LGUI, KC_Q)
 #define ZALT MT(MOD_RALT, KC_Z) // Use as AltGr for accents
 // RAlt+e -> aigu
@@ -130,19 +131,30 @@ enum layers {
 
 #include "blender.c"
 
+// TODO: maybe place these instead of combos:
+// - qmark
+// - equal
+// - exclam
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ALPHA] = LAYOUT(
         QGUI, KC_W, KC_E,  KC_R, KC_T,     KC_Y, KC_U, KC_I,  KC_O,   KC_P,
-        KC_A, KC_S, DSYM,  KC_F, KC_G,     KC_H, KC_J, KSYM,  KC_L,   SCOLN,
+        KC_A, KC_S, DSYM,  KC_F, KC_G,     KC_H, KC_J, KNUM,  KC_L,   SCOLN,
         ZALT, KC_X, KC_C,  KC_V, KC_B,     KC_N, KC_M, COMMA, KC_DOT, SLASH,
-                    L_CLK, SHFT, BNAV,     ENAV, SCTL, QK_REP
+                    L_CLK, SHFT, BNAV,     ENAV, SCTL, GRAVE
     ),
 
-    [_NUMSYM] = LAYOUT(
-        PLUS,  KC_1, KC_2, KC_3,   MINUS,   AROBA, OCTHP, L_BRK, R_BRK, ____,
-        ASTRK, KC_4, KC_5, KC_6,   KC_0,    PIPE,  L_BRC, L_PAR, R_PAR, R_BRC,
-        CARET, KC_7, KC_8, KC_9,   DOLAR,   TILDE, ____,  L_THN, G_THN, GRAVE,
-                    PRCNT, KC_DOT, VVVV,    ____,  VVVV,  BSLSH
+    [_SYMBOL] = LAYOUT(
+        ____,  ____,  ____, ____,  ____,   AROBA, OCTHP, L_BRK, R_BRK, BSLSH,
+        ASTRK, CARET, XXXX, DOLAR, ____,   ____,  L_BRC, L_PAR, R_PAR, R_BRC,
+        ____,  ____,  ____, ____,  ____,   ____,  PIPE,  L_THN, G_THN, TILDE,
+                      ____, AMPER, VVVV,   ____,  VVVV, ____
+    ),
+
+    [_NUMBER] = LAYOUT(
+        ____, KC_4, KC_5, KC_6, ____,    ____, ____,  ____, ____,  ____,
+        KC_0, KC_3, KC_2, KC_1, KC_DOT,  ____, PLUS,  XXXX, PRCNT, ____,
+        ____, KC_7, KC_8, KC_9, ____,    ____, ____,  ____, ____,  ____,
+                    ____, ____, VVVV,    ____, VVVV,  ____
     ),
 
     [_NAVCTL] = LAYOUT(
@@ -172,24 +184,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Also avoid `jk` as I map this to escape in vim.
 const uint16_t PROGMEM tab[]      = {KC_A, KC_F, COMBO_END};
 const uint16_t PROGMEM escape[]   = {KC_S, KC_F, COMBO_END};
-const uint16_t PROGMEM colon[]    = {KSYM, KC_L, COMBO_END};
+const uint16_t PROGMEM colon[]    = {KNUM, KC_L, COMBO_END};
 const uint16_t PROGMEM question[]    = {KC_L, KC_M, COMBO_END};
 const uint16_t PROGMEM equal[]       = {KC_L, KC_J, COMBO_END};
-const uint16_t PROGMEM ampersand[]   = {DSYM, KC_F, COMBO_END};
-const uint16_t PROGMEM exclamation[] = {KC_F, KC_W, COMBO_END};
+const uint16_t PROGMEM exclamation[]   = {DSYM, KC_F, COMBO_END};
 const uint16_t PROGMEM mute[] = {KC_VOLD, KC_VOLU, COMBO_END};
 
 combo_t key_combos[] = {
     // HIGHER TERM----
-    COMBO(exclamation, EXCLM),
     COMBO(escape, KC_ESC),
     COMBO(tab, KC_TAB),
     // ----END HIGHER TERM
 
     COMBO(colon, LSFT(KC_SCLN)),
     COMBO(equal, EQUAL),
-    COMBO(ampersand, AMPER),
     COMBO(question, QMARK),
+    COMBO(exclamation, EXCLM),
 
     COMBO(mute, KC_MUTE),
 };
@@ -197,7 +207,7 @@ combo_t key_combos[] = {
 // For combos that are infrequent rolls but trickier to fire
 // we can bump up the combo term so there are fewer misfires.
 uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
-    if (combo_index <=2) {
+    if (combo_index <=1) {
         return 60;
     } else {
         return COMBO_TERM;

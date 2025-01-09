@@ -28,6 +28,7 @@ prereqs:
 	sudo firewall-cmd --permanent --zone=public --add-port=5353/udp
  	sudo firewall-cmd --permanent --zone=public --add-protocol=igmp
 	sudo firewall-cmd --permanent --zone=public --add-service=ssdp
+	sudo firewall-cmd --permanent --zone=public --add-service=mdns
 
 rust:
 	@echo "Installing rust..."

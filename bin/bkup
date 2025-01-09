@@ -27,6 +27,21 @@ dist/
 torrents/
 deaddrop/vids/" > /tmp/bkup.exclude
 
+echo "wine/
+build/**
+.git/lfs/**
+node_modules/**
+target/**
+dist/**
+etc/vids/**
+torrents/**
+unity/Assets/**
+unity/Library/**
+unity/Builds/**
+blender/addons/**
+blender/assets/**
+deaddrop/vids/**" > /tmp/cloud.bkup.exclude
+
 OTHER=(~/archives)
 REPOS=(~/projects ~/docs ~/notes ~/photos ~/work ~/musics)
 CLOUD_REPOS=(~/projects ~/docs ~/notes ~/photos ~/work)
@@ -56,7 +71,7 @@ if [[ $1 == 'home' ]]; then
 elif [[ $1 == 'cloud' ]]; then
     for d in ${CLOUD_REPOS[@]}; do
         echo -e "\n\e[0;33m$d\e[0m"
-        rclone sync -q -P $d backup-crypt:repos/$(basename $d) --exclude-from /tmp/bkup.exclude
+        rclone sync --delete-excluded --refresh-times --quiet --progress $d backup-crypt:repos/$(basename $d) --exclude-from /tmp/cloud.bkup.exclude
     done
     # echo -e "\n\e[0;33m~/downloads\e[0m" && rclone sync -q -P ~/downloads backup-crypt:repos/downloads --exclude torrents/ --exclude-from /tmp/bkup.exclude
     date > /tmp/last_updated

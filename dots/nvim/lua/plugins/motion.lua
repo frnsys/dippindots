@@ -5,11 +5,11 @@ return {
     opts = {
       toggler = {
         --- Line-comment toggle keymap
-        line = '<leader>c',
+        line = '<leader>x',
       },
       opleader = {
         --- Line-comment keymap (visual mode)
-        line = '<leader>c',
+        line = '<leader>x',
       },
     }
   },

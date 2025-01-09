@@ -65,7 +65,10 @@ settings:
     https://emojipedia.org: access-paste
     https://github.com: access-paste
   content.notifications.enabled:
+    https://calendar.google.com: true
     https://www.youtube.com: false
+  content.register_protocol_handler:
+    https://calendar.google.com?cid=%25s: true
   downloads.location.directory:
     global: ~/downloads
   downloads.position:
