@@ -123,6 +123,7 @@ network:
 	sudo systemctl enable --now iwd
 	sudo bash -c 'echo -e "[General]\nEnableNetworkConfiguration=true" > /etc/iwd/main.conf'
 
+	# WARN: You should first check that the new network setup works.
 	sudo zypper rm --clean-deps NetworkManager wpa_supplicant
 
 music:
@@ -146,6 +147,7 @@ video:
 	git clone --depth 1 https://github.com/lwilletts/mpvc.git /tmp/mpvc
 	cd /tmp/mpvc && sudo make install
 
+	# Better way of browsing YouTube.
 	git clone --depth 1 git@github.com:trizen/pipe-viewer.git /tmp/pipe-viewer
 	sudo zypper in perl-Module-Build perl-Data-Dump perl-File-ShareDir perl-Gtk3 perl-JSON
 	opi perl-LWP-UserAgent-Cached
@@ -233,45 +235,16 @@ browser:
 	sudo zypper in ca-certificates-steamtricks ca-certificates-cacert ca-certificates-mozilla ca-certificates-mozilla-prebuilt ca-certificates-letsencrypt ca-certificates
 
 	sudo zypper in qutebrowser
-	ln -sf $(dir)/dots/qutebrowser.yml ~/.config/qutebrowser/autoconfig.yml
-
-	sudo zypper in MozillaFirefox
-
-	# Fonts with better character support
-	# You may need to enable these as the default fonts
-	# in `about:preferences`.
-	sudo zypper in google-noto-fonts google-noto-sans-cjk-fonts
-
-	# POST-INSTALL:
-	# -------------
-	# Firefox config
-	# In `about:config`, set:
-	#   - `media.peerconnection.enabled` to false to prevent WebRTC IP leaks
-	#   - `toolkit.legacyUserProfileCustomizations.stylesheets` to true
-	#   - `browser.fullscreen.autohide` to false
-	#   - `dom.input.fallbackUploadDir` to `~/downloads` to stop it from trying to upload from `~/Desktop`
-	#   - `browser.download.lastDir` to `~/downloads`
-	# Also disabled hardware acceleration, had issues with slow painting otherwise
-	mkdir -p ~/.mozilla/firefox/profile.default/chrome
-	ln -sf $(dir)/dots/firefox/userChrome.css ~/.mozilla/firefox/profile.default/chrome/userChrome.css
-	ln -sf $(dir)/dots/firefox/userContent.css ~/.mozilla/firefox/profile.default/chrome/userContent.css
-
-	# POST-INSTALL:
-	# -------------
-	# NOTE this file might not exist until you launch firefox:
-	# sed -i 's/Path=.*/Path=profile.default/' ~/.mozilla/firefox/profiles.ini
-	# install extensions:
-	# 	- https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/
+	ln -sf $(dir)/dots/qute/config.yml ~/.config/qutebrowser/autoconfig.yml
+	ln -sf $(dir)/dots/qute/userscripts ~/.local/share/qutebrowser/userscripts
+	ln -sf $(dir)/dots/qute/greasemonkey ~/.local/share/qutebrowser/greasemonkey
 
 	# Google Chrome
 	opi chrome
 
 vpn:
-	# POST-INSTALL:
-	# -------------
-	# mullvad account login
-	opi mullvadvpn
-	sudo systemctl enable --now mullvad-daemon.service
+	# See bin/vpn.
+	# Install VPN configs to `/etc/wireguard`.
 	sudo zypper in wireguard-tools
 
 theme:  # wallpaper, fonts, etc
@@ -295,7 +268,9 @@ theme:  # wallpaper, fonts, etc
 		fira-code-fonts \
 		adobe-sourcesans3-fonts \
 		adobe-sourcecodepro-fonts \
-		symbols-only-nerd-fonts
+		symbols-only-nerd-fonts \
+		google-noto-fonts \
+		google-noto-sans-cjk-fonts
 
 	mkdir -p ~/.config/fontconfig
 	ln -sf $(dir)/dots/misc/fonts.conf ~/.fonts.conf
@@ -310,10 +285,6 @@ theme:  # wallpaper, fonts, etc
 	fnt install google-ibmplexsans
 	fnt install google-nanummyeongjo
 	fnt install fonts-fantasque-sans
-
-	mkfontdir ~/.fonts
-	mkfontscale ~/.fonts
-	fc-cache -fv
 
 	sudo mkdir /usr/share/fonts/truetype/robotomono
 	sudo wget --content-disposition -P /usr/share/fonts/truetype/robotomono https://github.com/googlefonts/RobotoMono/raw/main/fonts/ttf/RobotoMono-{Bold,BoldItalic,Italic,Light,LightItalic,Medium,MediumItalic,Regular,Thin,ThinItalic}.ttf
@@ -352,6 +323,8 @@ torrents:
 	sudo opi -n nicotine-plus
 	mkdir ~/.config/deluge
 	ln -sf $(dir)/dots/misc/deluged.conf ~/.config/deluge/core.conf
+	sudo firewall-cmd --permanent --zone=public --add-port=36767/udp
+	sudo firewall-cmd --permanent --zone=public --add-port=36767/tcp
 
 documents:
 	sudo zypper in zathura zathura-plugin-pdf-poppler

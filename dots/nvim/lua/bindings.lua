@@ -86,3 +86,6 @@ _("<c-p>", ":cprev<cr>", "n")
 --- Terminals
 _(",t", ":ToggleTerm<cr>", "n")
 _("<esc>", "<c-\\><c-n>", "t")
+
+--- Remap `"` to `?` as it matches my custom kbd layout.
+_('"', '?', "n")

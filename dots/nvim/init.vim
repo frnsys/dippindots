@@ -38,13 +38,13 @@ EOF
 colorscheme futora
 
 " navigation
-set number            			" Show line numbers
+set nonumber
+set norelativenumber
 set nostartofline 				" Don't reset cursor to start of line when moving
 set cursorline 				    " Highlight current line
 set scrolloff=3 				" Start scrolling three lines before border
 set showmatch 					" Show matching brackets
 let &showbreak=' '              " Show this at the start of wrapped lines
-set relativenumber 			    " Use relative line numbering
 
 " whitespace
 set wrap                          " Wrap lines
@@ -106,13 +106,13 @@ if exists("&undodir")
     set undoreload=500
 endif
 
-" webbrowser for `gx`
-let g:netrw_browsex_viewer='firefox'
-
 " specify how vim saves files
 " so it works better with processes
 " that watch files for changes
 set backupcopy=yes
+
+" webbrowser for `gx`
+let g:netrw_browsex_viewer='qutebrowser'
 
 " bind | and _ to vertical and horizontal splits
 nnoremap <expr><silent> \| !v:count ? "<C-W>v<C-W><Right>" : '\|'
@@ -133,6 +133,22 @@ set cmdheight=0
 au CmdlineEnter * setlocal cmdheight=1 laststatus=0
 au CmdlineLeave * call timer_start(1, { tid -> execute('setlocal cmdheight=0 laststatus=2')})
 set shortmess=WnoOcIatTF " Limit command line messaging
+
+" The command line *is* useful when recording macros, though.
+lua <<EOF
+-- Show macro recording status when recording a macro
+vim.api.nvim_create_autocmd("RecordingEnter", {
+  callback = function(ctx)
+    vim.opt.cmdheight = 1
+  end
+})
+
+vim.api.nvim_create_autocmd("RecordingLeave", {
+  callback = function()
+    vim.opt.cmdheight = 0
+  end
+})
+EOF
 
 " Hack to suppress the ENTER prompt
 " when writing a file.
@@ -184,19 +200,4 @@ if string.find(output, "android") then
     vim.o.number = false
     vim.o.relativenumber = false
 end
-EOF
-
-lua <<EOF
--- Show macro recording status when recording a macro
-vim.api.nvim_create_autocmd("RecordingEnter", {
-  callback = function(ctx)
-    vim.opt.cmdheight = 1
-  end
-})
-
-vim.api.nvim_create_autocmd("RecordingLeave", {
-  callback = function()
-    vim.opt.cmdheight = 0
-  end
-})
 EOF

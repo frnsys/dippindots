@@ -5,24 +5,13 @@ return {
     opts = {
       toggler = {
         --- Line-comment toggle keymap
-        line = '<leader>x',
+        line = '<leader>c',
       },
       opleader = {
         --- Line-comment keymap (visual mode)
-        line = '<leader>x',
+        line = '<leader>c',
       },
     }
-  },
-
-  --- Surround motion
-  ---
-  --- [S']: Add quotes around visual selection
-  {
-    'kylechui/nvim-surround',
-    event = "VeryLazy",
-    config = function()
-        require("nvim-surround").setup({})
-    end
   },
 
   --- Substitute motion
@@ -48,13 +37,15 @@ return {
     opts = {
       search = {
         multi_window = false,
+        incremental = false,
         mode = 'fuzzy',
       },
       label = {
         after = true,
         before = true,
         rainbow = {
-          enabled = true
+          enabled = true,
+          shade = 5,
         }
       },
       modes = {

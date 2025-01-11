@@ -26,7 +26,7 @@ function M.open_url_under_cursor()
   local img = obj:match("([^<>()]+%.(jpg|jpeg|png|gif|mp4|webp))")
 
   if url then
-    vim.fn.system({ "firefox", vim.fn.fnameescape(url) })
+    vim.fn.system({ "qutebrowser", vim.fn.fnameescape(url) })
   elseif img then
     local img_path = vim.fn.expand("%:p:h") .. "/" .. img
     if img:match("%.mp4$") or img:match("%.webm$") then

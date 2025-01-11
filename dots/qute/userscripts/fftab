@@ -1,0 +1,17 @@
+#!/bin/bash
+# Requires: <https://github.com/frnsys/firefox-sync-client>
+#
+# Tip: if you have dead/old devices showing up in FF Sync,
+# you can also use this to remove those devices' tabs.
+# For whatever reason the official FF Sync device removal functionality
+# doesn't actually do this.
+# To see tab-synced devices: `ffsclient list tabs --decoded`.
+# The value above the timestamp will be the device's client id.
+# Then you can run: `ffsclient delete tabs <client id> --hard`.
+
+url=$(ffsclient tabs list --format json | jq -r '.[] | .urlHistory[0]' | bemenu -p "fftabs")
+
+if [[ -n "$url" ]]; then
+    # Pass the URL back to qutebrowser
+    echo "open -t $url" >> "$QUTE_FIFO"
+fi

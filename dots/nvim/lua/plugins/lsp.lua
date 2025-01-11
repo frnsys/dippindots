@@ -7,17 +7,6 @@ if ok then
   end
 end
 
---- Temporary fix for: https://github.com/neovim/neovim/issues/30985
--- for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
---     local default_diagnostic_handler = vim.lsp.handlers[method]
---     vim.lsp.handlers[method] = function(err, result, context, config)
---         if err ~= nil and err.code == -32802 then
---             return
---         end
---         return default_diagnostic_handler(err, result, context, config)
---     end
--- end
-
 return {
   {
     'neovim/nvim-lspconfig',
@@ -80,7 +69,7 @@ return {
             if err then
               error(tostring(err))
             elseif url['local'] ~= nil then
-              vim.cmd([[!firefox ]] .. vim.fn.fnameescape(url['local']))
+              vim.cmd([[!qutebrowser ]] .. vim.fn.fnameescape(url['local']))
             else
               vim.print('No documentation found')
             end
@@ -216,6 +205,15 @@ return {
   },
 
   {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy", -- Or `LspAttach`
+    priority = 1000, -- needs to be loaded in first
+    config = function()
+      require('tiny-inline-diagnostic').setup()
+    end
+  },
+
+  {
     -- NOTE: If something breaks with the binary, you can recompile it:
     -- cd /home/francis/.local/share/nvim/lazy/blink.cmp
     -- cargo build --release
@@ -236,12 +234,13 @@ return {
       },
       completion = {
         list = {
-          selection = "auto_insert"
+          selection = { preselect = false, auto_insert = true },
         },
         accept = {
           auto_brackets = { enabled = true }
         },
         menu = {
+          auto_show = true,
           draw = {
             columns = {
               { "label", "label_description", gap = 1 }

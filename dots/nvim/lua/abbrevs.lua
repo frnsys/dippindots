@@ -56,3 +56,5 @@ abbrev(';h', 'HashMap<><Left>')
 
 -- println!("...");
 abbrev(';g', 'println!("");<Left><Left><Left>')
+
+abbrev(';w', 'std::fs::write("/tmp/some", data).expect("Unable to write file");')
