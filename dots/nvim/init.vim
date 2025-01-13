@@ -1,5 +1,5 @@
 " Has to be defined first
-let mapleader=";"
+let mapleader="'"
 set shell=fish
 
 lua <<EOF

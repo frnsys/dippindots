@@ -1,4 +1,4 @@
--- https://github.com/neovim/neovim/issues/23725
+-- https://github.com/neovim/neovim/issues/23291
 local ok, wf = pcall(require, "vim.lsp._watchfiles")
 if ok then
   -- disable lsp watcher. Too slow on linux
@@ -26,10 +26,6 @@ return {
         { desc = "Go to previous diagnostic message" })
       vim.keymap.set('n', '.d', vim.diagnostic.goto_next,
         { desc = "Go to next diagnostic message" })
-      vim.keymap.set('n', 'dm', function()
-          vim.diagnostic.open_float({ scope = "cursor" })
-        end,
-        { desc = "Open floating diagnostic message" })
 
       --- LSP settings.
       --- This function gets run when an LSP connects to a particular buffer.
@@ -104,6 +100,11 @@ return {
                 "node_modules",
                 "target",
               },
+            },
+
+            -- Ignore tests when flychecking.
+            check = {
+              allTargets = false,
             },
 
             completion = {

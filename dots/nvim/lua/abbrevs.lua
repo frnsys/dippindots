@@ -21,40 +21,40 @@ end
 
 vim.cmd([[
   " Insert current datetime
-  iabbrev <expr> ;d strftime('%m.%d.%Y %H:%M')
+  iabbrev <expr> ,d strftime('%m.%d.%Y %H:%M')
 
   " Insert todo item
-  iabbrev ;x - [ ]
+  iabbrev ,x - [ ]
 
   " Other rust abbreviations
-  iabbrev ;l println!("{:?}",);<Left><Left>
+  iabbrev ,l println!("{:?}",);<Left><Left>
 ]])
 
 -- Function body
-abbrev(';b', '{<cr>}<Esc>O')
+abbrev(',b', '{<cr>}<Esc>O')
 
 -- Match arrows
-vim.cmd('iabbrev ;e =>')
-abbrev(';E', '=> {<cr>}<Esc>O')
+vim.cmd('iabbrev ,e =>')
+abbrev(',E', '=> {<cr>}<Esc>O')
 
 -- Return arrows
-vim.cmd('iabbrev ;r ->')
-abbrev(';R', '-> {<cr>}<Esc>O')
+vim.cmd('iabbrev ,r ->')
+abbrev(',R', '-> {<cr>}<Esc>O')
 
 -- Closures
-abbrev(';c', '(\\|\\| {<cr>})<Esc>O')
+abbrev(',c', '(\\|\\| {<cr>})<Esc>O')
 
 -- Option<...>
-abbrev(';o', 'Option<><Left>')
+abbrev(',o', 'Option<><Left>')
 
 -- Vec<..>
-abbrev(';V', 'Vec<><Left>')
-abbrev(';v', 'vec![]<Left>')
+abbrev(',V', 'Vec<><Left>')
+abbrev(',v', 'vec![]<Left>')
 
 -- HashMap<..>
-abbrev(';h', 'HashMap<><Left>')
+abbrev(',h', 'HashMap<><Left>')
 
 -- println!("...");
-abbrev(';g', 'println!("");<Left><Left><Left>')
+abbrev(',g', 'println!("");<Left><Left><Left>')
 
-abbrev(';w', 'std::fs::write("/tmp/some", data).expect("Unable to write file");')
+abbrev(',w', 'std::fs::write("/tmp/some", data).expect("Unable to write file");')

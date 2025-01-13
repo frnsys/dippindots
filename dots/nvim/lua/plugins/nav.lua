@@ -128,9 +128,11 @@ return {
       {
         "<leader><leader>",
         function()
-          require('fzf-lua').lines()
+          require('fzf-lua').buffers({
+            sort_lastused = true
+          })
         end,
-        desc = 'Search buffer lines'
+        desc = 'Search buffers'
       },
       {
         "<leader>r",
@@ -191,19 +193,5 @@ return {
         border = 'none',
       })
     end,
-  },
-
-  {
-    'declancm/maximize.nvim',
-    config = true,
-    keys = {
-      {
-        "mm",
-        function()
-          require('maximize').toggle()
-        end,
-        desc = 'Toggle maximize'
-      }
-    }
   },
 }

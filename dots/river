@@ -203,6 +203,7 @@ agenda remind 5 &
 gammastep &
 mako &
 sema &
+kbdd &
 
 # Lock after 5min
 # Sleep after 15min

@@ -1,5 +1,9 @@
 #pragma once
 
+// Avoid space being triggered twice.
+#define DEBOUNCE 10
+#define DEBOUNCE_TYPE sym_eager_pk
+
 // Pointer sensitivity
 #define DILEMMA_MINIMUM_DEFAULT_DPI 200
 #define DILEMMA_DEFAULT_DPI_CONFIG_STEP 200

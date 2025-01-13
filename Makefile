@@ -65,6 +65,7 @@ tools:
 	cargo install fd-find ripgrep zoxide
 
 utils:
+	# Note: Run with `sudo -EH yast2`.
 	sudo zypper in yast2-control-center-qt
 	sudo zypper in sqlitebrowser rclone yt-dlp
 	cargo install pastel
@@ -309,6 +310,24 @@ tweaks:
 	echo "vm.swappiness = 10" | sudo tee -a /etc/sysctl.conf
 	sudo sysctl -p
 
+	# For memory-limited systems,
+	# enable zswap for better swap performance & lower disk I/O.
+	# Add:
+	# 	zswap.enabled=1 zswap.compressor=lzo zswap.max_pool_percent=20
+	# To `GRUB_CMDLINE_LINUX_DEFAULT` in `/etc/default/grub`;
+	# then run `grub2-mkconfig -o /boot/grub2/grub.cfg`.
+
+	# You could also enable zram, but in my benchmarks
+	# having both simultaneously leads to performance drops
+	# compared to having one or the other on its own;
+	# and zswap performs better than zram on its own.
+	# sudo zypper in systemd-zram-service
+	# sudo systemctl enable --now zramswap
+
+	# If the initial terminal font is too small,
+	# add this to `/etc/vconsole.conf`:
+	# FONT=ter-v32n.psfu
+
 android:
 	sudo zypper in android-tools
 	git clone https://github.com/google/adb-sync /tmp/adb-sync
@@ -327,7 +346,8 @@ torrents:
 	sudo firewall-cmd --permanent --zone=public --add-port=36767/tcp
 
 documents:
-	sudo zypper in zathura zathura-plugin-pdf-poppler
+	# mupdf rather than poppler as it supports epubs.
+	sudo zypper in zathura zathura-plugin-pdf-mupdf
 	mkdir ~/.config/zathura
 	ln -sf $(dir)/dots/zathura ~/.config/zathura/zathurarc
 	sudo zypper in libreoffice-calc libreoffice-gtk3

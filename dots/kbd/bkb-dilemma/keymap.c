@@ -1,22 +1,3 @@
-// Design notes
-// ------------
-//
-// Symbols:
-// - Punctuation that is almost always followed by whitespace (space or enter): ,!?:;
-//  - `=` is kind of a special case, since it's frequently surrounded by spaces
-//  - As such these are ok for combos as long as it allows for easily following up with space or enter
-// - Punctuation that is often interleaved between other characters and/or repeated: -_/.'
-//  - We could also include the "surrounding puncutation" below here.
-//  - As such these are less ideal for combos, since combos are flow-interrupting and awkward ro repeat.
-// - Other punctuation that is relatively rare: @*\%~$#]^|
-// - Surrounding punctuation:
-//  - "'`
-//  - [](){}<>
-// - Used frequently with numbers: -+.*
-//
-// - Rare alpha keys: QZX, though often used in shortcuts
-//  - But their rarity means they are infrequent in bigrams and so they can be rolled with mods with less issue
-
 #include QMK_KEYBOARD_H
 
 enum layers {
@@ -131,30 +112,26 @@ enum layers {
 
 #include "blender.c"
 
-// TODO: maybe place these instead of combos:
-// - qmark
-// - equal
-// - exclam
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ALPHA] = LAYOUT(
         QGUI, KC_W, KC_E,  KC_R, KC_T,     KC_Y, KC_U, KC_I,  KC_O,   KC_P,
-        KC_A, KC_S, DSYM,  KC_F, KC_G,     KC_H, KC_J, KNUM,  KC_L,   SCOLN,
+        KC_A, KC_S, DSYM,  KC_F, KC_G,     KC_H, KC_J, KNUM,  KC_L,   QUOTE,
         ZALT, KC_X, KC_C,  KC_V, KC_B,     KC_N, KC_M, COMMA, KC_DOT, SLASH,
-                    L_CLK, SHFT, BNAV,     ENAV, SCTL, GRAVE
+                    L_CLK, SHFT, BNAV,     ENAV, SCTL, GRAVE // Shifted: TILDE
     ),
 
     [_SYMBOL] = LAYOUT(
-        ____,  ____,  ____, ____,  ____,   AROBA, OCTHP, L_BRK, R_BRK, BSLSH,
-        ASTRK, CARET, XXXX, DOLAR, ____,   ____,  L_BRC, L_PAR, R_PAR, R_BRC,
-        ____,  ____,  ____, ____,  ____,   ____,  PIPE,  L_THN, G_THN, TILDE,
-                      ____, AMPER, VVVV,   ____,  VVVV, ____
+        ____,  ____,  ____, ____,   ____,   AROBA, OCTHP, L_BRK, R_BRK, BSLSH,
+        CARET, ASTRK, XXXX, DOLAR,  ____,   ____,  L_BRC, L_PAR, R_PAR, R_BRC,
+        ____,  ____,  ____, ____,   ____,   ____,  ____,  L_THN, G_THN, QMARK,
+                      ____, KC_TAB, AMPER,  EXCLM, SCOLN, ____
     ),
 
     [_NUMBER] = LAYOUT(
-        ____, KC_4, KC_5, KC_6, ____,    ____, ____,  ____, ____,  ____,
-        KC_0, KC_3, KC_2, KC_1, KC_DOT,  ____, PLUS,  XXXX, PRCNT, ____,
-        ____, KC_7, KC_8, KC_9, ____,    ____, ____,  ____, ____,  ____,
-                    ____, ____, VVVV,    ____, VVVV,  ____
+        ____, ____, ____, ____, ____,    ____, ____,  ____, ____,  ____,
+        KC_1, KC_2, KC_3, KC_4, ____,    ____, PLUS,  XXXX, PRCNT, SCOLN,
+        KC_5, KC_6, KC_7, KC_8, ____,    ____, ____,  ____, ____,  ____,
+                    ____, KC_0, KC_9,    ____, VVVV,  ____
     ),
 
     [_NAVCTL] = LAYOUT(
@@ -182,48 +159,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // harder to roll w/in the combo term, e.g. `af`.
 //
 // Also avoid `jk` as I map this to escape in vim.
-const uint16_t PROGMEM tab[]      = {KC_A, KC_F, COMBO_END};
 const uint16_t PROGMEM escape[]   = {KC_S, KC_F, COMBO_END};
 const uint16_t PROGMEM colon[]    = {KNUM, KC_L, COMBO_END};
-const uint16_t PROGMEM question[]    = {KC_L, KC_M, COMBO_END};
-const uint16_t PROGMEM equal[]       = {KC_L, KC_J, COMBO_END};
-const uint16_t PROGMEM exclamation[]   = {DSYM, KC_F, COMBO_END};
+const uint16_t PROGMEM equal[]    = {KC_L, KC_J, COMBO_END};
 const uint16_t PROGMEM mute[] = {KC_VOLD, KC_VOLU, COMBO_END};
 
 combo_t key_combos[] = {
-    // HIGHER TERM----
     COMBO(escape, KC_ESC),
-    COMBO(tab, KC_TAB),
-    // ----END HIGHER TERM
-
     COMBO(colon, LSFT(KC_SCLN)),
     COMBO(equal, EQUAL),
-    COMBO(question, QMARK),
-    COMBO(exclamation, EXCLM),
-
     COMBO(mute, KC_MUTE),
 };
 
-// For combos that are infrequent rolls but trickier to fire
-// we can bump up the combo term so there are fewer misfires.
-uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
-    if (combo_index <=1) {
-        return 60;
-    } else {
-        return COMBO_TERM;
-    }
-}
-
-
 // ----Shifts-----------------------
-// <s-;> -> '
-// <s-/> -> "
-// <s-,> -> -
-// <s-.> -> _
 const key_override_t s_minus = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, MINUS);
 const key_override_t s_uscore = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, USCOR);
-const key_override_t s_quote = ko_make_basic(MOD_MASK_SHIFT, KC_SCLN, QUOTE);
-const key_override_t s_dblquote = ko_make_basic(MOD_MASK_SHIFT, KC_SLSH, DBLQT);
+const key_override_t s_dblqt = ko_make_basic(MOD_MASK_SHIFT, QUOTE, DBLQT);
+const key_override_t s_pipe = ko_make_basic(MOD_MASK_SHIFT, KC_SLSH, PIPE);
 
 // System
 const key_override_t bright_up = ko_make_basic(MOD_MASK_SHIFT, KC_VOLU, KC_BRIGHTNESS_UP);
@@ -235,10 +187,6 @@ const key_override_t mouse_speed_up = ko_make_basic(MOD_MASK_SHIFT, MS_DN, MS_UP
 const key_override_t term_name_tab = ko_make_basic(MOD_MASK_SHIFT, T_FOCU, T_NAME);
 const key_override_t term_resize_win = ko_make_basic(MOD_MASK_SHIFT, T_FULL, T_RSZE);
 
-// Browser
-const key_override_t next_browser_tab = ko_make_basic(MOD_MASK_SHIFT, T_NEXT, B_NEXT);
-const key_override_t prev_browser_tab = ko_make_basic(MOD_MASK_SHIFT, T_PREV, B_PREV);
-
 const key_override_t *key_overrides[] = {
     &bright_up,
     &bright_down,
@@ -247,12 +195,9 @@ const key_override_t *key_overrides[] = {
 
     &s_minus,
     &s_uscore,
-    &s_quote,
-    &s_dblquote,
+    &s_pipe,
+    &s_dblqt,
 
     &term_name_tab,
     &term_resize_win,
-
-    &next_browser_tab,
-    &prev_browser_tab,
 };

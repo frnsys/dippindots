@@ -9,4 +9,7 @@ trap "rm $lockfi; makoctl mode -r do-not-disturb; wlopm --on '*'" EXIT
 
 wlopm --off '*'
 makoctl mode -a do-not-disturb
-swaylock -f -u -e -i "$lockbg"
+swaylock --daemonize \
+    --no-unlock-indicator \
+    --ignore-empty-password \
+    --image "$lockbg"

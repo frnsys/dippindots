@@ -8,12 +8,12 @@ config_version: 2
 settings:
   aliases:
     global:
+      fftab: spawn --userscript fftab
       q: close
       qa: quit
       w: session-save
       wq: quit --save
       wqa: quit --save
-      fftab: spawn --userscript fftab
   auto_save.session:
     global: true
   bindings.commands:
@@ -72,6 +72,9 @@ settings:
     https://crates.io: access-paste
     https://emojipedia.org: access-paste
     https://github.com: access-paste
+    https://www.figma.com: access-paste
+  content.mouse_lock:
+    https://www.figma.com: true
   content.notifications.enabled:
     https://calendar.google.com: true
     https://www.youtube.com: false

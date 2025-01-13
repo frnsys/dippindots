@@ -1,6 +1,9 @@
-local function _(key, cmd, modes)
+local function _(key, cmd, modes, remap)
+  if remap == nil then
+    remap = false
+  end
   vim.keymap.set(modes, key, cmd, {
-    noremap = true,
+    remap = remap,
     silent = true,
   })
 end
@@ -57,12 +60,13 @@ _("H", ":tabprevious<cr>", "n")
 --- Bind return to clear last search highlight.
 _("<cr>", ":noh<cr>", "n")
 
---- Toggle b/w alternative buffer
-_("<bs>", "<c-^>", "n")
-
 --- Bind jk/kj to escape
 _("jk", "<esc>", "i")
 _("jk", "<esc>", "i")
+
+--- Commenting
+_("<leader>c", "gcc", "n", true)
+_("<leader>c", "gc", "v", true)
 
 --- Don't leave visual mode when changing indent
 _(">", ">gv", "x")
@@ -89,3 +93,7 @@ _("<esc>", "<c-\\><c-n>", "t")
 
 --- Remap `"` to `?` as it matches my custom kbd layout.
 _('"', '?', "n")
+
+--- Since quote is used as the leader key,
+--- this avoids conflicts with its default binding.
+vim.keymap.set('n', "'", "<nop>")

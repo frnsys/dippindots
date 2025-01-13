@@ -1,19 +1,4 @@
 return {
-  {
-    'numToStr/Comment.nvim',
-    keys = { { '<leader>c', mode = { 'n', 'v' } } },
-    opts = {
-      toggler = {
-        --- Line-comment toggle keymap
-        line = '<leader>c',
-      },
-      opleader = {
-        --- Line-comment keymap (visual mode)
-        line = '<leader>c',
-      },
-    }
-  },
-
   --- Substitute motion
   {
     'gbprod/substitute.nvim',
