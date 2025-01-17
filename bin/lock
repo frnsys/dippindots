@@ -1,15 +1,7 @@
 #!/bin/bash
 
-lockfi='/tmp/lock'
-lockbg='/tmp/lock.png'
-grim "$lockbg"
-convert "$lockbg" -filter point -resize 5% -resize 2000% "$lockbg"
-touch "$lockfi"
-trap "rm $lockfi; makoctl mode -r do-not-disturb; wlopm --on '*'" EXIT
+trap "makoctl mode -r do-not-disturb; wlopm --on '*'" EXIT
 
 wlopm --off '*'
 makoctl mode -a do-not-disturb
-swaylock --daemonize \
-    --no-unlock-indicator \
-    --ignore-empty-password \
-    --image "$lockbg"
+gtklock --daemonize -m /usr/local/lib/gtklock/virtkb-module

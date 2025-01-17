@@ -68,21 +68,12 @@ utils:
 	# Note: Run with `sudo -EH yast2`.
 	sudo zypper in yast2-control-center-qt
 	sudo zypper in sqlitebrowser rclone yt-dlp
-	cargo install pastel
-
-	# Colorpicker
-	sudo zypper in Mesa-libGLESv3-devel xcursor-themes hyprutils-devel hyprwayland-scanner
-	git clone --depth 1  git@github.com:hyprwm/hyprpicker.git /tmp/hyprpicker
-	cd /tmp/hyprpicker \
-		&& cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build \
-		&& cmake --build ./build --config Release --target hyprpicker \
-		&& sudo cmake --install ./build
+	sudo zypper in xcursor-themes hyprpicker
 
 	opi signal-desktop
 
-	eval `ssh-agent -s` && ssh-add
-	cargo install --git ssh://git@github.com/frnsys/kpass.git
-	cargo install --git ssh://git@github.com/frnsys/agenda.git
+	cargo install --git https://github.com/frnsys/kpass.git
+	cargo install --git https://github.com/frnsys/agenda.git
 
 	sudo zypper in -y flatpak
 
@@ -95,7 +86,6 @@ dev:
 	cargo install wasm-pack wasm-bindgen-cli
 	cargo install cargo-expand cargo-machete
 	cargo install mdbook mdbook-toc
-	cargo install tailspin # tspin; log viewer
 
 editor:
 	@echo "Installing neovim..."
@@ -158,10 +148,7 @@ video:
 		&& sudo ./Build install
 
 audio:
-	sudo zypper in python312-pulsemixer pavucontrol alsa-utils
-
-	# bluetooth
-	sudo zypper in bluez bluetuith
+	sudo zypper in pavucontrol alsa-utils bluez bluetuith
 
 shell:
 	sudo zypper in fish
@@ -176,8 +163,7 @@ scrots:
 	sudo zypper in grim slurp gifsicle wf-recorder
 
 images:
-	eval `ssh-agent -s` && ssh-add
-	cargo install --git ssh://git@github.com/frnsys/vu.git
+	cargo install --git https://github.com/frnsys/vu.git
 	sudo zypper in ImageMagick ImageMagick-extra
 	sudo zypper in libwebpdecoder3 libwebp-devel libwebp-tools
 
@@ -187,8 +173,13 @@ fm:
 	ln -sf $(dir)/dots/yazi  ~/.config/yazi
 
 wm:
-	# swaybg and swaylock for background and lock screen
-	sudo zypper in swaybg swaylock swayidle
+	sudo zypper in swaybg swayidle
+
+	# Lockscreen with virtual keyboard,
+	# for touchscreen.
+	sudo zypper in gtklock
+	git clone git@github.com:frnsys/gtklock-virtkb-module.git /tmp/gtklock
+	cd /tmp/gtklock && make && sudo make install
 
 	# Monitor power state control
 	sudo zypper in wlopm
@@ -218,9 +209,8 @@ wm:
 	ln -s $(dir)/dots/river ~/.config/river/init
 
 bar:
-	eval `ssh-agent -s` && ssh-add
 	sudo zypper in gtk3-devel gtk-layer-shell-devel atk
-	cargo +nightly install --git ssh://git@github.com/frnsys/sema.git
+	cargo +nightly install --git https://github.com/frnsys/sema.git
 
 notifications:
 	sudo zypper in mako libnotify-tools
@@ -301,6 +291,7 @@ theme:  # wallpaper, fonts, etc
 
 tweaks:
 	sudo zypper in tuned acpi libinput-tools
+	sudo systemctl enable --now tuned
 
 	# Firmware updates
 	sudo zypper in fwupd

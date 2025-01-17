@@ -41,9 +41,7 @@ function toggle_checkbox()
   end
 end
 
-vim.api.nvim_create_augroup("MarkdownSettings", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
-  group = "MarkdownSettings",
   pattern = "markdown",
   callback = function()
     local media = require("filetype/markdown/media")

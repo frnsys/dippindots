@@ -1,11 +1,9 @@
 #!/bin/bash
-# sync data between phone and laptop over USB
-# requires adb-sync for mode=usb
-# requires sshhelper running on the phone for mode=ssh
+# Sync data between phone and laptop over USB.
+# Requires `adb-sync`.
 #
 # Usage:
-#   phonesync usb
-#   phonesync ssh admin@192.168.68.102:2222
+#   phone
 #
 # Note on filenames: sometimes you will see a permission error
 # when trying to copy a file. This is usually because the filename
@@ -13,35 +11,14 @@
 # See: <https://github.com/google/adb-sync/issues/34>
 # See the music copying command below; there I just remove the illegal characters.
 
-MODE=$1 # "usb" or "ssh"
-HOST=$2 # e.g. admin@191.168.68.102:2222
-
-if [[ $MODE == 'ssh' ]]; then
-    if [[ -z $HOST ]]; then
-        echo "If using ssh mode, must specify host"
-        exit 1
-    else
-        PORT=$(echo $HOST | cut -f2 -d:)
-        HOST=$(echo $HOST | cut -f1 -d:)
-    fi
-fi
-
 function sync() {
     SRC="$1"
     DEST="$2"
     shift 2
-    if [[ $MODE == 'ssh' ]]; then
-        if [[ "$SRC" == /sdcard/* ]]; then
-            rsync -ravu --progress $@ -e 'ssh -p '$PORT $HOST:"$SRC" "$DEST"
-        else
-            rsync -ravu --progress $@ -e 'ssh -p '$PORT "$SRC" $HOST:"$DEST"
-        fi
+    if [[ "$SRC" == /sdcard/* ]]; then
+        adb-sync --reverse $@ "$SRC" "$DEST"
     else
-        if [[ "$SRC" == /sdcard/* ]]; then
-            adb-sync --reverse $@ "$SRC" "$DEST"
-        else
-            adb-sync $@ "$SRC" "$DEST"
-        fi
+        adb-sync $@ "$SRC" "$DEST"
     fi
 }
 
@@ -81,16 +58,3 @@ function parse_songs() {
 # rename 's/[:?*<>]//' /tmp/musics/*.mp3 # rename to remove illegal characters
 # sync /tmp/musics/ /sdcard/Music/musics --delete
 # rm -rf /tmp/musics
-
-# get epub highlights/quotes
-# note: to get the latest, you need to first create a backup in readera
-# it does auto-backups too though
-if [ -d "/tmp/readera" ]; then rm -r /tmp/readera; fi
-mkdir /tmp/readera
-sync "/sdcard/ReadEra/Backups" "/tmp/readera"
-cd /tmp/readera/Backups
-latest=$(ls | sort | tail -1)
-unzip "$latest"
-date=$(date '+%Y%m%d')
-cp "$latest" ~/docs/backups/phone/readera.${date}.bak
-cat library.json | jq -r '[.docs[] | select((.citations | length) > 0)]' > ~/notes/annos/phone.json

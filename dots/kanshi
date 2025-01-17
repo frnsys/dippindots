@@ -1,16 +1,13 @@
 # grep . /sys/class/drm/*/status
-profile {
-    output eDP-1 enable scale 2.5 mode 2880x1800@60
+# use kanshictl to switch profiles
+profile landscape {
+    output eDP-1 enable scale 2.5 transform 90 mode 1600x2560@60Hz
 }
-profile {
-    output DP-2 enable scale 1.5 position 0,0 mode 1920x1080@60
-    output eDP-1 enable scale 2.5 position 1280,0 mode 2880x1800@60
+profile portrait {
+    output eDP-1 enable scale 2.5 transform normal mode 1600x2560@60Hz
 }
-profile {
-    output DP-1 enable scale 1.5 position 0,0 mode 1920x1080@60
-    output eDP-1 enable scale 2.5 position 1280,0 mode 2880x1800@60
-}
-profile {
-    output HDMI-A-1 enable scale 1.5 position 0,0 mode 1920x1080@60
-    output eDP-1 enable scale 2.5 position 1280,0 mode 2880x1800@60
+profile dual {
+    # Calculate offset using 1920/scale, e.g. 1920/1.2
+    output DP-2 enable scale 1.2 position 0,0 mode 1920x1080@60Hz
+    output eDP-1 enable scale 2.5 position 1600,0 transform 90 mode 1600x2560@60Hz
 }

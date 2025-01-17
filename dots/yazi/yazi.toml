@@ -46,9 +46,6 @@ audio = [
 url = [
 	{ run = 'firefox $(cat "$@")' },
 ]
-log = [
-    { run = 'tspin --config-path ~/.config/tailspin/theme.toml $(readlink -f "$@")', block = true },
-]
 csv = [
     { run = 'kitty --title float -e visidata "$@"' },
 	{ run = 'nvim "$@"', block = true, desc = "Editor" },
@@ -75,7 +72,6 @@ rules = [
 	{ name = "*.csvs", use = "csvs" },
 	{ name = "*.html", use = ["text", "html"] },
 	{ name = "*.md", use = ["text", "markdown"] },
-	{ name = "*.log", use = ["log"] },
 
 	{ mime = "text/*", use = "text" },
 	{ mime = "image/*", use = "image" },

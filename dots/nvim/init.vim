@@ -192,12 +192,3 @@ function! CleanNoNameEmptyBuffers()
     endif
 endfunction
 autocmd BufLeave * :call CleanNoNameEmptyBuffers()
-
-lua <<EOF
--- Android (Termux) specific configuration.
-local output = vim.fn.system("uname -r")
-if string.find(output, "android") then
-    vim.o.number = false
-    vim.o.relativenumber = false
-end
-EOF
