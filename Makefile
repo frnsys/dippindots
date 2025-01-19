@@ -190,6 +190,7 @@ wm:
 	sudo zypper in kanshi
 	mkdir -p ~/.config/kanshi
 	ln -s $(dir)/dots/kanshi ~/.config/kanshi/config
+	sudo zypper in wlr-randr
 
 	sudo zypper in xwayland river xdg-desktop-portal-wlr
 
