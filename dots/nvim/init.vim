@@ -37,47 +37,25 @@ EOF
 
 colorscheme futora
 
-" navigation
-set nonumber
-set norelativenumber
-set nostartofline 				" Don't reset cursor to start of line when moving
-set cursorline 				    " Highlight current line
 set scrolloff=3 				" Start scrolling three lines before border
 set showmatch 					" Show matching brackets
 let &showbreak=' '              " Show this at the start of wrapped lines
+set tabstop=4                   " Set tab spaces
+set shiftwidth=4                " Set autoindent (with <<) spaces
+set expandtab                   " Use spaces, not tabs
+set smartindent                 " Indent based on language
+set backspace=indent,eol,start  " Backspace through everything in insert mode
+set ignorecase                  " Case insensitive searches...
+set smartcase                   " ...unless they contain capital letters
+set gdefault 	                " Global search/replace by default
+set display+=lastline           " Show as much of the last line as possible
+set clipboard=unnamedplus       " Use OS clipboard
+set noeol                       " Don’t add newlines at the end of files
 
-" whitespace
-set wrap                          " Wrap lines
-set tabstop=4                     " Set tab spaces
-set shiftwidth=4                  " Set autoindent (with <<) spaces
-set expandtab                     " Use spaces, not tabs
-set list                          " Show invisible characters
-set smartindent
-set autoindent
-set backspace=indent,eol,start    " Backspace through everything in insert mode
-
-" search
-set incsearch   " Search as pattern is typed
-set ignorecase  " Case insensitive searches...
-set smartcase   " Unless they contain 1+ capital letters
-set hlsearch    " Highlight search matches
-set gdefault 	" Global search/replace by default
-
-" misc config
-set conceallevel=0
-set noerrorbells 				" Disable error bells
-set novisualbell                " Disable visual bells
-set showmode 					" Show the current mode
-set showcmd 					" Show the command as it's typed
-set wrap                        " Wrap long lines
-set hidden
-set textwidth=0 wrapmargin=0 formatoptions=cq
-set display+=lastline
-set switchbuf+=usetab
-set clipboard=unnamedplus " Use OS clipboard
-set completeopt=menu,menuone,noselect   " Autocomplete settings
-set noeol " Don’t add empty newlines at the end of files
-set mouse= " Disable mouse
+set list                        " Show invisible characters:
+set listchars=""                " - Reset the listchars
+set listchars=tab:\ \           " - A tab should display as "  "
+set listchars+=trail:.          " - Show trailing spaces as dots
 
 " Shorter timeout to avoid lag,
 " this is used for multi-key bindings,
@@ -86,15 +64,6 @@ set mouse= " Disable mouse
 " 200 feels like a good value;
 " 100 is too fast.
 set timeoutlen=160
-
-" list chars (i.e. hidden characters)
-set listchars=""                  " Reset the listchars
-set listchars=tab:\ \             " A tab should display as "  "
-set listchars+=trail:.            " Show trailing spaces as dots
-set listchars+=extends:>          " The character to show in the last column when wrap is
-                                  " off and the line continues beyond the right of the screen
-set listchars+=precedes:<         " The character to show in the last column when wrap is
-                                  " off and the line continues beyond the right of the screen
 
 " centralize backup, swap, & undo files
 set backupdir^=~/.vim/.backup// 	" Backup files

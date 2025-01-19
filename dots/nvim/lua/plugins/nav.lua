@@ -112,27 +112,34 @@ return {
     end,
     keys = {
       {
-        "<leader>f",
+        "..",
         function()
           require('fzf-lua').files()
         end,
         desc = 'Search files by name'
       },
       {
-        "<leader>s",
+        ",.",
         function()
           require('fzf-lua').live_grep_glob()
         end,
         desc = 'Search by grep'
       },
       {
-        "<leader><leader>",
+        ",,",
         function()
           require('fzf-lua').buffers({
             sort_lastused = true
           })
         end,
         desc = 'Search buffers'
+      },
+      {
+        ".,",
+        function()
+          require('fzf-lua').lines()
+        end,
+        desc = 'Search buffer lines'
       },
       {
         "<leader>r",
@@ -168,7 +175,7 @@ return {
   {
     "yorickpeterse/nvim-window",
     keys = {
-      { ",,", function()
+      { ",f", function()
         local win_count = vim.fn.winnr('$')
 
         -- If there are only two windows,

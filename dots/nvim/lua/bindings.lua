@@ -1,3 +1,25 @@
+--- Important keybinds:
+---
+--- # Movement
+--- - { and } for moving b/w paragraphs
+--- - ( and ) for moving b/w functions
+--- - [ and ] for moving b/w classes
+--- - < and > for moving b/w blocks
+--- - w and b for moving across identifiers
+--- - W and B for moving across 2x identifiers
+---
+--- # Objects
+--- - iu/au for any quote
+--- - io/ao for any bracket
+--- - ii/ai for lines w/ matching indentation
+--- - ia/aa for a parameter or list item
+--- - if/af for a function
+--- - im/am for a block
+--- - n for up to last char of line
+--- - Q for up to next quote
+--- - C for up to next bracket
+--- - R for rest of lines w/ matching indentation
+
 local function _(key, cmd, modes, remap)
   if remap == nil then
     remap = false
@@ -16,12 +38,11 @@ end
 --- * Not using `s` b/c it's already "sentence"
 --- * Avoid `hjkl` and other operator keys, e.g. `t`, `/`
 --- * Make sure these don't conflict with the
----   mappings in `plugins/treesitter.lua`
+---   mappings in `plugins/motion.lua`
 local remappings = {
   { "c", "(", ")" },
   { "r", "[", "]" },
   { "z", "{", "}" },
-  { "i", '"', '"' },
 }
 for i, map in ipairs(remappings) do
   local key = map[1]
@@ -36,21 +57,7 @@ for i, map in ipairs(remappings) do
 
   -- To
   _("t" .. key, "t" .. target_close, {"o", "v"})
-
-  -- Convenience binding that assumes "inside"
-  -- _(key, "i" .. target, {"o", "v"})
-
-  -- Convenience jump to
-  _("." .. key, "/" .. target .. "<cr><cmd>noh<cr>", "n")
-  _("," .. key, "?" .. target .. "<cr><cmd>noh<cr>", "n")
 end
-
---- To next empty line
-_("<space>", "}", {"o", "v", "n"})
-
---- Easier jumping between matching brackets
-_(",.", "%", {"n", "o"})
-_(".,", "%", {"n", "o"})
 
 --- Tabs
 _("T", ":tabnew<cr>", "n")

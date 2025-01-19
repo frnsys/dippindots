@@ -15,6 +15,29 @@ return {
     },
   },
 
+  {
+    "chrisgrieser/nvim-various-textobjs",
+    lazy = false,
+    config = function()
+      require("various-textobjs").setup({
+        keymaps = {
+          -- io/ao: any bracket
+          -- n: end of line excluding last character
+          -- Q: to next quote
+          -- C: to next bracket
+          -- ii/ai: lines w/ matching indentation
+          -- R: rest of lines w/ matching indentation
+          -- See: https://github.com/chrisgrieser/nvim-various-textobjs?tab=readme-ov-file#list-of-text-obj
+          useDefaults = true
+        }
+      })
+
+      -- iu/au: any quote
+      vim.keymap.set({ "o", "x" }, "au", '<cmd>lua require("various-textobjs").anyQuote("outer")<CR>')
+      vim.keymap.set({ "o", "x" }, "iu", '<cmd>lua require("various-textobjs").anyQuote("inner")<CR>')
+    end
+  },
+
   --- Faster movement within buffers
   {
     "folke/flash.nvim",
@@ -112,7 +135,7 @@ return {
     'nvim-treesitter/nvim-treesitter',
     build = ":TSUpdate",
     dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
+      "nvim-treesitter/nvim-treesitter-textobjects",
     },
     main = 'nvim-treesitter.configs',
     opts = {
@@ -141,7 +164,6 @@ return {
             ['ia'] = '@parameter.inner',
             ['af'] = '@function.outer',
             ['if'] = '@function.inner',
-            ['in'] = '@number.inner',
             ['im'] = '@block.inner',
             ['am'] = '@block.outer',
           },
@@ -150,16 +172,20 @@ return {
           enable = true,
           set_jumps = true, -- whether to set jumps in the jumplist
           goto_next_start = {
-            ['.f'] = '@function.outer',
+            [']'] = '@class.outer',
+            [')'] = '@function.outer',
+            ['>'] = '@block.inner',
             ['.a'] = '@parameter.inner',
-            ['.m'] = '@block.inner',
             ['.n'] = '@number.inner',
+            ['.s'] = '@comment.outer',
           },
           goto_previous_start = {
-            [',f'] = '@function.outer',
+            ['['] = '@class.outer',
+            ['('] = '@function.outer',
+            ['<'] = '@block.inner',
             [',a'] = '@parameter.inner',
-            [',m'] = '@block.inner',
             [',n'] = '@number.inner',
+            [',s'] = '@comment.outer',
           },
         },
       },
