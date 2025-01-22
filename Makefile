@@ -255,6 +255,8 @@ theme:  # wallpaper, fonts, etc
 		saja-cascadia-code-fonts \
 		google-inconsolata-fonts \
 		google-noto-coloremoji-fonts \
+		google-noto-fonts \
+		google-noto-sans-cjk-fonts \
 		terminus-bitmap-fonts \
 		inter-fonts \
 		fira-code-fonts \
