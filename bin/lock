@@ -2,6 +2,8 @@
 
 trap "makoctl mode -r do-not-disturb; wlopm --on '*'" EXIT
 
+echo "window { background-color: black; }" > /tmp/lock-style.css
+
 wlopm --off '*'
 makoctl mode -a do-not-disturb
-gtklock --daemonize -m /usr/local/lib/gtklock/virtkb-module
+gtklock --daemonize -m /usr/local/lib/gtklock/virtkb-module -s /tmp/lock-style.css

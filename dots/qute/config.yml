@@ -21,6 +21,7 @@ settings:
       normal:
         J: tab-prev
         K: tab-next
+        q: null
   colors.hints.bg:
     global: '#fdb63d'
   colors.hints.fg:
@@ -72,6 +73,7 @@ settings:
     https://crates.io: access-paste
     https://emojipedia.org: access-paste
     https://github.com: access-paste
+    https://translate.google.com: access-paste
     https://www.figma.com: access-paste
   content.mouse_lock:
     https://www.figma.com: true
@@ -99,3 +101,5 @@ settings:
   url.searchengines:
     global:
       DEFAULT: https://www.google.com/search?hl=en&q={}
+  zoom.mouse_divider:
+    global: 0

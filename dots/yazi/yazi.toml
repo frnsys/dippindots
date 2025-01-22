@@ -47,7 +47,7 @@ url = [
 	{ run = 'firefox $(cat "$@")' },
 ]
 csv = [
-    { run = 'kitty --title float -e visidata "$@"' },
+    { run = 'visidata "$@"', block = true },
 	{ run = 'nvim "$@"', block = true, desc = "Editor" },
 ]
 csvs = [

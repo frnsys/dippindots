@@ -74,6 +74,7 @@ utils:
 
 	cargo install --git https://github.com/frnsys/kpass.git
 	cargo install --git https://github.com/frnsys/agenda.git
+	cargo install --git https://github.com/frnsys/stash.git
 
 	sudo zypper in -y flatpak
 
@@ -174,6 +175,9 @@ fm:
 
 wm:
 	sudo zypper in swaybg swayidle
+
+	# Onscreen keyboard.
+	cargo install --git https://github.com/frnsys/kway.git
 
 	# Lockscreen with virtual keyboard,
 	# for touchscreen.
