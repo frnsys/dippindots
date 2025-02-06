@@ -1,0 +1,3 @@
+#!/bin/bash
+
+qutebrowser "https://www.wordreference.com/fren/$1"
