@@ -13,7 +13,8 @@ PROGRAM="kway"
 # a specific device; but a lot of non-keyboard
 # devices report themselves as keyboards so it's
 # not especially reliable.
-KEYBOARD="Bastard Keyboards Dilemma"
+# KEYBOARD="Bastard Keyboards Dilemma"
+KEYBOARD="Aurora Sweep"
 
 while true; do
     # Check if the program is already running.

@@ -63,7 +63,7 @@ function localSync() {
 
 if [[ $1 == 'home' ]]; then
     for dest in \
-        ftseng@turtle.home:/media/usb; do
+        ftseng@turtle.local:/media/usb; do
         localSync $dest
     done
 

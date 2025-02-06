@@ -46,7 +46,7 @@ return {
       search = {
         multi_window = false,
         incremental = false,
-        mode = 'fuzzy',
+        mode = 'exact',
       },
       label = {
         after = true,
@@ -70,25 +70,6 @@ return {
     },
     keys = {
       {
-        "<c-f>",
-        mode = { "n" },
-        function()
-          require("flash").jump({
-            label = {
-              before = false,
-              after = true,
-            },
-            search = {
-              wrap = true,
-              mode = "exact",
-              multi_window = false,
-            }
-          })
-        end,
-        desc = "Flash jump visible buffer",
-      },
-
-      {
         "f",
         mode = { "n" },
         function()
@@ -99,34 +80,61 @@ return {
             },
             mode = "char",
             search = {
-              wrap = false,
+              wrap = true,
               mode = "exact",
-              max_length = 1,
-              forward = true,
+              multi_window = false,
             }
           })
         end,
         desc = "Flash jump visible buffer",
       },
       {
-        "F",
-        mode = { "n" },
+        "<space>t",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").treesitter()
+        end,
+        desc = "Flash Treesitter"
+      },
+
+      --- Select word.
+      {
+        "<space>w",
+        mode = { "n", "x", "o" },
         function()
           require("flash").jump({
+            pattern = "\\<\\w*",
+            search = { wrap = true, mode = "search", max_length = 0 },
             label = {
-              before = false,
-              after = true,
+              before = true,
+              after = false,
             },
-            mode = "char",
-            search = {
-              wrap = false,
-              mode = "exact",
-              max_length = 1,
-              forward = false,
-            }
+            jump = { pos = "range" },
+            -- Use this to jump to start:
+            -- jump = { pos = "start" },
           })
         end,
-        desc = "Flash jump visible buffer",
+      },
+
+      --- Select between two delimiters.
+      -- NOTE: This doesn't work well with
+      -- nested delimiters...
+      {
+        "F",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").jump({
+            -- Note: `\zs` and `\ze` indicate
+            -- the start/end of the selection.
+            pattern = "[\\[<{(|]\\zs[^\\[{(<|>)}\\]]*\\ze[|)}>\\]]",
+            search = { wrap = true, mode = "search", max_length = 0 },
+            label = {
+              before = true,
+              after = true,
+            },
+            jump = { pos = "range" },
+          })
+        end,
       },
     },
   },
@@ -145,8 +153,6 @@ return {
         'typescript', 'c_sharp', 'css', 'scss', 'toml',
         'markdown', 'markdown_inline', 'bash', 'lua',
         'html', 'javascript', 'json', 'yaml', 'comment' },
-
-      -- Autoinstall languages that are not installed.
       auto_install = true,
 
       highlight = { enable = true },
@@ -166,6 +172,7 @@ return {
             ['if'] = '@function.inner',
             ['im'] = '@block.inner',
             ['am'] = '@block.outer',
+            [','] = '@statement.outer',
           },
         },
         move = {
@@ -174,18 +181,21 @@ return {
           goto_next_start = {
             [']'] = '@class.outer',
             [')'] = '@function.outer',
-            ['>'] = '@block.inner',
+            ['.m'] = '@block.inner',
             ['.a'] = '@parameter.inner',
-            ['.n'] = '@number.inner',
             ['.s'] = '@comment.outer',
+            ['<c-f>'] = '@statement.outer',
           },
+          -- TODO perhaps use exclaation and semicolon
+          -- tab & ampersand
+          -- octothorpe & backslash
           goto_previous_start = {
             ['['] = '@class.outer',
             ['('] = '@function.outer',
-            ['<'] = '@block.inner',
+            [',m'] = '@block.inner',
             [',a'] = '@parameter.inner',
-            [',n'] = '@number.inner',
             [',s'] = '@comment.outer',
+            ['<c-e>'] = '@statement.outer',
           },
         },
       },

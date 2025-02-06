@@ -17,7 +17,24 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
---- Note: must be loaded before plugins
+-- Show error count in status line.
+local default_status = "%f %m %r %= %l,%c %p%%"
+vim.o.statusline = default_status
+vim.api.nvim_create_autocmd("DiagnosticChanged", {
+    callback = function()
+    local diagnostics = vim.diagnostic.get(0, {
+        severity = vim.diagnostic.severity.ERROR
+    })
+    local errors = #diagnostics
+    if errors > 0 then
+        vim.o.statusline = "%#StatusLineError# E:" .. errors .. " %* " .. default_status
+    else
+        vim.o.statusline = default_status
+    end
+  end,
+})
+
+-- Note: must be loaded before plugins
 require('ignore')
 
 require('lazy').setup('plugins', {
@@ -27,8 +44,8 @@ require('lazy').setup('plugins', {
 require('breeze')
 require('abbrevs')
 require('bindings')
+require('francais')
 require('filetype/markdown')
-require('filetype/rust')
 
 -- For nvim 0.11
 -- require('completion')
@@ -51,19 +68,13 @@ set gdefault 	                " Global search/replace by default
 set display+=lastline           " Show as much of the last line as possible
 set clipboard=unnamedplus       " Use OS clipboard
 set noeol                       " Don’t add newlines at the end of files
+set splitright                  " Open vsplits on the right by default
+set splitbelow                  " Open hsplits on below by default
 
 set list                        " Show invisible characters:
 set listchars=""                " - Reset the listchars
 set listchars=tab:\ \           " - A tab should display as "  "
 set listchars+=trail:.          " - Show trailing spaces as dots
-
-" Shorter timeout to avoid lag,
-" this is used for multi-key bindings,
-" e.g. how long to wait to see if another key is coming
-" for bindings like `<leader>db`.
-" 200 feels like a good value;
-" 100 is too fast.
-set timeoutlen=160
 
 " centralize backup, swap, & undo files
 set backupdir^=~/.vim/.backup// 	" Backup files
@@ -82,17 +93,6 @@ set backupcopy=yes
 
 " webbrowser for `gx`
 let g:netrw_browsex_viewer='qutebrowser'
-
-" bind | and _ to vertical and horizontal splits
-nnoremap <expr><silent> \| !v:count ? "<C-W>v<C-W><Right>" : '\|'
-nnoremap <expr><silent> _  !v:count ? "<C-W>s<C-W><Down>"  : '_'
-set splitright " open vsplits on the right by default
-
-" When using c/C don't copy
-" to the system clipboard,
-" but to the black hole register instead
-nnoremap c "_c
-nnoremap C "_C
 
 " Hide the command line, use the status line instead
 " The downside with this is frequent "ENTER to continue" prompts
@@ -151,13 +151,3 @@ au BufWritePre * :%s/\s\+$//e
 " Remember last location in file, but not for commit messages.
 au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
 \| exe "normal! g`\"" | endif
-
-" Delete no name, empty buffers when leaving a buffer
-" to keep the buffer list clean
-function! CleanNoNameEmptyBuffers()
-    let buffers = filter(range(1, bufnr('$')), 'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val) < 0 && (getbufline(v:val, 1, "$") == [""])')
-    if !empty(buffers)
-        exe 'bd '.join(buffers, ' ')
-    endif
-endfunction
-autocmd BufLeave * :call CleanNoNameEmptyBuffers()

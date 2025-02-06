@@ -15,6 +15,36 @@ vim.cmd([[
 
 return {
   {
+    --- Colorize ANSI escape sequences.
+    "m00qek/baleia.nvim",
+    version = "*",
+    event = { 'BufEnter *.trm' },
+    config = function()
+      vim.g.baleia = require("baleia").setup({})
+
+      -- Load automatically for .trm files.
+      vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+        pattern = "*.trm",
+        callback = function()
+          local buffer = vim.api.nvim_get_current_buf()
+          vim.g.baleia.once(buffer)
+          vim.api.nvim_set_option_value("modified", false, { buf = buffer })
+          vim.api.nvim_set_option_value("modifiable", false, { buf = buffer })
+        end,
+      })
+      vim.api.nvim_create_autocmd({ "FileChangedShellPost" }, {
+        pattern = "*.trm",
+        callback = function()
+          local buffer = vim.api.nvim_get_current_buf()
+          vim.api.nvim_set_option_value("modifiable", true, { buf = buffer })
+          vim.g.baleia.once(buffer)
+          vim.api.nvim_set_option_value("modified", false, { buf = buffer })
+          vim.api.nvim_set_option_value("modifiable", false, { buf = buffer })
+        end,
+      })
+    end,
+  },
+  {
     'mikesmithgh/kitty-scrollback.nvim',
     enabled = true,
     lazy = true,
@@ -34,11 +64,5 @@ return {
         }
       })
     end,
-  },
-
-  {
-    'akinsho/toggleterm.nvim',
-    config = true,
-    enabled = false,
   },
 }

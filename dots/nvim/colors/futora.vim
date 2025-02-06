@@ -8,8 +8,6 @@ highlight Constant guifg=#edb140 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight CursorColumn guifg=NONE guibg=#282828 guisp=NONE blend=NONE gui=NONE
 highlight CursorLine guifg=NONE guibg=none guisp=NONE blend=NONE gui=NONE
 highlight CursorLineNr guifg=#ffffff guibg=#303030 guisp=NONE blend=NONE gui=NONE
-highlight DiagnosticInfo guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight DiagnosticUnderlineError guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=underline
 highlight Directory guifg=#2c84fc guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight EndOfBuffer guifg=#626262 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Exception guifg=#ff2f6d guibg=NONE guisp=NONE blend=NONE gui=NONE
@@ -89,20 +87,14 @@ highlight link @markup.list.markdown @text.list_marker
 highlight link @lsp.typemod.enumMember.defaultLibrary.rust Special
 highlight @lsp.type.macro.rust guifg=#ff5c5c
 
+highlight DiagnosticInfo guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight DiagnosticUnderlineError guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=underline
+
 highlight FlashMatch guibg=#262626 guifg=#ffd787
 highlight FlashCurrent guibg=#262626 guifg=#00af87 gui=bold
 highlight FlashLabel guifg=#000000 guibg=#ffafaf gui=bold
 
 highlight OilDir guifg=#7fb1f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
-
-highlight TroubleTextWarning guifg=#d9c17f
-highlight TroubleTextError guifg=#b7404c
-highlight TroubleSignWarning guifg=#d49e39 gui=bold
-highlight TroubleSignError guifg=#b7404c gui=bold
-highlight TroubleSignInformation guifg=#a6dbff gui=bold
-highlight TroubleSignHelp guifg=#a6dbff gui=bold
-highlight TroubleSignOther guifg=#a6dbff gui=bold
-highlight TroubleFile guifg=#757575
 
 highlight Delimiter guifg=#222222
 
@@ -128,6 +120,7 @@ highlight GitSignsChange guifg=#08c97b guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight BlinkCmpDoc guibg=#131313
 highlight BlinkCmpDocBorder guibg=#131313
 highlight BlinkCmpSignatureHelp guibg=#131313
-highlight SnippetTabstop guifg=#ff5c5c guibg=#202020 gui=italic
 
 highlight WindowTarget guibg=#ffd75f guifg=#161616 gui=bold
+
+highlight StatusLineError guifg=#161616 guibg=#FC392B guisp=NONE blend=NONE gui=bold

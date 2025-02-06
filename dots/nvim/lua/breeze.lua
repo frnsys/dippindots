@@ -66,6 +66,9 @@ local function pattern_motion(pattern_specs, forward)
 
     if (target_col ~= nil) then
       target_col = #reversed - target_col
+    else
+      -- Jump to the start of line.
+      target_col = vim.fn.match(line, "\\S")
     end
   end
 
@@ -97,7 +100,9 @@ end
 ---   a|bc.def.hij
 ---   abc.|def.hij
 local function identifier(forward)
-  pattern_motion({ { "[%s.,;:!&*=|/<>()%[%]{}'\"]", "%w" } }, forward)
+  pattern_motion({
+    { "[%s.,;:!#$&*=|/<>()%[%]{}'\"]", "%w" },
+  }, forward)
 end
 
 --- Move by subword, e.g. each segment

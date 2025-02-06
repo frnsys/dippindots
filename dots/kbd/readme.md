@@ -10,6 +10,7 @@ Then symlink the layouts to the correct directory. Assuming `qmk_firmware` is in
 
 ```bash
 ln -s ~/.dots/dots/kdb/bkb-dilemma /opt/qmk_firmware/keyboards/bastardkb/dilemma/3x5_3/keymaps/francis
+ln -s ~/.dots/dots/kdb/aurora-sweep /opt/qmk_firmware/keyboards/splitkb/aurora/sweep/keymaps/francis
 ```
 
 Then you need to compile and flash the layout to the keyboard.
@@ -28,3 +29,11 @@ sudo umount /mnt/usb
 
 # and repeat for the other half.
 ```
+
+Similarly for the Aurora Sweep:
+
+```bash
+qmk compile -e CONVERT_TO=liatris -c -kb splitkb/aurora/sweep -km francis
+```
+
+and then mount and copy the file to each half of the keyboard.

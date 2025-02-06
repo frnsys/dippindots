@@ -61,8 +61,7 @@ git:
 	ln -sf $(dir)/dots/git/gitconfig ~/.gitconfig
 
 tools:
-	sudo zypper in fzf jq htop tree the_silver_searcher gnupg ncdu powertop dfc ffmpeg
-	cargo install fd-find ripgrep zoxide
+	sudo zypper in -y fzf jq htop tree the_silver_searcher gnupg ncdu powertop dfc ffmpeg fd ripgrep zoxide
 
 utils:
 	# Note: Run with `sudo -EH yast2`.
@@ -81,7 +80,7 @@ utils:
 dev:
 	sudo zypper in -y podman # podman for docker
 	flatpak install flathub io.podman_desktop.PodmanDesktop
-	cargo install just
+	sudo zypper in -y just
 	cargo install cross
 	cargo install bacon
 	cargo install wasm-pack wasm-bindgen-cli
@@ -91,7 +90,7 @@ dev:
 editor:
 	@echo "Installing neovim..."
 	sudo zypper in bat wl-clibpoard
-	wget https://github.com/neovim/neovim/archive/refs/tags/v0.10.3.tar.gz -O /tmp/neovim.tar.gz
+	wget https://github.com/neovim/neovim/archive/refs/tags/v0.10.4.tar.gz -O /tmp/neovim.tar.gz
 	cd /tmp; tar -xzvf neovim.tar.gz; \
 		cd neovim-*; make CMAKE_BUILD_TYPE=Release && sudo make install \
 			&& sudo ln -sf /usr/local/bin/nvim /usr/bin/vi \
@@ -169,7 +168,7 @@ images:
 	sudo zypper in libwebpdecoder3 libwebp-devel libwebp-tools
 
 fm:
-	sudo zypper in poppler-tools ffmpegthumbnailer jq
+	sudo zypper -y in poppler-tools ffmpegthumbnailer jq
 	cargo install --git https://github.com/sxyazi/yazi yazi-fm
 	ln -sf $(dir)/dots/yazi  ~/.config/yazi
 
@@ -199,12 +198,7 @@ wm:
 	sudo zypper in xwayland river xdg-desktop-portal-wlr
 
 	# Inhibit idle while audio is playing
-	sudo zypper in libpulse-devel wayland-devel wayland-protocols-devel
-	git clone --depth 1 git@github.com:ErikReider/SwayAudioIdleInhibit.git /tmp/inhibit-idle && \
-		cd /tmp/inhibit-idle && \
-		meson setup build && \
-		ninja -C build && \
-		sudo meson install -C build
+	sudo zypper in libpulse-devel wayland-devel wayland-protocols-devel SwayAudioIdleInhibit
 
 	# River layout system
 	sudo zypper in zig wayland-devel wayland-protocols-devel
@@ -234,6 +228,7 @@ browser:
 	ln -sf $(dir)/dots/qute/config.yml ~/.config/qutebrowser/autoconfig.yml
 	ln -sf $(dir)/dots/qute/userscripts ~/.local/share/qutebrowser/userscripts
 	ln -sf $(dir)/dots/qute/greasemonkey ~/.local/share/qutebrowser/greasemonkey
+	xdg-settings set default-web-browser org.qutebrowser.qutebrowser.desktop
 
 	# Google Chrome
 	opi chrome

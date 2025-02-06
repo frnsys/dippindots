@@ -22,9 +22,9 @@ return {
       }
 
       --- Diagnostic keymaps
-      vim.keymap.set('n', ',d', vim.diagnostic.goto_prev,
+      vim.keymap.set('n', ',,', vim.diagnostic.goto_prev,
         { desc = "Go to previous diagnostic message" })
-      vim.keymap.set('n', '.d', vim.diagnostic.goto_next,
+      vim.keymap.set('n', '..', vim.diagnostic.goto_next,
         { desc = "Go to next diagnostic message" })
 
       --- LSP settings.
@@ -32,17 +32,24 @@ return {
       local on_attach = function(client, bufnr)
         local bind = function(desc, keys, func)
           vim.keymap.set('n', keys, func,
-            { buffer = bufnr, desc = desc })
+            { buffer = bufnr, desc = desc, noremap = true })
         end
 
         bind('Rename symbol',
           'gr', vim.lsp.buf.rename)
         bind('Code action',
-          'ga', vim.lsp.buf.code_action)
+          'ga', function()
+            vim.lsp.buf.code_action({
+              -- Filter out code actions I never use
+              -- and often crowd the list.
+              filter = function(action)
+                local title = vim.fn.trim(action.title)
+                return not vim.startswith(title, "Generate delegate")
+              end,
+            })
+          end)
         bind('Hover documentation',
           'gw', vim.lsp.buf.hover)
-        bind('Signature documentation',
-          'gs', vim.lsp.buf.signature_help)
         bind('Go to definition',
           'gd', vim.lsp.buf.definition)
 
@@ -124,7 +131,16 @@ return {
               },
             },
 
-            checkOnSave = false,
+            workspace = {
+              symbol = {
+                search = {
+                  -- Or "all_symbols".
+                  kind = "only_types",
+                },
+              },
+            },
+
+            checkOnSave = true,
             diagnostics = {
               enable = true,
               experimental = {
@@ -152,66 +168,19 @@ return {
   },
 
   {
-    "folke/trouble.nvim",
-    opts = {
-      icons = {},
-      warn_no_results = false, -- show a warning when there are no results
-      open_no_results = true,  -- open the trouble window when there are no results
-      action_keys = {
-        close = "q",                   -- close the list
-        cancel = "<esc>",              -- cancel the preview and get back to your last window / buffer / cursor
-        refresh = "r",                 -- manually refresh
-        open_split = { "_" },          -- open buffer in new split
-        open_vsplit = { "|" },         -- open buffer in new vsplit
-        open_tab = { "<c-t>" },        -- open buffer in new tab
-        jump_close = { "o", "<cr>" },  -- jump to the diagnostic and close the list
-        switch_severity = "s",         -- switch "diagnostics" severity filter level to HINT / INFO / WARN / ERROR
-        toggle_preview = "P",          -- toggle auto_preview
-        preview = "p",                 -- preview the diagnostic location
-        open_code_href = "c",          -- if present, open a URI with more information about the diagnostic error
-        previous = "k",                -- previous item
-        next = "j",                    -- next item
-        help = "?"                     -- help menu
-      },
-    },
-    keys = {
-      {
-        "<leader>d",
-        function()
-          local clients = vim.lsp.get_clients({
-            name = 'rust_analyzer',
-          })
-          for _, client in ipairs(clients) do
-            local trouble = require("trouble");
-            if trouble.is_open() then
-              trouble.close()
-            else
-              local params = vim.lsp.util.make_text_document_params()
-              client.notify('rust-analyzer/runFlycheck', params)
-              require("trouble").open({
-                mode = "diagnostics",
-                filter = {
-                  severity = vim.diagnostic.severity.ERROR
-                },
-                win = {
-                  position = "bottom"
-                }
-              })
-            end
-          end
-        end,
-        desc = 'List diagnostics'
-      },
-    }
-  },
-
-  {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "VeryLazy", -- Or `LspAttach`
     priority = 1000, -- needs to be loaded in first
     config = function()
-      require('tiny-inline-diagnostic').setup()
+      require('tiny-inline-diagnostic').setup({
+        preset = "simple",
+      })
+      vim.diagnostic.config({ virtual_text = true })
     end
+  },
+  {
+    "j-hui/fidget.nvim",
+    opts = {},
   },
 
   {

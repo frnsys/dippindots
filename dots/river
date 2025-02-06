@@ -12,15 +12,11 @@ kanshi &
 # Fonts
 fc-cache -fv &
 
-# Audio crackling fix
-bash ~/.dots/dots/misc/audio.sh &
-
 # Fix for xdg-desktop-portal failing,
 # causing slow GTK application start ups
 # <https://github.com/swaywm/sway/issues/5732>
 systemctl --user import-environment
 
-riverctl map normal Super Return spawn 'kitty'
 riverctl map normal Super Equal spawn 'mpc toggle'
 riverctl map normal Super Plus spawn 'mpvc -S /tmp/mpvsocket toggle'
 riverctl map normal Super Semicolon spawn 'kitty --title ncmpcpp -e ncmpcpp'
@@ -28,20 +24,14 @@ riverctl map normal Super+Shift Semicolon spawn 'kitty --title pulsemixer -e pul
 riverctl map normal Super Space spawn 'bemenu-run -l 10 -p ">"'
 riverctl map normal Super B spawn 'kitty --title bluetuith -e bluetuith'
 riverctl map normal Super E spawn 'info'
-riverctl map normal Super W spawn 'notify-send "$(date '\''+%m/%d %H:%M'\'')" "\n$(curl wttr.in/?format="%l\n%C+%t\n%h+%w+%P")"'
 riverctl map normal Super+Shift W spawn 'kitty --title meteo -e bash -c '\''unbuffer wthrr -f d | LESSUTFBINFMT="*n%C" less -R'\'''
-riverctl map normal Super X spawn 'makoctl mode -t do-not-disturb'
 riverctl map normal Super P spawn 'kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx'
 riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda view | less -R'\'''
 riverctl map normal Super T spawn 'kitty --title todo --working-directory ~/notes -e nvim todo.md'
 riverctl map normal Super G spawn 'hyprpicker --autocopy'
-# riverctl map normal Super Z spawn 'pkill -USR1 gammastep'
 
 # Force close a window
 riverctl map normal Super+Shift+Alt Q close
-
-# Super+Shift+E to exit river
-# riverctl map normal Super+Shift E exit
 
 # Move focus across windows
 riverctl map normal Super H focus-view next
@@ -61,10 +51,21 @@ riverctl map normal Super+Control M send-to-output next
 riverctl map normal Super+Control J focus-output next
 riverctl map normal Super+Control K focus-output next
 
+# Move window
+riverctl map normal Super Up snap up
+riverctl map normal Super Down snap down
+riverctl map normal Super Left snap left
+riverctl map normal Super Right snap right
+
+# Resize window
+riverctl map normal Super+Shift Up resize vertical 50
+riverctl map normal Super+Shift Down resize vertical -50
+riverctl map normal Super+Shift Left resize horizontal 50
+riverctl map normal Super+Shift Right resize horizontal -50
+
 # Note that this turns a tiled window into a floating window.
 riverctl map-pointer normal Super BTN_LEFT move-view
 riverctl map-pointer normal Super BTN_RIGHT resize-view
-riverctl map-pointer normal None BTN_TOUCH move-view # TODO doesnt work
 
 # river doesn't support prev/next workspaces (or rather "tags")
 # but this script let's us essentially do that.
@@ -126,7 +127,6 @@ riverctl map normal Super BracketLeft spawn "/tmp/ws_ctrl prev"
 riverctl map normal Super BracketRight spawn "/tmp/ws_ctrl next"
 
 riverctl map normal Super S toggle-float
-# riverctl map normal Super F toggle-fullscreen
 riverctl map normal Super F send-layout-cmd filtile "monocle"
 riverctl map normal Super+Shift F send-layout-cmd filtile "flip"
 
@@ -148,15 +148,6 @@ riverctl focus-follows-cursor disabled
 riverctl xcursor-theme Adwaita 24
 
 # riverctl list-inputs
-TOUCHPAD=pointer-2362-597-PNP0C50:00_093A:0255_Touchpad
-riverctl input $TOUCHPAD accel-profile flat
-riverctl input $TOUCHPAD pointer-accel 0.5
-riverctl input $TOUCHPAD click-method clickfinger
-riverctl input $TOUCHPAD disable-while-typing enabled
-riverctl input $TOUCHPAD natural-scroll disabled
-riverctl input $TOUCHPAD scroll-method two-finger
-riverctl input $TOUCHPAD tap enabled
-
 TOUCHSCREEN=touch-1539-61441-NVTK0603:00_0603:F001
 riverctl input $TOUCHSCREEN tap enabled
 riverctl input $TOUCHSCREEN drag enabled
@@ -173,6 +164,7 @@ float_these=(
     "yazi"
     "bluetuith"
     "pulsemixer"
+    "input-edit"
     "todo")
 for title in "${float_these[@]}"
 do
@@ -188,10 +180,10 @@ riverctl rule-add -title 'sema' tags $sticky_tag
 riverctl rule-add -title 'meteo' float
 riverctl rule-add -title 'meteo' dimensions 720 480
 
-# Keepass and OTP anchored to bottom
+# Keepass anchored to bottom
 riverctl rule-add -title 'kpass' float
 riverctl rule-add -title 'kpass' position 0 9999
-riverctl rule-add -title 'kpass' dimensions 320 360
+riverctl rule-add -title 'kpass' dimensions 360 420
 
 # Use server-side decorations for consistency
 # in borders, etc.

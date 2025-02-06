@@ -4,7 +4,7 @@
 --- - { and } for moving b/w paragraphs
 --- - ( and ) for moving b/w functions
 --- - [ and ] for moving b/w classes
---- - < and > for moving b/w blocks
+--- - .m and ,m for moving b/w blocks
 --- - w and b for moving across identifiers
 --- - W and B for moving across 2x identifiers
 ---
@@ -72,8 +72,8 @@ _("jk", "<esc>", "i")
 _("jk", "<esc>", "i")
 
 --- Commenting
-_("<leader>c", "gcc", "n", true)
-_("<leader>c", "gc", "v", true)
+_("<leader>x", "gcc", "n", true)
+_("<leader>x", "gc", "v", true)
 
 --- Don't leave visual mode when changing indent
 _(">", ">gv", "x")
@@ -100,6 +100,21 @@ _("<esc>", "<c-\\><c-n>", "t")
 
 --- Remap `"` to `?` as it matches my custom kbd layout.
 _('"', '?', "n")
+
+--- Insert common strings
+_('<c-r>', ' {<cr>}<Esc>O', "i")
+_('<c-t>', ' -> ', "i")
+_('<c-e>', ' => ', "i")
+_('<c-z>', 'println!("{:?}", );<Left><Left>', "i")
+_('<c-b>', 'dbg!();<Left><Left>', "i")
+_('<c-v>', '{:?}', "i")
+
+--- Delete previous word
+_('<c-backspace>', '<c-w>', "i")
+
+--- Splits
+_("|", ":vsplit<cr>", "n")
+_("_", ":split<cr>", "n")
 
 --- Since quote is used as the leader key,
 --- this avoids conflicts with its default binding.

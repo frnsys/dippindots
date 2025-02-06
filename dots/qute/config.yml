@@ -88,6 +88,16 @@ settings:
     global: bottom
   downloads.remove_finished:
     global: 5000
+  editor.command:
+    global:
+    - kitty
+    - --single-instance
+    - -T
+    - input-edit
+    - nvim
+    - '{file}'
+    - +startinsert
+    - +call cursor({line}, {column})
   hints.border:
     global: '1px solid #111111'
   statusbar.widgets:
