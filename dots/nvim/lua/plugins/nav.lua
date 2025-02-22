@@ -8,16 +8,18 @@ return {
         ["<C-v>"] = "actions.select_vsplit",
         ["<C-s>"] = "actions.select_split",
         ["<C-t>"] = "actions.select_tab",
-        ["<C-p>"] = "actions.preview",
+        ["<C-p>"] = function()
+          require("oil.actions").preview.callback()
+          vim.defer_fn(function()
+            vim.cmd("vertical resize 24")
+          end, 2)
+        end,
         ["-"] = "actions.parent",
         ["_"] = "actions.open_cwd",
         ["g."] = "actions.toggle_hidden",
         ["q"] = "actions.close",
       },
       use_default_keymaps = false,
-      float =  {
-
-      },
       preview_win = {
         preview_method = "load",
       },
@@ -51,17 +53,32 @@ return {
     }
   },
 
-  --- Like <c-i> and <c-o> but
-  --- goes across buffers instead of
-  --- within a buffer.
   {
-    'kwkarlwang/bufjump.nvim',
+    -- 'ghillb/cybu.nvim',
+    'frnsys/cybu.nvim',
     config = function()
-      require("bufjump").setup({
-        forward_key = "<S-j>",
-        backward_key = "<S-k>",
-        on_success = nil
+      require("cybu").setup({
+        style = {
+          hide_buffer_id = true,
+          devicons = { enabled = false },
+        },
+        exclude = {
+          "oil",
+        },
+        behavior = {
+          mode = {
+            last_used = {
+              switch = "immediate",
+              view = "rolling",
+            },
+          },
+        },
+        display_time = 500,
       })
+      -- vim.keymap.set("n", "J", "<Plug>(CybuLastusedPrev)")
+      -- vim.keymap.set("n", "K", "<Plug>(CybuLastusedNext)")
+      vim.keymap.set("n", "J", "<Plug>(CybuLastchangedNext)")
+      vim.keymap.set("n", "K", "<Plug>(CybuLastchangedPrev)")
     end,
   },
 

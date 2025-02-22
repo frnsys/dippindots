@@ -37,7 +37,7 @@ return {
         },
         grep = {
           formatter = "path.filename_first",
-          rg_opts = "--no-heading --color=always --colors 'match:fg:0xff,0x5c,0x5c' --smart-case --max-columns=4096 -e",
+          rg_opts = "--no-heading --line-number --column --color=always --colors 'match:fg:0xff,0x5c,0x5c' --smart-case --max-columns=4096 -e",
           actions = {
             ["ctrl-q"] = {
               fn = require("fzf-lua").actions.file_edit_or_qf, prefix = 'select-all+'
@@ -170,13 +170,6 @@ return {
           require('fzf-lua').lsp_references()
         end,
         desc = 'Find references for word under cursor'
-      },
-      {
-        "<leader>i",
-        function()
-          require('fzf-lua').complete_path()
-        end,
-        desc = 'Complete path'
       },
     },
   },

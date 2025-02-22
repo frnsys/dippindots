@@ -16,6 +16,34 @@ return {
   },
 
   {
+    "backdround/neowords.nvim",
+    config = function()
+      local neowords = require("neowords")
+      local p = neowords.pattern_presets
+
+      local bigword_hops = neowords.get_word_hops(
+        p.any_word,
+        p.hex_color
+      )
+
+      vim.keymap.set({ "n", "x" }, "w", bigword_hops.forward_start)
+      vim.keymap.set({ "n", "x" }, "e", bigword_hops.forward_end)
+      vim.keymap.set({ "n", "x" }, "b", bigword_hops.backward_start)
+      vim.keymap.set({ "n", "x" }, "ge", bigword_hops.backward_end)
+
+      local subword_hops = neowords.get_word_hops(
+        p.snake_case,
+        p.camel_case,
+        p.upper_case,
+        p.number,
+        p.hex_color
+      )
+      vim.keymap.set({ "n", "x", "o" }, "<c-w>", subword_hops.forward_start)
+      vim.keymap.set({ "n", "x", "o" }, "<c-b>", subword_hops.backward_start)
+    end
+  },
+
+  {
     "chrisgrieser/nvim-various-textobjs",
     lazy = false,
     config = function()
@@ -28,13 +56,16 @@ return {
           -- ii/ai: lines w/ matching indentation
           -- R: rest of lines w/ matching indentation
           -- See: https://github.com/chrisgrieser/nvim-various-textobjs?tab=readme-ov-file#list-of-text-obj
-          useDefaults = true
+          useDefaults = true,
+
+          -- Interferes w/ replace in visual mode.
+          disabledDefaults = { "r" },
         }
       })
 
       -- iu/au: any quote
-      vim.keymap.set({ "o", "x" }, "au", '<cmd>lua require("various-textobjs").anyQuote("outer")<CR>')
-      vim.keymap.set({ "o", "x" }, "iu", '<cmd>lua require("various-textobjs").anyQuote("inner")<CR>')
+      vim.keymap.set({ "o", "x" }, "au", function() require("various-textobjs").anyQuote("outer") end)
+      vim.keymap.set({ "o", "x" }, "iu", function() require("various-textobjs").anyQuote("inner") end)
     end
   },
 
@@ -51,10 +82,6 @@ return {
       label = {
         after = true,
         before = true,
-        rainbow = {
-          enabled = true,
-          shade = 5,
-        }
       },
       modes = {
         search = {
@@ -97,9 +124,9 @@ return {
         desc = "Flash Treesitter"
       },
 
-      --- Select word.
+      --- Jump to word.
       {
-        "<space>w",
+        "F",
         mode = { "n", "x", "o" },
         function()
           require("flash").jump({
@@ -109,18 +136,16 @@ return {
               before = true,
               after = false,
             },
-            jump = { pos = "range" },
-            -- Use this to jump to start:
-            -- jump = { pos = "start" },
+            jump = { pos = "start" },
           })
         end,
       },
 
-      --- Select between two delimiters.
+      --- Jump to the start of a delimiter pair.
       -- NOTE: This doesn't work well with
       -- nested delimiters...
       {
-        "F",
+        "<space>f",
         mode = { "n", "x", "o" },
         function()
           require("flash").jump({
@@ -132,11 +157,46 @@ return {
               before = true,
               after = true,
             },
-            jump = { pos = "range" },
+            -- jump = { pos = "range" },
+            jump = { pos = "start" },
           })
         end,
       },
     },
+  },
+
+  {
+    'aaronik/treewalker.nvim',
+    keys = {
+      {
+        "<c-h>",
+        mode = { "n", "v" },
+        function()
+          vim.cmd([[Treewalker Left]])
+        end
+      },
+      {
+        "<c-l>",
+        mode = { "n", "v" },
+        function()
+          vim.cmd([[Treewalker Right]])
+        end
+      },
+      {
+        "<c-k>",
+        mode = { "n", "v" },
+        function()
+          vim.cmd([[Treewalker Up]])
+        end
+      },
+      {
+        "<c-j>",
+        mode = { "n", "v" },
+        function()
+          vim.cmd([[Treewalker Down]])
+        end
+      }
+    }
   },
 
   {
@@ -147,7 +207,6 @@ return {
     },
     main = 'nvim-treesitter.configs',
     opts = {
-      -- Add languages to be installed here that you want installed for treesitter
       ensure_installed = {
         'c', 'cpp', 'python', 'rust', 'tsx',
         'typescript', 'c_sharp', 'css', 'scss', 'toml',
@@ -176,27 +235,10 @@ return {
           },
         },
         move = {
-          enable = true,
-          set_jumps = true, -- whether to set jumps in the jumplist
-          goto_next_start = {
-            [']'] = '@class.outer',
-            [')'] = '@function.outer',
-            ['.m'] = '@block.inner',
-            ['.a'] = '@parameter.inner',
-            ['.s'] = '@comment.outer',
-            ['<c-f>'] = '@statement.outer',
-          },
-          -- TODO perhaps use exclaation and semicolon
-          -- tab & ampersand
-          -- octothorpe & backslash
-          goto_previous_start = {
-            ['['] = '@class.outer',
-            ['('] = '@function.outer',
-            [',m'] = '@block.inner',
-            [',a'] = '@parameter.inner',
-            [',s'] = '@comment.outer',
-            ['<c-e>'] = '@statement.outer',
-          },
+          -- Using treewalker instead,
+          -- it's more intuitive and doesn't
+          -- require remembering as many keybinds.
+          enable = false,
         },
       },
     }

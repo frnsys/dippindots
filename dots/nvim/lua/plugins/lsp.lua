@@ -120,9 +120,6 @@ return {
               postfix = {
                 enable = false
               },
-              snippets = {
-                custom = {}
-              },
 
               -- Show private fields
               -- in completion
@@ -169,7 +166,7 @@ return {
 
   {
     "rachartier/tiny-inline-diagnostic.nvim",
-    event = "VeryLazy", -- Or `LspAttach`
+    event = "VeryLazy",
     priority = 1000, -- needs to be loaded in first
     config = function()
       require('tiny-inline-diagnostic').setup({
@@ -193,14 +190,10 @@ return {
     version = 'v0.*',
     opts = {
       keymap = {
-        ['<c-x>'] = { 'show', 'hide' },
-        ['<c-space>'] = { 'accept' },
         ['<c-p>'] = { 'select_prev' },
         ['<c-n>'] = { 'select_next' },
         ['<c-d>'] = { 'scroll_documentation_up' },
         ['<c-f>'] = { 'scroll_documentation_down' },
-        ['<c-;>'] = { 'snippet_forward' },
-        ['<c-l>'] = { 'snippet_backward' },
       },
       completion = {
         list = {

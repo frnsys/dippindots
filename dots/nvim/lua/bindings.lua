@@ -103,11 +103,16 @@ _('"', '?', "n")
 
 --- Insert common strings
 _('<c-r>', ' {<cr>}<Esc>O', "i")
-_('<c-t>', ' -> ', "i")
-_('<c-e>', ' => ', "i")
+_('<c-t>', ' ->', "i")
+_('<c-e>', ' =>', "i")
 _('<c-z>', 'println!("{:?}", );<Left><Left>', "i")
 _('<c-b>', 'dbg!();<Left><Left>', "i")
-_('<c-v>', '{:?}', "i")
+_('<c-v>', 'Vec<_>', "i")
+_('<c-o>', '{:?}', "i")
+_('<c-k>', '<><Left>', "i")
+
+_('<c-l>', '<Right>', "i")
+_('<c-h>', '<Left>', "i")
 
 --- Delete previous word
 _('<c-backspace>', '<c-w>', "i")

@@ -6,7 +6,7 @@ highlight Conceal guifg=#1e59aa guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Conditional guifg=#886efa guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Constant guifg=#edb140 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight CursorColumn guifg=NONE guibg=#282828 guisp=NONE blend=NONE gui=NONE
-highlight CursorLine guifg=NONE guibg=none guisp=NONE blend=NONE gui=NONE
+highlight CursorLine guifg=None guibg=none guisp=NONE blend=NONE gui=bold
 highlight CursorLineNr guifg=#ffffff guibg=#303030 guisp=NONE blend=NONE gui=NONE
 highlight Directory guifg=#2c84fc guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight EndOfBuffer guifg=#626262 guibg=NONE guisp=NONE blend=NONE gui=NONE
@@ -92,7 +92,8 @@ highlight DiagnosticUnderlineError guifg=NONE guibg=NONE guisp=NONE blend=NONE g
 
 highlight FlashMatch guibg=#262626 guifg=#ffd787
 highlight FlashCurrent guibg=#262626 guifg=#00af87 gui=bold
-highlight FlashLabel guifg=#000000 guibg=#ffafaf gui=bold
+highlight FlashLabel guifg=#000000 guibg=#ffaf87 gui=bold
+highlight FlashBackdrop guifg=#383838 guibg=#202020 guisp=NONE blend=NONE gui=italic
 
 highlight OilDir guifg=#7fb1f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
 

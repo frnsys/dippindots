@@ -41,7 +41,6 @@ require('lazy').setup('plugins', {
   ui = { border = "single" }
 })
 
-require('breeze')
 require('abbrevs')
 require('bindings')
 require('francais')
@@ -86,11 +85,6 @@ if exists("&undodir")
     set undoreload=500
 endif
 
-" specify how vim saves files
-" so it works better with processes
-" that watch files for changes
-set backupcopy=yes
-
 " webbrowser for `gx`
 let g:netrw_browsex_viewer='qutebrowser'
 
@@ -111,7 +105,6 @@ vim.api.nvim_create_autocmd("RecordingEnter", {
     vim.opt.cmdheight = 1
   end
 })
-
 vim.api.nvim_create_autocmd("RecordingLeave", {
   callback = function()
     vim.opt.cmdheight = 0
@@ -151,3 +144,13 @@ au BufWritePre * :%s/\s\+$//e
 " Remember last location in file, but not for commit messages.
 au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
 \| exe "normal! g`\"" | endif
+
+" Delete no name, empty buffers when leaving a buffer
+" to keep the buffer list clean
+function! CleanNoNameEmptyBuffers()
+    let buffers = filter(range(1, bufnr('$')), 'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val) < 0 && (getbufline(v:val, 1, "$") == [""])')
+    if !empty(buffers)
+        exe 'bd '.join(buffers, ' ')
+    endif
+endfunction
+autocmd BufLeave * :call CleanNoNameEmptyBuffers()
