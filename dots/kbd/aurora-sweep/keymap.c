@@ -88,6 +88,8 @@ enum layers {
 #define TDSK3 LGUI(LSFT(KC_3)) // Move window to desktop
 #define CLOSE LGUI(LSFT(LALT(KC_Q))) // (Force) close window
 #define PREVW LGUI(QUOTE)
+#define SIZEUP LGUI(LSFT(KC_LEFT))
+#define SIZEDN LGUI(LSFT(KC_RIGHT))
 
 // Media
 #define MPLAY LGUI(KC_EQL)
@@ -145,10 +147,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAVCTL] = LAYOUT(
         // WM                                   // Terminal
-        ____,   SWAPL,  FOCMN, SWAPR,  META,    T_HIST, T_PREV,  KC_UP,   T_NEXT,  T_NTAB,
+        ____,   SIZEDN, FOCMN, SIZEUP, META,    T_HIST, T_PREV,  KC_UP,   T_NEXT,  T_NTAB,
         SHFT,   PREVD,  FOCWN, NEXTD,  MPLAY,   T_HSPL, KC_LEFT, KC_DOWN, KC_RGHT, T_VSPL,
         VOL_DN, VOL_UP, ____,  BRI_DN, BRI_UP,  T_COPY, T_FULL,  T_FOCU,  T_SRCH,  T_PSTE,
-                               BMENU,  PREVW,    XXXX,   ____
+                               BMENU,  PREVW,   XXXX,   ____
     ),
 
     [_BLENDER] = BLENDER_MAP,

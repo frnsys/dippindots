@@ -18,9 +18,32 @@
 // hold-and-repeat.
 #define QUICK_TAP_TERM 120
 
-#define RETRO_TAPPING
+// A: Dual-role key
+// B: Some other key
+//
+// |-----------| Tapping term
+// A--------|
+//   B----|
+//
+// Will trigger A's hold action,
+// even though it's within the tapping term.
+// Without this option, A's tap action
+// would be triggered instead.
 #define PERMISSIVE_HOLD
-#define HOLD_ON_OTHER_KEYPRESS
+
+// A: Dual-role key
+//
+// |-----------| Tapping term
+// A---------------|
+//
+// Will trigger A's tap action,
+// even though it's past the tapping term,
+// when no other key is pressed.
+// Without this option, A's hold action
+// would be triggered instead.
+#define RETRO_TAPPING
+
+/*#define HOLD_ON_OTHER_KEYPRESS*/
 
 // Milliseconds allowed to press combo keys.
 // Lower if this if rolling keys often triggers combos,
