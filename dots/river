@@ -38,10 +38,10 @@ riverctl map normal Super H focus-view next
 riverctl map normal Super L focus-view next
 
 # Swap windows
-riverctl map normal Super+Shift H swap left
-riverctl map normal Super+Shift L swap right
-riverctl map normal Super+Shift J swap down
-riverctl map normal Super+Shift K swap up
+# riverctl map normal Super+Shift H swap left
+# riverctl map normal Super+Shift L swap right
+# riverctl map normal Super+Shift J swap down
+# riverctl map normal Super+Shift K swap up
 
 # Go to previously-focused workspace
 riverctl map normal Super Apostrophe focus-previous-tags
@@ -52,10 +52,10 @@ riverctl map normal Super+Control J focus-output next
 riverctl map normal Super+Control K focus-output next
 
 # Move window
-riverctl map normal Super Up snap up
-riverctl map normal Super Down snap down
-riverctl map normal Super Left snap left
-riverctl map normal Super Right snap right
+riverctl map normal Super+Shift K snap up
+riverctl map normal Super+Shift J snap down
+riverctl map normal Super+Shift H snap left
+riverctl map normal Super+Shift L snap right
 
 # Resize window
 riverctl map normal Super+Shift Up resize vertical 50
@@ -141,7 +141,7 @@ do
 done
 
 # Input settings
-riverctl set-repeat 25 250
+riverctl set-repeat 40 200
 riverctl hide-cursor when-typing enabled
 riverctl hide-cursor timeout 3000
 riverctl focus-follows-cursor disabled
@@ -183,7 +183,7 @@ riverctl rule-add -title 'meteo' dimensions 720 480
 # Keepass anchored to bottom
 riverctl rule-add -title 'kpass' float
 riverctl rule-add -title 'kpass' position 0 9999
-riverctl rule-add -title 'kpass' dimensions 360 420
+riverctl rule-add -title 'kpass' dimensions 320 420
 
 # Use server-side decorations for consistency
 # in borders, etc.

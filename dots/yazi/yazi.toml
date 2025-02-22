@@ -79,6 +79,7 @@ rules = [
 	{ mime = "audio/*", use = "audio" },
 	{ mime = "inode/x-empty", use = "text" },
 	{ mime = "application/pdf", use = "pdf" },
+	{ mime = "application/epub+zip", use = "pdf" },
 
 	{ mime = "application/json", use = "text" },
 	{ mime = "*/javascript", use = "text" },
