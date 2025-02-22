@@ -5,12 +5,10 @@
 *.pyc
 *.egg-info
 .sass-cache
-.webassets-cache
 node_modules
 bundle.js*
 dist
 env
 secret
 build.js
-dump.rdb
 target/doc

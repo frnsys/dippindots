@@ -9,7 +9,6 @@
 # when trying to copy a file. This is usually because the filename
 # contains illegal characters, like ":" or "?".
 # See: <https://github.com/google/adb-sync/issues/34>
-# See the music copying command below; there I just remove the illegal characters.
 
 function sync() {
     SRC="$1"
@@ -40,21 +39,3 @@ for DIR in "${!backups[@]}"; do
 done
 
 sync "/sdcard/Backups/" ~/docs/backups/phone
-
-# sync select music TO the phone
-MUSIC_BASE_DIR=~/musics/
-
-# parse a m3u playlist
-function parse_songs() {
-    while read line; do
-        echo "${MUSIC_BASE_DIR}${line}"
-    done <"$1"
-}
-
-# create temporary directory for songs
-# rm -rf /tmp/musics
-# mkdir /tmp/musics
-# parse_songs ~/musics/_playlists/phone.m3u | xargs -0 -d '\n' -I {} cp {} /tmp/musics/
-# rename 's/[:?*<>]//' /tmp/musics/*.mp3 # rename to remove illegal characters
-# sync /tmp/musics/ /sdcard/Music/musics --delete
-# rm -rf /tmp/musics

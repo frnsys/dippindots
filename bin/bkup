@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# commented b/c already saved in ~/docs/keys
-# encrypt ssh keys
-# results in /tmp/ssh_keys.gpg
-# rm -f /tmp/ssh_keys.gpg
-# cp -r ~/.ssh /tmp/ssh_keys
-# crypt en /tmp/ssh_keys
-
 cp ~/.ssh/config ~/docs/backups/ssh_config
 cp ~/.config/rclone/rclone.conf ~/docs/backups/rclone.conf
 cp -r ~/.config/blender ~/docs/backups/config/blender
@@ -14,21 +7,14 @@ cp -r ~/.config/bacon ~/docs/backups/config/bacon
 rsync -ravu --delete ~/.config/agenda/ ~/docs/backups/config/agenda/
 rsync -ravu --delete ~/.config/blender/ ~/docs/backups/config/blender/
 
-# gpg --export-secret-keys --armor f@frnsys.com > ~/docs/backups/keys/f@frnsys.com.asc
-# gpg --export-secret-keys --armor francis@anarres > ~/docs/backups/keys/francis@anarres.asc
-# gpg --export-ownertrust > ~/docs/backups/keys/trustdb-backup.txt
-
-echo "wine/
-build/
+echo "build/
 .git/lfs/
 node_modules/
 target/
 dist/
-torrents/
-deaddrop/vids/" > /tmp/bkup.exclude
+torrents/" > /tmp/bkup.exclude
 
-echo "wine/
-build/**
+echo "build/**
 .git/lfs/**
 node_modules/**
 target/**
@@ -39,8 +25,7 @@ unity/Assets/**
 unity/Library/**
 unity/Builds/**
 blender/addons/**
-blender/assets/**
-deaddrop/vids/**" > /tmp/cloud.bkup.exclude
+blender/assets/**" > /tmp/cloud.bkup.exclude
 
 OTHER=(~/archives)
 REPOS=(~/projects ~/docs ~/notes ~/photos ~/work ~/musics)
@@ -73,7 +58,6 @@ elif [[ $1 == 'cloud' ]]; then
         echo -e "\n\e[0;33m$d\e[0m"
         rclone sync --delete-excluded --refresh-times --quiet --progress $d backup-crypt:repos/$(basename $d) --exclude-from /tmp/cloud.bkup.exclude
     done
-    # echo -e "\n\e[0;33m~/downloads\e[0m" && rclone sync -q -P ~/downloads backup-crypt:repos/downloads --exclude torrents/ --exclude-from /tmp/bkup.exclude
     date > /tmp/last_updated
     rclone copy -q /tmp/last_updated backup-crypt:repos/last_updated
 

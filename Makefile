@@ -1,12 +1,3 @@
-# NOTE: import GPG private key
-# see ~/docs/keys/note.md for password hint
-# requires the `~/docs` directory has been restored
-# gpg --import ~/docs/keys/private.key
-# then:
-# gpg --edit-key <KEY_ID>
-# gpg> trust
-# and set to ultimate trust
-
 SHELL := /bin/bash
 dir = ~/.dots
 
