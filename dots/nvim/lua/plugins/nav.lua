@@ -75,8 +75,6 @@ return {
         },
         display_time = 500,
       })
-      -- vim.keymap.set("n", "J", "<Plug>(CybuLastusedPrev)")
-      -- vim.keymap.set("n", "K", "<Plug>(CybuLastusedNext)")
       vim.keymap.set("n", "J", "<Plug>(CybuLastchangedNext)")
       vim.keymap.set("n", "K", "<Plug>(CybuLastchangedPrev)")
     end,

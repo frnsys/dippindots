@@ -90,10 +90,6 @@ _("vv", "gv", "n")
 _("n", "nzz", "n")
 _("N", "Nzz", "n")
 
---- Quickfix navigation
-_("<c-n>", ":cnext<cr>", "n")
-_("<c-p>", ":cprev<cr>", "n")
-
 --- Terminals
 _(",t", ":ToggleTerm<cr>", "n")
 _("<esc>", "<c-\\><c-n>", "t")
@@ -121,6 +117,42 @@ _('<c-backspace>', '<c-w>', "i")
 _("|", ":vsplit<cr>", "n")
 _("_", ":split<cr>", "n")
 
+--- Modify `{` and `}`
+--- to go to the start of the line for
+--- each block, rather than the empty lines.
+_('}', '}j^', "n")
+_('{', 'k{j^', "n")
+
 --- Since quote is used as the leader key,
 --- this avoids conflicts with its default binding.
 vim.keymap.set('n', "'", "<nop>")
+
+--- Jumplist movement constrained to current buffer.
+function buffer_local_jump(direction)
+  local jumps = vim.fn.getjumplist()[1] -- Get the jumplist
+  local current_buf = vim.api.nvim_get_current_buf()
+  local current_index = vim.fn.getjumplist()[2] -- Get current jump index
+
+  if direction == "backward" then
+    for i = current_index - 1, 1, -1 do
+      if jumps[i] and jumps[i].bufnr == current_buf then
+        vim.cmd('execute "normal! ' .. (current_index - i) .. "\\<C-o>\"")
+        return
+      end
+    end
+  elseif direction == "forward" then
+    for i = current_index + 1, #jumps do
+      if jumps[i] and jumps[i].bufnr == current_buf then
+        vim.cmd('execute "normal! ' .. (i - current_index) .. "\\<C-i>\"")
+        return
+      end
+    end
+  end
+end
+vim.keymap.set("n", "<C-o>", function() buffer_local_jump("backward") end, { noremap = true, silent = true })
+vim.keymap.set("n", "<C-i>", function() buffer_local_jump("forward") end, { noremap = true, silent = true })
+
+--- This is necessary to avoid nvim's default
+--- bindings (set in `neovim/runtime/ftplugin/rust.vim`)
+--- which conflict with my treewalker `[` and `]` bindings.
+vim.g.no_rust_maps = 1

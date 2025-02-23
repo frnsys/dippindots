@@ -62,26 +62,6 @@ return {
         })
       end
 
-      --- Create a command to open docs for thing under cursor
-      --- in rust.
-      vim.api.nvim_create_user_command("OpenDocs", function()
-        vim.lsp.buf_request(vim.api.nvim_get_current_buf(),
-          'experimental/externalDocs',
-          vim.lsp.util.make_position_params(),
-          function(err, url)
-            if err then
-              error(tostring(err))
-            elseif url['local'] ~= nil then
-              vim.cmd([[!qutebrowser ]] .. vim.fn.fnameescape(url['local']))
-            else
-              vim.print('No documentation found')
-            end
-          end)
-      end, {})
-      vim.keymap.set('n',
-        'gh', function() vim.cmd('OpenDocs') end,
-        { desc = "Open rust docs" })
-
       local capabilities = vim.lsp.protocol.make_client_capabilities()
 
       --- Use my copy of rust-analyzer, to ensure consistency

@@ -96,7 +96,6 @@ return {
         function()
           require('fzf-lua').buffers({
             sort_lastused = true,
-            path_shorten = true,
             previewer = false,
           })
         end,
