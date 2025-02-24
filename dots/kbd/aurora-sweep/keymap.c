@@ -74,9 +74,6 @@ enum layers {
 #define BSLSH KC_BACKSLASH
 
 // Window Manager
-#define NEXTD LGUI(KC_RBRC)
-#define PREVD LGUI(KC_LBRC)
-#define PREVW LGUI(QUOTE)
 #define BMENU LGUI(KC_SPACE)   // Launcher
 #define SWAPL LGUI(LSFT(KC_H)) // Swap window left
 #define SWAPR LGUI(LSFT(KC_L)) // Swap window right
@@ -86,6 +83,9 @@ enum layers {
 #define TDSK1 LGUI(LSFT(KC_1)) // Move window to desktop
 #define TDSK2 LGUI(LSFT(KC_2)) // Move window to desktop
 #define TDSK3 LGUI(LSFT(KC_3)) // Move window to desktop
+#define DESK1 LGUI(KC_1)
+#define DESK2 LGUI(KC_2)
+#define DESK3 LGUI(KC_3)
 #define CLOSE LGUI(LSFT(LALT(KC_Q))) // (Force) close window
 #define PREVW LGUI(QUOTE)
 #define SIZEUP LGUI(LSFT(KC_LEFT))
@@ -148,8 +148,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_NAVCTL] = LAYOUT(
         // WM                                   // Terminal
         ____,   SIZEDN, FOCMN, SIZEUP, META,    T_HIST, T_PREV,  KC_UP,   T_NEXT,  T_NTAB,
-        SHFT,   PREVD,  FOCWN, NEXTD,  MPLAY,   T_HSPL, KC_LEFT, KC_DOWN, KC_RGHT, T_VSPL,
-        VOL_DN, VOL_UP, ____,  BRI_DN, BRI_UP,  T_COPY, T_FULL,  T_FOCU,  T_SRCH,  T_PSTE,
+        SHFT,   DESK1,  DESK2, DESK3,  MPLAY,   T_HSPL, KC_LEFT, KC_DOWN, KC_RGHT, T_VSPL,
+        VOL_DN, VOL_UP, FOCWN, BRI_DN, BRI_UP,  T_COPY, T_FULL,  T_FOCU,  T_SRCH,  T_PSTE,
                                BMENU,  PREVW,   XXXX,   ____
     ),
 
@@ -190,9 +190,10 @@ const key_override_t s_pipe = ko_make_basic(MOD_MASK_SHIFT, KC_SLSH, PIPE);
 
 // System
 const key_override_t move_win_mon = ko_make_basic(MOD_MASK_SHIFT, FOCMN, TOMON);
-const key_override_t move_win_desk_1 = ko_make_basic(MOD_MASK_SHIFT, PREVD, TDSK1);
-const key_override_t move_win_desk_2 = ko_make_basic(MOD_MASK_SHIFT, FOCWN, TDSK2);
-const key_override_t move_win_desk_3 = ko_make_basic(MOD_MASK_SHIFT, NEXTD, TDSK3);
+const key_override_t move_win_desk_1 = ko_make_basic(MOD_MASK_SHIFT, DESK1, TDSK1);
+const key_override_t move_win_desk_2 = ko_make_basic(MOD_MASK_SHIFT, DESK2, TDSK2);
+const key_override_t move_win_desk_3 = ko_make_basic(MOD_MASK_SHIFT, DESK3, TDSK3);
+const key_override_t mpv_toggle = ko_make_basic(MOD_MASK_SHIFT, MPLAY, VPLAY);
 
 // Terminal
 const key_override_t term_name_tab = ko_make_basic(MOD_MASK_SHIFT, T_FOCU, T_NAME);
@@ -203,6 +204,7 @@ const key_override_t *key_overrides[] = {
     &move_win_desk_1,
     &move_win_desk_2,
     &move_win_desk_3,
+    &mpv_toggle,
 
     &s_minus,
     &s_uscore,

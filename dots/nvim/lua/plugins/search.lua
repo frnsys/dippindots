@@ -102,7 +102,7 @@ return {
         desc = 'Search buffers'
       },
       {
-        "<leader>e",
+        "<space>f",
         function()
           require('fzf-lua').lines()
         end,

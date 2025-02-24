@@ -22,9 +22,9 @@ return {
       }
 
       --- Diagnostic keymaps
-      vim.keymap.set('n', ',,', vim.diagnostic.goto_prev,
+      vim.keymap.set('n', '<<', vim.diagnostic.goto_prev,
         { desc = "Go to previous diagnostic message" })
-      vim.keymap.set('n', '..', vim.diagnostic.goto_next,
+      vim.keymap.set('n', '>>', vim.diagnostic.goto_next,
         { desc = "Go to next diagnostic message" })
 
       --- LSP settings.

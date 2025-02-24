@@ -90,10 +90,10 @@ highlight @lsp.type.macro.rust guifg=#ff5c5c
 highlight DiagnosticInfo guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight DiagnosticUnderlineError guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=underline
 
-highlight FlashMatch guibg=#262626 guifg=#ffd787
+highlight FlashMatch guibg=none guifg=#888888
 highlight FlashCurrent guibg=#262626 guifg=#00af87 gui=bold
-highlight FlashLabel guifg=#000000 guibg=#ffaf87 gui=bold
-highlight FlashBackdrop guifg=#383838 guibg=#202020 guisp=NONE blend=NONE gui=italic
+highlight FlashLabel guifg=#FD453A guibg=#111111 gui=bold
+highlight FlashBackdrop guifg=#383838 guibg=#181818 guisp=NONE blend=NONE gui=italic
 
 highlight OilDir guifg=#7fb1f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
 
