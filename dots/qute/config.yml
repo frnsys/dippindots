@@ -79,6 +79,7 @@ settings:
     https://www.figma.com: true
   content.notifications.enabled:
     https://calendar.google.com: true
+    https://jlcpcb.com: false
     https://www.youtube.com: false
   content.register_protocol_handler:
     https://calendar.google.com?cid=%25s: true

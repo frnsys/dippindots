@@ -54,29 +54,14 @@ return {
   },
 
   {
-    -- 'ghillb/cybu.nvim',
-    'frnsys/cybu.nvim',
+    'kwkarlwang/bufjump.nvim',
     config = function()
-      require("cybu").setup({
-        style = {
-          hide_buffer_id = true,
-          devicons = { enabled = false },
-        },
-        exclude = {
-          "oil",
-        },
-        behavior = {
-          mode = {
-            last_used = {
-              switch = "immediate",
-              view = "rolling",
-            },
-          },
-        },
-        display_time = 500,
-      })
-      vim.keymap.set("n", "J", "<Plug>(CybuLastchangedNext)")
-      vim.keymap.set("n", "K", "<Plug>(CybuLastchangedPrev)")
+        require("bufjump").setup({
+            forward_key = "J",
+            backward_key = "K",
+            forward_same_buf = "<c-i>",
+            backward_same_buf = "<c-o>",
+        })
     end,
   },
 

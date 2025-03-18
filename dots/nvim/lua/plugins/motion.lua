@@ -183,7 +183,7 @@ return {
     'aaronik/treewalker.nvim',
     keys = {
       {
-        "[",
+        "<c-h>",
         mode = { "n", "v" },
         nowait = true,
         function()
@@ -191,22 +191,22 @@ return {
         end
       },
       {
-        "]",
-        mode = { "n", "v" },
+        "<c-l>",
         nowait = true,
+        mode = { "n", "v" },
         function()
           vim.cmd([[Treewalker Right]])
         end
       },
       {
-        "(",
+        "<c-k>",
         mode = { "n", "v" },
         function()
           vim.cmd([[Treewalker Up]])
         end
       },
       {
-        ")",
+        "<c-j>",
         mode = { "n", "v" },
         function()
           vim.cmd([[Treewalker Down]])
@@ -247,7 +247,6 @@ return {
             ['if'] = '@function.inner',
             ['im'] = '@block.inner',
             ['am'] = '@block.outer',
-            [','] = '@statement.outer',
           },
         },
         move = {

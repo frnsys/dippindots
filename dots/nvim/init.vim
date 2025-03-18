@@ -69,6 +69,7 @@ set clipboard=unnamedplus       " Use OS clipboard
 set noeol                       " Don’t add newlines at the end of files
 set splitright                  " Open vsplits on the right by default
 set splitbelow                  " Open hsplits on below by default
+set jumpoptions=stack,view,clean
 
 set list                        " Show invisible characters:
 set listchars=""                " - Reset the listchars

@@ -9,5 +9,9 @@ profile portrait {
 profile dual {
     # Calculate offset using 1920/scale, e.g. 1920/1.2
     output DP-2 enable scale 1.2 position 0,0 mode 1920x1080@60Hz
-    output eDP-1 enable scale 2.5 position 1600,0 transform 90 mode 1600x2560@60Hz
+
+    # Note: the x-position is slightly off, maybe due to rounding errors,
+    # offsetting by an additional pixel seems to work fine.
+    output eDP-1 enable scale 2.5 position 1601,0 transform 90 mode 1600x2560@60Hz
+    # output eDP-1 enable scale 2.5 position 1600,0 transform 90 mode 1600x2560@60Hz
 }

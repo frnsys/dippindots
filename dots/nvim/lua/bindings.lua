@@ -67,10 +67,6 @@ _("H", ":tabprevious<cr>", "n")
 --- Bind return to clear last search highlight.
 _("<cr>", ":noh<cr>", "n")
 
---- Bind jk/kj to escape
-_("jk", "<esc>", "i")
-_("jk", "<esc>", "i")
-
 --- Commenting
 _("<leader>x", "gcc", "n", true)
 _("<leader>x", "gc", "v", true)
@@ -98,8 +94,8 @@ _("<esc>", "<c-\\><c-n>", "t")
 _('"', '?', "n")
 
 --- Insert common strings
-_('<c-r>', ' {<cr>}<Esc>O', "i")
-_('<c-t>', ' ->', "i")
+_('<c-t>', ' {<cr>}<Esc>O', "i")
+_('<c-r>', ' ->', "i")
 _('<c-e>', ' =>', "i")
 _('<c-z>', 'println!("{:?}", );<Left><Left>', "i")
 _('<c-b>', 'dbg!();<Left><Left>', "i")
@@ -127,32 +123,9 @@ _('{', 'k{j^', "n")
 --- this avoids conflicts with its default binding.
 vim.keymap.set('n', "'", "<nop>")
 
---- Jumplist movement constrained to current buffer.
-function buffer_local_jump(direction)
-  local jumps = vim.fn.getjumplist()[1] -- Get the jumplist
-  local current_buf = vim.api.nvim_get_current_buf()
-  local current_index = vim.fn.getjumplist()[2] -- Get current jump index
-
-  if direction == "backward" then
-    for i = current_index - 1, 1, -1 do
-      if jumps[i] and jumps[i].bufnr == current_buf then
-        vim.cmd('execute "normal! ' .. (current_index - i) .. "\\<C-o>\"")
-        return
-      end
-    end
-  elseif direction == "forward" then
-    for i = current_index + 1, #jumps do
-      if jumps[i] and jumps[i].bufnr == current_buf then
-        vim.cmd('execute "normal! ' .. (i - current_index) .. "\\<C-i>\"")
-        return
-      end
-    end
-  end
-end
-vim.keymap.set("n", "<C-o>", function() buffer_local_jump("backward") end, { noremap = true, silent = true })
-vim.keymap.set("n", "<C-i>", function() buffer_local_jump("forward") end, { noremap = true, silent = true })
-
 --- This is necessary to avoid nvim's default
 --- bindings (set in `neovim/runtime/ftplugin/rust.vim`)
 --- which conflict with my treewalker `[` and `]` bindings.
 vim.g.no_rust_maps = 1
+
+-- TODO format document shortcut

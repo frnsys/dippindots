@@ -2,7 +2,29 @@
 
 trap "makoctl mode -r do-not-disturb; wlopm --on '*'" EXIT
 
-echo "window { background-color: black; }" > /tmp/lock-style.css
+style="
+window {
+  background-color: black
+}
+
+window label {
+  font-family: \"Cascadia Mono Light\", sans-serif;
+}
+
+#input-field {
+  background: black;
+}
+
+#kbgrid button,
+#unlock-button {
+  background: black;
+  border: 0.5px solid #fff;
+  border-radius: 3px;
+}
+#kbgrid button label {
+  font-family: \"Cascadia Mono Light\", sans-serif;
+}"
+echo "$style" > /tmp/lock-style.css
 
 wlopm --off '*'
 makoctl mode -a do-not-disturb
