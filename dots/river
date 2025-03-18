@@ -218,3 +218,6 @@ riverctl border-color-unfocused 0x00000000
 riverctl border-width 1
 
 filtile smart-padding 5, view-padding 0, outer-padding 0 &
+
+# Lock screen to require login.
+sleep 0.2 && bash -c ~/.bin/lock &

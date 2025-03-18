@@ -15,6 +15,20 @@ Some things are best setup after everything else is installed and the system has
 
 Other system settings (e.g. hiding the boot menu) can be accessed via `sudo -E yast2`.
 
+Because I use a touchscreen, I want to be able to login without a physical keyboard. To do that I setup autologin:
+
+```bash
+sudo VISUAL=/usr/local/bin/nvim systemctl edit getty@tty1
+
+# Add:
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin francis --noclear %I $TERM
+```
+
+Then `dots/fish` is setup to launch `river`, and `dots/river` is setup to immediately lock the device. The lockscreen I use has a virtual keyboard.
+
+
 ## Device-specific details
 ### Tuxedo Pulse 14 Gen4
 
