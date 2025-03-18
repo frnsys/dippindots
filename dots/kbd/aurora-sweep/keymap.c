@@ -1,4 +1,6 @@
 #include QMK_KEYBOARD_H
+#define LAYOUT LAYOUT_split_3x5_2
+
 
 // Disable Liatris power LED
 #include "gpio.h"
@@ -7,210 +9,65 @@ void keyboard_pre_init_user(void) {
     gpio_write_pin_high(24);
 }
 
+
 enum layers {
-    _ALPHA,
-    _SYMBOL,
-    _NUMBER,
-    _NAVCTL,
-    _BLENDER,
+    ALPHA,SYMBOL,NUMBER,NAVCTL
 };
-
-#define LAYOUT LAYOUT_split_3x5_2
-
-#define ____ KC_NO // An unused key
-#define XXXX KC_NO // Can't use; trigger for the current layer
-#define VVVV KC_TRNS // Passthrough
-
-// Thumb cluster keys
-#define CTRL KC_LCTL
-#define SHFT KC_LSFT
-#define META KC_LGUI
-#define SPAC KC_SPACE
-#define BKSP KC_BSPC
-#define ENAV LT(_NAVCTL, KC_ENTER)
-#define BCTL MT(MOD_LCTL, KC_BSPC)
-#define SCTL MT(MOD_LCTL, KC_SPACE)
-
-#define DSYM LT(_SYMBOL, KC_D)
-#define KNUM LT(_NUMBER, KC_K)
-#define QGUI MT(MOD_LGUI, KC_Q)
-
-// Mouse
-#define L_CLK MS_BTN1
-#define R_CLK MS_BTN2
-#define M_CLK MS_BTN3
-
-// Symbols
-#define L_BRK KC_LBRC        // [
-#define R_BRK KC_RBRC        // ]
-#define L_PAR LSFT(KC_9)     // (
-#define R_PAR LSFT(KC_0)     // )
-#define L_BRC LSFT(KC_LBRC)  // {
-#define R_BRC LSFT(KC_RBRC)  // }
-#define L_THN LSFT(KC_COMMA) // <
-#define G_THN LSFT(KC_DOT)   // >
-#define PLUS  LSFT(KC_EQL)   // +
-#define MINUS KC_MINUS       // -
-#define EQUAL KC_EQL         // =
-#define TILDE LSFT(KC_GRV)   // ~
-#define EXCLM LSFT(KC_1)     // !
-#define AROBA LSFT(KC_2)     // @
-#define OCTHP LSFT(KC_3)     // #
-#define DOLAR LSFT(KC_4)     // $
-#define PRCNT LSFT(KC_5)     // %
-#define CARET LSFT(KC_6)     // ^
-#define AMPER LSFT(KC_7)     // &
-#define ASTRK LSFT(KC_8)     // *
-#define QUOTE KC_QUOTE       // '
-#define DBLQT LSFT(KC_QUOTE) // "
-#define QMARK LSFT(KC_SLSH)  // ?
-#define SLASH KC_SLSH        // /
-#define SCOLN KC_SCLN        // ;
-#define COLON LSFT(KC_SCLN)  // :
-#define USCOR LSFT(KC_MINUS) // _
-#define PIPE  LSFT(KC_BSLS)  // |
-#define COMMA KC_COMMA       // ,
-#define GRAVE KC_GRAVE       // `
-#define BSLSH KC_BACKSLASH
-
-// Window Manager
-#define BMENU LGUI(KC_SPACE)   // Launcher
-#define SWAPL LGUI(LSFT(KC_H)) // Swap window left
-#define SWAPR LGUI(LSFT(KC_L)) // Swap window right
-#define FOCWN LGUI(KC_H)       // Change window focus
-#define FOCMN LGUI(LCTL(KC_K)) // Change monitor focus
-#define TOMON LGUI(LCTL(KC_M)) // Move window to monitor
-#define TDSK1 LGUI(LSFT(KC_1)) // Move window to desktop
-#define TDSK2 LGUI(LSFT(KC_2)) // Move window to desktop
-#define TDSK3 LGUI(LSFT(KC_3)) // Move window to desktop
-#define DESK1 LGUI(KC_1)
-#define DESK2 LGUI(KC_2)
-#define DESK3 LGUI(KC_3)
-#define CLOSE LGUI(LSFT(LALT(KC_Q))) // (Force) close window
-#define PREVW LGUI(QUOTE)
-#define SIZEUP LGUI(LSFT(KC_LEFT))
-#define SIZEDN LGUI(LSFT(KC_RIGHT))
-
-// Media
-#define MPLAY LGUI(KC_EQL)
-#define VPLAY LGUI(LSFT(KC_EQL))
-#define VOL_UP KC_VOLU
-#define VOL_DN KC_VOLD
-#define BRI_UP KC_BRIGHTNESS_UP
-#define BRI_DN KC_BRIGHTNESS_DOWN
-
-// Terminal
-#define T_PREV LALT(KC_LBRC)    // Prev term tab
-#define T_NEXT LALT(KC_RBRC)    // Next term tab
-#define T_HSPL LALT(KC_MINUS)   // Horizontal split
-#define T_VSPL LALT(KC_BSLS)    // Vertical split
-#define T_FOCU LALT(KC_W)       // Focus pane
-#define T_FULL LALT(KC_M)       // Maximize pane
-#define T_NTAB LALT(KC_T)       // New term tab
-#define T_SRCH LALT(KC_QUOTE)   // Terminal search
-#define T_HIST LALT(KC_E)       // Terminal scrollback history
-#define T_COPY LSFT(LALT(KC_C)) // Terminal copy
-#define T_PSTE LSFT(LALT(KC_P)) // Terminal paste
-#define T_NAME LALT(KC_COMMA)   // Terminal rename tab
-#define T_RSZE LSFT(LALT(KC_R)) // Terminal resize window
-
-#define AIGU RALT(KC_QUOTE)
-#define CEDI RALT(KC_COMMA)
-#define CIRC RALT(LSFT(KC_6))
-#define UMLA RALT(LSFT(KC_QUOTE))
-#define GRAV RALT(KC_GRAVE)
-#define EURO RALT(KC_EQUAL)
-
-#include "blender.c"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [_ALPHA] = LAYOUT(
-        QGUI, KC_W, KC_E,  KC_R, KC_T,     KC_Y, KC_U, KC_I,  KC_O,   KC_P,
-        KC_A, KC_S, DSYM,  KC_F, KC_G,     KC_H, KC_J, KNUM,  KC_L,   QUOTE,
-        KC_Z, KC_X, KC_C,  KC_V, KC_B,     KC_N, KC_M, COMMA, KC_DOT, SLASH,
-                           SHFT, BCTL,     ENAV, SCTL
+    [ALPHA] = LAYOUT(
+        KC_Q, KC_W, KC_E, KC_R, LT(SYMBOL, KC_T), KC_Y, KC_U, KC_I, KC_O, KC_P, LT(NUMBER, KC_A), KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_QUOTE, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLSH, KC_LSFT, MT(MOD_LGUI, KC_BSPC), LT(NAVCTL, KC_ENTER), MT(MOD_LCTL, KC_SPACE)
     ),
-
-    [_SYMBOL] = LAYOUT(
-        UMLA,  ____,  ____, ____,   CIRC,   AROBA, OCTHP, L_BRK, R_BRK, BSLSH,
-        CARET, ASTRK, XXXX, DOLAR,  GRAVE,  AIGU,  L_BRC, L_PAR, R_PAR, R_BRC,
-        EURO,  ____,  ____, ____,   ____,   GRAV,  CEDI,  L_THN, G_THN, QMARK,
-                            KC_TAB, AMPER,  EXCLM, SCOLN
+    [SYMBOL] = LAYOUT(
+        KC_NO, LCTL(KC_C), KC_NO, LCTL(KC_V), KC_NO, KC_NO, LSFT(KC_3), KC_LBRC, KC_RBRC, KC_NO, KC_SLSH, LSFT(KC_8), KC_NO, KC_GRAVE, LSFT(KC_GRV), LSFT(KC_2), LSFT(KC_LBRC), LSFT(KC_9), LSFT(KC_0), LSFT(KC_RBRC), KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, LSFT(KC_SLSH), LSFT(KC_COMMA), LSFT(KC_DOT), KC_NO, KC_TAB, LSFT(KC_7), LSFT(KC_1), KC_SCLN
     ),
-
-    [_NUMBER] = LAYOUT(
-        ____, ____, ____, ____, ____,    ____,  ____, ____, ____,  ____,
-        KC_1, KC_2, KC_3, KC_4, KC_5,    ____,  PLUS, XXXX, PRCNT, KC_DOT,
-        KC_6, KC_7, KC_8, KC_9, ____,    ____,  ____, ____, ____,  ____,
-                          KC_0, VVVV,    TILDE, VVVV
+    [NUMBER] = LAYOUT(
+        KC_NO, KC_1, KC_2, KC_3, KC_NO, KC_NO, RALT(KC_COMMA), KC_NO, RALT(LSFT(KC_6)), KC_NO, LSFT(KC_6), KC_4, KC_5, KC_6, LSFT(KC_4), RALT(KC_EQUAL), LSFT(KC_EQL), KC_NO, LSFT(KC_5), RALT(KC_QUOTE), KC_NO, KC_7, KC_8, KC_9, KC_NO, KC_NO, RALT(KC_GRAVE), KC_NO, RALT(LSFT(KC_QUOTE)), KC_NO, KC_0, LSFT(KC_BSLS), KC_NO, KC_BACKSLASH
     ),
-
-    [_NAVCTL] = LAYOUT(
-        // WM                                   // Terminal
-        ____,   SIZEDN, FOCMN, SIZEUP, META,    T_HIST, T_PREV,  KC_UP,   T_NEXT,  T_NTAB,
-        SHFT,   DESK1,  DESK2, DESK3,  MPLAY,   T_HSPL, KC_LEFT, KC_DOWN, KC_RGHT, T_VSPL,
-        VOL_DN, VOL_UP, FOCWN, BRI_DN, BRI_UP,  T_COPY, T_FULL,  T_FOCU,  T_SRCH,  T_PSTE,
-                               BMENU,  PREVW,   XXXX,   ____
-    ),
-
-    [_BLENDER] = BLENDER_MAP,
+    [NAVCTL] = LAYOUT(
+        KC_NO, LGUI(LSFT(KC_RIGHT)), LGUI(LCTL(KC_K)), LGUI(LSFT(KC_LEFT)), KC_NO, KC_NO, LALT(KC_LBRC), KC_UP, LALT(KC_RBRC), KC_NO, KC_LSFT, LGUI(KC_1), LGUI(KC_2), LGUI(KC_3), LCTL(KC_Z), LALT(KC_MINUS), KC_LEFT, KC_DOWN, KC_RIGHT, LALT(KC_T), KC_NO, KC_VOLD, LGUI(KC_EQL), KC_VOLU, KC_NO, KC_NO, LALT(KC_M), LALT(KC_W), LALT(KC_QUOTE), KC_NO, LGUI(KC_SPACE), LGUI(KC_H), KC_NO, KC_NO
+    )
 };
 
-// ----Combos-----------------------
-// The downside of combos vs e.g. a layer or shift-modified key
-// is that they require more precise timing; that is, there's a
-// combo term that both keys must be pressed within, whereas with
-// e.g. Shift+Something you can be sloppier in the timing and so
-// it is less flow-interrupting.
-//
-// Try to avoid combos that are common rolls,
-// e.g. `re`, `ef`, `es`, `as`, `io`, etc,
-// otherwise you may frequently accidentally trigger the combo.
-// This is less true for combos which are further apart and thus
-// harder to roll w/in the combo term, e.g. `af`.
-//
-// Also avoid `jk` as I map this to escape in vim.
-const uint16_t PROGMEM escape[]   = {KC_S, KC_F, COMBO_END};
-const uint16_t PROGMEM colon[]    = {KNUM, KC_L, COMBO_END};
-const uint16_t PROGMEM equal[]    = {KC_L, KC_J, COMBO_END};
-const uint16_t PROGMEM mute[] = {KC_VOLD, KC_VOLU, COMBO_END};
-
+const uint16_t PROGMEM combo_0[] = {KC_J, KC_L, COMBO_END};
+const uint16_t PROGMEM combo_1[] = {KC_S, KC_F, COMBO_END};
+const uint16_t PROGMEM combo_2[] = {KC_K, KC_L, COMBO_END};
+const uint16_t PROGMEM combo_3[] = {KC_VOLD, KC_VOLU, COMBO_END};
 combo_t key_combos[] = {
-    COMBO(escape, KC_ESC),
-    COMBO(colon, LSFT(KC_SCLN)),
-    COMBO(equal, EQUAL),
-    COMBO(mute, KC_MUTE),
+    COMBO(combo_0, KC_EQL),
+    COMBO(combo_1, KC_ESC),
+    COMBO(combo_2, LSFT(KC_SCLN)),
+    COMBO(combo_3, KC_MUTE)
 };
 
-// ----Shifts-----------------------
-const key_override_t s_minus = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, MINUS);
-const key_override_t s_uscore = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, USCOR);
-const key_override_t s_dblqt = ko_make_basic(MOD_MASK_SHIFT, QUOTE, DBLQT);
-const key_override_t s_pipe = ko_make_basic(MOD_MASK_SHIFT, KC_SLSH, PIPE);
-
-// System
-const key_override_t move_win_mon = ko_make_basic(MOD_MASK_SHIFT, FOCMN, TOMON);
-const key_override_t move_win_desk_1 = ko_make_basic(MOD_MASK_SHIFT, DESK1, TDSK1);
-const key_override_t move_win_desk_2 = ko_make_basic(MOD_MASK_SHIFT, DESK2, TDSK2);
-const key_override_t move_win_desk_3 = ko_make_basic(MOD_MASK_SHIFT, DESK3, TDSK3);
-const key_override_t mpv_toggle = ko_make_basic(MOD_MASK_SHIFT, MPLAY, VPLAY);
-
-// Terminal
-const key_override_t term_name_tab = ko_make_basic(MOD_MASK_SHIFT, T_FOCU, T_NAME);
-const key_override_t term_resize_win = ko_make_basic(MOD_MASK_SHIFT, T_FULL, T_RSZE);
-
+const key_override_t shift_0 = ko_make_basic(MOD_MASK_SHIFT, KC_QUOTE, LSFT(KC_QUOTE));
+const key_override_t shift_1 = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, KC_MINUS);
+const key_override_t shift_2 = ko_make_basic(MOD_MASK_SHIFT, KC_SLSH, LSFT(KC_BSLS));
+const key_override_t shift_3 = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, LSFT(KC_MINUS));
+const key_override_t shift_4 = ko_make_basic(MOD_MASK_SHIFT, KC_VOLD, KC_BRIGHTNESS_DOWN);
+const key_override_t shift_5 = ko_make_basic(MOD_MASK_SHIFT, KC_VOLU, KC_BRIGHTNESS_UP);
+const key_override_t shift_6 = ko_make_basic(MOD_MASK_SHIFT, LGUI(KC_2), LGUI(LSFT(KC_2)));
+const key_override_t shift_7 = ko_make_basic(MOD_MASK_SHIFT, LCTL(KC_Z), LCTL(LSFT(KC_Z)));
+const key_override_t shift_8 = ko_make_basic(MOD_MASK_SHIFT, LGUI(KC_3), LGUI(LSFT(KC_3)));
+const key_override_t shift_9 = ko_make_basic(MOD_MASK_SHIFT, LGUI(KC_1), LGUI(LSFT(KC_1)));
+const key_override_t shift_10 = ko_make_basic(MOD_MASK_SHIFT, LALT(KC_MINUS), LALT(KC_BACKSLASH));
+const key_override_t shift_11 = ko_make_basic(MOD_MASK_SHIFT, LALT(KC_T), LALT(KC_E));
+const key_override_t shift_12 = ko_make_basic(MOD_MASK_SHIFT, LGUI(LCTL(KC_K)), LGUI(LCTL(KC_M)));
+const key_override_t shift_13 = ko_make_basic(MOD_MASK_SHIFT, LGUI(KC_EQL), LGUI(KC_EQL));
 const key_override_t *key_overrides[] = {
-    &move_win_mon,
-    &move_win_desk_1,
-    &move_win_desk_2,
-    &move_win_desk_3,
-    &mpv_toggle,
-
-    &s_minus,
-    &s_uscore,
-    &s_pipe,
-    &s_dblqt,
-
-    &term_name_tab,
-    &term_resize_win,
+    &shift_0,
+    &shift_1,
+    &shift_2,
+    &shift_3,
+    &shift_4,
+    &shift_5,
+    &shift_6,
+    &shift_7,
+    &shift_8,
+    &shift_9,
+    &shift_10,
+    &shift_11,
+    &shift_12,
+    &shift_13
 };
+
