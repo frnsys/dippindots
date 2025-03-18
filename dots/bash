@@ -2,6 +2,7 @@
 export XKB_DEFAULT_OPTIONS=caps:super,compose:ralt,compose:rctrl
 export MOZ_ENABLE_WAYLAND=1
 export GTK_THEME=Adwaita:dark
+export QT_QPA_PLATFORMTHEME=qt6ct
 
 # For libreoffice to run properly at HiDPI
 export SAL_USE_VCLPLUGIN=gtk3

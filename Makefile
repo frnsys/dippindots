@@ -322,10 +322,8 @@ android:
     sudo firewall-cmd --permanent --zone=public --add-port=53317/tcp
 
 torrents:
-	sudo zypper in deluge
+	sudo zypper in qbittorent
 	sudo opi -n nicotine-plus
-	mkdir ~/.config/deluge
-	ln -sf $(dir)/dots/misc/deluged.conf ~/.config/deluge/core.conf
 	sudo firewall-cmd --permanent --zone=public --add-port=36767/udp
 	sudo firewall-cmd --permanent --zone=public --add-port=36767/tcp
 
