@@ -25,11 +25,9 @@ return {
         p.any_word,
         p.hex_color
       )
-
-      vim.keymap.set({ "n", "x" }, "w", bigword_hops.forward_start)
-      vim.keymap.set({ "n", "x" }, "e", bigword_hops.forward_end)
-      vim.keymap.set({ "n", "x" }, "b", bigword_hops.backward_start)
-      vim.keymap.set({ "n", "x" }, "ge", bigword_hops.backward_end)
+      vim.keymap.set({ "n", "x" }, "W", bigword_hops.forward_start)
+      vim.keymap.set({ "n", "x" }, "E", bigword_hops.forward_end)
+      vim.keymap.set({ "n", "x" }, "B", bigword_hops.backward_start)
 
       local subword_hops = neowords.get_word_hops(
         p.snake_case,
@@ -38,35 +36,15 @@ return {
         p.number,
         p.hex_color
       )
-      vim.keymap.set({ "n", "x", "o" }, "<c-w>", subword_hops.forward_start)
-      vim.keymap.set({ "n", "x", "o" }, "<c-b>", subword_hops.backward_start)
+      vim.keymap.set({ "n", "x" }, "w", subword_hops.forward_start)
+      vim.keymap.set({ "n", "x" }, "e", subword_hops.forward_end)
+      vim.keymap.set({ "n", "x" }, "b", subword_hops.backward_start)
     end
   },
 
   {
-    "chrisgrieser/nvim-various-textobjs",
-    lazy = false,
-    config = function()
-      require("various-textobjs").setup({
-        keymaps = {
-          -- io/ao: any bracket
-          -- n: end of line excluding last character
-          -- Q: to next quote
-          -- C: to next bracket
-          -- ii/ai: lines w/ matching indentation
-          -- R: rest of lines w/ matching indentation
-          -- See: https://github.com/chrisgrieser/nvim-various-textobjs?tab=readme-ov-file#list-of-text-obj
-          useDefaults = true,
-
-          -- Interferes w/ replace in visual mode.
-          disabledDefaults = { "r" },
-        }
-      })
-
-      -- iu/au: any quote
-      vim.keymap.set({ "o", "x" }, "au", function() require("various-textobjs").anyQuote("outer") end)
-      vim.keymap.set({ "o", "x" }, "iu", function() require("various-textobjs").anyQuote("inner") end)
-    end
+    "echasnovski/mini.ai",
+    opts = {}
   },
 
   --- Faster movement within buffers
@@ -183,7 +161,7 @@ return {
     'aaronik/treewalker.nvim',
     keys = {
       {
-        "<c-h>",
+        "[",
         mode = { "n", "v" },
         nowait = true,
         function()
@@ -191,22 +169,22 @@ return {
         end
       },
       {
-        "<c-l>",
-        nowait = true,
+        "]",
         mode = { "n", "v" },
+        nowait = true,
         function()
           vim.cmd([[Treewalker Right]])
         end
       },
       {
-        "<c-k>",
+        "(",
         mode = { "n", "v" },
         function()
           vim.cmd([[Treewalker Up]])
         end
       },
       {
-        "<c-j>",
+        ")",
         mode = { "n", "v" },
         function()
           vim.cmd([[Treewalker Down]])
@@ -218,9 +196,6 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     build = ":TSUpdate",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-    },
     main = 'nvim-treesitter.configs',
     opts = {
       ensure_installed = {
@@ -229,33 +204,9 @@ return {
         'markdown', 'markdown_inline', 'bash', 'lua',
         'html', 'javascript', 'json', 'yaml', 'comment' },
       auto_install = true,
-
       highlight = { enable = true },
       indent = { enable = false },
-      incremental_selection = {
-        enable = false,
-      },
-      textobjects = {
-        select = {
-          enable = true,
-          lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-          keymaps = {
-            -- You can use the capture groups defined in textobjects.scm
-            ['aa'] = '@parameter.outer',
-            ['ia'] = '@parameter.inner',
-            ['af'] = '@function.outer',
-            ['if'] = '@function.inner',
-            ['im'] = '@block.inner',
-            ['am'] = '@block.outer',
-          },
-        },
-        move = {
-          -- Using treewalker instead,
-          -- it's more intuitive and doesn't
-          -- require remembering as many keybinds.
-          enable = false,
-        },
-      },
+      incremental_selection = { enable = false },
     }
   }
 }

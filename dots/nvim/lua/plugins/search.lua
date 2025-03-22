@@ -148,11 +148,6 @@ return {
               --   vim.print(item)
               return
                 item.col ~= 1
-                -- Filter out leptos proc macro expansions.
-                -- NOTE: Not necessary if the `col` hack is working.
-                -- not (item.text:match("Builder$")
-                --   or item.text:match("Props$")
-                --   or item.text:match("PropsBuilder"))
                 and
                   (item.kind == "Struct"
                   or item.kind == "Enum"

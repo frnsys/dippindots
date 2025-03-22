@@ -37,17 +37,13 @@ vim.api.nvim_create_autocmd("DiagnosticChanged", {
 -- Note: must be loaded before plugins
 require('ignore')
 
-require('lazy').setup('plugins', {
-  ui = { border = "single" }
-})
+require('lazy').setup('plugins')
 
+require('lsp')
 require('abbrevs')
 require('bindings')
 require('francais')
 require('filetype/markdown')
-
--- For nvim 0.11
--- require('completion')
 
 EOF
 
@@ -119,7 +115,6 @@ cnoreabbrev w silent write
 
 " filetypes
 filetype plugin indent on
-au FileType crontab setlocal backupcopy=yes
 au FileType css setlocal tabstop=2 shiftwidth=2
 au FileType sass setlocal tabstop=2 shiftwidth=2
 au FileType javascript setlocal tabstop=2 shiftwidth=2
@@ -130,10 +125,6 @@ au FileType lua setlocal softtabstop=2 tabstop=2 shiftwidth=2
 au FileType markdown setlocal softtabstop=2 tabstop=2 shiftwidth=2
 au FileType markdown setlocal spell spelllang=fr,en_us complete+=kspell
 au FileType text setlocal spell spelllang=fr,en_us complete+=kspell
-
-" Unity USS/UXML files
-au BufNewFile,BufRead *.uss set filetype=css
-au BufNewFile,BufRead *.uxml set filetype=html
 
 " Gliss tooling
 au BufNewFile,BufRead *.script lua require('gliss/verses')

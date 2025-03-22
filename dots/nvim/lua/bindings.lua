@@ -1,25 +1,3 @@
---- Important keybinds:
----
---- # Movement
---- - { and } for moving b/w paragraphs
---- - ( and ) for moving b/w functions
---- - [ and ] for moving b/w classes
---- - .m and ,m for moving b/w blocks
---- - w and b for moving across identifiers
---- - W and B for moving across 2x identifiers
----
---- # Objects
---- - iu/au for any quote
---- - io/ao for any bracket
---- - ii/ai for lines w/ matching indentation
---- - ia/aa for a parameter or list item
---- - if/af for a function
---- - im/am for a block
---- - n for up to last char of line
---- - Q for up to next quote
---- - C for up to next bracket
---- - R for rest of lines w/ matching indentation
-
 local function _(key, cmd, modes, remap)
   if remap == nil then
     remap = false
@@ -28,35 +6,6 @@ local function _(key, cmd, modes, remap)
     remap = remap,
     silent = true,
   })
-end
-
---- Easier text objects
----
---- Notes:
---- * Not using `p` b/c it's already "paragraph"
---- * Not using `b` b/c it's already "block"
---- * Not using `s` b/c it's already "sentence"
---- * Avoid `hjkl` and other operator keys, e.g. `t`, `/`
---- * Make sure these don't conflict with the
----   mappings in `plugins/motion.lua`
-local remappings = {
-  { "c", "(", ")" },
-  { "r", "[", "]" },
-  { "z", "{", "}" },
-}
-for i, map in ipairs(remappings) do
-  local key = map[1]
-  local target = map[2]
-  local target_close = map[3]
-
-  -- Around
-  _("a" .. key, "a" .. target, {"o", "v"})
-
-  -- Inside
-  _("i" .. key, "i" .. target, {"o", "v"})
-
-  -- To
-  _("t" .. key, "t" .. target_close, {"o", "v"})
 end
 
 --- Tabs
@@ -85,13 +34,6 @@ _("vv", "gv", "n")
 --- Keep search results in the screen center
 _("n", "nzz", "n")
 _("N", "Nzz", "n")
-
---- Terminals
-_(",t", ":ToggleTerm<cr>", "n")
-_("<esc>", "<c-\\><c-n>", "t")
-
---- Remap `"` to `?` as it matches my custom kbd layout.
-_('"', '?', "n")
 
 --- Insert common strings
 _('<c-t>', ' {<cr>}<Esc>O', "i")
@@ -127,5 +69,3 @@ vim.keymap.set('n', "'", "<nop>")
 --- bindings (set in `neovim/runtime/ftplugin/rust.vim`)
 --- which conflict with my treewalker `[` and `]` bindings.
 vim.g.no_rust_maps = 1
-
--- TODO format document shortcut
