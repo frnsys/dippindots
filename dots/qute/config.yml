@@ -19,6 +19,10 @@ settings:
   bindings.commands:
     global:
       normal:
+        <Alt+->: back
+        <Alt+\>: forward
+        <Alt+[>: tab-prev
+        <Alt+]>: tab-next
         J: tab-prev
         K: tab-next
         q: null

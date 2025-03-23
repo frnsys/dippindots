@@ -176,7 +176,6 @@ riverctl rule-add -title 'ncmpcpp' float
 riverctl rule-add -title 'vu' float
 riverctl rule-add -title 'md-vu-preview' float
 riverctl rule-add -title 'md-vu-preview' position 9999 0
-riverctl rule-add -title 'sema' tags $sticky_tag
 riverctl rule-add -title 'meteo' float
 riverctl rule-add -title 'meteo' dimensions 720 480
 
@@ -194,7 +193,6 @@ batt mon &
 agenda remind 5 &
 gammastep &
 mako &
-sema &
 kbdd &
 
 # Lock after 5min

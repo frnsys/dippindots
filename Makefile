@@ -3,7 +3,7 @@ dir = ~/.dots
 
 all: base de media apps laptop
 base: prereqs git langs rust shell tools editor network other
-de: wm bar notifications menu theme terminal scrots fm
+de: wm notifications menu theme terminal scrots fm
 media: audio images video music
 laptop: tweaks screen
 apps: utils browser vpn torrents android documents dev
@@ -197,10 +197,6 @@ wm:
 
 	mkdir ~/.config/river
 	ln -s $(dir)/dots/river ~/.config/river/init
-
-bar:
-	sudo zypper in gtk3-devel gtk-layer-shell-devel atk
-	cargo +nightly install --git https://github.com/frnsys/sema.git
 
 notifications:
 	sudo zypper in mako libnotify-tools
