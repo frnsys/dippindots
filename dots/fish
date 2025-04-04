@@ -55,6 +55,7 @@ abbr -a mv "mv -i"
 # Git
 abbr -a gd "git diff"
 abbr -a ga "git add"
+abbr -a gap "git add -p"
 abbr -a gaa "git add -A"
 abbr -a gc "git commit"
 abbr -a gp "git push"
@@ -69,7 +70,9 @@ abbr -a gsu "git submodule foreach git pull origin master"
 # Shortcuts
 abbr -a v "vi ."
 abbr -a b "bat"
+abbr -a j "just"
 abbr -a y "yazi"
+abbr -a c "cargo"
 abbr -a dots "cd ~/.dots"
 abbr -a envim "cd ~/.dots/dots/nvim; vi ."
 abbr -a n "cd ~/notes"
@@ -165,8 +168,8 @@ end
 bind -M insert \ei '_pick_and_insert'
 bind -M default \ei '_pick_and_insert'
 
-# ctrl-l to accept autosuggestion
-bind -M insert \cl accept-autosuggestion
+# ctrl-e to accept autosuggestion
+bind -M insert \ce accept-autosuggestion
 
 # nav up/down dir history
 function _up

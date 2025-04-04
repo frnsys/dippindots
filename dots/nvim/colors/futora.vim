@@ -50,6 +50,7 @@ highlight Underlined guifg=#2c84fc guibg=NONE guisp=NONE blend=NONE gui=underlin
 highlight WinSeparator guifg=#202020
 highlight Visual guifg=#000000 guibg=#ffd75f guisp=NONE blend=NONE gui=NONE
 highlight WildMenu guifg=#111111 guibg=#f8aa01 guisp=NONE blend=NONE gui=NONE
+highlight SnippetTabstop guifg=#000000 guibg=#67A2FD guisp=NONE blend=NONE gui=NONE
 highlight @field guifg=#00af87 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @namespace guifg=#7fb1f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @punctuation guifg=#585858 guibg=NONE guisp=NONE blend=NONE gui=NONE

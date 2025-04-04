@@ -11,6 +11,12 @@ return {
     }
   },
 
+  --- LSP status
+  {
+    "j-hui/fidget.nvim",
+    opts = {},
+  },
+
   {
     'mikesmithgh/kitty-scrollback.nvim',
     enabled = true,

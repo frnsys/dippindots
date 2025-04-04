@@ -25,9 +25,9 @@ return {
         p.any_word,
         p.hex_color
       )
-      vim.keymap.set({ "n", "x" }, "W", bigword_hops.forward_start)
-      vim.keymap.set({ "n", "x" }, "E", bigword_hops.forward_end)
-      vim.keymap.set({ "n", "x" }, "B", bigword_hops.backward_start)
+      vim.keymap.set({ "n", "x" }, "w", bigword_hops.forward_start)
+      vim.keymap.set({ "n", "x" }, "b", bigword_hops.backward_start)
+      vim.keymap.set({ "n", "x" }, "e", bigword_hops.forward_end)
 
       local subword_hops = neowords.get_word_hops(
         p.snake_case,
@@ -36,15 +36,20 @@ return {
         p.number,
         p.hex_color
       )
-      vim.keymap.set({ "n", "x" }, "w", subword_hops.forward_start)
-      vim.keymap.set({ "n", "x" }, "e", subword_hops.forward_end)
-      vim.keymap.set({ "n", "x" }, "b", subword_hops.backward_start)
+      vim.keymap.set({ "n", "x" }, "W", subword_hops.forward_start)
+      vim.keymap.set({ "n", "x" }, "B", subword_hops.backward_start)
     end
   },
 
   {
     "echasnovski/mini.ai",
-    opts = {}
+    config = function()
+      require('mini.ai').setup({
+        custom_textobjects = {
+          ['u'] = { { "%b''", '%b""', '%b``' }, '^.().*().$' },
+        },
+      })
+    end
   },
 
   --- Faster movement within buffers
@@ -52,6 +57,7 @@ return {
     "folke/flash.nvim",
     event = "VeryLazy",
     opts = {
+      labels = "hrtsnaeildcfoupbwmyg",
       search = {
         multi_window = false,
         incremental = false,
@@ -62,20 +68,13 @@ return {
         before = true,
       },
       modes = {
-        search = {
-          enabled = true,
-        },
-        char = {
-          enabled = false,
-        }
+        char = { enabled = false },
       },
-      prompt = {
-        enabled = false,
-      }
+      prompt = { enabled = false },
     },
     keys = {
       {
-        ",,",
+        "U",
         mode = { "n", "x", "o" },
         function()
           require("flash").treesitter()
@@ -155,42 +154,6 @@ return {
         end,
       },
     },
-  },
-
-  {
-    'aaronik/treewalker.nvim',
-    keys = {
-      {
-        "[",
-        mode = { "n", "v" },
-        nowait = true,
-        function()
-          vim.cmd([[Treewalker Left]])
-        end
-      },
-      {
-        "]",
-        mode = { "n", "v" },
-        nowait = true,
-        function()
-          vim.cmd([[Treewalker Right]])
-        end
-      },
-      {
-        "(",
-        mode = { "n", "v" },
-        function()
-          vim.cmd([[Treewalker Up]])
-        end
-      },
-      {
-        ")",
-        mode = { "n", "v" },
-        function()
-          vim.cmd([[Treewalker Down]])
-        end
-      }
-    }
   },
 
   {

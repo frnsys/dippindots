@@ -52,7 +52,7 @@ git:
 	ln -sf $(dir)/dots/git/gitconfig ~/.gitconfig
 
 tools:
-	sudo zypper in -y fzf jq htop tree the_silver_searcher gnupg ncdu powertop dfc ffmpeg fd ripgrep zoxide
+	sudo zypper in -y fzf jq htop tree gnupg ncdu powertop dfc ffmpeg fd ripgrep zoxide
 
 utils:
 	# Note: Run with `sudo -EH yast2`.
@@ -160,7 +160,7 @@ images:
 
 fm:
 	sudo zypper -y in poppler-tools ffmpegthumbnailer jq
-	cargo install --git https://github.com/sxyazi/yazi yazi-fm
+	cargo install yazi-fm
 	ln -sf $(dir)/dots/yazi  ~/.config/yazi
 
 wm:

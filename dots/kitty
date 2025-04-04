@@ -18,7 +18,7 @@ initial_window_height 640
 
 enabled_layouts splits,stack
 
-visual_window_select_characters asdfghjkl;
+visual_window_select_characters rtshae;
 
 enable_audio_bell no
 

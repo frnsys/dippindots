@@ -59,8 +59,8 @@ vim.api.nvim_create_autocmd("FileType", {
 
     local opts = { noremap = true, buffer = 0 }
     vim.keymap.set('n', ',s', screenshot, opts)
-    vim.keymap.set('n', '<leader>x', toggle_checkbox, opts)
-    vim.keymap.set('n', 'gx', media.open_url_under_cursor, opts)
+    vim.keymap.set('n', '<leader>v', toggle_checkbox, opts)
+    vim.keymap.set('n', 'gv', media.open_url_under_cursor, opts)
 
     vim.api.nvim_create_autocmd("CursorMoved", {
       pattern = "*.md",

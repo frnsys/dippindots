@@ -8,25 +8,40 @@ local function _(key, cmd, modes, remap)
   })
 end
 
+function delete_keymaps_w_prefix(prefix)
+  local maps = vim.api.nvim_get_keymap('n')
+  for _, map in ipairs(maps) do
+    if map.lhs:sub(1, #prefix) == prefix then
+      vim.keymap.del("n", map.lhs)
+    end
+  end
+end
+
+delete_keymaps_w_prefix('[')
+delete_keymaps_w_prefix(']')
+
 --- Tabs
 _("T", ":tabnew<cr>", "n")
-_("L", ":tabnext<cr>", "n")
-_("H", ":tabprevious<cr>", "n")
+_("]", ":tabnext<cr>", "n")
+_("[", ":tabprevious<cr>", "n")
 
 --- Bind return to clear last search highlight.
 _("<cr>", ":noh<cr>", "n")
 
+--- I hit `u` accidentally WAY too much.
+_("<c-u>", "u", "n")
+_("u", "<nop>", "n")
+
+--- Insert and go to new line above.
+_("<s-cr>", "<esc>O", "i")
+
 --- Commenting
-_("<leader>x", "gcc", "n", true)
-_("<leader>x", "gc", "v", true)
+_("M", "gcc", "n", true)
+_("m", "gc", "v", true)
 
 --- Don't leave visual mode when changing indent
 _(">", ">gv", "x")
 _("<", "<gv", "x")
-
---- Expand/contract visual selection symmetrically
-_("<c-k>", "j$ok0o", "v")
-_("<c-j>", "k$oj0o", "v")
 
 --- Easily restore last visual selection with `vv`
 _("vv", "gv", "n")
@@ -37,19 +52,14 @@ _("N", "Nzz", "n")
 
 --- Insert common strings
 _('<c-t>', ' {<cr>}<Esc>O', "i")
-_('<c-r>', ' ->', "i")
-_('<c-e>', ' =>', "i")
-_('<c-z>', 'println!("{:?}", );<Left><Left>', "i")
+_('<c-v>', 'println!("{:?}", );<Left><Left>', "i")
 _('<c-b>', 'dbg!();<Left><Left>', "i")
-_('<c-v>', 'Vec<_>', "i")
-_('<c-o>', '{:?}', "i")
-_('<c-k>', '<><Left>', "i")
-
-_('<c-l>', '<Right>', "i")
-_('<c-h>', '<Left>', "i")
 
 --- Delete previous word
 _('<c-backspace>', '<c-w>', "i")
+
+--- Delete to end of line minus one character.
+_('D', 'v$<left><left>d', "n")
 
 --- Splits
 _("|", ":vsplit<cr>", "n")
@@ -61,11 +71,22 @@ _("_", ":split<cr>", "n")
 _('}', '}j^', "n")
 _('{', 'k{j^', "n")
 
---- Since quote is used as the leader key,
---- this avoids conflicts with its default binding.
-vim.keymap.set('n', "'", "<nop>")
+--- Paging up and down
+_(')', '<c-d>', "n")
+_('(', '<c-u>', "n")
+
+--- Format the document
+_('#', function()
+  local view = vim.fn.winsaveview()
+  vim.cmd("normal! gg=G")
+  vim.fn.winrestview(view)
+end, "n")
+
+--- Use "r" instead of "c";
+--- easier with my layout.
+_('r', 'c', "n")
 
 --- This is necessary to avoid nvim's default
 --- bindings (set in `neovim/runtime/ftplugin/rust.vim`)
---- which conflict with my treewalker `[` and `]` bindings.
+--- which conflict with some of my bindings.
 vim.g.no_rust_maps = 1

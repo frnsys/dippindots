@@ -10,14 +10,13 @@ end
 --- Completion settings:
 --- * show menu
 --- * show popup with more info
---- * use fuzzy matching
 --- * don't auto-insert the first match
-vim.o.completeopt = "menu,menuone,fuzzy,noinsert,popup"
+vim.o.completeopt = "menuone,noinsert"
 vim.o.pumheight = 10        -- Max height of completion menu.
 vim.o.winborder = "single"  -- Single border on all floating windows.
 
 --- Manually trigger completion if needed.
-vim.keymap.set('i', '<C-n>', function()
+vim.keymap.set('i', '<c-n>', function()
   local function feedkeys(keys)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), 'n', true)
   end
@@ -39,9 +38,15 @@ vim.keymap.set('i', '<C-n>', function()
   end
 end)
 
+--- Accept current completion.
+vim.keymap.set('i', '<c-e>', '<c-y>')
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspAttach", { clear = true }),
   callback = function(ev)
+    local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
+    client.server_capabilities.completionProvider.triggerCharacters =
+      vim.split("qwertyuiopasdfghjklzxcvbnm. ", "")
     vim.lsp.completion.enable(true,
       ev.data.client_id, ev.buf, {
         autotrigger = true,
@@ -66,7 +71,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     bind("Go to next diagnostic message",
       '>>', vim.diagnostic.goto_next)
     bind('Code action',
-      'ga', function()
+      'tr', function()
         vim.lsp.buf.code_action({
           -- Filter out code actions I never use
           -- and often crowd the list.
@@ -77,11 +82,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
         })
       end)
     bind('Hover documentation',
-      'gw', vim.lsp.buf.hover)
+      'tt', vim.lsp.buf.hover)
     bind('Go to definition',
-      'gd', vim.lsp.buf.definition)
+      'ts', vim.lsp.buf.definition)
     bind('Rename symbol',
-      'gr', vim.lsp.buf.rename)
+      'tw', vim.lsp.buf.rename)
 
     -- Format on write
     vim.api.nvim_create_autocmd("BufWritePre", {
@@ -113,6 +118,12 @@ vim.lsp.config["rust"] = {
         },
       },
       completion = {
+        -- Don't really use this;
+        -- would use my own snippets instead
+        postfix = {
+          enable = false
+        },
+
         -- Show private fields in completion
         privateEditable = {
           enable = true,

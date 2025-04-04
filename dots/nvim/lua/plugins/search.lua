@@ -9,14 +9,6 @@ local function ra_flycheck()
 end
 
 return {
-  --- Bindings:
-  ---
-  --- Custom:
-  --- [ctrl-q]: send results to quickfix list
-  ---
-  --- Default:
-  --- [ctrl-u]: clear search query
-  --- [ctrl-g]: fuzzy search results
   {
     "ibhagwan/fzf-lua",
     config = function()
@@ -33,16 +25,10 @@ return {
         files = {
           previewer = false,
           formatter = "path.filename_first",
-          actions = { ["ctrl-q"] = { fn = require("fzf-lua").actions.file_sel_to_qf, prefix = "select-all" } },
         },
         grep = {
           formatter = "path.filename_first",
           rg_opts = "--no-heading --line-number --column --color=always --colors 'match:fg:0xff,0x5c,0x5c' --smart-case --max-columns=4096 -e",
-          actions = {
-            ["ctrl-q"] = {
-              fn = require("fzf-lua").actions.file_edit_or_qf, prefix = 'select-all+'
-            },
-          },
         },
         previewers = {
           bat = {
@@ -78,38 +64,21 @@ return {
     end,
     keys = {
       {
-        "<leader>f",
+        "&",
         function()
           require('fzf-lua').files()
         end,
         desc = 'Search files by name'
       },
       {
-        "<leader>s",
+        "<tab>",
         function()
           require('fzf-lua').live_grep_glob()
         end,
         desc = 'Search by grep'
       },
       {
-        "<leader>b",
-        function()
-          require('fzf-lua').buffers({
-            sort_lastused = true,
-            previewer = false,
-          })
-        end,
-        desc = 'Search buffers'
-      },
-      {
-        "<space>f",
-        function()
-          require('fzf-lua').lines()
-        end,
-        desc = 'Search buffer lines'
-      },
-      {
-        "<space>e",
+        "<space>s",
         function()
           require('fzf-lua').lsp_document_symbols({
             regex_filter = function(item)
@@ -135,7 +104,7 @@ return {
         desc = 'Search workspace diagnostics'
       },
       {
-        "<space>s",
+        "<space>t",
         function()
           require('fzf-lua').lsp_live_workspace_symbols({
             regex_filter = function(item)
@@ -156,7 +125,7 @@ return {
             symbol_style = 3,
           })
         end,
-        desc = 'Search workspace diagnostics'
+        desc = 'Search workspace symbols'
       },
       {
         "<space>r",

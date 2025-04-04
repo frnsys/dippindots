@@ -20,9 +20,6 @@ return {
         ["q"] = "actions.close",
       },
       use_default_keymaps = false,
-      preview_win = {
-        preview_method = "load",
-      },
       view_options = {
         -- Check against ignore patterns to
         -- determine what files to hide
@@ -57,9 +54,9 @@ return {
     'kwkarlwang/bufjump.nvim',
     config = function()
         require("bufjump").setup({
-            forward_key = "J",
-            backward_key = "K",
-            forward_same_buf = "<c-i>",
+            forward_key = ";",
+            backward_key = "!",
+            forward_same_buf = "<c-e>",
             backward_same_buf = "<c-o>",
         })
     end,
@@ -68,7 +65,7 @@ return {
   {
     "yorickpeterse/nvim-window",
     keys = {
-      { ",f", function()
+      { ",t", function()
         local win_count = vim.fn.winnr('$')
 
         -- If there are only two windows,
@@ -87,7 +84,7 @@ return {
       require('nvim-window').setup({
         -- The characters available for hinting windows.
         chars = {
-          'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'
+          't', 'r', 's',
         },
         normal_hl = 'WindowTarget',
         border = 'none',
