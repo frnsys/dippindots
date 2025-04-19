@@ -21,9 +21,13 @@ delete_keymaps_w_prefix('[')
 delete_keymaps_w_prefix(']')
 
 --- Tabs
-_("T", ":tabnew<cr>", "n")
+_("<c-t>", ":tabnew<cr>", "n")
 _("]", ":tabnext<cr>", "n")
 _("[", ":tabprevious<cr>", "n")
+
+--- Replace <c-i> and <c-o>
+_("<c-h>", "<c-i>", "n")
+_("<c-m>", "<c-o>", "n")
 
 --- Bind return to clear last search highlight.
 _("<cr>", ":noh<cr>", "n")
@@ -37,7 +41,7 @@ _("<s-cr>", "<esc>O", "i")
 
 --- Commenting
 _("M", "gcc", "n", true)
-_("m", "gc", "v", true)
+_("M", "gc", "v", true)
 
 --- Don't leave visual mode when changing indent
 _(">", ">gv", "x")
@@ -58,8 +62,9 @@ _('<c-b>', 'dbg!();<Left><Left>', "i")
 --- Delete previous word
 _('<c-backspace>', '<c-w>', "i")
 
---- Delete to end of line minus one character.
-_('D', 'v$<left><left>d', "n")
+--- With the neowords plugin, this
+--- deletes a subword backwards.
+_('<c-d>', '<esc>dbxi', "i", true)
 
 --- Splits
 _("|", ":vsplit<cr>", "n")
@@ -71,9 +76,14 @@ _("_", ":split<cr>", "n")
 _('}', '}j^', "n")
 _('{', 'k{j^', "n")
 
+--- Moving up and down
+_(')', 'j', {"n", "o", "x"})
+_('(', 'k', {"n", "o", "x"})
+
 --- Paging up and down
-_(')', '<c-d>', "n")
-_('(', '<c-u>', "n")
+_('<PageDown>', '<c-d>', "n")
+_('<PageUp>', '<c-u>', "n")
+
 
 --- Format the document
 _('#', function()
@@ -85,6 +95,8 @@ end, "n")
 --- Use "r" instead of "c";
 --- easier with my layout.
 _('r', 'c', "n")
+
+_("<leader>ww", ":wqa<cr>", "n")
 
 --- This is necessary to avoid nvim's default
 --- bindings (set in `neovim/runtime/ftplugin/rust.vim`)

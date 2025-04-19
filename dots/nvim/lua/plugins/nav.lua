@@ -56,8 +56,6 @@ return {
         require("bufjump").setup({
             forward_key = ";",
             backward_key = "!",
-            forward_same_buf = "<c-e>",
-            backward_same_buf = "<c-o>",
         })
     end,
   },

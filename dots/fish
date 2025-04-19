@@ -71,7 +71,6 @@ abbr -a gsu "git submodule foreach git pull origin master"
 abbr -a v "vi ."
 abbr -a b "bat"
 abbr -a j "just"
-abbr -a y "yazi"
 abbr -a c "cargo"
 abbr -a dots "cd ~/.dots"
 abbr -a envim "cd ~/.dots/dots/nvim; vi ."
@@ -82,6 +81,15 @@ abbr -a dl "cd ~/downloads"
 abbr -a ytdl "yt-dlp -f 'bv[height<=1080]+ba'"
 abbr -a ytdlmp3 "yt-dlp --extract-audio --audio-format mp3"
 abbr -a publish "port build spaceandtimes; port sync spaceandtimes ftseng@starbase:/srv/spaceandtimes"
+
+function y
+	set tmp (mktemp -t "yazi-cwd.XXXXXX")
+	yazi $argv --cwd-file="$tmp"
+	if set cwd (command cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+		builtin cd -- "$cwd"
+	end
+	rm -f -- "$tmp"
+end
 
 function rand -d "Generate random string"
     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
@@ -144,7 +152,6 @@ end
 bind -M insert \e\' '_seek'
 bind -M default \e\' '_seek'
 
-
 # alt-r
 function _command_history
     # 1. Removes trailing whitespace
@@ -170,24 +177,6 @@ bind -M default \ei '_pick_and_insert'
 
 # ctrl-e to accept autosuggestion
 bind -M insert \ce accept-autosuggestion
-
-# nav up/down dir history
-function _up
-    prevd; and commandline -f repaint
-end
-function _down
-    # If no next item in forward history
-    # pick a new path.
-    if test (count $dirnext) -eq 0
-        set --local path $(fd -t d -d 2 . | _fzf);
-            and cd $path;
-            and commandline -f repaint
-    else
-        nextd; and commandline -f repaint
-    end
-end
-bind -M insert \ck '_up'
-bind -M insert \cj '_down'
 
 # Color theme
 set -Ux fish_color_normal white

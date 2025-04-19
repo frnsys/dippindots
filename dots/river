@@ -21,7 +21,7 @@ riverctl map normal Super Equal spawn 'mpc toggle'
 riverctl map normal Super Plus spawn 'mpvc -S /tmp/mpvsocket toggle'
 riverctl map normal Super Semicolon spawn 'kitty --title ncmpcpp -e ncmpcpp'
 riverctl map normal Super Space spawn 'bemenu-run -l 10 -p ">"'
-riverctl map normal Super E spawn 'info'
+riverctl map normal Super A spawn 'info'
 riverctl map normal Super P spawn 'kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx'
 riverctl map normal Super C spawn 'kitty --title agenda -e bash -c '\''agenda view | less -R'\'''
 riverctl map normal Super T spawn 'kitty --title todo --working-directory ~/notes -e nvim todo.md'
@@ -190,7 +190,7 @@ batt mon &
 agenda remind 5 &
 gammastep &
 mako &
-kbdd &
+wayside &
 
 # Lock after 5min
 # Sleep after 15min

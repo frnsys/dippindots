@@ -18,26 +18,34 @@ return {
   {
     "backdround/neowords.nvim",
     config = function()
+      --- https://github.com/backdround/neowords.nvim/blob/main/lua/neowords/pattern-presets.lua
       local neowords = require("neowords")
       local p = neowords.pattern_presets
 
       local bigword_hops = neowords.get_word_hops(
         p.any_word,
-        p.hex_color
+        p.hex_color,
+        "\\v$", -- Also stop at the end of the line
+        "\\v^", -- Also stop at the start of the line
+        "\\v%([[:blank:]])@<=[[:punct:]]{2,}" -- Treat sequences of 2 or more punct as a word, preceded by whitespace
       )
-      vim.keymap.set({ "n", "x" }, "w", bigword_hops.forward_start)
-      vim.keymap.set({ "n", "x" }, "b", bigword_hops.backward_start)
-      vim.keymap.set({ "n", "x" }, "e", bigword_hops.forward_end)
+      vim.keymap.set({ "n", "x", "o" }, "W", bigword_hops.forward_start)
+      vim.keymap.set({ "n", "x", "o" }, "B", bigword_hops.backward_start)
+      vim.keymap.set({ "n", "x", "o" }, "E", bigword_hops.forward_end)
 
       local subword_hops = neowords.get_word_hops(
         p.snake_case,
         p.camel_case,
         p.upper_case,
         p.number,
-        p.hex_color
+        p.hex_color,
+        "\\v$", -- Also stop at the end of the line
+        "\\v^", -- Also stop at the start of the line
+        "\\v[[:punct:]]{2,}" -- Treat sequences of 2 or more punct as a word
       )
-      vim.keymap.set({ "n", "x" }, "W", subword_hops.forward_start)
-      vim.keymap.set({ "n", "x" }, "B", subword_hops.backward_start)
+      vim.keymap.set({ "n", "x", "o" }, "w", subword_hops.forward_start)
+      vim.keymap.set({ "n", "x", "o" }, "b", subword_hops.backward_start)
+      vim.keymap.set({ "n", "x", "o" }, "e", subword_hops.forward_end)
     end
   },
 
@@ -46,9 +54,17 @@ return {
     config = function()
       require('mini.ai').setup({
         custom_textobjects = {
-          ['u'] = { { "%b''", '%b""', '%b``' }, '^.().*().$' },
+          ['r'] = { { "%b''", '%b""', '%b``' }, '^.().*().$' },
         },
       })
+    end
+  },
+
+  --- `i` indent scope object
+  {
+    "echasnovski/mini.indentscope",
+    config = function()
+      require('mini.indentscope').setup()
     end
   },
 
@@ -57,7 +73,7 @@ return {
     "folke/flash.nvim",
     event = "VeryLazy",
     opts = {
-      labels = "hrtsnaeildcfoupbwmyg",
+      labels = "nrtsvbwhaeimldpfoum",
       search = {
         multi_window = false,
         incremental = false,
@@ -73,18 +89,22 @@ return {
       prompt = { enabled = false },
     },
     keys = {
+      --- Jump to (start of) line.
       {
-        "U",
+        "m",
         mode = { "n", "x", "o" },
         function()
-          require("flash").treesitter()
-        end,
-        desc = "Flash Treesitter"
+          require("flash").jump({
+            search = { mode = "search", max_length = 0 },
+            label = { after = { 0, 0 }, before = false },
+            pattern = "^\\s*\\zs\\S"
+          })
+        end
       },
 
       --- Jump to word.
       {
-        "f",
+        "h",
         mode = { "n", "x", "o" },
         function()
           local flash = require("flash")
@@ -131,28 +151,6 @@ return {
           })
         end,
       },
-
-      --- Jump to the start of a delimiter pair.
-      -- NOTE: This doesn't work well with
-      -- nested delimiters...
-      {
-        "..",
-        mode = { "n", "x", "o" },
-        function()
-          require("flash").jump({
-            -- Note: `\zs` and `\ze` indicate
-            -- the start/end of the selection.
-            pattern = "[\\[<{(|]\\zs[^\\[{(<|>)}\\]]*\\ze[|)}>\\]]",
-            search = { wrap = true, mode = "search", max_length = 0 },
-            label = {
-              before = true,
-              after = true,
-            },
-            -- jump = { pos = "range" },
-            jump = { pos = "start" },
-          })
-        end,
-      },
     },
   },
 
@@ -166,10 +164,10 @@ return {
         'typescript', 'c_sharp', 'css', 'scss', 'toml',
         'markdown', 'markdown_inline', 'bash', 'lua',
         'html', 'javascript', 'json', 'yaml', 'comment' },
-      auto_install = true,
-      highlight = { enable = true },
-      indent = { enable = false },
-      incremental_selection = { enable = false },
+        auto_install = true,
+        highlight = { enable = true },
+        indent = { enable = false },
+        incremental_selection = { enable = false },
+      }
     }
   }
-}

@@ -198,6 +198,9 @@ wm:
 	mkdir ~/.config/river
 	ln -s $(dir)/dots/river ~/.config/river/init
 
+	# Hack for better touch screen support
+	cargo install --git https://github.com/frnsys/wayside.git
+
 notifications:
 	sudo zypper in mako libnotify-tools
 	mkdir ~/.config/mako

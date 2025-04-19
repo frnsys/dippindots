@@ -20,8 +20,8 @@ settings:
     global:
       normal:
         <Alt+->: back
-        <Alt+\>: forward
         <Alt+[>: tab-prev
+        <Alt+\>: forward
         <Alt+]>: tab-next
         J: tab-prev
         K: tab-next
@@ -73,6 +73,7 @@ settings:
   content.fullscreen.window:
     global: true
   content.javascript.clipboard:
+    https://chat.deepseek.com: access-paste
     https://chatgpt.com: access-paste
     https://crates.io: access-paste
     https://emojipedia.org: access-paste

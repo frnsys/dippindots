@@ -78,7 +78,7 @@ return {
         desc = 'Search by grep'
       },
       {
-        "<space>s",
+        "Y",
         function()
           require('fzf-lua').lsp_document_symbols({
             regex_filter = function(item)
@@ -94,17 +94,20 @@ return {
         function()
           ra_flycheck();
           require('fzf-lua').diagnostics_workspace({
-            previewer = false,
             severity_only = 1,
-            winopts = {
-              split = "belowright new",
-            },
           })
         end,
         desc = 'Search workspace diagnostics'
       },
       {
-        "<space>t",
+        "T",
+        function()
+          require('fzf-lua').blines()
+        end,
+        desc = 'Search current buffer lines'
+      },
+      {
+        "L",
         function()
           require('fzf-lua').lsp_live_workspace_symbols({
             regex_filter = function(item)
@@ -128,7 +131,7 @@ return {
         desc = 'Search workspace symbols'
       },
       {
-        "<space>r",
+        "R",
         function()
           require('fzf-lua').lsp_references()
         end,
