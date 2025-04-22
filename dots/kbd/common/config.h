@@ -48,5 +48,5 @@
 // Milliseconds allowed to press combo keys.
 // Lower if this if rolling keys often triggers combos,
 // but then you have to be more precise when triggering them.
-#define COMBO_TERM 45
+#define COMBO_TERM 50
 #define COMBO_TERM_PER_COMBO

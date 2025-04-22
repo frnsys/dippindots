@@ -112,6 +112,7 @@ EOF
 " Hack to suppress the ENTER prompt
 " when writing a file.
 cnoreabbrev w silent write
+cnoreabbrev qw wq
 
 " filetypes
 filetype plugin indent on
