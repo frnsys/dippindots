@@ -102,6 +102,14 @@ return {
         end
       },
 
+      {
+        "u",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").treesitter()
+        end
+      },
+
       --- Jump to word.
       {
         "h",

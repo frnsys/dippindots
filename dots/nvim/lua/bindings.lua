@@ -26,8 +26,8 @@ _("]", ":tabnext<cr>", "n")
 _("[", ":tabprevious<cr>", "n")
 
 --- Replace <c-i> and <c-o>
-_("<c-h>", "<c-i>", "n")
-_("<c-m>", "<c-o>", "n")
+_("<c-m>", "<c-i>", "n")
+_("<c-h>", "<c-o>", "n")
 
 --- Bind return to clear last search highlight.
 _("<cr>", ":noh<cr>", "n")

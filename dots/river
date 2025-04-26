@@ -173,13 +173,11 @@ riverctl rule-add -title 'ncmpcpp' float
 riverctl rule-add -title 'vu' float
 riverctl rule-add -title 'md-vu-preview' float
 riverctl rule-add -title 'md-vu-preview' position 9999 0
-riverctl rule-add -title 'meteo' float
-riverctl rule-add -title 'meteo' dimensions 720 480
 
 # Keepass anchored to bottom
 riverctl rule-add -title 'kpass' float
-riverctl rule-add -title 'kpass' position 0 9999
-riverctl rule-add -title 'kpass' dimensions 320 420
+riverctl rule-add -title 'kpass' position 9999 9999
+riverctl rule-add -title 'kpass' dimensions 360 420
 
 # Use server-side decorations for consistency
 # in borders, etc.
@@ -190,6 +188,7 @@ batt mon &
 agenda remind 5 &
 gammastep &
 mako &
+kbdd &
 wayside &
 
 # Lock after 5min
