@@ -198,7 +198,7 @@ set -Ux fish_color_host --bold brgreen
 set -Ux fish_color_host_remote --bold red
 set -Ux fish_color_cancel red
 
-# Launch river from the login tty.
+# Launch WM from the login tty.
 if test -z "$DISPLAY"; and test (tty) = "/dev/tty1"
-    river
+    niri --session
 end

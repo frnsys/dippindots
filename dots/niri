@@ -1,0 +1,129 @@
+// https://github.com/YaLTeR/niri/wiki/Configuration
+
+input {
+    keyboard {
+        repeat-delay 200
+        repeat-rate 40
+    }
+
+    // Note: Super+Touch to move windows
+    touch {
+        map-to-output "eDP-1"
+    }
+}
+
+// `niri msg outputs`
+output "eDP-1" {
+    //mode "1600x2560@60"
+    mode "1600x2560"
+    scale 2.5
+    transform "90"
+}
+
+layout {
+    gaps 6
+    center-focused-column "never"
+    default-column-width {}
+    focus-ring {
+        width 1
+        active-color "#1f6feb"
+        inactive-color "#505050"
+    }
+}
+
+prefer-no-csd
+
+animations {
+    slowdown 0.2
+}
+hotkey-overlay {
+    skip-at-startup
+}
+
+cursor {
+    xcursor-size 24
+    hide-when-typing
+    hide-after-inactive-ms 1000
+}
+
+spawn-at-startup "bash" "-c" "~/.dots/dots/init"
+
+window-rule {
+    open-maximized true
+}
+
+window-rule {
+    match title="vu"
+    match title="mpv"
+    match title="ncmpcpp"
+    match title="md-vu-preview"
+    open-floating true
+    open-maximized false
+}
+
+window-rule {
+    match title="todo"
+    open-maximized false
+    default-column-width { proportion 0.5; }
+}
+
+window-rule {
+    match title="mpv"
+    match title="md-vu-preview"
+    open-focused false
+    default-floating-position x=0 y=0 relative-to="top-right"
+}
+
+window-rule {
+    match title="kpass"
+    open-maximized false
+    default-column-width { proportion 0.3; }
+}
+
+binds {
+    Mod+A { spawn "info"; }
+    Mod+G { spawn "hyprpicker" "--autocopy"; }
+    Mod+Shift+Plus { spawn "mpc" "toggle"; }
+    Mod+Plus { spawn "mpvc" "-S" "/tmp/mpvsocket" "toggle"; }
+    Mod+T { spawn "sh" "-c" "kitty --title todo --working-directory ~/notes -e nvim todo.md"; }
+    Mod+Space { spawn "sh" "-c" "bemenu-run -l 10 -p \">\""; }
+    Mod+P { spawn "sh" "-c" "kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx"; }
+    Mod+Semicolon { spawn "sh" "-c" "kitty --title ncmpcpp -e ncmpcpp"; }
+    Mod+W {
+        spawn "sh" "-c" "notify-send \"$(niri msg focused-window)\""
+    }
+
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
+    XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "set" "+100"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "100-"; }
+
+    Mod+Q { close-window; }
+
+    Mod+Left  { focus-column-left-or-last; }
+    Mod+Right { focus-column-right-or-first; }
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Ctrl+Up  { focus-monitor-next; }
+    Mod+Shift+Ctrl+Up  { move-column-to-monitor-next; }
+
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+    Mod+Ctrl+F { expand-column-to-available-width; }
+    Mod+C { center-column; }
+
+    // Finer width adjustments.
+    // This command can also:
+    // * set width in pixels: "1000"
+    // * adjust width in pixels: "-5" or "+5"
+    // * set width as a percentage of screen width: "25%"
+    // * adjust width as a percentage of screen width: "-10%" or "+10%"
+    // Pixel sizes use logical, or scaled, pixels. I.e. on an output with scale 2.0,
+    // set-column-width "100" will make the column occupy 200 physical screen pixels.
+    Mod+Alt+Left { set-column-width "-10%"; }
+    Mod+Alt+Right { set-column-width "+10%"; }
+
+    // Move the focused window between the floating and the tiling layout.
+    Mod+V       { toggle-window-floating; }
+}

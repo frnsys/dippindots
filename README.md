@@ -26,16 +26,7 @@ ExecStart=
 ExecStart=-/sbin/agetty --autologin francis --noclear %I $TERM
 ```
 
-Then `dots/fish` is setup to launch `river`, and `dots/river` is setup to immediately lock the device. The lockscreen I use has a virtual keyboard.
-
-
-## Device-specific details
-### Tuxedo Pulse 14 Gen4
-
-To preserve battery life, [it's suggested](https://www.tuxedocomputers.com/en/Infos/Help-Support/Frequently-asked-questions/What-is-Flexicharger-) to go into the BIOS (via `F2` or `Del`) and enable "FlexiCharger" (if available) and otherwise set the "start charge" to 40% and "stop charge" to 80%. When you need full battery power you can turn off FlexiCharger beforehand.
-
-[To avoid screen flickers](https://www.tuxedocomputers.com/en/FAQ-TUXEDO-Pulse-14-Gen4.tuxedo), add `amdgpu.dcdebugmask=0x10` to `GRUB_CMDLINE_LINUX_DEFAULT` in `/etc/default/grub`, and then run `sudo update-bootloader`.
-
+Then `dots/fish` is setup to launch the WM, which then runs `dots/init` which immediately locks the device. The lockscreen I use has a virtual keyboard.
 
 ## Screenshots
 

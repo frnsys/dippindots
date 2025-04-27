@@ -25,6 +25,7 @@ combos:
   [H, U]: J
   [N, R]: Z
   [M, K]: OneShot(Meta)
+  [⏎, ␣]: OneShot(Alt)
   [H, I]: Enable(SYSTEM)
   [N, S]: Enable(SYSTEM)
   [E, ␣]: ":"
@@ -76,14 +77,18 @@ defs:
 SYSTEM
 
   ⇲ ⍐ ⇱      ॥ ⊕ ⎶
-⇧ 1 2 3 ⬚  ℌ ❮ ✛ ◱ ❯
+⇧ ⇐ ⬚ ⇒ ⬚  ℌ ❮ ✛ ◱ ❯
   ⏷ ▶ ⏶      ⬚ ⬚ ⌕
-      ⍈ ⬚  ⍜ ⬚
+      ⬚ ⬚  ⍜ ⬚
 
 defs:
-  1: Meta(1)        # Desktop 1
-  2: Meta(2)        # Desktop 2
-  3: Meta(3)        # Desktop 3
+  ⇐: Meta(←)        # Focus previous column
+  ⇒: Meta(→)        # Focus next column
+  ⍐: Meta(Ctrl(↑))  # Focus next monitor
+  ⇱: Meta(Alt(→))   # Size up column
+  ⇲: Meta(Alt(←))   # Size down column
+  ⍜: Meta(␣)        # Launcher
+  ▶: Meta(=)        # Play/pause music
   ❮: Alt([)         # Prev term tab
   ❯: Alt(])         # Next term tab
   ⊕: Alt(T)         # New tab
@@ -93,19 +98,9 @@ defs:
   ✛: Alt(W)         # Focus term window
   ℌ: Alt(E)         # Scrollback history
   ⌕: Alt(')         # Fuzzy search
-  ⍐: Meta(Ctrl(K))  # Focus monitor
-  ⍈: Meta(H)        # Focus window
-  ⇱: Meta(Shift(←)) # Size up window
-  ⇲: Meta(Shift(→)) # Size down window
-  ⍜: Meta(␣)        # Launcher
-  ▶: Meta(=)        # Play/pause music
 combos:
   [⏷, ⏶]: ⨯         # Mute
 shifts:
-  ⍐: Meta(Ctrl(M))  # Move window to monitor
-  1: Meta(Shift(1)) # Move window to desktop 1
-  2: Meta(Shift(2)) # Move window to desktop 2
-  3: Meta(Shift(3)) # Move window to desktop 3
   ▶: Meta(=)        # Play/pause mpv
   ⏶: ☼              # Brightness up
   ⏷: ☾              # Brightness down

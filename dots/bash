@@ -1,17 +1,11 @@
-# These need to be defined before `river` is launched.
-export XKB_DEFAULT_OPTIONS=caps:super,compose:ralt,compose:rctrl
+export EDITOR=nvim
 export MOZ_ENABLE_WAYLAND=1
 export GTK_THEME=Adwaita:dark
 export QT_QPA_PLATFORMTHEME=qt6ct
+export ELECTRON_OZONE_PLATFORM_HINT=auto
 
 # For libreoffice to run properly at HiDPI
 export SAL_USE_VCLPLUGIN=gtk3
-
-# Necessary for screensharing etc to work.
-# See <https://github.com/emersion/xdg-desktop-portal-wlr/wiki/%22It-doesn't-work%22-Troubleshooting-Checklist>
-export XDG_CURRENT_DESKTOP=river
-
-export EDITOR=nvim
 
 export BEMENU_OPTS='-i --fn "Source Code Pro Light 12" -l 10 --hf "#598DDC" --tf "#079875" --cw 1'
 for dir in $HOME/.bin $HOME/.local/bin $HOME/.cargo/bin /usr/sbin /var/lib/flatpak/exports/bin/; do

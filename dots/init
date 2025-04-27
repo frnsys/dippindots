@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Wallpaper
+swaybg -o '*' -i ~/.wall.jpg -m fill &
+
+# Fonts
+fc-cache -fv &
+
+# Fix for xdg-desktop-portal failing,
+# causing slow GTK application start ups
+# <https://github.com/swaywm/sway/issues/5732>
+systemctl --user import-environment
+
+# Other daemons
+batt mon &
+agenda remind 5 &
+gammastep &
+# mako &
+kbdd &
+
+# Lock after 5min
+# Sleep after 15min
+# To wake the monitor use `Super+Shift Return` (see below).
+swayidle -w \
+    timeout 300 '~/.bin/lock' \
+    before-sleep '~/.bin/lock' \
+    timeout 900 'systemctl suspend' &
+
+# Prevent sleep when audio is playing
+bash -c 'while true; do sway-audio-idle-inhibit; sleep 1; done' &
+
+# Lock screen to require login.
+sleep 0.2 && bash -c ~/.bin/lock &

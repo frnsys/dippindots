@@ -178,25 +178,14 @@ wm:
 	# Monitor power state control
 	sudo zypper in wlopm
 
-	# kanshi for display management
-	# Get output/monitor connector names
-	# grep . /sys/class/drm/*/status
-	sudo zypper in kanshi
-	mkdir -p ~/.config/kanshi
-	ln -s $(dir)/dots/kanshi ~/.config/kanshi/config
-	sudo zypper in wlr-randr
-
-	sudo zypper in xwayland river xdg-desktop-portal-wlr
+	# WM
+	sudo zypper in niri xdg-desktop-portal-wlr wlr-randr
 
 	# Inhibit idle while audio is playing
 	sudo zypper in libpulse-devel wayland-devel wayland-protocols-devel SwayAudioIdleInhibit
 
-	# River layout system
-	sudo zypper in zig wayland-devel wayland-protocols-devel
-	cargo install --git https://github.com/pkulak/filtile
-
-	mkdir ~/.config/river
-	ln -s $(dir)/dots/river ~/.config/river/init
+	mkdir ~/.config/niri
+	ln -s $(dir)/dots/niri ~/.config/niri/config.kdl
 
 notifications:
 	sudo zypper in mako libnotify-tools
