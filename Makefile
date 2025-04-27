@@ -175,9 +175,6 @@ wm:
 	git clone git@github.com:frnsys/gtklock-virtkb-module.git /tmp/gtklock
 	cd /tmp/gtklock && make && sudo make install
 
-	# Monitor power state control
-	sudo zypper in wlopm
-
 	# WM
 	sudo zypper in niri xdg-desktop-portal-wlr wlr-randr
 

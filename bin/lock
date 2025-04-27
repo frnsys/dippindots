@@ -1,6 +1,6 @@
 #!/bin/bash
 
-trap "makoctl mode -r do-not-disturb; wlopm --on '*'" EXIT
+trap "makoctl mode -r do-not-disturb; niri msg action power-on-monitors '*'" EXIT
 
 style="
 window {
@@ -26,6 +26,6 @@ window label {
 }"
 echo "$style" > /tmp/lock-style.css
 
-wlopm --off '*'
+niri msg action power-off-monitors
 makoctl mode -a do-not-disturb
 gtklock --daemonize -m /usr/local/lib/gtklock/virtkb-module -s /tmp/lock-style.css
