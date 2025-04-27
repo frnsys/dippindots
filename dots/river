@@ -158,9 +158,6 @@ riverctl input $MOUSE pointer-accel 0.6
 float_these=(
     "float"
     "agenda"
-    "yazi"
-    "bluetuith"
-    "pulsemixer"
     "input-edit"
     "todo")
 for title in "${float_these[@]}"
@@ -189,7 +186,6 @@ agenda remind 5 &
 gammastep &
 mako &
 kbdd &
-wayside &
 
 # Lock after 5min
 # Sleep after 15min
