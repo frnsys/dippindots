@@ -62,7 +62,7 @@ NUMBER
 
 ARROWS
 
-  ⬚ ⇞ ⬚      ⇞ ↑ ⇟
+  ⤋ ⇞ ⤊      ⇞ ↑ ⇟
 ↚ ↤ ⇟ ↦ ⬚  ↤ ← ↓ → ↦
   ⬚ ⬚ ⬚      ↚ ⬚ ⌫
       ⬚ ⬚  ∅ ⬚
@@ -77,16 +77,19 @@ defs:
 SYSTEM
 
   ⇲ ⍐ ⇱      ॥ ⊕ ⎶
-⇧ ⇐ ⬚ ⇒ ⬚  ℌ ❮ ✛ ◱ ❯
+⇧ ⇐ ↫ ⇒ ⬚  ℌ ❮ ✛ ◱ ❯
   ⏷ ▶ ⏶      ⬚ ⬚ ⌕
-      ⬚ ⬚  ⍜ ⬚
+      B K  ⍜ ⬚
 
 defs:
   ⇐: Meta(←)        # Focus previous column
   ⇒: Meta(→)        # Focus next column
+  ↫: Meta(↓)        # Focus previously focused window
   ⍐: Meta(Ctrl(↑))  # Focus next monitor
   ⇱: Meta(Alt(→))   # Size up column
   ⇲: Meta(Alt(←))   # Size down column
+  K: Meta(K)        # Focus kitty
+  B: Meta(B)        # Focus browser
   ⍜: Meta(␣)        # Launcher
   ▶: Meta(=)        # Play/pause music
   ❮: Alt([)         # Prev term tab

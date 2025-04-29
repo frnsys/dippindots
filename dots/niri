@@ -92,6 +92,12 @@ binds {
     Mod+W {
         spawn "sh" "-c" "notify-send \"$(niri msg focused-window)\""
     }
+    Mod+K {
+        spawn "sh" "-c" "niri msg action focus-window --id=$(niri msg --json windows | jq '.[] | select(.app_id == \"kitty\").id')"
+    }
+    Mod+B {
+        spawn "sh" "-c" "niri msg action focus-window --id=$(niri msg --json windows | jq '.[] | select(.app_id == \"org.qutebrowser.qutebrowser\").id')"
+    }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
@@ -101,6 +107,8 @@ binds {
 
     Mod+Q { close-window; }
 
+
+    Mod+Down  { focus-window-previous; }
     Mod+Left  { focus-column-left-or-last; }
     Mod+Right { focus-column-right-or-first; }
     Mod+Shift+Left  { move-column-left; }

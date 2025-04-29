@@ -38,12 +38,12 @@ return {
           },
         },
         winopts = {
-          width = 64,
+          fullscreen = true,
+          border = "none",
           preview = {
             default = "bat",
-            layout = "vertical",
-            vertical = "down:70%",
-            border = "border-top",
+            layout = "horizontal",
+            border = "border-left",
           },
         },
         hls = {
@@ -78,6 +78,13 @@ return {
         desc = 'Search by grep'
       },
       {
+        "#",
+        function()
+          require('fzf-lua').grep_cword()
+        end,
+        desc = 'Grep current word'
+      },
+      {
         "Y",
         function()
           require('fzf-lua').lsp_document_symbols({
@@ -102,7 +109,11 @@ return {
       {
         "T",
         function()
-          require('fzf-lua').blines()
+          require('fzf-lua').blines({
+            winopts = {
+              preview = { hidden = true }
+            }
+          })
         end,
         desc = 'Search current buffer lines'
       },

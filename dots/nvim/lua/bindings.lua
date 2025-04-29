@@ -84,14 +84,6 @@ _('(', 'k', {"n", "o", "x"})
 _('<PageDown>', '<c-d>', "n")
 _('<PageUp>', '<c-u>', "n")
 
-
---- Format the document
-_('#', function()
-  local view = vim.fn.winsaveview()
-  vim.cmd("normal! gg=G")
-  vim.fn.winrestview(view)
-end, "n")
-
 --- Use "r" instead of "c";
 --- easier with my layout.
 _('r', 'c', "n")

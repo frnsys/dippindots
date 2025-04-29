@@ -14,7 +14,7 @@ PROGRAM="kway"
 # devices report themselves as keyboards so it's
 # not especially reliable.
 # KEYBOARD="Bastard Keyboards Dilemma"
-KEYBOARD="Aurora Sweep"
+KEYBOARD="smallwat3r Smallcat"
 
 while true; do
     # Check if the program is already running.
