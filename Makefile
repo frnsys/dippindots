@@ -176,7 +176,7 @@ wm:
 	cd /tmp/gtklock && make && sudo make install
 
 	# WM
-	sudo zypper in niri xdg-desktop-portal-wlr wlr-randr
+	sudo zypper in niri xdg-desktop-portal-gnome wlr-randr
 
 	# Inhibit idle while audio is playing
 	sudo zypper in libpulse-devel wayland-devel wayland-protocols-devel SwayAudioIdleInhibit

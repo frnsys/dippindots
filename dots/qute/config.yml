@@ -80,6 +80,7 @@ settings:
     https://github.com: access-paste
     https://translate.google.com: access-paste
     https://www.figma.com: access-paste
+    https://www.google.com: access-paste
   content.mouse_lock:
     https://www.figma.com: true
   content.notifications.enabled:

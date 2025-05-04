@@ -15,7 +15,6 @@ systemctl --user import-environment
 batt mon &
 agenda remind 5 &
 gammastep &
-# mako &
 kbdd &
 
 # Lock after 5min
@@ -27,6 +26,10 @@ swayidle -w \
 
 # Prevent sleep when audio is playing
 bash -c 'while true; do sway-audio-idle-inhibit; sleep 1; done' &
+
+# For screensharing, etc.
+# See <https://github.com/YaLTeR/niri/wiki/Screencasting
+/usr/libexec/xdg-desktop-portal-gnome &
 
 # Lock screen to require login.
 sleep 0.2 && bash -c ~/.bin/lock &

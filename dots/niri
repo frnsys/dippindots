@@ -98,6 +98,7 @@ binds {
     Mod+B {
         spawn "sh" "-c" "niri msg action focus-window --id=$(niri msg --json windows | jq '.[] | select(.app_id == \"org.qutebrowser.qutebrowser\").id')"
     }
+    Mod+L allow-when-locked=true { spawn "lock"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
