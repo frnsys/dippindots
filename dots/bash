@@ -3,6 +3,7 @@ export MOZ_ENABLE_WAYLAND=1
 export GTK_THEME=Adwaita:dark
 export QT_QPA_PLATFORMTHEME=qt6ct
 export ELECTRON_OZONE_PLATFORM_HINT=auto
+export XKB_DEFAULT_OPTIONS=compose:ralt,compose:rctrl
 
 # For libreoffice to run properly at HiDPI
 export SAL_USE_VCLPLUGIN=gtk3

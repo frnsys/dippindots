@@ -15,24 +15,27 @@ defs:
   s: OneShot(Shift)
 combos:
   [A, E]: "."
-  [H, A]: "'"
+  [H, A]: J
   [H, E]: '='
   [R, S]: Esc
   [T, S]: C
-  [R, T]: X
+  [R, T]: C
   [V, W]: Q
   [O, U]: "`"
   [H, U]: J
+  [E, I]: "'"
   [N, R]: Z
+  [R, T, S]: X
   [M, K]: OneShot(Meta)
   [⏎, ␣]: OneShot(Alt)
   [H, I]: Enable(SYSTEM)
   [N, S]: Enable(SYSTEM)
   [E, ␣]: ":"
+  [A, ␣]: ","
   [I, M]: '"'
   [R, ⌫]: "/"
   [N, ⌫]: '"'
-  [R, T, S]: CapsWord
+  [H, A, E]: CapsWord
 shifts:
   '=': '"'
 

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# trap "niri msg action power-on-monitors '*'" EXIT
-
 style="
 window {
   background-color: black
@@ -26,5 +24,6 @@ window label {
 }"
 echo "$style" > /tmp/lock-style.css
 
-# niri msg action power-off-monitors
-gtklock --daemonize -m /usr/local/lib/gtklock/virtkb-module -s /tmp/lock-style.css
+if ! pgrep -x gtklock >/dev/null; then
+    gtklock --daemonize -m /usr/local/lib/gtklock/virtkb-module -s /tmp/lock-style.css
+fi

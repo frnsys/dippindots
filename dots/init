@@ -17,9 +17,6 @@ agenda remind 5 &
 gammastep &
 kbdd &
 
-# Lock after 5min
-# Sleep after 15min
-# To wake the monitor use `Super+Shift Return` (see below).
 swayidle -w \
     timeout 300 '~/.bin/lock' \
     timeout 900 'systemctl suspend' &

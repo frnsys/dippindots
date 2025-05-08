@@ -107,7 +107,7 @@ return {
         desc = 'Search workspace diagnostics'
       },
       {
-        "T",
+        "?",
         function()
           require('fzf-lua').blines({
             winopts = {
@@ -118,7 +118,7 @@ return {
         desc = 'Search current buffer lines'
       },
       {
-        "L",
+        "\"",
         function()
           require('fzf-lua').lsp_live_workspace_symbols({
             regex_filter = function(item)

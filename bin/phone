@@ -10,32 +10,19 @@
 # contains illegal characters, like ":" or "?".
 # See: <https://github.com/google/adb-sync/issues/34>
 
-function sync() {
-    SRC="$1"
-    DEST="$2"
-    shift 2
-    if [[ "$SRC" == /sdcard/* ]]; then
-        adb-sync --reverse $@ "$SRC" "$DEST"
-    else
-        adb-sync $@ "$SRC" "$DEST"
-    fi
-}
-
 # sync directories TO the phone
 cp ~/docs/pass.kdbx ~/docs/deaddrop/
-sync ~/docs/deaddrop/ /sdcard/deaddrop --delete --force --copy-links
+adb-sync ~/docs/deaddrop/ /sdcard/deaddrop --delete --force --copy-links
 
 declare -A backups
 backups[DCIM/Camera]=~/photos/phone/dcim
 backups[Pictures]=~/photos/phone/misc
-backups[tencent/MicroMsg/WeChat]=~/photos/phone/wechat
-backups[Recordings]=~/projects/music/sounds/recordings
 
 # backup (i.e. don't delete)
 # directories FROM the phone
 for DIR in "${!backups[@]}"; do
     echo "Backing up /sdcard/${DIR} -> ${backups[$DIR]}"
-    sync "/sdcard/${DIR}/" "${backups[$DIR]}"
+    adb-sync --reverse "/sdcard/${DIR}/" "${backups[$DIR]}"
 done
 
-sync "/sdcard/Backups/" ~/docs/backups/phone
+adb-sync --reverse "/sdcard/Backups/" ~/docs/backups/phone
