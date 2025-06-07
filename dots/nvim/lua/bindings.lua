@@ -37,7 +37,7 @@ _("<c-u>", "u", "n")
 _("u", "<nop>", "n")
 
 --- Insert and go to new line above.
-_("<s-cr>", "<esc>O", "i")
+-- _("<s-cr>", "<esc>O", "i")
 
 --- Commenting
 _("M", "gcc", "n", true)
@@ -62,13 +62,12 @@ _('<c-b>', 'dbg!();<Left><Left>', "i")
 --- Delete previous word
 _('<c-backspace>', '<c-w>', "i")
 
---- With the neowords plugin, this
---- deletes a subword backwards.
-_('<c-d>', '<esc>dbxi', "i", true)
+--- Delete back to and including the next underscore.
+--- This is kind of like a subword delete.
+_('<c-d>', '<esc><right>dF_i', "i")
 
 --- Splits
 _("|", ":vsplit<cr>", "n")
-_("_", ":split<cr>", "n")
 
 --- Modify `{` and `}`
 --- to go to the start of the line for
@@ -77,18 +76,12 @@ _('}', '}j^', "n")
 _('{', 'k{j^', "n")
 
 --- Moving up and down
-_(')', 'j', {"n", "o", "x"})
-_('(', 'k', {"n", "o", "x"})
-
---- Paging up and down
-_('<PageDown>', '<c-d>', "n")
-_('<PageUp>', '<c-u>', "n")
+-- _(')', 'j', {"n", "o", "x"})
+-- _('(', 'k', {"n", "o", "x"})
 
 --- Use "r" instead of "c";
 --- easier with my layout.
 _('r', 'c', "n")
-
-_("<leader>ww", ":wqa<cr>", "n")
 
 --- This is necessary to avoid nvim's default
 --- bindings (set in `neovim/runtime/ftplugin/rust.vim`)

@@ -34,6 +34,21 @@ vim.api.nvim_create_autocmd("DiagnosticChanged", {
   end,
 })
 
+-- Show errors and warnings in a floating window
+vim.api.nvim_create_autocmd("CursorHold", {
+    callback = function()
+        -- Skip if another floating window is open
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+            local config = vim.api.nvim_win_get_config(win)
+            if config.relative ~= "" then
+                return
+            end
+        end
+        -- Show diagnostics if no other floating windows are present
+        vim.diagnostic.open_float(nil, { focusable = false, source = true })
+    end,
+})
+
 -- Note: must be loaded before plugins
 require('ignore')
 
@@ -49,6 +64,7 @@ EOF
 
 colorscheme futora
 
+set updatetime=500
 set scrolloff=3 				" Start scrolling three lines before border
 set showmatch 					" Show matching brackets
 let &showbreak=' '              " Show this at the start of wrapped lines
@@ -86,13 +102,8 @@ endif
 let g:netrw_browsex_viewer='qutebrowser'
 
 " Hide the command line, use the status line instead
-" The downside with this is frequent "ENTER to continue" prompts
-" This is a hack that sets the `cmdheight=1` when entering a command,
-" then right after leaving, sets it back to 0, thus avoiding the ENTER prompt.
 set cmdheight=0
-au CmdlineEnter * setlocal cmdheight=1 laststatus=0
-au CmdlineLeave * call timer_start(1, { tid -> execute('setlocal cmdheight=0 laststatus=2')})
-set shortmess=WnoOcIatTF " Limit command line messaging
+set shortmess=WnoOcIatTFA " Limit command line messaging
 
 " The command line *is* useful when recording macros, though.
 lua <<EOF

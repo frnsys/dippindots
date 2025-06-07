@@ -52,10 +52,13 @@ return {
   {
     "echasnovski/mini.ai",
     config = function()
-      require('mini.ai').setup({
+      local ai = require('mini.ai')
+      ai.setup({
         custom_textobjects = {
           ['r'] = { { "%b''", '%b""', '%b``' }, '^.().*().$' },
-        },
+          ['b'] = { { '%b()', '%b[]', '%b{}', '%b<>', '%b||' }, '^.().*().$' } },
+          ['a'] = ai.gen_spec.argument(),
+          ['f'] = ai.gen_spec.function_call(),
       })
     end
   },
@@ -73,18 +76,21 @@ return {
     "folke/flash.nvim",
     event = "VeryLazy",
     opts = {
-      labels = "nrtsvbwhaeimldpfoum",
-      search = {
-        multi_window = false,
-        incremental = false,
-        mode = 'exact',
-      },
+      labels = "nrtscbwhaeimldpfoumk",
       label = {
         after = true,
         before = true,
       },
       modes = {
-        char = { enabled = false },
+        char = {
+          enabled = true,
+          jump_labels = true,
+        },
+        search = {
+          enabled = true,
+          multi_window = false,
+          mode = 'exact',
+        },
       },
       prompt = { enabled = false },
     },
@@ -103,10 +109,51 @@ return {
       },
 
       {
+        "H",
+        mode = { "n", "x", "o" },
+        function()
+          local matchers = require("../matchers")
+          require("flash").jump({
+            matcher = matchers.ts_matcher("assignment"),
+            search = { mode = "search", max_length = 0 },
+            jump = { pos = "range", autojump = true },
+          })
+        end
+      },
+
+      {
         "u",
         mode = { "n", "x", "o" },
         function()
-          require("flash").treesitter()
+          local matchers = require("../matchers")
+          require("flash").jump({
+            matcher = matchers.delim_matcher({
+                { '"', '"' },
+                { "'", "'" },
+                { '`', '`' },
+            }, false),
+            search = { mode = "search", max_length = 0 },
+            jump = { pos = "range", autojump = true },
+          })
+        end
+      },
+
+      {
+        "U",
+        mode = { "n", "x", "o" },
+        function()
+          local matchers = require("../matchers")
+          require("flash").jump({
+            matcher = matchers.delim_matcher({
+                { '(', ')' },
+                { '[', ']' },
+                { '<', '>' },
+                { '{', '}' },
+                { '|', '|' },
+            }, false),
+            search = { mode = "search", max_length = 0 },
+            jump = { pos = "range", autojump = true },
+          })
         end
       },
 

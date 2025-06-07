@@ -107,6 +107,15 @@ return {
         desc = 'Search workspace diagnostics'
       },
       {
+        "_",
+        function()
+          require('fzf-lua').buffers({
+            ignore_current_buffer = true,
+          })
+        end,
+        desc = 'Search buffers'
+      },
+      {
         "?",
         function()
           require('fzf-lua').blines({
