@@ -76,6 +76,7 @@ settings:
     https://chat.deepseek.com: access-paste
     https://chatgpt.com: access-paste
     https://crates.io: access-paste
+    https://dash.cloudflare.com: access-paste
     https://emojipedia.org: access-paste
     https://github.com: access-paste
     https://translate.google.com: access-paste
@@ -85,6 +86,7 @@ settings:
     https://www.figma.com: true
   content.notifications.enabled:
     https://calendar.google.com: true
+    https://cftw.zulipchat.com: true
     https://jlcpcb.com: false
     https://www.youtube.com: false
   content.register_protocol_handler:

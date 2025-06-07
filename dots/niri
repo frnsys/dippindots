@@ -39,6 +39,11 @@ animations {
 hotkey-overlay {
     skip-at-startup
 }
+gestures {
+    hot-corners {
+        off
+    }
+}
 
 cursor {
     xcursor-size 24

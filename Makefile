@@ -139,7 +139,8 @@ video:
 		&& sudo ./Build install
 
 audio:
-	sudo zypper in pavucontrol alsa-utils bluez bluetuith
+	sudo zypper in alsa-utils bluez bluetuith
+	flatpak install flathub com.saivert.pwvucontrol
 
 shell:
 	sudo zypper in fish

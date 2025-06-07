@@ -14,7 +14,7 @@ progress_label  = { bold = false }
 progress_normal = { fg = "blue" }
 progress_error  = { fg = "red" }
 
-[manager]
+[mgr]
 border_style  = { fg = "#282828" }
 
 [filetype]
