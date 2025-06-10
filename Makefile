@@ -52,7 +52,7 @@ git:
 	ln -sf $(dir)/dots/git/gitconfig ~/.gitconfig
 
 tools:
-	sudo zypper in -y fzf jq htop tree gnupg ncdu powertop dfc ffmpeg fd ripgrep zoxide
+	sudo zypper in -y fzf jq htop tree gnupg ncdu powertop dfc ffmpeg fd ripgrep
 
 utils:
 	# Note: Run with `sudo -EH yast2`.
@@ -64,7 +64,6 @@ utils:
 
 	cargo install --git https://github.com/frnsys/kpass.git
 	cargo install --git https://github.com/frnsys/agenda.git
-	cargo install --git https://github.com/frnsys/stash.git
 
 	sudo zypper in -y flatpak
 
@@ -128,15 +127,6 @@ video:
 	# mpvc for controlling mpv
 	git clone --depth 1 https://github.com/lwilletts/mpvc.git /tmp/mpvc
 	cd /tmp/mpvc && sudo make install
-
-	# Better way of browsing YouTube.
-	git clone --depth 1 git@github.com:trizen/pipe-viewer.git /tmp/pipe-viewer
-	sudo zypper in perl-Module-Build perl-Data-Dump perl-File-ShareDir perl-Gtk3 perl-JSON
-	opi perl-LWP-UserAgent-Cached
-	cd /tmp/pipe-viewer \
-		&& perl Build.PL --gtk \
-		&& sudo ./Build installdeps \
-		&& sudo ./Build install
 
 audio:
 	sudo zypper in alsa-utils bluez bluetuith

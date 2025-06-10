@@ -16,10 +16,10 @@ defs:
 combos:
   [R, S]: Esc
   [H, A]: J
-  [N, R]: X
   [L, D]: Z
-  [R, T]: V
-  [R, ⌫]: Q
+  [R, T]: X
+  [L, ⌫]: Q
+  [R, ⌫]: V
   [A, E]: "."
   [H, E]: '='
   [H, U]: "/"
@@ -27,16 +27,13 @@ combos:
   [E, I]: "'"
   [S, T]: "~"
   [R, T, S]: CapsWord
+  [C, B, W]: OneShot(Meta)
   [M, K]: OneShot(Meta)
   [⏎, ␣]: OneShot(Alt)
   [H, I]: Enable(SYSTEM)
   [N, S]: Enable(SYSTEM)
   [H, A, E]: Esc
   [E, ␣]: ":"
-  # [E, ␣]: "$"
-  # [A, ␣]: "^"
-  # [I, M]: '"'
-  # [N, ⌫]: '"'
 shifts:
   '=': '"'
 

@@ -41,7 +41,6 @@ end
 
 # fzf
 fzf --fish | source
-zoxide init fish | source
 
 # Easier navigation
 abbr -a .. "cd .."

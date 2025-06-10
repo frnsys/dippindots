@@ -24,14 +24,21 @@ return {
 
       local bigword_hops = neowords.get_word_hops(
         p.any_word,
-        p.hex_color,
         "\\v$", -- Also stop at the end of the line
         "\\v^", -- Also stop at the start of the line
         "\\v%([[:blank:]])@<=[[:punct:]]{2,}" -- Treat sequences of 2 or more punct as a word, preceded by whitespace
       )
-      vim.keymap.set({ "n", "x", "o" }, "W", bigword_hops.forward_start)
-      vim.keymap.set({ "n", "x", "o" }, "B", bigword_hops.backward_start)
-      vim.keymap.set({ "n", "x", "o" }, "E", bigword_hops.forward_end)
+      vim.keymap.set({ "n", "x" }, "W", bigword_hops.forward_start)
+      vim.keymap.set({ "n", "x" }, "B", bigword_hops.backward_start)
+      vim.keymap.set({ "n", "x" }, "E", bigword_hops.forward_end)
+
+      local bigword_change = neowords.get_word_hops(
+        "[-_[:lower:][:upper:][:digit:]]+",
+        "[[:punct:]]"
+      )
+      vim.keymap.set({ "o" }, "W", bigword_change.forward_start)
+      vim.keymap.set({ "o" }, "B", bigword_change.backward_start)
+      vim.keymap.set({ "o" }, "E", bigword_change.forward_end)
 
       local subword_hops = neowords.get_word_hops(
         p.snake_case,
@@ -89,6 +96,7 @@ return {
         search = {
           enabled = true,
           multi_window = false,
+          incremental = true,
           mode = 'exact',
         },
       },
@@ -109,7 +117,7 @@ return {
       },
 
       {
-        "H",
+        "l",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")
@@ -122,7 +130,20 @@ return {
       },
 
       {
-        "u",
+        "H",
+        mode = { "n", "x", "o" },
+        function()
+          local matchers = require("../matchers")
+          require("flash").jump({
+            matcher = matchers.ts_matcher("value"),
+            search = { mode = "search", max_length = 0 },
+            jump = { pos = "range", autojump = true },
+          })
+        end
+      },
+
+      {
+        "U",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")
@@ -139,7 +160,7 @@ return {
       },
 
       {
-        "U",
+        "u",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")

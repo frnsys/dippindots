@@ -9,6 +9,13 @@ local ts_queries = {
     (block
       (_) @statement.outer)
   ]],
+  value = [[
+    (for_expression
+      value: (_) @value)
+
+    (if_expression
+      condition: (_) @value)
+  ]],
   argument = [[
     (call_expression
       arguments: (arguments
