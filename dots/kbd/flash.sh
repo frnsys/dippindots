@@ -13,20 +13,12 @@ set -e
 # Get sudo access
 sudo echo
 
-if [[ "$KEYBOARD" == "aurora-sweep" ]]; then
-  KEYBOARD="splitkb/aurora/sweep"
-fi
-
 KM_DIR="$QMK_DIR/keyboards/${KEYBOARD}/keymaps/${KEYMAP}"
 mkdir -p "$KM_DIR"
 
 kbl $KBL_LAYOUT > "$KM_DIR/keymap.c"
 cp common/config.h "$KM_DIR/config.h"
 cp common/rules.mk "$KM_DIR/rules.mk"
-
-if [[ "$KEYBOARD" == "splitkb/aurora/sweep" ]]; then
-  echo "CONVERT_TO = liatris" >> "$KM_DIR/rules.mk"
-fi
 
 cd $QMK_DIR
 FIRMWARE=$(qmk compile -c -kb ${KEYBOARD} -km ${KEYMAP} | tail -1 | cut -d' ' -f2)

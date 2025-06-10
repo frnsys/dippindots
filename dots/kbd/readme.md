@@ -23,11 +23,3 @@ I maintain my layout in `.kbl`, which is compiled to `keymap.c` using `kbl` (see
 ```
 
 Then hold the Boot button on the RP2040 while plugging it in for it to show up as a USB disk.
-
-# Aurora Sweep
-
-```bash
-~/.dots/dots/kbd/flash.sh aurora-sweep
-```
-
-Double-press the reset button for the controller to be read as a disk.
