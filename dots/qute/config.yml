@@ -80,6 +80,7 @@ settings:
     https://emojipedia.org: access-paste
     https://github.com: access-paste
     https://translate.google.com: access-paste
+    https://v2.tauri.app: access-paste
     https://www.figma.com: access-paste
     https://www.google.com: access-paste
   content.mouse_lock:

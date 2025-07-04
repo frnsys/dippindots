@@ -1,15 +1,19 @@
 #!/bin/bash
 
-TIME=$(date +%F-%T)
-VID=/tmp/recording_${TIME}.mp4
-wf-recorder -a -g "$(slurp)" -f $VID # -a for audio
+if [[ $1 == 'start' ]]; then
+    TIME=$(date +%F-%T)
+    VID=/tmp/recording_${TIME}.mp4
+    wf-recorder -g "$(slurp)" -f $VID # -a for audio
 
-# Trim the last bit (it catches the recording notification)
-DURATION=$(ffprobe -v 0 -show_entries format=duration -of compact=p=0:nk=1 "$VID")
-TRIMMED_DURATION=$(echo "scale=4;$DURATION-1" | bc)
-TRIMMED_VID="${VID%.ogv}.trimmed.mp4"
-ffmpeg -i "$VID" -t $TRIMMED_DURATION -filter:v "crop=iw-4:ih-4" -c:v libx264 -crf 18 -c:a copy "$TRIMMED_VID"
-OUT="$TRIMMED_VID"
+    # Trim the last bit (it catches the recording notification)
+    DURATION=$(ffprobe -v 0 -show_entries format=duration -of compact=p=0:nk=1 "$VID")
+    TRIMMED_DURATION=$(echo "scale=4;$DURATION-1" | bc)
+    TRIMMED_VID="${VID%.ogv}.trimmed.mp4"
+    ffmpeg -i "$VID" -t $TRIMMED_DURATION -filter:v "crop=iw-4:ih-4" -c:v libx264 -crf 18 -c:a copy "$TRIMMED_VID"
+    OUT="$TRIMMED_VID"
 
-echo ${OUT} | wl-copy
-notify-send "[rec] finished: ${OUT}"
+    echo ${OUT} | wl-copy
+    notify-send "[rec] finished: ${OUT}"
+elif [[ $1 == 'stop' ]]; then
+    pkill wf-recorder
+fi

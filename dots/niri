@@ -113,7 +113,6 @@ binds {
 
     Mod+Q { close-window; }
 
-
     Mod+Down  { focus-window-previous; }
     Mod+Left  { focus-column-left-or-last; }
     Mod+Right { focus-column-right-or-first; }
@@ -121,6 +120,8 @@ binds {
     Mod+Shift+Right { move-column-right; }
     Mod+Ctrl+Up  { focus-monitor-next; }
     Mod+Shift+Ctrl+Up  { move-column-to-monitor-next; }
+    Mod+Up  { focus-workspace-down; }
+    Mod+Shift+Up  { focus-workspace-up; }
 
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }

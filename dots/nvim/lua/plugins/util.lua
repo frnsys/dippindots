@@ -11,6 +11,13 @@ return {
     }
   },
 
+  {
+    'junegunn/goyo.vim',
+    ft = { "markdown" },
+    config = function()
+    end
+  },
+
   --- LSP status
   {
     "j-hui/fidget.nvim",

@@ -9,7 +9,6 @@ set -U fish_greeting # Hide greeting
 fish_vi_key_bindings
 function fish_mode_prompt; end # Hide vi mode
 function fish_prompt -d "Custom prompt"
-
     # Define shorthands for hostnames.
     set full_hostname (hostname)
     switch $full_hostname

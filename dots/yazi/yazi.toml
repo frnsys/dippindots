@@ -15,9 +15,6 @@ max_height = 900
 cache_dir  = ""
 
 [opener]
-folder = [
-	{ run = 'nvim "$@"' },
-]
 archive = [
 	{ run = 'unar "$1"', desc = "Extract here" },
 ]
@@ -54,7 +51,7 @@ csvs = [
     { run = 'tabv "$@"', block = true },
 ]
 markdown = [
-    { run = 'inlyne --theme dark "$@"', desc = "Inlyne" },
+    { run = 'flatpak run org.gnome.gitlab.somas.Apostrophe "$@"', desc = "Apostrophe" },
 ]
 html = [
     { run = 'firefox "$@"', desc = "Browser" },
@@ -99,6 +96,10 @@ rules = [
 micro_workers = 5
 macro_workers = 10
 bizarre_retry = 5
+
+# If seeing "Image size exceeds limit"
+# when previewing an image, increase this.
+image_bound = [8000, 8000]
 
 [log]
 enabled = false

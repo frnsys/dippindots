@@ -83,6 +83,9 @@ set splitright                  " Open vsplits on the right by default
 set splitbelow                  " Open hsplits on below by default
 set jumpoptions=stack,view,clean
 
+set title
+set titlestring=%t
+
 set list                        " Show invisible characters:
 set listchars=""                " - Reset the listchars
 set listchars=tab:\ \           " - A tab should display as "  "

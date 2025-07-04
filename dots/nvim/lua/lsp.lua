@@ -145,3 +145,25 @@ vim.lsp.config["rust"] = {
   }
 }
 vim.lsp.enable('rust')
+
+-- pip install pyright
+vim.lsp.config["python"] = {
+  cmd = { 'pyright-langserver', '--stdio' },
+  filetypes = { "python" },
+  root_markers = {
+    "requirements.txt",
+    "pyrightconfig.json",
+    "pyproject.toml",
+    "mise.toml",
+  },
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+        typeCheckingMode = "strict",
+      },
+    },
+  },
+}
+vim.lsp.enable('python')

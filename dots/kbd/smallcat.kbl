@@ -10,29 +10,33 @@ holds:
   ⏎: Layer(ARROWS)
   T: Layer(SYMBOL)
   A: Layer(NUMBER)
-  ⌫: Layer(SYMBOL)
+  ⌫: Layer(NUMBER)
 defs:
   s: OneShot(Shift)
 combos:
   [R, S]: Esc
-  [H, A]: J
-  [L, D]: Z
+  [L, D]: Q
   [R, T]: X
-  [L, ⌫]: Q
-  [R, ⌫]: V
+  [L, P]: Y
+  [R, ⌫]: "V"
+  [N, ⌫]: Shift(V)
+  [T, ⌫]: "&"
+  [N, R]: "~"
   [A, E]: "."
   [H, E]: '='
-  [H, U]: "/"
+  [H, U]: "'"
   [O, U]: "`"
-  [E, I]: "'"
-  [S, T]: "~"
-  [R, T, S]: CapsWord
-  [C, B, W]: OneShot(Meta)
+  [A, I]: "/"
+  [H, A]: "_"
+  [T, S]: J
+  [D, P]: Z
+  [N, R, S]: OneShot(Meta)
+  [R, T, S]: OneShot(Ctrl)
   [M, K]: OneShot(Meta)
   [⏎, ␣]: OneShot(Alt)
   [H, I]: Enable(SYSTEM)
   [N, S]: Enable(SYSTEM)
-  [H, A, E]: Esc
+  [H, A, E]: OneShot(Shift)
   [E, ␣]: ":"
 shifts:
   '=': '"'
@@ -59,6 +63,11 @@ NUMBER
   7 8 9      ¸ ⬚ ⬚
       ⬚ 0  ´ ˋ
 
+combos:
+  ["1", "3"]: "0"
+  ["2", "3"]: "4"
+  ["1", "2"]: "5"
+
 ---
 
 ARROWS
@@ -78,7 +87,7 @@ defs:
 SYSTEM
 
   ⇲ ⍐ ⇱      ℌ ⊕ ॥
-⇧ ⇐ ↫ ⇒ ⬚  ⎶ ❮ ✛ ◱ ❯
+⇧ ⇐ ↫ ⇒ ⇑  ⎶ ❮ ✛ ◱ ❯
   ⏷ ▶ ⏶      ⬚ ⬚ ⌕
       B K  ⍜ ⬚
 
@@ -86,6 +95,7 @@ defs:
   ⇐: Meta(←)        # Focus previous column
   ⇒: Meta(→)        # Focus next column
   ↫: Meta(↓)        # Focus previously focused window
+  ⇑: Meta(↑)        # Focus previous workspace
   ⍐: Meta(Ctrl(↑))  # Focus next monitor
   ⇱: Meta(Alt(→))   # Size up column
   ⇲: Meta(Alt(←))   # Size down column
