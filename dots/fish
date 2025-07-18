@@ -112,7 +112,6 @@ function shrinkvid
     set --local input $argv[1]
     set --local output (path change-extension sm.mp4 $input)
     ffmpeg -i "$input" -vf "scale='if(gt(ih,720),trunc(oh*a/2)*2,iw)':'if(gt(ih,720),720,ih)'" -vcodec libx264 -crf 23 -preset fast -c:a aac "$output"
-
 end
 
 # For colorschemes

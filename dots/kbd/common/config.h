@@ -1,5 +1,8 @@
 #pragma once
 
+// Use right side as main side.
+#define MASTER_RIGHT
+
 // Avoid space being triggered twice.
 #define DEBOUNCE 10
 #define DEBOUNCE_TYPE sym_eager_pk

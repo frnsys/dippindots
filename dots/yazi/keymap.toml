@@ -91,9 +91,6 @@ keymap = [
 	{ on = [ "g", "<Space>" ], run = "cd --interactive", desc = "Go to a directory interactively" },
 
 	{ on = [ "g", "f" ],       run = "cd ~/projects/fugue",    desc = "Go to the fugue directory" },
-
-    # Custom
-	{ on = [ "<C-v>" ], run = "shell '~/projects/tools/scripts/vid_manage/merge_clips clips/*.mp4 && rm -r clips && notify-send Finished' --confirm", desc = "Compile clips" },
 ]
 
 [tasks]

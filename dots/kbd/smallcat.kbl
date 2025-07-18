@@ -15,9 +15,9 @@ defs:
   s: OneShot(Shift)
 combos:
   [R, S]: Esc
-  [L, D]: Q
-  [R, T]: X
-  [L, P]: Y
+  [L, D]: "Q"
+  [R, T]: "X"
+  [L, P]: "Y"
   [R, ⌫]: "V"
   [N, ⌫]: Shift(V)
   [T, ⌫]: "&"
@@ -26,10 +26,9 @@ combos:
   [H, E]: '='
   [H, U]: "'"
   [O, U]: "`"
-  [A, I]: "/"
-  [H, A]: "_"
-  [T, S]: J
-  [D, P]: Z
+  [H, A]: "J"
+  [T, S]: "/"
+  [D, P]: "Z"
   [N, R, S]: OneShot(Meta)
   [R, T, S]: OneShot(Ctrl)
   [M, K]: OneShot(Meta)
@@ -72,7 +71,7 @@ combos:
 
 ARROWS
 
-  ⤋ ⇞ ⤊      ⬚ ↑ ⬚
+  ⬚ ⇞ ⬚      ⬚ ↑ ⬚
 ↚ ↤ ⇟ ↦ ⬚  ↤ ← ↓ → ↦
   ⬚ ⬚ ⬚      ↚ ⬚ ⌫
       ⇞ ⇟  ∅ ⬚
