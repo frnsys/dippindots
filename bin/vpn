@@ -1,8 +1,10 @@
 #!/bin/bash
 # Note: Run `sudo visudo` add `francis ALL=NOPASSWD: /usr/bin/wg-quick`
 
-# Expects /etc/wireguard/airvpn-ch.conf
-CONFIG=airvpn-ch
+# Use: `sudo ls /etc/wireguard`
+# Expects /etc/wireguard/{CONFIG}.conf
+# CONFIG=airvpn-ch
+CONFIG=airvpn-nyc
 
 if [[ $1 == 'up' ]]; then
     sudo wg-quick up $CONFIG

@@ -1,0 +1,129 @@
+ALPHA
+
+B L D C V  J Y O U ,
+N R T S G  P H A E I
+X Q M W Z  K F ' ; .
+      ⌫ s  ⏎ ␣
+
+holds:
+  ␣: Ctrl
+  ⏎: Layer(ARROWS)
+  T: Layer(NUMSYM)
+  A: Layer(NUMSYM)
+  ⌫: Layer(NUMSYM)
+defs:
+  s: OneShot(Shift)
+combos:
+  [R, S]: Esc
+
+  # Accents
+  [R, ⌫]: "¸"
+  [N, ⌫]: "¨"
+  [N, R]: "´"
+  [N, T]: "ˋ"
+  [T, ⌫]: "€"
+
+  # Symbols
+  [L, D]: "^"
+  [O, U]: "~"
+  [H, U]: "`"
+  [D, C]: "&"
+  [A, E]: "?"
+  [R, T]: "*"
+  [H, A]: "-"
+  [H, E]: '='
+  [T, S]: "/"
+  [E, ␣]: ":"
+
+  [L, C]: "Y" # For Blender
+
+  [N, R, S]: OneShot(Meta)
+  [R, T, S]: OneShot(Ctrl)
+  [M, K]: OneShot(Meta)
+  [⏎, ␣]: OneShot(Alt)
+  [H, I]: Enable(SYSTEM)
+  [N, S]: Enable(SYSTEM)
+  [H, A, E]: OneShot(Shift)
+  [L, D, C]: Ctrl(C)
+  [Q, M, W]: Ctrl(V)
+shifts:
+  '=': '"'
+  '-': '_'
+  '?': '!'
+  '/': '\\'
+  '*': '@'
+  ':': '|'
+  '&': '+'
+  '^': 'ˆ'
+  '.': '$'
+  ';': '%'
+  ',': ',' # TODO
+  "'": ',' # TODO
+
+---
+
+NUMSYM
+
+⬚ 4 5 6 ⬚  ⬚ # [ ] ⬚
+⬚ 1 2 3 ⬚  ⬚ { ( ) }
+⬚ 7 8 9 ⬚  ⬚ ⬚ < > ⬚
+      0 ⇥  Y P
+
+defs:
+  Y: Shift(Alt(C))  # Terminal copy
+  P: Shift(Alt(P))  # Terminal paste
+combos:
+  ["1", "3"]: "0"
+  ["2", "3"]: "4"
+  ["1", "2"]: "5"
+
+---
+
+ARROWS
+
+⬚ ⬚ ⇞ ⬚ ⬚  ⬚ ⬚ ↑ ⬚ ⬚
+↚ ↤ ⇟ ↦ ⬚  ↤ ← ↓ → ↦
+⬚ ⬚ ⬚ ⬚ ⬚  ⬚ ↚ ⬚ ⌫ ⬚
+      ⇞ ⇟  ∅ ⬚
+
+defs:
+  ↚: Ctrl(W)
+  ↤: Ctrl(Left)
+  ↦: Ctrl(Right)
+
+---
+
+SYSTEM
+
+⬚ ⇲ ⍐ ⇱ ⬚  ⬚ ℌ ⊕ ॥ ⬚
+⇧ ⇐ ↫ ⇒ ⇑  ⎶ ❮ ✛ ◱ ❯
+⬚ ⏷ ▶ ⏶ ⬚  ⬚ ⬚ ⬚ ⌕ ⬚
+      B K  ⍜ ⬚
+
+defs:
+  ⇐: Meta(←)        # Focus previous column
+  ⇒: Meta(→)        # Focus next column
+  ↫: Meta(↓)        # Focus previously focused window
+  ⇑: Meta(↑)        # Focus previous workspace
+  ⍐: Meta(Ctrl(↑))  # Focus next monitor
+  ⇱: Meta(Alt(→))   # Size up column
+  ⇲: Meta(Alt(←))   # Size down column
+  K: Meta(K)        # Focus kitty
+  B: Meta(B)        # Focus browser
+  ⍜: Meta(␣)        # Launcher
+  ▶: Meta(=)        # Play/pause music
+  ❮: Alt([)         # Prev term tab
+  ❯: Alt(])         # Next term tab
+  ⊕: Alt(T)         # New tab
+  ⎶: Alt(-)         # Horizontal split
+  ॥: Alt(\)         # Vertical split
+  ◱: Alt(M)         # Maximize term window
+  ✛: Alt(W)         # Focus term window
+  ℌ: Alt(E)         # Scrollback history
+  ⌕: Alt(')         # Fuzzy search
+combos:
+  [⏷, ⏶]: ⨯         # Mute
+shifts:
+  ▶: Meta(=)        # Play/pause mpv
+  ⏶: ☼              # Brightness up
+  ⏷: ☾              # Brightness down

@@ -29,7 +29,7 @@ gif = [
 ]
 image = [
 	{ run = 'vu "$@"', desc = "Open" },
-	{ run = 'pinta "$@"', block = false, desc = "Edit" },
+	{ run = 'flatpak run com.github.PintaProject.Pinta "$@"', block = false, desc = "Edit" },
 	{ run = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF" },
 ]
 video = [

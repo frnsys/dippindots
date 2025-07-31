@@ -73,7 +73,7 @@ return {
       {
         "<tab>",
         function()
-          require('fzf-lua').live_grep_glob()
+          require('fzf-lua').live_grep()
         end,
         desc = 'Search by grep'
       },

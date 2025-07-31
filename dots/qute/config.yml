@@ -83,6 +83,7 @@ settings:
     https://v2.tauri.app: access-paste
     https://www.figma.com: access-paste
     https://www.google.com: access-paste
+    https://www.ovh.com: access-paste
   content.mouse_lock:
     https://www.figma.com: true
   content.notifications.enabled:
