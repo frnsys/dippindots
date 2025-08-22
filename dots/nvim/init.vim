@@ -144,6 +144,9 @@ au FileType text setlocal spell spelllang=fr,en_us complete+=kspell
 " Gliss tooling
 au BufNewFile,BufRead *.script lua require('gliss/verses')
 au BufNewFile,BufRead *.md lua require('gliss/loom')
+au BufNewFile,BufRead *.uss :setl ft=css
+au BufNewFile,BufRead *.tss :setl ft=css
+
 
 " Automatically trim trailing whitespace on save.
 au BufWritePre * :%s/\s\+$//e

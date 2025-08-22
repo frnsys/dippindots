@@ -66,12 +66,15 @@ return {
       {
         "&",
         function()
-          require('fzf-lua').files()
+          require('fzf-lua').files({
+            cmd = "rg --files --hidden --ignore --glob='!.git' --sortr=modified",
+            fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
+          })
         end,
         desc = 'Search files by name'
       },
       {
-        "<tab>",
+        "+",
         function()
           require('fzf-lua').live_grep()
         end,

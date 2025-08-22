@@ -91,6 +91,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
       'ts', vim.lsp.buf.definition)
     bind('Rename symbol',
       'tw', vim.lsp.buf.rename)
+    bind('Show diagostics',
+      'tn', function()
+        vim.diagnostic.open_float(0, { scope = "line", focus = false })
+      end)
 
     -- Format on write
     vim.api.nvim_create_autocmd("BufWritePre", {
@@ -167,3 +171,5 @@ vim.lsp.config["python"] = {
   },
 }
 vim.lsp.enable('python')
+
+require('gliss/unity')
