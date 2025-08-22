@@ -4,8 +4,6 @@ local utils = require "mp.utils"
 local msg = require "mp.msg"
 local options = require "mp.options"
 
-local ON_WINDOWS = (package.config:sub(1,1) ~= "/")
-
 local start_timestamp = nil
 local profile_start = ""
 
@@ -66,9 +64,6 @@ function get_output_string(dir, format, input, extension, title, from, to, profi
     output = string.gsub(output, "$d", function() return seconds_to_time_string(to-from, true) end)
     output = string.gsub(output, "$x", function() return extension end)
     output = string.gsub(output, "$p", function() return profile end)
-    if ON_WINDOWS then
-        output = string.gsub(output, "[/\\|<>?:\"*]", "_")
-    end
     if not string.find(output, "$n") then
         return files[output] and nil or output
     end
@@ -82,39 +77,9 @@ function get_output_string(dir, format, input, extension, title, from, to, profi
     end
 end
 
-function get_video_filters()
-    local filters = {}
-    for _, vf in ipairs(mp.get_property_native("vf")) do
-        local name = vf["name"]
-        name = string.gsub(name, '^lavfi%-', '')
-        local filter
-        if name == "crop" then
-            local p = vf["params"]
-            filter = string.format("crop=%d:%d:%d:%d", p.w, p.h, p.x, p.y)
-        elseif name == "mirror" then
-            filter = "hflip"
-        elseif name == "flip" then
-            filter = "vflip"
-        elseif name == "rotate" then
-            local rotation = vf["params"]["angle"]
-            -- rotate is NOT the filter we want here
-            if rotation == "90" then
-                filter = "transpose=clock"
-            elseif rotation == "180" then
-                filter = "transpose=clock,transpose=clock"
-            elseif rotation == "270" then
-                filter = "transpose=cclock"
-            end
-        end
-        filters[#filters + 1] = filter
-    end
-    return filters
-end
-
 function get_input_info(default_path, only_active)
     local accepted = {
         video = true,
-        -- audio = not mp.get_property_bool("mute"),
         audio = true,
         sub = mp.get_property_bool("sub-visibility")
     }
@@ -186,18 +151,6 @@ function start_encoding(from, to, settings)
     append_args({"-to", tostring(to-from)})
     append_args(track_args)
 
-    -- apply some of the video filters currently in the chain
-    local filters = {}
-    if settings.preserve_filters then
-        filters = get_video_filters()
-    end
-    if settings.append_filter ~= "" then
-        filters[#filters + 1] = settings.append_filter
-    end
-    if #filters > 0 then
-        append_args({ "-filter:v", table.concat(filters, ",") })
-    end
-
     -- split the user-passed settings on whitespace
     for token in string.gmatch(settings.codec, "[^%s]+") do
         args[#args + 1] = token
@@ -226,7 +179,6 @@ function start_encoding(from, to, settings)
 
     if settings.print then
         local o = ""
-        -- fuck this is ugly
         for i = 1, #args do
             local fmt = ""
             if i == 1 then

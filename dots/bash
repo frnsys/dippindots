@@ -8,7 +8,7 @@ export XKB_DEFAULT_OPTIONS=compose:ralt,compose:rctrl
 # For libreoffice to run properly at HiDPI
 export SAL_USE_VCLPLUGIN=gtk3
 
-export BEMENU_OPTS='-i --fn "Source Code Pro Light 12" -l 10 --hf "#598DDC" --tf "#079875" --cw 1'
+export BEMENU_OPTS='-i --fn "Space Mono 12" -l 10 --hf "#598DDC" --tf "#079875" --cw 1'
 for dir in $HOME/.bin $HOME/.local/bin $HOME/.cargo/bin /usr/sbin /var/lib/flatpak/exports/bin/; do
     export PATH="$dir:$PATH"
 done

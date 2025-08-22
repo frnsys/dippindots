@@ -24,9 +24,6 @@ function fish_prompt -d "Custom prompt"
         (set_color "#00af87") $shorthand_name (set_color "#333333") (set_color "#FD453A") (prompt_pwd) (set_color "#333333") (set_color "#484848") (fish_git_prompt %s) (set_color normal)
 end
 
-# Setup GDAL for GIS stuff
-set -U GDAL_DATA /usr/share/gdal
-
 set PATH $HOME/.bin $HOME/.local/bin $HOME/.cargo/bin /usr/sbin /var/lib/flatpak/exports/bin/ $PATH
 
 if type -q gsettings

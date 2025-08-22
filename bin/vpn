@@ -3,8 +3,8 @@
 
 # Use: `sudo ls /etc/wireguard`
 # Expects /etc/wireguard/{CONFIG}.conf
-# CONFIG=airvpn-ch
-CONFIG=airvpn-nyc
+CONFIG=airvpn-ch
+# CONFIG=airvpn-nyc
 
 if [[ $1 == 'up' ]]; then
     sudo wg-quick up $CONFIG

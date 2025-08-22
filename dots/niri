@@ -51,6 +51,11 @@ cursor {
     hide-after-inactive-ms 1000
 }
 
+spawn-at-startup "xwayland-satellite"
+environment {
+    DISPLAY ":0"
+}
+
 spawn-at-startup "bash" "-c" "~/.dots/dots/init"
 
 window-rule {
@@ -90,19 +95,10 @@ binds {
     Mod+G { spawn "hyprpicker" "--autocopy"; }
     Mod+Shift+Plus { spawn "mpc" "toggle"; }
     Mod+Plus { spawn "mpvc" "-S" "/tmp/mpvsocket" "toggle"; }
-    Mod+T { spawn "sh" "-c" "kitty --title todo --working-directory ~/notes -e nvim todo.md"; }
     Mod+Space { spawn "sh" "-c" "bemenu-run -l 10 -p \">\""; }
+    Mod+Comma { spawn "sh" "-c" "kitty --title ncmpcpp -e ncmpcpp"; }
+    Mod+T { spawn "sh" "-c" "kitty --title todo --working-directory ~/notes -e nvim todo.md"; }
     Mod+P { spawn "sh" "-c" "kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx"; }
-    Mod+Semicolon { spawn "sh" "-c" "kitty --title ncmpcpp -e ncmpcpp"; }
-    Mod+W {
-        spawn "sh" "-c" "notify-send \"$(niri msg focused-window)\""
-    }
-    Mod+K {
-        spawn "sh" "-c" "niri msg action focus-window --id=$(niri msg --json windows | jq '.[] | select(.app_id == \"kitty\").id')"
-    }
-    Mod+B {
-        spawn "sh" "-c" "niri msg action focus-window --id=$(niri msg --json windows | jq '.[] | select(.app_id == \"org.qutebrowser.qutebrowser\").id')"
-    }
     Mod+L allow-when-locked=true { spawn "lock"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
@@ -112,6 +108,7 @@ binds {
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "10000-"; }
 
     Mod+Q { close-window; }
+    Mod+Alt+O { power-off-monitors; }
 
     Mod+Down  { focus-window-previous; }
     Mod+Left  { focus-column-left-or-last; }

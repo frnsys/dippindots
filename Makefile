@@ -52,7 +52,7 @@ git:
     ln -sf $(dir)/dots/git/gitconfig ~/.gitconfig
 
 tools:
-    sudo zypper in -y fzf jq htop tree gnupg ncdu powertop dfc ffmpeg fd ripgrep pik
+    sudo zypper in -y fzf jq htop tree gnupg ncdu dfc ffmpeg fd ripgrep pik
 
 utils:
     # Note: Run with `sudo -EH yast2`.
@@ -245,6 +245,7 @@ theme:  # wallpaper, fonts, etc
     fnt install google-ibmplexsans
     fnt install google-nanummyeongjo
     fnt install fonts-fantasque-sans
+    fnt install google-atkinsonhyperlegible
 
     sudo mkdir /usr/share/fonts/truetype/robotomono
     sudo wget --content-disposition -P /usr/share/fonts/truetype/robotomono https://github.com/googlefonts/RobotoMono/raw/main/fonts/ttf/RobotoMono-{Bold,BoldItalic,Italic,Light,LightItalic,Medium,MediumItalic,Regular,Thin,ThinItalic}.ttf
@@ -259,8 +260,10 @@ theme:  # wallpaper, fonts, etc
     sudo zypper addlock plymouth
 
 tweaks:
-    sudo zypper in tuned acpi libinput-tools
-    sudo systemctl enable --now tuned
+    sudo zypper in acpi powertop libinput-tools
+    sudo zypper in --no-recommends tlp
+    sudo systemctl enable --now tlp
+    # sudo systemctl enable --now powertop
 
 	# For AMD Vulkan
 	sudo zypper in libvulkan_radeon
