@@ -1,14 +1,12 @@
 ALPHA
 
-Q L D C P  F Y O U '
-N R T S G  J H A E I
-X V B W Z  - M , K /
+Q L D C B  - F O U J
+N R T S G  Y H A E I
+X V M W Z  K P , ' /
       ⌫ s  ⏎ ␣
 
 holds:
   ␣: Ctrl
-  T: Layer(NUMSYM)
-  A: Layer(NUMSYM)
   ⏎: Layer(ARROWS)
 defs:
   s: OneShot(Shift)
@@ -18,65 +16,67 @@ combos:
   # Layers
   [H, I]: Enable(SYSTEM)
   [N, S]: Enable(SYSTEM)
-  [s, ␣]: Enable(NUMSYM)
+  [H, A, E]: Enable(NUMSYM)
 
   # Modifiers
   [N, R, S]: OneShot(Meta)
-  [R, T, S]: OneShot(Ctrl)
-  [M, K]: OneShot(Meta)
-  [⏎, ␣]: OneShot(Ctrl)
-  [⌫, s]: OneShot(Alt)
-  [H, A, E]: CapsWord
+  [P, "'"]: OneShot(Meta)
+  [⌫, s]: OneShot(Ctrl)
+
+  # Shortcuts
+  [R, T, S]: Shift(Alt(C))  # Terminal copy
+  [N, R, T, S]: Shift(Alt(P))  # Terminal paste
 
   # Accents
-  [N, ⌫]: "¨"
+  [N, ⌫]: "ˆ"
   [R, ⌫]: "´"
   [T, ⌫]: "ˋ"
-  [S, ⌫]: "¸"
-  [N, T]: "ˆ"
-  [N, R]: "€"
+  [G, ⌫]: "¨"
+  [S, ⌫]: "€"
+  [O, ␣]: "¸"
 
   # Symbols
-  [L, D]: "^"
-  [H, U]: "`"
-  [O, U]: "$"
+  [N, T]: "^"
+  [A, ␣]: "$"
   [A, E]: "."
   [R, T]: "*"
   [H, E]: '='
   [H, A]: "_"
   [T, S]: "⇥"
   [E, ␣]: ":"
-  [",", "/"]: "~"
+  [O, U]: "#"
+  [L, D]: "%"
+  [H, U]: '`'
+  [",", "'"]: ">"
+  ["V", "M"]: "<"
 
   # For Blender
   [L, C]: "Y"
-  [D, C]: "Z"
 shifts:
-  '=': '"'
-  '-': '#'
+  '=': '!'
+  '-': '_'
   '/': '\\'
   '*': '&'
   ':': '|'
-  '_': '+'
-  '$': '@'
-  '^': '%'
+  '%': '@'
+  '#': '+'
   '.': ';'
   ',': '?'
-  "'": '!'
+  "'": '"'
+  '`': "~"
+  '>': '}'
+  '<': '{'
   ␣: Enable(NUMSYM)
 
 ---
 
 NUMSYM
 
-⬚ 4 5 6 p  ⬚ # [ ] ⬚
-⬚ 1 2 3 ⬚  ⬚ { ( ) }
-c 7 8 9 ⬚  ⬚ ⬚ < > ⬚
+, 4 5 6 ⬚  ⬚ # [ ] ⬚
+0 1 2 3 ⬚  ⬚ { ( ) }
+. 7 8 9 ⬚  ⬚ ⬚ < > ⬚
       ⌫ 0  ⬚ ⬚
 
-defs:
-  c: Shift(Alt(C))  # Terminal copy
-  p: Shift(Alt(P))  # Terminal paste
 combos:
   ["1", "3"]: "0"
   ["2", "3"]: "4"
@@ -87,8 +87,8 @@ combos:
 ARROWS
 
 ⬚ ⬚ ⬚ ⬚ ⬚  ⇞ ↤ ↑ ↦ ⇟
-⬚ ⬚ V ⬚ ⬚  ⬚ ← ↓ → ⬚
-⬚ ⬚ ⬚ ⬚ ⬚  ⬚ ⌫ ⬚ ↚ ⬚
+⬚ ↤ ↚ ↦ ⬚  ⬚ ← ↓ → ⬚
+⬚ V ⬚ ⬚ ⬚  ⬚ ⌫ ⬚ ↚ ⬚
       ⬚ ⬚  ∅ ⬚
 
 defs:
