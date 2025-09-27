@@ -23,6 +23,8 @@ text = [
 ]
 pdf = [
 	{ run = 'zathura "$@"', block = false },
+	{ run = 'okular "$@"', block = false },
+	{ run = 'evince "$@"', block = false },
 ]
 gif = [
 	{ run = 'vu "$@"', block = false },
@@ -67,6 +69,7 @@ rules = [
 	{ name = "*.csv", use = "csv" },
 	{ name = "*.tsv", use = "csv" },
 	{ name = "*.csvs", use = "csvs" },
+	{ name = "*.txt", use = ["text"] },
 	{ name = "*.html", use = ["text", "html"] },
 	{ name = "*.md", use = ["text", "markdown"] },
 

@@ -141,13 +141,12 @@ au FileType lua setlocal softtabstop=2 tabstop=2 shiftwidth=2
 au FileType markdown setlocal softtabstop=2 tabstop=2 shiftwidth=2
 au FileType markdown setlocal spell spelllang=fr,en_us complete+=kspell
 au FileType text setlocal spell spelllang=fr,en_us complete+=kspell
-
-" Gliss tooling
-au BufNewFile,BufRead *.script lua require('gliss/verses')
-au BufNewFile,BufRead *.md lua require('gliss/loom')
 au BufNewFile,BufRead *.uss :setl ft=css
 au BufNewFile,BufRead *.tss :setl ft=css
 
+" Gliss tooling
+"au BufNewFile,BufRead *.script lua require('gliss/verses')
+au BufNewFile,BufRead *.md lua require('gliss/loom')
 
 " Automatically trim trailing whitespace on save.
 au BufWritePre * :%s/\s\+$//e

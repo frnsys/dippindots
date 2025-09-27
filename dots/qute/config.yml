@@ -82,16 +82,12 @@ settings:
     https://emojipedia.org: access-paste
     https://github.com: access-paste
     https://translate.google.com: access-paste
-    https://v2.tauri.app: access-paste
     https://www.figma.com: access-paste
     https://www.google.com: access-paste
-    https://www.ovh.com: access-paste
   content.mouse_lock:
     https://www.figma.com: true
   content.notifications.enabled:
     https://calendar.google.com: true
-    https://cftw.zulipchat.com: true
-    https://jlcpcb.com: false
     https://www.youtube.com: false
   content.register_protocol_handler:
     https://calendar.google.com?cid=%25s: true
