@@ -206,6 +206,11 @@ set -Ux fish_color_host --bold brgreen
 set -Ux fish_color_host_remote --bold red
 set -Ux fish_color_cancel red
 
+# Needed for GPG to work correctly
+set -x GPG_TTY (tty)
+set -e GPG_AGENT_INFO
+gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+
 # Launch WM from the login tty.
 if test -z "$DISPLAY"; and test (tty) = "/dev/tty1"
     niri --session
