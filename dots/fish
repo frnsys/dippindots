@@ -103,12 +103,26 @@ function mkv2mp4
     ffmpeg -i "$input" -preset veryfast -c:v libx264 -c:a aac "$output"
 end
 
+function mp32m4a
+    set --local input $argv[1]
+    set --local output (path change-extension m4a $input)
+    ffmpeg -i "$input" -c:a libfdk_aac -vbr 4 "$output"
+end
+
 function shrinkvid
     # libx264 is way faster than libx265 but maybe doesn't get as small
     # higher crf -> lower quality
     set --local input $argv[1]
     set --local output (path change-extension sm.mp4 $input)
     ffmpeg -i "$input" -vf "scale='if(gt(ih,720),trunc(oh*a/2)*2,iw)':'if(gt(ih,720),720,ih)'" -vcodec libx264 -crf 23 -preset fast -c:a aac "$output"
+end
+
+function gitsizes
+    git rev-list --objects --all \
+      | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' \
+      | awk '/^blob/ {print $3, $4}' \
+      | sort -nr \
+      | head -20
 end
 
 # For colorschemes
