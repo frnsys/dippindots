@@ -3,6 +3,10 @@ let mapleader=","
 set shell=fish
 
 lua <<EOF
+-- Disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Automatically install Lazy plugin manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -48,9 +52,6 @@ vim.api.nvim_create_autocmd("CursorHold", {
         vim.diagnostic.open_float(nil, { focusable = false, source = true })
     end,
 })
-
--- Note: must be loaded before plugins
-require('ignore')
 
 require('lazy').setup('plugins')
 

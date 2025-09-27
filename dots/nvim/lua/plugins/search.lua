@@ -8,6 +8,23 @@ local function ra_flycheck()
   end
 end
 
+-- Auto-launch fzf-lua when opening a directory
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function(data)
+    -- If nvim was started with a directory
+    if vim.fn.isdirectory(data.file) == 1 then
+      require('fzf-lua').files({
+        cwd = require("fzf-lua").path.git_root({}),
+        cmd = "rg --files --hidden --ignore --glob='!.git'",
+        fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
+        winopts = {
+          fullscreen = false,
+        }
+      })
+    end
+  end
+})
+
 return {
   {
     "ibhagwan/fzf-lua",
@@ -24,7 +41,8 @@ return {
         },
         files = {
           previewer = false,
-          formatter = "path.filename_first",
+          formatter = "path.dirname_first",
+          -- formatter = "path.filename_first",
         },
         grep = {
           formatter = "path.filename_first",
@@ -64,11 +82,47 @@ return {
     end,
     keys = {
       {
-        "&",
+        "-",
         function()
           require('fzf-lua').files({
-            cmd = "rg --files --hidden --ignore --glob='!.git' --sortr=modified",
+            cwd = require("fzf-lua").path.git_root({}),
+
+            -- Modified command which puts currend dir descendents up top
+            cmd = (function()
+              -- root of the project
+              local root = require("fzf-lua").path.git_root({})
+
+              -- dir of the current buffer relative to root
+              local curfile = vim.api.nvim_buf_get_name(0)
+              local curdir = vim.fn.fnamemodify(curfile, ":h")
+              local rel = curdir:gsub("^" .. vim.pesc(root) .. "/?", "")
+
+              -- escaping and whatnot
+              local rel_ere = rel:gsub("([%%%[%]().*^$?+|{}\\-])", "\\%1")
+              local pfx     = "^" .. rel_ere .. "/"
+              local pfx_q   = vim.fn.shellescape(pfx)
+
+              local base = "rg --files --hidden --ignore --glob '!.git'"
+
+              -- at root, so use unmodified command
+              if rel == "" then
+                return base
+              end
+
+              -- build rg command
+              -- output files, but prepend ones under current dir with "0 " and others with "1 "
+              -- then sort, then strip the prefix
+              return table.concat({
+                base,
+                "awk -v p=" .. pfx_q .. " '{print (($0 ~ p)?\"0 \":\"1 \") $0}'",
+                "sort -k1,1",
+                "cut -d' ' -f2-",
+              }, " | ")
+            end)(),
             fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
+            winopts = {
+              fullscreen = false,
+            }
           })
         end,
         desc = 'Search files by name'
@@ -76,31 +130,23 @@ return {
       {
         "+",
         function()
-          require('fzf-lua').live_grep()
-        end,
-        desc = 'Search by grep'
-      },
-      {
-        "#",
-        function()
-          require('fzf-lua').grep_cword()
+          require('fzf-lua').grep_cword({
+            cwd = require("fzf-lua").path.git_root({})
+          })
         end,
         desc = 'Grep current word'
       },
       {
-        "Y",
+        "#",
         function()
-          require('fzf-lua').lsp_document_symbols({
-            regex_filter = function(item)
-              return not item.text:find("Variable")
-            end,
-            symbol_style = 3,
+          require('fzf-lua').live_grep({
+            cwd = require("fzf-lua").path.git_root({})
           })
         end,
-        desc = 'Search document symbols'
+        desc = 'Search by grep'
       },
       {
-        "<space>d",
+        "D",
         function()
           ra_flycheck();
           require('fzf-lua').diagnostics_workspace({
@@ -127,7 +173,6 @@ return {
             }
           })
         end,
-        desc = 'Search current buffer lines'
       },
       {
         "\"",
@@ -152,6 +197,18 @@ return {
           })
         end,
         desc = 'Search workspace symbols'
+      },
+      {
+        "Y",
+        function()
+          require('fzf-lua').lsp_document_symbols({
+            regex_filter = function(item)
+              return not item.text:find("Variable")
+            end,
+            symbol_style = 3,
+          })
+        end,
+        desc = 'Search document symbols'
       },
       {
         "R",

@@ -2,6 +2,7 @@ return {
   {
     'stevearc/oil.nvim',
     lazy = false,
+    enabled = false,
     opts = {
       keymaps = {
         ["<CR>"] = "actions.select",

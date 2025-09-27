@@ -321,6 +321,7 @@ screen:
     sudo zypper in brightnessctl gammastep
 
 other:
+    ln -sf $(dir)/dots/ignore ~/.ignore
     ln -sf $(dir)/dots/bash ~/.bash_profile
     ln -sf $(dir)/bin ~/.bin
 

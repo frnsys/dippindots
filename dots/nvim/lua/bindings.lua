@@ -26,7 +26,7 @@ _("]", ":tabnext<cr>", "n")
 _("[", ":tabprevious<cr>", "n")
 
 --- Replace <c-i> and <c-o>
-_("<c-m>", "<c-i>", "n")
+_("<c-p>", "<c-i>", "n")
 _("<c-h>", "<c-o>", "n")
 
 --- Bind return to clear last search highlight.
@@ -36,12 +36,16 @@ _("<cr>", ":noh<cr>", "n")
 _("<c-u>", "u", "n")
 _("u", "<nop>", "n")
 
+--- Alternate paging bindings
+_("<c-d>", "<c-u>", "n")
+_("<c-c>", "<c-d>", "n")
+
 --- Insert and go to new line above.
--- _("<s-cr>", "<esc>O", "i")
+_("<s-cr>", "<esc>O", {"i", "n"})
 
 --- Commenting
-_("M", "gcc", "n", true)
-_("M", "gc", "v", true)
+_("K", "gcc", "n", true)
+_("K", "gc", "v", true)
 
 --- Don't leave visual mode when changing indent
 _(">", ">gv", "x")
@@ -64,7 +68,7 @@ _('<c-backspace>', '<c-w>', "i")
 
 --- Delete back to and including the next underscore.
 --- This is kind of like a subword delete.
-_('<c-d>', '<esc><right>dF_i', "i")
+_('<c-d>', '<esc><right>d?[[:punct:]]<CR>:noh<CR>i', "i")
 
 --- Splits
 _("|", ":vsplit<cr>", "n")
@@ -75,13 +79,13 @@ _("|", ":vsplit<cr>", "n")
 _('}', '}j^', "n")
 _('{', 'k{j^', "n")
 
---- Moving up and down
--- _(')', 'j', {"n", "o", "x"})
--- _('(', 'k', {"n", "o", "x"})
-
 --- Use "r" instead of "c";
 --- easier with my layout.
 _('r', 'c', "n")
+
+--- "b" is in an awkward place
+_('m', 'b', {"n", "x", "o"})
+_('M', 'B', {"n", "x", "o"})
 
 --- This is necessary to avoid nvim's default
 --- bindings (set in `neovim/runtime/ftplugin/rust.vim`)

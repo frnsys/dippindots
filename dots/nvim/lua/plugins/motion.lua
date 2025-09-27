@@ -63,7 +63,7 @@ return {
       ai.setup({
         custom_textobjects = {
           ['r'] = { { "%b''", '%b""', '%b``' }, '^.().*().$' },
-          ['b'] = { { '%b()', '%b[]', '%b{}', '%b<>', '%b||' }, '^.().*().$' } },
+          ['t'] = { { '%b()', '%b[]', '%b{}', '%b<>', '%b||' }, '^.().*().$' } },
           ['a'] = ai.gen_spec.argument(),
           ['f'] = ai.gen_spec.function_call(),
       })
@@ -105,7 +105,7 @@ return {
     keys = {
       --- Jump to (start of) line.
       {
-        "m",
+        "l",
         mode = { "n", "x", "o" },
         function()
           require("flash").jump({
@@ -117,7 +117,7 @@ return {
       },
 
       {
-        "l",
+        "b",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")

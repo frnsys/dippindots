@@ -7,6 +7,9 @@ if ok then
   end
 end
 
+--- Lower priority for LSP semantic token highlighting.
+vim.highlight.priorities.semantic_tokens = 95
+
 --- Completion settings:
 --- * show menu
 --- * show popup with more info
