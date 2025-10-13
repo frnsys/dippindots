@@ -311,7 +311,25 @@ torrents:
 
 documents:
     # mupdf rather than poppler as it supports epubs.
-    sudo zypper in zathura zathura-plugin-pdf-mupdf
+    # sudo zypper in zathura zathura-plugin-pdf-mupdf
+	sudo zypper in - freeglut-devel
+	git clone --depth=1 https://github.com/ArtifexSoftware/mupdf.git /tmp/mupdf
+	cd /tmp/mupdf \
+		&& git submodule update --init --recursive \
+		&& sudo make shared=yes prefix=/usr/local install
+
+	wget https://pwmt.org/projects/zathura/download/zathura-0.5.13.tar.xz -O /tmp/zathura.tar.xz
+	wget https://pwmt.org/projects/zathura-pdf-mupdf/download/zathura-pdf-mupdf-0.4.4.tar.xz -O /tmp/zathura-mupdf.tar.xz
+	cd /tmp && unar zathura.tar.xz && cd zathura-* \
+		&& meson build \
+		&& cd build \
+		&& ninja \
+		&& sudo ninja install
+	cd /tmp && unar zathura-mupdf.tar.xz && cd zathura-pdf-mupdf* \
+		&& meson build \
+		&& cd build \
+		&& ninja \
+		&& sudo ninja install
     mkdir ~/.config/zathura
     ln -sf $(dir)/dots/zathura ~/.config/zathura/zathurarc
     sudo zypper in libreoffice-calc libreoffice-gtk3
