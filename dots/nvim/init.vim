@@ -145,7 +145,7 @@ au BufNewFile,BufRead *.uss :setl ft=css
 au BufNewFile,BufRead *.tss :setl ft=css
 
 " Gliss tooling
-"au BufNewFile,BufRead *.script lua require('gliss/verses')
+au BufNewFile,BufRead *.script lua require('gliss/verses')
 au BufNewFile,BufRead *.md lua require('gliss/loom')
 
 " Automatically trim trailing whitespace on save.

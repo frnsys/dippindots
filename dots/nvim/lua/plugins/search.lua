@@ -128,7 +128,7 @@ return {
         desc = 'Search files by name'
       },
       {
-        "+",
+        "!",
         function()
           require('fzf-lua').grep_cword({
             cwd = require("fzf-lua").path.git_root({})
@@ -137,9 +137,18 @@ return {
         desc = 'Grep current word'
       },
       {
-        "#",
+        "j",
         function()
           require('fzf-lua').live_grep({
+            cwd = require("fzf-lua").path.git_root({})
+          })
+        end,
+        desc = 'Search by grep'
+      },
+      {
+        "Y",
+        function()
+          require('fzf-lua').live_grep_resume({
             cwd = require("fzf-lua").path.git_root({})
           })
         end,
@@ -156,7 +165,7 @@ return {
         desc = 'Search workspace diagnostics'
       },
       {
-        "_",
+        "J",
         function()
           require('fzf-lua').buffers({
             ignore_current_buffer = true,
@@ -197,18 +206,6 @@ return {
           })
         end,
         desc = 'Search workspace symbols'
-      },
-      {
-        "Y",
-        function()
-          require('fzf-lua').lsp_document_symbols({
-            regex_filter = function(item)
-              return not item.text:find("Variable")
-            end,
-            symbol_style = 3,
-          })
-        end,
-        desc = 'Search document symbols'
       },
       {
         "R",

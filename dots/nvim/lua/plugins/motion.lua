@@ -105,7 +105,7 @@ return {
     keys = {
       --- Jump to (start of) line.
       {
-        "l",
+        "k",
         mode = { "n", "x", "o" },
         function()
           require("flash").jump({

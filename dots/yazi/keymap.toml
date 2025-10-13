@@ -60,6 +60,10 @@ keymap = [
 	{ on = [ "<C-s>" ],     run = "search none",            desc = "Cancel the ongoing search" },
 	{ on = [ "z" ],         run = "plugin fzf",               desc = "Jump to a directory, or reveal a file using fzf" },
 
+    # Sorting
+	{ on = [ ",", "S" ], run = [ "sort size --reverse=no", "linemode size" ],   desc = "Sort by size" },
+	{ on = [ ",", "s" ], run = [ "sort size --reverse", "linemode size" ],      desc = "Sort by size (reverse)" },
+
 	# Copy
 	{ on = [ "c", "c" ], run = "copy path",             desc = "Copy the absolute path" },
 	{ on = [ "c", "d" ], run = "copy dirname",          desc = "Copy the path of the parent directory" },
