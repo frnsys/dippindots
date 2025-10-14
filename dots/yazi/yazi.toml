@@ -22,9 +22,14 @@ text = [
 	{ run = 'nvim "$@"', block = true, desc = "Editor" },
 ]
 pdf = [
-	{ run = 'zathura "$@"', block = false },
-	{ run = 'okular "$@"', block = false },
-	{ run = 'evince "$@"', block = false },
+	{ run = 'sioyek "$@"', block = false, orphan = true },
+	{ run = 'okular "$@"', block = false, orphan = true },
+	{ run = 'evince "$@"', block = false, orphan = true },
+	{ run = 'papers "$@"', block = false, orphan = true },
+	{ run = 'zathura "$@"', block = false, orphan = true },
+]
+epub = [
+	{ run = 'zathura "$@"', block = false, orphan = true },
 ]
 gif = [
 	{ run = 'vu "$@"', block = false },
@@ -79,7 +84,7 @@ rules = [
 	{ mime = "audio/*", use = "audio" },
 	{ mime = "inode/x-empty", use = "text" },
 	{ mime = "application/pdf", use = "pdf" },
-	{ mime = "application/epub+zip", use = "pdf" },
+	{ mime = "application/epub+zip", use = "epub" },
 
 	{ mime = "application/json", use = "text" },
 	{ mime = "*/javascript", use = "text" },

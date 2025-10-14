@@ -77,6 +77,12 @@ dev:
     cargo install cargo-expand cargo-machete
     cargo install mdbook mdbook-toc
 
+    # A bit of a necessity with rust-analyzer,
+    # as on large projects it can hog all memory and cause the
+    # system to lock up.
+    sudo zypper in -y earlyoom
+    sudo systemctl enable --now earlyoom
+
 editor:
     @echo "Installing neovim..."
     sudo zypper in bat wl-clibpoard
@@ -189,7 +195,9 @@ terminal:
     ln -sf $(dir)/dots/kitty ~/.config/kitty/kitty.conf
 
 browser:
-    sudo zypper in ca-certificates-steamtricks ca-certificates-cacert ca-certificates-mozilla ca-certificates-mozilla-prebuilt ca-certificates-letsencrypt ca-certificates
+    sudo zypper in ca-certificates-steamtricks ca-certificates-cacert \
+        ca-certificates-mozilla ca-certificates-mozilla-prebuilt \
+        ca-certificates-letsencrypt ca-certificates
 
     sudo zypper in qutebrowser
     ln -sf $(dir)/dots/qute/config.yml ~/.config/qutebrowser/autoconfig.yml
@@ -310,6 +318,13 @@ torrents:
     sudo firewall-cmd --permanent --zone=public --add-port=36767/tcp
 
 documents:
+    sudo zypper in sioyek
+    mkdir ~/.config/sioyek
+    ln -sf $(dir)/dots/sioyek/keys_user.config ~/.config/sioyek/keys_user.config
+    ln -sf $(dir)/dots/sioyek/prefs_user.config ~/.config/sioyek/prefs_user.config
+
+    sudo zypper in libreoffice-calc libreoffice-gtk3
+
     # mupdf rather than poppler as it supports epubs.
     # sudo zypper in zathura zathura-plugin-pdf-mupdf
 	sudo zypper in - freeglut-devel
@@ -332,7 +347,6 @@ documents:
 		&& sudo ninja install
     mkdir ~/.config/zathura
     ln -sf $(dir)/dots/zathura ~/.config/zathura/zathurarc
-    sudo zypper in libreoffice-calc libreoffice-gtk3
 
 screen:
     sudo usermod -aG video ${USER}
