@@ -165,6 +165,16 @@ return {
         desc = 'Search workspace diagnostics'
       },
       {
+        "=",
+        function()
+          ra_flycheck();
+          require('fzf-lua').diagnostics_workspace({
+            severity_only = 2,
+          })
+        end,
+        desc = 'Search workspace diagnostics'
+      },
+      {
         "J",
         function()
           require('fzf-lua').buffers({
