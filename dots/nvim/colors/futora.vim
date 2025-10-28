@@ -44,7 +44,7 @@ highlight Substitute guifg=#ffffff guibg=#2c84fc guisp=NONE blend=NONE gui=NONE
 highlight TabLine guifg=#444444 guibg=none guisp=NONE blend=NONE gui=NONE
 highlight TabLineFill guifg=NONE guibg=none guisp=NONE blend=NONE gui=NONE
 highlight TabLineSel guifg=#a8a8a8 guibg=none guisp=NONE blend=NONE gui=NONE
-highlight Title guifg=#000000 guibg=#6767db guisp=NONE blend=NONE gui=bold
+highlight Title guifg=#ffffff guibg=#004eba guisp=NONE blend=NONE gui=bold
 highlight Type guifg=#b8c4f0 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Underlined guifg=#2c84fc guibg=NONE guisp=NONE blend=NONE gui=underline
 highlight WinSeparator guifg=#202020
@@ -60,8 +60,14 @@ highlight @variable.builtin guifg=#4b76b8 guibg=NONE guisp=NONE blend=NONE gui=N
 highlight @variable.member guifg=#ff5c5c guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @property guifg=#ff5c5c guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Success guifg=#00af87 gui=bold
-highlight Headline guibg=#222222 guifg=#dddddd
+
+highlight Headline1 guibg=#004eba guifg=#ffffff
+highlight Headline2 guibg=#2b3f69 guifg=#bfd1f5
+highlight Headline3 guibg=#333333 guifg=#bbbbbb
+highlight Headline4 guibg=#222222 guifg=#888888
 highlight CodeBlock guibg=#181818
+
+highlight Folded guifg=#edb140 guibg=#222222 guisp=NONE blend=NONE gui=italic
 
 highlight link markdownCode @text.code
 highlight @text.code guifg=#ffffff guibg=#222244 guisp=NONE blend=NONE gui=NONE
@@ -71,7 +77,7 @@ highlight @text.emphasis guifg=#000000 guibg=#00af87 guisp=NONE blend=NONE gui=b
 highlight @text.reference guifg=#f55151 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight @markup.italic guifg=#000000 guibg=#00af87 guisp=NONE blend=NONE gui=italic
 highlight @markup.link.url guifg=#4287f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight @markup.link.label.markdown_inline guifg=#f17694 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight @markup.link.label.markdown_inline guifg=#ffffff guibg=#2d4fe3 guisp=NONE blend=NONE gui=bold
 highlight @markup.link.url.markdown_inline guifg=#4287f5 guibg=NONE guisp=NONE blend=NONE gui=underline
 highlight @string.special.url.comment guifg=#00a0f8 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @text.strong guifg=#f8aa01 guibg=NONE guisp=NONE blend=NONE gui=bold
@@ -80,7 +86,7 @@ highlight @markup.list.checked.markdown guifg=#00af87 guibg=none guisp=NONE blen
 highlight @markup.list.unchecked.markdown guifg=#ff2f6d guibg=none guisp=NONE blend=NONE gui=NONE
 highlight @markup.quote.markdown guifg=#cec6c7 guibg=#191919 guisp=NONE blend=NONE gui=NONE
 highlight @text.todo.checked.text guifg=#5f5f87 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight @markup.raw.markdown_inline guifg=#ff4538 guibg=#1a1a1a guisp=NONE blend=NONE gui=italic
+highlight @markup.raw.markdown_inline guifg=#5978ff guibg=#1a1a1a guisp=NONE blend=NONE gui=italic
 highlight @conceal.markdown_inline guifg=#484848 guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight @markup.raw.block.markdown guifg=#484848 guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight link @markup.list.markdown @text.list_marker
@@ -102,10 +108,10 @@ highlight Delimiter guifg=#222222
 
 highlight Comment guifg=#a8a8a8 guibg=#202020 guisp=NONE blend=NONE gui=italic
 highlight @comment.documentation guifg=#ffd787 guibg=#262626 guisp=NONE blend=NONE gui=NONE
-highlight @comment.todo.comment guifg=#000000 guibg=#f8aa01 guisp=NONE blend=NONE gui=NONE
-highlight @comment.note.comment guifg=#2C84FC guibg=NONE guisp=NONE blend=NONE gui=bold
+highlight @comment.todo.comment guifg=#000000 guibg=#f8aa01 guisp=NONE blend=NONE gui=bold
 highlight @comment.error.comment guifg=#FC392B guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight @comment.warning.comment guifg=#e87f2e guibg=NONE guisp=NONE blend=NONE gui=bold
+highlight @comment.note.comment guifg=#202020 guibg=#BB9AF7 guisp=NONE blend=NONE gui=bold
 highlight link @lsp.mod.documentation.rust @comment.documentation
 
 highlight @markup.heading.gitcommit guifg=#eeeeee guibg=NONE

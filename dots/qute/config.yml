@@ -19,12 +19,9 @@ settings:
   bindings.commands:
     global:
       normal:
-        <Alt+->: back
+        l: back
         <Alt+[>: tab-prev
-        <Alt+\>: forward
         <Alt+]>: tab-next
-        J: tab-prev
-        K: tab-next
         q: null
   colors.hints.bg:
     global: '#fdb63d'
@@ -66,8 +63,8 @@ settings:
     global: '#cccccc'
   colors.tabs.selected.odd.fg:
     global: '#000000'
-  colors.webpage.bg:
-    global: black
+  # colors.webpage.bg:
+  #   global: black
   colors.webpage.preferred_color_scheme:
     global: dark
   content.blocking.method:

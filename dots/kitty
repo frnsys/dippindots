@@ -64,8 +64,6 @@ active_tab_title_template "{'✱ ' if layout_name == 'stack' else ''}{title}"
 active_tab_font_style   italic
 active_tab_foreground   #FD453A
 active_tab_background   #161616
-# active_tab_background   #FD453A
-# active_tab_background   #00af87
 inactive_tab_background #202020
 inactive_tab_foreground #707070
 

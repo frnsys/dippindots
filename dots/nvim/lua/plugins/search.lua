@@ -19,6 +19,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
         fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
         winopts = {
           fullscreen = false,
+          width = 64,
+          col = 0.5,
         }
       })
     end
@@ -85,12 +87,20 @@ return {
         "-",
         function()
           require('fzf-lua').files({
-            cwd = require("fzf-lua").path.git_root({}),
+            cwd = require("fzf-lua").path.git_root({}, true),
 
             -- Modified command which puts currend dir descendents up top
             cmd = (function()
+              local base = "rg --files --hidden --ignore --glob '!.git'"
+
               -- root of the project
-              local root = require("fzf-lua").path.git_root({})
+              local root = require("fzf-lua").path.git_root({}, true)
+
+              -- no git root, use current dir
+              if not root or #root == 0 then
+                return base
+              end
+
 
               -- dir of the current buffer relative to root
               local curfile = vim.api.nvim_buf_get_name(0)
@@ -102,7 +112,6 @@ return {
               local pfx     = "^" .. rel_ere .. "/"
               local pfx_q   = vim.fn.shellescape(pfx)
 
-              local base = "rg --files --hidden --ignore --glob '!.git'"
 
               -- at root, so use unmodified command
               if rel == "" then
@@ -122,6 +131,8 @@ return {
             fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
             winopts = {
               fullscreen = false,
+              width = 64,
+              col = 0.5,
             }
           })
         end,
@@ -196,24 +207,33 @@ return {
       {
         "\"",
         function()
-          require('fzf-lua').lsp_live_workspace_symbols({
-            regex_filter = function(item)
-              -- Limit to structs, enums, and traits.
-              -- Hacky, but it looks like types from proc macros
-              -- always have a `col` of 1, and explicitly-defined
-              -- types don't.
-              --
-              -- To check what else we could filter on:
-              --   vim.print(item)
-              return
-                item.col ~= 1
-                and
+          if vim.bo.filetype == "markdown" then
+            require('fzf-lua').lsp_document_symbols({
+              symbol_style = 3,
+              winopts = {
+                fullscreen = false,
+              }
+            })
+          else
+            require('fzf-lua').lsp_live_workspace_symbols({
+              regex_filter = function(item)
+                -- Limit to structs, enums, and traits.
+                -- Hacky, but it looks like types from proc macros
+                -- always have a `col` of 1, and explicitly-defined
+                -- types don't.
+                --
+                -- To check what else we could filter on:
+                --   vim.print(item)
+                return
+                  item.col ~= 1
+                  and
                   (item.kind == "Struct"
                   or item.kind == "Enum"
                   or item.kind == "Interface")
-            end,
-            symbol_style = 3,
-          })
+              end,
+              symbol_style = 3,
+            })
+          end
         end,
         desc = 'Search workspace symbols'
       },

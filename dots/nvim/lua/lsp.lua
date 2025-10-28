@@ -175,4 +175,12 @@ vim.lsp.config["python"] = {
 }
 vim.lsp.enable('python')
 
+vim.lsp.config["markdown"] = {
+  cmd = { '/usr/local/bin/marksman', 'server' },
+  filetypes = { "markdown" },
+  root_markers = { ".git" },
+  single_file_support = true,
+}
+vim.lsp.enable('markdown')
+
 require('gliss/unity')

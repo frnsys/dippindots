@@ -32,13 +32,12 @@ _("<c-h>", "<c-o>", "n")
 --- Bind return to clear last search highlight.
 _("<cr>", ":noh<cr>", "n")
 
---- I hit `u` accidentally WAY too much.
-_("<c-u>", "u", "n")
-_("u", "<nop>", "n")
-
 --- Alternate paging bindings
 _("<c-d>", "<c-u>", "n")
 _("<c-c>", "<c-d>", "n")
+
+--- Then we can undo like this:
+_("<c-u>", "u", "n")
 
 --- Insert and go to new line above.
 _("<s-cr>", "<esc>O", {"i", "n"})
@@ -87,7 +86,24 @@ _('r', 'c', "n")
 _('m', 'b', {"n", "x", "o"})
 _('M', 'B', {"n", "x", "o"})
 
+--- Folding
+_("+", "za", "n")
+_("za", "zM", "n")
+_("zA", "zR", "n")
+
 --- This is necessary to avoid nvim's default
 --- bindings (set in `neovim/runtime/ftplugin/rust.vim`)
 --- which conflict with some of my bindings.
 vim.g.no_rust_maps = 1
+
+--- Use `o` to open a location from the quickfix list.
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function(ev)
+    vim.keymap.set("n", "o", "<CR>:cclose<CR>", {
+      buffer = ev.buf,
+      noremap = true,
+      silent = true,
+    })
+  end
+})

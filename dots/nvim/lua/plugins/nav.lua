@@ -1,5 +1,39 @@
 return {
   {
+    'stevearc/oil.nvim',
+    lazy = false,
+    opts = {
+      keymaps = {
+        ["<CR>"] = "actions.select",
+        ["<C-v>"] = "actions.select_vsplit",
+        ["<C-s>"] = "actions.select_split",
+        ["<C-t>"] = "actions.select_tab",
+        ["<C-p>"] = function()
+          require("oil.actions").preview.callback()
+          vim.defer_fn(function()
+            vim.cmd("vertical resize 24")
+          end, 2)
+        end,
+        ["-"] = "actions.parent",
+        ["_"] = "actions.parent",
+        ["g."] = "actions.toggle_hidden",
+        ["q"] = "actions.close",
+      },
+      default_file_explorer = false,
+      use_default_keymaps = false,
+    },
+    keys = {
+      {
+        "_",
+        function()
+          require("oil").open()
+        end,
+        desc = "Open parent directory"
+      }
+    }
+  },
+
+  {
     'kwkarlwang/bufjump.nvim',
     config = function()
         require("bufjump").setup({
