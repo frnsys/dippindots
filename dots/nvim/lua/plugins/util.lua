@@ -8,6 +8,7 @@ return {
       markdown = {
         bullets = { "", "", "", "" },
         headline_highlights = { "Headline1", "Headline2", "Headline3", "Headline4" },
+        fat_headlines = false,
       },
     }
   },
@@ -44,7 +45,7 @@ return {
             local enabled =  _G.NoNeckPain.state ~= nil and _G.NoNeckPain.state.enabled
 
             if (filetype == "markdown" and not enabled) or
-              (filetype ~= 'markdown' and filetype ~= 'oil' and filetype ~= 'no-neck-pain' and enabled) then
+              (filetype ~= 'markdown' and filetype ~= 'oil' and filetype ~= 'no-neck-pain' and filetype ~= 'qf' and enabled) then
               return vim.cmd("NoNeckPain")
             end
           end)

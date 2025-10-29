@@ -64,6 +64,7 @@ return {
         custom_textobjects = {
           ['r'] = { { "%b''", '%b""', '%b``' }, '^.().*().$' },
           ['t'] = { { '%b()', '%b[]', '%b{}', '%b<>', '%b||' }, '^.().*().$' } },
+
           ['a'] = ai.gen_spec.argument(),
           ['f'] = ai.gen_spec.function_call(),
       })
@@ -117,7 +118,7 @@ return {
       },
 
       {
-        "k",
+        "h",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")
@@ -130,12 +131,12 @@ return {
       },
 
       {
-        "h",
+        "k",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")
           require("flash").jump({
-            matcher = matchers.ts_matcher("value"),
+            matcher = matchers.ts_matcher("statement"),
             search = { mode = "search", max_length = 0 },
             jump = { pos = "range", autojump = true },
           })
@@ -143,7 +144,7 @@ return {
       },
 
       {
-        "u",
+        "r",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")
@@ -160,7 +161,7 @@ return {
       },
 
       {
-        "U",
+        "u",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")
@@ -177,6 +178,8 @@ return {
           })
         end
       },
+
+      -- Also available: Y, ?
     },
   },
 

@@ -78,10 +78,6 @@ _("|", ":vsplit<cr>", "n")
 _('}', '}j^', "n")
 _('{', 'k{j^', "n")
 
---- Use "r" instead of "c";
---- easier with my layout.
-_('r', 'c', "n")
-
 --- "b" is in an awkward place
 _('m', 'b', {"n", "x", "o"})
 _('M', 'B', {"n", "x", "o"})

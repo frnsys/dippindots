@@ -67,15 +67,15 @@ highlight Headline3 guibg=#333333 guifg=#bbbbbb
 highlight Headline4 guibg=#222222 guifg=#888888
 highlight CodeBlock guibg=#181818
 
-highlight Folded guifg=#edb140 guibg=#222222 guisp=NONE blend=NONE gui=italic
+highlight Folded guifg=#ffe9c4 guibg=#111111 guisp=NONE blend=NONE gui=italic
 
 highlight link markdownCode @text.code
+highlight link @text.emphasis @markup.italic
 highlight @text.code guifg=#ffffff guibg=#222244 guisp=NONE blend=NONE gui=NONE
 highlight @text.code_block guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @text.literal.block guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight @text.emphasis guifg=#000000 guibg=#00af87 guisp=NONE blend=NONE gui=bold
 highlight @text.reference guifg=#f55151 guibg=NONE guisp=NONE blend=NONE gui=bold
-highlight @markup.italic guifg=#000000 guibg=#00af87 guisp=NONE blend=NONE gui=italic
+highlight @markup.italic guifg=#000000 guibg=#ffce7a guisp=NONE blend=NONE gui=italic
 highlight @markup.link.url guifg=#4287f5 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight @markup.link.label.markdown_inline guifg=#ffffff guibg=#2d4fe3 guisp=NONE blend=NONE gui=bold
 highlight @markup.link.url.markdown_inline guifg=#4287f5 guibg=NONE guisp=NONE blend=NONE gui=underline

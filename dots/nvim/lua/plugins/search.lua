@@ -89,7 +89,7 @@ return {
           require('fzf-lua').files({
             cwd = require("fzf-lua").path.git_root({}, true),
 
-            -- Modified command which puts currend dir descendents up top
+            -- Modified command which puts current dir descendents up top
             cmd = (function()
               local base = "rg --files --hidden --ignore --glob '!.git'"
 
@@ -101,7 +101,6 @@ return {
                 return base
               end
 
-
               -- dir of the current buffer relative to root
               local curfile = vim.api.nvim_buf_get_name(0)
               local curdir = vim.fn.fnamemodify(curfile, ":h")
@@ -111,7 +110,6 @@ return {
               local rel_ere = rel:gsub("([%%%[%]().*^$?+|{}\\-])", "\\%1")
               local pfx     = "^" .. rel_ere .. "/"
               local pfx_q   = vim.fn.shellescape(pfx)
-
 
               -- at root, so use unmodified command
               if rel == "" then
@@ -157,7 +155,7 @@ return {
         desc = 'Search by grep'
       },
       {
-        "Y",
+        "J",
         function()
           require('fzf-lua').live_grep_resume({
             cwd = require("fzf-lua").path.git_root({})
@@ -183,36 +181,28 @@ return {
             severity_only = 2,
           })
         end,
-        desc = 'Search workspace diagnostics'
+        desc = 'Search workspace diagnostics (warnings)'
       },
       {
-        "J",
+        "R",
         function()
-          require('fzf-lua').buffers({
-            ignore_current_buffer = true,
-          })
+          require('fzf-lua').lsp_references()
         end,
-        desc = 'Search buffers'
-      },
-      {
-        "?",
-        function()
-          require('fzf-lua').blines({
-            winopts = {
-              preview = { hidden = true }
-            }
-          })
-        end,
+        desc = 'Find references for word under cursor'
       },
       {
         "\"",
         function()
           if vim.bo.filetype == "markdown" then
             require('fzf-lua').lsp_document_symbols({
-              symbol_style = 3,
+              fzf_opts = {
+                -- Necessary to stop tabs from messing up indent levels.
+                ['--tabstop'] = '1',
+              },
+              symbol_fmt = function(s, opts) return "" end,
               winopts = {
                 fullscreen = false,
-              }
+              },
             })
           else
             require('fzf-lua').lsp_live_workspace_symbols({
@@ -236,13 +226,6 @@ return {
           end
         end,
         desc = 'Search workspace symbols'
-      },
-      {
-        "R",
-        function()
-          require('fzf-lua').lsp_references()
-        end,
-        desc = 'Find references for word under cursor'
       },
     },
   },

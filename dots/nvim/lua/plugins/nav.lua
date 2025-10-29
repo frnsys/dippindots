@@ -47,13 +47,32 @@ return {
     "yorickpeterse/nvim-window",
     keys = {
       { ",t", function()
-        local win_count = vim.fn.winnr('$')
+        -- Exclude floating windows and scratch buffers
+        local function is_real_win(win)
+          -- Floating window
+          local cfg = vim.api.nvim_win_get_config(win)
+          if cfg and cfg.relative ~= "" then return false end
+
+          -- Exclude scratch buffers
+          local buf = vim.api.nvim_win_get_buf(win)
+          local bt  = vim.bo[buf].buftype
+          return bt ~= "nofile"
+        end
+
+        local wins = {}
+        for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          if is_real_win(w) then table.insert(wins, w) end
+        end
+
+        if #wins == 1 then
+          return
 
         -- If there are only two windows,
         -- jump to the other one.
-        if win_count == 2 then
-            -- Switch to the other window
-            vim.cmd('wincmd w')
+        elseif #wins == 2 then
+          local cur = vim.api.nvim_get_current_win()
+          local target = (wins[1] == cur) and wins[2] or wins[1]
+          vim.api.nvim_set_current_win(target)
 
         -- Otherwise use the picker.
         else
