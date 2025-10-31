@@ -25,16 +25,28 @@ _("<c-t>", ":tabnew<cr>", "n")
 _("]", ":tabnext<cr>", "n")
 _("[", ":tabprevious<cr>", "n")
 
+--- "b" is in an awkward place
+_('m', 'b', {"n", "x", "o"})
+_('M', 'B', {"n", "x", "o"})
+
 --- Replace <c-i> and <c-o>
 _("<c-p>", "<c-i>", "n")
 _("<c-h>", "<c-o>", "n")
+
+--- Like `{` and `}`
+--- but go to the start of the line for
+--- each block, rather than the empty lines.
+_('<c-i>', '}j^', "n")
+_('<c-o>', 'k{j^', "n")
+
+--- Jump between matching delimiters
+_('l', '%', {"n", "x", "o"})
 
 --- Bind return to clear last search highlight.
 _("<cr>", ":noh<cr>", "n")
 
 --- Alternate paging bindings
-_("<c-d>", "<c-u>", "n")
-_("<c-c>", "<c-d>", "n")
+_("<c-c>", "<c-u>", "n")
 
 --- Then we can undo like this:
 _("<c-u>", "u", "n")
@@ -72,18 +84,8 @@ _('<c-d>', '<esc><right>d?[[:punct:]]<CR>:noh<CR>i', "i")
 --- Splits
 _("|", ":vsplit<cr>", "n")
 
---- Modify `{` and `}`
---- to go to the start of the line for
---- each block, rather than the empty lines.
-_('}', '}j^', "n")
-_('{', 'k{j^', "n")
-
---- "b" is in an awkward place
-_('m', 'b', {"n", "x", "o"})
-_('M', 'B', {"n", "x", "o"})
-
 --- Folding
-_("+", "za", "n")
+_("Y", "za", "n")
 _("za", "zM", "n")
 _("zA", "zR", "n")
 

@@ -56,7 +56,7 @@ vim.api.nvim_create_autocmd("CursorHold", {
 -- Folding
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-vim.o.foldlevel = 1
+vim.o.foldlevel = 2
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 vim.o.foldtext = "v:lua.FoldText()"

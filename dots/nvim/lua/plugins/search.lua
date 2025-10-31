@@ -137,7 +137,7 @@ return {
         desc = 'Search files by name'
       },
       {
-        "!",
+        "?",
         function()
           require('fzf-lua').grep_cword({
             cwd = require("fzf-lua").path.git_root({})

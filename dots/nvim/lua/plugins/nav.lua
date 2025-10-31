@@ -36,10 +36,10 @@ return {
   {
     'kwkarlwang/bufjump.nvim',
     config = function()
-        require("bufjump").setup({
-            forward_key = "+",
-            backward_key = "L",
-        })
+        require("bufjump").setup({})
+        local opts = { silent=true, noremap=true }
+        vim.api.nvim_set_keymap("n", "b", ":lua require('bufjump').backward()<cr>", opts)
+        vim.api.nvim_set_keymap("n", "B", ":lua require('bufjump').forward()<cr>", opts)
     end,
   },
 
