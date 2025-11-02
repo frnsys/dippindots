@@ -136,6 +136,7 @@ return {
         end,
         desc = 'Search files by name'
       },
+
       {
         "?",
         function()
@@ -145,6 +146,7 @@ return {
         end,
         desc = 'Grep current word'
       },
+
       {
         "j",
         function()
@@ -154,15 +156,18 @@ return {
         end,
         desc = 'Search by grep'
       },
+
       {
         "J",
         function()
-          require('fzf-lua').live_grep_resume({
+          require('fzf-lua').live_grep({
+            resume = true,
             cwd = require("fzf-lua").path.git_root({})
           })
         end,
         desc = 'Search by grep'
       },
+
       {
         "D",
         function()
@@ -173,6 +178,7 @@ return {
         end,
         desc = 'Search workspace diagnostics'
       },
+
       {
         "=",
         function()
@@ -183,6 +189,7 @@ return {
         end,
         desc = 'Search workspace diagnostics (warnings)'
       },
+
       {
         "R",
         function()
@@ -190,6 +197,7 @@ return {
         end,
         desc = 'Find references for word under cursor'
       },
+
       {
         "\"",
         function()

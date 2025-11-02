@@ -22,8 +22,8 @@ delete_keymaps_w_prefix(']')
 
 --- Tabs
 _("<c-t>", ":tabnew<cr>", "n")
-_("]", ":tabnext<cr>", "n")
-_("[", ":tabprevious<cr>", "n")
+_("}", ":tabnext<cr>", "n")
+_("{", ":tabprevious<cr>", "n")
 
 --- "b" is in an awkward place
 _('m', 'b', {"n", "x", "o"})

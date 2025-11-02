@@ -118,7 +118,7 @@ return {
       },
 
       {
-        "K",
+        "U",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")

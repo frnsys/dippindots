@@ -70,11 +70,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     bind("Go to previous diagnostic message",
-      '<<', function()
+      '[', function()
         vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
       end)
     bind("Go to next diagnostic message",
-      '>>', function()
+      ']', function()
         vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
       end)
     bind('Code action',
