@@ -12,3 +12,4 @@ env
 secret
 build.js
 target/doc
+.env

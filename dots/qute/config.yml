@@ -19,9 +19,9 @@ settings:
   bindings.commands:
     global:
       normal:
-        l: back
         <Alt+[>: tab-prev
         <Alt+]>: tab-next
+        l: back
         q: null
   colors.hints.bg:
     global: '#fdb63d'
@@ -63,8 +63,6 @@ settings:
     global: '#cccccc'
   colors.tabs.selected.odd.fg:
     global: '#000000'
-  # colors.webpage.bg:
-  #   global: black
   colors.webpage.preferred_color_scheme:
     global: dark
   content.blocking.method:
@@ -86,6 +84,8 @@ settings:
   content.notifications.enabled:
     https://calendar.google.com: true
     https://www.youtube.com: false
+  content.pdfjs:
+    global: true
   content.register_protocol_handler:
     https://calendar.google.com?cid=%25s: true
   downloads.location.directory:

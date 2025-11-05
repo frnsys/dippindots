@@ -186,6 +186,13 @@ bind -M default \ei '_pick_and_insert'
 # ctrl-e to accept autosuggestion
 bind -M insert \ce accept-autosuggestion
 
+# delete previous argument
+bind -M insert ctrl-x backward-kill-token
+
+# move to previous/next argument
+bind -M insert ctrl-comma backward-token
+bind -M insert ctrl-\' forward-token
+
 # Color theme
 set -Ux fish_color_normal white
 set -Ux fish_color_command yellow

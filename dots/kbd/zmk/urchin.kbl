@@ -9,7 +9,7 @@ holds:
   ␣: Ctrl
   ⏎: Layer(ARROWS)
 defs:
-  s: OneShot(Shift)
+  s: Shift
 combos:
   [R, S]: Esc
 
@@ -26,6 +26,7 @@ combos:
   # Shortcuts
   [R, T, S]: Shift(Alt(C))  # Terminal copy
   [N, R, T, S]: Shift(Alt(P))  # Terminal paste
+  [N, s]: ⏎
 
   # Accents
   [N, ⌫]: "ˆ"
@@ -44,7 +45,7 @@ combos:
   [H, A]: "_"
   [T, S]: "⇥"
   [E, ␣]: ":"
-  [O, U]: "#"
+  [O, U]: "+"
   [L, D]: "%"
   [H, U]: '`'
   [",", "'"]: ">"
@@ -59,7 +60,7 @@ shifts:
   '*': '&'
   ':': '|'
   '%': '@'
-  '#': '+'
+  '+': '#'
   '.': ';'
   ',': '?'
   "'": '"'
