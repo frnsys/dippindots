@@ -36,8 +36,8 @@ _("<c-h>", "<c-o>", "n")
 --- Like `{` and `}`
 --- but go to the start of the line for
 --- each block, rather than the empty lines.
-_('<c-i>', '}j^', "n")
-_('<c-o>', 'k{j^', "n")
+_('<c-i>', '}j^', { "n", "x", "o" })
+_('<c-o>', 'k{j^', { "n", "x", "o" })
 
 --- Jump between matching delimiters
 _('l', '%', {"n", "x", "o"})

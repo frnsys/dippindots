@@ -1,6 +1,6 @@
 #!/bin/bash
 # take a screenshot
-# usage: shot [select|focused] [path|data]
+# usage: shot [region|full] [path|data]
 
 FNAME=$(date +%F-%H-%M-%S)
 TPATH=/tmp/$FNAME.png

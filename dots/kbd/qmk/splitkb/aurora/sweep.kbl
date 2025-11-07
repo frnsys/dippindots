@@ -137,28 +137,3 @@ shifts:
   ▶: Meta(=)        # Play/pause mpv
   ⏶: ☼              # Brightness up
   ⏷: ☾              # Brightness down
-
-
-===
-
-mt: mod_tap {
-    compatible = "zmk,behavior-hold-tap";
-    #binding-cells = <2>;
-    flavor = "balanced";
-    tapping-term-ms = <200>;
-    quick-tap-ms = <150>;
-    bindings = <&kp>, <&kp>;
-    display-name = "Mod-Tap";
-    retro-tap;
-};
-
-lt: layer_tap {
-    compatible = "zmk,behavior-hold-tap";
-    #binding-cells = <2>;
-    flavor = "balanced";
-    tapping-term-ms = <200>;
-    quick-tap-ms = <150>;
-    bindings = <&mo>, <&kp>;
-    display-name = "Layer-Tap";
-    retro-tap;
-};

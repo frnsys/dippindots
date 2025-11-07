@@ -32,7 +32,7 @@ pip3 install --user -r zephyr/scripts/requirements-base.txt
 I maintain my layout in `.kbl`, which is compiled to `keymap.c` using `kbl` (see the setup instructions).
 
 ```bash
-~/.dots/dots/kbd/flash.sh qmk smallcat
+~/.dots/dots/kbd/flash.sh qmk splitkb/aurora/sweep
 ```
 
 Then hold the Boot button on the RP2040 while plugging it in for it to show up as a USB disk.
