@@ -117,12 +117,16 @@ map alt+shift+e open_url_with_hints
 map alt+shift+o kitten hints --type path --program @
 map alt+shift+f kitten hints --type word --program @
 map alt+t new_tab_with_cwd
+map alt+shift+t new_tab
 map alt+] next_tab
 map alt+[ previous_tab
 map alt+, set_tab_title " "
 map alt+\ launch --location=vsplit --cwd=current
 map alt+- launch --location=hsplit --cwd=current
 map alt+_ launch --location=hsplit --cwd=current
+map alt+shift+\ launch --location=vsplit
+map alt+shift+- launch --location=hsplit
+map alt+shift+_ launch --location=hsplit
 map alt+w focus_visible_window
 map alt+shift+r start_resizing_window
 map alt+m toggle_layout stack

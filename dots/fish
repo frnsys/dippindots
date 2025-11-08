@@ -13,7 +13,9 @@ function fish_prompt -d "Custom prompt"
     set full_hostname (hostname)
     switch $full_hostname
         case "anarres"
-            set shorthand_name "@"
+            set shorthand_name "𝖆"
+        case "marain"
+            set shorthand_name "🜲 "
         case "localhost"
             set shorthand_name "⌘"
         case '*'
@@ -21,7 +23,7 @@ function fish_prompt -d "Custom prompt"
     end
 
     printf '%s%s%s:%s%s%s:%s%s%s > ' \
-        (set_color "#00af87") $shorthand_name (set_color "#333333") (set_color "#FD453A") (prompt_pwd) (set_color "#333333") (set_color "#484848") (fish_git_prompt %s) (set_color normal)
+        (set_color "#fffae0") $shorthand_name (set_color "#333333") (set_color "#FD453A") (prompt_pwd) (set_color "#333333") (set_color "#484848") (fish_git_prompt %s) (set_color normal)
 end
 
 set PATH $HOME/.bin $HOME/.local/bin $HOME/.cargo/bin /usr/sbin /var/lib/flatpak/exports/bin/ $PATH

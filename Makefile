@@ -23,7 +23,7 @@ prereqs:
 
 rust:
     @echo "Installing rust..."
-    curl -sf -L https://static.rust-lang.org/rustup.sh | sh
+    sudo zypper in rustup
     export PATH=$PATH:~/.cargo/bin
     source ~/.cargo/env
     rustup toolchain add nightly
