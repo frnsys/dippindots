@@ -66,6 +66,9 @@ function _G.FoldText()
   return string.format("%s … (%d lines)", line:gsub("^%s*", ""), count)
 end
 
+-- SSH-compatible clipboard
+vim.g.clipboard = 'osc52'
+
 require('lazy').setup('plugins')
 
 require('lsp')

@@ -19,7 +19,7 @@ archive = [
 	{ run = 'unar "$1"', desc = "Extract here" },
 ]
 text = [
-	{ run = 'nvim "$@"', block = true, desc = "Editor" },
+	{ run = 'vi "$@"', block = true, desc = "Editor" },
 ]
 pdf = [
 	{ run = 'sioyek "$@"', block = false, orphan = true },
@@ -52,7 +52,7 @@ url = [
 ]
 csv = [
     { run = 'visidata "$@"', block = true },
-	{ run = 'nvim "$@"', block = true, desc = "Editor" },
+	{ run = 'vi "$@"', block = true, desc = "Editor" },
 ]
 csvs = [
     { run = 'tabv "$@"', block = true },

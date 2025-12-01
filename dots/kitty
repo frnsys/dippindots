@@ -35,6 +35,8 @@ visual_window_select_characters rtshae;
 
 enable_audio_bell no
 
+clipboard_control write-clipboard write-primary read-clipboard read-primary
+
 # For kitty-scrollback.nvim
 # -------------------------
 allow_remote_control socket-only
