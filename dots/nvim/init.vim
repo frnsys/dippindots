@@ -77,6 +77,11 @@ require('bindings')
 require('francais')
 require('filetype/markdown')
 
+local ok, mod = pcall(require, "gliss/verses-map")
+if ok then
+  mod.setup()
+end
+
 EOF
 
 colorscheme futora
@@ -161,7 +166,7 @@ au BufNewFile,BufRead *.uss :setl ft=css
 au BufNewFile,BufRead *.tss :setl ft=css
 
 " Gliss tooling
-au BufNewFile,BufRead *.script lua require('gliss/verses')
+lua require('gliss/verses')
 au BufNewFile,BufRead *.md lua require('gliss/loom')
 
 " Automatically trim trailing whitespace on save.

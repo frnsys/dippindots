@@ -49,7 +49,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
     local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
     client.server_capabilities.completionProvider.triggerCharacters =
-      vim.split("qwertyuiopasdfghjklzxcvbnm. ", "")
+      vim.split("qwertyuiopasdfghjklzxcvbnm. @/[", "")
     vim.lsp.completion.enable(true,
       ev.data.client_id, ev.buf, {
         autotrigger = true,
@@ -184,3 +184,19 @@ vim.lsp.config["markdown"] = {
 vim.lsp.enable('markdown')
 
 require('gliss/unity')
+
+vim.filetype.add({
+  extension = {
+    script = "verses",
+  },
+})
+vim.lsp.config["verses"] = {
+  -- Debugging
+  -- cmd = { '/home/francis/projects/fugue/lib/target/debug/verses-lsp' },
+  cmd = { 'verses-lsp' },
+  filetypes = { "verses" },
+  root_markers = { ".git" },
+}
+vim.lsp.enable('verses')
+vim.lsp.set_log_level("INFO")
+
