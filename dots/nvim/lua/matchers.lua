@@ -128,11 +128,16 @@ local function find_balanced_delimiters(delimiter_pairs, include_delimiters)
           if #stack > 0 then
             -- Closing
             local start_pos = table.remove(stack)
-            local match_start = include_delimiters and start_pos or (start_pos + 1)
-            local match_end = include_delimiters and i or (i - 1)
-            if match_start <= match_end then
-              table.insert(matches, { pos = match_start, end_pos = match_end })
+            local match_start, match_end
+            if include_delimiters or i == start_pos + 1 then
+              -- Empty delimiter pair, fallback to the start delimiter
+              match_start = start_pos
+              match_end = start_pos
+            else
+              match_start = start_pos + 1
+              match_end = i - 1
             end
+            table.insert(matches, { pos = match_start, end_pos = match_end })
           else
             -- Opening
             table.insert(stack, i)
@@ -148,11 +153,16 @@ local function find_balanced_delimiters(delimiter_pairs, include_delimiters)
         -- Asymmetric closing
         local start_pos = table.remove(stack)
         if start_pos then
-          local match_start = include_delimiters and start_pos or (start_pos + 1)
-          local match_end = include_delimiters and i or (i - 1)
-          if match_start <= match_end then
-            table.insert(matches, { pos = match_start, end_pos = match_end })
+          local match_start, match_end
+          if include_delimiters or i == start_pos + 1 then
+            -- Empty delimiter pair, fallback to the start delimiter
+            match_start = start_pos
+            match_end = start_pos
+          else
+            match_start = start_pos + 1
+            match_end = i - 1
           end
+          table.insert(matches, { pos = match_start, end_pos = match_end })
         end
       end
 

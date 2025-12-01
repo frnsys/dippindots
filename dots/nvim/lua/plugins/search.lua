@@ -180,7 +180,15 @@ return {
       },
 
       {
-        "=",
+        "R",
+        function()
+          require('fzf-lua').lsp_references()
+        end,
+        desc = 'Find references for word under cursor'
+      },
+
+      {
+        ",w",
         function()
           ra_flycheck();
           require('fzf-lua').diagnostics_workspace({
@@ -191,15 +199,7 @@ return {
       },
 
       {
-        "R",
-        function()
-          require('fzf-lua').lsp_references()
-        end,
-        desc = 'Find references for word under cursor'
-      },
-
-      {
-        "\"",
+        ",s",
         function()
           if vim.bo.filetype == "markdown" then
             require('fzf-lua').lsp_document_symbols({

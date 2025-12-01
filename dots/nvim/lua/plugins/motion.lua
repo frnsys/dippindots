@@ -104,9 +104,11 @@ return {
       prompt = { enabled = false },
     },
     keys = {
+      -- Unused: r, ", =
+
       --- Jump to (start of) line.
       {
-        "H",
+        "h",
         mode = { "n", "x", "o" },
         function()
           require("flash").jump({
@@ -118,7 +120,7 @@ return {
       },
 
       {
-        "U",
+        "'",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")
@@ -144,7 +146,7 @@ return {
       },
 
       {
-        "r",
+        "U",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")
@@ -161,7 +163,7 @@ return {
       },
 
       {
-        "h",
+        "u",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")
@@ -181,7 +183,7 @@ return {
 
       --- Jump to word.
       {
-        "u",
+        "H",
         mode = { "n", "x", "o" },
         function()
           local flash = require("flash")
