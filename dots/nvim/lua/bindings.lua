@@ -89,6 +89,9 @@ _("Y", "za", "n")
 _("za", "zM", "n")
 _("zA", "zR", "n")
 
+--- Terminal
+_("<Esc>", "<C-\\><C-n>", "t")
+
 --- This is necessary to avoid nvim's default
 --- bindings (set in `neovim/runtime/ftplugin/rust.vim`)
 --- which conflict with some of my bindings.

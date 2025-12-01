@@ -108,7 +108,7 @@ SYSTEM
 
 ⬚ ⇲ ⍐ ⇱ ⬚  ⬚ ℌ ⊕ ॥ ⬚
 ⇧ ⇐ ↫ ⇒ ⇑  ⎶ ❮ ✛ ◱ ❯
-⬚ ⏷ ▶ ⏶ ⬚  ⬚ ⬚ ⬚ ⌕ ⬚
+◐ ⏷ ▶ ⏶ ◑  ⬚ ⬚ ⬚ ⌕ ⬚
       ⬚ ⇧  ⍜ ⬚
 
 defs:
@@ -137,7 +137,6 @@ shifts:
   ▶: Meta(=)        # Play/pause mpv
   ⏶: ☼              # Brightness up
   ⏷: ☾              # Brightness down
-
 
 ===
 
