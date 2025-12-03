@@ -1,9 +1,0 @@
-set database sqlite
-set selection-clipboard clipboard
-set selection-notification false
-set highlight-color rgba(222,165,132,0.5)
-
-# Useful shortcuts:
-#   - `s`: fit to window
-#   - `zi`/`zo`: zoom in/out
-#   - `ctrl-n`: toggle status bar

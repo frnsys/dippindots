@@ -318,35 +318,22 @@ torrents:
     sudo firewall-cmd --permanent --zone=public --add-port=36767/tcp
 
 documents:
-    sudo zypper in sioyek
+    # Build sioyek from source, as the dev branch is way ahead of the last official release
+    sudo zypper in freeglut-devel
+    sudo zypper in qt6-base-common-devel qt6-base-devel qt6-svg-devel qt6-quickwidgets-devel qt6-texttospeech-devel
+    git clone https://github.com/ahrm/sioyek.git /tmp/sioyek
+    cd /tmp/sioyek \
+        && git checkout development \
+        && git submodule update --init --recursive \
+        && QMAKE=qmake6 ./build_linux.sh
+    sudo cp -r /tmp/sioyek/build /opt/sioyek
+    sudo ln -s /opt/sioyek/sioyek /usr/local/bin/sioyek
+
     mkdir ~/.config/sioyek
     ln -sf $(dir)/dots/sioyek/keys_user.config ~/.config/sioyek/keys_user.config
     ln -sf $(dir)/dots/sioyek/prefs_user.config ~/.config/sioyek/prefs_user.config
 
     sudo zypper in libreoffice-calc libreoffice-gtk3
-
-    # mupdf rather than poppler as it supports epubs.
-    # sudo zypper in zathura zathura-plugin-pdf-mupdf
-	sudo zypper in - freeglut-devel
-	git clone --depth=1 https://github.com/ArtifexSoftware/mupdf.git /tmp/mupdf
-	cd /tmp/mupdf \
-		&& git submodule update --init --recursive \
-		&& sudo make shared=yes prefix=/usr/local install
-
-	wget https://pwmt.org/projects/zathura/download/zathura-0.5.13.tar.xz -O /tmp/zathura.tar.xz
-	wget https://pwmt.org/projects/zathura-pdf-mupdf/download/zathura-pdf-mupdf-0.4.4.tar.xz -O /tmp/zathura-mupdf.tar.xz
-	cd /tmp && unar zathura.tar.xz && cd zathura-* \
-		&& meson build \
-		&& cd build \
-		&& ninja \
-		&& sudo ninja install
-	cd /tmp && unar zathura-mupdf.tar.xz && cd zathura-pdf-mupdf* \
-		&& meson build \
-		&& cd build \
-		&& ninja \
-		&& sudo ninja install
-    mkdir ~/.config/zathura
-    ln -sf $(dir)/dots/zathura ~/.config/zathura/zathurarc
 
 screen:
     sudo usermod -aG video ${USER}

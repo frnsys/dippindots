@@ -26,10 +26,9 @@ pdf = [
 	{ run = 'okular "$@"', block = false, orphan = true },
 	{ run = 'evince "$@"', block = false, orphan = true },
 	{ run = 'papers "$@"', block = false, orphan = true },
-	{ run = 'zathura "$@"', block = false, orphan = true },
 ]
 epub = [
-	{ run = 'zathura "$@"', block = false, orphan = true },
+	{ run = 'sioyek "$@"', block = false, orphan = true },
 ]
 gif = [
 	{ run = 'vu "$@"', block = false },
