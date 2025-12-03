@@ -79,8 +79,8 @@ abbr -a n "cd ~/notes"
 abbr -a w "cd ~/work"
 abbr -a p "cd ~/projects"
 abbr -a dl "cd ~/downloads"
-abbr -a ytdl "yt-dlp -f 'bv[height<=1080]+ba'"
-abbr -a ytdlmp3 "yt-dlp --extract-audio --audio-format mp3"
+abbr -a ytdl "yt-dlp --remote-components ejs:github -f 'bv[height<=1080]+ba'"
+abbr -a ytdlmp3 "yt-dlp --remote-components ejs:github --extract-audio --audio-format mp3"
 abbr -a publish "port build spaceandtimes; port sync spaceandtimes ftseng@starbase:/srv/spaceandtimes"
 
 function y
