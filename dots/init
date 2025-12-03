@@ -15,7 +15,6 @@ systemctl --user import-environment
 batt mon &
 agenda remind 5 &
 gammastep &
-# kbdd &
 
 swayidle -w \
     timeout 300 '~/.bin/lock' \
