@@ -25,10 +25,6 @@ _("<c-t>", ":tabnew<cr>", "n")
 _("}", ":tabnext<cr>", "n")
 _("{", ":tabprevious<cr>", "n")
 
---- "b" is in an awkward place
-_('m', 'b', {"n", "x", "o"})
-_('M', 'B', {"n", "x", "o"})
-
 --- Replace <c-i> and <c-o>
 _("<c-p>", "<c-i>", "n")
 _("<c-h>", "<c-o>", "n")
@@ -83,11 +79,6 @@ _('<c-d>', '<esc><right>d?[[:punct:]]<CR>:noh<CR>i', "i")
 
 --- Splits
 _("|", ":vsplit<cr>", "n")
-
---- Folding
-_("Y", "za", "n")
-_("za", "zM", "n")
-_("zA", "zR", "n")
 
 --- Terminal
 _("<Esc>", "<C-\\><C-n>", "t")

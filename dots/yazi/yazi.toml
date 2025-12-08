@@ -23,9 +23,6 @@ text = [
 ]
 pdf = [
 	{ run = 'sioyek "$@"', block = false, orphan = true },
-	{ run = 'okular "$@"', block = false, orphan = true },
-	{ run = 'evince "$@"', block = false, orphan = true },
-	{ run = 'papers "$@"', block = false, orphan = true },
 ]
 epub = [
 	{ run = 'sioyek "$@"', block = false, orphan = true },
@@ -52,9 +49,6 @@ url = [
 csv = [
     { run = 'visidata "$@"', block = true },
 	{ run = 'vi "$@"', block = true, desc = "Editor" },
-]
-csvs = [
-    { run = 'tabv "$@"', block = true },
 ]
 markdown = [
     { run = 'flatpak run org.gnome.gitlab.somas.Apostrophe "$@"', desc = "Apostrophe" },

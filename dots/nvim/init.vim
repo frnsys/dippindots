@@ -53,19 +53,6 @@ vim.api.nvim_create_autocmd("CursorHold", {
     end,
 })
 
--- Folding
-vim.o.foldmethod = "expr"
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-vim.o.foldlevel = 2
-vim.o.foldlevelstart = 99
-vim.o.foldenable = true
-vim.o.foldtext = "v:lua.FoldText()"
-function _G.FoldText()
-  local line = vim.fn.getline(vim.v.foldstart)
-  local count = vim.v.foldend - vim.v.foldstart + 1
-  return string.format("%s … (%d lines)", line:gsub("^%s*", ""), count)
-end
-
 -- SSH-compatible clipboard
 vim.g.clipboard = 'osc52'
 

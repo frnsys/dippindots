@@ -28,16 +28,16 @@ return {
         "\\v^", -- Also stop at the start of the line
         "\\v%([[:blank:]])@<=[[:punct:]]{2,}" -- Treat sequences of 2 or more punct as a word, preceded by whitespace
       )
-      vim.keymap.set({ "n", "x" }, "W", bigword_hops.forward_start)
-      vim.keymap.set({ "n", "x" }, "B", bigword_hops.backward_start)
+      vim.keymap.set({ "n", "x" }, "R", bigword_hops.forward_start)
+      vim.keymap.set({ "n", "x" }, "M", bigword_hops.backward_start)
       vim.keymap.set({ "n", "x" }, "E", bigword_hops.forward_end)
 
       local bigword_change = neowords.get_word_hops(
         "[-_[:lower:][:upper:][:digit:]]+",
         "[[:punct:]]"
       )
-      vim.keymap.set({ "o" }, "W", bigword_change.forward_start)
-      vim.keymap.set({ "o" }, "B", bigword_change.backward_start)
+      vim.keymap.set({ "o" }, "R", bigword_change.forward_start)
+      vim.keymap.set({ "o" }, "M", bigword_change.backward_start)
       vim.keymap.set({ "o" }, "E", bigword_change.forward_end)
 
       local subword_hops = neowords.get_word_hops(
@@ -50,8 +50,8 @@ return {
         "\\v^", -- Also stop at the start of the line
         "\\v[[:punct:]]{2,}" -- Treat sequences of 2 or more punct as a word
       )
-      vim.keymap.set({ "n", "x", "o" }, "w", subword_hops.forward_start)
-      vim.keymap.set({ "n", "x", "o" }, "b", subword_hops.backward_start)
+      vim.keymap.set({ "n", "x", "o" }, "r", subword_hops.forward_start)
+      vim.keymap.set({ "n", "x", "o" }, "m", subword_hops.backward_start)
       vim.keymap.set({ "n", "x", "o" }, "e", subword_hops.forward_end)
     end
   },
@@ -104,11 +104,11 @@ return {
       prompt = { enabled = false },
     },
     keys = {
-      -- Unused: r, ", =
+      -- Unused: Y, w, b, k, =, \, H
 
       --- Jump to (start of) line.
       {
-        "h",
+        "<c-a>",
         mode = { "n", "x", "o" },
         function()
           require("flash").jump({
@@ -133,7 +133,7 @@ return {
       },
 
       {
-        "k",
+        "\"",
         mode = { "n", "x", "o" },
         function()
           local matchers = require("../matchers")
@@ -183,7 +183,7 @@ return {
 
       --- Jump to word.
       {
-        "H",
+        "h",
         mode = { "n", "x", "o" },
         function()
           local flash = require("flash")

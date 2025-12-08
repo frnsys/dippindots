@@ -180,7 +180,18 @@ return {
       },
 
       {
-        "R",
+        "\\",
+        function()
+          require('fzf-lua').blines({
+            winopts = {
+              preview = { hidden = true }
+            }
+          })
+        end,
+      },
+
+      {
+        ",r",
         function()
           require('fzf-lua').lsp_references()
         end,

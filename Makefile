@@ -173,7 +173,7 @@ wm:
     cd /tmp/gtklock && make && sudo make install
 
     # WM
-    sudo zypper in niri xdg-desktop-portal-gnome wlr-randr
+    sudo zypper in niri xdg-desktop-portal-gnome wlr-randr xwayland-satellite
 
     # For file dialogs. See <https://github.com/YaLTeR/niri/wiki/Important-Software#portals>
     sudo zypper in nautilus

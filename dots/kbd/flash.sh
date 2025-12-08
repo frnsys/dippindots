@@ -4,7 +4,6 @@ KIND=$1
 shift 1
 
 DISK="/dev/sda"
-# DISK="/dev/sda1"
 MOUNT_POINT="/mnt/usb"
 
 set -e
