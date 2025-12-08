@@ -155,6 +155,10 @@ images:
     sudo zypper in ImageMagick ImageMagick-extra
     sudo zypper in libwebpdecoder3 libwebp-devel libwebp-tools
 
+    flatpak install flathub com.github.PintaProject.Pinta
+    flatpak -u override --filesystem=~/.config/gtk-4.0:ro
+    flatpak -u override com.github.PintaProject.Pinta --filesystem=~
+
 fm:
     sudo zypper -y in poppler-tools ffmpegthumbnailer jq
     cargo install yazi-fm
@@ -204,6 +208,10 @@ browser:
     ln -sf $(dir)/dots/qute/userscripts ~/.local/share/qutebrowser/userscripts
     ln -sf $(dir)/dots/qute/greasemonkey ~/.local/share/qutebrowser/greasemonkey
     xdg-settings set default-web-browser org.qutebrowser.qutebrowser.desktop
+
+    git clone --depth 1 https://github.com/mozilla/pdf.js.git /tmp/pdfjs
+    cd /tmp/pdfjs && npm install && npx gulp generic
+    mv /tmp/pdf.js/build/generic ~/.local/share/qutebrowser/pdfjs
 
     # Google Chrome
     opi chrome

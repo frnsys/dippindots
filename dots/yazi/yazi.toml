@@ -50,9 +50,6 @@ csv = [
     { run = 'visidata "$@"', block = true },
 	{ run = 'vi "$@"', block = true, desc = "Editor" },
 ]
-markdown = [
-    { run = 'flatpak run org.gnome.gitlab.somas.Apostrophe "$@"', desc = "Apostrophe" },
-]
 html = [
     { run = 'firefox "$@"', desc = "Browser" },
 ]
@@ -69,7 +66,7 @@ rules = [
 	{ name = "*.csvs", use = "csvs" },
 	{ name = "*.txt", use = ["text"] },
 	{ name = "*.html", use = ["text", "html"] },
-	{ name = "*.md", use = ["text", "markdown"] },
+	{ name = "*.md", use = ["text"] },
 
 	{ mime = "text/*", use = "text" },
 	{ mime = "image/*", use = "image" },
