@@ -12,7 +12,10 @@ apps: utils browser vpn torrents android documents dev
 
 prereqs:
     @echo "Installing prereqs..."
-    sudo zypper in gcc gcc-c++ make cmake automake autoconf clang lld wget zip unzip openssh-server bzip2 curl ninja meson opi unar
+    sudo zypper in gcc gcc-c++ make cmake automake autoconf clang lld wget zip unzip openssh-server bzip2 curl ninja meson opi unar ntp
+
+    timedatectl set-ntp true
+    sudo systemctl enable --now ntpd
 
     sudo zypper in avahi
     sudo systemctl enable --now avahi-daemon
@@ -52,7 +55,10 @@ git:
     ln -sf $(dir)/dots/git/gitconfig ~/.gitconfig
 
 tools:
-    sudo zypper in -y fzf jq htop tree gnupg ncdu dfc ffmpeg fd ripgrep pik
+    sudo zypper in -y fzf jq htop tree gnupg ncdu dfc ffmpeg fd ripgrep
+
+    # Usage: `cargo install-update -a`
+    cargo install cargo-update
 
 utils:
     # Note: Run with `sudo -EH yast2`.
@@ -134,6 +140,9 @@ video:
     git clone --depth 1 https://github.com/lwilletts/mpvc.git /tmp/mpvc
     cd /tmp/mpvc && sudo make install
 
+    # For syncing/aligning subtitles
+    cargo install alass-cli
+
 audio:
     sudo zypper in alsa-utils bluez bluetuith
     flatpak install flathub com.saivert.pwvucontrol
@@ -213,6 +222,12 @@ browser:
     cd /tmp/pdfjs && npm install && npx gulp generic
     mv /tmp/pdf.js/build/generic ~/.local/share/qutebrowser/pdfjs
 
+    # For syncing tabs from Firefox Android
+    wget https://github.com/Mikescher/firefox-sync-client/releases/download/v1.9.0/ffsclient_linux-amd64 -O /tmp/ffsclient
+    chmod +x /tmp/ffsclient
+    sudo mv /tmp/ffsclient /usr/local/bin/ffsclient
+    # Then login with `ffsclient login`
+
     # Google Chrome
     opi chrome
 
@@ -281,8 +296,8 @@ tweaks:
     sudo systemctl enable --now tlp
     # sudo systemctl enable --now powertop
 
-	# For AMD Vulkan
-	sudo zypper in libvulkan_radeon
+    # For AMD Vulkan
+    sudo zypper in libvulkan_radeon
 
     # Firmware updates
     sudo zypper in fwupd
@@ -309,6 +324,10 @@ tweaks:
     # If the initial terminal font is too small,
     # add this to `/etc/vconsole.conf`:
     # FONT=ter-v32n.psfu
+
+    # Other recommended grub settings:
+    # GRUB_TIMEOUT=0
+    # GRUB_HIDDEN_TIMEOUT=0
 
 android:
     sudo zypper in android-tools
