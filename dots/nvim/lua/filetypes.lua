@@ -16,10 +16,3 @@ vim.api.nvim_create_autocmd("FileType", {
     require('markdown')
   end,
 })
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "markdown" },
-  callback = function()
-    require('gliss/loom')
-  end
-})

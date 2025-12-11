@@ -80,40 +80,35 @@ function toggle_checkbox()
   end
 end
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "markdown",
-  callback = function()
-    local media = require("markdown/media")
-    local footnote = require("markdown/footnote")
+local media = require("markdown/media")
+local footnote = require("markdown/footnote")
 
-    -- Disable line numbers
-    vim.wo.number = false
-    vim.wo.relativenumber = false
-    vim.wo.fillchars = "eob: " -- Removes ~ lines at the end of buffer
+-- Disable line numbers
+vim.wo.number = false
+vim.wo.relativenumber = false
+vim.wo.fillchars = "eob: " -- Removes ~ lines at the end of buffer
 
-    vim.wo.spell = true
-    vim.wo.linebreak = true
-    vim.opt.cursorcolumn = false
-    vim.opt.complete:append("kspell")
+vim.wo.spell = true
+vim.wo.linebreak = true
+vim.opt.cursorcolumn = false
+vim.opt.complete:append("kspell")
 
-    local opts = { noremap = true, buffer = 0 }
-    vim.keymap.set('n', ',S', screenshot, opts)
-    vim.keymap.set('n', ',s', toggle_checkbox, opts)
-    vim.keymap.set('n', 'gv', media.open_url_under_cursor, opts)
+local opts = { noremap = true, buffer = 0 }
+vim.keymap.set('n', ',S', screenshot, opts)
+vim.keymap.set('n', ',s', toggle_checkbox, opts)
+vim.keymap.set('n', 'gv', media.open_url_under_cursor, opts)
 
-    vim.api.nvim_create_autocmd("CursorMoved", {
-      pattern = "*.md",
-      callback = media.auto_preview_image,
-    })
+vim.api.nvim_create_autocmd("CursorMoved", {
+  pattern = "*.md",
+  callback = media.auto_preview_image,
+})
 
-    -- Quickly fix the closest previous spelling error
-    vim.api.nvim_buf_set_keymap(0, "i", "<leader>z", "<C-g>u<Esc>[s1z=`]a<C-g>u", { noremap = true, silent = true })
-    vim.api.nvim_buf_set_keymap(0, "n", "<leader>z", "[s1z=``", { noremap = true, silent = true })
+-- Quickly fix the closest previous spelling error
+vim.api.nvim_buf_set_keymap(0, "i", "<leader>z", "<C-g>u<Esc>[s1z=`]a<C-g>u", { noremap = true, silent = true })
+vim.api.nvim_buf_set_keymap(0, "n", "<leader>z", "[s1z=``", { noremap = true, silent = true })
 
-    vim.keymap.set("n", "<leader>n", footnote.handle_footnote, opts)
-    vim.api.nvim_create_autocmd("CursorMoved", {
-      pattern = "*.md",
-      callback = footnote.preview_footnote
-    })
-  end,
+vim.keymap.set("n", "<leader>n", footnote.handle_footnote, opts)
+vim.api.nvim_create_autocmd("CursorMoved", {
+  pattern = "*.md",
+  callback = footnote.preview_footnote
 })
