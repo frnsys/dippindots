@@ -124,18 +124,6 @@ highlight link @lsp.mod.documentation.rust @comment.documentation
 highlight @markup.heading.gitcommit guifg=#eeeeee guibg=NONE
 highlight @keyword.gitcommit guifg=#ff331f
 
-highlight DiffAdd guifg=#08c97b guibg=#202020 guisp=NONE blend=NONE gui=NONE
-highlight DiffChange guifg=#aaaaff guibg=#202020 guisp=NONE blend=NONE gui=NONE
-highlight DiffDelete guifg=#ff2f6d guibg=#202020 guisp=NONE blend=NONE gui=NONE
-highlight DiffText guifg=#111111 guibg=#f8aa01 guisp=NONE blend=NONE gui=NONE
-highlight GitSignsAdd guifg=#08c97b guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight GitSignsDelete guifg=#ff331f guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight GitSignsChange guifg=#08c97b guibg=NONE guisp=NONE blend=NONE gui=NONE
-
-highlight BlinkCmpDoc guibg=#131313
-highlight BlinkCmpDocBorder guibg=#131313
-highlight BlinkCmpSignatureHelp guibg=#131313
-
 highlight WindowTarget guibg=#ffd75f guifg=#161616 gui=bold
 
 highlight StatusLineError guifg=#161616 guibg=#FC392B guisp=NONE blend=NONE gui=bold

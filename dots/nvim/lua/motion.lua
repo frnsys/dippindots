@@ -7,7 +7,7 @@ vim.pack.add({
   "https://github.com/folke/flash.nvim",
 })
 
-require("nvim-treesitter").setup({
+require("nvim-treesitter.configs").setup({
   ensure_installed = {
     'c', 'cpp', 'python', 'rust', 'tsx',
     'typescript', 'c_sharp', 'css', 'scss', 'toml',
