@@ -17,11 +17,11 @@ output "eDP-1" {
     //mode "1600x2560@60"
     mode "1600x2560"
     scale 2.5
-    transform "90"
+    //transform "90"
 }
 
 layout {
-    gaps 6
+    gaps 0
     center-focused-column "never"
     default-column-width {}
     focus-ring {
