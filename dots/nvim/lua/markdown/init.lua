@@ -1,3 +1,42 @@
+vim.pack.add({
+  "https://github.com/lukas-reineke/headlines.nvim",
+  "https://github.com/shortcuts/no-neck-pain.nvim",
+})
+
+--- Nicer markdown headings.
+require("headlines").setup({
+  markdown = {
+    bullets = { "", "", "", "" },
+    headline_highlights = { "Headline1", "Headline2", "Headline3", "Headline4" },
+    fat_headlines = false,
+  },
+})
+
+require("no-neck-pain").setup({
+  buffers = {
+    wo = {
+      fillchars = "eob: ",
+    },
+  },
+})
+
+-- Auto-load NoNeckPain for markdown files
+vim.api.nvim_create_autocmd({"BufEnter"}, {
+  pattern = "*",
+  callback = function()
+    vim.schedule(function()
+      local filetype = vim.api.nvim_buf_get_option(0, "filetype")
+      local enabled =  _G.NoNeckPain.state ~= nil and _G.NoNeckPain.state.enabled
+
+      if (filetype == "markdown" and not enabled) or
+        (filetype ~= 'markdown' and filetype ~= 'oil' and filetype ~= 'no-neck-pain' and filetype ~= 'qf' and enabled) then
+        return vim.cmd("NoNeckPain")
+      end
+    end)
+  end,
+})
+
+
 --- Insert text at current cursor position.
 local function insert_text_at_cursor(text)
   local row, col = unpack(vim.api.nvim_win_get_cursor(0)) -- Get current cursor position
@@ -44,8 +83,8 @@ end
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()
-    local media = require("filetype/markdown/media")
-    local footnote = require("filetype/markdown/footnote")
+    local media = require("markdown/media")
+    local footnote = require("markdown/footnote")
 
     -- Disable line numbers
     vim.wo.number = false

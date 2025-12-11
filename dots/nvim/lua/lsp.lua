@@ -1,3 +1,13 @@
+--- LSP status
+vim.pack.add({
+  "https://github.com/j-hui/fidget.nvim",
+})
+require("fidget").setup({
+  notification = {
+    override_vim_notify = true,
+  },
+})
+
 -- https://github.com/neovim/neovim/issues/23291
 local ok, wf = pcall(require, "vim.lsp._watchfiles")
 if ok then
@@ -198,5 +208,19 @@ vim.lsp.config["verses"] = {
   root_markers = { ".git" },
 }
 vim.lsp.enable('verses')
-vim.lsp.set_log_level("INFO")
+
+-- Show errors and warnings in a floating window
+vim.api.nvim_create_autocmd("CursorHold", {
+    callback = function()
+        -- Skip if another floating window is open
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+            local config = vim.api.nvim_win_get_config(win)
+            if config.relative ~= "" then
+                return
+            end
+        end
+        -- Show diagnostics if no other floating windows are present
+        vim.diagnostic.open_float(nil, { focusable = false, source = true })
+    end,
+})
 

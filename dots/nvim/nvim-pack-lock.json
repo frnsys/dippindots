@@ -1,0 +1,60 @@
+{
+  "plugins": {
+    "bufjump.nvim": {
+      "rev": "ae2728a77defbd27e9e5ef64c854fb0813ffba01",
+      "src": "https://github.com/kwkarlwang/bufjump.nvim"
+    },
+    "fidget.nvim": {
+      "rev": "e32b672d8fd343f9d6a76944fedb8c61d7d8111a",
+      "src": "https://github.com/j-hui/fidget.nvim"
+    },
+    "flash.nvim": {
+      "rev": "fcea7ff883235d9024dc41e638f164a450c14ca2",
+      "src": "https://github.com/folke/flash.nvim"
+    },
+    "fzf-lua": {
+      "rev": "c7ff27deae5b8966b0764bde962d0855e6e2db93",
+      "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "headlines.nvim": {
+      "rev": "bf17c96a836ea27c0a7a2650ba385a7783ed322e",
+      "src": "https://github.com/lukas-reineke/headlines.nvim"
+    },
+    "kitty-scrollback.nvim": {
+      "rev": "36d19dc85c0a1d0193e7c52d41129c4aa28b72e8",
+      "src": "https://github.com/mikesmithgh/kitty-scrollback.nvim"
+    },
+    "mini.ai": {
+      "rev": "bfb26d9072670c3aaefab0f53024b2f3729c8083",
+      "src": "https://github.com/echasnovski/mini.ai"
+    },
+    "mini.indentscope": {
+      "rev": "0308f949f31769e509696af5d5f91cebb2159c69",
+      "src": "https://github.com/echasnovski/mini.indentscope"
+    },
+    "neowords.nvim": {
+      "rev": "47a38cd4aa3118a6be3f64ac4987a8483bd2e98a",
+      "src": "https://github.com/backdround/neowords.nvim"
+    },
+    "no-neck-pain.nvim": {
+      "rev": "718f30f547ca36bb4d0619e8ea11f5af4ee813cc",
+      "src": "https://github.com/shortcuts/no-neck-pain.nvim"
+    },
+    "nvim-treesitter": {
+      "rev": "42fc28ba918343ebfd5565147a42a26580579482",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "nvim-window": {
+      "rev": "a8d965f158cff222713a3b3ab341445d331e6e3a",
+      "src": "https://github.com/yorickpeterse/nvim-window"
+    },
+    "oil.nvim": {
+      "rev": "cbcb3f997f6f261c577b943ec94e4ef55108dd95",
+      "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "substitute.nvim": {
+      "rev": "9db749a880e3dd3b0eb57f698aa8f1e1630e1f25",
+      "src": "https://github.com/gbprod/substitute.nvim"
+    }
+  }
+}

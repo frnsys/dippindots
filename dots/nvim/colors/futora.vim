@@ -94,6 +94,13 @@ highlight link @markup.list.markdown @text.list_marker
 highlight link @lsp.typemod.enumMember.defaultLibrary.rust Special
 highlight @lsp.type.macro.rust guifg=#ff5c5c
 
+highlight @lsp.type.type guifg=#dddddd guibg=#000000 gui=italic
+highlight @lsp.type.typeParameter guifg=#ff5c5c
+highlight @lsp.type.enum guifg=#ff6161
+highlight @lsp.type.interface guifg=#10a349
+highlight @lsp.type.class guifg=#53cf83
+highlight @lsp.type.struct guifg=#b7e8ca
+
 highlight DiagnosticInfo guifg=#a6cccc guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight DiagnosticUnderlineError guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=underline
 
