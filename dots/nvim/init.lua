@@ -27,10 +27,15 @@ vim.o.showbreak = "  "
 
 --- Use spaces, not tabs
 vim.o.expandtab = true
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
 
 --- Case insensitive searches unless they contain capitals
 vim.o.ignorecase = true
 vim.o.smartcase = true
+
+--- Global search/replace by default
+vim.o.gdefault = true
 
 --- SSH-compatible clipboard
 vim.g.clipboard = 'osc52'
