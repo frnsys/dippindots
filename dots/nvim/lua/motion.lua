@@ -33,8 +33,9 @@ ai.setup({
 
 --- Substitute motions
 -- e.g. siw
-vim.keymap.set("n", "s", require('substitute').operator)
-vim.keymap.set("n", "ss", require('substitute').line)
+require("substitute").setup()
+vim.keymap.set("n", "s", require("substitute").operator)
+vim.keymap.set("n", "ss", require("substitute").line)
 
 --- https://github.com/backdround/neowords.nvim/blob/main/lua/neowords/pattern-presets.lua
 local neowords = require("neowords")
