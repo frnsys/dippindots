@@ -222,6 +222,8 @@ browser:
     cd /tmp/pdfjs && npm install && npx gulp generic
     mv /tmp/pdf.js/build/generic ~/.local/share/qutebrowser/pdfjs
 
+    pip install adblock
+
     # For syncing tabs from Firefox Android
     wget https://github.com/Mikescher/firefox-sync-client/releases/download/v1.9.0/ffsclient_linux-amd64 -O /tmp/ffsclient
     chmod +x /tmp/ffsclient
