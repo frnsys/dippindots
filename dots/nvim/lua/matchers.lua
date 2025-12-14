@@ -1,10 +1,6 @@
 -- Some of these copied from <https://github.com/nvim-treesitter/nvim-treesitter-textobjects/blob/master/queries/rust/textobjects.scm>
 -- To write more, use `:InspectTree`.
 local ts_queries = {
-  function_name = [[
-    (function_item
-      name: (identifier) @function.name)
-  ]],
   statement = [[
     (block
       (_) @statement.outer)
@@ -16,19 +12,12 @@ local ts_queries = {
     (if_expression
       condition: (_) @value)
   ]],
-  argument = [[
-    (call_expression
-      arguments: (arguments
-        .
-        "("
-        .
-        (_) @_start
-        (_)? @_end
-        .
-        ")"
-        (#make-range! "call.inner" @_start @_end)))
+  list_item = [[
+    (tuple_type (_) @argument)
+    (arguments (_) @argument)
+    (parameter) @argument
   ]],
-  assignment = [[
+  left_right = [[
     (let_declaration
       pattern: (_) @assignment.lhs
       value: (_) @assignment.rhs)
@@ -44,6 +33,18 @@ local ts_queries = {
     (field_pattern
       name: (_) @assignment.lhs
       pattern: (_) @assignment.rhs)
+
+    (match_arm
+      pattern: (_) @assignment.lhs
+      value: (_) @assignment.rhs)
+
+    (field_initializer
+      field: (_) @assignment.lhs
+      value: (_) @assignment.rhs)
+
+    (binary_expression
+      left: (_) @assignment.lhs
+      right: (_) @assignment.rhs)
   ]]
 }
 

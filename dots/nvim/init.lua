@@ -52,6 +52,12 @@ vim.o.splitbelow = true
 --- restore view, and clean unloaded buffers
 vim.o.jumpoptions = "stack,view,clean"
 
+--- Hide the signcolumn
+vim.o.signcolumn = "no"
+
+--- Undo history
+vim.o.undofile = true
+
 --- Use filename as title
 vim.o.title = true
 vim.o.titlestring = "%t"

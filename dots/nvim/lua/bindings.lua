@@ -20,6 +20,8 @@ end
 delete_keymaps_w_prefix('[')
 delete_keymaps_w_prefix(']')
 
+-- Unused: Y, w, <c-f>, H, <c-c>, <c-d>
+
 --- Tabs
 _("<c-t>", ":tabnew<cr>", "n")
 _("}", ":tabnext<cr>", "n")
@@ -32,8 +34,14 @@ _("<c-h>", "<c-o>", "n")
 --- Like `{` and `}`
 --- but go to the start of the line for
 --- each block, rather than the empty lines.
+-- TODO improve this to walk across statements?
 _('<c-i>', '}j^', { "n", "x", "o" })
 _('<c-o>', 'k{j^', { "n", "x", "o" })
+
+--- <c-e> already scrolls down by one,
+--- <c-y> scrolls up but is in an awkward position.
+_("<c-'>", "<c-e>", { "n" })
+_("<c-e>", "<c-y>", { "n" })
 
 --- Jump between matching delimiters
 _('l', '%', {"n", "x", "o"})
@@ -41,10 +49,7 @@ _('l', '%', {"n", "x", "o"})
 --- Bind return to clear last search highlight.
 _("<cr>", ":noh<cr>", "n")
 
---- Alternate paging bindings
-_("<c-c>", "<c-u>", "n")
-
---- Then we can undo like this:
+--- Undo
 _("<c-u>", "u", "n")
 
 --- Insert and go to new line above.
@@ -73,6 +78,7 @@ _('<c-b>', 'dbg!();<Left><Left>', "i")
 --- Delete previous word
 _('<c-backspace>', '<c-w>', "i")
 
+-- TODO could use improving
 --- Delete back to and including the next underscore.
 --- This is kind of like a subword delete.
 _('<c-d>', '<esc><right>d?[[:punct:]]<CR>:noh<CR>i', "i")
@@ -87,15 +93,3 @@ _("<Esc>", "<C-\\><C-n>", "t")
 --- bindings (set in `neovim/runtime/ftplugin/rust.vim`)
 --- which conflict with some of my bindings.
 vim.g.no_rust_maps = 1
-
---- Use `o` to open a location from the quickfix list.
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "qf",
-  callback = function(ev)
-    vim.keymap.set("n", "o", "<CR>:cclose<CR>", {
-      buffer = ev.buf,
-      noremap = true,
-      silent = true,
-    })
-  end
-})

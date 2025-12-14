@@ -1,5 +1,6 @@
 vim.pack.add({
   "https://github.com/nvim-treesitter/nvim-treesitter",
+  "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
   "https://github.com/gbprod/substitute.nvim",
   "https://github.com/backdround/neowords.nvim",
   "https://github.com/echasnovski/mini.ai",
@@ -24,12 +25,23 @@ local ai = require('mini.ai')
 ai.setup({
   custom_textobjects = {
     ['r'] = { { "%b''", '%b""', '%b``' }, '^.().*().$' },
-    ['t'] = { { '%b()', '%b[]', '%b{}', '%b<>', '%b||' }, '^.().*().$' }
+    ['t'] = { { '%b()', '%b[]', '%b{}', '%b<>', '%b||' }, '^.().*().$' },
+
+    -- Note: requires `nvim-treesitter/nvim-treesitter-textobjects`
+    ['F'] = ai.gen_spec.treesitter({
+      a = '@function.outer', i = '@function.inner' }),
   },
 
   ['a'] = ai.gen_spec.argument(),
   ['f'] = ai.gen_spec.function_call(),
 })
+
+--- Motion helpers
+-- , => up to next comma, e.g. `c,`
+vim.keymap.set({ "o", "x" }, ",", "t,")
+
+-- ) => up to next ), e.g. `c)`
+vim.keymap.set({ "o", "x" }, ")", "t)")
 
 --- Substitute motions
 -- e.g. siw
@@ -97,7 +109,6 @@ require("flash").setup({
   prompt = { enabled = false },
 })
 
--- Unused: Y, w, b, k, =, \, H
 
 --- Jump to (start of) line.
 vim.keymap.set({"n", "x", "o"}, "<c-a>", function()
@@ -109,24 +120,22 @@ vim.keymap.set({"n", "x", "o"}, "<c-a>", function()
 end)
 
 local matchers = require("./matchers")
+local function flash_ts(kind)
+  function inner()
+    require("flash").jump({
+      matcher = matchers.ts_matcher(kind),
+      search = { mode = "search", max_length = 0 },
+      jump = { pos = "range", autojump = true },
+    })
+  end
+  return inner
+end
 
-vim.keymap.set({"n", "x", "o"}, "'", function()
-  require("flash").jump({
-    matcher = matchers.ts_matcher("assignment"),
-    search = { mode = "search", max_length = 0 },
-    jump = { pos = "range", autojump = true },
-  })
-end)
+vim.keymap.set({"n", "x", "o"}, "\"", flash_ts("left_right"))
+vim.keymap.set({"n", "x", "o"}, "U", flash_ts("list_item"))
+vim.keymap.set({"n", "x", "o"}, "k", flash_ts("statement"))
 
-vim.keymap.set({"n", "x", "o"}, "\"", function()
-  require("flash").jump({
-    matcher = matchers.ts_matcher("statement"),
-    search = { mode = "search", max_length = 0 },
-    jump = { pos = "range", autojump = true },
-  })
-end)
-
-vim.keymap.set({"n", "x", "o"}, "U", function()
+vim.keymap.set({"n"}, "'", function()
   require("flash").jump({
     matcher = matchers.delim_matcher({
       { '"', '"' },

@@ -23,8 +23,11 @@ require("oil").setup({
   },
   default_file_explorer = false,
   use_default_keymaps = false,
+  float = {
+    max_width = 64,
+  },
 })
-vim.keymap.set("n", "_", require("oil").open)
+vim.keymap.set("n", "_", require("oil").open_float)
 
 require("bufjump").setup({})
 local opts = { silent=true, noremap=true }

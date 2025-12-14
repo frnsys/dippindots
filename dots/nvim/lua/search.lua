@@ -44,7 +44,6 @@ require("fzf-lua").setup({
   files = {
     previewer = false,
     formatter = "path.dirname_first",
-    -- formatter = "path.filename_first",
   },
   grep = {
     formatter = "path.filename_first",
@@ -134,7 +133,7 @@ vim.keymap.set("n", "-", function()
 end)
 
 --- Grep current word
-vim.keymap.set("n", "?", function()
+vim.keymap.set("n", "&", function()
   require('fzf-lua').grep_cword({
     cwd = require("fzf-lua").path.git_root({})
   })
@@ -146,6 +145,7 @@ vim.keymap.set("n", "j", function()
     cwd = require("fzf-lua").path.git_root({})
   })
 end)
+
 --- Resume grep search
 vim.keymap.set("n", "J", function()
   require('fzf-lua').live_grep({
@@ -162,15 +162,6 @@ vim.keymap.set("n", "D", function()
   })
 end)
 
---- Search buffer lines
-vim.keymap.set("n", "\\", function()
-  require('fzf-lua').blines({
-    winopts = {
-      preview = { hidden = true }
-    }
-  })
-end)
-
 --- Find references for word under cursor
 vim.keymap.set("n", ",r", require('fzf-lua').lsp_references)
 
@@ -182,7 +173,7 @@ vim.keymap.set("n", ",w", function()
 end)
 
 --- Search symbols
-vim.keymap.set("n", ",s", function()
+vim.keymap.set("n", "\\", function()
   if vim.bo.filetype == "markdown" then
     require('fzf-lua').lsp_document_symbols({
       fzf_opts = {
@@ -208,8 +199,12 @@ vim.keymap.set("n", ",s", function()
         item.col ~= 1
         and
         (item.kind == "Struct"
+        or item.kind == "Key"
         or item.kind == "Enum"
-        or item.kind == "Interface")
+        or item.kind == "EnumMember"
+        or item.kind == "Function"
+        or item.kind == "Interface"
+        or item.kind == "Object")
       end,
       symbol_style = 3,
     })
