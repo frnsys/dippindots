@@ -83,7 +83,7 @@ abbr -a ytdl "yt-dlp --remote-components ejs:github -f 'bv[height<=1080]+ba'"
 abbr -a ytdlmp3 "yt-dlp --remote-components ejs:github --extract-audio --audio-format mp3"
 abbr -a publish "port build spaceandtimes; port sync spaceandtimes ftseng@starbase:/srv/spaceandtimes"
 
-function y
+function ,
 	set tmp (mktemp -t "yazi-cwd.XXXXXX")
 	yazi $argv --cwd-file="$tmp"
 	if set cwd (command cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
