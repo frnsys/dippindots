@@ -14,7 +14,7 @@ input {
 
 // `niri msg outputs`
 output "eDP-1" {
-    mode "1600x2560"
+    mode "1920x1200@60"
     scale 2
 }
 
