@@ -82,6 +82,8 @@ dev:
 	cargo install cargo-expand cargo-machete
 	cargo install mdbook mdbook-toc
 
+	pip install pyright
+
 	# A bit of a necessity with rust-analyzer,
 	# as on large projects it can hog all memory and cause the
 	# system to lock up.
@@ -352,6 +354,10 @@ documents:
 	ln -sf $(dir)/dots/sioyek/prefs_user.config ~/.config/sioyek/prefs_user.config
 
 	sudo zypper in libreoffice-calc libreoffice-gtk3
+
+	wget https://github.com/artempyanykh/marksman/releases/latest/download/marksman-linux-x64 -O /tmp/marksman
+	chmod +x /tmp/marksman
+	sudo mv /tmp/marksman /usr/local/bin/marksman
 
 screen:
 	sudo usermod -aG video ${USER}
