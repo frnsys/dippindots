@@ -28,20 +28,14 @@ ai.setup({
     ['t'] = { { '%b()', '%b[]', '%b{}', '%b<>', '%b||' }, '^.().*().$' },
 
     -- Note: requires `nvim-treesitter/nvim-treesitter-textobjects`
-    ['F'] = ai.gen_spec.treesitter({
+    ['f'] = ai.gen_spec.treesitter({
       a = '@function.outer', i = '@function.inner' }),
+    ['a'] = ai.gen_spec.treesitter({
+      a = { "@parameter.outer", "@argument.outer", "@element.outer" },
+      i = { "@parameter.inner", "@argument.inner", "@element.inner" },
+    }),
   },
-
-  ['a'] = ai.gen_spec.argument(),
-  ['f'] = ai.gen_spec.function_call(),
 })
-
---- Motion helpers
--- , => up to next comma, e.g. `c,`
-vim.keymap.set({ "o", "x" }, ",", "t,")
-
--- ) => up to next ), e.g. `c)`
-vim.keymap.set({ "o", "x" }, ")", "t)")
 
 --- Substitute motions
 -- e.g. siw
@@ -89,7 +83,7 @@ vim.keymap.set({ "n", "x", "o" }, "e", subword_hops.forward_end)
 require('mini.indentscope').setup()
 
 require("flash").setup({
-  labels = "nrtscbwhaeimldpfoumk",
+  labels = "nrtschaeimldpfoumbwkyx",
   label = {
     after = true,
     before = true,
@@ -98,6 +92,14 @@ require("flash").setup({
     char = {
       enabled = true,
       jump_labels = true,
+      label = { exclude = "zb" },
+      keys = {
+        "t", "T",
+
+        -- Easier than f/F
+        ["f"] = "h",
+        ["F"] = "H",
+      }
     },
     search = {
       enabled = true,
@@ -124,6 +126,16 @@ local function flash_ts(kind)
   function inner()
     require("flash").jump({
       matcher = matchers.ts_matcher(kind),
+      search = { mode = "search", max_length = 0, multi_window = false },
+      jump = { pos = "range", autojump = true },
+    })
+  end
+  return inner
+end
+local function flash_delim(delims)
+  function inner()
+    require("flash").jump({
+      matcher = matchers.delim_matcher(delims, false),
       search = { mode = "search", max_length = 0 },
       jump = { pos = "range", autojump = true },
     })
@@ -131,78 +143,35 @@ local function flash_ts(kind)
   return inner
 end
 
-vim.keymap.set({"n", "x", "o"}, "\"", flash_ts("left_right"))
-vim.keymap.set({"n", "x", "o"}, "U", flash_ts("list_item"))
+vim.keymap.set({"n"}, "=", flash_ts("left_right"))
+vim.keymap.set({"n", "x", "o"}, "<c-f>", flash_ts("list_item"))
 vim.keymap.set({"n", "x", "o"}, "k", flash_ts("statement"))
 
-vim.keymap.set({"n"}, "'", function()
-  require("flash").jump({
-    matcher = matchers.delim_matcher({
-      { '"', '"' },
-      { "'", "'" },
-      { '`', '`' },
-    }, false),
-    search = { mode = "search", max_length = 0 },
-    jump = { pos = "range", autojump = true },
-  })
-end)
+vim.keymap.set({"n"}, "'", flash_delim({
+  { '"', '"' },
+  { "'", "'" },
+  { '`', '`' },
+}))
 
-vim.keymap.set({"n", "x", "o"}, "u", function()
-  require("flash").jump({
-    matcher = matchers.delim_matcher({
-      { '(', ')' },
-      { '[', ']' },
-      { '<', '>' },
-      { '{', '}' },
-      { '|', '|' },
-    }, false),
-    search = { mode = "search", max_length = 0 },
-    jump = { pos = "range", autojump = true },
-  })
-end)
+vim.keymap.set({"n", "x", "o"}, "u", flash_delim({
+  { '(', ')' },
+  { '[', ']' },
+  { '{', '}' },
+}))
 
---- Jump to word.
-vim.keymap.set({"n", "x", "o"}, "h", function()
-  local flash = require("flash")
+vim.keymap.set({"n", "x", "o"}, "U", flash_delim({
+  { '<', '>' },
+  { '|', '|' },
+}))
 
-  local function format(opts)
-    -- always show first and second label
-    return {
-      { opts.match.label1, "FlashLabel" },
-      { opts.match.label2, "FlashLabel" },
-    }
-  end
+--- Motion helpers
+-- Better to come after flash setup to avoid overwriting.
 
-  flash.jump({
-    search = { mode = "search" },
-    label = { after = false, before = { 0, 0 }, uppercase = false, format = format },
-    pattern = [[\<]],
-    action = function(match, state)
-      state:hide()
-      flash.jump({
-        search = { max_length = 0 },
-        highlight = { matches = false },
-        label = { after = false, before = { 0, 0 }, format = format },
-        matcher = function(win)
-          -- limit matches to the current label
-          return vim.tbl_filter(function(m)
-            return m.label == match.label and m.win == win
-          end, state.results)
-        end,
-        labeler = function(matches)
-          for _, m in ipairs(matches) do
-            m.label = m.label2 -- use the second label
-          end
-        end,
-      })
-    end,
-    labeler = function(matches, state)
-      local labels = state:labels()
-      for m, match in ipairs(matches) do
-        match.label1 = labels[math.floor((m - 1) / #labels) + 1]
-        match.label2 = labels[(m - 1) % #labels + 1]
-        match.label = match.label1
-      end
-    end,
-  })
-end)
+-- , => up to next comma, e.g. `c,`
+vim.keymap.set({ "o", "x" }, ",", "t,")
+
+-- ) => up to next ), e.g. `c)`
+vim.keymap.set({ "o", "x" }, ")", "t)")
+
+-- ; => up to next ;, e.g. `c;`
+vim.keymap.set({ "o", "x" }, ";", "t;")

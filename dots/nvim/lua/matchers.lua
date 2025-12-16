@@ -1,4 +1,3 @@
--- Some of these copied from <https://github.com/nvim-treesitter/nvim-treesitter-textobjects/blob/master/queries/rust/textobjects.scm>
 -- To write more, use `:InspectTree`.
 local ts_queries = {
   statement = [[
@@ -13,9 +12,9 @@ local ts_queries = {
       condition: (_) @value)
   ]],
   list_item = [[
+    (arguments (_) @list_item)
+    (use_list (_) @list_item)
     (tuple_type (_) @argument)
-    (arguments (_) @argument)
-    (parameter) @argument
   ]],
   left_right = [[
     (let_declaration
@@ -53,12 +52,17 @@ local function find_ts_matches(win, ts_query)
   local bufnr = vim.api.nvim_win_get_buf(win)
   local ftype = vim.bo[bufnr].filetype
   local lang = vim.treesitter.language.get_lang(ftype)
+  if not lang then return {} end
 
   local parser = vim.treesitter.get_parser(bufnr, lang)
   local tree = parser:parse()[1]
   local root = tree:root()
 
+  -- Note: requires `nvim-treesitter/nvim-treesitter-textobjects`
+  -- local query = vim.treesitter.query.get(lang, "textobjects")
+
   local query = vim.treesitter.query.parse(lang, ts_query)
+  if not query then return {} end
 
   local matches = {}
   for id, node in query:iter_captures(root, bufnr, 0, -1) do

@@ -20,7 +20,7 @@ end
 delete_keymaps_w_prefix('[')
 delete_keymaps_w_prefix(']')
 
--- Unused: Y, w, <c-f>, H, <c-c>, <c-d>
+-- Unused: w, <c-c>, <c-d>, +, #, ;, ., f, F
 
 --- Tabs
 _("<c-t>", ":tabnew<cr>", "n")
