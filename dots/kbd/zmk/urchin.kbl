@@ -133,6 +133,7 @@ defs:
 combos:
   [⏷, ⏶]: ⨯               # Mute
   [⏷, ▶, ⏶]: Meta(Alt(O)) # Monitor sleep
+  [◐, ◑]: ◌               # Bluetooth clear profile
 shifts:
   ▶: Meta(=)        # Play/pause mpv
   ⏶: ☼              # Brightness up
