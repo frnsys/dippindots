@@ -53,6 +53,9 @@ abbr -a ..... "cd ../../../.."
 # To avoid accidentally overwriting files
 abbr -a mv "mv -i"
 
+# Smart case ripgrep
+abbr -a rg "rg -S"
+
 # Git
 abbr -a gd "git diff"
 abbr -a ga "git add"
