@@ -12,6 +12,5 @@ for dir in $HOME/.bin $HOME/.local/bin $HOME/.cargo/bin /usr/sbin /var/lib/flatp
     export PATH="$dir:$PATH"
 done
 gsettings set org.gnome.desktop.interface cursor-size 12
-. "$HOME/.cargo/env"
 
 exec fish
