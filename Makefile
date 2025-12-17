@@ -82,7 +82,7 @@ dev:
 	cargo install cargo-expand cargo-machete
 	cargo install mdbook mdbook-toc
 
-	pip install pyright
+	pip install ty
 
 	# A bit of a necessity with rust-analyzer,
 	# as on large projects it can hog all memory and cause the

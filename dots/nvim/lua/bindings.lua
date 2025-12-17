@@ -20,16 +20,16 @@ end
 delete_keymaps_w_prefix('[')
 delete_keymaps_w_prefix(']')
 
--- Unused: w, <c-c>, <c-d>, +, #, ;, ., f, F
+-- Unused: #, ;, ., f, F, {, }
 
 --- Tabs
 _("<c-t>", ":tabnew<cr>", "n")
-_("}", ":tabnext<cr>", "n")
-_("{", ":tabprevious<cr>", "n")
+_("]", ":tabnext<cr>", "n")
+_("[", ":tabprevious<cr>", "n")
 
 --- Replace <c-i> and <c-o>
 _("<c-p>", "<c-i>", "n")
-_("<c-h>", "<c-o>", "n")
+_("<c-j>", "<c-o>", "n")
 
 --- Like `{` and `}`
 --- but go to the start of the line for

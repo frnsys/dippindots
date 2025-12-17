@@ -154,6 +154,15 @@ vim.keymap.set("n", "J", function()
   })
 end)
 
+--- Grep buffer lines
+vim.keymap.set("n", "\\", function()
+  require('fzf-lua').blines({
+    winopts = {
+      preview = { hidden = true }
+    }
+  })
+end)
+
 --- Search workspace diagnostics
 vim.keymap.set("n", "D", function()
   ra_flycheck();
@@ -163,7 +172,7 @@ vim.keymap.set("n", "D", function()
 end)
 
 --- Find references for word under cursor
-vim.keymap.set("n", ",r", require('fzf-lua').lsp_references)
+vim.keymap.set("n", "R", require('fzf-lua').lsp_references)
 
 --- Warnings
 vim.keymap.set("n", ",w", function()
@@ -173,7 +182,7 @@ vim.keymap.set("n", ",w", function()
 end)
 
 --- Search symbols
-vim.keymap.set("n", "\\", function()
+vim.keymap.set("n", "+", function()
   if vim.bo.filetype == "markdown" then
     require('fzf-lua').lsp_document_symbols({
       fzf_opts = {

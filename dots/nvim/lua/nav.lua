@@ -16,7 +16,6 @@ require("oil").setup({
         vim.cmd("vertical resize 24")
       end, 2)
     end,
-    ["-"] = "actions.parent",
     ["_"] = "actions.parent",
     ["g."] = "actions.toggle_hidden",
     ["q"] = "actions.close",

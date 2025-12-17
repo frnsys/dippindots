@@ -80,11 +80,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     bind("Go to previous diagnostic message",
-      '[', function()
+      '<c-d>', function()
         vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
       end)
     bind("Go to next diagnostic message",
-      ']', function()
+      '<c-c>', function()
         vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
       end)
     bind('Code action',
@@ -163,13 +163,12 @@ vim.lsp.config["rust"] = {
 }
 vim.lsp.enable('rust')
 
--- pip install pyright
+-- pip install ty
 vim.lsp.config["python"] = {
-  cmd = { 'pyright-langserver', '--stdio' },
+  cmd = { "ty", "server" },
   filetypes = { "python" },
   root_markers = {
     "requirements.txt",
-    "pyrightconfig.json",
     "pyproject.toml",
     "mise.toml",
   },
@@ -202,8 +201,8 @@ vim.filetype.add({
 })
 vim.lsp.config["verses"] = {
   -- Debugging
-  -- cmd = { '/home/francis/projects/fugue/lib/target/debug/verses-lsp' },
-  cmd = { 'verses-lsp' },
+  -- cmd = { '/home/francis/projects/fugue/lib/target/debug/verses', 'lsp' },
+  cmd = { 'verses', 'lsp' },
   filetypes = { "verses" },
   root_markers = { ".git" },
 }
