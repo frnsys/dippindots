@@ -3,6 +3,7 @@ vim.pack.add({
   "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
   "https://github.com/gbprod/substitute.nvim",
   "https://github.com/backdround/neowords.nvim",
+  "https://github.com/chrisgrieser/nvim-spider",
   "https://github.com/echasnovski/mini.ai",
   "https://github.com/echasnovski/mini.indentscope",
   "https://github.com/folke/flash.nvim",
@@ -46,43 +47,47 @@ vim.keymap.set({ "n" }, "r", "c")
 -- e.g. siw
 require("substitute").setup()
 vim.keymap.set("n", "s", require("substitute").operator)
+vim.keymap.set("x", "s", require("substitute").visual)
 vim.keymap.set("n", "ss", require("substitute").line)
 
---- https://github.com/backdround/neowords.nvim/blob/main/lua/neowords/pattern-presets.lua
-local neowords = require("neowords")
-local p = neowords.pattern_presets
+require("spider").setup({
+	skipInsignificantPunctuation = true,
+	subwordMovement = true,
+	consistentOperatorPending = false,
+	customPatterns = {},
+})
+vim.keymap.set({ "n", "o", "x" }, "w", function() require('spider').motion('w') end)
+vim.keymap.set({ "n", "o", "x" }, "e", function() require('spider').motion('e') end)
+vim.keymap.set({ "n", "o", "x" }, "m", function() require('spider').motion('b') end)
+vim.keymap.set({ "n", "o", "x" }, "M", "B")
 
-local bigword_hops = neowords.get_word_hops(
-  p.any_word,
-  "\\v$", -- Also stop at the end of the line
-  "\\v^", -- Also stop at the start of the line
-  "\\v%([[:blank:]])@<=[[:punct:]]{2,}" -- Treat sequences of 2 or more punct as a word, preceded by whitespace
-)
-vim.keymap.set({ "n", "x" }, "W", bigword_hops.forward_start)
-vim.keymap.set({ "n", "x" }, "M", bigword_hops.backward_start)
-vim.keymap.set({ "n", "x" }, "E", bigword_hops.forward_end)
-
-local bigword_change = neowords.get_word_hops(
-  "[-_[:lower:][:upper:][:digit:]]+",
-  "[[:punct:]]"
-)
-vim.keymap.set({ "o" }, "W", bigword_change.forward_start)
-vim.keymap.set({ "o" }, "M", bigword_change.backward_start)
-vim.keymap.set({ "o" }, "E", bigword_change.forward_end)
-
-local subword_hops = neowords.get_word_hops(
-  p.snake_case,
-  p.camel_case,
-  p.upper_case,
-  p.number,
-  p.hex_color,
-  "\\v$", -- Also stop at the end of the line
-  "\\v^", -- Also stop at the start of the line
-  "\\v[[:punct:]]{2,}" -- Treat sequences of 2 or more punct as a word
-)
-vim.keymap.set({ "n", "x", "o" }, "w", subword_hops.forward_start)
-vim.keymap.set({ "n", "x", "o" }, "m", subword_hops.backward_start)
-vim.keymap.set({ "n", "x", "o" }, "e", subword_hops.forward_end)
+--- Make word operations more intuitive
+-- Consider
+--
+--  foo); bar
+--  ^
+--
+-- `w` would make this jump:
+--
+--  foo); bar
+--  >-----^
+--
+-- and `cw` would replace that same span, leading to:
+--
+--  ______bar
+--
+-- when in practice you generally want:
+--
+--  ___); bar
+--
+-- i.e. you just want to change the word `foo` and
+-- not the punctuation that follows.
+--
+-- So technically when you do `cw` you really want `ce`.
+vim.keymap.set("n", "rw", "ce", { remap = true })
+vim.keymap.set("n", "dw", "de", { remap = true })
+vim.keymap.set("n", "sw", "se", { remap = true })
+vim.keymap.set("n", "yw", "ye", { remap = true })
 
 --- `i` indent scope object
 require('mini.indentscope').setup()

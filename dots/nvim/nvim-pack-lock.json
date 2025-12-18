@@ -32,13 +32,13 @@
       "rev": "0308f949f31769e509696af5d5f91cebb2159c69",
       "src": "https://github.com/echasnovski/mini.indentscope"
     },
-    "neowords.nvim": {
-      "rev": "47a38cd4aa3118a6be3f64ac4987a8483bd2e98a",
-      "src": "https://github.com/backdround/neowords.nvim"
-    },
     "no-neck-pain.nvim": {
       "rev": "718f30f547ca36bb4d0619e8ea11f5af4ee813cc",
       "src": "https://github.com/shortcuts/no-neck-pain.nvim"
+    },
+    "nvim-spider": {
+      "rev": "0fec9c501a083c2a0822d89e25a520476ab9e6bd",
+      "src": "https://github.com/chrisgrieser/nvim-spider"
     },
     "nvim-treesitter": {
       "rev": "42fc28ba918343ebfd5565147a42a26580579482",

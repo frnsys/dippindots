@@ -80,7 +80,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     bind("Go to previous diagnostic message",
-      '<c-d>', function()
+      '<c-l>', function()
         vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
       end)
     bind("Go to next diagnostic message",
