@@ -99,8 +99,8 @@ binds {
     Mod+B { spawn "sh" "-c" "kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx"; }
     Mod+L allow-when-locked=true { spawn "lock"; }
 
-    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "2%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "2%-"; }
     XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
     XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "set" "+10000"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "10000-"; }

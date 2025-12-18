@@ -25,6 +25,13 @@ west init -l app/
 west update
 west zephyr-export
 pip3 install --user -r zephyr/scripts/requirements-base.txt
+
+# Install Zephyr SDK:
+# https://docs.zephyrproject.org/3.5.0/develop/getting_started/index.html#install-zephyr-sdk
+wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.3/zephyr-sdk-0.16.3_linux-x86_64.tar.xz
+tar xvf zephyr-sdk-0.16.3_linux-x86_64.tar.xz
+sudo mv zephyr-sdk-0.16.3 /opt/zephyr
+cd /opt/zephyr/ && ./setup.sh
 ```
 
 # `smallcat`

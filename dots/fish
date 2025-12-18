@@ -45,10 +45,10 @@ end
 fzf --fish | source
 
 # Easier navigation
-abbr -a .. "cd .."
-abbr -a ... "cd ../.."
-abbr -a .... "cd ../../.."
-abbr -a ..... "cd ../../../.."
+abbr -a ,, "cd .."
+abbr -a ,,, "cd ../.."
+abbr -a ,,,, "cd ../../.."
+abbr -a ,,,,, "cd ../../../.."
 
 # To avoid accidentally overwriting files
 abbr -a mv "mv -i"

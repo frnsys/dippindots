@@ -4,7 +4,7 @@ set -e
 
 KEYBOARD=$1 # e.g. `urchin`
 HALF=$2 # "left" or "right"
-BOARD=nice_nano_v2
+BOARD=nice_nano
 ZMK_DIR=/opt/zmk/app
 BUILD_DIR=/tmp/$KEYBOARD
 MODULE=modules/${KEYBOARD}-zmk-module

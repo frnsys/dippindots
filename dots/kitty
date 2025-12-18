@@ -43,7 +43,7 @@ allow_remote_control socket-only
 listen_on unix:/tmp/kitty
 shell_integration enabled
 
-action_alias kitty_scrollback_nvim kitten /home/francis/.local/share/nvim/lazy/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py
+action_alias kitty_scrollback_nvim kitten /home/francis/.local/share/nvim/site/pack/core/opt/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py
 
 # Browse scrollback buffer in nvim
 map alt+e kitty_scrollback_nvim
