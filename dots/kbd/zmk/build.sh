@@ -2,6 +2,8 @@
 
 set -e
 
+export ZMK_COMBO_TIMEOUT=50
+
 KEYBOARD=$1 # e.g. `urchin`
 HALF=$2 # "left" or "right"
 BOARD=nice_nano
