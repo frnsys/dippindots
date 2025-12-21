@@ -93,7 +93,7 @@ vim.keymap.set("n", "yw", "ye", { remap = true })
 require('mini.indentscope').setup()
 
 require("flash").setup({
-  labels = "nrtschaeimldpfoumbwkyx",
+  labels = "nrtschaeimldpfoumbwkyxz.,'",
   label = {
     after = true,
     before = true,
@@ -108,7 +108,7 @@ require("flash").setup({
 
         -- Easier than f/F
         ["f"] = "h",
-        ["F"] = "<c-h>",
+        ["F"] = "H",
       }
     },
     search = {
@@ -121,6 +121,9 @@ require("flash").setup({
   prompt = { enabled = false },
 })
 
+-- Trigger from insert mode
+vim.keymap.set("i", "<c-h>", "<Esc>h", { remap = true })
+vim.keymap.set("i", "<c-f>", "<Esc>H", { remap = true })
 
 --- Jump to (start of) line.
 vim.keymap.set({"n", "x", "o"}, "<c-a>", function()
@@ -157,7 +160,7 @@ vim.keymap.set({"n"}, "=", flash_ts("left_right"))
 vim.keymap.set({"n", "x", "o"}, "<c-f>", flash_ts("list_item"))
 vim.keymap.set({"n", "x", "o"}, "k", flash_ts("statement"))
 
-vim.keymap.set({"n"}, "'", flash_delim({
+vim.keymap.set({"n"}, "f", flash_delim({
   { '"', '"' },
   { "'", "'" },
   { '`', '`' },
@@ -185,3 +188,10 @@ vim.keymap.set({ "o", "x" }, ")", "t)")
 
 -- ; => up to next ;, e.g. `c;`
 vim.keymap.set({ "o", "x" }, ";", "t;")
+
+-- Up to first ), ], >, ;, "
+vim.keymap.set({ "o", "x" }, "'", "/\\%.l[)\\]>;\"]<cr>")
+
+-- Easier dot repeat
+vim.keymap.set("n", "'", ".")
+

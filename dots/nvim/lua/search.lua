@@ -164,7 +164,7 @@ vim.keymap.set("n", "\\", function()
 end)
 
 --- Search workspace diagnostics
-vim.keymap.set("n", "D", function()
+vim.keymap.set("n", "<c-d>", function()
   ra_flycheck();
   require('fzf-lua').diagnostics_workspace({
     severity_only = 1,
