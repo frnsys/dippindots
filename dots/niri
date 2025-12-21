@@ -136,4 +136,7 @@ binds {
 
     // Move the focused window between the floating and the tiling layout.
     Mod+V       { toggle-window-floating; }
+
+    // Pseudo-fullscreen
+    Mod+W       { toggle-windowed-fullscreen; }
 }
