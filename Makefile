@@ -163,8 +163,7 @@ images:
 	flatpak -u override com.github.PintaProject.Pinta --filesystem=~
 
 fm:
-	sudo zypper in -y poppler-tools ffmpegthumbnailer jq
-	cargo install yazi-fm
+	sudo zypper in -y poppler-tools ffmpegthumbnailer jq yazi
 	ln -sf $(dir)/dots/yazi  ~/.config/yazi
 
 wm:
