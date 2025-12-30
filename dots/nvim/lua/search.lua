@@ -1,5 +1,6 @@
 vim.pack.add({
-  "https://github.com/ibhagwan/fzf-lua"
+  "https://github.com/ibhagwan/fzf-lua",
+  "https://github.com/elanmed/fzf-lua-frecency.nvim",
 })
 
 local function ra_flycheck()
@@ -12,21 +13,28 @@ local function ra_flycheck()
   end
 end
 
+local function search_files()
+  require('fzf-lua-frecency').frecency({
+    cwd_only = true,
+    cwd = require("fzf-lua").path.git_root({}),
+    display_score = false,
+    fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
+    previewer = false,
+    formatter = "path.dirname_first",
+    winopts = {
+      fullscreen = false,
+      width = 64,
+      col = 0.5,
+    }
+  })
+end
+
 -- Auto-launch fzf-lua when opening a directory
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function(data)
     -- If nvim was started with a directory
     if vim.fn.isdirectory(data.file) == 1 then
-      require('fzf-lua').files({
-        cwd = require("fzf-lua").path.git_root({}),
-        cmd = "rg --files --hidden --ignore --glob='!.git'",
-        fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
-        winopts = {
-          fullscreen = false,
-          width = 64,
-          col = 0.5,
-        }
-      })
+      search_files()
     end
   end
 })
@@ -82,49 +90,13 @@ require("fzf-lua").setup({
 })
 
 --- Search files by name
-vim.keymap.set("n", "-", function()
-  require('fzf-lua').files({
-    cwd = require("fzf-lua").path.git_root({}, true),
+vim.keymap.set("n", "-", search_files)
 
-    -- Modified command which puts current dir descendents up top
-    cmd = (function()
-      local base = "rg --files --hidden --ignore --glob '!.git'"
-
-      -- root of the project
-      local root = require("fzf-lua").path.git_root({}, true)
-
-      -- no git root, use current dir
-      if not root or #root == 0 then
-        return base
-      end
-
-      -- dir of the current buffer relative to root
-      local curfile = vim.api.nvim_buf_get_name(0)
-      local curdir = vim.fn.fnamemodify(curfile, ":h")
-      local rel = curdir:gsub("^" .. vim.pesc(root) .. "/?", "")
-
-      -- escaping and whatnot
-      local rel_ere = rel:gsub("([%%%[%]().*^$?+|{}\\-])", "\\%1")
-      local pfx     = "^" .. rel_ere .. "/"
-      local pfx_q   = vim.fn.shellescape(pfx)
-
-      -- at root, so use unmodified command
-      if rel == "" then
-        return base
-      end
-
-      -- build rg command
-      -- output files, but prepend ones under current dir with "0 " and others with "1 "
-      -- then sort, then strip the prefix
-      return table.concat({
-        base,
-        "awk -v p=" .. pfx_q .. " '{print (($0 ~ p)?\"0 \":\"1 \") $0}'",
-        "sort -k1,1",
-        "cut -d' ' -f2-",
-      }, " | ")
-    end)(),
-    fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
+--- Open buffers
+vim.keymap.set("n", "<c-t>", function()
+  require('fzf-lua').buffers({
     winopts = {
+      preview = { hidden = true },
       fullscreen = false,
       width = 64,
       col = 0.5,
@@ -154,14 +126,17 @@ vim.keymap.set("n", "J", function()
   })
 end)
 
---- Grep buffer lines
+--- Grep open buffer lines
 vim.keymap.set("n", "\\", function()
-  require('fzf-lua').blines({
+  require('fzf-lua').lines({
     winopts = {
       preview = { hidden = true }
     }
   })
 end)
+
+--- Find references for word under cursor
+vim.keymap.set("n", "R", require('fzf-lua').lsp_references)
 
 --- Search workspace diagnostics
 vim.keymap.set("n", "<c-d>", function()
@@ -170,9 +145,6 @@ vim.keymap.set("n", "<c-d>", function()
     severity_only = 1,
   })
 end)
-
---- Find references for word under cursor
-vim.keymap.set("n", "R", require('fzf-lua').lsp_references)
 
 --- Warnings
 vim.keymap.set("n", ",w", function()

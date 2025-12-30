@@ -1,6 +1,5 @@
 vim.pack.add({
   "https://github.com/stevearc/oil.nvim",
-  "https://github.com/kwkarlwang/bufjump.nvim",
   "https://github.com/yorickpeterse/nvim-window",
 })
 
@@ -27,11 +26,6 @@ require("oil").setup({
   },
 })
 vim.keymap.set("n", "_", require("oil").open_float)
-
-require("bufjump").setup({})
-local opts = { silent=true, noremap=true }
-vim.keymap.set("n", "b", require('bufjump').backward, opts)
-vim.keymap.set("n", "B", require('bufjump').forward, opts)
 
 require("nvim-window").setup({
   -- The characters available for hinting windows.

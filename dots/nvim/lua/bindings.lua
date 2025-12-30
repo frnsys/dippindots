@@ -8,27 +8,14 @@ local function _(key, cmd, modes, remap)
   })
 end
 
-function delete_keymaps_w_prefix(prefix)
-  local maps = vim.api.nvim_get_keymap('n')
-  for _, map in ipairs(maps) do
-    if map.lhs:sub(1, #prefix) == prefix then
-      vim.keymap.del("n", map.lhs)
-    end
-  end
-end
+-- Unused: #, ;, ., F, L, <c-j>, <c-i>, <c-o>, {, }
 
-delete_keymaps_w_prefix('[')
-delete_keymaps_w_prefix(']')
-
--- Unused: #, ;, ., F, [, ], <c-p>
-
---- Tabs
-_("<c-t>", ":tabnew<cr>", "n")
-_("}", ":tabnext<cr>", "n")
-_("{", ":tabprevious<cr>", "n")
+--- Buffers
+_("b", ":bprev<cr>", "n")
+_("B", ":bnext<cr>", "n")
 
 --- Replace <c-i> and <c-o>
-_("<c-j>", "<c-i>", "n")
+_("<c-p>", "<c-i>", "n")
 _("<c-h>", "<c-o>", "n")
 
 _("D", "dd", "n")
@@ -36,9 +23,8 @@ _("D", "dd", "n")
 --- Like `{` and `}`
 --- but go to the start of the line for
 --- each block, rather than the empty lines.
--- TODO improve this to walk across statements?
-_('<c-i>', '}j^', { "n", "x", "o" })
-_('<c-o>', 'k{j^', { "n", "x", "o" })
+_('<c-i>', '5j', { "n", "x", "o" })
+_('<c-o>', '5k', { "n", "x", "o" })
 
 --- <c-e> already scrolls down by one,
 --- <c-y> scrolls up but is in an awkward position.
@@ -81,9 +67,7 @@ _('<c-b>', 'dbg!();<Left><Left>', "i")
 _('<c-backspace>', '<c-w>', "i")
 
 -- TODO could use improving
---- Delete back to and including the next underscore.
---- This is kind of like a subword delete.
-_('<c-d>', '<esc><right>d?[[:punct:]]<CR>:noh<CR>i', "i")
+_('<c-d>', '<esc>dmxi', "i", true)
 
 --- Splits
 _("|", ":vsplit<cr>", "n")

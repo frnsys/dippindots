@@ -104,10 +104,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
       'ts', vim.lsp.buf.definition)
     bind('Rename symbol',
       'tw', vim.lsp.buf.rename)
-    bind('Show diagostics',
+    bind('Show diagnostics',
       'tn', function()
         vim.diagnostic.open_float(0, { scope = "line", focus = false })
       end)
+
+    vim.keymap.set('v', "<c-u>", function() vim.lsp.buf.selection_range(1) end,
+      { buffer = ev.buf, desc = desc, noremap = true })
+    vim.keymap.set('v', "<c-o>", function() vim.lsp.buf.selection_range(-1) end,
+      { buffer = ev.buf, desc = desc, noremap = true })
 
     -- Format on write
     vim.api.nvim_create_autocmd("BufWritePre", {
@@ -171,15 +176,12 @@ vim.lsp.config["python"] = {
     "requirements.txt",
     "pyproject.toml",
     "mise.toml",
+    ".git",
   },
   settings = {
-    python = {
-      analysis = {
-        autoSearchPaths = true,
-        useLibraryCodeForTypes = true,
-        typeCheckingMode = "strict",
-      },
-    },
+    ty = {
+      diagnosticMode = "workspace",
+    }
   },
 }
 vim.lsp.enable('python')

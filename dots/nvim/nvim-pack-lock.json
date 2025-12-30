@@ -1,9 +1,5 @@
 {
   "plugins": {
-    "bufjump.nvim": {
-      "rev": "ae2728a77defbd27e9e5ef64c854fb0813ffba01",
-      "src": "https://github.com/kwkarlwang/bufjump.nvim"
-    },
     "fidget.nvim": {
       "rev": "e32b672d8fd343f9d6a76944fedb8c61d7d8111a",
       "src": "https://github.com/j-hui/fidget.nvim"
@@ -15,6 +11,10 @@
     "fzf-lua": {
       "rev": "c7ff27deae5b8966b0764bde962d0855e6e2db93",
       "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "fzf-lua-frecency.nvim": {
+      "rev": "4c37d8d967a51f718af5d9556b72f16c5185c05b",
+      "src": "https://github.com/elanmed/fzf-lua-frecency.nvim"
     },
     "headlines.nvim": {
       "rev": "bf17c96a836ea27c0a7a2650ba385a7783ed322e",

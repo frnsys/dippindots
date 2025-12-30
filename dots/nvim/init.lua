@@ -110,3 +110,14 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end
   end,
 })
+
+--- Hide directory buffers, which can be a nuisance
+--- when navigating buffers.
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    local name = vim.api.nvim_buf_get_name(0)
+    if vim.fn.isdirectory(name) == 1 then
+      vim.bo.bufhidden = "wipe"
+    end
+  end,
+})
