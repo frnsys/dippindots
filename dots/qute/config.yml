@@ -16,6 +16,7 @@ settings:
       wqa: quit --save
   auto_save.session:
     global: true
+  # Note: use `:bind` to view all bindings.
   bindings.commands:
     global:
       normal:
@@ -23,6 +24,8 @@ settings:
         <Alt+]>: tab-next
         l: back
         q: null
+        m: null
+        M: null
   colors.hints.bg:
     global: '#fdb63d'
   colors.hints.fg:

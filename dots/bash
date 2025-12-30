@@ -1,11 +1,7 @@
 export EDITOR=nvim
 export GTK_THEME=Adwaita:dark
 export QT_QPA_PLATFORMTHEME=qt6ct
-export ELECTRON_OZONE_PLATFORM_HINT=auto
 export XKB_DEFAULT_OPTIONS=compose:ralt,compose:rctrl
-
-# For libreoffice to run properly at HiDPI
-export SAL_USE_VCLPLUGIN=gtk3
 
 export BEMENU_OPTS='-i --fn "Space Mono 12" -l 10 --hf "#598DDC" --tf "#079875" --cw 1'
 for dir in $HOME/.bin $HOME/.local/bin $HOME/.cargo/bin /usr/sbin /var/lib/flatpak/exports/bin/; do
