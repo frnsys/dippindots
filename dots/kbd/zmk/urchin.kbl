@@ -14,6 +14,7 @@ combos:
   [R, S]: Esc
 
   # Layers
+  [C, D]: Toggle(ARROWS)
   [H, I]: Enable(SYSTEM)
   [N, S]: Enable(SYSTEM)
   [H, A, E]: Enable(NUMSYM)
@@ -89,7 +90,7 @@ combos:
 
 ARROWS
 
-⬚ ⬚ ⬚ ⬚ ⬚  ⇞ ↤ ↑ ↦ ⇟
+⬚ ⬚ ↤ ↦ ⬚  ⇞ ↤ ↑ ↦ ⇟
 ⬚ ↤ ↚ ↦ ⬚  ⬚ ← ↓ → ⬚
 ⬚ V ⬚ ⬚ ⬚  ⬚ ⌫ ⬚ ↚ ⬚
       ⬚ ⬚  ∅ ⬚
@@ -99,6 +100,7 @@ defs:
   ↤: Ctrl(Left)     # Prev word
   ↦: Ctrl(Right)    # Next word
 combos:
+  [↤, ↦]: Toggle(ARROWS)
   [←, ↓]: ^
   [↓, →]: $
 
