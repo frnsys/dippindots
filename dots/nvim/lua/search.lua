@@ -13,10 +13,14 @@ local function ra_flycheck()
   end
 end
 
+local function get_root()
+  return require("fzf-lua").path.git_root({}, true) or vim.loop.cwd()
+end
+
 local function search_files()
   require('fzf-lua-frecency').frecency({
     cwd_only = true,
-    cwd = require("fzf-lua").path.git_root({}),
+    cwd = get_root(),
     display_score = false,
     fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
     previewer = false,
@@ -107,14 +111,14 @@ end)
 --- Grep current word
 vim.keymap.set("n", "&", function()
   require('fzf-lua').grep_cword({
-    cwd = require("fzf-lua").path.git_root({})
+    cwd = get_root(),
   })
 end)
 
 --- Search by grep
 vim.keymap.set("n", "j", function()
   require('fzf-lua').live_grep({
-    cwd = require("fzf-lua").path.git_root({})
+    cwd = get_root(),
   })
 end)
 
@@ -122,7 +126,7 @@ end)
 vim.keymap.set("n", "J", function()
   require('fzf-lua').live_grep({
     resume = true,
-    cwd = require("fzf-lua").path.git_root({})
+    cwd = get_root(),
   })
 end)
 
