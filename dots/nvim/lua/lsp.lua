@@ -189,30 +189,6 @@ vim.lsp.config["python"] = {
 }
 vim.lsp.enable('python')
 
-vim.lsp.config["markdown"] = {
-  cmd = { '/usr/local/bin/marksman', 'server' },
-  filetypes = { "markdown" },
-  root_markers = { ".git" },
-  single_file_support = true,
-}
-vim.lsp.enable('markdown')
-
-require('gliss/unity')
-
-vim.filetype.add({
-  extension = {
-    script = "verses",
-  },
-})
-vim.lsp.config["verses"] = {
-  -- Debugging
-  -- cmd = { '/home/francis/projects/fugue/lib/target/debug/verses', 'lsp' },
-  cmd = { 'verses', 'lsp' },
-  filetypes = { "verses" },
-  root_markers = { ".git" },
-}
-vim.lsp.enable('verses')
-
 -- Show errors and warnings in a floating window
 vim.api.nvim_create_autocmd("CursorHold", {
     callback = function()

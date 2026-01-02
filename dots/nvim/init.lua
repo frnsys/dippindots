@@ -14,11 +14,7 @@ require('util')
 require('abbrevs')
 require('bindings')
 require('filetypes')
-
-local ok, mod = pcall(require, "gliss/verses-map")
-if ok then
-  mod.setup()
-end
+require('game')
 
 vim.cmd([[colorscheme futora]])
 

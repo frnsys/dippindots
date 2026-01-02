@@ -104,11 +104,20 @@ vim.api.nvim_create_autocmd("CursorMoved", {
 })
 
 -- Quickly fix the closest previous spelling error
-vim.api.nvim_buf_set_keymap(0, "i", "<leader>z", "<C-g>u<Esc>[s1z=`]a<C-g>u", { noremap = true, silent = true })
-vim.api.nvim_buf_set_keymap(0, "n", "<leader>z", "[s1z=``", { noremap = true, silent = true })
+vim.keymap.set("i", "<leader>z", "<C-g>u<Esc>[s1z=`]a<C-g>u", opts)
+vim.keymap.set("n", "<leader>z", "[s1z=``", opts)
 
 vim.keymap.set("n", "<leader>n", footnote.handle_footnote, opts)
 vim.api.nvim_create_autocmd("CursorMoved", {
   pattern = "*.md",
   callback = footnote.preview_footnote
 })
+
+-- Markdown LSP
+vim.lsp.config["markdown"] = {
+  cmd = { '/usr/local/bin/marksman', 'server' },
+  filetypes = { "markdown" },
+  root_markers = { ".git" },
+  single_file_support = true,
+}
+vim.lsp.enable('markdown')
