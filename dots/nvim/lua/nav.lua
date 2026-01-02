@@ -68,3 +68,19 @@ vim.keymap.set("n", ",t", function()
     require('nvim-window').pick()
   end
 end)
+
+
+-- Custom "jumplist"
+
+local marks = {"A", "B", "C", "D", "E", "F", "G"}
+local current_idx = 1
+
+local function drop_mark()
+    local mark = marks[current_idx]
+    vim.cmd("normal! m" .. mark)
+    current_idx = (current_idx % #marks) + 1
+end
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+    callback = drop_mark
+})

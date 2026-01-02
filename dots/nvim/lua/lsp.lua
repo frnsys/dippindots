@@ -134,6 +134,9 @@ vim.lsp.config["rust"] = {
         -- Ignore tests when flychecking.
         allTargets = false,
       },
+      cargo = {
+        targetDir = "target/ra",
+      },
       files = {
         excludeDirs = {
           ".git",

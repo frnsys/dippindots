@@ -3,16 +3,6 @@ vim.pack.add({
   "https://github.com/elanmed/fzf-lua-frecency.nvim",
 })
 
-local function ra_flycheck()
-  local clients = vim.lsp.get_clients({
-    name = 'rust_analyzer',
-  })
-  for _, client in ipairs(clients) do
-    local params = vim.lsp.util.make_text_document_params()
-    client.notify('rust-analyzer/runFlycheck', params)
-  end
-end
-
 local function get_root()
   return require("fzf-lua").path.git_root({}, true) or vim.loop.cwd()
 end
@@ -65,7 +55,7 @@ require("fzf-lua").setup({
     bat = {
       cmd   = "bat",
       args  = "--color=always --style=plain",
-      theme = '1337',
+      theme = 'base16',
     },
   },
   winopts = {
@@ -74,22 +64,13 @@ require("fzf-lua").setup({
     preview = {
       default = "bat",
       layout = "horizontal",
-      border = "border-left",
+      border = "none",
     },
   },
   hls = {
     border = "Keyword",
     live_prompt = "Normal",
     live_sym = "Normal",
-    fzf = {
-      info = "Special",
-      query = "Normal",
-      prompt = "Keyword",
-      pointer = "Function",
-      match = "@property",
-      separator = "Keyword",
-      border = "Keyword",
-    },
   },
 })
 
@@ -97,14 +78,22 @@ require("fzf-lua").setup({
 vim.keymap.set("n", "-", search_files)
 
 --- Open buffers
+-- vim.keymap.set("n", "<c-t>", function()
+--   require('fzf-lua').buffers({
+--     winopts = {
+--       preview = { hidden = true },
+--       fullscreen = false,
+--       width = 64,
+--       col = 0.5,
+--     }
+--   })
+-- end)
+
 vim.keymap.set("n", "<c-t>", function()
-  require('fzf-lua').buffers({
-    winopts = {
-      preview = { hidden = true },
-      fullscreen = false,
-      width = 64,
-      col = 0.5,
-    }
+  -- require('fzf-lua').jumps()
+  -- require('fzf-lua').changes()
+  require('fzf-lua').marks({
+    marks = "%u", -- Only user-defined uppercase marks
   })
 end)
 
@@ -144,7 +133,6 @@ vim.keymap.set("n", "R", require('fzf-lua').lsp_references)
 
 --- Search workspace diagnostics
 vim.keymap.set("n", "<c-d>", function()
-  ra_flycheck();
   require('fzf-lua').diagnostics_workspace({
     severity_only = 1,
   })
