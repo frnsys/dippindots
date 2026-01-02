@@ -31,9 +31,12 @@ initial_window_height 640
 
 enabled_layouts splits,stack
 
-visual_window_select_characters rtshae;
+visual_window_select_characters rtshae
 
 enable_audio_bell no
+wayland_enable_ime no
+
+notify_on_cmd_finish invisible 10.0
 
 clipboard_control write-clipboard write-primary read-clipboard read-primary
 

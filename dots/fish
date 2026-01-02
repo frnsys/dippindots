@@ -27,7 +27,7 @@ function fish_prompt -d "Custom prompt"
     end
 
     printf '%s%s%s:%s%s%s:%s%s%s ' \
-        (set_color "#fffae0") $shorthand_name (set_color "#333333") (set_color "#FD453A") (prompt_pwd) (set_color "#333333") (set_color "#484848") (fish_git_prompt %s) (set_color normal)
+        (set_color "#fffae0") $shorthand_name (set_color "#333333") (set_color "#7fb1f5") (prompt_pwd) (set_color "#333333") (set_color "#484848") (fish_git_prompt %s) (set_color normal)
 end
 
 set PATH $HOME/.bin $HOME/.local/bin $HOME/.cargo/bin /usr/sbin /var/lib/flatpak/exports/bin/ $PATH
@@ -203,10 +203,11 @@ bind -M insert ctrl-comma backward-token
 bind -M insert ctrl-\' forward-token
 
 # Color theme
+# Use `msgcat --color=test` to see the colors.
 set -Ux fish_color_normal white
-set -Ux fish_color_command yellow
-set -Ux fish_color_param yellow
-set -Ux fish_color_quote yellow
+set -Ux fish_color_command green
+set -Ux fish_color_param blue
+set -Ux fish_color_quote magenta
 set -Ux fish_color_redirection --bold blue
 set -Ux fish_color_end brblue
 set -Ux fish_color_error red
@@ -214,6 +215,7 @@ set -Ux fish_color_comment white
 set -Ux fish_color_selection brblack
 set -Ux fish_color_search_match --background=black
 set -Ux fish_color_operator --bold yellow
+set -Ux fish_color_valid_path --underline
 set -Ux fish_color_escape cyan
 set -Ux fish_color_cwd --bold brblue
 set -Ux fish_color_autosuggestion brblack
