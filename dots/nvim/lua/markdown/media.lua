@@ -41,7 +41,7 @@ end
 
 local preview_path = ""
 local preview_jobid = nil
-local function close_preview_image()
+function close_preview_image()
   if preview_jobid then
     vim.fn.jobstop(preview_jobid)
     preview_jobid = nil
@@ -79,14 +79,24 @@ function M.auto_preview_image()
   local obj = line:sub(lcol + 2, rcol) -- Adjust indices for Lua substring
   local caption = obj:match("!%[[^%]]+%]")
   if caption == nil then
+    close_preview_image()
     return
   end
   local path = obj:sub(#caption + 2, #obj - 1) -- Skip caption and surrounding ()
-  local img = path:match("%.(jpg|jpeg|png|webp|gif)$")
+  local allowed = {
+      jpg = true,
+      jpeg = true,
+      png = true,
+      webp = true,
+      gif = true,
+  }
 
-  if img then
+  local ext = path:match("%.([%a%d]+)$")
+  local is_image = ext and allowed[ext]
+
+  if is_image then
     if path ~= preview_path then
-      close_image_preview()
+      close_preview_image()
       preview_jobid = vim.fn.jobstart({
         "vu",
         vim.fn.expand("%:p:h") .. "/" .. path,
