@@ -57,16 +57,16 @@ fallback = []
 
 [open]
 rules = [
-	{ name = "*/", use = "folder" },
+	{ url = "*/", use = "folder" },
 
-	{ name = "*.url", use = "url" },
-	{ name = "*.gif", use = "gif" },
-	{ name = "*.csv", use = "csv" },
-	{ name = "*.tsv", use = "csv" },
-	{ name = "*.csvs", use = "csvs" },
-	{ name = "*.txt", use = ["text"] },
-	{ name = "*.html", use = ["text", "html"] },
-	{ name = "*.md", use = ["text"] },
+	{ url = "*.url", use = "url" },
+	{ url = "*.gif", use = "gif" },
+	{ url = "*.csv", use = "csv" },
+	{ url = "*.tsv", use = "csv" },
+	{ url = "*.csvs", use = "csvs" },
+	{ url = "*.txt", use = ["text"] },
+	{ url = "*.html", use = ["text", "html"] },
+	{ url = "*.md", use = ["text"] },
 
 	{ mime = "text/*", use = "text" },
 	{ mime = "image/*", use = "image" },
@@ -104,7 +104,8 @@ enabled = false
 
 [plugin]
 fetchers = [
-	{ id = "mime", name = "*", run = "mime", if = "!mime", prio = "high" },
+	{ id = "mime", url = "*", run = "mime.local", prio = "high" },
+	{ id = "mime", url = "*/", run = "mime.dir", prio = "high" },
 ]
 preloaders = [
 	{ mime = "image/{avif,heic,jxl,svg+xml}", run = "magick" },
@@ -115,7 +116,7 @@ preloaders = [
 	{ mime = "application/vnd.ms-opentype", run = "font" },
 ]
 previewers = [
-	{ name = "*/", run = "folder", sync = true },
+	{ url = "*/", run = "folder", sync = true },
 	{ mime = "text/*", run = "code" },
 	{ mime = "*/{xml,javascript,x-wine-extension-ini}", run = "code" },
 	{ mime = "application/{json,x-ndjson}", run = "json" },
@@ -127,5 +128,5 @@ previewers = [
 	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar,iso9660-image}", run = "archive" },
 	{ mime = "font/*", run = "font" },
 	{ mime = "application/vnd.ms-opentype", run = "font" },
-	{ name = "*", run = "file" },
+	{ url = "*", run = "file" },
 ]

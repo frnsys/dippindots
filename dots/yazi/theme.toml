@@ -15,6 +15,7 @@ progress_normal = { fg = "blue" }
 progress_error  = { fg = "red" }
 
 [mgr]
+cwd  = { fg = "#888899", italic = true }
 border_style  = { fg = "#282828" }
 
 [filetype]
@@ -22,11 +23,6 @@ rules = [
 	{ mime = "image/*", fg = "#a694f2" },
 	{ mime = "video/*", fg = "#ffc870" },
 	{ mime = "audio/*", fg = "#ffc870" },
-
-    # Docs
-	# { mime = "application/pdf", fg = "#F3D398" },
-	# { name = "*.md", fg = "#F3D398" },
-    { name = "*.url", fg = "#0370fe" },
 
 	# Archives
 	{ mime = "application/zip", fg = "#CD9EFC" },
@@ -38,12 +34,11 @@ rules = [
 	{ mime = "application/x-rar", fg = "#CD9EFC" },
 
 	# Fallback
-	{ name = "*", fg = "#fcf6f2" },
-	{ name = "*/", fg = "#AECBFA" }
+	{ url = "*", fg = "#fcf6f2" },
+	{ url = "*/", fg = "#eeeeee" }
 ]
 
-[icons]
-rules = [
-    { name = "*", text = "" },
-    { name = "*/", text = "" }
+[icon]
+globs = [
+	{ url = "*/", fg = "#67a2fd", text = "", },
 ]
