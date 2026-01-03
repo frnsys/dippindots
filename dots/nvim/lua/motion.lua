@@ -104,8 +104,6 @@ require("flash").setup({
       jump_labels = true,
       label = { exclude = "zb" },
       keys = {
-        -- "t", "T",
-
         -- Easier than f/F
         ["f"] = "h",
         ["F"] = "H",
@@ -120,10 +118,6 @@ require("flash").setup({
   },
   prompt = { enabled = false },
 })
-
--- Trigger from insert mode
-vim.keymap.set("i", "<c-h>", "<Esc>h", { remap = true })
-vim.keymap.set("i", "<c-f>", "<Esc>H", { remap = true })
 
 --- Jump to (start of) line.
 vim.keymap.set({"n", "x", "o"}, "<c-a>", function()

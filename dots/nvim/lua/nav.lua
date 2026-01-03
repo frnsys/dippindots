@@ -5,17 +5,11 @@ vim.pack.add({
 
 require("oil").setup({
   keymaps = {
+    ["_"] = "actions.parent",
     ["<CR>"] = "actions.select",
     ["<C-v>"] = "actions.select_vsplit",
     ["<C-s>"] = "actions.select_split",
     ["<C-t>"] = "actions.select_tab",
-    ["<C-p>"] = function()
-      require("oil.actions").preview.callback()
-      vim.defer_fn(function()
-        vim.cmd("vertical resize 24")
-      end, 2)
-    end,
-    ["_"] = "actions.parent",
     ["g."] = "actions.toggle_hidden",
     ["q"] = "actions.close",
   },

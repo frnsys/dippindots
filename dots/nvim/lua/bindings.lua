@@ -8,7 +8,11 @@ local function _(key, cmd, modes, remap)
   })
 end
 
--- Unused: #, ;, ., F, L, <c-j>, <c-i>, <c-o>, {, }
+-- Unused: #, ;, ., F, L, <c-j>, {, }
+
+--- Tabs
+_(">", ":tabnext<cr>", "n")
+_("<", ":tabprevious<cr>", "n")
 
 --- Buffers
 _("b", ":bprev<cr>", "n")

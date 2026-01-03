@@ -75,27 +75,7 @@ require("fzf-lua").setup({
 })
 
 --- Search files by name
-vim.keymap.set("n", "-", search_files)
-
---- Open buffers
--- vim.keymap.set("n", "<c-t>", function()
---   require('fzf-lua').buffers({
---     winopts = {
---       preview = { hidden = true },
---       fullscreen = false,
---       width = 64,
---       col = 0.5,
---     }
---   })
--- end)
-
-vim.keymap.set("n", "<c-t>", function()
-  -- require('fzf-lua').jumps()
-  -- require('fzf-lua').changes()
-  require('fzf-lua').marks({
-    marks = "%u", -- Only user-defined uppercase marks
-  })
-end)
+vim.keymap.set("n", "<c-t>", search_files)
 
 --- Grep current word
 vim.keymap.set("n", "&", function()

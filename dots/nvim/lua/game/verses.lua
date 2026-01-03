@@ -3,6 +3,16 @@ vim.filetype.add({
     script = "verses",
   },
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "verses" },
+  callback = function()
+    vim.opt_local.softtabstop = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+  end,
+})
+
 vim.lsp.config["verses"] = {
   -- Debugging
   -- cmd = { '/home/francis/projects/fugue/lib/target/debug/verses', 'lsp' },
