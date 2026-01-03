@@ -126,4 +126,4 @@ highlight @keyword.gitcommit guifg=#ff331f
 
 highlight WindowTarget guibg=#ffd75f guifg=#161616 gui=bold
 
-highlight StatusLineError guifg=#161616 guibg=#FC392B guisp=NONE blend=NONE gui=bold
+highlight MarkMarker guifg=#000000 guibg=#edb140 gui=bold

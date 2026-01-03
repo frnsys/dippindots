@@ -65,6 +65,9 @@ vim.g.netrw_browsex_viewer = "qutebrowser"
 vim.o.cmdheight = 0
 vim.o.shortmess = "WnoOcIatTFA" -- Limit command line messaging
 
+--- Faster hold cursor
+vim.o.updatetime = 1000
+
 --- The command line *is* useful when recording macros, though.
 -- Show macro recording status when recording a macro
 vim.api.nvim_create_autocmd("RecordingEnter", {
