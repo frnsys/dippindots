@@ -109,6 +109,8 @@ settings:
     - +call cursor({line}, {column})
   hints.border:
     global: '1px solid #111111'
+  hints.chars:
+    global: nrtshaeildcfou
   statusbar.widgets:
     global:
     - keypress

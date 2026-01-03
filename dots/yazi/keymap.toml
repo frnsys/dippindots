@@ -15,6 +15,11 @@ keymap = [
 	{ on = [ "g", "g" ],  run = "arrow top",  desc = "Move cursor to the top" },
 	{ on = [ "G" ],       run = "arrow bot",  desc = "Move cursor to the bottom" },
 
+	{ on = [ "o" ],  run = "arrow -1",   desc = "Move cursor up" },
+	{ on = [ "a" ],  run = "arrow 1",    desc = "Move cursor down" },
+	{ on = [ "h" ],  run = "leave",      desc = "Go back to the parent directory" },
+	{ on = [ "e" ],  run = "enter",      desc = "Enter the child directory" },
+
 	# Selection
 	{ on = [ "<Space>" ], run = [ "toggle --state=none", "arrow 1" ], desc = "Toggle the current selection state" },
 	{ on = [ "v" ],       run = "visual_mode",                        desc = "Enter visual mode (selection mode)" },
@@ -23,16 +28,14 @@ keymap = [
 	{ on = [ "<C-r>" ],   run = "toggle_all --state=none",            desc = "Inverse selection of all files" },
 
 	# Operation
-	{ on = [ "o" ],         run = "open",                   desc = "Open the selected files" },
-	{ on = [ "O" ],         run = "open --interactive",     desc = "Open the selected files interactively" },
 	{ on = [ "<Enter>" ],   run = "open",                   desc = "Open the selected files" },
-	{ on = [ "<C-Enter>" ], run = "open --interactive",     desc = "Open the selected files interactively" },
+	{ on = [ "O" ],         run = "open --interactive",     desc = "Open the selected files interactively" },
 	{ on = [ "y" ],         run = "yank",                   desc = "Copy the selected files" },
 	{ on = [ "x" ],         run = "yank --cut",             desc = "Cut the selected files" },
 	{ on = [ "p" ],         run = "paste",                  desc = "Paste the files" },
 	{ on = [ "P" ],         run = "paste --force",          desc = "Paste the files (overwrite if the destination exists)" },
 	{ on = [ "D" ],         run = "remove --permanently",   desc = "Permanently delete the files" },
-	{ on = [ "a" ],         run = "create",                 desc = "Create a file or directory (ends with / for directories)" },
+	{ on = [ "A" ],         run = "create",                 desc = "Create a file or directory (ends with / for directories)" },
 	{ on = [ "r" ],         run = "rename",                 desc = "Rename a file or directory" },
 	{ on = [ "R" ],         run = "rename --empty=stem --cursor=start", desc = "Rename a file or directory" },
 	{ on = [ ";" ],         run = "shell --interactive",          desc = "Run a shell command" },
@@ -60,8 +63,8 @@ keymap = [
 
 	# Tabs
 	{ on = [ "t" ], run = "tab_create --current",     desc = "Create a new tab using the current path" },
-	{ on = [ "[" ], run = "tab_switch -1 --relative", desc = "Switch to the previous tab" },
-	{ on = [ "]" ], run = "tab_switch 1 --relative",  desc = "Switch to the next tab" },
+	{ on = [ "<" ], run = "tab_switch -1 --relative", desc = "Switch to the previous tab" },
+	{ on = [ ">" ], run = "tab_switch 1 --relative",  desc = "Switch to the next tab" },
 
 	# Tasks
 	{ on = [ "w" ], run = "tasks_show", desc = "Show the tasks manager" },
@@ -79,8 +82,6 @@ keymap = [
 [tasks]
 keymap = [
 	{ on = [ "<Esc>" ], run = "close", desc = "Hide the task manager" },
-	{ on = [ "<C-q>" ], run = "close", desc = "Hide the task manager" },
-	{ on = [ "w" ],     run = "close", desc = "Hide the task manager" },
 
 	{ on = [ "<Up>" ],   run = "arrow -1", desc = "Move cursor up" },
 	{ on = [ "<Down>" ], run = "arrow 1",  desc = "Move cursor down" },
@@ -91,7 +92,6 @@ keymap = [
 
 [select]
 keymap = [
-	{ on = [ "<C-q>" ],   run = "close",          desc = "Cancel selection" },
 	{ on = [ "<Esc>" ],   run = "close",          desc = "Cancel selection" },
 	{ on = [ "<Enter>" ], run = "close --submit", desc = "Submit the selection" },
 	{ on = [ "<Up>" ],    run = "arrow -1",       desc = "Move cursor up" },

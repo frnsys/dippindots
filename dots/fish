@@ -76,12 +76,12 @@ abbr -a v "vi ."
 abbr -a b "bat"
 abbr -a j "just"
 abbr -a c "cargo"
-abbr -a dots "cd ~/.dots"
-abbr -a envim "cd ~/.dots/dots/nvim; vi init.lua"
 abbr -a n "cd ~/notes"
 abbr -a w "cd ~/work"
 abbr -a p "cd ~/projects"
 abbr -a dl "cd ~/downloads"
+abbr -a dots "cd ~/.dots"
+abbr -a evi "cd ~/.dots/dots/nvim; vi init.lua"
 abbr -a ytdl "yt-dlp --remote-components ejs:github -f 'bv[height<=1080]+ba'"
 abbr -a ytdlmp3 "yt-dlp --remote-components ejs:github --extract-audio --audio-format mp3"
 abbr -a publish "port build spaceandtimes; port sync spaceandtimes ftseng@starbase:/srv/spaceandtimes"
@@ -134,24 +134,22 @@ function gitsizes
       | head -20
 end
 
-# For colorschemes
-# - <https://github.com/junegunn/fzf/wiki/Color-schemes>
-# - <https://minsw.github.io/fzf-color-picker/>
 # Bindings:
 #   alt-p: move up
 #   alt-n: move down
 #   alt-': enable jump
-function _fzf
-    fzf --exact --info=inline \
-        --color=bg+:#262626,fg+:#f9d284,bg:#121212,hl:#00af87,hl+:#00af87,gutter:#121212,info:#00af87,pointer:#00af87,prompt:#ff2f6d \
-        --bind=alt-\':jump-accept
-end
+
+set -U FZF_DEFAULT_OPTS "\
+    --exact \
+    --info=hidden \
+    --color=bg+:#262626,fg+:blue,hl:green,hl+:green,gutter:#121212,info:magenta,pointer:magenta,prompt:green \
+    --bind=alt-\':jump-accept"
 
 # alt-"
 function _dive
     # -t d: directories only
     # -d 5: max depth 8
-    set --local choice $(fd -t d -d 8 . . | _fzf);
+    set --local choice $(fd -t d -d 8 . . | fzf);
         and cd $choice;
         and commandline -f repaint
 end
@@ -162,7 +160,7 @@ bind -M default \e\" '_dive'
 function _seek
     # -t d: directories only
     # -d 8: max depth 8
-    set --local choice $(fd -t d -d 8 --exclude musics . ~ | _fzf);
+    set --local choice $(fd -t d -d 8 --exclude musics . ~ | fzf);
         and cd $choice;
         and commandline -f repaint
 end
@@ -177,7 +175,7 @@ function _command_history
     # 4. Remove commands with less than n counts (`awk '$1 >= n'`)
     # 5. Sorts by counts
     # 6. Removes the counts so we're just left with the command
-    set --local choice $(history | awk '{$1=$1};1' | awk 'length($0)>5' | sort | uniq -c | awk '$1 >= 0' | sort -nr | sed 's/\s*[0-9]* //' | _fzf);
+    set --local choice $(history | awk '{$1=$1};1' | awk 'length($0)>5' | sort | uniq -c | awk '$1 >= 0' | sort -nr | sed 's/\s*[0-9]* //' | fzf);
         and $choice;
         and commandline -f repaint
 end
@@ -187,10 +185,10 @@ bind -M default \er '_command_history'
 # alt-i
 # https://stackoverflow.com/a/76799272
 function _pick_and_insert
-    set --local path $(fd . . | _fzf); and commandline -i $path
+    set --local path $(fd . . | fzf); and commandline -i $path
 end
-bind -M insert \ei '_pick_and_insert'
-bind -M default \ei '_pick_and_insert'
+bind -M insert ctrl-i '_pick_and_insert'
+bind -M default ctrl-i '_pick_and_insert'
 
 # ctrl-e to accept autosuggestion
 bind -M insert \ce accept-autosuggestion
