@@ -142,7 +142,7 @@ end
 set -U FZF_DEFAULT_OPTS "\
     --exact \
     --info=hidden \
-    --color=bg+:#262626,fg+:blue,hl:green,hl+:green,gutter:#121212,info:magenta,pointer:magenta,prompt:green \
+    --color=bg+:#262626,fg+:#eac9f5,hl:green,hl+:green,gutter:#121212,pointer:magenta,prompt:green \
     --bind=alt-\':jump-accept"
 
 # alt-"
@@ -213,7 +213,7 @@ set -Ux fish_color_comment white
 set -Ux fish_color_selection brblack
 set -Ux fish_color_search_match --background=black
 set -Ux fish_color_operator --bold yellow
-set -Ux fish_color_valid_path --underline
+set -Ux fish_color_valid_path --bold magenta
 set -Ux fish_color_escape cyan
 set -Ux fish_color_cwd --bold brblue
 set -Ux fish_color_autosuggestion brblack
