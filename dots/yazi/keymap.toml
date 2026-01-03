@@ -15,10 +15,10 @@ keymap = [
 	{ on = [ "g", "g" ],  run = "arrow top",  desc = "Move cursor to the top" },
 	{ on = [ "G" ],       run = "arrow bot",  desc = "Move cursor to the bottom" },
 
-	{ on = [ "o" ],  run = "arrow -1",   desc = "Move cursor up" },
+	{ on = [ "e" ],  run = "arrow -1",   desc = "Move cursor up" },
 	{ on = [ "a" ],  run = "arrow 1",    desc = "Move cursor down" },
 	{ on = [ "h" ],  run = "leave",      desc = "Go back to the parent directory" },
-	{ on = [ "e" ],  run = "enter",      desc = "Enter the child directory" },
+	{ on = [ "i" ],  run = "enter",      desc = "Enter the child directory" },
 
 	# Selection
 	{ on = [ "<Space>" ], run = [ "toggle --state=none", "arrow 1" ], desc = "Toggle the current selection state" },
@@ -111,7 +111,7 @@ keymap = [
 	{ on = [ "V" ], run = [ "move -999", "visual", "move 999" ], desc = "Enter visual mode and select all" },
 
 	# Navigation
-	{ on = [ "0" ], run = "move -999",                       desc = "Move to the BOL" },
+	{ on = [ "^" ], run = "move -999",                       desc = "Move to the BOL" },
 	{ on = [ "$" ], run = "move 999",                        desc = "Move to the EOL" },
 	{ on = [ "I" ], run = [ "move -999", "insert" ],         desc = "Move to the BOL, and enter insert mode" },
 	{ on = [ "A" ], run = [ "move 999", "insert --append" ], desc = "Move to the EOL, and enter append mode" },
