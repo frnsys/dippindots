@@ -8,28 +8,28 @@ X V M W Z  K P , ' /
 holds:
   ␣: Ctrl
   ⏎: Layer(ARROWS)
+
 defs:
   s: Shift
-combos:
-  [R, S]: Esc
 
+combos:
   # Layers
-  [C, D]: Toggle(ARROWS)
+  [R, S]: Toggle(ARROWS)
   [H, I]: Enable(SYSTEM)
   [N, S]: Enable(SYSTEM)
   [H, A, E]: Enable(NUMSYM)
 
   # Modifiers
-  [N, R, S]: OneShot(Meta)
   [P, "'"]: OneShot(Meta)
-  [⌫, s]: OneShot(Ctrl)
   [⌫, Q]: OneShot(Ctrl)        # Useful for e.g. ctrl+mousewheel
+  [N, R, S]: OneShot(Meta)     # Useful for e.g. meta-mousedrag
 
   # Shortcuts
   [R, T, S]: Shift(Alt(C))     # Terminal copy
   [N, R, T, S]: Shift(Alt(P))  # Terminal paste
   [N, D]: ⏎                    # Enter
-  [⌫, X]: Ctrl(Z)              # Undo
+  [W, Z]: Ctrl(Z)              # Undo
+  [X, V, M, W]: ↺              # Bootloader
 
   # Accents
   [N, ⌫]: "ˆ"
@@ -39,30 +39,34 @@ combos:
   [S, ⌫]: "€"
   [O, ␣]: "¸"
 
+  # Special
+  [R, T]: "⎋"
+  [T, S]: "⇥"
+
   # Symbols
   [N, T]: "^"
   [A, ␣]: "$"
   [A, E]: "."
-  [R, T]: "*"
+  [L, D]: "*"
   [H, E]: '='
   [H, A]: "_"
-  [T, S]: "⇥"
   [E, ␣]: ":"
   [O, U]: "+"
-  [L, D]: "%"
-  [H, U]: '`'
+  [C, D]: "@"
+  [H, U]: '('
   [",", "'"]: ">"
   ["V", "M"]: "<"
 
   # For Blender
   [N, R]: "Y"
+
 shifts:
   '=': '!'
   '-': '_'
   '/': '\\'
-  '*': '&'
+  '*': '`'
+  '@': '%'
   ':': '|'
-  '%': '@'
   '+': '#'
   '.': ';'
   ',': '?'
@@ -70,15 +74,17 @@ shifts:
   '`': "~"
   '>': '}'
   '<': '{'
+  '(': ')'
+  '⎋': '&'
   ␣: Enable(NUMSYM)
 
 ---
 
 NUMSYM
 
-, 4 5 6 ⬚  ⬚ # [ ] ⬚
+, 4 5 6 ⬚  ⬚ # [ ] @
 0 1 2 3 ⬚  ⬚ { ( ) }
-. 7 8 9 ⬚  ⬚ ⬚ < > ⬚
+. 7 8 9 ⬚  ⬚ ~ < > %
       ⌫ 0  ⬚ ⬚
 
 combos:
@@ -90,8 +96,8 @@ combos:
 
 ARROWS
 
-⬚ ⬚ ↤ ↦ ⬚  ⇞ ↤ ↑ ↦ ⇟
-⬚ ↤ ↚ ↦ ⬚  ⬚ ← ↓ → ⬚
+⬚ ⬚ ⬚ ⬚ ⬚  ⬚ ⇞ ↑ ⇟ ⬚
+⬚ ↤ ⬚ ↦ ⬚  ⬚ ← ↓ → ⬚
 ⬚ V ⬚ ⬚ ⬚  ⬚ ⌫ ⬚ ↚ ⬚
       ⬚ ⬚  ∅ ⬚
 
