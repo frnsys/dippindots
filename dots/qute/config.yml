@@ -20,12 +20,12 @@ settings:
   bindings.commands:
     global:
       normal:
-        <Alt+[>: tab-prev
-        <Alt+]>: tab-next
-        l: back
-        q: null
-        m: null
+        "<": tab-prev
+        ">": tab-next
         M: null
+        l: back
+        m: null
+        q: null
   colors.hints.bg:
     global: '#fdb63d'
   colors.hints.fg:

@@ -87,8 +87,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
       '<c-c>', function()
         vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
       end)
-    bind('Code action',
-      'tr', function()
+
+    local function code_action()
         vim.lsp.buf.code_action({
           -- Filter out code actions I never use
           -- and often crowd the list.
@@ -97,7 +97,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
             return not vim.startswith(title, "Generate delegate")
           end,
         })
-      end)
+    end
+
+    bind('Code action',
+      'tr', code_action)
     bind('Hover documentation',
       'tt', vim.lsp.buf.hover)
     bind('Go to definition',
@@ -108,6 +111,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       'tn', function()
         vim.diagnostic.open_float(0, { scope = "line", focus = false })
       end)
+    vim.keymap.set('i', "<c-r>", code_action)
 
     vim.keymap.set('v', "<c-u>", function() vim.lsp.buf.selection_range(1) end,
       { buffer = ev.buf, desc = desc, noremap = true })

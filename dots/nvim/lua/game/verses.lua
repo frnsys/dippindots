@@ -15,7 +15,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.lsp.config["verses"] = {
   -- Debugging
-  -- cmd = { '/home/francis/projects/fugue/lib/target/debug/verses', 'lsp' },
+  -- cmd = { '/home/francis/projects/fugue/tools/target/debug/verses', 'lsp' },
   cmd = { 'verses', 'lsp' },
   filetypes = { "verses" },
   root_markers = { ".git" },

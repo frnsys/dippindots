@@ -8,7 +8,7 @@ local function _(key, cmd, modes, remap)
   })
 end
 
--- Unused: #, ;, ., F, L, <c-j>, {, }
+-- Unused: #, ;, ., F, L, <c-j>, {, }, <space>, -, <c-->
 
 --- Tabs
 _(">", ":tabnext<cr>", "n")
@@ -27,8 +27,8 @@ _("D", "dd", "n")
 --- Like `{` and `}`
 --- but go to the start of the line for
 --- each block, rather than the empty lines.
-_('<c-i>', '5j', { "n", "x", "o" })
-_('<c-o>', '5k', { "n", "x", "o" })
+_('<c-i>', '5jzz', { "n", "x", "o" })
+_('<c-o>', '5kzz', { "n", "x", "o" })
 
 --- <c-e> already scrolls down by one,
 --- <c-y> scrolls up but is in an awkward position.
