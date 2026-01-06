@@ -14,7 +14,6 @@ defs:
 
 combos:
   # Layers
-  [R, S]: Toggle(ARROWS)
   [H, I]: Enable(SYSTEM)
   [N, S]: Enable(SYSTEM)
   [H, A, E]: Enable(NUMSYM)
@@ -25,6 +24,7 @@ combos:
   [N, R, S]: OneShot(Meta)     # Useful for e.g. meta-mousedrag
 
   # Shortcuts
+  [N, R, T]: Shift(⎋)
   [R, T, S]: Shift(Alt(C))     # Terminal copy
   [N, R, T, S]: Shift(Alt(P))  # Terminal paste
   [N, D]: ⏎                    # Enter
@@ -47,13 +47,14 @@ combos:
   [N, T]: "^"
   [A, ␣]: "$"
   [A, E]: "."
-  [L, D]: "*"
   [H, E]: '='
   [H, A]: "_"
   [E, ␣]: ":"
   [O, U]: "+"
-  [C, D]: "@"
-  [H, U]: '('
+  [L, D]: "#"
+  [C, D]: "("
+  [H, U]: '`'
+  [R, S]: '*'
   [",", "'"]: ">"
   ["V", "M"]: "<"
 
@@ -64,17 +65,17 @@ shifts:
   '=': '!'
   '-': '_'
   '/': '\\'
-  '*': '`'
-  '@': '%'
+  '*': '~'
+  '#': '@'
   ':': '|'
-  '+': '#'
+  '+': '%'
   '.': ';'
   ',': '?'
   "'": '"'
-  '`': "~"
+  '`': "%"
+  '(': ')'
   '>': '}'
   '<': '{'
-  '(': ')'
   '⎋': '&'
   ␣: Enable(NUMSYM)
 
