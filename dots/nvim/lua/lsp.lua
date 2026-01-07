@@ -134,10 +134,6 @@ vim.lsp.config["rust"] = {
   cmd = { "rustup", "run", "nightly", "rust-analyzer" },
   settings = {
     ["rust-analyzer"] = {
-      check = {
-        -- Ignore tests when flychecking.
-        allTargets = false,
-      },
       cargo = {
         targetDir = "target/ra",
       },

@@ -8,15 +8,11 @@ local function _(key, cmd, modes, remap)
   })
 end
 
--- Unused: #, ;, ., F, L, <c-j>, {, }, <space>, -, <c-->
+-- Unused: #, ;, ., F, L, <c-j>, {, }, <space>, -, <c-->, <, >
 
 --- Tabs
-_(">", ":tabnext<cr>", "n")
-_("<", ":tabprevious<cr>", "n")
-
---- Buffers
-_("b", ":bprev<cr>", "n")
-_("B", ":bnext<cr>", "n")
+_("b", ":tabnext<cr>", "n")
+_("B", ":tabprevious<cr>", "n")
 
 --- Replace <c-i> and <c-o>
 _("<c-p>", "<c-i>", "n")
@@ -30,10 +26,30 @@ _("D", "dd", "n")
 _('<c-i>', '5jzz', { "n", "x", "o" })
 _('<c-o>', '5kzz', { "n", "x", "o" })
 
+--- Prevent some motions from adding to the jumplist
+vim.keymap.set({ "n" }, "gg", function()
+  if vim.v.count == 0 then
+    return ':keepjumps norm! gg<CR>'
+  else
+    --- Keep e.g. `10gg` working normally and adding
+    --- to the jumplist.
+    return 'gg'
+  end
+end, {
+  remap = false,
+  silent = true,
+  expr = true,
+})
+_('G',  ':keepjumps norm! G<cr>',  { "n" })
+_('n',  ':keepjumps norm! n<cr>',  { "n" })
+_('N',  ':keepjumps norm! n<cr>',  { "n" })
+
 --- <c-e> already scrolls down by one,
 --- <c-y> scrolls up but is in an awkward position.
-_("<c-'>", "<c-e>", { "n" })
-_("<c-e>", "<c-y>", { "n" })
+-- _("<c-'>", "<c-e>", { "n" })
+-- _("<c-e>", "<c-y>", { "n" })
+_("<c-'>", "jzz", { "n" })
+_("<c-e>", "kzz", { "n" })
 
 --- Jump between matching delimiters
 _('l', '%', {"n", "x", "o"})

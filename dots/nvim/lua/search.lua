@@ -119,7 +119,7 @@ vim.keymap.set("n", "<c-d>", function()
 end)
 
 --- Warnings
-vim.keymap.set("n", ",w", function()
+vim.keymap.set("n", "<c-s-d>", function()
   require('fzf-lua').diagnostics_workspace({
     severity_only = 2,
   })

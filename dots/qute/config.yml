@@ -16,12 +16,11 @@ settings:
       wqa: quit --save
   auto_save.session:
     global: true
-  # Note: use `:bind` to view all bindings.
   bindings.commands:
     global:
       normal:
-        "<": tab-prev
-        ">": tab-next
+        B: tab-prev
+        b: tab-next
         M: null
         l: back
         m: null
