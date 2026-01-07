@@ -25,5 +25,10 @@ window label {
 echo "$style" > /tmp/lock-style.css
 
 if ! pgrep -x gtklock >/dev/null; then
-    gtklock --daemonize -m /usr/local/lib/gtklock/virtkb-module -s /tmp/lock-style.css
+    # This is a bit of a hack to ensure keyboard focus is on the
+    # lock screen's password input field.
+    # Otherwise a mouse is required to focus the input field.
+    MONITOR=eDP-1
+    niri msg action focus-monitor $MONITOR
+    gtklock --daemonize -M $MONITOR -m /usr/local/lib/gtklock/virtkb-module -s /tmp/lock-style.css
 fi
