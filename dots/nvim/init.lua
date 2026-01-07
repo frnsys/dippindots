@@ -92,7 +92,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 --- Remember last location in file, but not for commit messages.
-vim.api.nvim_create_autocmd("BufReadPost", {
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function()
     local ft = vim.bo.filetype
