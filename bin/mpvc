@@ -1,0 +1,11 @@
+#!/bin/bash
+
+MPV_SOCKET=/tmp/mpvsocket
+
+if [[ $1 == 'toggle' ]]; then
+    echo '{ "command": ["cycle", "pause"] }' | socat - $MPV_SOCKET
+elif [[ $1 == 'add' ]]; then
+    echo '{ "command": ["loadfile", "'"$2"'", "append"] }' | socat - $MPV_SOCKET
+elif [[ $1 == 'play' ]]; then
+    echo '{ "command": ["loadfile", '"$2"', "replace"] }' | socat - $MPV_SOCKET
+fi

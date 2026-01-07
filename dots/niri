@@ -92,12 +92,12 @@ binds {
     Mod+A { spawn "info"; }
     Mod+G { spawn "hyprpicker" "--autocopy"; }
     Mod+Shift+Plus { spawn "mpc" "toggle"; }
-    Mod+Plus { spawn "mpvc" "-S" "/tmp/mpvsocket" "toggle"; }
+    Mod+L { spawn "mpvc" "toggle"; }
     Mod+Space { spawn "sh" "-c" "bemenu-run -l 10 -p \">\""; }
     Mod+Comma { spawn "sh" "-c" "kitty --title ncmpcpp -e ncmpcpp"; }
     Mod+T { spawn "sh" "-c" "kitty --title todo --working-directory ~/notes -e nvim todo.md"; }
     Mod+B { spawn "sh" "-c" "kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx"; }
-    Mod+L allow-when-locked=true { spawn "lock"; }
+    Mod+Q allow-when-locked=true { spawn "lock"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "2%+"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "2%-"; }

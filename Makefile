@@ -127,12 +127,8 @@ music:
 video:
 	opi codecs
 
-	sudo zypper in mpv
+	sudo zypper in mpv socat
 	ln -sf $(dir)/dots/mpv ~/.config/mpv
-
-	# mpvc for controlling mpv
-	git clone --depth 1 https://github.com/lwilletts/mpvc.git /tmp/mpvc
-	cd /tmp/mpvc && sudo make install
 
 	# For syncing/aligning subtitles
 	cargo install alass-cli
