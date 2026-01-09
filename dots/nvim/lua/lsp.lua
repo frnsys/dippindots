@@ -58,21 +58,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspAttach", { clear = true }),
   callback = function(ev)
     local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
-    client.server_capabilities.completionProvider.triggerCharacters =
-      vim.split("qwertyuiopasdfghjklzxcvbnm. @/[", "")
-    vim.lsp.completion.enable(true,
-      ev.data.client_id, ev.buf, {
-        autotrigger = true,
-        convert = function(item)
-          return {
-            -- Remove function params to save space.
-            abbr = item.label:gsub('%b()', ''),
+    if client.server_capabilities.completionProvider then
+      client.server_capabilities.completionProvider.triggerCharacters =
+        vim.split("qwertyuiopasdfghjklzxcvbnm. @/[", "")
+      vim.lsp.completion.enable(true,
+        ev.data.client_id, ev.buf, {
+          autotrigger = true,
+          convert = function(item)
+            return {
+              -- Remove function params to save space.
+              abbr = item.label:gsub('%b()', ''),
 
-            -- Also remove the "Method", "Function", etc column.
-            kind = "",
-          }
-        end,
-      })
+              -- Also remove the "Method", "Function", etc column.
+              kind = "",
+            }
+          end,
+        })
+    end
 
     local bind = function(desc, keys, func)
       vim.keymap.set('n', keys, func,

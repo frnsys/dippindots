@@ -58,9 +58,6 @@ local function find_ts_matches(win, ts_query)
   local tree = parser:parse()[1]
   local root = tree:root()
 
-  -- Note: requires `nvim-treesitter/nvim-treesitter-textobjects`
-  -- local query = vim.treesitter.query.get(lang, "textobjects")
-
   local query = vim.treesitter.query.parse(lang, ts_query)
   if not query then return {} end
 

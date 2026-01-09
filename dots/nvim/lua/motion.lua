@@ -1,6 +1,5 @@
 vim.pack.add({
   "https://github.com/nvim-treesitter/nvim-treesitter",
-  "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
   "https://github.com/gbprod/substitute.nvim",
   "https://github.com/backdround/neowords.nvim",
   "https://github.com/chrisgrieser/nvim-spider",
@@ -9,17 +8,15 @@ vim.pack.add({
   "https://github.com/folke/flash.nvim",
 })
 
-require("nvim-treesitter.configs").setup({
-  ensure_installed = {
-    'c', 'cpp', 'python', 'rust', 'tsx',
-    'typescript', 'c_sharp', 'css', 'scss', 'toml',
-    'markdown', 'markdown_inline', 'bash', 'lua',
-    'html', 'javascript', 'json', 'yaml', 'comment'
-  },
-  auto_install = true,
-  highlight = { enable = true },
-  indent = { enable = false },
-  incremental_selection = { enable = false },
+require("nvim-treesitter").install({
+  'c', 'cpp', 'python', 'rust', 'tsx', 'typescript',
+  'c_sharp', 'css', 'scss', 'toml', 'lua',
+  'markdown', 'markdown_inline', 'bash', 'gitcommit',
+  'html', 'javascript', 'json', 'yaml', 'comment',
+})
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { '*' },
+  callback = function() vim.treesitter.start() end,
 })
 
 local ai = require('mini.ai')
@@ -27,10 +24,6 @@ ai.setup({
   custom_textobjects = {
     ['r'] = { { "%b''", '%b""', '%b``' }, '^.().*().$' },
     ['t'] = { { '%b()', '%b[]', '%b{}', '%b<>', '%b||' }, '^.().*().$' },
-
-    -- Note: requires `nvim-treesitter/nvim-treesitter-textobjects`
-    ['f'] = ai.gen_spec.treesitter({
-      a = '@function.outer', i = '@function.inner' }),
 
     ['a'] = ai.gen_spec.argument({
       brackets = { '%b()', '%b[]', '%b{}', '%b<>', '%b||' },

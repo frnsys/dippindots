@@ -92,6 +92,7 @@ dev:
 
 editor:
 	@echo "Installing neovim..."
+	cargo install --locked tree-sitter-cli
 	sudo zypper in bat wl-clipboard
 	wget https://github.com/neovim/neovim/archive/refs/tags/nightly.tar.gz -O /tmp/neovim.tar.gz
 	cd /tmp; tar -xzvf neovim.tar.gz; \
