@@ -20,6 +20,9 @@ end
 --- Lower priority for LSP semantic token highlighting.
 vim.highlight.priorities.semantic_tokens = 95
 
+--- Log file grows very quickly
+vim.lsp.set_log_level("off")
+
 --- Completion settings:
 --- * show menu
 --- * show popup with more info
