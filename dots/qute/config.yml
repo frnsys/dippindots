@@ -25,6 +25,10 @@ settings:
         l: back
         m: null
         q: null
+        a: scroll down
+        e: scroll up
+        A: scroll-page 0 0.8
+        E: scroll-page 0 -0.8
   colors.hints.bg:
     global: '#fdb63d'
   colors.hints.fg:

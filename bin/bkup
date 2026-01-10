@@ -15,6 +15,7 @@ dist/
 torrents/" > /tmp/bkup.exclude
 
 echo "build/**
+.book/**
 .git/lfs/**
 node_modules/**
 target/**
