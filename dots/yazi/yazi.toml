@@ -37,6 +37,7 @@ image = [
 ]
 video = [
 	{ run = 'mpv "$@"', desc = "Play", orphan = true },
+	{ run = 'mpvc add "$@"', desc = "Append to playlist" },
 	{ run = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info" },
 ]
 audio = [
