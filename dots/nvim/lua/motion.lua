@@ -10,13 +10,20 @@ vim.pack.add({
 
 require("nvim-treesitter").install({
   'c', 'cpp', 'python', 'rust', 'tsx', 'typescript',
-  'c_sharp', 'css', 'scss', 'toml', 'lua',
+  'c_sharp', 'css', 'scss', 'toml', 'lua', 'just',
   'markdown', 'markdown_inline', 'bash', 'gitcommit',
   'html', 'javascript', 'json', 'yaml', 'comment',
 })
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { '*' },
-  callback = function() vim.treesitter.start() end,
+  callback = function(args)
+    local lang = vim.treesitter.language.get_lang(args.match)
+    if not lang then return end
+
+    if vim.treesitter.query.get(lang, "highlights") then
+      vim.treesitter.start(args.buf)
+    end
+  end
 })
 
 local ai = require('mini.ai')
