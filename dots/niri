@@ -105,7 +105,7 @@ binds {
     XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "set" "+10000"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "10000-"; }
 
-    Mod+Q { close-window; }
+    Mod+Shift+Q { close-window; }
     Mod+Alt+O { power-off-monitors; }
 
     Mod+Down  { focus-window-previous; }
