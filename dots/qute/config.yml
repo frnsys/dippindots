@@ -19,8 +19,8 @@ settings:
   bindings.commands:
     global:
       normal:
-        B: tab-prev
-        b: tab-next
+        b: tab-prev
+        B: tab-next
         M: null
         l: back
         m: null

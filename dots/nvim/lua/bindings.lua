@@ -11,8 +11,8 @@ end
 -- Unused: #, ;, ., F, L, <c-j>, {, }, <space>, -, <c-->, <, >
 
 --- Tabs
-_("b", ":tabnext<cr>", "n")
-_("B", ":tabprevious<cr>", "n")
+_("B", ":tabnext<cr>", "n")
+_("b", ":tabprevious<cr>", "n")
 
 --- Replace <c-i> and <c-o>
 _("<c-p>", "<c-i>", "n")
