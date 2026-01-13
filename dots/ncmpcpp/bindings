@@ -1,5 +1,3 @@
-# defaults are at /usr/local/share/doc/ncmpcpp/bindings
-
 def_key "x"
   delete_playlist_items
 
@@ -8,3 +6,18 @@ def_key "x"
 
 def_key "ctrl-x"
   delete_browser_items
+
+def_key "n"
+  next_found_item
+
+def_key "N"
+  previous_found_item
+
+def_key "m"
+  move_selected_items_up
+
+def_key "v"
+  move_sort_order_down
+
+def_key "G"
+  move_home
