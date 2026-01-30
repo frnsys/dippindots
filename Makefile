@@ -299,6 +299,9 @@ tweaks:
 	# For AMD Vulkan
 	sudo zypper in libvulkan_radeon
 
+	# Keep system clock in sync
+	sudo systemctl enable --now systemd-timesyncd
+
 	# Firmware updates
 	sudo zypper in fwupd
 	# fwupdmgr refresh && fwupdmgr update && fwupdmgr get-updates
