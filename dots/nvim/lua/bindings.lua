@@ -8,7 +8,7 @@ local function _(key, cmd, modes, remap)
   })
 end
 
--- Unused: #, ;, ., F, L, <c-j>, {, }, <space>, -, <c-->, <, >
+-- Unused: ., F, L, <c-j>, <c-f>, {, }, <space>, -, <c-->, k, q, c, x, z
 
 --- Tabs
 _("B", ":tabnext<cr>", "n")
@@ -44,13 +44,6 @@ _('G',  ':keepjumps norm! G<cr>',  { "n" })
 _('n',  ':keepjumps norm! n<cr>',  { "n" })
 _('N',  ':keepjumps norm! n<cr>',  { "n" })
 
---- <c-e> already scrolls down by one,
---- <c-y> scrolls up but is in an awkward position.
--- _("<c-'>", "<c-e>", { "n" })
--- _("<c-e>", "<c-y>", { "n" })
-_("<c-'>", "jzz", { "n" })
-_("<c-e>", "kzz", { "n" })
-
 --- Jump between matching delimiters
 _('l', '%', {"n", "x", "o"})
 
@@ -64,8 +57,8 @@ _("<c-u>", "u", "n")
 _("<s-cr>", "<esc>O", {"i", "n"})
 
 --- Commenting
-_("K", "gcc", "n", true)
-_("K", "gc", "v", true)
+_("-", "gcc", "n", true)
+_("-", "gc", "v", true)
 
 --- Don't leave visual mode when changing indent
 _(">", ">gv", "x")
@@ -86,7 +79,7 @@ _('<c-b>', 'dbg!();<Left><Left>', "i")
 --- Delete previous word
 _('<c-backspace>', '<c-w>', "i")
 
--- TODO could use improving
+--- Delete previous subword
 _('<c-d>', '<esc>dmxi', "i", true)
 
 --- Splits

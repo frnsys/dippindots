@@ -21,7 +21,7 @@ end
 vim.highlight.priorities.semantic_tokens = 95
 
 --- Log file grows very quickly
-vim.lsp.set_log_level("off")
+vim.lsp.log.set_level("off")
 
 --- Completion settings:
 --- * show menu
@@ -152,10 +152,8 @@ vim.lsp.config["rust"] = {
         },
       },
       completion = {
-        -- Don't really use this;
-        -- would use my own snippets instead
         postfix = {
-          enable = false
+          enable = true
         },
 
         -- Show private fields in completion
@@ -174,6 +172,7 @@ vim.lsp.config["rust"] = {
     }
   }
 }
+
 vim.lsp.enable('rust')
 
 -- pip install ty
@@ -208,4 +207,3 @@ vim.api.nvim_create_autocmd("CursorHold", {
     vim.diagnostic.open_float(nil, { focusable = false, source = true })
   end,
 })
-

@@ -13,6 +13,7 @@ require("headlines").setup({
 })
 
 require("no-neck-pain").setup({
+  width = 80,
   buffers = {
     wo = {
       fillchars = "eob: ",

@@ -1,7 +1,6 @@
 vim.pack.add({
   "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/gbprod/substitute.nvim",
-  "https://github.com/backdround/neowords.nvim",
   "https://github.com/chrisgrieser/nvim-spider",
   "https://github.com/echasnovski/mini.ai",
   "https://github.com/echasnovski/mini.indentscope",
@@ -10,7 +9,7 @@ vim.pack.add({
 
 require("nvim-treesitter").install({
   'c', 'cpp', 'python', 'rust', 'tsx', 'typescript',
-  'c_sharp', 'css', 'scss', 'toml', 'lua', 'just',
+  'c_sharp', 'css', 'scss', 'toml', 'lua', 'just', 'make',
   'markdown', 'markdown_inline', 'bash', 'gitcommit',
   'html', 'javascript', 'json', 'yaml', 'comment',
 })
@@ -56,10 +55,21 @@ require("spider").setup({
 	consistentOperatorPending = false,
 	customPatterns = {},
 })
+
+-- Bigger jump, to the start/end of identifiers.
+local ident_pattern = "[a-zA-Z0-9_]+"
+
 vim.keymap.set({ "n", "o", "x" }, "w", function() require('spider').motion('w') end)
 vim.keymap.set({ "n", "o", "x" }, "e", function() require('spider').motion('e') end)
+vim.keymap.set({ "n", "o", "x" }, "E", function() require('spider').motion('e', {
+	customPatterns = { ident_pattern },
+}) end)
+vim.keymap.set({ "n", "o", "x" }, "<c-e>", "E")
 vim.keymap.set({ "n", "o", "x" }, "m", function() require('spider').motion('b') end)
-vim.keymap.set({ "n", "o", "x" }, "M", "B")
+vim.keymap.set({ "n", "o", "x" }, "M", function() require('spider').motion('b', {
+	customPatterns = { ident_pattern },
+}) end)
+vim.keymap.set({ "n", "o", "x" }, "<c-m>", "B")
 
 --- Make word operations more intuitive
 -- Consider
@@ -102,11 +112,10 @@ require("flash").setup({
     char = {
       enabled = true,
       jump_labels = true,
-      label = { exclude = "zb" },
       keys = {
-        -- Easier than f/F
-        ["f"] = "h",
-        ["F"] = "H",
+        ["f"] = "f",
+        ["F"] = "F",
+        ["t"] = "t",
       }
     },
     search = {
@@ -149,43 +158,66 @@ local function flash_delim(delims)
   end
   return inner
 end
+local function flash_list_items()
+  function inner()
+    require("flash").jump({
+      matcher = matchers.list_item_matcher(),
+      search = { mode = "search", max_length = 0 },
+      jump = { pos = "range", autojump = true },
+    })
+  end
+  return inner
+end
 
-vim.keymap.set({"n"}, "=", flash_ts("left_right"))
-vim.keymap.set({"n", "x", "o"}, "<c-f>", flash_ts("list_item"))
-vim.keymap.set({"n", "x", "o"}, "k", flash_ts("statement"))
+-- vim.keymap.set({"n"}, "=", flash_ts("left_right"))
+-- vim.keymap.set({"n"}, "<c-f>", flash_ts("list_item"))
 
-vim.keymap.set({"n"}, "f", flash_delim({
+vim.keymap.set({"n"}, "\"", flash_delim({
   { '"', '"' },
   { "'", "'" },
   { '`', '`' },
 }))
 
-vim.keymap.set({"n", "x", "o"}, "u", flash_delim({
+vim.keymap.set({"n"}, "u", flash_delim({
   { '(', ')' },
   { '[', ']' },
   { '{', '}' },
 }))
 
-vim.keymap.set({"n", "x", "o"}, "U", flash_delim({
+vim.keymap.set({"n"}, "U", flash_delim({
   { '<', '>' },
   { '|', '|' },
 }))
+
+vim.keymap.set({"n"}, "<c-f>", flash_list_items())
 
 --- Motion helpers
 -- Better to come after flash setup to avoid overwriting.
 
 -- , => up to next comma, e.g. `c,`
-vim.keymap.set({ "o", "x" }, ",", "t,")
+vim.keymap.set({ "o", "x" }, ",", "t,", { remap = true })
 
 -- ) => up to next ), e.g. `c)`
-vim.keymap.set({ "o", "x" }, ")", "t)")
+vim.keymap.set({ "o", "x" }, ")", "t)", { remap = true })
+
+-- . => up to next ), e.g. `c.`
+vim.keymap.set({ "o", "x" }, ".", "t.", { remap = true })
 
 -- ; => up to next ;, e.g. `c;`
 vim.keymap.set({ "o", "x" }, ";", "t;")
 
--- Up to first ), ], >, ;, "
-vim.keymap.set({ "o", "x" }, "'", "/\\%.l[)\\]>;\"]<cr>")
-
--- Easier dot repeat
-vim.keymap.set("n", "'", ".")
-
+-- Up to selected ), ], }
+vim.keymap.set({ "o", "x" }, "'", function()
+  require("flash").jump({
+    search = {
+      mode = "search",
+      max_length = 0,
+    },
+    label = { after = { 0, 0 }, before = false },
+    pattern = [=[[)\]}]]=], -- Matches ), ], or }
+    action = function(match, state)
+      state:hide()
+      vim.api.nvim_win_set_cursor(match.win, { match.pos[1], match.pos[2] })
+    end,
+  })
+end)

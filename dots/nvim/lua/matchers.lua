@@ -183,7 +183,155 @@ local function find_balanced_delimiters(delimiter_pairs, include_delimiters)
   return result_matches
 end
 
+-- Find list items
+local function list_items_recursive(text, base_offset)
+    local ranges = {}
+    local i = 1
+    local containers = { ['<'] = '>', ['('] = ')', ['['] = ']', ['{'] = '}' }
+
+    while i <= #text do
+        local char = text:sub(i, i)
+
+        -- CASE 1: Strings (Quotes)
+        if char == "'" or char == '"' then
+            local quote = char
+            local j = i + 1
+            while j <= #text and text:sub(j, j) ~= quote do
+                j = j + 1
+            end
+
+            -- Add the string as a single item ONLY if the parent scope is a list
+            if has_top_level_comma(text) then
+                table.insert(ranges, {pos = i + base_offset, end_pos = j + base_offset})
+            end
+            i = j + 1
+
+        -- CASE 2: Nested Containers
+        elseif containers[char] then
+            local closer = containers[char]
+            local depth = 1
+            local j = i + 1
+
+            while j <= #text and depth > 0 do
+                local c = text:sub(j, j)
+                -- We must still handle quotes inside brackets to avoid
+                -- miscounting depth if a bracket is inside a string
+                if c == "'" or c == '"' then
+                    local q = c
+                    j = j + 1
+                    while j <= #text and text:sub(j, j) ~= q do j = j + 1 end
+                elseif c == char then depth = depth + 1
+                elseif c == closer then depth = depth - 1 end
+                if depth > 0 then j = j + 1 end
+            end
+
+            local inner_content = text:sub(i + 1, j - 1)
+
+            if has_top_level_comma(inner_content) then
+                table.insert(ranges, {pos = i + base_offset, end_pos = j + base_offset})
+            end
+
+            -- Recurse into brackets (but not strings)
+            local inner_results = list_items_recursive(inner_content, base_offset + i)
+            for _, r in ipairs(inner_results) do
+                table.insert(ranges, r)
+            end
+            i = j + 1
+
+        -- CASE 3: Separators
+        elseif char == "," or char:match("%s") then
+            i = i + 1
+
+        -- CASE 4: Plain words
+        else
+            local j = i
+            while j <= #text and not containers[text:sub(j,j)] and text:sub(j,j) ~= "," and text:sub(j,j) ~= "'" and text:sub(j,j) ~= '"' do
+                j = j + 1
+            end
+            if has_top_level_comma(text) then
+                table.insert(ranges, {pos = i + base_offset, end_pos = j - 1 + base_offset})
+            end
+            i = j
+        end
+    end
+    return ranges
+end
+
+local function has_top_level_comma(str)
+    local depth = 0
+    local i = 1
+    local openers = { ['<'] = '>', ['('] = ')', ['['] = ']', ['{'] = '}' }
+    local closers = { ['>'] = true, [')'] = true, [']'] = true, ['}'] = true }
+
+    while i <= #str do
+        local c = str:sub(i, i)
+
+        -- Ignore whatever's inside quotes
+        if c == "'" or c == '"' then
+            local quote = c
+            local j = i + 1
+            while j <= #str and str:sub(j, j) ~= quote do
+                j = j + 1
+            end
+            i = j
+        elseif openers[c] then
+            depth = depth + 1
+        elseif closers[c] then
+            depth = math.max(0, depth - 1)
+        elseif c == "," and depth == 0 then
+            return true
+        end
+        i = i + 1
+    end
+    return false
+end
+
+local function find_list_items()
+    local start_line = vim.fn.line("w0")
+    local end_line = vim.fn.line("w$")
+    local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+    local text = table.concat(lines, "\n")
+
+    -- Map character index back to {row, col}
+    local line_offsets = {}
+    local current_total = 0
+    for idx, line in ipairs(lines) do
+        line_offsets[idx] = current_total
+        current_total = current_total + #line + 1
+    end
+
+    -- Helper to convert flat index to (row, col)
+    local function index_to_row_col(idx)
+        for row_idx = #line_offsets, 1, -1 do
+            if idx > line_offsets[row_idx] then
+                return (start_line + row_idx - 1), (idx - line_offsets[row_idx] - 1)
+            end
+        end
+        return start_line, 0
+    end
+
+    -- Get the flat ranges
+    local flat_ranges = list_items_recursive(text, 0)
+
+    -- Convert to buffer positions
+    local final_matches = {}
+    for _, range in ipairs(flat_ranges) do
+        local r1, c1 = index_to_row_col(range.pos)
+        local r2, c2 = index_to_row_col(range.end_pos)
+        table.insert(final_matches, { pos = {r1, c1}, end_pos = {r2, c2} })
+    end
+
+    return final_matches
+end
+
 local M = {}
+
+--- Flash matcher for list items.
+function M.list_item_matcher()
+  return function(win)
+    return find_list_items()
+  end
+end
 
 --- Flash matcher for a balanced delimiters.
 function M.delim_matcher(delimiter_pairs, include_delimiters)
