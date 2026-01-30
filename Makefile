@@ -72,7 +72,7 @@ utils:
 	sudo zypper in sqlitebrowser rclone yt-dlp
 	sudo zypper in xcursor-themes hyprpicker
 
-	opi signal-desktop
+	# For signal, see https://community.signalusers.org/t/beta-test-the-signal-desktop-linux-appimage/73330
 
 	cargo install --git https://github.com/frnsys/kpass.git
 	cargo install --git https://github.com/frnsys/agenda.git
