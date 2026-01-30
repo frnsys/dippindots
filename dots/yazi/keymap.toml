@@ -63,8 +63,8 @@ keymap = [
 
 	# Tabs
 	{ on = [ "t" ], run = "tab_create --current",     desc = "Create a new tab using the current path" },
-	{ on = [ "<" ], run = "tab_switch -1 --relative", desc = "Switch to the previous tab" },
-	{ on = [ ">" ], run = "tab_switch 1 --relative",  desc = "Switch to the next tab" },
+	{ on = [ "b" ], run = "tab_switch -1 --relative", desc = "Switch to the previous tab" },
+	{ on = [ "B" ], run = "tab_switch 1 --relative",  desc = "Switch to the next tab" },
 
 	# Tasks
 	{ on = [ "w" ], run = "tasks_show", desc = "Show the tasks manager" },

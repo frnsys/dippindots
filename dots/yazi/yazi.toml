@@ -22,10 +22,10 @@ text = [
 	{ run = 'vi "$@"', block = true, desc = "Editor" },
 ]
 pdf = [
-	{ run = 'sioyek "$@"', block = false, orphan = true },
+	{ run = 'sioyek --new-instance "$@"', block = false, orphan = true },
 ]
 epub = [
-	{ run = 'sioyek "$@"', block = false, orphan = true },
+	{ run = 'sioyek --new-instance "$@"', block = false, orphan = true },
 ]
 gif = [
 	{ run = 'vu "$@"', block = false },
