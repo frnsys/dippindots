@@ -36,6 +36,9 @@ rust:
 	rustup target add wasm32-unknown-unknown
 	sudo zypper in mold
 
+	mkdir -p ~/.cargo
+	ln -sf $(dir)/dots/cargo ~/.cargo/config.toml
+
 langs:
 	@echo "Installing python & node..."
 	curl https://mise.run | sh
