@@ -14,6 +14,10 @@ prereqs:
 	@echo "Installing prereqs..."
 	sudo zypper in gcc gcc-c++ make cmake automake autoconf clang lld wget zip unzip openssh-server bzip2 curl ninja meson opi unar ntp
 
+	# Note: this will prompt you to accept this key (MOK)
+	# on your next reboot.
+	sudo zypper in openSUSE-signkey-cert
+
 	timedatectl set-ntp true
 	sudo systemctl enable --now ntpd
 
