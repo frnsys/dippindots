@@ -32,6 +32,7 @@ keymap = [
 	{ on = [ "O" ],         run = "open --interactive",     desc = "Open the selected files interactively" },
 	{ on = [ "y" ],         run = "yank",                   desc = "Copy the selected files" },
 	{ on = [ "x" ],         run = "yank --cut",             desc = "Cut the selected files" },
+	{ on = [ "Y" ],         run = "unyank",                      desc = "Cancel the yank status" },
 	{ on = [ "p" ],         run = "paste",                  desc = "Paste the files" },
 	{ on = [ "P" ],         run = "paste --force",          desc = "Paste the files (overwrite if the destination exists)" },
 	{ on = [ "D" ],         run = "remove --permanently",   desc = "Permanently delete the files" },
