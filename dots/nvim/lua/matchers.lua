@@ -183,6 +183,35 @@ local function find_balanced_delimiters(delimiter_pairs, include_delimiters)
   return result_matches
 end
 
+local function has_top_level_comma(str)
+    local depth = 0
+    local i = 1
+    local openers = { ['<'] = '>', ['('] = ')', ['['] = ']', ['{'] = '}' }
+    local closers = { ['>'] = true, [')'] = true, [']'] = true, ['}'] = true }
+
+    while i <= #str do
+        local c = str:sub(i, i)
+
+        -- Ignore whatever's inside quotes
+        if c == "'" or c == '"' then
+            local quote = c
+            local j = i + 1
+            while j <= #str and str:sub(j, j) ~= quote do
+                j = j + 1
+            end
+            i = j
+        elseif openers[c] then
+            depth = depth + 1
+        elseif closers[c] then
+            depth = math.max(0, depth - 1)
+        elseif c == "," and depth == 0 then
+            return true
+        end
+        i = i + 1
+    end
+    return false
+end
+
 -- Find list items
 local function list_items_recursive(text, base_offset)
     local ranges = {}
@@ -255,35 +284,6 @@ local function list_items_recursive(text, base_offset)
         end
     end
     return ranges
-end
-
-local function has_top_level_comma(str)
-    local depth = 0
-    local i = 1
-    local openers = { ['<'] = '>', ['('] = ')', ['['] = ']', ['{'] = '}' }
-    local closers = { ['>'] = true, [')'] = true, [']'] = true, ['}'] = true }
-
-    while i <= #str do
-        local c = str:sub(i, i)
-
-        -- Ignore whatever's inside quotes
-        if c == "'" or c == '"' then
-            local quote = c
-            local j = i + 1
-            while j <= #str and str:sub(j, j) ~= quote do
-                j = j + 1
-            end
-            i = j
-        elseif openers[c] then
-            depth = depth + 1
-        elseif closers[c] then
-            depth = math.max(0, depth - 1)
-        elseif c == "," and depth == 0 then
-            return true
-        end
-        i = i + 1
-    end
-    return false
 end
 
 local function find_list_items()

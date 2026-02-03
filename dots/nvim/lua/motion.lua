@@ -113,8 +113,8 @@ require("flash").setup({
       enabled = true,
       jump_labels = true,
       keys = {
-        ["f"] = "f",
-        ["F"] = "F",
+        ["f"] = "h",
+        ["F"] = "H",
         ["t"] = "t",
       }
     },
