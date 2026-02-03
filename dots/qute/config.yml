@@ -19,16 +19,18 @@ settings:
   bindings.commands:
     global:
       normal:
-        b: tab-prev
+        A: scroll-page 0 0.8
         B: tab-next
+        E: scroll-page 0 -0.8
+        K: set colors.webpage.bg white
         M: null
+        a: scroll down
+        b: tab-prev
+        e: scroll up
+        k: set colors.webpage.bg black
         l: back
         m: null
         q: null
-        a: scroll down
-        e: scroll up
-        A: scroll-page 0 0.8
-        E: scroll-page 0 -0.8
   colors.hints.bg:
     global: '#fdb63d'
   colors.hints.fg:
@@ -69,6 +71,8 @@ settings:
     global: '#cccccc'
   colors.tabs.selected.odd.fg:
     global: '#000000'
+  colors.webpage.bg:
+    global: black
   colors.webpage.preferred_color_scheme:
     global: dark
   content.blocking.method:
