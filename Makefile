@@ -69,8 +69,11 @@ tools:
 utils:
 	# Note: Run with `sudo -EH yast2`.
 	sudo zypper in yast2-control-center-qt
-	sudo zypper in sqlitebrowser rclone yt-dlp
+	sudo zypper in sqlitebrowser rclone
 	sudo zypper in xcursor-themes hyprpicker
+
+	# Prefer from pip as it's more up-to-date
+	pip install yt-dlp
 
 	# For signal, see https://community.signalusers.org/t/beta-test-the-signal-desktop-linux-appimage/73330
 
@@ -376,3 +379,10 @@ other:
 
 	# symlink notes and sites
 	ln -sf $(dir)/dots/port ~/.config/port.yml
+
+update:
+	pip install -U ty
+	pip install -U adblock
+	pip install -U yt-dlp
+	sudo flatpak update
+	cargo install-update -a
