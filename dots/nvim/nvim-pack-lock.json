@@ -1,7 +1,7 @@
 {
   "plugins": {
     "fidget.nvim": {
-      "rev": "64463022a1f2ff1318ab22a2ea4125ed9313a483",
+      "rev": "7fa433a83118a70fe24c1ce88d5f0bd3453c0970",
       "src": "https://github.com/j-hui/fidget.nvim"
     },
     "flash.nvim": {
@@ -9,11 +9,11 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "fzf-lua": {
-      "rev": "b8d1356b7120f5cf111709cb2fa504096248fb26",
+      "rev": "b4b1f05957a77f7662de834328827890c1a8c02b",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "fzf-lua-frecency.nvim": {
-      "rev": "8f6724fc20de155d0e14b470d6f65f9c9b04b270",
+      "rev": "5726403e132fe8699d670c7ef8d59dbed887b4e6",
       "src": "https://github.com/elanmed/fzf-lua-frecency.nvim"
     },
     "headlines.nvim": {
@@ -21,11 +21,11 @@
       "src": "https://github.com/lukas-reineke/headlines.nvim"
     },
     "kitty-scrollback.nvim": {
-      "rev": "8026a3715a93c7302d6bc4979f64102885ad1fc7",
+      "rev": "5574df779fbe03205a08af4d9154279ff491be75",
       "src": "https://github.com/mikesmithgh/kitty-scrollback.nvim"
     },
     "mini.ai": {
-      "rev": "bfb26d9072670c3aaefab0f53024b2f3729c8083",
+      "rev": "9eae720f2b20f6ad28cbfa0ddc524e10dc2c3201",
       "src": "https://github.com/echasnovski/mini.ai"
     },
     "mini.indentscope": {
@@ -33,23 +33,23 @@
       "src": "https://github.com/echasnovski/mini.indentscope"
     },
     "no-neck-pain.nvim": {
-      "rev": "e5d1abf50010a1fb4285493202467aa982b459c2",
+      "rev": "4bc52782524fd50c5658685d584df6fa48fe49f9",
       "src": "https://github.com/shortcuts/no-neck-pain.nvim"
     },
     "nvim-spider": {
-      "rev": "965671e7171982fffcb94f9e1489f587f5265426",
+      "rev": "8d8c59bfd9e68ed28d7166f5ace462ab6198d873",
       "src": "https://github.com/chrisgrieser/nvim-spider"
     },
     "nvim-treesitter": {
-      "rev": "5a7e5638e7d220575b1c22c8a2e099b52231886e",
+      "rev": "19c729dae6e0eeb79423df0cf37780aa9a7cc3b7",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-window": {
-      "rev": "a8d965f158cff222713a3b3ab341445d331e6e3a",
+      "rev": "48e44d492d2adaf9aac72a0f4ff21d6caae1b6a2",
       "src": "https://github.com/yorickpeterse/nvim-window"
     },
     "oil.nvim": {
-      "rev": "81b8a91735ad5cd24a6b3137f14a89f19176364f",
+      "rev": "f55b25e493a7df76371cfadd0ded5004cb9cd48a",
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "substitute.nvim": {
