@@ -75,7 +75,7 @@ require("fzf-lua").setup({
 })
 
 --- Search files by name
-vim.keymap.set("n", "<c-t>", search_files)
+vim.keymap.set("n", "-", search_files)
 
 --- Grep current word
 vim.keymap.set("n", "&", function()

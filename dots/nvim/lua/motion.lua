@@ -103,7 +103,7 @@ vim.keymap.set("n", "yw", "ye", { remap = true })
 require('mini.indentscope').setup()
 
 require("flash").setup({
-  labels = "nrtschaeimldpfoumbwkyxz.,'",
+  labels = "nrtschaeimldpfoumbwkyxz.,'-/",
   label = {
     after = true,
     before = true,
@@ -138,16 +138,6 @@ vim.keymap.set({"n", "x", "o"}, "<c-a>", function()
 end)
 
 local matchers = require("./matchers")
-local function flash_ts(kind)
-  function inner()
-    require("flash").jump({
-      matcher = matchers.ts_matcher(kind),
-      search = { mode = "search", max_length = 0, multi_window = false },
-      jump = { pos = "range", autojump = true },
-    })
-  end
-  return inner
-end
 local function flash_delim(delims)
   function inner()
     require("flash").jump({
@@ -169,10 +159,7 @@ local function flash_list_items()
   return inner
 end
 
--- vim.keymap.set({"n"}, "=", flash_ts("left_right"))
--- vim.keymap.set({"n"}, "<c-f>", flash_ts("list_item"))
-
-vim.keymap.set({"n"}, "\"", flash_delim({
+vim.keymap.set({"n"}, "'", flash_delim({
   { '"', '"' },
   { "'", "'" },
   { '`', '`' },
@@ -189,7 +176,7 @@ vim.keymap.set({"n"}, "U", flash_delim({
   { '|', '|' },
 }))
 
-vim.keymap.set({"n"}, "<c-f>", flash_list_items())
+vim.keymap.set({"n"}, "\"", flash_list_items())
 
 --- Motion helpers
 -- Better to come after flash setup to avoid overwriting.
@@ -197,10 +184,7 @@ vim.keymap.set({"n"}, "<c-f>", flash_list_items())
 -- , => up to next comma, e.g. `c,`
 vim.keymap.set({ "o", "x" }, ",", "t,", { remap = true })
 
--- ) => up to next ), e.g. `c)`
-vim.keymap.set({ "o", "x" }, ")", "t)", { remap = true })
-
--- . => up to next ), e.g. `c.`
+-- . => up to next ., e.g. `c.`
 vim.keymap.set({ "o", "x" }, ".", "t.", { remap = true })
 
 -- ; => up to next ;, e.g. `c;`

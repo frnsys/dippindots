@@ -15,11 +15,8 @@ require("oil").setup({
   },
   default_file_explorer = false,
   use_default_keymaps = false,
-  float = {
-    max_width = 64,
-  },
 })
-vim.keymap.set("n", "_", require("oil").open_float)
+vim.keymap.set("n", "_", require("oil").open)
 
 require("nvim-window").setup({
   -- The characters available for hinting windows.

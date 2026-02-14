@@ -63,7 +63,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
     if client.server_capabilities.completionProvider then
       client.server_capabilities.completionProvider.triggerCharacters =
-        vim.split("qwertyuiopasdfghjklzxcvbnm. @/[", "")
+        vim.split("qwertyuiopasdfghjklzxcvbnm. ", "")
       vim.lsp.completion.enable(true,
         ev.data.client_id, ev.buf, {
           autotrigger = true,

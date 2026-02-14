@@ -1,6 +1,7 @@
 vim.pack.add({
   "https://github.com/lukas-reineke/headlines.nvim",
   "https://github.com/shortcuts/no-neck-pain.nvim",
+  "https://github.com/toppair/peek.nvim",
 })
 
 --- Nicer markdown headings.
@@ -20,6 +21,12 @@ require("no-neck-pain").setup({
     },
   },
 })
+
+require("peek").setup({
+  app = "browser"
+})
+vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
+vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
 
 -- Auto-load NoNeckPain for markdown files
 vim.api.nvim_create_autocmd({"BufEnter"}, {

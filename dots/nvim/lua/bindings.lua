@@ -8,7 +8,41 @@ local function _(key, cmd, modes, remap)
   })
 end
 
--- Unused: ., F, L, <c-j>, <c-f>, {, }, <space>, -, <c-->, k, q, c, x, z
+-- Unused:
+-- -------
+-- .
+-- f
+-- F
+-- <c-f>
+-- L
+-- <c-j>
+-- <c-t>
+-- <c-b>
+-- {
+-- }
+-- <space>
+-- <c-->
+-- q
+-- Q
+-- z
+-- Z
+-- T
+-- k
+-- K
+-- %
+-- `
+-- <c-n>
+-- <c-q>
+-- <c-g>
+-- <c-s>
+-- <c-x>
+-- <c-v>
+-- <c-y>
+-- <c-k>
+-- <c-,>
+-- <c-'>
+-- <c-/>
+
 
 --- Tabs
 _("B", ":tabnext<cr>", "n")
@@ -57,8 +91,8 @@ _("<c-u>", "u", "n")
 _("<s-cr>", "<esc>O", {"i", "n"})
 
 --- Commenting
-_("-", "gcc", "n", true)
-_("-", "gc", "v", true)
+_("`", "gcc", "n", true)
+_("`", "gc", "v", true)
 
 --- Don't leave visual mode when changing indent
 _(">", ">gv", "x")

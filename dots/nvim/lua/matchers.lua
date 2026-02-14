@@ -1,78 +1,3 @@
--- To write more, use `:InspectTree`.
-local ts_queries = {
-  statement = [[
-    (block
-      (_) @statement.outer)
-  ]],
-  value = [[
-    (for_expression
-      value: (_) @value)
-
-    (if_expression
-      condition: (_) @value)
-  ]],
-  list_item = [[
-    (arguments (_) @list_item)
-    (use_list (_) @list_item)
-    (tuple_type (_) @argument)
-  ]],
-  left_right = [[
-    (let_declaration
-      pattern: (_) @assignment.lhs
-      value: (_) @assignment.rhs)
-
-    (assignment_expression
-      left: (_) @assignment.lhs
-      right: (_) @assignment.rhs)
-
-    (field_declaration
-      name: (_) @assignment.lhs
-      type: (_) @assignment.rhs)
-
-    (field_pattern
-      name: (_) @assignment.lhs
-      pattern: (_) @assignment.rhs)
-
-    (match_arm
-      pattern: (_) @assignment.lhs
-      value: (_) @assignment.rhs)
-
-    (field_initializer
-      field: (_) @assignment.lhs
-      value: (_) @assignment.rhs)
-
-    (binary_expression
-      left: (_) @assignment.lhs
-      right: (_) @assignment.rhs)
-  ]]
-}
-
--- Find matches in buffer for an arbitrary treesitter query.
-local function find_ts_matches(win, ts_query)
-  local bufnr = vim.api.nvim_win_get_buf(win)
-  local ftype = vim.bo[bufnr].filetype
-  local lang = vim.treesitter.language.get_lang(ftype)
-  if not lang then return {} end
-
-  local parser = vim.treesitter.get_parser(bufnr, lang)
-  local tree = parser:parse()[1]
-  local root = tree:root()
-
-  local query = vim.treesitter.query.parse(lang, ts_query)
-  if not query then return {} end
-
-  local matches = {}
-  for id, node in query:iter_captures(root, bufnr, 0, -1) do
-    local name = query.captures[id]
-    local start_row, start_col, end_row, end_col = node:range()
-    table.insert(matches, {
-      pos = { start_row + 1, start_col },
-      end_pos = { end_row + 1, end_col - 1 },
-    })
-  end
-  return matches
-end
-
 -- Check if the char at pos is escaped (assumes \ as escape char).
 local function is_escaped(line, pos)
   local count = 0
@@ -337,13 +262,6 @@ end
 function M.delim_matcher(delimiter_pairs, include_delimiters)
   return function(win)
     return find_balanced_delimiters(delimiter_pairs, include_delimiters)
-  end
-end
-
---- Flash matcher for an arbitrary treesitter query.
-function M.ts_matcher(ts_query_name)
-  return function(win)
-    return find_ts_matches(win, ts_queries[ts_query_name])
   end
 end
 

@@ -9,7 +9,7 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "fzf-lua": {
-      "rev": "b4b1f05957a77f7662de834328827890c1a8c02b",
+      "rev": "9de53c3fce885512f982420ee6082d75613ee891",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "fzf-lua-frecency.nvim": {
@@ -37,11 +37,11 @@
       "src": "https://github.com/shortcuts/no-neck-pain.nvim"
     },
     "nvim-spider": {
-      "rev": "8d8c59bfd9e68ed28d7166f5ace462ab6198d873",
+      "rev": "33f4a84b22d03ef1790d0d1258e2111187f6cc94",
       "src": "https://github.com/chrisgrieser/nvim-spider"
     },
     "nvim-treesitter": {
-      "rev": "19c729dae6e0eeb79423df0cf37780aa9a7cc3b7",
+      "rev": "45a07f869b0cffba342276f2c77ba7c116d35db8",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-window": {
@@ -52,8 +52,12 @@
       "rev": "f55b25e493a7df76371cfadd0ded5004cb9cd48a",
       "src": "https://github.com/stevearc/oil.nvim"
     },
+    "peek.nvim": {
+      "rev": "5820d937d5414baea5f586dc2a3d912a74636e5b",
+      "src": "https://github.com/toppair/peek.nvim"
+    },
     "substitute.nvim": {
-      "rev": "9db749a880e3dd3b0eb57f698aa8f1e1630e1f25",
+      "rev": "4e55389c4e3331aa3a2e945e22ad19b1bd2c176c",
       "src": "https://github.com/gbprod/substitute.nvim"
     }
   }
