@@ -38,6 +38,7 @@ rust:
 	rustup override set nightly
 	rustup default nightly
 	rustup target add wasm32-unknown-unknown
+	cargo install --locked wild-linker
 	sudo zypper in mold
 
 	mkdir -p ~/.cargo
