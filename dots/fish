@@ -1,9 +1,9 @@
 #!/usr/bin/env fish
 
-set -U EDITOR vim
-set -U VISUAL vim
-set -U LANG en_US
-set -U LC_ALL en_US.UTF-8
+set -Ux EDITOR vim
+set -Ux VISUAL vim
+set -Ux LANG en_US
+set -Ux LC_ALL en_US.UTF-8
 
 if status is-interactive
     set -gx COLORTERM truecolor
@@ -135,17 +135,15 @@ function gitsizes
 end
 
 # Bindings:
-#   alt-p: move up
-#   alt-n: move down
-#   alt-': enable jump
+#   ctrl-a: enable jump
 
-set -U FZF_DEFAULT_OPTS "\
+set -Ux FZF_DEFAULT_OPTS "\
     --exact \
     --info=hidden \
     --color=bg+:#262626,fg+:#eac9f5,hl:green,hl+:green,gutter:#121212,pointer:magenta,prompt:green \
-    --bind=alt-\':jump-accept"
+    --bind=ctrl-a:jump-accept"
 
-# alt-"
+# ctrl-l
 function _dive
     # -t d: directories only
     # -d 5: max depth 8
@@ -153,10 +151,10 @@ function _dive
         and cd $choice;
         and commandline -f repaint
 end
-bind -M insert \e\" '_dive'
-bind -M default \e\" '_dive'
+bind -M insert \cl '_dive'
+bind -M default \cl '_dive'
 
-# alt-'
+# ctrl-a
 function _seek
     # -t d: directories only
     # -d 8: max depth 8
@@ -164,25 +162,10 @@ function _seek
         and cd $choice;
         and commandline -f repaint
 end
-bind -M insert \e\' '_seek'
-bind -M default \e\' '_seek'
+bind -M insert \ca '_seek'
+bind -M default \ca '_seek'
 
-# alt-r
-function _command_history
-    # 1. Removes trailing whitespace
-    # 2. Removes commands <=5 in length
-    # 3. Sorts and then counts occurrences
-    # 4. Remove commands with less than n counts (`awk '$1 >= n'`)
-    # 5. Sorts by counts
-    # 6. Removes the counts so we're just left with the command
-    set --local choice $(history | awk '{$1=$1};1' | awk 'length($0)>5' | sort | uniq -c | awk '$1 >= 0' | sort -nr | sed 's/\s*[0-9]* //' | fzf);
-        and $choice;
-        and commandline -f repaint
-end
-bind -M insert \er '_command_history'
-bind -M default \er '_command_history'
-
-# alt-i
+# ctrl-i
 # https://stackoverflow.com/a/76799272
 function _pick_and_insert
     set --local path $(fd . . | fzf); and commandline -i $path
@@ -199,6 +182,9 @@ bind -M insert ctrl-x backward-kill-token
 # move to previous/next argument
 bind -M insert ctrl-comma backward-token
 bind -M insert ctrl-\' forward-token
+
+# ctrl-v to edit commend in $EDITOR
+bind -M insert \cv edit_command_buffer
 
 # Color theme
 # Use `msgcat --color=test` to see the colors.

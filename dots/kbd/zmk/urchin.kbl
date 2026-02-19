@@ -118,7 +118,7 @@ SYSTEM
 
 ⬚ ⇲ ⍐ ⇱ ⬚  ⬚ ℌ ⊕ ॥ ⬚
 ⇧ ⇐ ↫ ⇒ ⇑  ⎶ ❮ ✛ ◱ ❯
-◐ ⏷ ▶ ⏶ ◑  ⬚ ⬚ ⬚ ⌕ ⬚
+◐ ⏷ ▶ ⏶ ◑  ⬚ ⬚ ⬚ ⬚ ⬚
       ⬚ ⇧  ⍜ ⬚
 
 defs:
@@ -139,7 +139,6 @@ defs:
   ◱: Alt(M)         # Maximize term window
   ✛: Alt(W)         # Focus term window
   ℌ: Alt(E)         # Scrollback history
-  ⌕: Alt(')         # Fuzzy search
 combos:
   [⏷, ⏶]: ⨯               # Mute
   [⏷, ▶, ⏶]: Meta(Alt(O)) # Monitor sleep
