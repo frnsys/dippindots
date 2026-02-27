@@ -1,6 +1,6 @@
 ALPHA
 
-Q L D C B  - F O U J
+Q L D C B  . F O U J
 N R T S G  Y H A E I
 X V M W Z  K P , ' /
       ⌫ s  ⏎ ␣
@@ -8,6 +8,7 @@ X V M W Z  K P , ' /
 holds:
   ␣: Ctrl
   ⏎: Layer(ARROWS)
+  ',': Layer(NUMSYM)
 
 defs:
   s: Shift
@@ -16,7 +17,6 @@ combos:
   # Layers
   [H, I]: Enable(SYSTEM)
   [N, S]: Enable(SYSTEM)
-  [H, A, E]: Enable(NUMSYM)
 
   # Modifiers
   [P, "'"]: OneShot(Meta)
@@ -27,7 +27,6 @@ combos:
   [N, R, T]: Shift(⎋)
   [R, T, S]: Shift(Alt(C))     # Terminal copy
   [N, R, T, S]: Shift(Alt(P))  # Terminal paste
-  [N, D]: ⏎                    # Enter
   [W, Z]: Ctrl(Z)              # Undo
   [X, V, M, W]: ↺              # Bootloader
 
@@ -45,20 +44,16 @@ combos:
   [T, S]: "⇥"
 
   # Symbols
-  [A, E]: "."
   [H, E]: '='
   [H, A]: ":"
+  [A, E]: "-"
+  [D, C]: "&"
   [O, U]: "_"
-  [F, U]: "$"
   [L, D]: "*"
   [H, U]: '`'
   [X, V]: "~"
   [",", "'"]: ">"
   ["V", "M"]: "<"
-
-  # Unused, could use these for num layer?
-  # [A, ␣]
-  # [E, ␣]
 
   # For Blender
   [C, L]: "Y"
@@ -66,27 +61,25 @@ combos:
 shifts:
   '-': '+'
   ',': '?'
-  '/': '\\'
   "'": '"'
   '=': '!'
-  '⎋': '&'
   '*': '@'
   ':': ';'
-  '$': '^'
   '_': '|'
-  '.': '_'
+  '.': '&'
   '`': "%"
   '>': '}'
   '<': '{'
+  '/': '\\'
   ␣: Enable(NUMSYM)
 
 ---
 
 NUMSYM
 
-, 4 5 6 ⬚  ⬚ # [ ] $
+. 4 5 6 ⬚  ⬚ # [ ] $
 0 1 2 3 ⬚  ⬚ { ( ) }
-. 7 8 9 ⬚  ⬚ _ < > ^
+, 7 8 9 ⬚  ⬚ _ < > ^
       ⌫ 0  ⬚ ⬚
 
 combos:

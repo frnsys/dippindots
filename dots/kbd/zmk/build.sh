@@ -2,7 +2,7 @@
 
 set -e
 
-export ZMK_COMBO_TIMEOUT=40
+export ZMK_COMBO_TIMEOUT=35
 
 KEYBOARD=$1 # e.g. `urchin`
 HALF=$2 # "left" or "right"
