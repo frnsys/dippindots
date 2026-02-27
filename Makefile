@@ -214,9 +214,14 @@ browser:
 	mkdir -p ~/.config/qutebrowser
 	mkdir -p ~/.local/share/qutebrowser
 	ln -sf $(dir)/dots/qute/config.yml ~/.config/qutebrowser/autoconfig.yml
+	ln -sf $(dir)/dots/qute/style.css ~/.config/qutebrowser/style.css
 	ln -sf $(dir)/dots/qute/userscripts ~/.local/share/qutebrowser/userscripts
 	ln -sf $(dir)/dots/qute/greasemonkey ~/.local/share/qutebrowser/greasemonkey
 	xdg-settings set default-web-browser org.qutebrowser.qutebrowser.desktop
+
+	npm install -g jsdom
+	npm install -g qutejs
+	npm install -g @mozilla/readability
 
 	git clone --depth 1 https://github.com/mozilla/pdf.js.git /tmp/pdfjs
 	cd /tmp/pdfjs && npm install && npx gulp generic

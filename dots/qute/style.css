@@ -1,0 +1,14 @@
+.qute-readability {
+    color: white;
+    background: #121212;
+    font-family: "Atkinson Hyperlegible";
+    font-size: 18px;
+}
+.qute-readability pre,
+.qute-readability code {
+    background: none;
+    padding: 0;
+}
+.qute-readability a {
+    color: #b8c4f0;
+}

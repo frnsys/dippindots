@@ -11,6 +11,7 @@ settings:
       fftab: spawn --userscript fftab
       q: close
       qa: quit
+      readability: spawn --userscript readability-js
       w: session-save
       wq: quit --save
       wqa: quit --save
@@ -98,6 +99,8 @@ settings:
     global: true
   content.register_protocol_handler:
     https://calendar.google.com?cid=%25s: true
+  content.user_stylesheets:
+    global: style.css
   downloads.location.directory:
     global: ~/downloads
   downloads.position:
