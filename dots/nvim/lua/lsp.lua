@@ -193,6 +193,22 @@ vim.lsp.config["python"] = {
 }
 vim.lsp.enable('python')
 
+-- npm install -g @vtsls/language-server
+vim.lsp.config["ts"] = {
+  cmd = { "vtsls", "--stdio" },
+  filetypes = { "typescript", "typescriptreact", "javascript" },
+  root_markers = {
+    "tsconfig.json",
+    "package.json",
+    ".git",
+  },
+  -- https://github.com/yioneko/vtsls/blob/main/packages/service/configuration.schema.json
+  settings = {
+    vtsls = {}
+  }
+}
+vim.lsp.enable('ts')
+
 -- Show errors and warnings in a floating window
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()

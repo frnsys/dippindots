@@ -9,7 +9,7 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "fzf-lua": {
-      "rev": "9de53c3fce885512f982420ee6082d75613ee891",
+      "rev": "29ee11c06e1b8c354cc5a3212e6d24c9b8ed4f22",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "fzf-lua-frecency.nvim": {
@@ -21,15 +21,15 @@
       "src": "https://github.com/lukas-reineke/headlines.nvim"
     },
     "kitty-scrollback.nvim": {
-      "rev": "5574df779fbe03205a08af4d9154279ff491be75",
+      "rev": "a517979f4130ef29ba0e5a9e25b38a6e877e3133",
       "src": "https://github.com/mikesmithgh/kitty-scrollback.nvim"
     },
     "mini.ai": {
-      "rev": "9eae720f2b20f6ad28cbfa0ddc524e10dc2c3201",
+      "rev": "4b0a6207341d895b6cfe9bcb1e4d3e8607bfe4f4",
       "src": "https://github.com/echasnovski/mini.ai"
     },
     "mini.indentscope": {
-      "rev": "0308f949f31769e509696af5d5f91cebb2159c69",
+      "rev": "065c7713fb4cd0124fe1462f15f27feeb8b04406",
       "src": "https://github.com/echasnovski/mini.indentscope"
     },
     "no-neck-pain.nvim": {
@@ -37,11 +37,11 @@
       "src": "https://github.com/shortcuts/no-neck-pain.nvim"
     },
     "nvim-spider": {
-      "rev": "33f4a84b22d03ef1790d0d1258e2111187f6cc94",
+      "rev": "4bca4dbc53f01b37385146b37ab5ce55bdc083fc",
       "src": "https://github.com/chrisgrieser/nvim-spider"
     },
     "nvim-treesitter": {
-      "rev": "45a07f869b0cffba342276f2c77ba7c116d35db8",
+      "rev": "ae2081cfcd3719d74b600f8377e4a99d1ec19c4a",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-window": {
@@ -49,15 +49,15 @@
       "src": "https://github.com/yorickpeterse/nvim-window"
     },
     "oil.nvim": {
-      "rev": "f55b25e493a7df76371cfadd0ded5004cb9cd48a",
+      "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "peek.nvim": {
-      "rev": "5820d937d5414baea5f586dc2a3d912a74636e5b",
-      "src": "https://github.com/toppair/peek.nvim"
+      "rev": "beeb93e586770eb74ae100ce8070a48e895e323d",
+      "src": "https://github.com/frnsys/peek.nvim"
     },
     "substitute.nvim": {
-      "rev": "4e55389c4e3331aa3a2e945e22ad19b1bd2c176c",
+      "rev": "0d2077398552f069abccbd964a26dd7cd26882cd",
       "src": "https://github.com/gbprod/substitute.nvim"
     }
   }

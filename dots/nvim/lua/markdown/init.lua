@@ -1,7 +1,7 @@
 vim.pack.add({
   "https://github.com/lukas-reineke/headlines.nvim",
   "https://github.com/shortcuts/no-neck-pain.nvim",
-  "https://github.com/toppair/peek.nvim",
+  "https://github.com/frnsys/peek.nvim",
 })
 
 --- Nicer markdown headings.
@@ -112,6 +112,7 @@ vim.api.nvim_create_autocmd("CursorMoved", {
 })
 
 -- Quickly fix the closest previous spelling error
+-- Note: `zg` adds the word under cursor to the dictionary.
 vim.keymap.set("i", "<leader>z", "<C-g>u<Esc>[s1z=`]a<C-g>u", opts)
 vim.keymap.set("n", "<leader>z", "[s1z=``", opts)
 

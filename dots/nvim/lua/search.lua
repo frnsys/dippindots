@@ -75,7 +75,7 @@ require("fzf-lua").setup({
 })
 
 --- Search files by name
-vim.keymap.set("n", "-", search_files)
+vim.keymap.set("n", "j", search_files)
 
 --- Grep current word
 vim.keymap.set("n", "&", function()
@@ -85,14 +85,14 @@ vim.keymap.set("n", "&", function()
 end)
 
 --- Search by grep
-vim.keymap.set("n", "j", function()
+vim.keymap.set("n", "-", function()
   require('fzf-lua').live_grep({
     cwd = get_root(),
   })
 end)
 
 --- Resume grep search
-vim.keymap.set("n", "J", function()
+vim.keymap.set("n", "+", function()
   require('fzf-lua').live_grep({
     resume = true,
     cwd = get_root(),
@@ -126,7 +126,7 @@ vim.keymap.set("n", "<c-s-d>", function()
 end)
 
 --- Search symbols
-vim.keymap.set("n", "+", function()
+vim.keymap.set("n", "J", function()
   if vim.bo.filetype == "markdown" then
     require('fzf-lua').lsp_document_symbols({
       fzf_opts = {
