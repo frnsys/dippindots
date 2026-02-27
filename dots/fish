@@ -1,9 +1,9 @@
 #!/usr/bin/env fish
 
-set -Ux EDITOR vim
-set -Ux VISUAL vim
-set -Ux LANG en_US
-set -Ux LC_ALL en_US.UTF-8
+set -U EDITOR vim
+set -U VISUAL vim
+set -U LANG en_US
+set -U LC_ALL en_US.UTF-8
 
 if status is-interactive
     set -gx COLORTERM truecolor
@@ -39,6 +39,9 @@ end
 if test -f ~/.local/bin/mise
     # node, python
     ~/.local/bin/mise activate fish | source
+    if type -q npm
+        set -gx NODE_PATH (npm root -g)
+    end
 end
 
 # fzf
@@ -162,16 +165,16 @@ function _seek
         and cd $choice;
         and commandline -f repaint
 end
-bind -M insert \ca '_seek'
-bind -M default \ca '_seek'
+bind -M insert \ct '_seek'
+bind -M default \ct '_seek'
 
 # ctrl-i
 # https://stackoverflow.com/a/76799272
 function _pick_and_insert
     set --local path $(fd . . | fzf); and commandline -i $path
 end
-bind -M insert ctrl-i '_pick_and_insert'
-bind -M default ctrl-i '_pick_and_insert'
+bind -M insert \cs '_pick_and_insert'
+bind -M default \cs '_pick_and_insert'
 
 # ctrl-e to accept autosuggestion
 bind -M insert \ce accept-autosuggestion
@@ -185,6 +188,7 @@ bind -M insert ctrl-\' forward-token
 
 # ctrl-v to edit commend in $EDITOR
 bind -M insert \cv edit_command_buffer
+bind -M default \cv edit_command_buffer
 
 # Color theme
 # Use `msgcat --color=test` to see the colors.
