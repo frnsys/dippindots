@@ -20,6 +20,7 @@ echo "build/**
 node_modules/**
 target/**
 dist/**
+env/**
 etc/vids/**
 torrents/**
 unity/Assets/**
@@ -49,7 +50,7 @@ function localSync() {
 
 if [[ $1 == 'home' ]]; then
     for dest in \
-        ftseng@turtle.local:/media/usb; do
+        francis@moon.local:/mnt/drive-a; do
         localSync $dest
     done
 
