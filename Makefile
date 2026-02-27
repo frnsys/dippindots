@@ -72,6 +72,7 @@ utils:
 	sudo zypper in yast2-control-center-qt
 	sudo zypper in sqlitebrowser rclone
 	sudo zypper in xcursor-themes hyprpicker
+	sudo zypper in font-manager
 
 	# Prefer from pip as it's more up-to-date
 	pip install yt-dlp
@@ -345,6 +346,7 @@ android:
 	sudo flatpak install flathub org.localsend.localsend_app
 	sudo firewall-cmd --permanent --zone=public --add-port=53317/udp
 	sudo firewall-cmd --permanent --zone=public --add-port=53317/tcp
+	flatpak override org.localsend.localsend_app --filesystem=home --user=$USER
 
 torrents:
 	sudo zypper in qbittorrent
