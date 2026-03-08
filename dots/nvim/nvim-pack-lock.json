@@ -9,7 +9,7 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "fzf-lua": {
-      "rev": "29ee11c06e1b8c354cc5a3212e6d24c9b8ed4f22",
+      "rev": "1eba927866251bae1b61dffc5b673b8dbd0f3f48",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "fzf-lua-frecency.nvim": {
@@ -21,7 +21,7 @@
       "src": "https://github.com/lukas-reineke/headlines.nvim"
     },
     "kitty-scrollback.nvim": {
-      "rev": "a517979f4130ef29ba0e5a9e25b38a6e877e3133",
+      "rev": "aa05d5ade0b744d8e49f4c992f34dadc7079bce8",
       "src": "https://github.com/mikesmithgh/kitty-scrollback.nvim"
     },
     "mini.ai": {
@@ -41,7 +41,7 @@
       "src": "https://github.com/chrisgrieser/nvim-spider"
     },
     "nvim-treesitter": {
-      "rev": "ae2081cfcd3719d74b600f8377e4a99d1ec19c4a",
+      "rev": "544320a9cf5d6bf539ec1cc54d393064015670c4",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-window": {

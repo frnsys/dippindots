@@ -5,7 +5,7 @@ vim.pack.add({
 
 require("oil").setup({
   keymaps = {
-    ["_"] = "actions.parent",
+    ["-"] = "actions.parent",
     ["<CR>"] = "actions.select",
     ["<C-v>"] = "actions.select_vsplit",
     ["<C-s>"] = "actions.select_split",
@@ -16,7 +16,7 @@ require("oil").setup({
   default_file_explorer = false,
   use_default_keymaps = false,
 })
-vim.keymap.set("n", "_", require("oil").open)
+vim.keymap.set("n", "-", require("oil").open)
 
 require("nvim-window").setup({
   -- The characters available for hinting windows.
