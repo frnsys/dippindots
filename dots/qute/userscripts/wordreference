@@ -1,0 +1,4 @@
+#!/bin/bash
+
+CONTENT=$QUTE_SELECTED_TEXT
+echo "open -t https://www.wordreference.com/fren/$CONTENT" >> "$QUTE_FIFO"

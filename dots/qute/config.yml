@@ -32,6 +32,8 @@ settings:
         l: back
         m: null
         q: null
+        wt: spawn --userscript wordreference
+        tt: spawn --userscript translate
   colors.hints.bg:
     global: '#fdb63d'
   colors.hints.fg:
