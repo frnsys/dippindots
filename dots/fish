@@ -129,6 +129,12 @@ function shrinkvid
     ffmpeg -i "$input" -vf "scale='if(gt(ih,720),trunc(oh*a/2)*2,iw)':'if(gt(ih,720),720,ih)'" -vcodec libx264 -crf 23 -preset fast -c:a aac "$output"
 end
 
+function muxsubs --argument input_file
+    set -l base_name (string replace -r '\.[^.]+$' '' $input_file)
+    set -l output_file "$base_name.Subbed.mkv"
+    ffmpeg -i "$input_file" -f srt -i *.srt -map 0 -map 1 -c copy "$output_file"
+end
+
 function gitsizes
     git rev-list --objects --all \
       | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' \

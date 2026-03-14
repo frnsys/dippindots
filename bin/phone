@@ -17,6 +17,7 @@ adb-sync ~/docs/deaddrop/ /sdcard/deaddrop --delete --force --copy-links
 declare -A backups
 backups[DCIM/Camera]=~/photos/phone/dcim
 backups[Pictures]=~/photos/phone/misc
+backups[Movies/Signal]=~/photos/phone/movies.signal
 
 # backup (i.e. don't delete)
 # directories FROM the phone
