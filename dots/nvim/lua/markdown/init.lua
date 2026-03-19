@@ -1,7 +1,6 @@
 vim.pack.add({
   "https://github.com/lukas-reineke/headlines.nvim",
   "https://github.com/shortcuts/no-neck-pain.nvim",
-  "https://github.com/frnsys/peek.nvim",
 })
 
 --- Nicer markdown headings.
@@ -22,12 +21,6 @@ require("no-neck-pain").setup({
   },
 })
 
-require("peek").setup({
-  app = "browser"
-})
-vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
-vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
-
 -- Auto-load NoNeckPain for markdown files
 vim.api.nvim_create_autocmd({"BufEnter"}, {
   pattern = "*",
@@ -36,8 +29,7 @@ vim.api.nvim_create_autocmd({"BufEnter"}, {
       local filetype = vim.api.nvim_buf_get_option(0, "filetype")
       local enabled =  _G.NoNeckPain.state ~= nil and _G.NoNeckPain.state.enabled
 
-      if (filetype == "markdown" and not enabled) or
-        (filetype ~= 'markdown' and filetype ~= 'oil' and filetype ~= 'no-neck-pain' and filetype ~= 'qf' and enabled) then
+      if (filetype == "markdown" and not enabled) then
         return vim.cmd("NoNeckPain")
       end
     end)
