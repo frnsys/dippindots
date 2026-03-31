@@ -129,10 +129,43 @@ function shrinkvid
     ffmpeg -i "$input" -vf "scale='if(gt(ih,720),trunc(oh*a/2)*2,iw)':'if(gt(ih,720),720,ih)'" -vcodec libx264 -crf 23 -preset fast -c:a aac "$output"
 end
 
+function mergevids
+    if test (count $argv) -lt 2
+        echo "Usage: mergevids [files...] output.mp4"
+        return 1
+    end
+
+    set output $argv[-1]
+    set inputs $argv[1..-2]
+
+    set tmpfile (mktemp)
+    for file in $inputs
+        echo "file '$PWD/$file'" >> $tmpfile
+    end
+
+    ffmpeg -f concat -safe 0 -i $tmpfile -c copy $output
+
+    rm $tmpfile
+end
+
+# Embed co-located *.srt files into the input video.
+# Needed for minidlna to serve subtitles correctly.
 function muxsubs --argument input_file
     set -l base_name (string replace -r '\.[^.]+$' '' $input_file)
     set -l output_file "$base_name.Subbed.mkv"
-    ffmpeg -i "$input_file" -f srt -i *.srt -map 0 -map 1 -c copy "$output_file"
+
+    set -l inputs
+    set -l maps "-map" "0" # Always map the base video/audio
+    set -l count 1
+
+    # Loop through all SRTs to build the flags
+    for srt in *.srt
+        set -a inputs -i "$srt"
+        set -a maps -map "$count:0"
+        set count (math $count + 1)
+    end
+
+    ffmpeg -i "$input_file" $inputs $maps -c copy -max_interleave_delta 0 "$output_file"
 end
 
 function gitsizes
