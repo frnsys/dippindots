@@ -101,8 +101,7 @@ function M.auto_preview_image()
         "vu",
         vim.fn.expand("%:p:h") .. "/" .. path,
         "--title",
-        "md-vu-preview",
-        "--no-focus",
+        "md-vu-preview"
       })
       preview_path = path
     end

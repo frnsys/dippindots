@@ -125,3 +125,7 @@ _("<Esc>", "<C-\\><C-n>", "t")
 --- bindings (set in `neovim/runtime/ftplugin/rust.vim`)
 --- which conflict with some of my bindings.
 vim.g.no_rust_maps = 1
+
+--- Incremental selection in visual mode
+_("f", "an", {"o", "x"}, true)
+_("F", "in", {"o", "x"}, true)

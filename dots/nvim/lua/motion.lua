@@ -7,6 +7,7 @@ vim.pack.add({
   "https://github.com/folke/flash.nvim",
 })
 
+
 require("nvim-treesitter").install({
   'c', 'cpp', 'python', 'rust', 'tsx', 'typescript',
   'c_sharp', 'css', 'scss', 'toml', 'lua', 'just', 'make',
@@ -30,11 +31,15 @@ ai.setup({
   custom_textobjects = {
     ['r'] = { { "%b''", '%b""', '%b``' }, '^.().*().$' },
     ['t'] = { { '%b()', '%b[]', '%b{}', '%b<>', '%b||' }, '^.().*().$' },
-
     ['a'] = ai.gen_spec.argument({
       brackets = { '%b()', '%b[]', '%b{}', '%b<>', '%b||' },
       exclude_regions = { '%b""', "%b''", '%b()', '%b[]', '%b{}', '%b<>' },
     }),
+  },
+  mappings = {
+    -- Disable these as they conflict with incremental selection (`an`/`in`)
+    around_next = '',
+    inside_next = '',
   },
 })
 
@@ -100,6 +105,7 @@ vim.keymap.set("n", "sw", "se", { remap = true })
 vim.keymap.set("n", "yw", "ye", { remap = true })
 
 --- `i` indent scope object
+--- E.g. `vai`/`vii`
 require('mini.indentscope').setup()
 
 require("flash").setup({

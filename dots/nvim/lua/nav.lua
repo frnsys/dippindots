@@ -9,7 +9,7 @@ require("oil").setup({
     ["<CR>"] = "actions.select",
     ["<C-v>"] = "actions.select_vsplit",
     ["<C-s>"] = "actions.select_split",
-    ["<C-t>"] = "actions.select_tab",
+    ["t"] = "actions.select_tab",
     ["g."] = "actions.toggle_hidden",
     ["q"] = "actions.close",
   },
