@@ -33,6 +33,9 @@ prefer-no-csd
 
 animations {
     slowdown 0.2
+    window-resize {
+        off
+    }
 }
 hotkey-overlay {
     skip-at-startup
