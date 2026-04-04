@@ -24,7 +24,6 @@ combos:
   [N, R, S]: OneShot(Meta)     # Useful for e.g. meta-mousedrag
 
   # Shortcuts
-  [N, R, T]: Shift(⎋)
   [R, T, S]: Shift(Alt(C))     # Terminal copy
   [N, R, T, S]: Shift(Alt(P))  # Terminal paste
   [W, Z]: Ctrl(Z)              # Undo
@@ -92,7 +91,7 @@ combos:
 ARROWS
 
 ⬚ ⬚ ⬚ ⬚ ⬚  ⬚ ⇞ ↑ ⇟ ⬚
-⬚ ↤ ⬚ ↦ ⬚  ⬚ ← ↓ → ⬚
+⬚ ↤ ↚ ↦ ⬚  ⬚ ← ↓ → ⬚
 ⬚ V ⬚ ⬚ ⬚  ⬚ ⌫ ⬚ ↚ ⬚
       ⬚ ⬚  ∅ ⬚
 
