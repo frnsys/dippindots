@@ -2,21 +2,45 @@
 # Note: Run `sudo visudo` add `francis ALL=NOPASSWD: /usr/bin/wg-quick`
 
 # Use: `sudo ls /etc/wireguard`
-# Expects /etc/wireguard/{CONFIG}.conf
-CONFIG=airvpn-ch
-# CONFIG=airvpn-nyc
+# Expects /etc/wireguard/airvpn-{CONFIG}.conf
 
-if [[ $1 == 'up' ]]; then
-    sudo wg-quick up $CONFIG
+ALLOWED=("de" "ch" "nyc")
 
-elif [[ $1 == 'down' ]]; then
-    sudo wg-quick down $CONFIG
+ACTION=$1
+CONFIG=$2
 
-elif [[ $1 == 'status' ]]; then
-    if ip l | grep -q $CONFIG
-    then
-        echo 'on'
-    else
-        echo 'off'
+get_active_vpn() {
+    for name in "${ALLOWED[@]}"; do
+        if ip link show "airvpn-$name" >/dev/null 2>&1; then
+            echo "airvpn-$name"
+            return 0
+        fi
+    done
+    return 1
+}
+
+ACTIVE_VPN=$(get_active_vpn)
+if [[ "$ACTION" == "down" ]]; then
+    if [[ -n "$ACTIVE_VPN" ]]; then
+        sudo wg-quick down "$ACTIVE_VPN"
     fi
+    exit 0
+fi
+
+if [[ "$ACTION" == "up" ]]; then
+    PATTERN=$(IFS="|"; echo "${ALLOWED[*]}")
+    if [[ ! "$CONFIG" =~ ^($PATTERN)$ ]] || [[ -z "$CONFIG" ]]; then
+        echo "Error: '$CONFIG' should be one of: ${ALLOWED[*]}" >&2
+        exit 1
+    fi
+
+    CONFIG="airvpn-$CONFIG"
+    if [[ "$ACTIVE_VPN" != "$CONFIG" ]]; then
+        if [[ -n "$ACTIVE_VPN" ]]; then
+            echo "Taking down $ACTIVE_VPN..."
+            sudo wg-quick down "$ACTIVE_VPN"
+        fi
+        sudo wg-quick up "$CONFIG"
+    fi
+    exit 0
 fi
