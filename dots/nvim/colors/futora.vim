@@ -118,7 +118,7 @@ highlight @comment.documentation guifg=#ffd787 guibg=#262626
 highlight @comment.todo.comment guifg=#000000 guibg=#f8aa01 gui=bold
 highlight @comment.error.comment guifg=#FC392B guibg=NONE gui=bold
 highlight @comment.warning.comment guifg=#e87f2e guibg=NONE gui=bold
-highlight @comment.note.comment guifg=#202020 guibg=#BB9AF7 gui=bold
+highlight @comment.note.comment guifg=#BB9AF7 guibg=NONE gui=bold
 highlight link @lsp.mod.documentation.rust @comment.documentation
 
 highlight @markup.heading.gitcommit guifg=#eeeeee guibg=NONE

@@ -83,42 +83,65 @@ end
 local media = require("markdown/media")
 local footnote = require("markdown/footnote")
 
--- Disable line numbers
-vim.wo.number = false
-vim.wo.relativenumber = false
-vim.wo.fillchars = "eob: " -- Removes ~ lines at the end of buffer
-
-vim.wo.spell = true
-vim.wo.linebreak = true
-vim.opt.cursorcolumn = false
-vim.opt.complete:append("kspell")
-
-local opts = { noremap = true, buffer = 0 }
-vim.keymap.set('n', ',S', screenshot, opts)
-vim.keymap.set('n', ',s', toggle_checkbox, opts)
-vim.keymap.set('n', 'gv', media.open_url_under_cursor, opts)
-
-vim.api.nvim_create_autocmd("CursorMoved", {
-  pattern = "*.md",
-  callback = media.auto_preview_image,
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+  pattern = { "*.md", "*.txt" },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+    vim.opt_local.fillchars = "eob: " -- Removes ~ lines at the end of buffer
+    vim.opt_local.linebreak = true
+    vim.opt_local.cursorcolumn = false
+  end,
 })
 
--- Quickly fix the closest previous spelling error
--- Note: `zg` adds the word under cursor to the dictionary.
-vim.keymap.set("i", "<leader>z", "<C-g>u<Esc>[s1z=`]a<C-g>u", opts)
-vim.keymap.set("n", "<leader>z", "[s1z=``", opts)
+local M = {}
 
-vim.keymap.set("n", "<leader>n", footnote.handle_footnote, opts)
-vim.api.nvim_create_autocmd("CursorMoved", {
-  pattern = "*.md",
-  callback = footnote.preview_footnote
-})
+M.setup = function()
+  -- Highlight specific words
+  vim.cmd([[
+    syntax match MarkdownTodo /TODO/ containedin=ALL
+    syntax match MarkdownNote /NOTE/ containedin=ALL
+  ]])
+  vim.api.nvim_set_hl(0, "MarkdownTodo", { link = "@comment.error.comment" })
+  vim.api.nvim_set_hl(0, "MarkdownNote", { link = "@comment.note.comment" })
 
--- Markdown LSP
-vim.lsp.config["markdown"] = {
-  cmd = { '/usr/local/bin/marksman', 'server' },
-  filetypes = { "markdown" },
-  root_markers = { ".git" },
-  single_file_support = true,
-}
-vim.lsp.enable('markdown')
+  -- Spelling dictionary
+  vim.opt_local.spelllang = { "fr", "en_us" }
+  vim.opt_local.complete:append("kspell")
+
+  -- Quickly fix the closest previous spelling error
+  -- Note: `zg` adds the word under cursor to the dictionary.
+  vim.keymap.set("i", "<leader>z", "<C-g>u<Esc>[s1z=`]a<C-g>u", opts)
+  vim.keymap.set("n", "<leader>z", "[s1z=``", opts)
+
+  -- Bindings
+  local opts = { noremap = true, buffer = 0 }
+  vim.keymap.set('n', ',S', screenshot, opts)
+  vim.keymap.set('n', ',s', toggle_checkbox, opts)
+  vim.keymap.set('n', 'gv', media.open_url_under_cursor, opts)
+
+  -- Media/images
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    buffer = 0,
+    callback = media.auto_preview_image,
+  })
+
+  -- Footnotes
+  vim.keymap.set("n", "<leader>n", footnote.handle_footnote, opts)
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    buffer = 0,
+    callback = footnote.preview_footnote
+  })
+
+  -- Markdown LSP
+  vim.lsp.config["markdown"] = {
+    cmd = { '/usr/local/bin/marksman', 'server' },
+    filetypes = { "markdown" },
+    root_markers = { ".git" },
+    single_file_support = true,
+  }
+  vim.lsp.enable('markdown')
+end
+
+return M

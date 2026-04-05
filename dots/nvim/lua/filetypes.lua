@@ -10,10 +10,7 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "markdown", "text" },
   callback = function()
-    vim.opt_local.spell = true
-    vim.opt_local.spelllang = { "fr", "en_us" }
-    vim.opt_local.complete:append("kspell")
-    require('markdown')
+    require('markdown').setup()
   end,
 })
 
