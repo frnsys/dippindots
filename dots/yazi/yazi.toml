@@ -68,6 +68,7 @@ rules = [
 	{ url = "*.txt", use = ["text"] },
 	{ url = "*.html", use = ["text", "html"] },
 	{ url = "*.md", use = ["text"] },
+	{ url = "*.srt", use = ["text"] },
 
 	{ mime = "text/*", use = "text" },
 	{ mime = "image/*", use = "image" },

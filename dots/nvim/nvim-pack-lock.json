@@ -9,7 +9,7 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "fzf-lua": {
-      "rev": "5cbe58ca48c4c4a2fbe5e324b854596d8242711e",
+      "rev": "9f0432fdd7825ab163520045831a40b6df82ea28",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "fzf-lua-frecency.nvim": {

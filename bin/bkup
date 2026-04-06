@@ -50,7 +50,7 @@ function localSync() {
 
 if [[ $1 == 'home' ]]; then
     for dest in \
-        francis@moon.local:/mnt/drive-a; do
+        francis@cache.local:/mnt/drive-a; do
         localSync $dest
     done
 
