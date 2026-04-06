@@ -6,6 +6,7 @@ vim.opt.shell = "fish"
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+require("syntax")
 require("motion")
 require("search")
 require("nav")
