@@ -50,39 +50,35 @@ function close_preview_image()
 end
 
 function M.auto_preview_image()
-  local lnum = vim.fn.line(".")
-  local line = vim.fn.getline(lnum)
-  local coln = vim.fn.col(".") - 1 -- Lua indexing
+  local line = vim.fn.getline(".")
+  local col = vim.fn.col(".") -- 1-based indexing for vim.fn.col
 
-  -- Find the left boundary of the object
-  local lcol = coln
-  while lcol >= 0 and line:sub(lcol + 1, lcol + 1) ~= "(" and line:sub(lcol + 1, lcol + 1) ~= "<" do
-    lcol = lcol - 1
-  end
+  local pattern = "(!%b[]%b())"
 
-  -- Handle potentially nested parentheses
-  local open_parens = 0
-  local rcol = coln
-  while rcol <= #line and line:sub(rcol + 1, rcol + 1) ~= ">" do
-    if line:sub(rcol + 1, rcol + 1) == "(" then
-      open_parens = open_parens + 1
-    elseif line:sub(rcol + 1, rcol + 1) == ")" then
-      if open_parens == 0 then
-        break
+  local found_path = nil
+  local start_pos = 1
+
+  while true do
+    local s, e, whole_match = line:find(pattern, start_pos)
+    if not s then break end
+
+    -- Check if cursor is within this specific match
+    if col >= s and col <= e then
+      -- Extract path from the %b() part (remove the surrounding parens)
+      local caption_part, path_part = whole_match:match("(!%b[])(%b())")
+      if path_part then
+        found_path = path_part:sub(2, -2) -- Strip the '(' and ')'
       end
-      open_parens = open_parens - 1
+      break
     end
-    rcol = rcol + 1
+    start_pos = e + 1
   end
 
-  -- Extract the object
-  local obj = line:sub(lcol + 2, rcol) -- Adjust indices for Lua substring
-  local caption = obj:match("!%[[^%]]+%]")
-  if caption == nil then
+  if not found_path then
     close_preview_image()
     return
   end
-  local path = obj:sub(#caption + 2, #obj - 1) -- Skip caption and surrounding ()
+
   local allowed = {
       jpg = true,
       jpeg = true,
@@ -90,20 +86,21 @@ function M.auto_preview_image()
       webp = true,
       gif = true,
   }
-
-  local ext = path:match("%.([%a%d]+)$")
-  local is_image = ext and allowed[ext]
+  local ext = found_path:match("%.([%a%d]+)$")
+  local is_image = ext and allowed[ext:lower()]
 
   if is_image then
-    if path ~= preview_path then
+    if found_path ~= preview_path then
       close_preview_image()
       preview_jobid = vim.fn.jobstart({
         "vu",
-        vim.fn.expand("%:p:h") .. "/" .. path,
+        vim.fn.expand("%:p:h") .. "/" .. found_path,
+        "--max-side",
+        "400",
         "--title",
         "md-vu-preview"
       })
-      preview_path = path
+      preview_path = found_path
     end
   else
     close_preview_image()
