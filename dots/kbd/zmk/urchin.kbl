@@ -19,8 +19,9 @@ combos:
   [N, S]: Enable(SYSTEM)
 
   # Modifiers
-  [P, "'"]: OneShot(Meta)
-  [⌫, Q]: OneShot(Ctrl)        # Useful for e.g. ctrl+mousewheel
+  [P, "'"]:  OneShot(Meta)
+  [Q, L]:    OneShot(Ctrl)     # Useful for e.g. ctrl+mousewheel
+  [C, B]:    OneShot(Alt)      # Useful for e.g. ctrl+mousewheel
   [N, R, S]: OneShot(Meta)     # Useful for e.g. meta-mousedrag
 
   # Shortcuts
@@ -51,11 +52,14 @@ combos:
   [L, D]: "*"
   [H, U]: '`'
   [X, V]: "~"
+  [␣, E]: "_"
+  [␣, A]: "_"
   [",", "'"]: ">"
   ["V", "M"]: "<"
 
   # For Blender
-  [C, L]: "Y"
+  [N, R]: "Y"
+  [N, D]: "⏎"
 
 shifts:
   '-': '&'
