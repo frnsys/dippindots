@@ -207,10 +207,10 @@ end
 bind -M insert \ct '_seek'
 bind -M default \ct '_seek'
 
-# ctrl-i
+# ctrl-s
 # https://stackoverflow.com/a/76799272
 function _pick_and_insert
-    set --local path $(fd . . | fzf); and commandline -i $path
+    set --local path $(fd . ~ | fzf); and commandline -i $path
 end
 bind -M insert \cs '_pick_and_insert'
 bind -M default \cs '_pick_and_insert'
