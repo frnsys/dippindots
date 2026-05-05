@@ -5,7 +5,12 @@ CMD=$1
 # this encrypts (locks) or decrypts (unlocks) files or directories;
 # it relies on my GPG keys (with the name $KEYNAME)
 # do `gpg -K` to check that it's there; if not then
-# import it with `gpg --import ~/docs/keys/private.key`
+# import it with:
+#
+#   gpg --import ~/docs/keys/private.key
+#   gpg --edit-key <key email>
+#   trust
+#
 # see `~/docs/keys/note.md` for pw note
 #
 # Example usage:
