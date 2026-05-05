@@ -32,7 +32,8 @@ gif = [
 ]
 image = [
 	{ run = 'vu "$@"', desc = "Open" },
-	{ run = 'flatpak run com.github.PintaProject.Pinta "$@"', block = false, desc = "Edit" },
+	{ run = 'flatpak run com.github.PintaProject.Pinta "$@"', block = false, desc = "Edit (Pinta)" },
+	{ run = 'flatpak run org.gimp.GIMP "$@"', block = false, desc = "Edit (GIMP)" },
 	{ run = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF" },
 ]
 video = [
@@ -69,6 +70,8 @@ rules = [
 	{ url = "*.html", use = ["text", "html"] },
 	{ url = "*.md", use = ["text"] },
 	{ url = "*.srt", use = ["text"] },
+	{ url = "*.typ", use = ["text"] },
+	{ mime = "*/{xml,javascript,wine-extension-ini}", use = ["text"] },
 
 	{ mime = "text/*", use = "text" },
 	{ mime = "image/*", use = "image" },
@@ -105,10 +108,6 @@ image_bound = [8000, 8000]
 enabled = false
 
 [plugin]
-fetchers = [
-	{ id = "mime", url = "*", run = "mime.local", prio = "high" },
-	{ id = "mime", url = "*/", run = "mime.dir", prio = "high" },
-]
 preloaders = [
 	{ mime = "image/{avif,heic,jxl,svg+xml}", run = "magick" },
 	{ mime = "image/*", run = "image" },
@@ -120,14 +119,14 @@ preloaders = [
 previewers = [
 	{ url = "*/", run = "folder", sync = true },
 	{ mime = "text/*", run = "code" },
-	{ mime = "*/{xml,javascript,x-wine-extension-ini}", run = "code" },
-	{ mime = "application/{json,x-ndjson}", run = "json" },
+	{ mime = "*/{xml,javascript,wine-extension-ini}", run = "code" },
+	{ mime = "application/{json,ndjson}", run = "json" },
 	{ mime = "image/{avif,heic,jxl,svg+xml}", run = "magick" },
 	{ mime = "image/*", run = "image" },
 	{ mime = "video/*", run = "video" },
 	{ mime = "application/pdf", run = "pdf" },
 	{ mime = "application/{,g}zip", run = "archive" },
-	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar,iso9660-image}", run = "archive" },
+	{ mime = "application/{tar,bzip*,7z-compressed,xz,rar,iso9660-image}", run = "archive" },
 	{ mime = "font/*", run = "font" },
 	{ mime = "application/vnd.ms-opentype", run = "font" },
 	{ url = "*", run = "file" },
