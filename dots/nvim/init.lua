@@ -17,6 +17,9 @@ require('bindings')
 require('filetypes')
 require('game')
 
+-- Experimental ui2
+require('vim._core.ui2').enable()
+
 vim.cmd([[colorscheme futora]])
 
 --- Show this at the start of wrapped lines

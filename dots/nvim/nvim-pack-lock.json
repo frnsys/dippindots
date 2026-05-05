@@ -9,7 +9,7 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "fzf-lua": {
-      "rev": "9f0432fdd7825ab163520045831a40b6df82ea28",
+      "rev": "cf4c30892644f01ebfb1e248eeca9e259856f9dc",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "fzf-lua-frecency.nvim": {
@@ -21,11 +21,11 @@
       "src": "https://github.com/lukas-reineke/headlines.nvim"
     },
     "kitty-scrollback.nvim": {
-      "rev": "9342a0e0e5556ce0b7f9dc41c4bdd39ae9dc85dd",
+      "rev": "27a34ad53f188758fe202eb08f0063bce572dde4",
       "src": "https://github.com/mikesmithgh/kitty-scrollback.nvim"
     },
     "mini.ai": {
-      "rev": "43eb2074843950a3a25aae56a5f41362ec043bfa",
+      "rev": "7e10ce8468c0fce4f527ae2c0e5c484f7667f73d",
       "src": "https://github.com/echasnovski/mini.ai"
     },
     "mini.indentscope": {
@@ -37,7 +37,7 @@
       "src": "https://github.com/shortcuts/no-neck-pain.nvim"
     },
     "nvim-spider": {
-      "rev": "af2f73ffd62e61a091b3503845b7704d76d81d95",
+      "rev": "4fdd56a4f45bca13a607632e15a6f9f8d1b1f99e",
       "src": "https://github.com/chrisgrieser/nvim-spider"
     },
     "nvim-treesitter": {
