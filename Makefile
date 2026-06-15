@@ -63,6 +63,7 @@ git:
 tools:
 	sudo zypper in -y libopenssl-devel
 	sudo zypper in -y fzf jq htop tree gnupg ncdu dfc ffmpeg fd ripgrep
+	cargo install zoxide
 
 	# Usage: `cargo install-update -a`
 	cargo install cargo-update

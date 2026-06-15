@@ -55,6 +55,9 @@ csv = [
 html = [
     { run = 'firefox "$@"', desc = "Browser" },
 ]
+blend = [
+	{ run = 'blender "$@"', block = false },
+]
 fallback = []
 
 [open]
@@ -71,6 +74,8 @@ rules = [
 	{ url = "*.md", use = ["text"] },
 	{ url = "*.srt", use = ["text"] },
 	{ url = "*.typ", use = ["text"] },
+	{ url = "*.ora", use = "image" },
+	{ url = "*.blend", use = "blend" },
 	{ mime = "*/{xml,javascript,wine-extension-ini}", use = ["text"] },
 
 	{ mime = "text/*", use = "text" },

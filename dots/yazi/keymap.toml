@@ -32,7 +32,7 @@ keymap = [
 	{ on = [ "O" ],         run = "open --interactive",     desc = "Open the selected files interactively" },
 	{ on = [ "y" ],         run = "yank",                   desc = "Copy the selected files" },
 	{ on = [ "x" ],         run = "yank --cut",             desc = "Cut the selected files" },
-	{ on = [ "Y" ],         run = "unyank",                      desc = "Cancel the yank status" },
+	{ on = [ "Y" ],         run = "unyank",                 desc = "Cancel the yank status" },
 	{ on = [ "p" ],         run = "paste",                  desc = "Paste the files" },
 	{ on = [ "P" ],         run = "paste --force",          desc = "Paste the files (overwrite if the destination exists)" },
 	{ on = [ "D" ],         run = "remove --permanently",   desc = "Permanently delete the files" },
@@ -42,9 +42,6 @@ keymap = [
 	{ on = [ ";" ],         run = "shell --interactive",          desc = "Run a shell command" },
 	{ on = [ ":" ],         run = "shell --interactive --block",  desc = "Run a shell command (block the UI until the command finishes)" },
 	{ on = [ "." ],         run = "hidden toggle",          desc = "Toggle the visibility of hidden files" },
-	{ on = [ "s" ],         run = "search fd",              desc = "Search files by name using fd" },
-	{ on = [ "S" ],         run = "search rg",              desc = "Search files by content using ripgrep" },
-	{ on = [ "f" ],         run = "plugin fzf",             desc = "Jump to a directory, or reveal a file using fzf" },
 
     # Sorting
 	{ on = [ ",", "S" ], run = [ "sort size --reverse=no", "linemode size" ],   desc = "Sort by size" },
@@ -71,13 +68,17 @@ keymap = [
 	{ on = [ "w" ], run = "tasks_show", desc = "Show the tasks manager" },
 
 	# Goto
-	{ on = [ "g", "h" ],       run = "cd ~",             desc = "Go to the home directory" },
-	{ on = [ "g", "c" ],       run = "cd ~/.config",     desc = "Go to the config directory" },
-	{ on = [ "g", "d" ],       run = "cd ~/downloads",   desc = "Go to the downloads directory" },
-	{ on = [ "g", "w" ],       run = "cd ~/work",        desc = "Go to the work directory" },
-	{ on = [ "g", "p" ],       run = "cd ~/projects",    desc = "Go to the projects directory" },
-	{ on = [ "g", "t" ],       run = "cd /tmp",          desc = "Go to the temporary directory" },
-	{ on = [ "F" ],            run = "cd --interactive", desc = "Go to a directory interactively" },
+	{ on = [ "g", "h" ],    run = "cd ~",             desc = "Go to the home directory" },
+	{ on = [ "g", "c" ],    run = "cd ~/.config",     desc = "Go to the config directory" },
+	{ on = [ "g", "d" ],    run = "cd ~/downloads",   desc = "Go to the downloads directory" },
+	{ on = [ "g", "w" ],    run = "cd ~/work",        desc = "Go to the work directory" },
+	{ on = [ "g", "p" ],    run = "cd ~/projects",    desc = "Go to the projects directory" },
+	{ on = [ "g", "t" ],    run = "cd /tmp",          desc = "Go to the temporary directory" },
+	# { on = [ "F" ],         run = "cd --interactive", desc = "Go to a directory interactively" },
+	{ on = [ "s" ],         run = "search fd",        desc = "Search files by name using fd" },
+	{ on = [ "S" ],         run = "search rg",        desc = "Search files by content using ripgrep" },
+	{ on = [ "f" ],         run = "plugin fzf",       desc = "Jump to a directory, or reveal a file using fzf" },
+	{ on = [ "F" ],         run = "plugin zoxide",    desc = "Jump to a directory via zoxide" },
 ]
 
 [tasks]

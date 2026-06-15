@@ -44,8 +44,8 @@ if test -f ~/.local/bin/mise
     end
 end
 
-# fzf
 fzf --fish | source
+zoxide init fish | source
 
 # Easier navigation
 abbr -a ,, "cd .."
@@ -58,6 +58,9 @@ abbr -a mv "mv -i"
 
 # Smart case ripgrep
 abbr -a rg "rg -S"
+
+# Easier than z
+abbr -a e "z"
 
 # Git
 abbr -a gd "git diff"
