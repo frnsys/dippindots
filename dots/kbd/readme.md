@@ -11,6 +11,8 @@ cargo install --git https://github.com/frnsys/kbl
 git clone --depth 1 --recurse-submodules https://github.com/qmk/qmk_firmware.git /opt/qmk
 cd /opt/qmk
 pip install -r requirements.txt
+
+curl -fsSL https://install.qmk.fm | sh
 ```
 
 ## ZMK
@@ -34,7 +36,15 @@ sudo mv zephyr-sdk-0.16.3 /opt/zephyr
 cd /opt/zephyr/ && ./setup.sh
 ```
 
-# `smallcat`
+## Updating ZMK
+
+```bash
+cd /opt/zmk
+git pull
+west update
+```
+
+# `aurora/sweep`
 
 I maintain my layout in `.kbl`, which is compiled to `keymap.c` using `kbl` (see the setup instructions).
 

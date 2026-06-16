@@ -6,7 +6,7 @@ export ZMK_COMBO_TIMEOUT=35
 
 KEYBOARD=$1 # e.g. `urchin`
 HALF=$2 # "left" or "right"
-BOARD=nice_nano
+BOARD=nice_nano//zmk
 ZMK_DIR=/opt/zmk/app
 BUILD_DIR=/tmp/$KEYBOARD
 MODULE=modules/${KEYBOARD}-zmk-module
