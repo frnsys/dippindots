@@ -4,7 +4,7 @@
 # Use: `sudo ls /etc/wireguard`
 # Expects /etc/wireguard/airvpn-{CONFIG}.conf
 
-ALLOWED=("de" "ch" "nyc")
+ALLOWED=("de" "ch" "ch2" "nyc" "nl")
 
 ACTION=$1
 CONFIG=$2
