@@ -77,6 +77,18 @@ require("fzf-lua").setup({
 --- Search files by name
 vim.keymap.set("n", "<c-t>", search_files)
 
+--- Open buffers
+vim.keymap.set("n", ";", function()
+  require('fzf-lua').buffers({
+    winopts = {
+      preview = { hidden = true },
+      fullscreen = false,
+      width = 64,
+      col = 0.5,
+    }
+  })
+end)
+
 --- Grep current word
 vim.keymap.set("n", "&", function()
   require('fzf-lua').grep_cword({
