@@ -2,18 +2,26 @@
 
 if [[ $1 == 'start' ]]; then
     TIME=$(date +%F-%T)
-    VID=/tmp/recording_${TIME}.mkv
-    wf-recorder -g "$(slurp)" -f $VID # -a for audio
+    FRAMERATE=30 # Record at a constant frame rate
+    VID=~/docs/recs/recording_${TIME}.mkv # Don't record to /tmp as it's space-limited
 
-    # Trim the last bit (it catches the recording notification)
-    DURATION=$(ffprobe -v 0 -show_entries format=duration -of compact=p=0:nk=1 "$VID")
-    TRIMMED_DURATION=$(echo "scale=4;$DURATION-1" | bc)
-    TRIMMED_VID="${VID%.ogv}.trimmed.mp4"
-    ffmpeg -i "$VID" -t $TRIMMED_DURATION -filter:v "crop=iw-4:ih-4" -c:v libx264 -crf 18 -c:a copy "$TRIMMED_VID"
-    OUT="$TRIMMED_VID"
+    TARGET=$(echo -e "eDP-1\nDP-1\nregion" | bemenu -p "Target:")
+    [ -z "$TARGET_CHOICE" ] && exit 0
 
-    echo ${OUT} | wl-copy
-    notify-send "[rec] finished: ${OUT}"
+    FLAGS=""
+    # FLAGS="-a" # For audio
+
+    case "$TARGET" in
+        "region")
+            GEOM=$(slurp)
+            [ -n "$GEOM" ] && wf-recorder $FLAGS -g "$GEOM" -r $FRAMERATE -f "$VID"
+            ;;
+        *)
+            wf-recorder $FLAGS -o "$TARGET" -r $FRAMERATE -f "$VID"
+            ;;
+    esac
+
+    notify-send "[rec] finished: ${VID}"
 elif [[ $1 == 'stop' ]]; then
     pkill wf-recorder
 fi
