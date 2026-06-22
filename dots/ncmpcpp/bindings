@@ -16,6 +16,9 @@ def_key "N"
 def_key "m"
   move_selected_items_up
 
+def_key "M"
+  move_selected_items_down
+
 def_key "v"
   move_sort_order_down
 
