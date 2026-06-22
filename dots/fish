@@ -261,5 +261,5 @@ gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 
 # Launch WM from the login tty.
 if test -z "$DISPLAY"; and test (tty) = "/dev/tty1"
-    niri --session
+    exec niri-session -l
 end
