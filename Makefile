@@ -76,6 +76,7 @@ utils:
 	sudo zypper in font-manager
 
 	# Prefer from pip as it's more up-to-date
+	npm install -g deno
 	pip install yt-dlp
 
 	# For signal, see https://community.signalusers.org/t/beta-test-the-signal-desktop-linux-appimage/73330
