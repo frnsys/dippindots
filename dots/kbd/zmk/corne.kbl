@@ -1,0 +1,170 @@
+ALPHA
+
+? Q L D C B &  ↑ . F O U J ?
+? N R T S G -  ↓ Y H A E I ?
+? X V M W Z      K P , ' / ?
+      ⎈ ⌫ ⇧      ⏎ ␣ ␖
+
+holds:
+  ␣: Ctrl
+  ⏎: Layer(ARROWS)
+  ',': Layer(NUMSYM)
+
+defs:
+  ⇧: Shift
+  ␖: Enable(NUMSYM)
+
+combos:
+  # Layers
+  [H, I]: Enable(SYSTEM)
+  [N, S]: Enable(SYSTEM)
+
+  # Modifiers
+  [P, "'"]:  OneShot(Meta)
+  [Q, L]:    OneShot(Ctrl)     # Useful for e.g. ctrl+mousewheel
+  [C, B]:    OneShot(Alt)      # Useful for e.g. ctrl+mousewheel
+  [N, R, S]: OneShot(Meta)     # Useful for e.g. meta-mousedrag
+
+  # Shortcuts
+  [R, T, S]: Shift(Alt(C))     # Terminal copy
+  [N, R, T, S]: Shift(Alt(P))  # Terminal paste
+  [W, Z]: Ctrl(Z)              # Undo
+  [X, V, M, W]: ↺              # Bootloader
+
+  # Accents
+  [N, ⌫]: "ˆ"
+  [R, ⌫]: "´"
+  [T, ⌫]: "ˋ"
+  [G, ⌫]: "¨"
+  [S, ⌫]: "€"
+  [O, ␣]: "¸"
+
+  # Special
+  [V, W]: "⎋"
+  [R, T]: "⎋"
+  [T, S]: "⇥"
+
+  # Symbols
+  [H, E]: '='
+  [H, A]: ":"
+  [A, E]: "-"
+  [D, C]: "&"
+  [O, U]: "_"
+  [L, D]: "*"
+  [H, U]: '`'
+  [X, V]: "~"
+  [␣, E]: "_"
+  [␣, A]: "_"
+  [",", "'"]: ">"
+  ["V", "M"]: "<"
+
+  # For Blender
+  [N, R]: "Y"
+  [N, D]: "⏎"
+
+shifts:
+  '-': '&'
+  ',': '?'
+  "'": '"'
+  '=': '!'
+  '*': '@'
+  ':': ';'
+  '_': '|'
+  '.': '+'
+  '`': "%"
+  '>': '}'
+  '<': '{'
+  '/': '\\'
+  ␣: Enable(NUMSYM)
+
+---
+
+NUMSYM
+
+? ^ 4 5 6 ⬚ ?  ? ⬚ # [ ] $ ?
+? 0 1 2 3 ⬚ ?  ? ⬚ { ( ) } ?
+? . 7 8 9 ,      ⬚ _ < > ^ ?
+      ⌫ 0 ?      ? ⬚ ⬚
+
+combos:
+  ["1", "3"]: "0"
+  ["2", "3"]: "4"
+  ["1", "2"]: "5"
+
+---
+
+ARROWS
+
+⬚ ⬚ ⬚ ⬚ ⬚ ⬚ ⬚  ⬚ ⬚ ⇞ ↑ ⇟ ⬚ ⬚
+⬚ ⬚ ↤ ↚ ↦ ⬚ ⬚  ⬚ ⬚ ← ↓ → ⬚ ⬚
+⬚ ⬚ V ⬚ ⬚ ⬚      ⬚ ⌫ ⬚ ↚ ⬚ ⬚
+      ⬚ ⬚ ⬚      ⬚ ∅ ⬚
+
+defs:
+  ↚: Ctrl(W)        # Delete word
+  ↤: Ctrl(Left)     # Prev word
+  ↦: Ctrl(Right)    # Next word
+combos:
+  [↤, ↦]: Toggle(ARROWS)
+  [←, ↓]: ^
+  [↓, →]: $
+
+---
+
+SYSTEM
+
+⬚ ⬚ ⇲ ⍐ ⇱ ⬚ ⬚  ⬚ ⬚ ℌ ⊕ ॥ ⬚ ⬚
+⬚ ⇧ ⇐ ↫ ⇒ ⇑ ⬚  ⬚ ⎶ ❮ ✛ ◱ ❯ ⬚
+⬚ ◐ ⏷ ▶ ⏶ ◑      ⬚ ⬚ ⬚ ⬚ ⬚ ⬚
+      ⬚ ⇧ ⬚      ⬚ ⍜ ⬚
+
+defs:
+  ⇐: Meta(←)        # Focus previous column
+  ⇒: Meta(→)        # Focus next column
+  ↫: Meta(↓)        # Focus previously focused window
+  ⇑: Meta(↑)        # Focus previous workspace
+  ⍐: Meta(Ctrl(↑))  # Focus next monitor
+  ⇱: Meta(Alt(→))   # Size up column
+  ⇲: Meta(Alt(←))   # Size down column
+  ⍜: Meta(␣)        # Launcher
+  ▶: Meta(=)        # Play/pause music
+  ❮: Alt([)         # Prev term tab
+  ❯: Alt(])         # Next term tab
+  ⊕: Alt(T)         # New tab
+  ⎶: Alt(-)         # Horizontal split
+  ॥: Alt(\)         # Vertical split
+  ◱: Alt(M)         # Maximize term window
+  ✛: Alt(W)         # Focus term window
+  ℌ: Alt(E)         # Scrollback history
+combos:
+  [⏷, ⏶]: ⨯               # Mute
+  [⏷, ▶, ⏶]: Meta(Alt(O)) # Monitor sleep
+  [◐, ◑]: ◌               # Bluetooth clear profile
+shifts:
+  ▶: Meta(=)        # Play/pause mpv
+  ⏶: ☼              # Brightness up
+  ⏷: ☾              # Brightness down
+
+===
+
+mt: mod_tap {
+    compatible = "zmk,behavior-hold-tap";
+    #binding-cells = <2>;
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <150>;
+    bindings = <&kp>, <&kp>;
+    display-name = "Mod-Tap";
+    retro-tap;
+};
+
+lt: layer_tap {
+    compatible = "zmk,behavior-hold-tap";
+    #binding-cells = <2>;
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <150>;
+    bindings = <&mo>, <&kp>;
+    display-name = "Layer-Tap";
+    retro-tap;
+};

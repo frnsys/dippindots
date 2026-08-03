@@ -1,0 +1,23 @@
+# This file generates the GitHub Actions matrix.
+# For simple board + shield combinations, add them to the top level board and
+# shield arrays, for more control, add individual board + shield combinations
+# to the `include` property. You can also use the `cmake-args` property to
+# pass flags to the build command, `snippet` to add a Zephyr snippet, and
+# `artifact-name` to assign a name to distinguish build outputs from each other:
+#
+---
+include:
+  - board: corne_choc_pro_left
+    snippet: studio-rpc-usb-uart
+    shield: nice_view
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: corne_choc_pro_right
+    shield: nice_view
+    snippet: studio-rpc-usb-uart
+
+  - board: corne_choc_pro_left
+    shield: settings_reset
+    snippet: studio-rpc-usb-uart
+  - board: corne_choc_pro_right
+    shield: settings_reset
+    snippet: studio-rpc-usb-uart

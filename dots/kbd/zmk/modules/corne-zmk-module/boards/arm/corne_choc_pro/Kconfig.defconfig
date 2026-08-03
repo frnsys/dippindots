@@ -1,0 +1,41 @@
+# Copyright (c) 2020 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+if BOARD_CORNE_CHOC_PRO_LEFT
+
+config ZMK_KEYBOARD_NAME
+	default "Corne Choc Pro"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif # BOARD_CORNE_CHOC_PRO_LEFT
+
+if BOARD_CORNE_CHOC_PRO_LEFT || BOARD_CORNE_CHOC_PRO_RIGHT 
+
+config BOARD
+    default "corne_choc_pro"
+
+config ZMK_SPLIT
+    default y
+
+if USB
+
+config USB_NRFX
+	default y
+
+config USB_DEVICE_STACK
+	default y
+
+endif # USB
+
+config BT_CTLR
+	default BT
+
+config I2C
+	default y
+
+config ZMK_MAX17048
+    default y
+
+endif # BOARD_CORNE_CHOC_PRO_LEFT || BOARD_CORNE_CHOC_PRO_RIGHT

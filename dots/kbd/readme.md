@@ -1,7 +1,7 @@
 # Setup
 
 ```bash
-sudo zypper in cross-avr-gcc14 cross-arm-none-gcc14 avrdude avr-libc dfu-programmer dfu-util
+sudo zypper in cross-avr-gcc14 cross-arm-none-gcc14 avrdude avr-libc dfu-programmer dfu-util protobuf21-devel
 cargo install --git https://github.com/frnsys/kbl
 ```
 
@@ -22,6 +22,11 @@ git clone --depth 1 https://github.com/zmkfirmware/zmk.git /opt/zmk
 
 # See https://zmk.dev/docs/development/local-toolchain/setup/native
 cd /opt/zmk
+
+# Need to pin to 0.3 for the Keebart Corne.
+git fetch --tags
+git checkout v0.3
+
 pip3 install --user -U west
 west init -l app/
 west update
@@ -62,3 +67,7 @@ Build and flash each side independently:
 ~/.dots/dots/kbd/flash.sh zmk urchin left
 ~/.dots/dots/kbd/flash.sh zmk urchin right
 ```
+
+## `corne` (Corne Choc Pro)
+
+ZMK module (`corne-zmk-module`) is from <https://github.com/Keebart/zmk-config>.

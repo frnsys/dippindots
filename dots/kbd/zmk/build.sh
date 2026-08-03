@@ -4,25 +4,34 @@ set -e
 
 export ZMK_COMBO_TIMEOUT=35
 
-KEYBOARD=$1 # e.g. `urchin`
+NAME=$1 # e.g. `urchin`
 HALF=$2 # "left" or "right"
-BOARD=nice_nano//zmk
-ZMK_DIR=/opt/zmk/app
-BUILD_DIR=/tmp/$KEYBOARD
-MODULE=modules/${KEYBOARD}-zmk-module
 
-build_half() {
-    west build -p -d $BUILD_DIR/build/$1 -b $BOARD -- -DSHIELD=${KEYBOARD}_$1 -DZMK_CONFIG="$BUILD_DIR" -DZMK_EXTRA_MODULES="$BUILD_DIR/module"
-    cp $BUILD_DIR/build/$1/zephyr/zmk.uf2 $BUILD_DIR/$1.uf2
-    echo "$BUILD_DIR/$1.uf2"
-}
+declare -A KEYBOARDS=(
+    ["urchin"]="nice_nano"
+    ["corne"]="corne_choc_pro_${HALF}"
+)
+
+declare -A SHIELDS=(
+    ["urchin"]="urchin_${HALF}"
+    ["corne"]="nice_view"
+)
+
+KEYBOARD="${KEYBOARDS[$NAME]}"
+SHIELD="${SHIELDS[$NAME]}"
+ZMK_DIR=/opt/zmk/app
+BUILD_DIR=/tmp/$NAME
+MODULE=modules/${NAME}-zmk-module
 
 rm -rf "$BUILD_DIR"
 mkdir "$BUILD_DIR"
 
 cp -r "$MODULE" "$BUILD_DIR/module"
 cp config.conf "$BUILD_DIR/${KEYBOARD}.conf"
-kbl zmk ${KEYBOARD}.kbl > "$BUILD_DIR/${KEYBOARD}.keymap"
+kbl zmk ${NAME}.kbl > "$BUILD_DIR/${KEYBOARD}.keymap"
 
 cd $ZMK_DIR
-build_half $HALF
+export ZEPHYR_TOOLCHAIN_VARIANT="zephyr"
+west build -p -d $BUILD_DIR/build/$HALF -b $KEYBOARD -- -DSHIELD=$SHIELD -DZMK_CONFIG="$BUILD_DIR" -DZMK_EXTRA_MODULES="$BUILD_DIR/module" -DBOARD_ROOT="$BUILD_DIR/module"
+cp ${BUILD_DIR}/build/${HALF}/zephyr/zmk.uf2 $BUILD_DIR/${HALF}.uf2
+echo "${BUILD_DIR}/${HALF}.uf2"
