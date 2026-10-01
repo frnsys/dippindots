@@ -1,7 +1,0 @@
-/*
- * Copyright (c) 2020 Duccio Breschi
- *
- * SPDX-License-Identifier: MIT
- */
-
-#include "../../../urchin.keymap"

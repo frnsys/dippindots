@@ -1,4 +1,0 @@
-name: zmk-keyboards-urchin
-build:
-  settings:
-    board_root: .
