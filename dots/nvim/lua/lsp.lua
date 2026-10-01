@@ -209,6 +209,15 @@ vim.lsp.config["ts"] = {
 }
 vim.lsp.enable('ts')
 
+-- cargo install --git https://github.com/Myriad-Dreamin/tinymist --locked tinymist-cli
+vim.lsp.config["tinymist"] = {
+    cmd = { "tinymist" },
+    filetypes = { "typst" },
+    settings = {}
+}
+vim.lsp.enable('tinymist')
+
+
 -- Show errors and warnings in a floating window
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
