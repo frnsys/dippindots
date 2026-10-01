@@ -26,6 +26,3 @@ bash -c 'while true; do sway-audio-idle-inhibit; sleep 1; done' &
 # For screensharing, etc.
 # See <https://github.com/YaLTeR/niri/wiki/Screencasting
 /usr/libexec/xdg-desktop-portal-gnome &
-
-# Lock screen to require login.
-sleep 0.2 && bash -c ~/.bin/lock &

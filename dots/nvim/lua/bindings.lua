@@ -78,13 +78,10 @@ _('n',  ':keepjumps norm! n<cr>',  { "n" })
 _('N',  ':keepjumps norm! n<cr>',  { "n" })
 
 --- Jump between matching delimiters
-_('l', '%', {"n", "x", "o"})
+_('\'', '%', {"n", "x", "o"})
 
 --- Bind return to clear last search highlight.
 _("<cr>", ":noh<cr>", "n")
-
---- Undo
-_("<c-u>", "u", "n")
 
 --- Insert and go to new line above.
 _("<s-cr>", "<esc>O", {"i", "n"})
@@ -117,6 +114,7 @@ _('<c-d>', '<esc>dmxi', "i", true)
 
 --- Splits
 _("|", ":vsplit<cr>", "n")
+_("_", ":split<cr>", "n")
 
 --- Terminal
 _("<Esc>", "<C-\\><C-n>", "t")

@@ -21,12 +21,12 @@ vim.keymap.set("n", "-", require("oil").open)
 require("nvim-window").setup({
   -- The characters available for hinting windows.
   chars = {
-    't', 'r', 's',
+    'a', 's', 'd',
   },
   normal_hl = 'WindowTarget',
   border = 'none',
 })
-vim.keymap.set("n", ",t", function()
+vim.keymap.set("n", ",w", function()
   -- Exclude floating windows and scratch buffers
   local function is_real_win(win)
     -- Floating window

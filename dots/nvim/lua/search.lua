@@ -75,7 +75,7 @@ require("fzf-lua").setup({
 })
 
 --- Search files by name
-vim.keymap.set("n", "<c-t>", search_files)
+vim.keymap.set("n", "<c-f>", search_files)
 
 --- Open buffers
 vim.keymap.set("n", ";", function()
@@ -90,21 +90,21 @@ vim.keymap.set("n", ";", function()
 end)
 
 --- Grep current word
-vim.keymap.set("n", "&", function()
+vim.keymap.set("n", "<c-w>", function()
   require('fzf-lua').grep_cword({
     cwd = get_root(),
   })
 end)
 
 --- Search by grep
-vim.keymap.set("n", "j", function()
+vim.keymap.set("n", "<c-'>", function()
   require('fzf-lua').live_grep({
     cwd = get_root(),
   })
 end)
 
 --- Resume grep search
-vim.keymap.set("n", "J", function()
+vim.keymap.set("n", "<c-s-'>", function()
   require('fzf-lua').live_grep({
     resume = true,
     cwd = get_root(),

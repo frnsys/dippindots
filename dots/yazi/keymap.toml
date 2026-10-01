@@ -15,10 +15,10 @@ keymap = [
 	{ on = [ "g", "g" ],  run = "arrow top",  desc = "Move cursor to the top" },
 	{ on = [ "G" ],       run = "arrow bot",  desc = "Move cursor to the bottom" },
 
-	{ on = [ "e" ],  run = "arrow -1",   desc = "Move cursor up" },
-	{ on = [ "a" ],  run = "arrow 1",    desc = "Move cursor down" },
+	{ on = [ "k" ],  run = "arrow -1",   desc = "Move cursor up" },
+	{ on = [ "j" ],  run = "arrow 1",    desc = "Move cursor down" },
 	{ on = [ "h" ],  run = "leave",      desc = "Go back to the parent directory" },
-	{ on = [ "i" ],  run = "enter",      desc = "Enter the child directory" },
+	{ on = [ "l" ],  run = "enter",      desc = "Enter the child directory" },
 
 	# Selection
 	{ on = [ "<Space>" ], run = [ "toggle --state=none", "arrow 1" ], desc = "Toggle the current selection state" },
@@ -28,7 +28,8 @@ keymap = [
 	{ on = [ "<C-r>" ],   run = "toggle_all --state=none",            desc = "Inverse selection of all files" },
 
 	# Operation
-	{ on = [ "<Enter>" ],   run = "open",                   desc = "Open the selected files" },
+	{ on = [ "<Enter>" ],   run = "open --hovered",         desc = "Open the hovered file" },
+	{ on = [ "<S-Enter>" ], run = "open",                   desc = "Open the selected files" },
 	{ on = [ "O" ],         run = "open --interactive",     desc = "Open the selected files interactively" },
 	{ on = [ "y" ],         run = "yank",                   desc = "Copy the selected files" },
 	{ on = [ "x" ],         run = "yank --cut",             desc = "Cut the selected files" },

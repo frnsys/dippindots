@@ -18,7 +18,7 @@ input {
 // `niri msg outputs`
 output "eDP-1" {
     mode "1920x1200@60"
-    scale 1.8
+    // scale 1.8
 }
 
 layout {
@@ -98,10 +98,10 @@ binds {
     Mod+G { spawn "hyprpicker" "--autocopy"; }
     Mod+Shift+Plus { spawn "mpc" "toggle"; }
     Mod+L { spawn "mpvc" "toggle"; }
-    Mod+Space { spawn "sh" "-c" "bemenu-run -l 10 -p \">\""; }
+    Mod+Tab { spawn "sh" "-c" "bemenu-run -l 10 -p \">\""; }
     Mod+Comma { spawn "sh" "-c" "kitty --title ncmpcpp -e ncmpcpp"; }
     Mod+T { spawn "sh" "-c" "kitty --title todo --working-directory ~/notes -e nvim todo.md"; }
-    Mod+B { spawn "sh" "-c" "kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx"; }
+    Mod+P { spawn "sh" "-c" "kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx"; }
     Mod+Q allow-when-locked=true { spawn "lock"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "2%+"; }
@@ -113,11 +113,11 @@ binds {
     Mod+Shift+Q { close-window; }
     Mod+Alt+O { power-off-monitors; }
 
-    Mod+Down  { focus-window-previous; }
-    Mod+Left  { focus-column-left-or-last; }
-    Mod+Right { focus-column-right-or-first; }
-    Mod+Shift+Left  { move-column-left; }
-    Mod+Shift+Right { move-column-right; }
+    Mod+Apostrophe  { focus-window-previous; }
+    Mod+BracketLeft  { focus-column-left-or-last; }
+    Mod+BracketRight { focus-column-right-or-first; }
+    Mod+Shift+BracketLeft  { move-column-left; }
+    Mod+Shift+BracketRight { move-column-right; }
     Mod+Ctrl+Up  { focus-monitor-next; }
     Mod+Shift+Ctrl+Up  { move-column-to-monitor-next; }
     Mod+Up  { focus-workspace-down; }

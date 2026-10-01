@@ -9,8 +9,8 @@ vim.pack.add({
 local ai = require('mini.ai')
 ai.setup({
   custom_textobjects = {
-    ['r'] = { { "%b''", '%b""', '%b``' }, '^.().*().$' },
-    ['t'] = { { '%b()', '%b[]', '%b{}', '%b<>', '%b||' }, '^.().*().$' },
+    ['q'] = { { "%b''", '%b""', '%b``' }, '^.().*().$' },
+    ['b'] = { { '%b()', '%b[]', '%b{}', '%b<>', '%b||' }, '^.().*().$' },
     ['a'] = ai.gen_spec.argument({
       brackets = { '%b()', '%b[]', '%b{}', '%b<>', '%b||' },
       exclude_regions = { '%b""', "%b''", '%b()', '%b[]', '%b{}', '%b<>' },
@@ -22,10 +22,6 @@ ai.setup({
     inside_next = '',
   },
 })
-
---- `cw` is an awkward sequence on my layout,
---- so use `r` instead (for e.g. `rw`).
-vim.keymap.set({ "n" }, "r", "c")
 
 --- Substitute motions
 -- e.g. siw
@@ -50,11 +46,11 @@ vim.keymap.set({ "n", "o", "x" }, "E", function() require('spider').motion('e', 
 	customPatterns = { ident_pattern },
 }) end)
 vim.keymap.set({ "n", "o", "x" }, "<c-e>", "E")
-vim.keymap.set({ "n", "o", "x" }, "m", function() require('spider').motion('b') end)
-vim.keymap.set({ "n", "o", "x" }, "M", function() require('spider').motion('b', {
+vim.keymap.set({ "n", "o", "x" }, "b", function() require('spider').motion('b') end)
+vim.keymap.set({ "n", "o", "x" }, "B", function() require('spider').motion('b', {
 	customPatterns = { ident_pattern },
 }) end)
-vim.keymap.set({ "n", "o", "x" }, "<c-m>", "B")
+vim.keymap.set({ "n", "o", "x" }, "<c-b>", "B")
 
 --- Make word operations more intuitive
 -- Consider
@@ -79,7 +75,7 @@ vim.keymap.set({ "n", "o", "x" }, "<c-m>", "B")
 -- not the punctuation that follows.
 --
 -- So technically when you do `cw` you really want `ce`.
-vim.keymap.set("n", "rw", "ce", { remap = true })
+vim.keymap.set("n", "cw", "ce", { remap = true })
 vim.keymap.set("n", "dw", "de", { remap = true })
 vim.keymap.set("n", "sw", "se", { remap = true })
 vim.keymap.set("n", "yw", "ye", { remap = true })
@@ -99,8 +95,8 @@ require("flash").setup({
       enabled = true,
       jump_labels = true,
       keys = {
-        ["f"] = "h",
-        ["F"] = "H",
+        ["f"] = "f",
+        ["F"] = "F",
         ["t"] = "t",
       }
     },
@@ -115,7 +111,7 @@ require("flash").setup({
 })
 
 --- Jump to (start of) line.
-vim.keymap.set({"n", "x", "o"}, "<c-a>", function()
+vim.keymap.set({"n", "x", "o"}, "<c-l>", function()
   require("flash").jump({
     search = { mode = "search", max_length = 0 },
     label = { after = { 0, 0 }, before = false },
@@ -145,24 +141,24 @@ local function flash_list_items()
   return inner
 end
 
-vim.keymap.set({"n"}, "'", flash_delim({
+vim.keymap.set({"n"}, ",'", flash_delim({
   { '"', '"' },
   { "'", "'" },
   { '`', '`' },
 }))
 
-vim.keymap.set({"n"}, "u", flash_delim({
+vim.keymap.set({"n"}, ",,", flash_delim({
   { '(', ')' },
   { '[', ']' },
   { '{', '}' },
 }))
 
-vim.keymap.set({"n"}, "U", flash_delim({
+vim.keymap.set({"n"}, ",.", flash_delim({
   { '<', '>' },
   { '|', '|' },
 }))
 
-vim.keymap.set({"n"}, "\"", flash_list_items())
+vim.keymap.set({"n"}, ",/", flash_list_items())
 
 --- Motion helpers
 -- Better to come after flash setup to avoid overwriting.
