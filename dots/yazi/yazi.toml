@@ -15,48 +15,48 @@ max_height = 900
 cache_dir  = ""
 
 [opener]
-archive = [
-	{ run = 'unar "$1"', desc = "Extract here" },
-]
 text = [
-	{ run = 'vi "$@"', block = true, desc = "Editor" },
+	{ run = 'vi %s', block = true, desc = "Editor" },
+]
+archive = [
+	{ run = 'unar %s', desc = "Extract here" },
 ]
 pdf = [
-	{ run = 'sioyek --new-instance "$@"', block = false, orphan = true },
+	{ run = 'sioyek --new-instance %s', block = false, orphan = true },
 ]
 epub = [
-	{ run = 'sioyek --new-instance "$@"', block = false, orphan = true },
+	{ run = 'sioyek --new-instance %s', block = false, orphan = true },
 ]
 gif = [
-	{ run = 'vu "$@"', block = false },
+	{ run = 'vu %s', block = false },
 ]
 image = [
-	{ run = 'vu "$@"', desc = "Open" },
-	{ run = 'flatpak run com.github.PintaProject.Pinta "$@"', block = false, desc = "Edit (Pinta)" },
-	{ run = 'flatpak run org.gimp.GIMP "$@"', block = false, desc = "Edit (GIMP)" },
+	{ run = 'vu %s', desc = "Open" },
+	{ run = 'flatpak run com.github.PintaProject.Pinta %s', block = false, desc = "Edit (Pinta)" },
+	{ run = 'flatpak run org.gimp.GIMP %s', block = false, desc = "Edit (GIMP)" },
 	{ run = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF" },
 ]
 video = [
-	{ run = 'mpv "$@"', desc = "Play", orphan = true },
-	{ run = 'mpvc add "$@"', desc = "Append to playlist" },
+	{ run = 'mpv %s', desc = "Play", orphan = true },
+	{ run = 'mpvc add %s', desc = "Append to playlist" },
 	{ run = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info" },
 ]
 audio = [
-	{ run = 'mpv --no-audio-display "$@"', desc = "Play", orphan = true },
+	{ run = 'mpv --no-audio-display %s', desc = "Play", orphan = true },
 	{ run = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info" },
 ]
 url = [
-	{ run = 'firefox $(cat "$@")' },
+	{ run = 'firefox $(cat %s)' },
 ]
 csv = [
-    { run = 'visidata "$@"', block = true },
-	{ run = 'vi "$@"', block = true, desc = "Editor" },
+    { run = 'visidata %s', block = true },
+	{ run = 'vi %s', block = true, desc = "Editor" },
 ]
 html = [
-    { run = 'firefox "$@"', desc = "Browser" },
+    { run = 'firefox %s', desc = "Browser" },
 ]
 blend = [
-	{ run = 'blender "$@"', block = false },
+	{ run = 'blender %s', block = false },
 ]
 fallback = []
 
