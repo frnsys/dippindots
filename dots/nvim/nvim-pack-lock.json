@@ -5,11 +5,11 @@
       "src": "https://github.com/j-hui/fidget.nvim"
     },
     "flash.nvim": {
-      "rev": "fcea7ff883235d9024dc41e638f164a450c14ca2",
+      "rev": "5f0f270fdc7c5b0c21d903ee85b9cb06f2ac636a",
       "src": "https://github.com/folke/flash.nvim"
     },
     "fzf-lua": {
-      "rev": "267f5db2aa2202b9f6cc7a50783f0ccd2121766c",
+      "rev": "05e44d38de0a79c11fba5f7bf8138791b1dbdd1e",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "fzf-lua-frecency.nvim": {
@@ -21,27 +21,27 @@
       "src": "https://github.com/lukas-reineke/headlines.nvim"
     },
     "kitty-scrollback.nvim": {
-      "rev": "53fd294658941719d7622471f28e70179d6737a6",
+      "rev": "5a163bfeb789c1a2bfa143b0e78b02caa233bc43",
       "src": "https://github.com/mikesmithgh/kitty-scrollback.nvim"
     },
     "mini.ai": {
-      "rev": "d73c36349aa7b0bab5f77ad71701a1d42211a1df",
+      "rev": "25248c6aa002391936a6200f12d1466015987133",
       "src": "https://github.com/echasnovski/mini.ai"
     },
     "mini.indentscope": {
-      "rev": "d3f955f09b1a05d25d5a7740338fba2baaee41a3",
+      "rev": "92fbaf895f83c59575ec599df532b297ebf62b14",
       "src": "https://github.com/echasnovski/mini.indentscope"
     },
     "no-neck-pain.nvim": {
-      "rev": "4bc52782524fd50c5658685d584df6fa48fe49f9",
+      "rev": "0df6659e25401c3f3c40e82f1ddd48714b1a659c",
       "src": "https://github.com/shortcuts/no-neck-pain.nvim"
     },
     "nvim-spider": {
-      "rev": "7f021426d4a615ea8f11cabed434b1f20376abae",
+      "rev": "38f74f733734566bec3b23a9dcf968a5a5559cd6",
       "src": "https://github.com/chrisgrieser/nvim-spider"
     },
     "nvim-treesitter": {
-      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
+      "rev": "8b98b4470eb326f1c7b50dae79f8c963568e5720",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-window": {
