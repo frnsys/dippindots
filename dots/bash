@@ -15,3 +15,7 @@ gsettings set org.gnome.desktop.interface cursor-size 12
 case $- in
     *i*) exec fish ;;
 esac
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/francis/.local/bin:$PATH"

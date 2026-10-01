@@ -4,6 +4,9 @@ input {
     keyboard {
         repeat-delay 200
         repeat-rate 40
+        xkb {
+            options "caps:escape"
+        }
     }
 
     // Note: Super+Touch to move windows
@@ -79,7 +82,6 @@ window-rule {
 }
 
 window-rule {
-    match title="mpv"
     match title="md-vu-preview"
     open-focused false
     default-floating-position x=0 y=0 relative-to="top-right"

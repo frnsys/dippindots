@@ -29,8 +29,8 @@ elif [[ $1 == 'percent' ]]; then
     if [[ $STATUS == "Full" ]]; then
         printf "100"
     else
-        ENERGY_FULL=$(query energy_full) # mWh
-        ENERGY_NOW=$(query energy_now)   # mWh
+        ENERGY_FULL=$(query charge_full) # mWh
+        ENERGY_NOW=$(query charge_now)   # mWh
         PERCENT=$(echo "$ENERGY_NOW/$ENERGY_FULL * 100" | bc -l)
         printf '%.0f\n' $PERCENT
     fi

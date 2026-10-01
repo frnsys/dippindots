@@ -16,7 +16,7 @@ shell fish
 # bold_italic_font Space Mono Bold Italic
 # modify_font cell_height 90%
 
-font_size       11.5
+font_size       12
 font_family     Atkinson Hyperlegible Mono ExtraLight
 bold_font       Atkinson Hyperlegible Mono Bold
 italic_font     Atkinson Hyperlegible Mono Light Italic

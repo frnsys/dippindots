@@ -15,18 +15,19 @@ Some things are best setup after everything else is installed and the system has
 
 Other system settings (e.g. hiding the boot menu) can be accessed via `sudo -E yast2`.
 
-Because I use a touchscreen, I want to be able to login without a physical keyboard. To do that I setup autologin:
+You can change the default TTY font:
 
-```bash
-sudo VISUAL=/usr/local/bin/nvim systemctl edit getty@tty1
+```
+sudo vi /etc/vconsole.conf
 
-# Add:
-[Service]
-ExecStart=
-ExecStart=-/sbin/agetty --autologin francis --noclear %I $TERM
+FONT=iso01-12x22
 ```
 
-Then `dots/fish` is setup to launch the WM, which then runs `dots/init` which immediately locks the device. The lockscreen I use has a virtual keyboard.
+And set the hostname:
+
+```
+sudo hostnamectl set-hostname taiga
+```
 
 ## Screenshots
 

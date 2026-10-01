@@ -14,10 +14,6 @@ prereqs:
 	@echo "Installing prereqs..."
 	sudo zypper in gcc gcc-c++ make cmake automake autoconf clang lld wget zip unzip openssh-server bzip2 curl ninja meson opi unar ntp
 
-	# Note: this will prompt you to accept this key (MOK)
-	# on your next reboot.
-	sudo zypper in openSUSE-signkey-cert
-
 	timedatectl set-ntp true
 	sudo systemctl enable --now ntpd
 
@@ -70,7 +66,7 @@ tools:
 
 utils:
 	# Note: Run with `sudo -EH yast2`.
-	sudo zypper in yast2-control-center-qt
+	sudo zypper in yast2-control-center-qt libqt5-qtwayland
 	sudo zypper in sqlitebrowser rclone
 	sudo zypper in xcursor-themes hyprpicker
 	sudo zypper in font-manager
@@ -180,11 +176,8 @@ fm:
 wm:
 	sudo zypper in swaybg swayidle
 
-	# Lockscreen with virtual keyboard,
-	# for touchscreen.
+	# Lockscreen
 	sudo zypper in gtklock gtk3-devel
-	git clone git@github.com:frnsys/gtklock-virtkb-module.git /tmp/gtklock
-	cd /tmp/gtklock && make && sudo make install
 
 	# WM
 	sudo zypper in niri xdg-desktop-portal-gnome wlr-randr xwayland-satellite
@@ -231,12 +224,6 @@ browser:
 	mv /tmp/pdfjs/build/generic ~/.local/share/qutebrowser/pdfjs
 
 	pip install adblock
-
-	# For syncing tabs from Firefox Android
-	wget https://github.com/Mikescher/firefox-sync-client/releases/download/v1.9.0/ffsclient_linux-amd64 -O /tmp/ffsclient
-	chmod +x /tmp/ffsclient
-	sudo mv /tmp/ffsclient /usr/local/bin/ffsclient
-	# Then login with `ffsclient login`
 
 	# Google Chrome
 	opi chrome
