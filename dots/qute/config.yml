@@ -8,7 +8,6 @@ config_version: 2
 settings:
   aliases:
     global:
-      fftab: spawn --userscript fftab
       q: close
       qa: quit
       readability: spawn --userscript readability-js
