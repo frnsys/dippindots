@@ -31,7 +31,7 @@ initial_window_height 640
 
 enabled_layouts splits,stack
 
-visual_window_select_characters rtshae
+visual_window_select_characters asdfwer
 
 enable_audio_bell no
 wayland_enable_ime no
@@ -113,8 +113,8 @@ color14 #9ecede
 color7  #eeeeee
 color15 #ffc1a0
 
-map alt+shift+c copy_to_clipboard
-map alt+shift+p paste_from_clipboard
+map alt+c copy_to_clipboard
+map alt+p paste_from_clipboard
 # map alt+shift+equal change_font_size all +1.0
 # map alt+shift+minus change_font_size all -1.0
 map alt+shift+backspace change_font_size all 0
@@ -132,6 +132,6 @@ map alt+shift+\ launch --location=vsplit
 map alt+shift+- launch --location=hsplit
 map alt+w focus_visible_window
 map alt+shift+r start_resizing_window
-map alt+m toggle_layout stack
+map alt+e toggle_layout stack
 
 mouse_map left click ungrabbed no-op
