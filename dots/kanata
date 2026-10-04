@@ -1,0 +1,48 @@
+(defcfg
+  ;; Process unmapped keys through without altering them
+  process-unmapped-keys yes
+)
+
+(defvar
+  tap-time 200
+  hold-time 150
+)
+
+;; Keys to remap
+(defsrc
+  caps  tab  scln  rshift  lalt  lmet  ret
+)
+
+;; Remappings
+(defalias
+  ;; caps lock -> tap:escape hold:super
+  caps_ (tap-hold-release $tap-time 200 esc lmet)
+
+  ;; tab -> tap:tab hold:lctrl
+  tab_ (tap-hold $tap-time $hold-time tab lctl)
+
+  ;; rshift -> backspace
+  rshift_ bspc
+
+  ;; lalt -> tap:escape hold:lalt
+  lalt_ (tap-hold $tap-time $hold-time esc lalt)
+
+  ;; lmeta -> tap:backspace hold:lctrl
+  lmeta_ (tap-hold $tap-time $hold-time bspc lctl)
+
+  ;; enter -> tap:enter hold:rctrl
+  enter_ (tap-hold $tap-time $hold-time ret rctl)
+
+  ;; Flip colon and semicolon:
+  ;; Pressing unshifted key outputs ':'
+  ;; Holding Shift outputs ';'
+  colon_ (switch
+    ((or lshift rshift)) (unshift scln) break
+    () S-scln break
+  )
+)
+
+;; Apply remappings
+(deflayer base
+  @caps_  @tab_  @colon_  @rshift_  @lalt_  @lmeta_  @enter_
+)

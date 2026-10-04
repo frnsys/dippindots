@@ -2,16 +2,22 @@
 
 input {
     keyboard {
-        repeat-delay 200
+        // Needs to be highish to prevent accidental key repeats
+        // with kanata, see <https://github.com/jtroo/kanata/discussions/422>
+        repeat-delay 300
         repeat-rate 40
         xkb {
-            options "caps:escape"
+            options "caps:escape,compose:ralt"
         }
     }
 
     // Note: Super+Touch to move windows
     touch {
         map-to-output "eDP-1"
+    }
+
+    touchpad {
+        tap
     }
 }
 

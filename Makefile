@@ -290,6 +290,17 @@ theme:  # wallpaper, fonts, etc
 	sudo zypper addlock plymouth
 
 tweaks:
+	# For kanata
+	sudo groupadd --system uinput
+	sudo usermod -aG input ${USER}
+	sudo usermod -aG uinput ${USER}
+	sudo modprobe uinput
+	sudo tee /etc/udev/rules.d/99-input.rules > /dev/null <<EOF
+	KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
+	EOF
+	sudo udevadm control --reload-rules && sudo udevadm trigger
+	ln -sf $(dir)/dots/kanata ~/.config/kanata.kbd
+
 	sudo zypper in acpi powertop libinput-tools
 	# sudo zypper in --no-recommends tlp
 	# sudo systemctl enable --now tlp
