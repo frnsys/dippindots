@@ -87,10 +87,8 @@ abbr -a w "cd ~/work"
 abbr -a p "cd ~/projects"
 abbr -a dl "cd ~/downloads"
 abbr -a dots "cd ~/.dots"
-abbr -a evi "cd ~/.dots/dots/nvim; vi init.lua"
 abbr -a ytdl "yt-dlp --remote-components ejs:github -f 'bv[height<=1080]+ba'"
-abbr -a ytdlmp3 "yt-dlp --remote-components ejs:github --extract-audio --audio-format mp3"
-abbr -a publish "port build spaceandtimes; port sync spaceandtimes ftseng@starbase:/srv/spaceandtimes"
+abbr -a ytdla "yt-dlp --remote-components ejs:github --extract-audio"
 
 function ,
 	set tmp (mktemp -t "yazi-cwd.XXXXXX")
@@ -103,6 +101,14 @@ end
 
 function rand -d "Generate random string"
     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
+end
+
+function md
+    set --local input $argv[1]
+    set --local name (path basename $input | path change-extension '')
+
+    pandoc -s -V header-includes="<style>body{background-color: white; color: black; max-width: 1000px;}</style>" $input > /tmp/$name.html
+    xdg-open /tmp/$name.html
 end
 
 function flac2mp3

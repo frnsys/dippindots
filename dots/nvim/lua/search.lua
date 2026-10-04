@@ -90,7 +90,7 @@ vim.keymap.set("n", ";", function()
 end)
 
 --- Grep current word
-vim.keymap.set("n", "<c-w>", function()
+vim.keymap.set("n", "<c-.>", function()
   require('fzf-lua').grep_cword({
     cwd = get_root(),
   })
@@ -124,14 +124,14 @@ end)
 vim.keymap.set("n", "R", require('fzf-lua').lsp_references)
 
 --- Search workspace diagnostics
-vim.keymap.set("n", "<c-d>", function()
+vim.keymap.set("n", "<c-\\>", function()
   require('fzf-lua').diagnostics_workspace({
     severity_only = 1,
   })
 end)
 
 --- Warnings
-vim.keymap.set("n", "<c-s-d>", function()
+vim.keymap.set("n", "<c-s-\\>", function()
   require('fzf-lua').diagnostics_workspace({
     severity_only = 2,
   })

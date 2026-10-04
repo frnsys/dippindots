@@ -104,7 +104,7 @@ binds {
     Mod+G { spawn "hyprpicker" "--autocopy"; }
     Mod+Shift+Plus { spawn "mpc" "toggle"; }
     Mod+L { spawn "mpvc" "toggle"; }
-    Mod+Tab { spawn "sh" "-c" "bemenu-run -l 10 -p \">\""; }
+    Mod+Space { spawn "sh" "-c" "bemenu-run -l 10 -p \">\""; }
     Mod+Comma { spawn "sh" "-c" "kitty --title ncmpcpp -e ncmpcpp"; }
     Mod+T { spawn "sh" "-c" "kitty --title todo --working-directory ~/notes -e nvim todo.md"; }
     Mod+P { spawn "sh" "-c" "kitty --title kpass -o EDITOR=nvim -e kpass ~/docs/pass.kdbx"; }
@@ -117,10 +117,11 @@ binds {
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "10000-"; }
 
     Mod+Shift+Q { close-window; }
-    Mod+Alt+O { power-off-monitors; }
 
     Mod+Apostrophe  { focus-window-previous; }
-    Mod+BracketLeft  { focus-column-left-or-last; }
+    Mod+W { focus-column-left-or-last; }
+    Mod+E { focus-column-right-or-first; }
+    Mod+BracketLeft { focus-column-left-or-last; }
     Mod+BracketRight { focus-column-right-or-first; }
     Mod+Shift+BracketLeft  { move-column-left; }
     Mod+Shift+BracketRight { move-column-right; }
@@ -149,5 +150,5 @@ binds {
     Mod+V       { toggle-window-floating; }
 
     // Pseudo-fullscreen
-    Mod+W       { toggle-windowed-fullscreen; }
+    Mod+X       { toggle-windowed-fullscreen; }
 }

@@ -44,14 +44,12 @@ end
 
 
 --- Tabs
-_("B", ":tabnext<cr>", "n")
-_("b", ":tabprevious<cr>", "n")
+_("]t", ":tabnext<cr>", "n")
+_("[t", ":tabprevious<cr>", "n")
 
 --- Replace <c-i> and <c-o>
 _("<c-p>", "<c-i>", "n")
 _("<c-h>", "<c-o>", "n")
-
-_("D", "dd", "n")
 
 --- Like `{` and `}`
 --- but go to the start of the line for

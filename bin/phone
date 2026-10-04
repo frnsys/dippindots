@@ -10,17 +10,16 @@
 # contains illegal characters, like ":" or "?".
 # See: <https://github.com/google/adb-sync/issues/34>
 
-# sync directories TO the phone
-cp ~/docs/pass.kdbx ~/docs/deaddrop/
-adb-sync ~/docs/deaddrop/ /sdcard/deaddrop --delete --force --copy-links
+# sync TO the phone
+adb push ~/docs/pass.kdbx /sdcard/deaddrop/pass.kdbx
 
+# backup (i.e. don't delete)
+# directories FROM the phone
 declare -A backups
 backups[DCIM/Camera]=~/photos/phone/dcim
 backups[Pictures]=~/photos/phone/misc
 backups[Movies/Signal]=~/photos/phone/movies.signal
 
-# backup (i.e. don't delete)
-# directories FROM the phone
 for DIR in "${!backups[@]}"; do
     echo "Backing up /sdcard/${DIR} -> ${backups[$DIR]}"
     adb-sync --reverse "/sdcard/${DIR}/" "${backups[$DIR]}"

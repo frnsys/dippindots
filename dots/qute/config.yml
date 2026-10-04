@@ -18,6 +18,9 @@ settings:
     global: true
   bindings.commands:
     global:
+      command:
+        <ctrl-o>: completion-item-focus prev
+        <ctrl-p>: completion-item-focus next
       normal:
         A: scroll-page 0 0.8
         B: tab-next

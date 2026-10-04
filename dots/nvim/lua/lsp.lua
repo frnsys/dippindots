@@ -85,11 +85,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     bind("Go to previous diagnostic message",
-      '<c-l>', function()
+      '{', function()
         vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
       end)
     bind("Go to next diagnostic message",
-      '<c-c>', function()
+      '}', function()
         vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
       end)
 
@@ -105,15 +105,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     bind('Code action',
-      'tr', code_action)
+      'ga', code_action)
     bind('Hover documentation',
-      'tt', vim.lsp.buf.hover)
+      'gs', vim.lsp.buf.hover)
     bind('Go to definition',
-      'ts', vim.lsp.buf.definition)
+      'gd', vim.lsp.buf.definition)
     bind('Rename symbol',
-      'tw', vim.lsp.buf.rename)
+      'gr', vim.lsp.buf.rename)
     bind('Show diagnostics',
-      'tn', function()
+      'ge', function()
         vim.diagnostic.open_float(0, { scope = "line", focus = false })
       end)
     vim.keymap.set('i', "<c-r>", code_action)
